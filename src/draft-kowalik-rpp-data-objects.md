@@ -228,13 +228,47 @@ This section defines common component objects that are re-used in the definition
     * Data Type: String.
     * Description: The name of the host.
     * Constraints: The value MUST be a syntactically valid host name.
-  * IP Addresses
-    * Identifier: ipAddresses
+  * DNS Resource Records
+    * Identifier: dns
     * Cardinality: 0+
     * Mutability: read-write
+    * Data Type: Composition[DNS Resource Record]
+    * Description: DNS Resource Records related to the host. 
+    * Constraints: In EPP compatibility the entries would be limited to A and AAAA entries for IPv4 and IPv6 glue records respectively. The labels of DNS entries MUST be subordinate to the Host Name of the Nameserver.
+
+## DNS Resource Record
+
+* Name: DNS Resource Record
+* Description: Represents a DNS Entry
+* Data Elements:
+  * Label
+    * Identifier: hostNamelabel
+    * Cardinality: 1
+    * Mutability: read-write
     * Data Type: String.
-    * Description: IP addresses associated with the host.
-    * Constraints: Each value MUST be a syntactically valid IPv4 or IPv6 address.
+    * Description: DNS entry label.
+    * Constraints: The value MUST be a syntactically valid DNS host name in Zone file string representation. Absolute FQDNs and relative host names are allowed.
+  * Type
+    * Identifier: type
+    * Cardinality: 1
+    * Mutability: read-write
+    * Data Type: String.
+    * Description: DNS entry type.
+    * Constraints: Each value MUST valid Zone file string representation of resource record type as defined in [@!RFC1035]. Allowed values MAY be constrained by server policies. For domain provisioning typically the Type would be constrained to allowed parent side entries.
+  * Data
+    * Identifier: data
+    * Cardinality: 1
+    * Mutability: read-write
+    * Data Type: String.
+    * Description: DNS entry value.
+    * Constraints: Each value MUST be a syntactically valid resource record data for a Type in Zone file string representation.
+  * TTL
+    * Identifier: ttl
+    * Cardinality: 1
+    * Mutability: read-write
+    * Data Type: Number.
+    * Description: TTL value for a reource record.
+    * Constraints: TTL value of a resource record as defined in [@!RFC1035]. The value MAY be constrained by server policy.
 
 ## Authorisation Information Object
 
@@ -403,6 +437,14 @@ A> TODO: IANA registry for statuses?
   * Data Type: Composition[Host Object] or Aggregation[Host Object]
   * Description: A collection of nameservers associated with the domain.
   * Constraints: (None)
+
+* DNS
+  * Identifier: dns
+  * Cardinality: 0+
+  * Mutability: read-write
+  * Data Type: Composition[DNS Resource Record]
+  * Description: A collection of DNS entries related to the domain name.
+  * Constraints: The Type of the entries MAY be constrained by the server policy. Typically the values would be limited to allowed parent side resource record types. In EPP compatibility with DNSSEC Extension allowed values would be DS and DNSKEY. The labels of DNS entries MUST be subordinate to the domain name and MUST NOT be below zone cut in case of present delegation. 
 
 * Subordinate Hosts
   * Identifier: subordinateHosts
@@ -758,10 +800,28 @@ Description: Represents a single nameserver.
 Reference: [This-ID]
 
 Data Elements
-| Element Identifier | Element Name | Card. | Mutability | Data Type | Description                            |
-|--------------------|--------------|-------|------------|-----------|----------------------------------------|
-| hostName           | Host Name    | 1     | read-write | String    | The name of the host.                  |
-| ipAddresses        | IP Addresses | 0+    | read-write | String    | IP addresses associated with the host. |
+| Element Identifier | Element Name         | Card. | Mutability | Data Type                        | Description                               |
+|--------------------|----------------------|-------|------------|----------------------------------|-------------------------------------------|
+| hostName           | Host Name            | 1     | read-write | String                           | The name of the host.                     |
+| dns                | DNS Resource Records | 0+    | read-write | Composition[DNS Resource Record] | DNS Resource Records related to the host. |
+
+Object: dnsrr
+
+Object Name: DNS Resource Record
+
+Object Type: Component
+
+Description: Represents a DNS Entry.
+
+Reference: [This-ID]
+
+Data Elements
+| Element Identifier | Element Name | Card. | Mutability | Data Type | Description                     |
+|--------------------|--------------|-------|------------|-----------|---------------------------------|
+| hostNamelabel      | Label        | 1     | read-write | String    | DNS entry label.                |
+| type               | Type         | 1     | read-write | String    | DNS entry type.                 |
+| data               | Data         | 1     | read-write | String    | DNS entry value.                |
+| ttl                | TTL          | 1     | read-write | Number    | TTL value for a reource record. |
 
 Object: authInfo
 
@@ -790,23 +850,24 @@ Description: Represents a domain name and its associated data.
 Reference: [This-ID]
 
 Data Elements
-| Identifier         | Name                 | Card. | Mutability  | Data Type                            | Description                                         |
-|--------------------|----------------------|-------|-------------|--------------------------------------|-----------------------------------------------------|
-| name               | Name                 | 1     | create-only | String                               | The fully qualified name of the domain object.      |
-| repositoryId       | Repository ID        | 1     | read-only   | String                               | A server-assigned unique identifier for the object. |
-| status             | Status               | 0+    | read-only   | Token                                | The current status descriptors for the domain.      |
-| registrant         | Registrant           | 0-1   | read-write  | String (Client ID)                   | The registrant contact ID.                          |
-| contacts           | Contacts             | 0+    | read-write  | LabelledAggregation [Contact Object] | Associated contact objects.                         |
-| nameservers        | Nameservers          | 0+    | read-write  | Aggregation [Host Object]            | Associated nameserver objects.                      |
-| subordinateHosts   | Subordinate Hosts    | 0+    | read-only   | Aggregation [Host Object]            | Subordinate host names.                             |
-| sponsoringClientId | Sponsoring Client ID | 1     | read-only   | String (Client ID)                   | The current sponsoring client ID.                   |
-| creatingClientId   | Creating Client ID   | 0-1   | read-only   | String (Client ID)                   | The client ID that created the object.              |
-| creationDate       | Creation Date        | 0-1   | read-only   | Timestamp                            | Creation timestamp.                                 |
-| updatingClientId   | Updating Client ID   | 0-1   | read-only   | String (Client ID)                   | The client ID that last updated the object.         |
-| updateDate         | Update Date          | 0-1   | read-only   | Timestamp                            | The timestamp of the last update.                   |
-| expiryDate         | Expiry Date          | 0-1   | read-only   | Timestamp                            | Expiry timestamp.                                   |
-| transferDate       | Transfer Date        | 0-1   | read-only   | Timestamp                            | The timestamp of the last successful transfer.      |
-| authInfo           | Authorisation Info   | 0-1   | read-write  | authInfo                             | Authorisation information for the object.           |
+| Identifier         | Name                 | Card. | Mutability  | Data Type                                              | Description                                             |
+|--------------------|----------------------|-------|-------------|--------------------------------------------------------|---------------------------------------------------------|
+| name               | Name                 | 1     | create-only | String                                                 | The fully qualified name of the domain object.          |
+| repositoryId       | Repository ID        | 1     | read-only   | String                                                 | A server-assigned unique identifier for the object.     |
+| status             | Status               | 0+    | read-only   | Token                                                  | The current status descriptors for the domain.          |
+| registrant         | Registrant           | 0-1   | read-write  | String (Client ID)                                     | The registrant contact ID.                              |
+| contacts           | Contacts             | 0+    | read-write  | LabelledAggregation [Contact Object]                   | Associated contact objects.                             |
+| nameservers        | Nameservers          | 0+    | read-write  | Aggregation [Host Object] or Composition [Host Object] | A collection of nameservers associated with the domain. |
+| dns                | DNS                  | 0+    | read-write  | Composition[DNS Resource Record]                       | A collection of DNS entries related to the domain name. |
+| subordinateHosts   | Subordinate Hosts    | 0+    | read-only   | Aggregation [Host Object]                              | Subordinate host names.                                 |
+| sponsoringClientId | Sponsoring Client ID | 1     | read-only   | String (Client ID)                                     | The current sponsoring client ID.                       |
+| creatingClientId   | Creating Client ID   | 0-1   | read-only   | String (Client ID)                                     | The client ID that created the object.                  |
+| creationDate       | Creation Date        | 0-1   | read-only   | Timestamp                                              | Creation timestamp.                                     |
+| updatingClientId   | Updating Client ID   | 0-1   | read-only   | String (Client ID)                                     | The client ID that last updated the object.             |
+| updateDate         | Update Date          | 0-1   | read-only   | Timestamp                                              | The timestamp of the last update.                       |
+| expiryDate         | Expiry Date          | 0-1   | read-only   | Timestamp                                              | Expiry timestamp.                                       |
+| transferDate       | Transfer Date        | 0-1   | read-only   | Timestamp                                              | The timestamp of the last successful transfer.          |
+| authInfo           | Authorisation Info   | 0-1   | read-write  | authInfo                                               | Authorisation information for the object.               |
 
 Operations
 
