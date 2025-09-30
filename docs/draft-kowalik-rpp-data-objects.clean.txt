@@ -82,10 +82,11 @@ Table of Contents
    5.  Component Objects
      5.1.  Period Object
      5.2.  Nameserver Object
-     5.3.  Authorisation Information Object
-     5.4.  Postal Address Object
-     5.5.  Postal Info Object
-     5.6.  Disclose Object
+     5.3.  DNS Resource Record
+     5.4.  Authorisation Information Object
+     5.5.  Postal Address Object
+     5.6.  Postal Info Object
+     5.7.  Disclose Object
    6.  Domain Name Resource Object
      6.1.  Object Description
      6.2.  Data Elements
@@ -388,16 +389,61 @@ Table of Contents
          -  Description: The name of the host.
          -  Constraints: The value MUST be a syntactically valid host
             name.
-      -  IP Addresses
-         -  Identifier: ipAddresses
+      -  DNS Resource Records
+         -  Identifier: dns
          -  Cardinality: 0+
          -  Mutability: read-write
-         -  Data Type: String.
-         -  Description: IP addresses associated with the host.
-         -  Constraints: Each value MUST be a syntactically valid IPv4
-            or IPv6 address.
+         -  Data Type: Composition[DNS Resource Record]
+         -  Description: DNS Resource Records related to the host.
+         -  Constraints: In EPP compatibility the entries would be
+            limited to A and AAAA entries for IPv4 and IPv6 glue records
+            respectively.  The labels of DNS entries MUST be subordinate
+            to the Host Name of the Nameserver.
 
-5.3.  Authorisation Information Object
+5.3.  DNS Resource Record
+
+   -  Name: DNS Resource Record
+   -  Description: Represents a DNS Entry
+   -  Data Elements:
+      -  Label
+         -  Identifier: hostNamelabel
+         -  Cardinality: 1
+         -  Mutability: read-write
+         -  Data Type: String.
+         -  Description: DNS entry label.
+         -  Constraints: The value MUST be a syntactically valid DNS
+            host name in Zone file string representation.  Absolute
+            FQDNs and relative host names are allowed.
+      -  Type
+         -  Identifier: type
+         -  Cardinality: 1
+         -  Mutability: read-write
+         -  Data Type: String.
+         -  Description: DNS entry type.
+         -  Constraints: Each value MUST valid Zone file string
+            representation of resource record type as defined in
+            [RFC1035].  Allowed values MAY be constrained by server
+            policies.  For domain provisioning typically the Type would
+            be constrained to allowed parent side entries.
+      -  Data
+         -  Identifier: data
+         -  Cardinality: 1
+         -  Mutability: read-write
+         -  Data Type: String.
+         -  Description: DNS entry value.
+         -  Constraints: Each value MUST be a syntactically valid
+            resource record data for a Type in Zone file string
+            representation.
+      -  TTL
+         -  Identifier: ttl
+         -  Cardinality: 1
+         -  Mutability: read-write
+         -  Data Type: Number.
+         -  Description: TTL value for a reource record.
+         -  Constraints: TTL value of a resource record as defined in
+            [RFC1035].  The value MAY be constrained by server policy.
+
+5.4.  Authorisation Information Object
 
    -  Name: Authorisation Information
    -  Description: Contains information used to authorise operations on
@@ -426,7 +472,7 @@ Table of Contents
             the method and server policy authorisation Information MAY
             not be available for reading.
 
-5.4.  Postal Address Object
+5.5.  Postal Address Object
 
    -  Name: Postal Address Object
    -  Description: Contains the components of a postal address.
@@ -475,7 +521,7 @@ Table of Contents
             from [ISO3166-1].  For EPP compatibility this data element
             is obligatory.
 
-5.5.  Postal Info Object
+5.6.  Postal Info Object
 
    -  Name: Postal Info Object
    -  Description: Contains postal-address information in either
@@ -519,7 +565,7 @@ Table of Contents
          -  Constraints: For EPP compatibility this data element is
             obligatory.
 
-5.6.  Disclose Object
+5.7.  Disclose Object
 
       |  TODO: Model Disclose in universal (extendible) way
 
@@ -612,6 +658,22 @@ Table of Contents
       -  Description: A collection of nameservers associated with the
          domain.
       -  Constraints: (None)
+
+   -  DNS
+
+      -  Identifier: dns
+      -  Cardinality: 0+
+      -  Mutability: read-write
+      -  Data Type: Composition[DNS Resource Record]
+      -  Description: A collection of DNS entries related to the domain
+         name.
+      -  Constraints: The Type of the entries MAY be constrained by the
+         server policy.  Typically the values would be limited to
+         allowed parent side resource record types.  In EPP
+         compatibility with DNSSEC Extension allowed values would be DS
+         and DNSKEY.  The labels of DNS entries MUST be subordinate to
+         the domain name and MUST NOT be below zone cut in case of
+         present delegation.
 
    -  Subordinate Hosts
 
@@ -1055,20 +1117,54 @@ Table of Contents
 
    Data Elements
 
-   +=============+===========+=====+============+======+==============+
-   | Element     | Element   |Card.| Mutability |Data  | Description  |
-   | Identifier  | Name      |     |            |Type  |              |
-   +=============+===========+=====+============+======+==============+
-   | hostName    | Host Name |1    | read-write |String| The name of  |
-   |             |           |     |            |      | the host.    |
-   +-------------+-----------+-----+------------+------+--------------+
-   | ipAddresses | IP        |0+   | read-write |String| IP addresses |
-   |             | Addresses |     |            |      | associated   |
-   |             |           |     |            |      | with the     |
-   |             |           |     |            |      | host.        |
-   +-------------+-----------+-----+------------+------+--------------+
+   +==========+========+=====+==========+=================+============+
+   |Element   |Element |Card.|Mutability| Data Type       |Description |
+   |Identifier|Name    |     |          |                 |            |
+   +==========+========+=====+==========+=================+============+
+   |hostName  |Host    |1    |read-write| String          |The name of |
+   |          |Name    |     |          |                 |the host.   |
+   +----------+--------+-----+----------+-----------------+------------+
+   |dns       |DNS     |0+   |read-write| Composition[DNS |DNS         |
+   |          |Resource|     |          | Resource        |Resource    |
+   |          |Records |     |          | Record]         |Records     |
+   |          |        |     |          |                 |related to  |
+   |          |        |     |          |                 |the host.   |
+   +----------+--------+-----+----------+-----------------+------------+
 
-                                 Table 2
+                                  Table 2
+
+   Object: dnsrr
+
+   Object Name: DNS Resource Record
+
+   Object Type: Component
+
+   Description: Represents a DNS Entry.
+
+   Reference: [This-ID]
+
+   Data Elements
+
+   +===============+=========+=====+============+======+===============+
+   | Element       | Element |Card.| Mutability |Data  | Description   |
+   | Identifier    | Name    |     |            |Type  |               |
+   +===============+=========+=====+============+======+===============+
+   | hostNamelabel | Label   |1    | read-write |String| DNS entry     |
+   |               |         |     |            |      | label.        |
+   +---------------+---------+-----+------------+------+---------------+
+   | type          | Type    |1    | read-write |String| DNS entry     |
+   |               |         |     |            |      | type.         |
+   +---------------+---------+-----+------------+------+---------------+
+   | data          | Data    |1    | read-write |String| DNS entry     |
+   |               |         |     |            |      | value.        |
+   +---------------+---------+-----+------------+------+---------------+
+   | ttl           | TTL     |1    | read-write |Number| TTL value     |
+   |               |         |     |            |      | for a         |
+   |               |         |     |            |      | reource       |
+   |               |         |     |            |      | record.       |
+   +---------------+---------+-----+------------+------+---------------+
+
+                                  Table 3
 
    Object: authInfo
 
@@ -1109,7 +1205,7 @@ Table of Contents
    |          |             |     |           |      | possible.       |
    +----------+-------------+-----+-----------+------+-----------------+
 
-                                  Table 3
+                                  Table 4
 
    Object: domainName
 
@@ -1153,9 +1249,19 @@ Table of Contents
    |                  |             |     |          |[Contact Object]   |contact      |
    |                  |             |     |          |                   |objects.     |
    +------------------+-------------+-----+----------+-------------------+-------------+
-   |nameservers       |Nameservers  |0+   |read-write|Aggregation [Host  |Associated   |
-   |                  |             |     |          |Object]            |nameserver   |
-   |                  |             |     |          |                   |objects.     |
+   |nameservers       |Nameservers  |0+   |read-write|Aggregation [Host  |A collection |
+   |                  |             |     |          |Object] or         |of           |
+   |                  |             |     |          |Composition [Host  |nameservers  |
+   |                  |             |     |          |Object]            |associated   |
+   |                  |             |     |          |                   |with the     |
+   |                  |             |     |          |                   |domain.      |
+   +------------------+-------------+-----+----------+-------------------+-------------+
+   |dns               |DNS          |0+   |read-write|Composition[DNS    |A collection |
+   |                  |             |     |          |Resource Record]   |of DNS       |
+   |                  |             |     |          |                   |entries      |
+   |                  |             |     |          |                   |related to   |
+   |                  |             |     |          |                   |the domain   |
+   |                  |             |     |          |                   |name.        |
    +------------------+-------------+-----+----------+-------------------+-------------+
    |subordinateHosts  |Subordinate  |0+   |read-only |Aggregation [Host  |Subordinate  |
    |                  |Hosts        |     |          |Object]            |host names.  |
@@ -1194,7 +1300,7 @@ Table of Contents
    |                  |             |     |          |                   |object.      |
    +------------------+-------------+-----+----------+-------------------+-------------+
 
-                                  Table 4
+                                  Table 5
 
    Operations
 
@@ -1214,7 +1320,7 @@ Table of Contents
    |            |              |       |        | domain name.         |
    +------------+--------------+-------+--------+----------------------+
 
-                                  Table 5
+                                  Table 6
 
    Operation: Read
 
@@ -1238,7 +1344,7 @@ Table of Contents
    |               |               |       |          | data.          |
    +---------------+---------------+-------+----------+----------------+
 
-                                  Table 6
+                                  Table 7
 
    Operation: Delete
 
@@ -1266,7 +1372,7 @@ Table of Contents
    |                   |         |       |           | period.        |
    +-------------------+---------+-------+-----------+----------------+
 
-                                 Table 7
+                                 Table 8
 
    Security Considerations
 

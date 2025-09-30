@@ -239,15 +239,67 @@ Data producer MUST assure the same unchanged data is always inserted in the same
 <li>Description: The name of the host.</li>
 <li>Constraints: The value MUST be a syntactically valid host name.</li>
 </ul></li>
-<li><t>IP Addresses</t>
+<li><t>DNS Resource Records</t>
 
 <ul spacing="compact">
-<li>Identifier: ipAddresses</li>
+<li>Identifier: dns</li>
 <li>Cardinality: 0+</li>
 <li>Mutability: read-write</li>
+<li>Data Type: Composition[DNS Resource Record]</li>
+<li>Description: DNS Resource Records related to the host.</li>
+<li>Constraints: In EPP compatibility the entries would be limited to A and AAAA entries for IPv4 and IPv6 glue records respectively. The labels of DNS entries MUST be subordinate to the Host Name of the Nameserver.</li>
+</ul></li>
+</ul></li>
+</ul>
+</section>
+
+<section anchor="dns-resource-record"><name>DNS Resource Record</name>
+
+<ul spacing="compact">
+<li>Name: DNS Resource Record</li>
+<li>Description: Represents a DNS Entry</li>
+<li><t>Data Elements:</t>
+
+<ul spacing="compact">
+<li><t>Label</t>
+
+<ul spacing="compact">
+<li>Identifier: hostNamelabel</li>
+<li>Cardinality: 1</li>
+<li>Mutability: read-write</li>
 <li>Data Type: String.</li>
-<li>Description: IP addresses associated with the host.</li>
-<li>Constraints: Each value MUST be a syntactically valid IPv4 or IPv6 address.</li>
+<li>Description: DNS entry label.</li>
+<li>Constraints: The value MUST be a syntactically valid DNS host name in Zone file string representation. Absolute FQDNs and relative host names are allowed.</li>
+</ul></li>
+<li><t>Type</t>
+
+<ul spacing="compact">
+<li>Identifier: type</li>
+<li>Cardinality: 1</li>
+<li>Mutability: read-write</li>
+<li>Data Type: String.</li>
+<li>Description: DNS entry type.</li>
+<li>Constraints: Each value MUST valid Zone file string representation of resource record type as defined in <xref target="RFC1035"></xref>. Allowed values MAY be constrained by server policies. For domain provisioning typically the Type would be constrained to allowed parent side entries.</li>
+</ul></li>
+<li><t>Data</t>
+
+<ul spacing="compact">
+<li>Identifier: data</li>
+<li>Cardinality: 1</li>
+<li>Mutability: read-write</li>
+<li>Data Type: String.</li>
+<li>Description: DNS entry value.</li>
+<li>Constraints: Each value MUST be a syntactically valid resource record data for a Type in Zone file string representation.</li>
+</ul></li>
+<li><t>TTL</t>
+
+<ul spacing="compact">
+<li>Identifier: ttl</li>
+<li>Cardinality: 1</li>
+<li>Mutability: read-write</li>
+<li>Data Type: Number.</li>
+<li>Description: TTL value for a reource record.</li>
+<li>Constraints: TTL value of a resource record as defined in <xref target="RFC1035"></xref>. The value MAY be constrained by server policy.</li>
 </ul></li>
 </ul></li>
 </ul>
@@ -497,6 +549,16 @@ Data producer MUST assure the same unchanged data is always inserted in the same
 <li>Data Type: Composition[Host Object] or Aggregation[Host Object]</li>
 <li>Description: A collection of nameservers associated with the domain.</li>
 <li>Constraints: (None)</li>
+</ul></li>
+<li><t>DNS</t>
+
+<ul spacing="compact">
+<li>Identifier: dns</li>
+<li>Cardinality: 0+</li>
+<li>Mutability: read-write</li>
+<li>Data Type: Composition[DNS Resource Record]</li>
+<li>Description: A collection of DNS entries related to the domain name.</li>
+<li>Constraints: The Type of the entries MAY be constrained by the server policy. Typically the values would be limited to allowed parent side resource record types. In EPP compatibility with DNSSEC Extension allowed values would be DS and DNSKEY. The labels of DNS entries MUST be subordinate to the domain name and MUST NOT be below zone cut in case of present delegation.</li>
 </ul></li>
 <li><t>Subordinate Hosts</t>
 
@@ -970,12 +1032,67 @@ description.</li>
 </tr>
 
 <tr>
-<td>ipAddresses</td>
-<td>IP Addresses</td>
+<td>dns</td>
+<td>DNS Resource Records</td>
 <td>0+</td>
 <td>read-write</td>
+<td>Composition[DNS Resource Record]</td>
+<td>DNS Resource Records related to the host.</td>
+</tr>
+</tbody>
+</table><t>Object: dnsrr</t>
+<t>Object Name: DNS Resource Record</t>
+<t>Object Type: Component</t>
+<t>Description: Represents a DNS Entry.</t>
+<t>Reference: [This-ID]</t>
+<t>Data Elements</t>
+<table>
+<thead>
+<tr>
+<th>Element Identifier</th>
+<th>Element Name</th>
+<th>Card.</th>
+<th>Mutability</th>
+<th>Data Type</th>
+<th>Description</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>hostNamelabel</td>
+<td>Label</td>
+<td>1</td>
+<td>read-write</td>
 <td>String</td>
-<td>IP addresses associated with the host.</td>
+<td>DNS entry label.</td>
+</tr>
+
+<tr>
+<td>type</td>
+<td>Type</td>
+<td>1</td>
+<td>read-write</td>
+<td>String</td>
+<td>DNS entry type.</td>
+</tr>
+
+<tr>
+<td>data</td>
+<td>Data</td>
+<td>1</td>
+<td>read-write</td>
+<td>String</td>
+<td>DNS entry value.</td>
+</tr>
+
+<tr>
+<td>ttl</td>
+<td>TTL</td>
+<td>1</td>
+<td>read-write</td>
+<td>Number</td>
+<td>TTL value for a reource record.</td>
 </tr>
 </tbody>
 </table><t>Object: authInfo</t>
@@ -1084,8 +1201,17 @@ description.</li>
 <td>Nameservers</td>
 <td>0+</td>
 <td>read-write</td>
-<td>Aggregation [Host Object]</td>
-<td>Associated nameserver objects.</td>
+<td>Aggregation [Host Object] or Composition [Host Object]</td>
+<td>A collection of nameservers associated with the domain.</td>
+</tr>
+
+<tr>
+<td>dns</td>
+<td>DNS</td>
+<td>0+</td>
+<td>read-write</td>
+<td>Composition[DNS Resource Record]</td>
+<td>A collection of DNS entries related to the domain name.</td>
 </tr>
 
 <tr>
