@@ -134,12 +134,12 @@ Typically it would be a value related to or derived from Authorisation Informati
 <t>Date and time attribute values MUST be represented in Universal Coordinated Time (UTC) using the Gregorian calendar using date-time form as defined in <xref target="RFC3399"></xref>. For compatibility with EPP upper case &quot;T&quot; and &quot;Z&quot; characters SHOULD be used.</t>
 </section>
 
-<section anchor="phone-number"><name>Phone Number</name>
-<t>Telephone number syntax is derived from structures defined in <xref target="ITU.E164.2005"></xref>.  Telephone numbers described in this specification are character strings that MUST begin with a plus sign (&quot;+&quot;, ASCII value 0x002B), followed by a country code defined in <xref target="ITU.E164.2005"></xref>, followed by a dot (&quot;.&quot;, ASCII value 0x002E), followed by a sequence of digits representing the telephone number.  An optional &quot;x&quot; (ASCII value 0x0078) separator with additional digits representing extension information can be appended to the end of the value.</t>
+<section anchor="client-identifier"><name>Client Identifier</name>
+<t>Client identifiers are character strings with a specified minimum length, a specified maximum length, and a specified format. Contact identifiers use the &quot;clIDType&quot; client identifier syntax described in <xref target="RFC5730"></xref>.</t>
 </section>
 
-<section anchor="status"><name>Status</name>
-<t>(Definition of a common structure for status flags on objects)</t>
+<section anchor="phone-number"><name>Phone Number</name>
+<t>Telephone number syntax is derived from structures defined in <xref target="ITU.E164.2005"></xref>.  Telephone numbers described in this specification are character strings that MUST begin with a plus sign (&quot;+&quot;, ASCII value 0x002B), followed by a country code defined in <xref target="ITU.E164.2005"></xref>, followed by a dot (&quot;.&quot;, ASCII value 0x002E), followed by a sequence of digits representing the telephone number.  An optional &quot;x&quot; (ASCII value 0x0078) separator with additional digits representing extension information can be appended to the end of the value.</t>
 </section>
 </section>
 
@@ -217,6 +217,48 @@ Data producer MUST assure the same unchanged data is always inserted in the same
 <li>Data Type: String</li>
 <li>Description: The unit of the period.</li>
 <li>Constraints: The value MUST be one of: &quot;y&quot; (years) or &quot;m&quot; (months).</li>
+</ul></li>
+</ul></li>
+</ul>
+</section>
+
+<section anchor="domain-status-object"><name>Domain Status Object</name>
+
+<ul spacing="compact">
+<li>Name: Domain Status Object</li>
+<li>Description: Represents one of the status values associated with the domain name</li>
+<li><t>Data Elements:</t>
+
+<ul spacing="compact">
+<li><t>Label</t>
+
+<ul spacing="compact">
+<li>Identifier: label</li>
+<li>Cardinality: 1</li>
+<li>Mutability: create-only</li>
+<li>Data Type: String</li>
+<li>Description: computer-reasible enum label of a status</li>
+<li>Constraints: Status can be set as outlined in <xref target="RFC5731" sectionFormat="bare" section="2.3"></xref>. Additional statuses can be set as outlined in <xref target="RFCxxxx"></xref> (RGP). This enumeration can be expanded by extensions. Statuses MAY be either set by the server with &quot;server&quot; prefix, or set by the client with &quot;client&quot; prefix.</li>
+</ul></li>
+<li><t>Reason</t>
+
+<ul spacing="compact">
+<li>Indentifier: reason</li>
+<li>Cardinality: 0-1</li>
+<li>Mutability: create-only</li>
+<li>Data Type: String</li>
+<li>Description: a human-readable text that describes the rationale for the status applied to the object.</li>
+<li>Constraints: None</li>
+</ul></li>
+<li><t>Due</t>
+
+<ul spacing="compact">
+<li>Identifier: due</li>
+<li>Cardinality: 0-1</li>
+<li>Mutability: read-write</li>
+<li>Data Type: Timestamp</li>
+<li>Description: a timestamp, when this status is going to be removed automatically, or changed to other status. This field can be used to expresse lifecycle related information.</li>
+<li>Constraints: servers MAY restrict possibility to set or update this value by the client.</li>
 </ul></li>
 </ul></li>
 </ul>
@@ -506,13 +548,14 @@ Data producer MUST assure the same unchanged data is always inserted in the same
 <li>Identifier: status</li>
 <li>Cardinality: 0+</li>
 <li>Mutability: read-only</li>
-<li>Data Type: String</li>
+<li>Data Type:  Domain Status Object</li>
 <li>Description: The current status descriptors associated with the domain.</li>
-<li>Constraints: The value MUST be one of the status tokens defined in the IANA registry for domain statuses. The initial value list MAY be as defined in <xref target="RFC5731"></xref>. In this case the values MUST have the same semantics.</li>
+<li>Constraints: Possible combinations of Domain Status Labels is specified in <xref target="RFC5731" sectionFormat="bare" section="2.3"></xref> and <xref target="RFCxxxx" sectionFormat="bare" section="RGP"></xref></li>
 </ul></li>
 </ul>
 
 <aside><t>TODO: IANA registry for statuses?</t>
+<t>TODO: model registrant as a relation instead of identifier</t>
 </aside>
 
 <ul spacing="compact">
@@ -522,7 +565,7 @@ Data producer MUST assure the same unchanged data is always inserted in the same
 <li>Identifier: registrant</li>
 <li>Cardinality: 0-1</li>
 <li>Mutability: read-write</li>
-<li>Data Type: String (Client Identifier).</li>
+<li>Data Type: String.</li>
 <li>Description: The contact object associated with the domain as the registrant.</li>
 <li>Constraints: The identifier MUST correspond to a valid Contact resource object known to the server.</li>
 </ul></li>
@@ -583,7 +626,7 @@ Data producer MUST assure the same unchanged data is always inserted in the same
 <li>Identifier: sponsoringClientId</li>
 <li>Cardinality: 1</li>
 <li>Mutability: read-only</li>
-<li>Data Type: String (Client Identifier).</li>
+<li>Data Type: Client Identifier.</li>
 <li>Description: The identifier of the client that is the current sponsor of the domain object.</li>
 <li>Constraints: (None)</li>
 </ul></li>
@@ -593,7 +636,7 @@ Data producer MUST assure the same unchanged data is always inserted in the same
 <li>Identifier: creatingClientId</li>
 <li>Cardinality: 0-1</li>
 <li>Mutability: read-only</li>
-<li>Data Type: String (Client Identifier).</li>
+<li>Data Type: Client Identifier.</li>
 <li>Description: The identifier of the client that created the domain object.</li>
 <li>Constraints: (None)</li>
 </ul></li>
@@ -613,7 +656,7 @@ Data producer MUST assure the same unchanged data is always inserted in the same
 <li>Identifier: updatingClientId</li>
 <li>Cardinality: 0-1</li>
 <li>Mutability: read-only</li>
-<li>Data Type: String (Client Identifier).</li>
+<li>Data Type: Client Identifier.</li>
 <li>Description: The identifier of the client that last updated the domain object.</li>
 <li>Constraints: This element MUST NOT be present if the domain has never been modified.</li>
 </ul></li>
@@ -711,10 +754,16 @@ is &quot;all&quot;.</li>
 <section anchor="delete-operation"><name>Delete Operation</name>
 <t>The Delete operation allows a client to remove an existing Domain Name resource. The operation targets a specific resource object identified by its name.</t>
 <t>The server SHOULD reject a delete request if subordinate host objects are associated with the domain name.</t>
+<t>The error response SHOULD indicate the related subordinate host objects.</t>
 </section>
 
 <section anchor="renew-operation"><name>Renew Operation</name>
 <t>The Renew operation allows a client to extend the validity period of an existing Domain Name resource. The operation targets a specific resource object identified by its name.</t>
+
+<ul spacing="compact">
+<li>Input: Domain Name</li>
+<li>Output: Full object representation (read-write and read-only properties), or a minimum representation of properties affected by the operation (Expiry Date).</li>
+</ul>
 <t>The following transient data elements are defined for this operation:</t>
 
 <ul>
@@ -732,7 +781,7 @@ is &quot;all&quot;.</li>
 <li>Identifier: renewalPeriod</li>
 <li>Cardinality: 0-1</li>
 <li>Data Type: Period Object</li>
-<li>Description: The duration to be added to the object's registration period. This value is used by the server to calculate the new <tt>expiryDate</tt>.</li>
+<li>Description: The duration to be added to the object's registration period. This value is used by the server to calculate the new <tt>expiryDate</tt>. The default value MAY be defined by server policy. The number of units available MAY be subject to limits imposed by the server.</li>
 </ul></li>
 </ul>
 </section>
@@ -835,7 +884,7 @@ is &quot;all&quot;.</li>
 <li>Identifier: sponsoringClientId</li>
 <li>Cardinality: 1</li>
 <li>Mutability: read-only</li>
-<li>Data Type: String (Client Identifier).</li>
+<li>Data Type: Client Identifier.</li>
 <li>Description: The identifier of the client that is the current sponsor of the domain object.</li>
 <li>Constraints: (None)</li>
 </ul></li>
@@ -845,7 +894,7 @@ is &quot;all&quot;.</li>
 <li>Identifier: creatingClientId</li>
 <li>Cardinality: 0-1</li>
 <li>Mutability: read-only</li>
-<li>Data Type: String (Client Identifier).</li>
+<li>Data Type: Client Identifier.</li>
 <li>Description: The identifier of the client that created the contact object.</li>
 <li>Constraints: (None)</li>
 </ul></li>
@@ -865,7 +914,7 @@ is &quot;all&quot;.</li>
 <li>Identifier: updatingClientId</li>
 <li>Cardinality: 0-1</li>
 <li>Mutability: read-only</li>
-<li>Data Type: String (Client Identifier).</li>
+<li>Data Type: Client Identifier.</li>
 <li>Description: The identifier of the client that last updated the contact object.</li>
 <li>Constraints: This element MUST NOT be present if the contact has never been modified.</li>
 </ul></li>
@@ -1004,7 +1053,7 @@ description.</li>
 <td>Unit</td>
 <td>1</td>
 <td>read-write</td>
-<td>Token</td>
+<td>String</td>
 <td>The unit of the period.</td>
 </tr>
 </tbody>
@@ -1179,7 +1228,7 @@ description.</li>
 <td>Status</td>
 <td>0+</td>
 <td>read-only</td>
-<td>Token</td>
+<td>Domain Status Object</td>
 <td>The current status descriptors for the domain.</td>
 </tr>
 
@@ -1188,7 +1237,7 @@ description.</li>
 <td>Registrant</td>
 <td>0-1</td>
 <td>read-write</td>
-<td>String (Client ID)</td>
+<td>Client Identifier</td>
 <td>The registrant contact ID.</td>
 </tr>
 
@@ -1233,7 +1282,7 @@ description.</li>
 <td>Sponsoring Client ID</td>
 <td>1</td>
 <td>read-only</td>
-<td>String (Client ID)</td>
+<td>Client Identifier</td>
 <td>The current sponsoring client ID.</td>
 </tr>
 
@@ -1242,7 +1291,7 @@ description.</li>
 <td>Creating Client ID</td>
 <td>0-1</td>
 <td>read-only</td>
-<td>String (Client ID)</td>
+<td>Client Identifier</td>
 <td>The client ID that created the object.</td>
 </tr>
 
@@ -1260,7 +1309,7 @@ description.</li>
 <td>Updating Client ID</td>
 <td>0-1</td>
 <td>read-only</td>
-<td>String (Client ID)</td>
+<td>Client Identifier</td>
 <td>The client ID that last updated the object.</td>
 </tr>
 
@@ -1343,7 +1392,7 @@ description.</li>
 <td>hostsFilter</td>
 <td>Hosts Filter</td>
 <td>0-1</td>
-<td>Token</td>
+<td>String</td>
 <td>Controls which host information is returned.</td>
 </tr>
 
@@ -1425,10 +1474,12 @@ objects, such as data privacy, validation, and potential for misuse.)</t>
 <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.2119.xml"/>
 <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.3399.xml"/>
 <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.5322.xml"/>
+<xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.5730.xml"/>
 <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.5731.xml"/>
 <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.5733.xml"/>
 <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8126.xml"/>
 <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8174.xml"/>
+<xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.xxxx.xml"/>
 </references>
 
 </back>

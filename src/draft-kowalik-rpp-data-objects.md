@@ -137,10 +137,6 @@ Client identifiers are character strings with a specified minimum length, a spec
 
 Telephone number syntax is derived from structures defined in [@!ITU.E164.2005].  Telephone numbers described in this specification are character strings that MUST begin with a plus sign ("+", ASCII value 0x002B), followed by a country code defined in [@!ITU.E164.2005], followed by a dot (".", ASCII value 0x002E), followed by a sequence of digits representing the telephone number.  An optional "x" (ASCII value 0x0078) separator with additional digits representing extension information can be appended to the end of the value.
 
-## Status
-
-(Definition of a common structure for status flags on objects)
-
 # Associations
 
 RPP allows for different types of associations (links) between the objects. The association may be added between 2 indpendent objects with own lifecycle (UML aggregation) or in the relation when one object's existance and lifecycle is bound to the other parent/owner object (UML composition).
@@ -221,6 +217,33 @@ This section defines common component objects that are re-used in the definition
     * Data Type: String
     * Description: The unit of the period.
     * Constraints: The value MUST be one of: "y" (years) or "m" (months).
+
+## Domain Status Object
+
+  * Name: Domain Status Object
+  * Description: Represents one of the status values associated with the domain name
+  * Data Elements:
+    * Label
+      * Identifier: label
+      * Cardinality: 1
+      * Mutability: create-only
+      * Data Type: String
+      * Description: computer-reasible enum label of a status
+      * Constraints: Status can be set as outlined in [@!RFC5731, 2.3]. Additional statuses can be set as outlined in [@!RFCxxxx] (RGP). This enumeration can be expanded by extensions. Statuses MAY be either set by the server with "server" prefix, or set by the client with "client" prefix. 
+    * Reason
+      * Indentifier: reason
+      * Cardinality: 0-1
+      * Mutability: create-only
+      * Data Type: String
+      * Description: a human-readable text that describes the rationale for the status applied to the object.
+      * Constraints: None
+    * Due
+      * Identifier: due
+      * Cardinality: 0-1
+      * Mutability: read-write
+      * Data Type: Timestamp
+      * Description: a timestamp, when this status is going to be removed automatically, or changed to other status. This field can be used to expresse lifecycle related information.
+      * Constraints: servers MAY restrict possibility to set or update this value by the client.
 
 ## Nameserver Object
 
@@ -412,9 +435,9 @@ The following data elements are defined for the Domain Name resource object.
   * Identifier: status
   * Cardinality: 0+
   * Mutability: read-only
-  * Data Type: String
+  * Data Type:  Domain Status Object
   * Description: The current status descriptors associated with the domain.
-  * Constraints: The value MUST be one of the status tokens defined in the IANA registry for domain statuses. The initial value list MAY be as defined in [@!RFC5731]. In this case the values MUST have the same semantics.
+  * Constraints: Possible combinations of Domain Status Labels is specified in [@!RFC5731, 2.3] and [@!RFCxxxx, RGP]
 
 A> TODO: IANA registry for statuses?
 
@@ -575,9 +598,14 @@ The Delete operation allows a client to remove an existing Domain Name resource.
 
 The server SHOULD reject a delete request if subordinate host objects are associated with the domain name.
 
+The error response SHOULD indicate the related subordinate host objects.
+
 ### Renew Operation
 
 The Renew operation allows a client to extend the validity period of an existing Domain Name resource. The operation targets a specific resource object identified by its name.
+
+* Input: Domain Name
+* Output: Full object representation (read-write and read-only properties), or a minimum representation of properties affected by the operation (Expiry Date).
 
 The following transient data elements are defined for this operation:
 
@@ -591,7 +619,7 @@ The following transient data elements are defined for this operation:
   * Identifier: renewalPeriod
   * Cardinality: 0-1
   * Data Type: Period Object
-  * Description: The duration to be added to the object's registration period. This value is used by the server to calculate the new `expiryDate`.
+  * Description: The duration to be added to the object's registration period. This value is used by the server to calculate the new `expiryDate`. The default value MAY be defined by server policy. The number of units available MAY be subject to limits imposed by the server.
 
 # Contact Resource Object
 
@@ -795,7 +823,7 @@ Data Elements
 | Element Identifier | Element Name | Card. | Mutability | Data Type | Description                      |
 |--------------------|--------------|-------|------------|-----------|----------------------------------|
 | value              | Value        | 1     | read-write | Integer   | The numeric value of the period. |
-| unit               | Unit         | 1     | read-write | Token     | The unit of the period.          |
+| unit               | Unit         | 1     | read-write | String     | The unit of the period.          |
 
 Object: nameserver
 
@@ -862,16 +890,16 @@ Data Elements
 |--------------------|----------------------|-------|-------------|--------------------------------------------------------|---------------------------------------------------------|
 | name               | Name                 | 1     | create-only | String                                                 | The fully qualified name of the domain object.          |
 | repositoryId       | Repository ID        | 1     | read-only   | String                                                 | A server-assigned unique identifier for the object.     |
-| status             | Status               | 0+    | read-only   | Token                                                  | The current status descriptors for the domain.          |
-| registrant         | Registrant           | 0-1   | read-write  | Client Identifier                                     | The registrant contact ID.                              |
+| status             | Status               | 0+    | read-only   | Domain Status Object                                   | The current status descriptors for the domain.          |
+| registrant         | Registrant           | 0-1   | read-write  | Client Identifier                                      | The registrant contact ID.                              |
 | contacts           | Contacts             | 0+    | read-write  | LabelledAggregation [Contact Object]                   | Associated contact objects.                             |
 | nameservers        | Nameservers          | 0+    | read-write  | Aggregation [Host Object] or Composition [Host Object] | A collection of nameservers associated with the domain. |
 | dns                | DNS                  | 0+    | read-write  | Composition[DNS Resource Record]                       | A collection of DNS entries related to the domain name. |
 | subordinateHosts   | Subordinate Hosts    | 0+    | read-only   | Aggregation [Host Object]                              | Subordinate host names.                                 |
-| sponsoringClientId | Sponsoring Client ID | 1     | read-only   | Client Identifier                                     | The current sponsoring client ID.                       |
-| creatingClientId   | Creating Client ID   | 0-1   | read-only   | Client Identifier                                     | The client ID that created the object.                  |
+| sponsoringClientId | Sponsoring Client ID | 1     | read-only   | Client Identifier                                      | The current sponsoring client ID.                       |
+| creatingClientId   | Creating Client ID   | 0-1   | read-only   | Client Identifier                                      | The client ID that created the object.                  |
 | creationDate       | Creation Date        | 0-1   | read-only   | Timestamp                                              | Creation timestamp.                                     |
-| updatingClientId   | Updating Client ID   | 0-1   | read-only   | Client Identifier                                     | The client ID that last updated the object.             |
+| updatingClientId   | Updating Client ID   | 0-1   | read-only   | Client Identifier                                      | The client ID that last updated the object.             |
 | updateDate         | Update Date          | 0-1   | read-only   | Timestamp                                              | The timestamp of the last update.                       |
 | expiryDate         | Expiry Date          | 0-1   | read-only   | Timestamp                                              | Expiry timestamp.                                       |
 | transferDate       | Transfer Date        | 0-1   | read-only   | Timestamp                                              | The timestamp of the last successful transfer.          |
@@ -895,7 +923,7 @@ Description: Retrieves the data elements of a Domain Name resource.
 Parameters
 | Identifier    | Name                            | Card. | Data Type | Description                                          |
 |---------------|---------------------------------|-------|-----------|------------------------------------------------------|
-| hostsFilter   | Hosts Filter                    | 0-1   | Token     | Controls which host information is returned.         |
+| hostsFilter   | Hosts Filter                    | 0-1   | String     | Controls which host information is returned.         |
 | queryAuthInfo | Query Authorisation Information | 0-1   | authInfo  | Credentials to authorise access to full object data. |
 
 Operation: Delete
