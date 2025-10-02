@@ -97,6 +97,7 @@ Typically it would be a value related to or derived from Authorisation Informati
 <li>Input: Object identifier</li>
 <li>Output: Object representation (read-write and read-only properties)</li>
 </ul>
+<t>The output representation MAY vary depending on the identity of the querying client, use of authorization information, and server policy towards unauthorized clients. If the querying client is the sponsoring client, all available information MUST be returned. If the querying client is not the sponsoring client but the client provides valid authorization information, all available information SHOULD be returned, however some optional elements MAY be reserved to the sponsoring client only. If the querying client is not the sponsoring client and the client does not provide valid authorization information, server policy determines which OPTIONAL elements are returned, if any or whether the entire request is rejected.</t>
 </section>
 
 <section anchor="update"><name>Update</name>
@@ -213,7 +214,7 @@ Data producer MUST assure the same unchanged data is always inserted in the same
 <li>Identifier: unit</li>
 <li>Cardinality: 1</li>
 <li>Mutability: read-write</li>
-<li>Data Type: String (Token).</li>
+<li>Data Type: String</li>
 <li>Description: The unit of the period.</li>
 <li>Constraints: The value MUST be one of: &quot;y&quot; (years) or &quot;m&quot; (months).</li>
 </ul></li>
@@ -236,7 +237,7 @@ Data producer MUST assure the same unchanged data is always inserted in the same
 <li>Cardinality: 1</li>
 <li>Mutability: read-write</li>
 <li>Data Type: String.</li>
-<li>Description: The name of the host.</li>
+<li>Description: Fully qualified name of a host.</li>
 <li>Constraints: The value MUST be a syntactically valid host name.</li>
 </ul></li>
 <li><t>DNS Resource Records</t>
@@ -323,7 +324,7 @@ Data producer MUST assure the same unchanged data is always inserted in the same
 <li>Description: The identifier of the RPP authorisation method.</li>
 <li>Constraints: The value MUST be one of the values registered at IANA. Initial values AuthInfo.</li>
 </ul></li>
-<li><t>Authirisation Information</t>
+<li><t>Authorisation Information</t>
 
 <ul spacing="compact">
 <li>Identifier: authdata</li>
@@ -487,7 +488,7 @@ Data producer MUST assure the same unchanged data is always inserted in the same
 <li>Mutability: create-only</li>
 <li>Data Type: String.</li>
 <li>Description: The fully qualified name of the domain object.</li>
-<li>Constraints: The value MUST be a fully qualified domain name that conforms to the syntax described in <xref target="RFC1035"></xref>.</li>
+<li>Constraints: The value MUST be a fully qualified domain name that conforms to the syntax described in <xref target="RFC1035"></xref>. A server MAY restrict allowable domain names to a particular top-level domain, second-level domain, or other domain for which the server is authoritative. The trailing dot required when these names are stored in a DNS zone is implicit and MUST NOT be provided when exchanging host and domain names.</li>
 </ul></li>
 <li><t>Repository ID</t>
 
@@ -505,7 +506,7 @@ Data producer MUST assure the same unchanged data is always inserted in the same
 <li>Identifier: status</li>
 <li>Cardinality: 0+</li>
 <li>Mutability: read-only</li>
-<li>Data Type: String (Token).</li>
+<li>Data Type: String</li>
 <li>Description: The current status descriptors associated with the domain.</li>
 <li>Constraints: The value MUST be one of the status tokens defined in the IANA registry for domain statuses. The initial value list MAY be as defined in <xref target="RFC5731"></xref>. In this case the values MUST have the same semantics.</li>
 </ul></li>
@@ -514,7 +515,7 @@ Data producer MUST assure the same unchanged data is always inserted in the same
 <aside><t>TODO: IANA registry for statuses?</t>
 </aside>
 
-<ul>
+<ul spacing="compact">
 <li><t>Registrant</t>
 
 <ul spacing="compact">
@@ -525,6 +526,12 @@ Data producer MUST assure the same unchanged data is always inserted in the same
 <li>Description: The contact object associated with the domain as the registrant.</li>
 <li>Constraints: The identifier MUST correspond to a valid Contact resource object known to the server.</li>
 </ul></li>
+</ul>
+
+<aside><t>TODO: leave registrant here or move it to contacts with a type?</t>
+</aside>
+
+<ul>
 <li><t>Contacts</t>
 
 <ul spacing="compact">
@@ -691,7 +698,7 @@ client authorisation and server policy.</t>
 <ul spacing="compact">
 <li>Identifier: hostsFilter</li>
 <li>Cardinality: 0-1</li>
-<li>Data Type: String (Token).</li>
+<li>Data Type: String</li>
 <li>Description: Controls which host information is returned with
 the object.</li>
 <li>Constraints: The value MUST be one of &quot;all&quot;, &quot;del&quot;
@@ -725,9 +732,7 @@ is &quot;all&quot;.</li>
 <li>Identifier: renewalPeriod</li>
 <li>Cardinality: 0-1</li>
 <li>Data Type: Period Object</li>
-<li>Description: The duration to be added to the object's
-registration period. This value is used by the server to
-calculate the new <tt>expiryDate</tt>.</li>
+<li>Description: The duration to be added to the object's registration period. This value is used by the server to calculate the new <tt>expiryDate</tt>.</li>
 </ul></li>
 </ul>
 </section>
@@ -820,7 +825,7 @@ calculate the new <tt>expiryDate</tt>.</li>
 <li>Identifier: status</li>
 <li>Cardinality: 0+</li>
 <li>Mutability: read-only</li>
-<li>Data Type: String (Token).</li>
+<li>Data Type: String</li>
 <li>Description: The current status descriptors associated with the contact.</li>
 <li>Constraints: The value MUST be one of the status tokens defined in the IANA registry for domain statuses. The initial value list MAY be as defined in <xref target="RFC5733"></xref>. In this case the values MUST have the same semantics.</li>
 </ul></li>
