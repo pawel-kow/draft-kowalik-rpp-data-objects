@@ -101,6 +101,8 @@ For the typical set of Create, Read, Update and Delete operations the following 
 * Input: Object identifier
 * Output: Object representation (read-write and read-only properties)
 
+The output representation MAY vary depending on the identity of the querying client, use of authorization information, and server policy towards unauthorized clients. If the querying client is the sponsoring client, all available information MUST be returned. If the querying client is not the sponsoring client but the client provides valid authorization information, all available information SHOULD be returned, however some optional elements MAY be reserved to the sponsoring client only. If the querying client is not the sponsoring client and the client does not provide valid authorization information, server policy determines which OPTIONAL elements are returned, if any or whether the entire request is rejected.
+
 #### Update
 
 * Input: Object identifier, Object changes representation (read-write properties)
@@ -212,7 +214,7 @@ This section defines common component objects that are re-used in the definition
     * Identifier: unit
     * Cardinality: 1
     * Mutability: read-write
-    * Data Type: String (Token).
+    * Data Type: String
     * Description: The unit of the period.
     * Constraints: The value MUST be one of: "y" (years) or "m" (months).
 
@@ -226,7 +228,7 @@ This section defines common component objects that are re-used in the definition
     * Cardinality: 1
     * Mutability: read-write
     * Data Type: String.
-    * Description: The name of the host.
+    * Description: Fully qualified name of a host.
     * Constraints: The value MUST be a syntactically valid host name.
   * DNS Resource Records
     * Identifier: dns
@@ -282,7 +284,7 @@ This section defines common component objects that are re-used in the definition
     * Data Type: String.
     * Description: The identifier of the RPP authorisation method.
     * Constraints: The value MUST be one of the values registered at IANA. Initial values AuthInfo.
-  * Authirisation Information
+  * Authorisation Information
     * Identifier: authdata
     * Cardinality: 1
     * Mutability: create-only
@@ -392,7 +394,7 @@ The following data elements are defined for the Domain Name resource object.
   * Mutability: create-only
   * Data Type: String.
   * Description: The fully qualified name of the domain object.
-  * Constraints: The value MUST be a fully qualified domain name that conforms to the syntax described in [@!RFC1035].
+  * Constraints: The value MUST be a fully qualified domain name that conforms to the syntax described in [@!RFC1035]. A server MAY restrict allowable domain names to a particular top-level domain, second-level domain, or other domain for which the server is authoritative. The trailing dot required when these names are stored in a DNS zone is implicit and MUST NOT be provided when exchanging host and domain names.
 
 * Repository ID
   * Identifier: repositoryId
@@ -406,7 +408,7 @@ The following data elements are defined for the Domain Name resource object.
   * Identifier: status
   * Cardinality: 0+
   * Mutability: read-only
-  * Data Type: String (Token).
+  * Data Type: String
   * Description: The current status descriptors associated with the domain.
   * Constraints: The value MUST be one of the status tokens defined in the IANA registry for domain statuses. The initial value list MAY be as defined in [@!RFC5731]. In this case the values MUST have the same semantics.
 
@@ -419,6 +421,8 @@ A> TODO: IANA registry for statuses?
   * Data Type: String (Client Identifier).
   * Description: The contact object associated with the domain as the registrant.
   * Constraints: The identifier MUST correspond to a valid Contact resource object known to the server.
+
+A> TODO: leave registrant here or move it to contacts with a type?
 
 * Contacts
   * Identifier: contacts
@@ -530,7 +534,7 @@ In addition, the following transient data element is defined for this operation:
   * Identifier: period
   * Cardinality: 0-1
   * Data Type: Period Object.
-  * Description: The initial registration period for the domain name. This value is used by the server to calculate the initial `expiryDate` of the object. This element is not persisted as part of the object's state.
+  * Description: The initial registration period for the domain name. This value is used by the server to calculate the initial `expiryDate` of the object. This element is not persisted as part of the object's state. 
 
 ### Read Operation
 
@@ -552,7 +556,7 @@ The following transient data elements are defined for this operation:
 * Hosts Filter
   * Identifier: hostsFilter
   * Cardinality: 0-1
-  * Data Type: String (Token).
+  * Data Type: String
   * Description: Controls which host information is returned with
 the object.
   * Constraints: The value MUST be one of "all", "del"
@@ -581,9 +585,7 @@ The following transient data elements are defined for this operation:
   * Identifier: renewalPeriod
   * Cardinality: 0-1
   * Data Type: Period Object
-  * Description: The duration to be added to the object's
-registration period. This value is used by the server to
-calculate the new `expiryDate`.
+  * Description: The duration to be added to the object's registration period. This value is used by the server to calculate the new `expiryDate`.
 
 # Contact Resource Object
 
@@ -651,7 +653,7 @@ The following data elements are defined for the Domain Name resource object.
   * Identifier: status
   * Cardinality: 0+
   * Mutability: read-only
-  * Data Type: String (Token).
+  * Data Type: String
   * Description: The current status descriptors associated with the contact.
   * Constraints: The value MUST be one of the status tokens defined in the IANA registry for domain statuses. The initial value list MAY be as defined in [@!RFC5733]. In this case the values MUST have the same semantics.
 
