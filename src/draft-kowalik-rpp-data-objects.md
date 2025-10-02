@@ -129,6 +129,10 @@ This section defines primitive data types and structures that are re-used across
 
 Date and time attribute values MUST be represented in Universal Coordinated Time (UTC) using the Gregorian calendar using date-time form as defined in [@!RFC3399]. For compatibility with EPP upper case "T" and "Z" characters SHOULD be used.
 
+## Client Identifier
+
+Client identifiers are character strings with a specified minimum length, a specified maximum length, and a specified format. Contact identifiers use the "clIDType" client identifier syntax described in [@!RFC5730].
+
 ## Phone Number
 
 Telephone number syntax is derived from structures defined in [@!ITU.E164.2005].  Telephone numbers described in this specification are character strings that MUST begin with a plus sign ("+", ASCII value 0x002B), followed by a country code defined in [@!ITU.E164.2005], followed by a dot (".", ASCII value 0x002E), followed by a sequence of digits representing the telephone number.  An optional "x" (ASCII value 0x0078) separator with additional digits representing extension information can be appended to the end of the value.
@@ -414,11 +418,13 @@ The following data elements are defined for the Domain Name resource object.
 
 A> TODO: IANA registry for statuses?
 
+A> TODO: model registrant as a relation instead of identifier
+
 * Registrant
   * Identifier: registrant
   * Cardinality: 0-1
   * Mutability: read-write
-  * Data Type: String (Client Identifier).
+  * Data Type: String.
   * Description: The contact object associated with the domain as the registrant.
   * Constraints: The identifier MUST correspond to a valid Contact resource object known to the server.
 
@@ -462,7 +468,7 @@ A> TODO: leave registrant here or move it to contacts with a type?
   * Identifier: sponsoringClientId
   * Cardinality: 1
   * Mutability: read-only
-  * Data Type: String (Client Identifier).
+  * Data Type: Client Identifier.
   * Description: The identifier of the client that is the current sponsor of the domain object.
   * Constraints: (None)
 
@@ -470,7 +476,7 @@ A> TODO: leave registrant here or move it to contacts with a type?
   * Identifier: creatingClientId
   * Cardinality: 0-1
   * Mutability: read-only
-  * Data Type: String (Client Identifier).
+  * Data Type: Client Identifier.
   * Description: The identifier of the client that created the domain object.
   * Constraints: (None)
 
@@ -486,7 +492,7 @@ A> TODO: leave registrant here or move it to contacts with a type?
   * Identifier: updatingClientId
   * Cardinality: 0-1
   * Mutability: read-only
-  * Data Type: String (Client Identifier).
+  * Data Type: Client Identifier.
   * Description: The identifier of the client that last updated the domain object.
   * Constraints: This element MUST NOT be present if the domain has never been modified.
 
@@ -661,7 +667,7 @@ The following data elements are defined for the Domain Name resource object.
   * Identifier: sponsoringClientId
   * Cardinality: 1
   * Mutability: read-only
-  * Data Type: String (Client Identifier).
+  * Data Type: Client Identifier.
   * Description: The identifier of the client that is the current sponsor of the domain object.
   * Constraints: (None)
 
@@ -669,7 +675,7 @@ The following data elements are defined for the Domain Name resource object.
   * Identifier: creatingClientId
   * Cardinality: 0-1
   * Mutability: read-only
-  * Data Type: String (Client Identifier).
+  * Data Type: Client Identifier.
   * Description: The identifier of the client that created the contact object.
   * Constraints: (None)
 
@@ -685,7 +691,7 @@ The following data elements are defined for the Domain Name resource object.
   * Identifier: updatingClientId
   * Cardinality: 0-1
   * Mutability: read-only
-  * Data Type: String (Client Identifier).
+  * Data Type: Client Identifier.
   * Description: The identifier of the client that last updated the contact object.
   * Constraints: This element MUST NOT be present if the contact has never been modified.
 
@@ -857,15 +863,15 @@ Data Elements
 | name               | Name                 | 1     | create-only | String                                                 | The fully qualified name of the domain object.          |
 | repositoryId       | Repository ID        | 1     | read-only   | String                                                 | A server-assigned unique identifier for the object.     |
 | status             | Status               | 0+    | read-only   | Token                                                  | The current status descriptors for the domain.          |
-| registrant         | Registrant           | 0-1   | read-write  | String (Client ID)                                     | The registrant contact ID.                              |
+| registrant         | Registrant           | 0-1   | read-write  | Client Identifier                                     | The registrant contact ID.                              |
 | contacts           | Contacts             | 0+    | read-write  | LabelledAggregation [Contact Object]                   | Associated contact objects.                             |
 | nameservers        | Nameservers          | 0+    | read-write  | Aggregation [Host Object] or Composition [Host Object] | A collection of nameservers associated with the domain. |
 | dns                | DNS                  | 0+    | read-write  | Composition[DNS Resource Record]                       | A collection of DNS entries related to the domain name. |
 | subordinateHosts   | Subordinate Hosts    | 0+    | read-only   | Aggregation [Host Object]                              | Subordinate host names.                                 |
-| sponsoringClientId | Sponsoring Client ID | 1     | read-only   | String (Client ID)                                     | The current sponsoring client ID.                       |
-| creatingClientId   | Creating Client ID   | 0-1   | read-only   | String (Client ID)                                     | The client ID that created the object.                  |
+| sponsoringClientId | Sponsoring Client ID | 1     | read-only   | Client Identifier                                     | The current sponsoring client ID.                       |
+| creatingClientId   | Creating Client ID   | 0-1   | read-only   | Client Identifier                                     | The client ID that created the object.                  |
 | creationDate       | Creation Date        | 0-1   | read-only   | Timestamp                                              | Creation timestamp.                                     |
-| updatingClientId   | Updating Client ID   | 0-1   | read-only   | String (Client ID)                                     | The client ID that last updated the object.             |
+| updatingClientId   | Updating Client ID   | 0-1   | read-only   | Client Identifier                                     | The client ID that last updated the object.             |
 | updateDate         | Update Date          | 0-1   | read-only   | Timestamp                                              | The timestamp of the last update.                       |
 | expiryDate         | Expiry Date          | 0-1   | read-only   | Timestamp                                              | Expiry timestamp.                                       |
 | transferDate       | Transfer Date        | 0-1   | read-only   | Timestamp                                              | The timestamp of the last successful transfer.          |
