@@ -238,7 +238,7 @@ Data producer MUST assure the same unchanged data is always inserted in the same
 <li>Mutability: create-only</li>
 <li>Data Type: String</li>
 <li>Description: computer-reasible enum label of a status</li>
-<li>Constraints: Status can be set as outlined in <xref target="RFC5731" sectionFormat="bare" section="2.3"></xref>. Additional statuses can be set as outlined in <xref target="RFCxxxx"></xref> (RGP). This enumeration can be expanded by extensions. Statuses MAY be either set by the server with &quot;server&quot; prefix, or set by the client with &quot;client&quot; prefix.</li>
+<li>Constraints: Status can be set as outlined in <xref target="RFC5731" sectionFormat="bare" section="2.3"></xref>. Additional statuses can be set as outlined in <xref target="RFC3915"></xref>. This enumeration can be expanded by extensions. Statuses MAY be either set by the server with &quot;server&quot; prefix, or set by the client with &quot;client&quot; prefix.</li>
 </ul></li>
 <li><t>Reason</t>
 
@@ -550,7 +550,7 @@ Data producer MUST assure the same unchanged data is always inserted in the same
 <li>Mutability: read-only</li>
 <li>Data Type:  Domain Status Object</li>
 <li>Description: The current status descriptors associated with the domain.</li>
-<li>Constraints: Possible combinations of Domain Status Labels is specified in <xref target="RFC5731" sectionFormat="bare" section="2.3"></xref> and <xref target="RFCxxxx" sectionFormat="bare" section="RGP"></xref></li>
+<li>Constraints: Possible combinations of Domain Status Labels is specified in <xref target="RFC5731" sectionFormat="bare" section="2.3"></xref> and <xref target="RFC3915"></xref></li>
 </ul></li>
 </ul>
 
@@ -1473,13 +1473,13 @@ objects, such as data privacy, validation, and potential for misuse.)</t>
 <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.1035.xml"/>
 <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.2119.xml"/>
 <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.3399.xml"/>
+<xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.3915.xml"/>
 <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.5322.xml"/>
 <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.5730.xml"/>
 <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.5731.xml"/>
 <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.5733.xml"/>
 <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8126.xml"/>
 <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8174.xml"/>
-<xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.xxxx.xml"/>
 </references>
 
 </back>

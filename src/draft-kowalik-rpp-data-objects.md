@@ -229,7 +229,7 @@ This section defines common component objects that are re-used in the definition
       * Mutability: create-only
       * Data Type: String
       * Description: computer-reasible enum label of a status
-      * Constraints: Status can be set as outlined in [@!RFC5731, 2.3]. Additional statuses can be set as outlined in [@!RFCxxxx] (RGP). This enumeration can be expanded by extensions. Statuses MAY be either set by the server with "server" prefix, or set by the client with "client" prefix. 
+      * Constraints: Status can be set as outlined in [@!RFC5731, 2.3]. Additional statuses can be set as outlined in [@!RFC3915]. This enumeration can be expanded by extensions. Statuses MAY be either set by the server with "server" prefix, or set by the client with "client" prefix. 
     * Reason
       * Indentifier: reason
       * Cardinality: 0-1
@@ -437,7 +437,7 @@ The following data elements are defined for the Domain Name resource object.
   * Mutability: read-only
   * Data Type:  Domain Status Object
   * Description: The current status descriptors associated with the domain.
-  * Constraints: Possible combinations of Domain Status Labels is specified in [@!RFC5731, 2.3] and [@!RFCxxxx, RGP]
+  * Constraints: Possible combinations of Domain Status Labels is specified in [@!RFC5731, 2.3] and [@!RFC3915]
 
 A> TODO: IANA registry for statuses?
 
