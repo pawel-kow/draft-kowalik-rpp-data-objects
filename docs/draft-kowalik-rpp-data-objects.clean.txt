@@ -70,8 +70,8 @@ Table of Contents
    3.  Common Data Types
      3.1.  Identifier
      3.2.  Timestamp
-     3.3.  Phone Number
-     3.4.  Status
+     3.3.  Client Identifier
+     3.4.  Phone Number
    4.  Associations
      4.1.  Aggregation
      4.2.  Composition
@@ -81,12 +81,13 @@ Table of Contents
      4.6.  Composition Dictionary
    5.  Component Objects
      5.1.  Period Object
-     5.2.  Nameserver Object
-     5.3.  DNS Resource Record
-     5.4.  Authorisation Information Object
-     5.5.  Postal Address Object
-     5.6.  Postal Info Object
-     5.7.  Disclose Object
+     5.2.  Domain Status Object
+     5.3.  Nameserver Object
+     5.4.  DNS Resource Record
+     5.5.  Authorisation Information Object
+     5.6.  Postal Address Object
+     5.7.  Postal Info Object
+     5.8.  Disclose Object
    6.  Domain Name Resource Object
      6.1.  Object Description
      6.2.  Data Elements
@@ -257,7 +258,14 @@ Table of Contents
    form as defined in [RFC3399].  For compatibility with EPP upper case
    "T" and "Z" characters SHOULD be used.
 
-3.3.  Phone Number
+3.3.  Client Identifier
+
+   Client identifiers are character strings with a specified minimum
+   length, a specified maximum length, and a specified format.  Contact
+   identifiers use the "clIDType" client identifier syntax described in
+   [RFC5730].
+
+3.4.  Phone Number
 
    Telephone number syntax is derived from structures defined in
    [ITU.E164.2005].  Telephone numbers described in this specification
@@ -267,10 +275,6 @@ Table of Contents
    of digits representing the telephone number.  An optional "x" (ASCII
    value 0x0078) separator with additional digits representing extension
    information can be appended to the end of the value.
-
-3.4.  Status
-
-   (Definition of a common structure for status flags on objects)
 
 4.  Associations
 
@@ -388,7 +392,43 @@ Table of Contents
          -  Constraints: The value MUST be one of: "y" (years) or "m"
             (months).
 
-5.2.  Nameserver Object
+5.2.  Domain Status Object
+
+   -  Name: Domain Status Object
+   -  Description: Represents one of the status values associated with
+      the domain name
+   -  Data Elements:
+      -  Label
+         -  Identifier: label
+         -  Cardinality: 1
+         -  Mutability: create-only
+         -  Data Type: String
+         -  Description: computer-reasible enum label of a status
+         -  Constraints: Status can be set as outlined in 2.3.
+            Additional statuses can be set as outlined in [RFC3915].
+            This enumeration can be expanded by extensions.  Statuses
+            MAY be either set by the server with "server" prefix, or set
+            by the client with "client" prefix.
+      -  Reason
+         -  Indentifier: reason
+         -  Cardinality: 0-1
+         -  Mutability: create-only
+         -  Data Type: String
+         -  Description: a human-readable text that describes the
+            rationale for the status applied to the object.
+         -  Constraints: None
+      -  Due
+         -  Identifier: due
+         -  Cardinality: 0-1
+         -  Mutability: read-write
+         -  Data Type: Timestamp
+         -  Description: a timestamp, when this status is going to be
+            removed automatically, or changed to other status.  This
+            field can be used to expresse lifecycle related information.
+         -  Constraints: servers MAY restrict possibility to set or
+            update this value by the client.
+
+5.3.  Nameserver Object
 
    -  Name: Nameserver Object
    -  Description: Represents a single nameserver.
@@ -412,7 +452,7 @@ Table of Contents
             respectively.  The labels of DNS entries MUST be subordinate
             to the Host Name of the Nameserver.
 
-5.3.  DNS Resource Record
+5.4.  DNS Resource Record
 
    -  Name: DNS Resource Record
    -  Description: Represents a DNS Entry
@@ -455,7 +495,7 @@ Table of Contents
          -  Constraints: TTL value of a resource record as defined in
             [RFC1035].  The value MAY be constrained by server policy.
 
-5.4.  Authorisation Information Object
+5.5.  Authorisation Information Object
 
    -  Name: Authorisation Information
    -  Description: Contains information used to authorise operations on
@@ -484,7 +524,7 @@ Table of Contents
             the method and server policy authorisation Information MAY
             not be available for reading.
 
-5.5.  Postal Address Object
+5.6.  Postal Address Object
 
    -  Name: Postal Address Object
    -  Description: Contains the components of a postal address.
@@ -533,7 +573,7 @@ Table of Contents
             from [ISO3166-1].  For EPP compatibility this data element
             is obligatory.
 
-5.6.  Postal Info Object
+5.7.  Postal Info Object
 
    -  Name: Postal Info Object
    -  Description: Contains postal-address information in either
@@ -577,7 +617,7 @@ Table of Contents
          -  Constraints: For EPP compatibility this data element is
             obligatory.
 
-5.7.  Disclose Object
+5.8.  Disclose Object
 
       |  TODO: Model Disclose in universal (extendible) way
 
@@ -631,21 +671,21 @@ Table of Contents
       -  Identifier: status
       -  Cardinality: 0+
       -  Mutability: read-only
-      -  Data Type: String
+      -  Data Type: Domain Status Object
       -  Description: The current status descriptors associated with the
          domain.
-      -  Constraints: The value MUST be one of the status tokens defined
-         in the IANA registry for domain statuses.  The initial value
-         list MAY be as defined in [RFC5731].  In this case the values
-         MUST have the same semantics.
+      -  Constraints: Possible combinations of Domain Status Labels is
+         specified in 2.3 and [RFC3915]
 
       |  TODO: IANA registry for statuses?
+      |  
+      |  TODO: model registrant as a relation instead of identifier
 
    -  Registrant
       -  Identifier: registrant
       -  Cardinality: 0-1
       -  Mutability: read-write
-      -  Data Type: String (Client Identifier).
+      -  Data Type: String.
       -  Description: The contact object associated with the domain as
          the registrant.
       -  Constraints: The identifier MUST correspond to a valid Contact
@@ -708,7 +748,7 @@ Table of Contents
       -  Identifier: sponsoringClientId
       -  Cardinality: 1
       -  Mutability: read-only
-      -  Data Type: String (Client Identifier).
+      -  Data Type: Client Identifier.
       -  Description: The identifier of the client that is the current
          sponsor of the domain object.
       -  Constraints: (None)
@@ -718,7 +758,7 @@ Table of Contents
       -  Identifier: creatingClientId
       -  Cardinality: 0-1
       -  Mutability: read-only
-      -  Data Type: String (Client Identifier).
+      -  Data Type: Client Identifier.
       -  Description: The identifier of the client that created the
          domain object.
       -  Constraints: (None)
@@ -738,7 +778,7 @@ Table of Contents
       -  Identifier: updatingClientId
       -  Cardinality: 0-1
       -  Mutability: read-only
-      -  Data Type: String (Client Identifier).
+      -  Data Type: Client Identifier.
       -  Description: The identifier of the client that last updated the
          domain object.
       -  Constraints: This element MUST NOT be present if the domain has
@@ -840,11 +880,19 @@ Table of Contents
    The server SHOULD reject a delete request if subordinate host objects
    are associated with the domain name.
 
+   The error response SHOULD indicate the related subordinate host
+   objects.
+
 6.3.4.  Renew Operation
 
    The Renew operation allows a client to extend the validity period of
    an existing Domain Name resource.  The operation targets a specific
    resource object identified by its name.
+
+   -  Input: Domain Name
+   -  Output: Full object representation (read-write and read-only
+      properties), or a minimum representation of properties affected by
+      the operation (Expiry Date).
 
    The following transient data elements are defined for this operation:
 
@@ -864,7 +912,9 @@ Table of Contents
       -  Data Type: Period Object
       -  Description: The duration to be added to the object's
          registration period.  This value is used by the server to
-         calculate the new expiryDate.
+         calculate the new expiryDate.  The default value MAY be defined
+         by server policy.  The number of units available MAY be subject
+         to limits imposed by the server.
 
 7.  Contact Resource Object
 
@@ -963,7 +1013,7 @@ Table of Contents
       -  Identifier: sponsoringClientId
       -  Cardinality: 1
       -  Mutability: read-only
-      -  Data Type: String (Client Identifier).
+      -  Data Type: Client Identifier.
       -  Description: The identifier of the client that is the current
          sponsor of the domain object.
       -  Constraints: (None)
@@ -973,7 +1023,7 @@ Table of Contents
       -  Identifier: creatingClientId
       -  Cardinality: 0-1
       -  Mutability: read-only
-      -  Data Type: String (Client Identifier).
+      -  Data Type: Client Identifier.
       -  Description: The identifier of the client that created the
          contact object.
       -  Constraints: (None)
@@ -993,7 +1043,7 @@ Table of Contents
       -  Identifier: updatingClientId
       -  Cardinality: 0-1
       -  Mutability: read-only
-      -  Data Type: String (Client Identifier).
+      -  Data Type: Client Identifier.
       -  Description: The identifier of the client that last updated the
          contact object.
       -  Constraints: This element MUST NOT be present if the contact
@@ -1117,7 +1167,7 @@ Table of Contents
     |            |         |     |            |         | value of    |
     |            |         |     |            |         | the period. |
     +------------+---------+-----+------------+---------+-------------+
-    | unit       | Unit    |1    | read-write | Token   | The unit of |
+    | unit       | Unit    |1    | read-write | String  | The unit of |
     |            |         |     |            |         | the period. |
     +------------+---------+-----+------------+---------+-------------+
 
@@ -1253,13 +1303,13 @@ Table of Contents
    |                  |             |     |          |                   |for the      |
    |                  |             |     |          |                   |object.      |
    +------------------+-------------+-----+----------+-------------------+-------------+
-   |status            |Status       |0+   |read-only |Token              |The current  |
-   |                  |             |     |          |                   |status       |
+   |status            |Status       |0+   |read-only |Domain Status      |The current  |
+   |                  |             |     |          |Object             |status       |
    |                  |             |     |          |                   |descriptors  |
    |                  |             |     |          |                   |for the      |
    |                  |             |     |          |                   |domain.      |
    +------------------+-------------+-----+----------+-------------------+-------------+
-   |registrant        |Registrant   |0-1  |read-write|String (Client ID) |The          |
+   |registrant        |Registrant   |0-1  |read-write|Client Identifier  |The          |
    |                  |             |     |          |                   |registrant   |
    |                  |             |     |          |                   |contact ID.  |
    +------------------+-------------+-----+----------+-------------------+-------------+
@@ -1284,18 +1334,18 @@ Table of Contents
    |subordinateHosts  |Subordinate  |0+   |read-only |Aggregation [Host  |Subordinate  |
    |                  |Hosts        |     |          |Object]            |host names.  |
    +------------------+-------------+-----+----------+-------------------+-------------+
-   |sponsoringClientId|Sponsoring   |1    |read-only |String (Client ID) |The current  |
+   |sponsoringClientId|Sponsoring   |1    |read-only |Client Identifier  |The current  |
    |                  |Client ID    |     |          |                   |sponsoring   |
    |                  |             |     |          |                   |client ID.   |
    +------------------+-------------+-----+----------+-------------------+-------------+
-   |creatingClientId  |Creating     |0-1  |read-only |String (Client ID) |The client ID|
+   |creatingClientId  |Creating     |0-1  |read-only |Client Identifier  |The client ID|
    |                  |Client ID    |     |          |                   |that created |
    |                  |             |     |          |                   |the object.  |
    +------------------+-------------+-----+----------+-------------------+-------------+
    |creationDate      |Creation Date|0-1  |read-only |Timestamp          |Creation     |
    |                  |             |     |          |                   |timestamp.   |
    +------------------+-------------+-----+----------+-------------------+-------------+
-   |updatingClientId  |Updating     |0-1  |read-only |String (Client ID) |The client ID|
+   |updatingClientId  |Updating     |0-1  |read-only |Client Identifier  |The client ID|
    |                  |Client ID    |     |          |                   |that last    |
    |                  |             |     |          |                   |updated the  |
    |                  |             |     |          |                   |object.      |
@@ -1350,7 +1400,7 @@ Table of Contents
    | Identifier    | Name          | Card. | Data     | Description    |
    |               |               |       | Type     |                |
    +===============+===============+=======+==========+================+
-   | hostsFilter   | Hosts Filter  | 0-1   | Token    | Controls       |
+   | hostsFilter   | Hosts Filter  | 0-1   | String   | Controls       |
    |               |               |       |          | which host     |
    |               |               |       |          | information    |
    |               |               |       |          | is returned.   |
@@ -1428,9 +1478,18 @@ Table of Contents
    [RFC3399]  "Not Issued", RFC 3399,
               <https://www.rfc-editor.org/info/rfc3399>.
 
+   [RFC3915]  Hollenbeck, S., "Domain Registry Grace Period Mapping for
+              the Extensible Provisioning Protocol (EPP)", RFC 3915,
+              DOI 10.17487/RFC3915, September 2004,
+              <https://www.rfc-editor.org/info/rfc3915>.
+
    [RFC5322]  Resnick, P., Ed., "Internet Message Format", RFC 5322,
               DOI 10.17487/RFC5322, October 2008,
               <https://www.rfc-editor.org/info/rfc5322>.
+
+   [RFC5730]  Hollenbeck, S., "Extensible Provisioning Protocol (EPP)",
+              STD 69, RFC 5730, DOI 10.17487/RFC5730, August 2009,
+              <https://www.rfc-editor.org/info/rfc5730>.
 
    [RFC5731]  Hollenbeck, S., "Extensible Provisioning Protocol (EPP)
               Domain Name Mapping", STD 69, RFC 5731,
