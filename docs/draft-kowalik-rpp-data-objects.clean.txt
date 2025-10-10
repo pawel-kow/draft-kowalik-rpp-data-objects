@@ -4,8 +4,8 @@
 
 Network Working Group                                         P. Kowalik
 Internet-Draft                                                     DENIC
-Intended status: Standards Track                       11 September 2025
-Expires: 15 March 2026
+Intended status: Standards Track                         10 October 2025
+Expires: 13 April 2026
 
 
            Registry Provisioning Protocol (RPP) Data Objects
@@ -35,7 +35,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 15 March 2026.
+   This Internet-Draft will expire on 13 April 2026.
 
 Copyright Notice
 
