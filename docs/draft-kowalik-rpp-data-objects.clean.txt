@@ -97,6 +97,7 @@ Table of Contents
        6.3.2.  Read Operation
        6.3.3.  Delete Operation
        6.3.4.  Renew Operation
+       6.3.5.  Transfer operation
    7.  Contact Resource Object
      7.1.  Object Description
      7.2.  Data Elements
@@ -379,7 +380,8 @@ Table of Contents
 5.  Component Objects
 
    This section defines common component objects that are re-used in the
-   definitions of top-level resource objects.
+   definitions of top-level resource objects.  Component objects carry
+   only data but do not define any operations.
 
 5.1.  Period Object
 
@@ -524,14 +526,15 @@ Table of Contents
          -  Identifier: authdata
          -  Cardinality: 1
          -  Mutability: create-only
-         -  Data Type: String or Object
+         -  Data Type: String
          -  Description: The value of the authorisation information.  It
             might be as simple as password string, but also more complex
-            values like public key certificates or tokens are possible.
+            values like public key certificates or tokens encoded as
+            string are possible.
          -  Constraints: authorisation information objects are
             immutable.  If the information changes (for example password
             is updated) a new instance MUST be created.  Depending on
-            the method and server policy authorisation Information MAY
+            the method and server policy Authorisation Information MAY
             not be available for reading.
 
 5.6.  Postal Address Object
@@ -924,6 +927,10 @@ Table of Contents
          by server policy.  The number of units available MAY be subject
          to limits imposed by the server.
 
+6.3.5.  Transfer operation
+
+      |  TODO: define transfer op
+
 7.  Contact Resource Object
 
 7.1.  Object Description
@@ -1084,7 +1091,7 @@ Table of Contents
       -  Identifier: authInfo
       -  Cardinality: 0-1
       -  Mutability: read-write
-      -  Data Type: Authorisation Information.
+      -  Data Type: Authorisation Information
       -  Description: Authorisation information associated with the
          contact object.
       -  Constraints: (None)
@@ -1386,8 +1393,8 @@ Table of Contents
    |          |             |     |           |      | method.         |
    +----------+-------------+-----+-----------+------+-----------------+
    |authdata  |Authorisation|1    |create-only|String| The value of    |
-   |          |Information  |     |           |/     | the             |
-   |          |             |     |           |Object| authorisation   |
+   |          |Information  |     |           |      | the             |
+   |          |             |     |           |      | authorisation   |
    |          |             |     |           |      | information.    |
    |          |             |     |           |      | It might be     |
    |          |             |     |           |      | as simple as    |
@@ -1398,7 +1405,9 @@ Table of Contents
    |          |             |     |           |      | values like     |
    |          |             |     |           |      | public key      |
    |          |             |     |           |      | certificates    |
-   |          |             |     |           |      | or tokens are   |
+   |          |             |     |           |      | or tokens       |
+   |          |             |     |           |      | encoded as      |
+   |          |             |     |           |      | string are      |
    |          |             |     |           |      | possible.       |
    +----------+-------------+-----+-----------+------+-----------------+
 
@@ -1406,7 +1415,7 @@ Table of Contents
 
    Object: domainStatus
 
-   Object Name: Domain Status
+   Object Name: Domain Status Object
 
    Object Type: Component
 
@@ -1446,92 +1455,6 @@ Table of Contents
    +----------+-------+-----+-----------+---------+-------------------+
 
                                  Table 5
-
-   Object: domainstatus
-
-   Object Name: Domain Status Object
-
-   Object Type: Component
-
-   Description: Represents one of the status values associated with the
-   domain name.
-
-   Reference: [This-ID]
-
-   Data Elements
-
-   +==========+=======+=====+===========+=========+===================+
-   |Element   |Element|Card.|Mutability |Data Type| Description       |
-   |Identifier|Name   |     |           |         |                   |
-   +==========+=======+=====+===========+=========+===================+
-   |label     |Label  |1    |create-only|String   | computer-readible |
-   |          |       |     |           |         | enum label of a   |
-   |          |       |     |           |         | status            |
-   +----------+-------+-----+-----------+---------+-------------------+
-   |reason    |Reason |0-1  |create-only|String   | a human-readable  |
-   |          |       |     |           |         | text that         |
-   |          |       |     |           |         | describes the     |
-   |          |       |     |           |         | rationale for the |
-   |          |       |     |           |         | status applied to |
-   |          |       |     |           |         | the object        |
-   +----------+-------+-----+-----------+---------+-------------------+
-   |due       |Due    |0-1  |read-write |Timestamp| a timestamp, when |
-   |          |       |     |           |         | this status is    |
-   |          |       |     |           |         | going to be       |
-   |          |       |     |           |         | removed           |
-   |          |       |     |           |         | automatically, or |
-   |          |       |     |           |         | changed to other  |
-   |          |       |     |           |         | status.  This     |
-   |          |       |     |           |         | field can be used |
-   |          |       |     |           |         | to expresse       |
-   |          |       |     |           |         | lifecycle related |
-   |          |       |     |           |         | information       |
-   +----------+-------+-----+-----------+---------+-------------------+
-
-                                 Table 6
-
-   Object: authinfo
-
-   Object Name: Authorisation Information
-
-   Object Type: Component
-
-   Description: Contains information used to authorise operations on a
-   resource object.  It may hold different kind of authorisation
-   information.
-
-   Reference: [This-ID]
-
-   Data Elements
-
-   +==========+=============+=====+===========+======+=================+
-   |Element   |Element Name |Card.|Mutability |Data  | Description     |
-   |Identifier|             |     |           |Type  |                 |
-   +==========+=============+=====+===========+======+=================+
-   |method    |Method       |1    |create-only|String| The             |
-   |          |             |     |           |      | identifier of   |
-   |          |             |     |           |      | the RPP         |
-   |          |             |     |           |      | authorisation   |
-   |          |             |     |           |      | method.         |
-   +----------+-------------+-----+-----------+------+-----------------+
-   |authdata  |Authorisation|1    |create-only|String| The value of    |
-   |          |Information  |     |           |or    | the             |
-   |          |             |     |           |Object| authorisation   |
-   |          |             |     |           |      | information.    |
-   |          |             |     |           |      | It might be     |
-   |          |             |     |           |      | as simple as    |
-   |          |             |     |           |      | password        |
-   |          |             |     |           |      | string, but     |
-   |          |             |     |           |      | also more       |
-   |          |             |     |           |      | complex         |
-   |          |             |     |           |      | values like     |
-   |          |             |     |           |      | public key      |
-   |          |             |     |           |      | certificates    |
-   |          |             |     |           |      | or tokens are   |
-   |          |             |     |           |      | possible.       |
-   +----------+-------------+-----+-----------+------+-----------------+
-
-                                  Table 7
 
       |  TODO: IANA table: Postal Address Object TODO: IANA table:
       |  Postal Info Object TODO: IANA table: Disclose Object
@@ -1629,7 +1552,7 @@ Table of Contents
    |                  |             |     |          |                   |object.      |
    +------------------+-------------+-----+----------+-------------------+-------------+
 
-                                  Table 8
+                                  Table 6
 
    Operations
 
@@ -1649,7 +1572,7 @@ Table of Contents
    |            |              |       |        | domain name.         |
    +------------+--------------+-------+--------+----------------------+
 
-                                  Table 9
+                                  Table 7
 
    Operation: Read
 
@@ -1673,7 +1596,7 @@ Table of Contents
    |               |               |       |          | data.          |
    +---------------+---------------+-------+----------+----------------+
 
-                                  Table 10
+                                  Table 8
 
    Operation: Delete
 
@@ -1701,7 +1624,7 @@ Table of Contents
    |                   |         |       |           | period.        |
    +-------------------+---------+-------+-----------+----------------+
 
-                                 Table 11
+                                 Table 9
 
       |  TODO: IANA table: Contact Resource Object TODO: IANA table:
       |  Host Resource Object

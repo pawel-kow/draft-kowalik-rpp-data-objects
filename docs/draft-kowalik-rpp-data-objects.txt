@@ -120,9 +120,10 @@ Internet-Draft              RPP Data Objects                October 2025
        6.3.2.  Read Operation  . . . . . . . . . . . . . . . . . . .  19
        6.3.3.  Delete Operation  . . . . . . . . . . . . . . . . . .  19
        6.3.4.  Renew Operation . . . . . . . . . . . . . . . . . . .  20
+       6.3.5.  Transfer operation  . . . . . . . . . . . . . . . . .  20
    7.  Contact Resource Object . . . . . . . . . . . . . . . . . . .  20
      7.1.  Object Description  . . . . . . . . . . . . . . . . . . .  20
-     7.2.  Data Elements . . . . . . . . . . . . . . . . . . . . . .  20
+     7.2.  Data Elements . . . . . . . . . . . . . . . . . . . . . .  21
      7.3.  Operations  . . . . . . . . . . . . . . . . . . . . . . .  24
    8.  Host Resource Object  . . . . . . . . . . . . . . . . . . . .  24
      8.1.  Object Description  . . . . . . . . . . . . . . . . . . .  24
@@ -133,8 +134,8 @@ Internet-Draft              RPP Data Objects                October 2025
        9.1.1.  Registration Policy . . . . . . . . . . . . . . . . .  27
        9.1.2.  Registry Structure  . . . . . . . . . . . . . . . . .  27
        9.1.3.  Initial Registrations . . . . . . . . . . . . . . . .  28
-   10. Normative References  . . . . . . . . . . . . . . . . . . . .  37
-   Author's Address  . . . . . . . . . . . . . . . . . . . . . . . .  38
+   10. Normative References  . . . . . . . . . . . . . . . . . . . .  35
+   Author's Address  . . . . . . . . . . . . . . . . . . . . . . . .  36
 
 1.  Introduction
 
@@ -158,7 +159,6 @@ Internet-Draft              RPP Data Objects                October 2025
    capitals, as shown here.
 
 2.  Resource Definition Principles
-
 
 
 
@@ -462,7 +462,8 @@ Internet-Draft              RPP Data Objects                October 2025
 5.  Component Objects
 
    This section defines common component objects that are re-used in the
-   definitions of top-level resource objects.
+   definitions of top-level resource objects.  Component objects carry
+   only data but do not define any operations.
 
 5.1.  Period Object
 
@@ -497,7 +498,6 @@ Internet-Draft              RPP Data Objects                October 2025
          -  Mutability: create-only
          -  Data Type: String
          -  Description: computer-readible enum label of a status
-
 
 
 
@@ -634,14 +634,15 @@ Internet-Draft              RPP Data Objects                October 2025
          -  Identifier: authdata
          -  Cardinality: 1
          -  Mutability: create-only
-         -  Data Type: String or Object
+         -  Data Type: String
          -  Description: The value of the authorisation information.  It
             might be as simple as password string, but also more complex
-            values like public key certificates or tokens are possible.
+            values like public key certificates or tokens encoded as
+            string are possible.
          -  Constraints: authorisation information objects are
             immutable.  If the information changes (for example password
             is updated) a new instance MUST be created.  Depending on
-            the method and server policy authorisation Information MAY
+            the method and server policy Authorisation Information MAY
             not be available for reading.
 
 5.6.  Postal Address Object
@@ -663,9 +664,8 @@ Internet-Draft              RPP Data Objects                October 2025
          -  Mutability: read-write
          -  Data Type: String
          -  Description: The contact's city.
-         -  Constraints: Some implementation MAY limit the maximum
-            length of entries or character set.  For EPP compatibility
-            this data element is obligatory.
+
+
 
 
 
@@ -674,6 +674,9 @@ Kowalik                   Expires 13 April 2026                [Page 12]
 Internet-Draft              RPP Data Objects                October 2025
 
 
+         -  Constraints: Some implementation MAY limit the maximum
+            length of entries or character set.  For EPP compatibility
+            this data element is obligatory.
       -  State/Province
          -  Identifier: sp
          -  Cardinality: 0-1
@@ -719,9 +722,6 @@ Internet-Draft              RPP Data Objects                October 2025
       -  Name
          -  Identifier: name
          -  Cardinality: 0-1
-         -  Mutability: read-write
-         -  Data Type: String
-         -  Description: The name of the individual or role.
 
 
 
@@ -730,6 +730,9 @@ Kowalik                   Expires 13 April 2026                [Page 13]
 Internet-Draft              RPP Data Objects                October 2025
 
 
+         -  Mutability: read-write
+         -  Data Type: String
+         -  Description: The name of the individual or role.
          -  Constraints: Some implementation MAY limit the maximum
             length of entries or character set.  For EPP compatibility
             this data element is obligatory.  The implementations MAY
@@ -776,15 +779,14 @@ Internet-Draft              RPP Data Objects                October 2025
    The following data elements are defined for the Domain Name resource
    object.
 
-   -  Name
-
-
 
 
 Kowalik                   Expires 13 April 2026                [Page 14]
 
 Internet-Draft              RPP Data Objects                October 2025
 
+
+   -  Name
 
       -  Identifier: name
       -  Cardinality: 1
@@ -832,8 +834,6 @@ Internet-Draft              RPP Data Objects                October 2025
       -  Constraints: The identifier MUST correspond to a valid Contact
          resource object known to the server.
 
-      |  TBC: leave registrant here or move it to contacts with a type?
-
 
 
 
@@ -841,6 +841,8 @@ Kowalik                   Expires 13 April 2026                [Page 15]
 
 Internet-Draft              RPP Data Objects                October 2025
 
+
+      |  TBC: leave registrant here or move it to contacts with a type?
 
    -  Contacts
 
@@ -888,8 +890,6 @@ Internet-Draft              RPP Data Objects                October 2025
       -  Identifier: subordinateHosts
       -  Cardinality: 0+
       -  Mutability: read-only
-      -  Data Type: Aggregation[Host Object]
-
 
 
 
@@ -898,6 +898,7 @@ Kowalik                   Expires 13 April 2026                [Page 16]
 Internet-Draft              RPP Data Objects                October 2025
 
 
+      -  Data Type: Aggregation[Host Object]
       -  Description: A collection of subordinate host objects that
          exist under this domain.
       -  Constraints: (None)
@@ -945,7 +946,6 @@ Internet-Draft              RPP Data Objects                October 2025
 
    -  Update Date
 
-      -  Identifier: updateDate
 
 
 
@@ -954,6 +954,7 @@ Kowalik                   Expires 13 April 2026                [Page 17]
 Internet-Draft              RPP Data Objects                October 2025
 
 
+      -  Identifier: updateDate
       -  Cardinality: 0-1
       -  Mutability: read-only
       -  Data Type: Timestamp.
@@ -1001,7 +1002,6 @@ Internet-Draft              RPP Data Objects                October 2025
    The Create operation allows a client to provision a new Domain Name
    resource.  The operation accepts as input all create-only and read-
    write data elements defined for the Domain Name Resource Object.
-
 
 
 
@@ -1099,6 +1099,10 @@ Internet-Draft              RPP Data Objects                October 2025
          by server policy.  The number of units available MAY be subject
          to limits imposed by the server.
 
+6.3.5.  Transfer operation
+
+      |  TODO: define transfer op
+
 7.  Contact Resource Object
 
 7.1.  Object Description
@@ -1109,10 +1113,6 @@ Internet-Draft              RPP Data Objects                October 2025
       information for an individual or organisation associated with
       other objects.
 
-7.2.  Data Elements
-
-   The following data elements are defined for the Domain Name resource
-   object.
 
 
 
@@ -1121,6 +1121,11 @@ Kowalik                   Expires 13 April 2026                [Page 20]
 
 Internet-Draft              RPP Data Objects                October 2025
 
+
+7.2.  Data Elements
+
+   The following data elements are defined for the Domain Name resource
+   object.
 
    -  Handle ID
 
@@ -1165,11 +1170,6 @@ Internet-Draft              RPP Data Objects                October 2025
       -  Cardinality: 0+
       -  Mutability: read-write
       -  Data Type: Phone Number
-      -  Description: Voice phone number associated with the contact
-      -  Constraints: (None)
-
-   -  Fax Phone Number
-
 
 
 
@@ -1177,6 +1177,11 @@ Kowalik                   Expires 13 April 2026                [Page 21]
 
 Internet-Draft              RPP Data Objects                October 2025
 
+
+      -  Description: Voice phone number associated with the contact
+      -  Constraints: (None)
+
+   -  Fax Phone Number
 
       -  Identifier: fax
       -  Cardinality: 0+
@@ -1221,11 +1226,6 @@ Internet-Draft              RPP Data Objects                October 2025
 
       -  Identifier: creatingClientId
       -  Cardinality: 0-1
-      -  Mutability: read-only
-      -  Data Type: Client Identifier.
-      -  Description: The identifier of the client that created the
-         contact object.
-      -  Constraints: (None)
 
 
 
@@ -1233,6 +1233,12 @@ Kowalik                   Expires 13 April 2026                [Page 22]
 
 Internet-Draft              RPP Data Objects                October 2025
 
+
+      -  Mutability: read-only
+      -  Data Type: Client Identifier.
+      -  Description: The identifier of the client that created the
+         contact object.
+      -  Constraints: (None)
 
    -  Creation Date
 
@@ -1277,12 +1283,6 @@ Internet-Draft              RPP Data Objects                October 2025
       -  Constraints: This element MUST NOT be provided if the contact
          object has never been transferred.
 
-   -  Authorisation Information
-
-      -  Identifier: authInfo
-      -  Cardinality: 0-1
-      -  Mutability: read-write
-
 
 
 Kowalik                   Expires 13 April 2026                [Page 23]
@@ -1290,7 +1290,12 @@ Kowalik                   Expires 13 April 2026                [Page 23]
 Internet-Draft              RPP Data Objects                October 2025
 
 
-      -  Data Type: Authorisation Information.
+   -  Authorisation Information
+
+      -  Identifier: authInfo
+      -  Cardinality: 0-1
+      -  Mutability: read-write
+      -  Data Type: Authorisation Information
       -  Description: Authorisation information associated with the
          contact object.
       -  Constraints: (None)
@@ -1334,11 +1339,6 @@ Internet-Draft              RPP Data Objects                October 2025
       -  Description: Fully qualified name of a host.
       -  Constraints: The value MUST be a syntactically valid host name.
 
-   -  DNS Resource Records
-
-      -  Identifier: dns
-      -  Cardinality: 0+
-
 
 
 Kowalik                   Expires 13 April 2026                [Page 24]
@@ -1346,6 +1346,10 @@ Kowalik                   Expires 13 April 2026                [Page 24]
 Internet-Draft              RPP Data Objects                October 2025
 
 
+   -  DNS Resource Records
+
+      -  Identifier: dns
+      -  Cardinality: 0+
       -  Mutability: read-write
       -  Data Type: Composition[DNS Resource Record]
       -  Description: DNS Resource Records related to the host.
@@ -1391,10 +1395,6 @@ Internet-Draft              RPP Data Objects                October 2025
          sponsor of the host object.
       -  Constraints: (None)
 
-   -  Creating Client ID
-
-      -  Identifier: creatingClientId
-
 
 
 Kowalik                   Expires 13 April 2026                [Page 25]
@@ -1402,6 +1402,9 @@ Kowalik                   Expires 13 April 2026                [Page 25]
 Internet-Draft              RPP Data Objects                October 2025
 
 
+   -  Creating Client ID
+
+      -  Identifier: creatingClientId
       -  Cardinality: 0-1
       -  Mutability: read-only
       -  Data Type: Client Identifier.
@@ -1447,9 +1450,6 @@ Internet-Draft              RPP Data Objects                October 2025
       -  Cardinality: 0-1
       -  Mutability: read-only
       -  Data Type: Timestamp
-      -  Description: The date and time of the most recent successful
-         host object transfer.
-
 
 
 
@@ -1458,6 +1458,8 @@ Kowalik                   Expires 13 April 2026                [Page 26]
 Internet-Draft              RPP Data Objects                October 2025
 
 
+      -  Description: The date and time of the most recent successful
+         host object transfer.
       -  Constraints: This element MUST NOT be provided if the host
          object has never been transferred.
 
@@ -1502,8 +1504,6 @@ Internet-Draft              RPP Data Objects                October 2025
          part of the object's state.  Each entry MUST specify the
          parameter's Identifier, Name, Cardinality, Data Type, and a
          description.
-
-
 
 
 
@@ -1649,8 +1649,8 @@ Internet-Draft              RPP Data Objects                October 2025
    |          |             |     |           |      | method.         |
    +----------+-------------+-----+-----------+------+-----------------+
    |authdata  |Authorisation|1    |create-only|String| The value of    |
-   |          |Information  |     |           |/     | the             |
-   |          |             |     |           |Object| authorisation   |
+   |          |Information  |     |           |      | the             |
+   |          |             |     |           |      | authorisation   |
    |          |             |     |           |      | information.    |
    |          |             |     |           |      | It might be     |
    |          |             |     |           |      | as simple as    |
@@ -1661,7 +1661,9 @@ Internet-Draft              RPP Data Objects                October 2025
    |          |             |     |           |      | values like     |
    |          |             |     |           |      | public key      |
    |          |             |     |           |      | certificates    |
-   |          |             |     |           |      | or tokens are   |
+   |          |             |     |           |      | or tokens       |
+   |          |             |     |           |      | encoded as      |
+   |          |             |     |           |      | string are      |
    |          |             |     |           |      | possible.       |
    +----------+-------------+-----+-----------+------+-----------------+
 
@@ -1669,11 +1671,9 @@ Internet-Draft              RPP Data Objects                October 2025
 
    Object: domainStatus
 
-   Object Name: Domain Status
+   Object Name: Domain Status Object
 
    Object Type: Component
-
-
 
 
 
@@ -1719,110 +1719,6 @@ Internet-Draft              RPP Data Objects                October 2025
 
                                  Table 5
 
-   Object: domainstatus
-
-   Object Name: Domain Status Object
-
-   Object Type: Component
-
-   Description: Represents one of the status values associated with the
-   domain name.
-
-   Reference: [This-ID]
-
-
-
-
-Kowalik                   Expires 13 April 2026                [Page 31]
-
-Internet-Draft              RPP Data Objects                October 2025
-
-
-   Data Elements
-
-   +==========+=======+=====+===========+=========+===================+
-   |Element   |Element|Card.|Mutability |Data Type| Description       |
-   |Identifier|Name   |     |           |         |                   |
-   +==========+=======+=====+===========+=========+===================+
-   |label     |Label  |1    |create-only|String   | computer-readible |
-   |          |       |     |           |         | enum label of a   |
-   |          |       |     |           |         | status            |
-   +----------+-------+-----+-----------+---------+-------------------+
-   |reason    |Reason |0-1  |create-only|String   | a human-readable  |
-   |          |       |     |           |         | text that         |
-   |          |       |     |           |         | describes the     |
-   |          |       |     |           |         | rationale for the |
-   |          |       |     |           |         | status applied to |
-   |          |       |     |           |         | the object        |
-   +----------+-------+-----+-----------+---------+-------------------+
-   |due       |Due    |0-1  |read-write |Timestamp| a timestamp, when |
-   |          |       |     |           |         | this status is    |
-   |          |       |     |           |         | going to be       |
-   |          |       |     |           |         | removed           |
-   |          |       |     |           |         | automatically, or |
-   |          |       |     |           |         | changed to other  |
-   |          |       |     |           |         | status.  This     |
-   |          |       |     |           |         | field can be used |
-   |          |       |     |           |         | to expresse       |
-   |          |       |     |           |         | lifecycle related |
-   |          |       |     |           |         | information       |
-   +----------+-------+-----+-----------+---------+-------------------+
-
-                                 Table 6
-
-   Object: authinfo
-
-   Object Name: Authorisation Information
-
-   Object Type: Component
-
-   Description: Contains information used to authorise operations on a
-   resource object.  It may hold different kind of authorisation
-   information.
-
-   Reference: [This-ID]
-
-   Data Elements
-
-
-
-
-
-
-Kowalik                   Expires 13 April 2026                [Page 32]
-
-Internet-Draft              RPP Data Objects                October 2025
-
-
-   +==========+=============+=====+===========+======+=================+
-   |Element   |Element Name |Card.|Mutability |Data  | Description     |
-   |Identifier|             |     |           |Type  |                 |
-   +==========+=============+=====+===========+======+=================+
-   |method    |Method       |1    |create-only|String| The             |
-   |          |             |     |           |      | identifier of   |
-   |          |             |     |           |      | the RPP         |
-   |          |             |     |           |      | authorisation   |
-   |          |             |     |           |      | method.         |
-   +----------+-------------+-----+-----------+------+-----------------+
-   |authdata  |Authorisation|1    |create-only|String| The value of    |
-   |          |Information  |     |           |or    | the             |
-   |          |             |     |           |Object| authorisation   |
-   |          |             |     |           |      | information.    |
-   |          |             |     |           |      | It might be     |
-   |          |             |     |           |      | as simple as    |
-   |          |             |     |           |      | password        |
-   |          |             |     |           |      | string, but     |
-   |          |             |     |           |      | also more       |
-   |          |             |     |           |      | complex         |
-   |          |             |     |           |      | values like     |
-   |          |             |     |           |      | public key      |
-   |          |             |     |           |      | certificates    |
-   |          |             |     |           |      | or tokens are   |
-   |          |             |     |           |      | possible.       |
-   +----------+-------------+-----+-----------+------+-----------------+
-
-                                  Table 7
-
       |  TODO: IANA table: Postal Address Object TODO: IANA table:
       |  Postal Info Object TODO: IANA table: Disclose Object
 
@@ -1834,21 +1730,17 @@ Internet-Draft              RPP Data Objects                October 2025
 
    Description: Represents a domain name and its associated data.
 
-   Reference: [This-ID]
-
-   Data Elements
 
 
 
-
-
-
-
-
-Kowalik                   Expires 13 April 2026                [Page 33]
+Kowalik                   Expires 13 April 2026                [Page 31]
 
 Internet-Draft              RPP Data Objects                October 2025
 
+
+   Reference: [This-ID]
+
+   Data Elements
 
    +==================+=============+=====+==========+===================+=============+
    |Identifier        |Name         |Card.|Mutability|Data Type          |Description  |
@@ -1894,18 +1786,18 @@ Internet-Draft              RPP Data Objects                October 2025
    |                  |             |     |          |                   |the domain   |
    |                  |             |     |          |                   |name.        |
    +------------------+-------------+-----+----------+-------------------+-------------+
-   |subordinateHosts  |Subordinate  |0+   |read-only |Aggregation [Host  |Subordinate  |
-   |                  |Hosts        |     |          |Object]            |host names.  |
-   +------------------+-------------+-----+----------+-------------------+-------------+
-   |sponsoringClientId|Sponsoring   |1    |read-only |Client Identifier  |The current  |
 
 
 
-Kowalik                   Expires 13 April 2026                [Page 34]
+Kowalik                   Expires 13 April 2026                [Page 32]
 
 Internet-Draft              RPP Data Objects                October 2025
 
 
+   |subordinateHosts  |Subordinate  |0+   |read-only |Aggregation [Host  |Subordinate  |
+   |                  |Hosts        |     |          |Object]            |host names.  |
+   +------------------+-------------+-----+----------+-------------------+-------------+
+   |sponsoringClientId|Sponsoring   |1    |read-only |Client Identifier  |The current  |
    |                  |Client ID    |     |          |                   |sponsoring   |
    |                  |             |     |          |                   |client ID.   |
    +------------------+-------------+-----+----------+-------------------+-------------+
@@ -1939,7 +1831,7 @@ Internet-Draft              RPP Data Objects                October 2025
    |                  |             |     |          |                   |object.      |
    +------------------+-------------+-----+----------+-------------------+-------------+
 
-                                  Table 8
+                                  Table 6
 
    Operations
 
@@ -1953,11 +1845,7 @@ Internet-Draft              RPP Data Objects                October 2025
 
 
 
-
-
-
-
-Kowalik                   Expires 13 April 2026                [Page 35]
+Kowalik                   Expires 13 April 2026                [Page 33]
 
 Internet-Draft              RPP Data Objects                October 2025
 
@@ -1972,7 +1860,7 @@ Internet-Draft              RPP Data Objects                October 2025
    |            |              |       |        | domain name.         |
    +------------+--------------+-------+--------+----------------------+
 
-                                  Table 9
+                                  Table 7
 
    Operation: Read
 
@@ -1996,7 +1884,7 @@ Internet-Draft              RPP Data Objects                October 2025
    |               |               |       |          | data.          |
    +---------------+---------------+-------+----------+----------------+
 
-                                  Table 10
+                                  Table 8
 
    Operation: Delete
 
@@ -2013,7 +1901,7 @@ Internet-Draft              RPP Data Objects                October 2025
 
 
 
-Kowalik                   Expires 13 April 2026                [Page 36]
+Kowalik                   Expires 13 April 2026                [Page 34]
 
 Internet-Draft              RPP Data Objects                October 2025
 
@@ -2032,7 +1920,7 @@ Internet-Draft              RPP Data Objects                October 2025
    |                   |         |       |           | period.        |
    +-------------------+---------+-------+-----------+----------------+
 
-                                 Table 11
+                                 Table 9
 
       |  TODO: IANA table: Contact Resource Object TODO: IANA table:
       |  Host Resource Object
@@ -2069,7 +1957,7 @@ Internet-Draft              RPP Data Objects                October 2025
 
 
 
-Kowalik                   Expires 13 April 2026                [Page 37]
+Kowalik                   Expires 13 April 2026                [Page 35]
 
 Internet-Draft              RPP Data Objects                October 2025
 
@@ -2125,7 +2013,7 @@ Author's Address
 
 
 
-Kowalik                   Expires 13 April 2026                [Page 38]
+Kowalik                   Expires 13 April 2026                [Page 36]
 
 Internet-Draft              RPP Data Objects                October 2025
 
@@ -2181,4 +2069,4 @@ Internet-Draft              RPP Data Objects                October 2025
 
 
 
-Kowalik                   Expires 13 April 2026                [Page 39]
+Kowalik                   Expires 13 April 2026                [Page 37]

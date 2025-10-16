@@ -186,7 +186,8 @@ Data producer MUST assure the same unchanged data is always inserted in the same
 </section>
 
 <section anchor="component-objects"><name>Component Objects</name>
-<t>This section defines common component objects that are re-used in the definitions of top-level resource objects.</t>
+<t>This section defines common component objects that are re-used in the definitions of top-level resource objects.
+Component objects carry only data but do not define any operations.</t>
 
 <section anchor="period-object"><name>Period Object</name>
 
@@ -370,9 +371,9 @@ Data producer MUST assure the same unchanged data is always inserted in the same
 <li>Identifier: authdata</li>
 <li>Cardinality: 1</li>
 <li>Mutability: create-only</li>
-<li>Data Type: String or Object</li>
-<li>Description: The value of the authorisation information. It might be as simple as password string, but also more complex values like public key certificates or tokens are possible.</li>
-<li>Constraints: authorisation information objects are immutable. If the information changes (for example password is updated) a new instance MUST be created. Depending on the method and server policy authorisation Information MAY not be available for reading.</li>
+<li>Data Type: String</li>
+<li>Description: The value of the authorisation information. It might be as simple as password string, but also more complex values like public key certificates or tokens encoded as string are possible.</li>
+<li>Constraints: authorisation information objects are immutable. If the information changes (for example password is updated) a new instance MUST be created. Depending on the method and server policy Authorisation Information MAY not be available for reading.</li>
 </ul></li>
 </ul></li>
 </ul>
@@ -782,6 +783,12 @@ is &quot;all&quot;.</li>
 </ul></li>
 </ul>
 </section>
+
+<section anchor="transfer-operation"><name>Transfer operation</name>
+
+<aside><t>TODO: define transfer op</t>
+</aside>
+</section>
 </section>
 </section>
 
@@ -941,7 +948,7 @@ is &quot;all&quot;.</li>
 <li>Identifier: authInfo</li>
 <li>Cardinality: 0-1</li>
 <li>Mutability: read-write</li>
-<li>Data Type: Authorisation Information.</li>
+<li>Data Type: Authorisation Information</li>
 <li>Description: Authorisation information associated with the contact object.</li>
 <li>Constraints: (None)</li>
 </ul></li>
@@ -1302,12 +1309,12 @@ description.</li>
 <td>Authorisation Information</td>
 <td>1</td>
 <td>create-only</td>
-<td>String / Object</td>
-<td>The value of the authorisation information. It might be as simple as password string, but also more complex values like public key certificates or tokens are possible.</td>
+<td>String</td>
+<td>The value of the authorisation information. It might be as simple as password string, but also more complex values like public key certificates or tokens encoded as string are possible.</td>
 </tr>
 </tbody>
 </table><t>Object: domainStatus</t>
-<t>Object Name: Domain Status</t>
+<t>Object Name: Domain Status Object</t>
 <t>Object Type: Component</t>
 <t>Description: Represents one of the status values associated with the domain name.</t>
 <t>Reference: [This-ID]</t>
@@ -1350,89 +1357,6 @@ description.</li>
 <td>read-write</td>
 <td>Timestamp</td>
 <td>a timestamp, when this status is going to be removed automatically, or changed to other status. This field can be used to expresse lifecycle related information</td>
-</tr>
-</tbody>
-</table><t>Object: domainstatus</t>
-<t>Object Name: Domain Status Object</t>
-<t>Object Type: Component</t>
-<t>Description: Represents one of the status values associated with the domain name.</t>
-<t>Reference: [This-ID]</t>
-<t>Data Elements</t>
-<table>
-<thead>
-<tr>
-<th>Element Identifier</th>
-<th>Element Name</th>
-<th>Card.</th>
-<th>Mutability</th>
-<th>Data Type</th>
-<th>Description</th>
-</tr>
-</thead>
-
-<tbody>
-<tr>
-<td>label</td>
-<td>Label</td>
-<td>1</td>
-<td>create-only</td>
-<td>String</td>
-<td>computer-readible enum label of a status</td>
-</tr>
-
-<tr>
-<td>reason</td>
-<td>Reason</td>
-<td>0-1</td>
-<td>create-only</td>
-<td>String</td>
-<td>a human-readable text that describes the rationale for the status applied to the object</td>
-</tr>
-
-<tr>
-<td>due</td>
-<td>Due</td>
-<td>0-1</td>
-<td>read-write</td>
-<td>Timestamp</td>
-<td>a timestamp, when this status is going to be removed automatically, or changed to other status. This field can be used to expresse lifecycle related information</td>
-</tr>
-</tbody>
-</table><t>Object: authinfo</t>
-<t>Object Name: Authorisation Information</t>
-<t>Object Type: Component</t>
-<t>Description: Contains information used to authorise operations on a resource object. It may hold different kind of authorisation information.</t>
-<t>Reference: [This-ID]</t>
-<t>Data Elements</t>
-<table>
-<thead>
-<tr>
-<th>Element Identifier</th>
-<th>Element Name</th>
-<th>Card.</th>
-<th>Mutability</th>
-<th>Data Type</th>
-<th>Description</th>
-</tr>
-</thead>
-
-<tbody>
-<tr>
-<td>method</td>
-<td>Method</td>
-<td>1</td>
-<td>create-only</td>
-<td>String</td>
-<td>The identifier of the RPP authorisation method.</td>
-</tr>
-
-<tr>
-<td>authdata</td>
-<td>Authorisation Information</td>
-<td>1</td>
-<td>create-only</td>
-<td>String or Object</td>
-<td>The value of the authorisation information. It might be as simple as password string, but also more complex values like public key certificates or tokens are possible.</td>
 </tr>
 </tbody>
 </table>

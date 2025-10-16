@@ -313,9 +313,9 @@ Component objects carry only data but do not define any operations.
     * Identifier: authdata
     * Cardinality: 1
     * Mutability: create-only
-    * Data Type: String or Object
-    * Description: The value of the authorisation information. It might be as simple as password string, but also more complex values like public key certificates or tokens are possible.
-    * Constraints: authorisation information objects are immutable. If the information changes (for example password is updated) a new instance MUST be created. Depending on the method and server policy authorisation Information MAY not be available for reading.
+    * Data Type: String
+    * Description: The value of the authorisation information. It might be as simple as password string, but also more complex values like public key certificates or tokens encoded as string are possible.
+    * Constraints: authorisation information objects are immutable. If the information changes (for example password is updated) a new instance MUST be created. Depending on the method and server policy Authorisation Information MAY not be available for reading.
 
 ## Postal Address Object
 
@@ -743,7 +743,7 @@ The following data elements are defined for the Domain Name resource object.
   * Identifier: authInfo
   * Cardinality: 0-1
   * Mutability: read-write
-  * Data Type: Authorisation Information.
+  * Data Type: Authorisation Information
   * Description: Authorisation information associated with the contact object.
   * Constraints: (None)
 
@@ -961,15 +961,15 @@ Description: Contains authorisation credentials for an operation.
 Reference: [This-ID]
 
 Data Elements
-| Element Identifier | Element Name              | Card. | Mutability  | Data Type       | Description                                                                                                                                                             |
-|--------------------|---------------------------|-------|-------------|-----------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| method             | Method                    | 1     | create-only | String          | The identifier of the RPP authorisation method.                                                                                                                         |
-| authdata           | Authorisation Information | 1     | create-only | String / Object | The value of the authorisation information. It might be as simple as password string, but also more complex values like public key certificates or tokens are possible. |
+| Element Identifier | Element Name              | Card. | Mutability  | Data Type | Description                                                                                                                                                                               |
+|--------------------|---------------------------|-------|-------------|-----------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| method             | Method                    | 1     | create-only | String    | The identifier of the RPP authorisation method.                                                                                                                                           |
+| authdata           | Authorisation Information | 1     | create-only | String    | The value of the authorisation information. It might be as simple as password string, but also more complex values like public key certificates or tokens encoded as string are possible. |
 
 
 Object: domainStatus
 
-Object Name: Domain Status
+Object Name: Domain Status Object
 
 Object Type: Component
 
@@ -984,38 +984,6 @@ Data Elements
 | reason             | Reason       | 0-1   | create-only | String    | a human-readable text that describes the rationale for the status applied to the object.                                                                         |
 | due                | Due          | 0-1   | read-write  | Timestamp | a timestamp, when this status is going to be removed automatically, or changed to other status. This field can be used to expresse lifecycle related information |
 
-Object: domainstatus
-
-Object Name: Domain Status Object
-
-Object Type: Component
-
-Description: Represents one of the status values associated with the domain name.
-
-Reference: [This-ID]
-
-Data Elements
-| Element Identifier | Element Name | Card. | Mutability  | Data Type | Description                                                                                                                                                      |
-|--------------------|--------------|-------|-------------|-----------|------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| label              | Label        | 1     | create-only | String    | computer-readible enum label of a status                                                                                                                         |
-| reason             | Reason       | 0-1   | create-only | String    | a human-readable text that describes the rationale for the status applied to the object                                                                          |
-| due                | Due          | 0-1   | read-write  | Timestamp | a timestamp, when this status is going to be removed automatically, or changed to other status. This field can be used to expresse lifecycle related information |
-
-Object: authinfo
-
-Object Name: Authorisation Information
-
-Object Type: Component
-
-Description: Contains information used to authorise operations on a resource object. It may hold different kind of authorisation information.
-
-Reference: [This-ID]
-
-Data Elements
-| Element Identifier | Element Name              | Card. | Mutability  | Data Type        | Description                                                                                                                                                             |
-|--------------------|---------------------------|-------|-------------|------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| method             | Method                    | 1     | create-only | String           | The identifier of the RPP authorisation method.                                                                                                                         |
-| authdata           | Authorisation Information | 1     | create-only | String or Object | The value of the authorisation information. It might be as simple as password string, but also more complex values like public key certificates or tokens are possible. |
 
 A> TODO: IANA table: Postal Address Object
 A> TODO: IANA table: Postal Info Object
