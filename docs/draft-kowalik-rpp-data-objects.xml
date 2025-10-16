@@ -548,7 +548,7 @@ Data producer MUST assure the same unchanged data is always inserted in the same
 <li>Mutability: read-only</li>
 <li>Data Type:  Domain Status Object</li>
 <li>Description: The current status descriptors associated with the domain.</li>
-<li>Constraints: Possible combinations of Domain Status Labels is specified in <xref target="RFC5731" sectionFormat="bare" section="2.3"></xref> and <xref target="RFC3915"></xref></li>
+<li>Constraints: Possible combinations of Domain Status Labels is specified in <xref target="RFC5731" sectionFormat="of" section="2.3"></xref> and <xref target="RFC3915"></xref></li>
 </ul></li>
 </ul>
 
@@ -970,9 +970,124 @@ services for a a domain name.</t>
 </section>
 
 <section anchor="data-elements-2"><name>Data Elements</name>
+<t>The following data elements are defined for the Host Resource Object.</t>
 
-<aside><t>TODO: Describe data elements for hosts</t>
-<t>TODO: Describe operations for hosts</t>
+<aside><t>TBC: hostName/dns properties are identical to Nameserver Object. Shall we define something like &quot;Extends&quot;?</t>
+</aside>
+
+<ul>
+<li><t>Host Name</t>
+
+<ul spacing="compact">
+<li>Identifier: hostName</li>
+<li>Cardinality: 1</li>
+<li>Mutability: read-write</li>
+<li>Data Type: String</li>
+<li>Description: Fully qualified name of a host.</li>
+<li>Constraints: The value MUST be a syntactically valid host name.</li>
+</ul></li>
+<li><t>DNS Resource Records</t>
+
+<ul spacing="compact">
+<li>Identifier: dns</li>
+<li>Cardinality: 0+</li>
+<li>Mutability: read-write</li>
+<li>Data Type: Composition[DNS Resource Record]</li>
+<li>Description: DNS Resource Records related to the host.</li>
+<li>Constraints: In EPP compatibility the entries would be limited to A and AAAA entries for IPv4 and IPv6 glue records respectively. The labels of DNS entries MUST be subordinate to the Host Name of the Nameserver.s</li>
+</ul></li>
+<li><t>Status</t>
+
+<ul spacing="compact">
+<li>Identifier: status</li>
+<li>Cardinality: 0+</li>
+<li>Mutability: read-only</li>
+<li>Data Type:  Domain Status Object</li>
+<li>Description: The current status descriptors associated with the domain.</li>
+<li>Constraints: Possible combinations of Domain Status Labels is specified in <xref target="RFC5732" sectionFormat="of" section="2.3"></xref></li>
+</ul></li>
+</ul>
+
+<aside><t>TBD: this block repositoryId/sponsoringClientId/creationDate/updatingClientId/updateDate/transferDate is the same as for Domain Name. Shall it be abstracted to a new component object like &quot;Provisioning Metadata&quot;?</t>
+</aside>
+
+<ul>
+<li><t>Repository ID</t>
+
+<ul spacing="compact">
+<li>Identifier: repositoryId</li>
+<li>Cardinality: 0-1</li>
+<li>Mutability: read-only</li>
+<li>Data Type: Identifier</li>
+<li>Description: A server-assigned unique identifier for the object. For EPP compatibility this data element is obligatory.</li>
+<li>Constraints: (None)</li>
+</ul></li>
+<li><t>Sponsoring Client ID</t>
+
+<ul spacing="compact">
+<li>Identifier: sponsoringClientId</li>
+<li>Cardinality: 1</li>
+<li>Mutability: read-only</li>
+<li>Data Type: Client Identifier.</li>
+<li>Description: The identifier of the client that is the current sponsor of the host object.</li>
+<li>Constraints: (None)</li>
+</ul></li>
+<li><t>Creating Client ID</t>
+
+<ul spacing="compact">
+<li>Identifier: creatingClientId</li>
+<li>Cardinality: 0-1</li>
+<li>Mutability: read-only</li>
+<li>Data Type: Client Identifier.</li>
+<li>Description: The identifier of the client that created the host object.</li>
+<li>Constraints: (None)</li>
+</ul></li>
+<li><t>Creation Date</t>
+
+<ul spacing="compact">
+<li>Identifier: creationDate</li>
+<li>Cardinality: 0-1</li>
+<li>Mutability: read-only</li>
+<li>Data Type: Timestamp.</li>
+<li>Description: The date and time of host object creation.</li>
+<li>Constraints: The value is set by the server and cannot be specified by the client.</li>
+</ul></li>
+<li><t>Updating Client ID</t>
+
+<ul spacing="compact">
+<li>Identifier: updatingClientId</li>
+<li>Cardinality: 0-1</li>
+<li>Mutability: read-only</li>
+<li>Data Type: Client Identifier.</li>
+<li>Description: The identifier of the client that last updated the host object.</li>
+<li>Constraints: This element MUST NOT be present if the domain has never been modified.</li>
+</ul></li>
+<li><t>Update Date</t>
+
+<ul spacing="compact">
+<li>Identifier: updateDate</li>
+<li>Cardinality: 0-1</li>
+<li>Mutability: read-only</li>
+<li>Data Type: Timestamp.</li>
+<li>Description: The date and time of the most recent host object modification.</li>
+<li>Constraints: This element MUST NOT be present if the host object has never been modified.</li>
+</ul></li>
+<li><t>Transfer Date</t>
+
+<ul spacing="compact">
+<li>Identifier: transferDate</li>
+<li>Cardinality: 0-1</li>
+<li>Mutability: read-only</li>
+<li>Data Type: Timestamp</li>
+<li>Description: The date and time of the most recent successful host object transfer.</li>
+<li>Constraints: This element MUST NOT be provided if the host object has never been transferred.</li>
+</ul></li>
+</ul>
+</section>
+
+<section anchor="operations-2"><name>Operations</name>
+
+<aside><t>TODO: Describe operations for hosts</t>
 </aside>
 </section>
 </section>
@@ -1616,6 +1731,7 @@ TODO: IANA table: Host Resource Object</t>
 <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.5322.xml"/>
 <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.5730.xml"/>
 <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.5731.xml"/>
+<xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.5732.xml"/>
 <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.5733.xml"/>
 <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8126.xml"/>
 <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8174.xml"/>

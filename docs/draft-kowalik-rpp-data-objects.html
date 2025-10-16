@@ -1468,6 +1468,9 @@ li > p:last-of-type:only-child {
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.2">
                 <p id="section-toc.1-1.8.2.2.1"><a href="#section-8.2" class="auto internal xref">8.2</a>.  <a href="#name-data-elements-3" class="internal xref">Data Elements</a></p>
 </li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.3">
+                <p id="section-toc.1-1.8.2.3.1"><a href="#section-8.3" class="auto internal xref">8.3</a>.  <a href="#name-operations-3" class="internal xref">Operations</a></p>
+</li>
             </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9">
@@ -2389,7 +2392,7 @@ Data producer MUST assure the same unchanged data is always inserted in the same
 </li>
               <li class="compact normal" id="section-6.2-2.3.2.5">Description: The current status descriptors associated with the domain.<a href="#section-6.2-2.3.2.5" class="pilcrow">¶</a>
 </li>
-              <li class="compact normal" id="section-6.2-2.3.2.6">Constraints: Possible combinations of Domain Status Labels is specified in <a href="https://rfc-editor.org/rfc/rfc5731#section-2.3" class="relref">2.3</a> and <span>[<a href="#RFC3915" class="cite xref">RFC3915</a>]</span><a href="#section-6.2-2.3.2.6" class="pilcrow">¶</a>
+              <li class="compact normal" id="section-6.2-2.3.2.6">Constraints: Possible combinations of Domain Status Labels is specified in <span><a href="https://rfc-editor.org/rfc/rfc5731#section-2.3" class="relref">Section 2.3</a> of [<a href="#RFC5731" class="cite xref">RFC5731</a>]</span> and <span>[<a href="#RFC3915" class="cite xref">RFC3915</a>]</span><a href="#section-6.2-2.3.2.6" class="pilcrow">¶</a>
 </li>
             </ul>
 </li>
@@ -3074,9 +3077,196 @@ services for a a domain name.<a href="#section-8.1-1" class="pilcrow">¶</a></p>
         <h3 id="name-data-elements-3">
 <a href="#section-8.2" class="section-number selfRef">8.2. </a><a href="#name-data-elements-3" class="section-name selfRef">Data Elements</a>
         </h3>
-<aside id="section-8.2-1">
-          <p id="section-8.2-1.1">TODO: Describe data elements for hosts<a href="#section-8.2-1.1" class="pilcrow">¶</a></p>
-<p id="section-8.2-1.2">TODO: Describe operations for hosts<a href="#section-8.2-1.2" class="pilcrow">¶</a></p>
+<p id="section-8.2-1">The following data elements are defined for the Host Resource Object.<a href="#section-8.2-1" class="pilcrow">¶</a></p>
+<aside id="section-8.2-2">
+          <p id="section-8.2-2.1">TBC: hostName/dns properties are identical to Nameserver Object. Shall we define something like "Extends"?<a href="#section-8.2-2.1" class="pilcrow">¶</a></p>
+</aside>
+<ul class="normal">
+<li class="normal" id="section-8.2-3.1">
+            <p id="section-8.2-3.1.1">Host Name<a href="#section-8.2-3.1.1" class="pilcrow">¶</a></p>
+<ul class="compact normal">
+<li class="compact normal" id="section-8.2-3.1.2.1">Identifier: hostName<a href="#section-8.2-3.1.2.1" class="pilcrow">¶</a>
+</li>
+              <li class="compact normal" id="section-8.2-3.1.2.2">Cardinality: 1<a href="#section-8.2-3.1.2.2" class="pilcrow">¶</a>
+</li>
+              <li class="compact normal" id="section-8.2-3.1.2.3">Mutability: read-write<a href="#section-8.2-3.1.2.3" class="pilcrow">¶</a>
+</li>
+              <li class="compact normal" id="section-8.2-3.1.2.4">Data Type: String<a href="#section-8.2-3.1.2.4" class="pilcrow">¶</a>
+</li>
+              <li class="compact normal" id="section-8.2-3.1.2.5">Description: Fully qualified name of a host.<a href="#section-8.2-3.1.2.5" class="pilcrow">¶</a>
+</li>
+              <li class="compact normal" id="section-8.2-3.1.2.6">Constraints: The value MUST be a syntactically valid host name.<a href="#section-8.2-3.1.2.6" class="pilcrow">¶</a>
+</li>
+            </ul>
+</li>
+          <li class="normal" id="section-8.2-3.2">
+            <p id="section-8.2-3.2.1">DNS Resource Records<a href="#section-8.2-3.2.1" class="pilcrow">¶</a></p>
+<ul class="compact normal">
+<li class="compact normal" id="section-8.2-3.2.2.1">Identifier: dns<a href="#section-8.2-3.2.2.1" class="pilcrow">¶</a>
+</li>
+              <li class="compact normal" id="section-8.2-3.2.2.2">Cardinality: 0+<a href="#section-8.2-3.2.2.2" class="pilcrow">¶</a>
+</li>
+              <li class="compact normal" id="section-8.2-3.2.2.3">Mutability: read-write<a href="#section-8.2-3.2.2.3" class="pilcrow">¶</a>
+</li>
+              <li class="compact normal" id="section-8.2-3.2.2.4">Data Type: Composition[DNS Resource Record]<a href="#section-8.2-3.2.2.4" class="pilcrow">¶</a>
+</li>
+              <li class="compact normal" id="section-8.2-3.2.2.5">Description: DNS Resource Records related to the host.<a href="#section-8.2-3.2.2.5" class="pilcrow">¶</a>
+</li>
+              <li class="compact normal" id="section-8.2-3.2.2.6">Constraints: In EPP compatibility the entries would be limited to A and AAAA entries for IPv4 and IPv6 glue records respectively. The labels of DNS entries MUST be subordinate to the Host Name of the Nameserver.s<a href="#section-8.2-3.2.2.6" class="pilcrow">¶</a>
+</li>
+            </ul>
+</li>
+          <li class="normal" id="section-8.2-3.3">
+            <p id="section-8.2-3.3.1">Status<a href="#section-8.2-3.3.1" class="pilcrow">¶</a></p>
+<ul class="compact normal">
+<li class="compact normal" id="section-8.2-3.3.2.1">Identifier: status<a href="#section-8.2-3.3.2.1" class="pilcrow">¶</a>
+</li>
+              <li class="compact normal" id="section-8.2-3.3.2.2">Cardinality: 0+<a href="#section-8.2-3.3.2.2" class="pilcrow">¶</a>
+</li>
+              <li class="compact normal" id="section-8.2-3.3.2.3">Mutability: read-only<a href="#section-8.2-3.3.2.3" class="pilcrow">¶</a>
+</li>
+              <li class="compact normal" id="section-8.2-3.3.2.4">Data Type:  Domain Status Object<a href="#section-8.2-3.3.2.4" class="pilcrow">¶</a>
+</li>
+              <li class="compact normal" id="section-8.2-3.3.2.5">Description: The current status descriptors associated with the domain.<a href="#section-8.2-3.3.2.5" class="pilcrow">¶</a>
+</li>
+              <li class="compact normal" id="section-8.2-3.3.2.6">Constraints: Possible combinations of Domain Status Labels is specified in <span><a href="https://rfc-editor.org/rfc/rfc5732#section-2.3" class="relref">Section 2.3</a> of [<a href="#RFC5732" class="cite xref">RFC5732</a>]</span><a href="#section-8.2-3.3.2.6" class="pilcrow">¶</a>
+</li>
+            </ul>
+</li>
+        </ul>
+<aside id="section-8.2-4">
+          <p id="section-8.2-4.1">TBD: this block repositoryId/sponsoringClientId/creationDate/updatingClientId/updateDate/transferDate is the same as for Domain Name. Shall it be abstracted to a new component object like "Provisioning Metadata"?<a href="#section-8.2-4.1" class="pilcrow">¶</a></p>
+</aside>
+<ul class="normal">
+<li class="normal" id="section-8.2-5.1">
+            <p id="section-8.2-5.1.1">Repository ID<a href="#section-8.2-5.1.1" class="pilcrow">¶</a></p>
+<ul class="compact normal">
+<li class="compact normal" id="section-8.2-5.1.2.1">Identifier: repositoryId<a href="#section-8.2-5.1.2.1" class="pilcrow">¶</a>
+</li>
+              <li class="compact normal" id="section-8.2-5.1.2.2">Cardinality: 0-1<a href="#section-8.2-5.1.2.2" class="pilcrow">¶</a>
+</li>
+              <li class="compact normal" id="section-8.2-5.1.2.3">Mutability: read-only<a href="#section-8.2-5.1.2.3" class="pilcrow">¶</a>
+</li>
+              <li class="compact normal" id="section-8.2-5.1.2.4">Data Type: Identifier<a href="#section-8.2-5.1.2.4" class="pilcrow">¶</a>
+</li>
+              <li class="compact normal" id="section-8.2-5.1.2.5">Description: A server-assigned unique identifier for the object. For EPP compatibility this data element is obligatory.<a href="#section-8.2-5.1.2.5" class="pilcrow">¶</a>
+</li>
+              <li class="compact normal" id="section-8.2-5.1.2.6">Constraints: (None)<a href="#section-8.2-5.1.2.6" class="pilcrow">¶</a>
+</li>
+            </ul>
+</li>
+          <li class="normal" id="section-8.2-5.2">
+            <p id="section-8.2-5.2.1">Sponsoring Client ID<a href="#section-8.2-5.2.1" class="pilcrow">¶</a></p>
+<ul class="compact normal">
+<li class="compact normal" id="section-8.2-5.2.2.1">Identifier: sponsoringClientId<a href="#section-8.2-5.2.2.1" class="pilcrow">¶</a>
+</li>
+              <li class="compact normal" id="section-8.2-5.2.2.2">Cardinality: 1<a href="#section-8.2-5.2.2.2" class="pilcrow">¶</a>
+</li>
+              <li class="compact normal" id="section-8.2-5.2.2.3">Mutability: read-only<a href="#section-8.2-5.2.2.3" class="pilcrow">¶</a>
+</li>
+              <li class="compact normal" id="section-8.2-5.2.2.4">Data Type: Client Identifier.<a href="#section-8.2-5.2.2.4" class="pilcrow">¶</a>
+</li>
+              <li class="compact normal" id="section-8.2-5.2.2.5">Description: The identifier of the client that is the current sponsor of the host object.<a href="#section-8.2-5.2.2.5" class="pilcrow">¶</a>
+</li>
+              <li class="compact normal" id="section-8.2-5.2.2.6">Constraints: (None)<a href="#section-8.2-5.2.2.6" class="pilcrow">¶</a>
+</li>
+            </ul>
+</li>
+          <li class="normal" id="section-8.2-5.3">
+            <p id="section-8.2-5.3.1">Creating Client ID<a href="#section-8.2-5.3.1" class="pilcrow">¶</a></p>
+<ul class="compact normal">
+<li class="compact normal" id="section-8.2-5.3.2.1">Identifier: creatingClientId<a href="#section-8.2-5.3.2.1" class="pilcrow">¶</a>
+</li>
+              <li class="compact normal" id="section-8.2-5.3.2.2">Cardinality: 0-1<a href="#section-8.2-5.3.2.2" class="pilcrow">¶</a>
+</li>
+              <li class="compact normal" id="section-8.2-5.3.2.3">Mutability: read-only<a href="#section-8.2-5.3.2.3" class="pilcrow">¶</a>
+</li>
+              <li class="compact normal" id="section-8.2-5.3.2.4">Data Type: Client Identifier.<a href="#section-8.2-5.3.2.4" class="pilcrow">¶</a>
+</li>
+              <li class="compact normal" id="section-8.2-5.3.2.5">Description: The identifier of the client that created the host object.<a href="#section-8.2-5.3.2.5" class="pilcrow">¶</a>
+</li>
+              <li class="compact normal" id="section-8.2-5.3.2.6">Constraints: (None)<a href="#section-8.2-5.3.2.6" class="pilcrow">¶</a>
+</li>
+            </ul>
+</li>
+          <li class="normal" id="section-8.2-5.4">
+            <p id="section-8.2-5.4.1">Creation Date<a href="#section-8.2-5.4.1" class="pilcrow">¶</a></p>
+<ul class="compact normal">
+<li class="compact normal" id="section-8.2-5.4.2.1">Identifier: creationDate<a href="#section-8.2-5.4.2.1" class="pilcrow">¶</a>
+</li>
+              <li class="compact normal" id="section-8.2-5.4.2.2">Cardinality: 0-1<a href="#section-8.2-5.4.2.2" class="pilcrow">¶</a>
+</li>
+              <li class="compact normal" id="section-8.2-5.4.2.3">Mutability: read-only<a href="#section-8.2-5.4.2.3" class="pilcrow">¶</a>
+</li>
+              <li class="compact normal" id="section-8.2-5.4.2.4">Data Type: Timestamp.<a href="#section-8.2-5.4.2.4" class="pilcrow">¶</a>
+</li>
+              <li class="compact normal" id="section-8.2-5.4.2.5">Description: The date and time of host object creation.<a href="#section-8.2-5.4.2.5" class="pilcrow">¶</a>
+</li>
+              <li class="compact normal" id="section-8.2-5.4.2.6">Constraints: The value is set by the server and cannot be specified by the client.<a href="#section-8.2-5.4.2.6" class="pilcrow">¶</a>
+</li>
+            </ul>
+</li>
+          <li class="normal" id="section-8.2-5.5">
+            <p id="section-8.2-5.5.1">Updating Client ID<a href="#section-8.2-5.5.1" class="pilcrow">¶</a></p>
+<ul class="compact normal">
+<li class="compact normal" id="section-8.2-5.5.2.1">Identifier: updatingClientId<a href="#section-8.2-5.5.2.1" class="pilcrow">¶</a>
+</li>
+              <li class="compact normal" id="section-8.2-5.5.2.2">Cardinality: 0-1<a href="#section-8.2-5.5.2.2" class="pilcrow">¶</a>
+</li>
+              <li class="compact normal" id="section-8.2-5.5.2.3">Mutability: read-only<a href="#section-8.2-5.5.2.3" class="pilcrow">¶</a>
+</li>
+              <li class="compact normal" id="section-8.2-5.5.2.4">Data Type: Client Identifier.<a href="#section-8.2-5.5.2.4" class="pilcrow">¶</a>
+</li>
+              <li class="compact normal" id="section-8.2-5.5.2.5">Description: The identifier of the client that last updated the host object.<a href="#section-8.2-5.5.2.5" class="pilcrow">¶</a>
+</li>
+              <li class="compact normal" id="section-8.2-5.5.2.6">Constraints: This element MUST NOT be present if the domain has never been modified.<a href="#section-8.2-5.5.2.6" class="pilcrow">¶</a>
+</li>
+            </ul>
+</li>
+          <li class="normal" id="section-8.2-5.6">
+            <p id="section-8.2-5.6.1">Update Date<a href="#section-8.2-5.6.1" class="pilcrow">¶</a></p>
+<ul class="compact normal">
+<li class="compact normal" id="section-8.2-5.6.2.1">Identifier: updateDate<a href="#section-8.2-5.6.2.1" class="pilcrow">¶</a>
+</li>
+              <li class="compact normal" id="section-8.2-5.6.2.2">Cardinality: 0-1<a href="#section-8.2-5.6.2.2" class="pilcrow">¶</a>
+</li>
+              <li class="compact normal" id="section-8.2-5.6.2.3">Mutability: read-only<a href="#section-8.2-5.6.2.3" class="pilcrow">¶</a>
+</li>
+              <li class="compact normal" id="section-8.2-5.6.2.4">Data Type: Timestamp.<a href="#section-8.2-5.6.2.4" class="pilcrow">¶</a>
+</li>
+              <li class="compact normal" id="section-8.2-5.6.2.5">Description: The date and time of the most recent host object modification.<a href="#section-8.2-5.6.2.5" class="pilcrow">¶</a>
+</li>
+              <li class="compact normal" id="section-8.2-5.6.2.6">Constraints: This element MUST NOT be present if the host object has never been modified.<a href="#section-8.2-5.6.2.6" class="pilcrow">¶</a>
+</li>
+            </ul>
+</li>
+          <li class="normal" id="section-8.2-5.7">
+            <p id="section-8.2-5.7.1">Transfer Date<a href="#section-8.2-5.7.1" class="pilcrow">¶</a></p>
+<ul class="compact normal">
+<li class="compact normal" id="section-8.2-5.7.2.1">Identifier: transferDate<a href="#section-8.2-5.7.2.1" class="pilcrow">¶</a>
+</li>
+              <li class="compact normal" id="section-8.2-5.7.2.2">Cardinality: 0-1<a href="#section-8.2-5.7.2.2" class="pilcrow">¶</a>
+</li>
+              <li class="compact normal" id="section-8.2-5.7.2.3">Mutability: read-only<a href="#section-8.2-5.7.2.3" class="pilcrow">¶</a>
+</li>
+              <li class="compact normal" id="section-8.2-5.7.2.4">Data Type: Timestamp<a href="#section-8.2-5.7.2.4" class="pilcrow">¶</a>
+</li>
+              <li class="compact normal" id="section-8.2-5.7.2.5">Description: The date and time of the most recent successful host object transfer.<a href="#section-8.2-5.7.2.5" class="pilcrow">¶</a>
+</li>
+              <li class="compact normal" id="section-8.2-5.7.2.6">Constraints: This element MUST NOT be provided if the host object has never been transferred.<a href="#section-8.2-5.7.2.6" class="pilcrow">¶</a>
+</li>
+            </ul>
+</li>
+        </ul>
+</section>
+</div>
+<div id="operations-2">
+<section id="section-8.3">
+        <h3 id="name-operations-3">
+<a href="#section-8.3" class="section-number selfRef">8.3. </a><a href="#name-operations-3" class="section-name selfRef">Operations</a>
+        </h3>
+<aside id="section-8.3-1">
+          <p id="section-8.3-1.1">TODO: Describe operations for hosts<a href="#section-8.3-1.1" class="pilcrow">¶</a></p>
 </aside>
 </section>
 </div>
@@ -3740,6 +3930,10 @@ TODO: IANA table: Host Resource Object<a href="#section-9.1.3-75.1" class="pilcr
 <dt id="RFC5731">[RFC5731]</dt>
       <dd>
 <span class="refAuthor">Hollenbeck, S.</span>, <span class="refTitle">"Extensible Provisioning Protocol (EPP) Domain Name Mapping"</span>, <span class="seriesInfo">STD 69</span>, <span class="seriesInfo">RFC 5731</span>, <span class="seriesInfo">DOI 10.17487/RFC5731</span>, <time datetime="2009-08" class="refDate">August 2009</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc5731">https://www.rfc-editor.org/info/rfc5731</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC5732">[RFC5732]</dt>
+      <dd>
+<span class="refAuthor">Hollenbeck, S.</span>, <span class="refTitle">"Extensible Provisioning Protocol (EPP) Host Mapping"</span>, <span class="seriesInfo">STD 69</span>, <span class="seriesInfo">RFC 5732</span>, <span class="seriesInfo">DOI 10.17487/RFC5732</span>, <time datetime="2009-08" class="refDate">August 2009</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc5732">https://www.rfc-editor.org/info/rfc5732</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC5733">[RFC5733]</dt>
       <dd>

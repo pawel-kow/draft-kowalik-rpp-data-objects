@@ -434,7 +434,7 @@ The following data elements are defined for the Domain Name resource object.
   * Mutability: read-only
   * Data Type:  Domain Status Object
   * Description: The current status descriptors associated with the domain.
-  * Constraints: Possible combinations of Domain Status Labels is specified in [@!RFC5731, 2.3] and [@!RFC3915]
+  * Constraints: Possible combinations of Domain Status Labels is specified in [@!RFC5731, section 2.3] and [@!RFC3915]
 
 A> TBC: IANA registry for statuses?
 
@@ -762,7 +762,93 @@ services for a a domain name.
 
 ## Data Elements
 
-A> TODO: Describe data elements for hosts
+The following data elements are defined for the Host Resource Object.
+
+A> TBC: hostName/dns properties are identical to Nameserver Object. Shall we define something like "Extends"?
+
+* Host Name
+  * Identifier: hostName
+  * Cardinality: 1
+  * Mutability: read-write
+  * Data Type: String
+  * Description: Fully qualified name of a host.
+  * Constraints: The value MUST be a syntactically valid host name.
+
+* DNS Resource Records
+  * Identifier: dns
+  * Cardinality: 0+
+  * Mutability: read-write
+  * Data Type: Composition[DNS Resource Record]
+  * Description: DNS Resource Records related to the host. 
+  * Constraints: In EPP compatibility the entries would be limited to A and AAAA entries for IPv4 and IPv6 glue records respectively. The labels of DNS entries MUST be subordinate to the Host Name of the Nameserver.s
+
+* Status
+  * Identifier: status
+  * Cardinality: 0+
+  * Mutability: read-only
+  * Data Type:  Domain Status Object
+  * Description: The current status descriptors associated with the domain.
+  * Constraints: Possible combinations of Domain Status Labels is specified in [@!RFC5732, section 2.3]
+
+A> TBD: this block repositoryId/sponsoringClientId/creationDate/updatingClientId/updateDate/transferDate is the same as for Domain Name. Shall it be abstracted to a new component object like "Provisioning Metadata"? 
+
+* Repository ID
+  * Identifier: repositoryId
+  * Cardinality: 0-1
+  * Mutability: read-only
+  * Data Type: Identifier
+  * Description: A server-assigned unique identifier for the object. For EPP compatibility this data element is obligatory.
+  * Constraints: (None)
+
+* Sponsoring Client ID
+  * Identifier: sponsoringClientId
+  * Cardinality: 1
+  * Mutability: read-only
+  * Data Type: Client Identifier.
+  * Description: The identifier of the client that is the current sponsor of the host object.
+  * Constraints: (None)
+
+* Creating Client ID
+  * Identifier: creatingClientId
+  * Cardinality: 0-1
+  * Mutability: read-only
+  * Data Type: Client Identifier.
+  * Description: The identifier of the client that created the host object.
+  * Constraints: (None)
+
+* Creation Date
+  * Identifier: creationDate
+  * Cardinality: 0-1
+  * Mutability: read-only
+  * Data Type: Timestamp.
+  * Description: The date and time of host object creation.
+  * Constraints: The value is set by the server and cannot be specified by the client.
+
+* Updating Client ID
+  * Identifier: updatingClientId
+  * Cardinality: 0-1
+  * Mutability: read-only
+  * Data Type: Client Identifier.
+  * Description: The identifier of the client that last updated the host object.
+  * Constraints: This element MUST NOT be present if the domain has never been modified.
+
+* Update Date
+  * Identifier: updateDate
+  * Cardinality: 0-1
+  * Mutability: read-only
+  * Data Type: Timestamp.
+  * Description: The date and time of the most recent host object modification.
+  * Constraints: This element MUST NOT be present if the host object has never been modified.
+
+* Transfer Date
+  * Identifier: transferDate
+  * Cardinality: 0-1
+  * Mutability: read-only
+  * Data Type: Timestamp
+  * Description: The date and time of the most recent successful host object transfer.
+  * Constraints: This element MUST NOT be provided if the host object has never been transferred.
+
+## Operations
 
 A> TODO: Describe operations for hosts
 
