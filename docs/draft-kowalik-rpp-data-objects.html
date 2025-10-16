@@ -3398,20 +3398,56 @@ description.<a href="#section-9.1.2-2.3.2.2" class="pilcrow">¶</a>
               </tr>
             </tbody>
           </table>
-<aside id="section-9.1.3-44">
-            <p id="section-9.1.3-44.1">TODO: IANA table: Authorisation Information Object
-TODO: IANA table: Postal Address Object
-TODO: IANA table: Postal Info Object
-TODO: IANA table: Disclose Object<a href="#section-9.1.3-44.1" class="pilcrow">¶</a></p>
-</aside>
-<p id="section-9.1.3-45">Object: domainName<a href="#section-9.1.3-45" class="pilcrow">¶</a></p>
-<p id="section-9.1.3-46">Object Name: Domain Name Resource Object<a href="#section-9.1.3-46" class="pilcrow">¶</a></p>
-<p id="section-9.1.3-47">Object Type: Resource<a href="#section-9.1.3-47" class="pilcrow">¶</a></p>
-<p id="section-9.1.3-48">Description: Represents a domain name and its associated data.<a href="#section-9.1.3-48" class="pilcrow">¶</a></p>
-<p id="section-9.1.3-49">Reference: [This-ID]<a href="#section-9.1.3-49" class="pilcrow">¶</a></p>
-<p id="section-9.1.3-50">Data Elements<a href="#section-9.1.3-50" class="pilcrow">¶</a></p>
+<p id="section-9.1.3-44">Object: authinfo<a href="#section-9.1.3-44" class="pilcrow">¶</a></p>
+<p id="section-9.1.3-45">Object Name: Authorisation Information<a href="#section-9.1.3-45" class="pilcrow">¶</a></p>
+<p id="section-9.1.3-46">Object Type: Component<a href="#section-9.1.3-46" class="pilcrow">¶</a></p>
+<p id="section-9.1.3-47">Description: Contains information used to authorise operations on a resource object. It may hold different kind of authorisation information.<a href="#section-9.1.3-47" class="pilcrow">¶</a></p>
+<p id="section-9.1.3-48">Reference: [This-ID]<a href="#section-9.1.3-48" class="pilcrow">¶</a></p>
+<p id="section-9.1.3-49">Data Elements<a href="#section-9.1.3-49" class="pilcrow">¶</a></p>
 <table class="center" id="table-7">
             <caption><a href="#table-7" class="selfRef">Table 7</a></caption>
+<thead>
+              <tr>
+                <th class="text-left" rowspan="1" colspan="1">Element Identifier</th>
+                <th class="text-left" rowspan="1" colspan="1">Element Name</th>
+                <th class="text-left" rowspan="1" colspan="1">Card.</th>
+                <th class="text-left" rowspan="1" colspan="1">Mutability</th>
+                <th class="text-left" rowspan="1" colspan="1">Data Type</th>
+                <th class="text-left" rowspan="1" colspan="1">Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">method</td>
+                <td class="text-left" rowspan="1" colspan="1">Method</td>
+                <td class="text-left" rowspan="1" colspan="1">1</td>
+                <td class="text-left" rowspan="1" colspan="1">create-only</td>
+                <td class="text-left" rowspan="1" colspan="1">String</td>
+                <td class="text-left" rowspan="1" colspan="1">The identifier of the RPP authorisation method.</td>
+              </tr>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">authdata</td>
+                <td class="text-left" rowspan="1" colspan="1">Authorisation Information</td>
+                <td class="text-left" rowspan="1" colspan="1">1</td>
+                <td class="text-left" rowspan="1" colspan="1">create-only</td>
+                <td class="text-left" rowspan="1" colspan="1">String or Object</td>
+                <td class="text-left" rowspan="1" colspan="1">The value of the authorisation information. It might be as simple as password string, but also more complex values like public key certificates or tokens are possible.</td>
+              </tr>
+            </tbody>
+          </table>
+<aside id="section-9.1.3-51">
+            <p id="section-9.1.3-51.1">TODO: IANA table: Postal Address Object
+TODO: IANA table: Postal Info Object
+TODO: IANA table: Disclose Object<a href="#section-9.1.3-51.1" class="pilcrow">¶</a></p>
+</aside>
+<p id="section-9.1.3-52">Object: domainName<a href="#section-9.1.3-52" class="pilcrow">¶</a></p>
+<p id="section-9.1.3-53">Object Name: Domain Name Resource Object<a href="#section-9.1.3-53" class="pilcrow">¶</a></p>
+<p id="section-9.1.3-54">Object Type: Resource<a href="#section-9.1.3-54" class="pilcrow">¶</a></p>
+<p id="section-9.1.3-55">Description: Represents a domain name and its associated data.<a href="#section-9.1.3-55" class="pilcrow">¶</a></p>
+<p id="section-9.1.3-56">Reference: [This-ID]<a href="#section-9.1.3-56" class="pilcrow">¶</a></p>
+<p id="section-9.1.3-57">Data Elements<a href="#section-9.1.3-57" class="pilcrow">¶</a></p>
+<table class="center" id="table-8">
+            <caption><a href="#table-8" class="selfRef">Table 8</a></caption>
 <thead>
               <tr>
                 <th class="text-left" rowspan="1" colspan="1">Identifier</th>
@@ -3553,12 +3589,12 @@ TODO: IANA table: Disclose Object<a href="#section-9.1.3-44.1" class="pilcrow">�
               </tr>
             </tbody>
           </table>
-<p id="section-9.1.3-52">Operations<a href="#section-9.1.3-52" class="pilcrow">¶</a></p>
-<p id="section-9.1.3-53">Operation: Create<a href="#section-9.1.3-53" class="pilcrow">¶</a></p>
-<p id="section-9.1.3-54">Description: Provisions a new Domain Name resource.<a href="#section-9.1.3-54" class="pilcrow">¶</a></p>
-<p id="section-9.1.3-55">Parameters<a href="#section-9.1.3-55" class="pilcrow">¶</a></p>
-<table class="center" id="table-8">
-            <caption><a href="#table-8" class="selfRef">Table 8</a></caption>
+<p id="section-9.1.3-59">Operations<a href="#section-9.1.3-59" class="pilcrow">¶</a></p>
+<p id="section-9.1.3-60">Operation: Create<a href="#section-9.1.3-60" class="pilcrow">¶</a></p>
+<p id="section-9.1.3-61">Description: Provisions a new Domain Name resource.<a href="#section-9.1.3-61" class="pilcrow">¶</a></p>
+<p id="section-9.1.3-62">Parameters<a href="#section-9.1.3-62" class="pilcrow">¶</a></p>
+<table class="center" id="table-9">
+            <caption><a href="#table-9" class="selfRef">Table 9</a></caption>
 <thead>
               <tr>
                 <th class="text-left" rowspan="1" colspan="1">Identifier</th>
@@ -3578,11 +3614,11 @@ TODO: IANA table: Disclose Object<a href="#section-9.1.3-44.1" class="pilcrow">�
               </tr>
             </tbody>
           </table>
-<p id="section-9.1.3-57">Operation: Read<a href="#section-9.1.3-57" class="pilcrow">¶</a></p>
-<p id="section-9.1.3-58">Description: Retrieves the data elements of a Domain Name resource.<a href="#section-9.1.3-58" class="pilcrow">¶</a></p>
-<p id="section-9.1.3-59">Parameters<a href="#section-9.1.3-59" class="pilcrow">¶</a></p>
-<table class="center" id="table-9">
-            <caption><a href="#table-9" class="selfRef">Table 9</a></caption>
+<p id="section-9.1.3-64">Operation: Read<a href="#section-9.1.3-64" class="pilcrow">¶</a></p>
+<p id="section-9.1.3-65">Description: Retrieves the data elements of a Domain Name resource.<a href="#section-9.1.3-65" class="pilcrow">¶</a></p>
+<p id="section-9.1.3-66">Parameters<a href="#section-9.1.3-66" class="pilcrow">¶</a></p>
+<table class="center" id="table-10">
+            <caption><a href="#table-10" class="selfRef">Table 10</a></caption>
 <thead>
               <tr>
                 <th class="text-left" rowspan="1" colspan="1">Identifier</th>
@@ -3609,14 +3645,14 @@ TODO: IANA table: Disclose Object<a href="#section-9.1.3-44.1" class="pilcrow">�
               </tr>
             </tbody>
           </table>
-<p id="section-9.1.3-61">Operation: Delete<a href="#section-9.1.3-61" class="pilcrow">¶</a></p>
-<p id="section-9.1.3-62">Description: Removes an existing Domain Name resource.<a href="#section-9.1.3-62" class="pilcrow">¶</a></p>
-<p id="section-9.1.3-63">Parameters: (None)<a href="#section-9.1.3-63" class="pilcrow">¶</a></p>
-<p id="section-9.1.3-64">Operation: Renew<a href="#section-9.1.3-64" class="pilcrow">¶</a></p>
-<p id="section-9.1.3-65">Description: Extends the validity period of a Domain Name resource.<a href="#section-9.1.3-65" class="pilcrow">¶</a></p>
-<p id="section-9.1.3-66">Parameters<a href="#section-9.1.3-66" class="pilcrow">¶</a></p>
-<table class="center" id="table-10">
-            <caption><a href="#table-10" class="selfRef">Table 10</a></caption>
+<p id="section-9.1.3-68">Operation: Delete<a href="#section-9.1.3-68" class="pilcrow">¶</a></p>
+<p id="section-9.1.3-69">Description: Removes an existing Domain Name resource.<a href="#section-9.1.3-69" class="pilcrow">¶</a></p>
+<p id="section-9.1.3-70">Parameters: (None)<a href="#section-9.1.3-70" class="pilcrow">¶</a></p>
+<p id="section-9.1.3-71">Operation: Renew<a href="#section-9.1.3-71" class="pilcrow">¶</a></p>
+<p id="section-9.1.3-72">Description: Extends the validity period of a Domain Name resource.<a href="#section-9.1.3-72" class="pilcrow">¶</a></p>
+<p id="section-9.1.3-73">Parameters<a href="#section-9.1.3-73" class="pilcrow">¶</a></p>
+<table class="center" id="table-11">
+            <caption><a href="#table-11" class="selfRef">Table 11</a></caption>
 <thead>
               <tr>
                 <th class="text-left" rowspan="1" colspan="1">Identifier</th>
@@ -3643,13 +3679,13 @@ TODO: IANA table: Disclose Object<a href="#section-9.1.3-44.1" class="pilcrow">�
               </tr>
             </tbody>
           </table>
-<aside id="section-9.1.3-68">
-            <p id="section-9.1.3-68.1">TODO: IANA table: Contact Resource Object
-TODO: IANA table: Host Resource Object<a href="#section-9.1.3-68.1" class="pilcrow">¶</a></p>
+<aside id="section-9.1.3-75">
+            <p id="section-9.1.3-75.1">TODO: IANA table: Contact Resource Object
+TODO: IANA table: Host Resource Object<a href="#section-9.1.3-75.1" class="pilcrow">¶</a></p>
 </aside>
-<p id="section-9.1.3-69">Security Considerations<a href="#section-9.1.3-69" class="pilcrow">¶</a></p>
-<aside id="section-9.1.3-70">
-            <p id="section-9.1.3-70.1">TODO: write security considerations, if any<a href="#section-9.1.3-70.1" class="pilcrow">¶</a></p>
+<p id="section-9.1.3-76">Security Considerations<a href="#section-9.1.3-76" class="pilcrow">¶</a></p>
+<aside id="section-9.1.3-77">
+            <p id="section-9.1.3-77.1">TODO: write security considerations, if any<a href="#section-9.1.3-77.1" class="pilcrow">¶</a></p>
 </aside>
 </section>
 </div>

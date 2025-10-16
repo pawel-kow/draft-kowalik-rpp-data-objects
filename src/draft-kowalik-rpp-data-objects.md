@@ -905,7 +905,22 @@ Data Elements
 | reason             | Reason       | 0-1   | create-only | String    | a human-readable text that describes the rationale for the status applied to the object                                                                          |
 | due                | Due          | 0-1   | read-write  | Timestamp | a timestamp, when this status is going to be removed automatically, or changed to other status. This field can be used to expresse lifecycle related information |
 
-A> TODO: IANA table: Authorisation Information Object
+Object: authinfo
+
+Object Name: Authorisation Information
+
+Object Type: Component
+
+Description: Contains information used to authorise operations on a resource object. It may hold different kind of authorisation information.
+
+Reference: [This-ID]
+
+Data Elements
+| Element Identifier | Element Name              | Card. | Mutability  | Data Type        | Description                                                                                                                                                             |
+|--------------------|---------------------------|-------|-------------|------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| method             | Method                    | 1     | create-only | String           | The identifier of the RPP authorisation method.                                                                                                                         |
+| authdata           | Authorisation Information | 1     | create-only | String or Object | The value of the authorisation information. It might be as simple as password string, but also more complex values like public key certificates or tokens are possible. |
+
 A> TODO: IANA table: Postal Address Object
 A> TODO: IANA table: Postal Info Object
 A> TODO: IANA table: Disclose Object

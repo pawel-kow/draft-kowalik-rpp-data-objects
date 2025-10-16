@@ -1275,9 +1275,45 @@ description.</li>
 <td>a timestamp, when this status is going to be removed automatically, or changed to other status. This field can be used to expresse lifecycle related information</td>
 </tr>
 </tbody>
+</table><t>Object: authinfo</t>
+<t>Object Name: Authorisation Information</t>
+<t>Object Type: Component</t>
+<t>Description: Contains information used to authorise operations on a resource object. It may hold different kind of authorisation information.</t>
+<t>Reference: [This-ID]</t>
+<t>Data Elements</t>
+<table>
+<thead>
+<tr>
+<th>Element Identifier</th>
+<th>Element Name</th>
+<th>Card.</th>
+<th>Mutability</th>
+<th>Data Type</th>
+<th>Description</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>method</td>
+<td>Method</td>
+<td>1</td>
+<td>create-only</td>
+<td>String</td>
+<td>The identifier of the RPP authorisation method.</td>
+</tr>
+
+<tr>
+<td>authdata</td>
+<td>Authorisation Information</td>
+<td>1</td>
+<td>create-only</td>
+<td>String or Object</td>
+<td>The value of the authorisation information. It might be as simple as password string, but also more complex values like public key certificates or tokens are possible.</td>
+</tr>
+</tbody>
 </table>
-<aside><t>TODO: IANA table: Authorisation Information Object
-TODO: IANA table: Postal Address Object
+<aside><t>TODO: IANA table: Postal Address Object
 TODO: IANA table: Postal Info Object
 TODO: IANA table: Disclose Object</t>
 </aside>

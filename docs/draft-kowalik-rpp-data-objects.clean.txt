@@ -1367,9 +1367,51 @@ Table of Contents
 
                                  Table 6
 
-      |  TODO: IANA table: Authorisation Information Object TODO: IANA
-      |  table: Postal Address Object TODO: IANA table: Postal Info
-      |  Object TODO: IANA table: Disclose Object
+   Object: authinfo
+
+   Object Name: Authorisation Information
+
+   Object Type: Component
+
+   Description: Contains information used to authorise operations on a
+   resource object.  It may hold different kind of authorisation
+   information.
+
+   Reference: [This-ID]
+
+   Data Elements
+
+   +==========+=============+=====+===========+======+=================+
+   |Element   |Element Name |Card.|Mutability |Data  | Description     |
+   |Identifier|             |     |           |Type  |                 |
+   +==========+=============+=====+===========+======+=================+
+   |method    |Method       |1    |create-only|String| The             |
+   |          |             |     |           |      | identifier of   |
+   |          |             |     |           |      | the RPP         |
+   |          |             |     |           |      | authorisation   |
+   |          |             |     |           |      | method.         |
+   +----------+-------------+-----+-----------+------+-----------------+
+   |authdata  |Authorisation|1    |create-only|String| The value of    |
+   |          |Information  |     |           |or    | the             |
+   |          |             |     |           |Object| authorisation   |
+   |          |             |     |           |      | information.    |
+   |          |             |     |           |      | It might be     |
+   |          |             |     |           |      | as simple as    |
+   |          |             |     |           |      | password        |
+   |          |             |     |           |      | string, but     |
+   |          |             |     |           |      | also more       |
+   |          |             |     |           |      | complex         |
+   |          |             |     |           |      | values like     |
+   |          |             |     |           |      | public key      |
+   |          |             |     |           |      | certificates    |
+   |          |             |     |           |      | or tokens are   |
+   |          |             |     |           |      | possible.       |
+   +----------+-------------+-----+-----------+------+-----------------+
+
+                                  Table 7
+
+      |  TODO: IANA table: Postal Address Object TODO: IANA table:
+      |  Postal Info Object TODO: IANA table: Disclose Object
 
    Object: domainName
 
@@ -1464,7 +1506,7 @@ Table of Contents
    |                  |             |     |          |                   |object.      |
    +------------------+-------------+-----+----------+-------------------+-------------+
 
-                                  Table 7
+                                  Table 8
 
    Operations
 
@@ -1484,7 +1526,7 @@ Table of Contents
    |            |              |       |        | domain name.         |
    +------------+--------------+-------+--------+----------------------+
 
-                                  Table 8
+                                  Table 9
 
    Operation: Read
 
@@ -1508,7 +1550,7 @@ Table of Contents
    |               |               |       |          | data.          |
    +---------------+---------------+-------+----------+----------------+
 
-                                  Table 9
+                                  Table 10
 
    Operation: Delete
 
@@ -1536,7 +1578,7 @@ Table of Contents
    |                   |         |       |           | period.        |
    +-------------------+---------+-------+-----------+----------------+
 
-                                 Table 10
+                                 Table 11
 
       |  TODO: IANA table: Contact Resource Object TODO: IANA table:
       |  Host Resource Object
