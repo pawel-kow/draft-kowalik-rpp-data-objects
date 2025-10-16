@@ -1098,6 +1098,8 @@ Table of Contents
          third parties.
 
       |  TBC: IANA registry for statuses?
+      |  
+      |  TODO: Describe operations for contacts
 
 8.  Host Resource Object
 
@@ -1108,8 +1110,9 @@ Table of Contents
 
 8.2.  Data Elements
 
-   (This section will list and define the abstract data elements for a
-   host.)
+      |  TODO: Describe data elements for hosts
+      |  
+      |  TODO: Describe operations for hosts
 
 9.  IANA Considerations
 

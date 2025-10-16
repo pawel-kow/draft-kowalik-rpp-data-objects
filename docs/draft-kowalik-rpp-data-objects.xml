@@ -957,6 +957,7 @@ is &quot;all&quot;.</li>
 </ul>
 
 <aside><t>TBC: IANA registry for statuses?</t>
+<t>TODO: Describe operations for contacts</t>
 </aside>
 </section>
 </section>
@@ -969,8 +970,10 @@ services for a a domain name.</t>
 </section>
 
 <section anchor="data-elements-2"><name>Data Elements</name>
-<t>(This section will list and define the abstract data elements for a
-host.)</t>
+
+<aside><t>TODO: Describe data elements for hosts</t>
+<t>TODO: Describe operations for hosts</t>
+</aside>
 </section>
 </section>
 
