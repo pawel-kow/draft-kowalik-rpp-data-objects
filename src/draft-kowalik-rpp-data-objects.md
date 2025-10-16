@@ -194,6 +194,7 @@ A type defining such association MUST define Label Description with semantics of
 # Component Objects
 
 This section defines common component objects that are re-used in the definitions of top-level resource objects.
+Component objects carry only data but do not define any operations.
 
 ## Period Object
 
@@ -615,6 +616,10 @@ The following transient data elements are defined for this operation:
   * Cardinality: 0-1
   * Data Type: Period Object
   * Description: The duration to be added to the object's registration period. This value is used by the server to calculate the new `expiryDate`. The default value MAY be defined by server policy. The number of units available MAY be subject to limits imposed by the server.
+
+### Transfer operation
+
+A> TODO: define transfer op
 
 # Contact Resource Object
 
