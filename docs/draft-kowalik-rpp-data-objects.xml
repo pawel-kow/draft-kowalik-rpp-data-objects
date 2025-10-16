@@ -12,12 +12,7 @@
 <workgroup>Network Working Group</workgroup>
 
 <abstract>
-<t>This document defines abstract data objects for the Registry
-Provisioning Protocol (RPP). The definitions for domain name,
-contact, and host objects focus on the logical structure and
-constraints of their constituent data elements, independent of any
-specific data representation or media type. This document follows the
-architecture defined in [I-D.kowalik-rpp-architecture].</t>
+<t>This document defines data objects for the Registry Provisioning Protocol (RPP) and sets up IANA registries to describe and catalogue them. The definitions for domain name, contact, and host objects focus on the logical structure and constraints of the data elements, independent of any specific data representation or media type. This document follows the architecture defined in [I-D.kowalik-rpp-architecture].</t>
 </abstract>
 
 </front>
@@ -26,7 +21,7 @@ architecture defined in [I-D.kowalik-rpp-architecture].</t>
 
 <section anchor="introduction"><name>Introduction</name>
 <t>The Registry Provisioning Protocol (RPP) requires a clear definition of its data objects. This document catalogues the fundamental resource objects managed through RPP: domains, contacts, and hosts.</t>
-<t>In accordance with the RPP architecture <xref target="I-D.kowalik-rpp-architecture"></xref>, the definitions herein are abstract. They specify the logical data elements, their meanings, and their constraints, rather than a specific representation format. This approach ensures that the core data model can be consistently implemented across different media types.</t>
+<t>In accordance with the RPP architecture <xref target="I-D.kowalik-rpp-architecture"></xref>, the definitions herein specify the logical data elements, their meanings, and their constraints, rather than a specific representation format. This approach ensures that the core data model can be consistently implemented across different media types and representation formats.</t>
 
 <section anchor="conventions-and-terminology"><name>Conventions and Terminology</name>
 <t>The key words &quot;MUST&quot;, &quot;MUST NOT&quot;, &quot;REQUIRED&quot;, &quot;SHALL&quot;, &quot;SHALL NOT&quot;, &quot;SHOULD&quot;, &quot;SHOULD NOT&quot;, &quot;RECOMMENDED&quot;, &quot;NOT RECOMMENDED&quot;, &quot;MAY&quot;, and &quot;OPTIONAL&quot; in this document are to be interpreted as described in BCP 14 <xref target="RFC2119"></xref> <xref target="RFC8174"></xref> when, and only when, they appear in all capitals, as shown here.</t>
@@ -40,12 +35,11 @@ architecture defined in [I-D.kowalik-rpp-architecture].</t>
 </section>
 
 <section anchor="extensibility"><name>Extensibility</name>
-<t>The set of data elements for a given resource object is extensible. New data elements MAY be defined and registered with IANA to support new features.</t>
+<t>The set of data elements for a given resource object is extensible. New data elements, relations or operations MAY be defined and registered with IANA to support new features.</t>
 </section>
 
 <section anchor="data-element-semantics"><name>Data Element Semantics</name>
-<t>The definition of each data element within an object consists of the
-following attributes:</t>
+<t>The definition of each data element within an object consists of the following attributes:</t>
 
 <ul spacing="compact">
 <li>Name: A human-readable name for the data element.</li>
@@ -81,7 +75,7 @@ Typically it would be a value related to or derived from Authorisation Informati
 </section>
 
 <section anchor="uniform-interface"><name>Uniform interface</name>
-<t>For the typical set of Create, Read, Update and Delete operations the following set of input and output representations is specified on top of additional transient input data.</t>
+<t>For the typical set of Create, Read, Update and Delete operations the following set of input and output representations is specified on top of additional transient input data, unless an operation for the specific object tells otherwise.</t>
 
 <section anchor="create"><name>Create</name>
 
@@ -97,7 +91,7 @@ Typically it would be a value related to or derived from Authorisation Informati
 <li>Input: Object identifier</li>
 <li>Output: Object representation (read-write and read-only properties)</li>
 </ul>
-<t>The output representation MAY vary depending on the identity of the querying client, use of authorization information, and server policy towards unauthorized clients. If the querying client is the sponsoring client, all available information MUST be returned. If the querying client is not the sponsoring client but the client provides valid authorization information, all available information SHOULD be returned, however some optional elements MAY be reserved to the sponsoring client only. If the querying client is not the sponsoring client and the client does not provide valid authorization information, server policy determines which OPTIONAL elements are returned, if any or whether the entire request is rejected.</t>
+<t>The output representation MAY vary depending on the identity of the querying client, use of authorization information, and server policy towards unauthorized clients. If the querying client is the sponsoring client, all available information MUST be returned. If the querying client is not the sponsoring client but the client provides valid authorization information, all available information SHOULD be returned, however some optional elements MAY be reserved to the sponsoring client only. If the querying client is not the sponsoring client and the client does not provide valid authorization information, server policy determines which OPTIONAL elements are returned, if any, or whether the entire request is rejected.</t>
 </section>
 
 <section anchor="update"><name>Update</name>
@@ -117,7 +111,7 @@ Typically it would be a value related to or derived from Authorisation Informati
 </section>
 </section>
 
-<section anchor="other-operations"><name>Other operations</name>
+<section anchor="operations-beyond-uniform-interface"><name>Operations beyond uniform interface</name>
 <t>For all other operations both input and output representation have to be fully specified.</t>
 </section>
 </section>
@@ -127,7 +121,8 @@ Typically it would be a value related to or derived from Authorisation Informati
 <t>This section defines primitive data types and structures that are re-used across multiple resource object definitions.</t>
 
 <section anchor="identifier"><name>Identifier</name>
-<t>(Definition of a common type for identifiers, e.g., for contacts or hosts)</t>
+<t>Identifiers are character strings with a specified minimum length, a specified maximum length, and a specified format outlined in <xref target="RFC5730" sectionFormat="of" section="2.8"></xref>.
+Identifiers for certain object types MAY have additional constraints imposed either by server policy, object specific specifications or both.</t>
 </section>
 
 <section anchor="timestamp"><name>Timestamp</name>
@@ -136,6 +131,9 @@ Typically it would be a value related to or derived from Authorisation Informati
 
 <section anchor="client-identifier"><name>Client Identifier</name>
 <t>Client identifiers are character strings with a specified minimum length, a specified maximum length, and a specified format. Contact identifiers use the &quot;clIDType&quot; client identifier syntax described in <xref target="RFC5730"></xref>.</t>
+
+<aside><t>TBC: do we need this or is it a relation with an entity/RFC8543 organisation?</t>
+</aside>
 </section>
 
 <section anchor="phone-number"><name>Phone Number</name>
@@ -145,7 +143,7 @@ Typically it would be a value related to or derived from Authorisation Informati
 
 <section anchor="associations"><name>Associations</name>
 <t>RPP allows for different types of associations (links) between the objects. The association may be added between 2 indpendent objects with own lifecycle (UML aggregation) or in the relation when one object's existance and lifecycle is bound to the other parent/owner object (UML composition).
-In both cases, especially if the relation allows for cardinality higher than one on either side, the association may be assigned additional attributes, not being part of data model of either side of relation. In many cases such relation would be attributed with a single text string label, describing a role or a type of relation. Depending on the context this value might be unique, which allows using such label as a key in dictionary.</t>
+In both cases, especially if the relation allows for cardinality higher than one on either side, the association may be assigned additional attributes, not being part of data model of either side of relation. In many cases such relation would be attributed with a single text string label, describing a role or a type of relation. Depending on the context this value might be unique, which allows using such label as a key in a dictionary.</t>
 <t>The following generic Association Types are defined for RPP:</t>
 
 <section anchor="aggregation"><name>Aggregation</name>
@@ -204,7 +202,7 @@ Data producer MUST assure the same unchanged data is always inserted in the same
 <li>Identifier: value</li>
 <li>Cardinality: 1</li>
 <li>Mutability: read-write</li>
-<li>Data Type: Integer.</li>
+<li>Data Type: Integer</li>
 <li>Description: The numeric value of the period.</li>
 <li>Constraints: The value MUST be from 1 to 99, inclusive.</li>
 </ul></li>
@@ -237,7 +235,7 @@ Data producer MUST assure the same unchanged data is always inserted in the same
 <li>Cardinality: 1</li>
 <li>Mutability: create-only</li>
 <li>Data Type: String</li>
-<li>Description: computer-reasible enum label of a status</li>
+<li>Description: computer-readible enum label of a status</li>
 <li>Constraints: Status can be set as outlined in <xref target="RFC5731" sectionFormat="bare" section="2.3"></xref>. Additional statuses can be set as outlined in <xref target="RFC3915"></xref>. This enumeration can be expanded by extensions. Statuses MAY be either set by the server with &quot;server&quot; prefix, or set by the client with &quot;client&quot; prefix.</li>
 </ul></li>
 <li><t>Reason</t>
@@ -278,7 +276,7 @@ Data producer MUST assure the same unchanged data is always inserted in the same
 <li>Identifier: hostName</li>
 <li>Cardinality: 1</li>
 <li>Mutability: read-write</li>
-<li>Data Type: String.</li>
+<li>Data Type: String</li>
 <li>Description: Fully qualified name of a host.</li>
 <li>Constraints: The value MUST be a syntactically valid host name.</li>
 </ul></li>
@@ -362,7 +360,7 @@ Data producer MUST assure the same unchanged data is always inserted in the same
 <li>Identifier: method</li>
 <li>Cardinality: 1</li>
 <li>Mutability: create-only</li>
-<li>Data Type: String.</li>
+<li>Data Type: String</li>
 <li>Description: The identifier of the RPP authorisation method.</li>
 <li>Constraints: The value MUST be one of the values registered at IANA. Initial values AuthInfo.</li>
 </ul></li>
@@ -394,7 +392,7 @@ Data producer MUST assure the same unchanged data is always inserted in the same
 <li>Identifier: street</li>
 <li>Cardinality: 0+</li>
 <li>Mutability: read-write</li>
-<li>Data Type: String.</li>
+<li>Data Type: String</li>
 <li>Description: The contact's street address.</li>
 <li>Constraints: Some implementation MAY limit the maximum length of entries or character set.</li>
 </ul></li>
@@ -404,7 +402,7 @@ Data producer MUST assure the same unchanged data is always inserted in the same
 <li>Identifier: city</li>
 <li>Cardinality: 0-1</li>
 <li>Mutability: read-write</li>
-<li>Data Type: String.</li>
+<li>Data Type: String</li>
 <li>Description: The contact's city.</li>
 <li>Constraints: Some implementation MAY limit the maximum length of entries or character set. For EPP compatibility this data element is obligatory.</li>
 </ul></li>
@@ -414,7 +412,7 @@ Data producer MUST assure the same unchanged data is always inserted in the same
 <li>Identifier: sp</li>
 <li>Cardinality: 0-1</li>
 <li>Mutability: read-write</li>
-<li>Data Type: String.</li>
+<li>Data Type: String</li>
 <li>Description: The contact's state or province.</li>
 <li>Constraints: Some implementation MAY limit the maximum length of entries or character set.</li>
 </ul></li>
@@ -424,7 +422,7 @@ Data producer MUST assure the same unchanged data is always inserted in the same
 <li>Identifier: pc</li>
 <li>Cardinality: 0-1</li>
 <li>Mutability: read-write</li>
-<li>Data Type: String.</li>
+<li>Data Type: String</li>
 <li>Description: The contact's postal code.</li>
 <li>Constraints: Some implementation MAY limit the maximum length of entries or character set. The limitations MAY differ depending on Country Code (<tt>cc</tt>) data element.</li>
 </ul></li>
@@ -434,7 +432,7 @@ Data producer MUST assure the same unchanged data is always inserted in the same
 <li>Identifier: cc</li>
 <li>Cardinality: 0-1</li>
 <li>Mutability: read-write</li>
-<li>Data Type: String.</li>
+<li>Data Type: String</li>
 <li>Description: The contact's country code.</li>
 <li>Constraints: The value MUST be a two-character identifier from <xref target="ISO3166-1"></xref>. For EPP compatibility this data element is obligatory.</li>
 </ul></li>
@@ -456,7 +454,7 @@ Data producer MUST assure the same unchanged data is always inserted in the same
 <li>Identifier: type</li>
 <li>Cardinality: 0-1</li>
 <li>Mutability: read-write</li>
-<li>Data Type: String.</li>
+<li>Data Type: String</li>
 <li>Description: Specifies whether the contact is and individual or an organisation.</li>
 <li>Constraints: The value MUST be one of: &quot;PERSON&quot; (individual) or &quot;ORG&quot; (organisation).</li>
 </ul></li>
@@ -466,7 +464,7 @@ Data producer MUST assure the same unchanged data is always inserted in the same
 <li>Identifier: name</li>
 <li>Cardinality: 0-1</li>
 <li>Mutability: read-write</li>
-<li>Data Type: String.</li>
+<li>Data Type: String</li>
 <li>Description: The name of the individual or role.</li>
 <li>Constraints: Some implementation MAY limit the maximum length of entries or character set. For EPP compatibility this data element is obligatory. The implementations MAY require this field if Contact Type (<tt>type</tt>) is set to &quot;PERSON&quot;.</li>
 </ul></li>
@@ -476,7 +474,7 @@ Data producer MUST assure the same unchanged data is always inserted in the same
 <li>Identifier: org</li>
 <li>Cardinality: 0-1</li>
 <li>Mutability: read-write</li>
-<li>Data Type: String.</li>
+<li>Data Type: String</li>
 <li>Description: The name of the organisation.</li>
 <li>Constraints: Some implementation MAY limit the maximum length of entries or character set. The implementations MAY require this field if Contact Type (<tt>type</tt>) is set to &quot;ORG&quot;.</li>
 </ul></li>
@@ -486,7 +484,7 @@ Data producer MUST assure the same unchanged data is always inserted in the same
 <li>Identifier: addr</li>
 <li>Cardinality: 0-1</li>
 <li>Mutability: read-write</li>
-<li>Data Type: Postal Address Object.</li>
+<li>Data Type: Postal Address Object</li>
 <li>Description: The detailed postal address.</li>
 <li>Constraints: For EPP compatibility this data element is obligatory.</li>
 </ul></li>
@@ -502,7 +500,7 @@ Data producer MUST assure the same unchanged data is always inserted in the same
 <ul spacing="compact">
 <li>Name: Disclose</li>
 <li>Identifier: disclose</li>
-<li>Description: Contains postal-address information in either internationalised or localised forms.</li>
+<li>Description: TBD</li>
 </ul>
 </section>
 </section>
@@ -528,7 +526,7 @@ Data producer MUST assure the same unchanged data is always inserted in the same
 <li>Identifier: name</li>
 <li>Cardinality: 1</li>
 <li>Mutability: create-only</li>
-<li>Data Type: String.</li>
+<li>Data Type: String</li>
 <li>Description: The fully qualified name of the domain object.</li>
 <li>Constraints: The value MUST be a fully qualified domain name that conforms to the syntax described in <xref target="RFC1035"></xref>. A server MAY restrict allowable domain names to a particular top-level domain, second-level domain, or other domain for which the server is authoritative. The trailing dot required when these names are stored in a DNS zone is implicit and MUST NOT be provided when exchanging host and domain names.</li>
 </ul></li>
@@ -538,7 +536,7 @@ Data producer MUST assure the same unchanged data is always inserted in the same
 <li>Identifier: repositoryId</li>
 <li>Cardinality: 0-1</li>
 <li>Mutability: read-only</li>
-<li>Data Type: String.</li>
+<li>Data Type: Identifier</li>
 <li>Description: A server-assigned unique identifier for the object. For EPP compatibility this data element is obligatory.</li>
 <li>Constraints: (None)</li>
 </ul></li>
@@ -554,8 +552,7 @@ Data producer MUST assure the same unchanged data is always inserted in the same
 </ul></li>
 </ul>
 
-<aside><t>TODO: IANA registry for statuses?</t>
-<t>TODO: model registrant as a relation instead of identifier</t>
+<aside><t>TBC: IANA registry for statuses?</t>
 </aside>
 
 <ul spacing="compact">
@@ -565,13 +562,13 @@ Data producer MUST assure the same unchanged data is always inserted in the same
 <li>Identifier: registrant</li>
 <li>Cardinality: 0-1</li>
 <li>Mutability: read-write</li>
-<li>Data Type: String.</li>
+<li>Data Type: Contact Object.</li>
 <li>Description: The contact object associated with the domain as the registrant.</li>
 <li>Constraints: The identifier MUST correspond to a valid Contact resource object known to the server.</li>
 </ul></li>
 </ul>
 
-<aside><t>TODO: leave registrant here or move it to contacts with a type?</t>
+<aside><t>TBC: leave registrant here or move it to contacts with a type?</t>
 </aside>
 
 <ul>
@@ -596,7 +593,7 @@ Data producer MUST assure the same unchanged data is always inserted in the same
 <li>Identifier: nameservers</li>
 <li>Cardinality: 0+</li>
 <li>Mutability: read-write</li>
-<li>Data Type: Composition[Host Object] or Aggregation[Host Object]</li>
+<li>Data Type: Composition[Host Resource Object] or Aggregation[Host Resource Object]</li>
 <li>Description: A collection of nameservers associated with the domain.</li>
 <li>Constraints: (None)</li>
 </ul></li>
@@ -686,7 +683,7 @@ Data producer MUST assure the same unchanged data is always inserted in the same
 <li>Identifier: transferDate</li>
 <li>Cardinality: 0-1</li>
 <li>Mutability: read-only</li>
-<li>Data Type: Timestamp.</li>
+<li>Data Type: Timestamp</li>
 <li>Description: The date and time of the most recent successful domain object transfer.</li>
 <li>Constraints: This element MUST NOT be provided if the domain object has never been transferred.</li>
 </ul></li>
@@ -696,7 +693,7 @@ Data producer MUST assure the same unchanged data is always inserted in the same
 <li>Identifier: authInfo</li>
 <li>Cardinality: 0-1</li>
 <li>Mutability: read-write</li>
-<li>Data Type: Authorisation Information Object.</li>
+<li>Data Type: Authorisation Information Object</li>
 <li>Description: Authorisation information associated with the domain object.</li>
 <li>Constraints: (None)</li>
 </ul></li>
@@ -819,7 +816,7 @@ is &quot;all&quot;.</li>
 <li>Identifier: repositoryId</li>
 <li>Cardinality: 0-1</li>
 <li>Mutability: read-only</li>
-<li>Data Type: String.</li>
+<li>Data Type: Identifier</li>
 <li>Description: A server-assigned unique identifier for the object.</li>
 <li>Constraints: For EPP compatibility this data element is obligatory.</li>
 </ul></li>
@@ -829,7 +826,7 @@ is &quot;all&quot;.</li>
 <li>Identifier: postalInfo</li>
 <li>Cardinality: 1-2</li>
 <li>Mutability: read-write</li>
-<li><t>Data Type: AggregationDictionary[Contact Object]</t>
+<li><t>Data Type: AggregationDictionary[Postal Info Object]</t>
 
 <ul spacing="compact">
 <li>Label Description: type of contact data localisation</li>
@@ -959,7 +956,7 @@ is &quot;all&quot;.</li>
 </ul></li>
 </ul>
 
-<aside><t>TODO: IANA registry for statuses?</t>
+<aside><t>TBC: IANA registry for statuses?</t>
 </aside>
 </section>
 </section>
@@ -1186,7 +1183,105 @@ description.</li>
 <td>The value of the authorisation information. It might be as simple as password string, but also more complex values like public key certificates or tokens are possible.</td>
 </tr>
 </tbody>
-</table><t>Object: domainName</t>
+</table><t>Object: domainStatus</t>
+<t>Object Name: Domain Status</t>
+<t>Object Type: Component</t>
+<t>Description: Represents one of the status values associated with the domain name.</t>
+<t>Reference: [This-ID]</t>
+<t>Data Elements</t>
+<table>
+<thead>
+<tr>
+<th>Element Identifier</th>
+<th>Element Name</th>
+<th>Card.</th>
+<th>Mutability</th>
+<th>Data Type</th>
+<th>Description</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>label</td>
+<td>Label</td>
+<td>1</td>
+<td>create-only</td>
+<td>String</td>
+<td>computer-reasible enum label of a status</td>
+</tr>
+
+<tr>
+<td>reason</td>
+<td>Reason</td>
+<td>0-1</td>
+<td>create-only</td>
+<td>String</td>
+<td>a human-readable text that describes the rationale for the status applied to the object.</td>
+</tr>
+
+<tr>
+<td>due</td>
+<td>Due</td>
+<td>0-1</td>
+<td>read-write</td>
+<td>Timestamp</td>
+<td>a timestamp, when this status is going to be removed automatically, or changed to other status. This field can be used to expresse lifecycle related information</td>
+</tr>
+</tbody>
+</table><t>Object: domainstatus</t>
+<t>Object Name: Domain Status Object</t>
+<t>Object Type: Component</t>
+<t>Description: Represents one of the status values associated with the domain name.</t>
+<t>Reference: [This-ID]</t>
+<t>Data Elements</t>
+<table>
+<thead>
+<tr>
+<th>Element Identifier</th>
+<th>Element Name</th>
+<th>Card.</th>
+<th>Mutability</th>
+<th>Data Type</th>
+<th>Description</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>label</td>
+<td>Label</td>
+<td>1</td>
+<td>create-only</td>
+<td>String</td>
+<td>computer-readible enum label of a status</td>
+</tr>
+
+<tr>
+<td>reason</td>
+<td>Reason</td>
+<td>0-1</td>
+<td>create-only</td>
+<td>String</td>
+<td>a human-readable text that describes the rationale for the status applied to the object</td>
+</tr>
+
+<tr>
+<td>due</td>
+<td>Due</td>
+<td>0-1</td>
+<td>read-write</td>
+<td>Timestamp</td>
+<td>a timestamp, when this status is going to be removed automatically, or changed to other status. This field can be used to expresse lifecycle related information</td>
+</tr>
+</tbody>
+</table>
+<aside><t>TODO: IANA table: Authorisation Information Object
+TODO: IANA table: Postal Address Object
+TODO: IANA table: Postal Info Object
+TODO: IANA table: Disclose Object</t>
+</aside>
+<t>Object: domainName</t>
 <t>Object Name: Domain Name Resource Object</t>
 <t>Object Type: Resource</t>
 <t>Description: Represents a domain name and its associated data.</t>
@@ -1219,7 +1314,7 @@ description.</li>
 <td>Repository ID</td>
 <td>1</td>
 <td>read-only</td>
-<td>String</td>
+<td>Identifier</td>
 <td>A server-assigned unique identifier for the object.</td>
 </tr>
 
@@ -1237,7 +1332,7 @@ description.</li>
 <td>Registrant</td>
 <td>0-1</td>
 <td>read-write</td>
-<td>Client Identifier</td>
+<td>Contact Object</td>
 <td>The registrant contact ID.</td>
 </tr>
 
@@ -1255,7 +1350,7 @@ description.</li>
 <td>Nameservers</td>
 <td>0+</td>
 <td>read-write</td>
-<td>Aggregation [Host Object] or Composition [Host Object]</td>
+<td>Composition[Host Resource Object] or Aggregation[Host Resource Object]</td>
 <td>A collection of nameservers associated with the domain.</td>
 </tr>
 
@@ -1438,9 +1533,14 @@ description.</li>
 <td>The duration to add to the registration period.</td>
 </tr>
 </tbody>
-</table><t>Security Considerations</t>
-<t>(This section will discuss security issues related to the data
-objects, such as data privacy, validation, and potential for misuse.)</t>
+</table>
+<aside><t>TODO: IANA table: Contact Resource Object
+TODO: IANA table: Host Resource Object</t>
+</aside>
+<t>Security Considerations</t>
+
+<aside><t>TODO: write security considerations, if any</t>
+</aside>
 </section>
 </section>
 </section>

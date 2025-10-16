@@ -28,12 +28,7 @@ organization = "DENIC"
 
 .# Abstract
 
-This document defines abstract data objects for the Registry
-Provisioning Protocol (RPP). The definitions for domain name,
-contact, and host objects focus on the logical structure and
-constraints of their constituent data elements, independent of any
-specific data representation or media type. This document follows the
-architecture defined in [I-D.kowalik-rpp-architecture].
+This document defines data objects for the Registry Provisioning Protocol (RPP) and sets up IANA registries to describe and catalogue them. The definitions for domain name, contact, and host objects focus on the logical structure and constraints of the data elements, independent of any specific data representation or media type. This document follows the architecture defined in [I-D.kowalik-rpp-architecture].
 
 {mainmatter}
 
@@ -41,7 +36,7 @@ architecture defined in [I-D.kowalik-rpp-architecture].
 
 The Registry Provisioning Protocol (RPP) requires a clear definition of its data objects. This document catalogues the fundamental resource objects managed through RPP: domains, contacts, and hosts.
 
-In accordance with the RPP architecture [@!I-D.kowalik-rpp-architecture], the definitions herein are abstract. They specify the logical data elements, their meanings, and their constraints, rather than a specific representation format. This approach ensures that the core data model can be consistently implemented across different media types.
+In accordance with the RPP architecture [@!I-D.kowalik-rpp-architecture], the definitions herein specify the logical data elements, their meanings, and their constraints, rather than a specific representation format. This approach ensures that the core data model can be consistently implemented across different media types and representation formats.
 
 ## Conventions and Terminology
 
@@ -55,12 +50,11 @@ Each resource is composed of logical data elements. A data element is a logical 
 
 ## Extensibility
 
-The set of data elements for a given resource object is extensible. New data elements MAY be defined and registered with IANA to support new features. 
+The set of data elements for a given resource object is extensible. New data elements, relations or operations MAY be defined and registered with IANA to support new features. 
 
 ## Data Element Semantics
 
-The definition of each data element within an object consists of the
-following attributes:
+The definition of each data element within an object consists of the following attributes:
 
 * Name: A human-readable name for the data element.
 * Identifier: A machine-readable, unique identifier for the element, using camelCase notation.
@@ -89,7 +83,7 @@ Typically it would be a value related to or derived from Authorisation Informati
 
 ### Uniform interface
 
-For the typical set of Create, Read, Update and Delete operations the following set of input and output representations is specified on top of additional transient input data.
+For the typical set of Create, Read, Update and Delete operations the following set of input and output representations is specified on top of additional transient input data, unless an operation for the specific object tells otherwise.
 
 #### Create
 
@@ -101,7 +95,7 @@ For the typical set of Create, Read, Update and Delete operations the following 
 * Input: Object identifier
 * Output: Object representation (read-write and read-only properties)
 
-The output representation MAY vary depending on the identity of the querying client, use of authorization information, and server policy towards unauthorized clients. If the querying client is the sponsoring client, all available information MUST be returned. If the querying client is not the sponsoring client but the client provides valid authorization information, all available information SHOULD be returned, however some optional elements MAY be reserved to the sponsoring client only. If the querying client is not the sponsoring client and the client does not provide valid authorization information, server policy determines which OPTIONAL elements are returned, if any or whether the entire request is rejected.
+The output representation MAY vary depending on the identity of the querying client, use of authorization information, and server policy towards unauthorized clients. If the querying client is the sponsoring client, all available information MUST be returned. If the querying client is not the sponsoring client but the client provides valid authorization information, all available information SHOULD be returned, however some optional elements MAY be reserved to the sponsoring client only. If the querying client is not the sponsoring client and the client does not provide valid authorization information, server policy determines which OPTIONAL elements are returned, if any, or whether the entire request is rejected.
 
 #### Update
 
@@ -113,7 +107,7 @@ The output representation MAY vary depending on the identity of the querying cli
 * Input: Object identifier
 * Output: Object representation (read-write and read-only properties) or no representation
 
-### Other operations
+### Operations beyond uniform interface
 
 For all other operations both input and output representation have to be fully specified.
 
@@ -123,7 +117,8 @@ This section defines primitive data types and structures that are re-used across
 
 ## Identifier
 
-(Definition of a common type for identifiers, e.g., for contacts or hosts)
+Identifiers are character strings with a specified minimum length, a specified maximum length, and a specified format outlined in [@!RFC5730, section 2.8].
+Identifiers for certain object types MAY have additional constraints imposed either by server policy, object specific specifications or both.
 
 ## Timestamp
 
@@ -133,6 +128,8 @@ Date and time attribute values MUST be represented in Universal Coordinated Time
 
 Client identifiers are character strings with a specified minimum length, a specified maximum length, and a specified format. Contact identifiers use the "clIDType" client identifier syntax described in [@!RFC5730].
 
+A> TBC: do we need this or is it a relation with an entity/RFC8543 organisation? 
+
 ## Phone Number
 
 Telephone number syntax is derived from structures defined in [@!ITU.E164.2005].  Telephone numbers described in this specification are character strings that MUST begin with a plus sign ("+", ASCII value 0x002B), followed by a country code defined in [@!ITU.E164.2005], followed by a dot (".", ASCII value 0x002E), followed by a sequence of digits representing the telephone number.  An optional "x" (ASCII value 0x0078) separator with additional digits representing extension information can be appended to the end of the value.
@@ -140,7 +137,7 @@ Telephone number syntax is derived from structures defined in [@!ITU.E164.2005].
 # Associations
 
 RPP allows for different types of associations (links) between the objects. The association may be added between 2 indpendent objects with own lifecycle (UML aggregation) or in the relation when one object's existance and lifecycle is bound to the other parent/owner object (UML composition).
-In both cases, especially if the relation allows for cardinality higher than one on either side, the association may be assigned additional attributes, not being part of data model of either side of relation. In many cases such relation would be attributed with a single text string label, describing a role or a type of relation. Depending on the context this value might be unique, which allows using such label as a key in dictionary.
+In both cases, especially if the relation allows for cardinality higher than one on either side, the association may be assigned additional attributes, not being part of data model of either side of relation. In many cases such relation would be attributed with a single text string label, describing a role or a type of relation. Depending on the context this value might be unique, which allows using such label as a key in a dictionary.
 
 The following generic Association Types are defined for RPP:
 
@@ -207,7 +204,7 @@ This section defines common component objects that are re-used in the definition
     * Identifier: value
     * Cardinality: 1
     * Mutability: read-write
-    * Data Type: Integer.
+    * Data Type: Integer
     * Description: The numeric value of the period.
     * Constraints: The value MUST be from 1 to 99, inclusive.
   * Unit
@@ -228,7 +225,7 @@ This section defines common component objects that are re-used in the definition
       * Cardinality: 1
       * Mutability: create-only
       * Data Type: String
-      * Description: computer-reasible enum label of a status
+      * Description: computer-readible enum label of a status
       * Constraints: Status can be set as outlined in [@!RFC5731, 2.3]. Additional statuses can be set as outlined in [@!RFC3915]. This enumeration can be expanded by extensions. Statuses MAY be either set by the server with "server" prefix, or set by the client with "client" prefix. 
     * Reason
       * Indentifier: reason
@@ -254,7 +251,7 @@ This section defines common component objects that are re-used in the definition
     * Identifier: hostName
     * Cardinality: 1
     * Mutability: read-write
-    * Data Type: String.
+    * Data Type: String
     * Description: Fully qualified name of a host.
     * Constraints: The value MUST be a syntactically valid host name.
   * DNS Resource Records
@@ -308,7 +305,7 @@ This section defines common component objects that are re-used in the definition
     * Identifier: method
     * Cardinality: 1
     * Mutability: create-only
-    * Data Type: String.
+    * Data Type: String
     * Description: The identifier of the RPP authorisation method.
     * Constraints: The value MUST be one of the values registered at IANA. Initial values AuthInfo.
   * Authorisation Information
@@ -328,35 +325,35 @@ This section defines common component objects that are re-used in the definition
     * Identifier: street
     * Cardinality: 0+
     * Mutability: read-write
-    * Data Type: String.
+    * Data Type: String
     * Description: The contact's street address.
     * Constraints: Some implementation MAY limit the maximum length of entries or character set.
   * City
     * Identifier: city
     * Cardinality: 0-1
     * Mutability: read-write
-    * Data Type: String.
+    * Data Type: String
     * Description: The contact's city.
     * Constraints: Some implementation MAY limit the maximum length of entries or character set. For EPP compatibility this data element is obligatory.
   * State/Province
     * Identifier: sp
     * Cardinality: 0-1
     * Mutability: read-write
-    * Data Type: String.
+    * Data Type: String
     * Description: The contact's state or province.
     * Constraints: Some implementation MAY limit the maximum length of entries or character set.
   * Postal Code
     * Identifier: pc
     * Cardinality: 0-1
     * Mutability: read-write
-    * Data Type: String.
+    * Data Type: String
     * Description: The contact's postal code.
     * Constraints: Some implementation MAY limit the maximum length of entries or character set. The limitations MAY differ depending on Country Code (`cc`) data element.
   * Country Code
     * Identifier: cc
     * Cardinality: 0-1
     * Mutability: read-write
-    * Data Type: String.
+    * Data Type: String
     * Description: The contact's country code.
     * Constraints: The value MUST be a two-character identifier from [@!ISO3166-1]. For EPP compatibility this data element is obligatory.
 
@@ -369,28 +366,28 @@ This section defines common component objects that are re-used in the definition
     * Identifier: type 
     * Cardinality: 0-1
     * Mutability: read-write
-    * Data Type: String.
+    * Data Type: String
     * Description: Specifies whether the contact is and individual or an organisation.
     * Constraints: The value MUST be one of: "PERSON" (individual) or "ORG" (organisation).
   * Name
     * Identifier: name
     * Cardinality: 0-1
     * Mutability: read-write
-    * Data Type: String.
+    * Data Type: String
     * Description: The name of the individual or role.
     * Constraints: Some implementation MAY limit the maximum length of entries or character set. For EPP compatibility this data element is obligatory. The implementations MAY require this field if Contact Type (`type`) is set to "PERSON".
   * Organisation
     * Identifier: org
     * Cardinality: 0-1
     * Mutability: read-write
-    * Data Type: String.
+    * Data Type: String
     * Description: The name of the organisation.
     * Constraints: Some implementation MAY limit the maximum length of entries or character set. The implementations MAY require this field if Contact Type (`type`) is set to "ORG".
   * Address
     * Identifier: addr
     * Cardinality: 0-1
     * Mutability: read-write
-    * Data Type: Postal Address Object.
+    * Data Type: Postal Address Object
     * Description: The detailed postal address.
     * Constraints: For EPP compatibility this data element is obligatory.
 
@@ -400,7 +397,7 @@ A> TODO: Model Disclose in universal (extendible) way
 
 * Name: Disclose
 * Identifier: disclose
-* Description: Contains postal-address information in either internationalised or localised forms.
+* Description: TBD
 
 
 # Domain Name Resource Object
@@ -419,7 +416,7 @@ The following data elements are defined for the Domain Name resource object.
   * Identifier: name
   * Cardinality: 1
   * Mutability: create-only
-  * Data Type: String.
+  * Data Type: String
   * Description: The fully qualified name of the domain object.
   * Constraints: The value MUST be a fully qualified domain name that conforms to the syntax described in [@!RFC1035]. A server MAY restrict allowable domain names to a particular top-level domain, second-level domain, or other domain for which the server is authoritative. The trailing dot required when these names are stored in a DNS zone is implicit and MUST NOT be provided when exchanging host and domain names.
 
@@ -427,7 +424,7 @@ The following data elements are defined for the Domain Name resource object.
   * Identifier: repositoryId
   * Cardinality: 0-1
   * Mutability: read-only
-  * Data Type: String.
+  * Data Type: Identifier
   * Description: A server-assigned unique identifier for the object. For EPP compatibility this data element is obligatory.
   * Constraints: (None)
 
@@ -439,19 +436,17 @@ The following data elements are defined for the Domain Name resource object.
   * Description: The current status descriptors associated with the domain.
   * Constraints: Possible combinations of Domain Status Labels is specified in [@!RFC5731, 2.3] and [@!RFC3915]
 
-A> TODO: IANA registry for statuses?
-
-A> TODO: model registrant as a relation instead of identifier
+A> TBC: IANA registry for statuses?
 
 * Registrant
   * Identifier: registrant
   * Cardinality: 0-1
   * Mutability: read-write
-  * Data Type: String.
+  * Data Type: Contact Object.
   * Description: The contact object associated with the domain as the registrant.
   * Constraints: The identifier MUST correspond to a valid Contact resource object known to the server.
 
-A> TODO: leave registrant here or move it to contacts with a type?
+A> TBC: leave registrant here or move it to contacts with a type?
 
 * Contacts
   * Identifier: contacts
@@ -467,7 +462,7 @@ A> TODO: leave registrant here or move it to contacts with a type?
   * Identifier: nameservers
   * Cardinality: 0+
   * Mutability: read-write
-  * Data Type: Composition[Host Object] or Aggregation[Host Object]
+  * Data Type: Composition[Host Resource Object] or Aggregation[Host Resource Object]
   * Description: A collection of nameservers associated with the domain.
   * Constraints: (None)
 
@@ -539,7 +534,7 @@ A> TODO: leave registrant here or move it to contacts with a type?
   * Identifier: transferDate
   * Cardinality: 0-1
   * Mutability: read-only
-  * Data Type: Timestamp.
+  * Data Type: Timestamp
   * Description: The date and time of the most recent successful domain object transfer.
   * Constraints: This element MUST NOT be provided if the domain object has never been transferred.
 
@@ -547,7 +542,7 @@ A> TODO: leave registrant here or move it to contacts with a type?
   * Identifier: authInfo
   * Cardinality: 0-1
   * Mutability: read-write
-  * Data Type: Authorisation Information Object.
+  * Data Type: Authorisation Information Object
   * Description: Authorisation information associated with the domain object.
   * Constraints: (None)
 
@@ -645,7 +640,7 @@ The following data elements are defined for the Domain Name resource object.
   * Identifier: repositoryId
   * Cardinality: 0-1
   * Mutability: read-only
-  * Data Type: String.
+  * Data Type: Identifier
   * Description: A server-assigned unique identifier for the object.
   * Constraints: For EPP compatibility this data element is obligatory.
 
@@ -653,7 +648,7 @@ The following data elements are defined for the Domain Name resource object.
   * Identifier: postalInfo
   * Cardinality: 1-2
   * Mutability: read-write
-  * Data Type: AggregationDictionary[Contact Object]
+  * Data Type: AggregationDictionary[Postal Info Object]
     * Label Description: type of contact data localisation
     * Label Constraints: Allowed values: "int" for "internationalised" all-ASCII version of an address and "loc" for localised forms with possible non-ASCII character sets.
   * Description: Contains postal-address information.
@@ -754,7 +749,7 @@ The following data elements are defined for the Domain Name resource object.
   * Data Type: Disclose Object.
   * Description: Identifies elements that require exceptional server-operator handling to allow or restrict disclosure to third parties.
 
-A> TODO: IANA registry for statuses?
+A> TBC: IANA registry for statuses?
 
 # Host Resource Object
 
@@ -823,7 +818,7 @@ Data Elements
 | Element Identifier | Element Name | Card. | Mutability | Data Type | Description                      |
 |--------------------|--------------|-------|------------|-----------|----------------------------------|
 | value              | Value        | 1     | read-write | Integer   | The numeric value of the period. |
-| unit               | Unit         | 1     | read-write | String     | The unit of the period.          |
+| unit               | Unit         | 1     | read-write | String    | The unit of the period.          |
 
 Object: nameserver
 
@@ -875,6 +870,47 @@ Data Elements
 | method             | Method                    | 1     | create-only | String          | The identifier of the RPP authorisation method.                                                                                                                         |
 | authdata           | Authorisation Information | 1     | create-only | String / Object | The value of the authorisation information. It might be as simple as password string, but also more complex values like public key certificates or tokens are possible. |
 
+
+Object: domainStatus
+
+Object Name: Domain Status
+
+Object Type: Component
+
+Description: Represents one of the status values associated with the domain name.
+
+Reference: [This-ID]
+
+Data Elements
+| Element Identifier | Element Name | Card. | Mutability  | Data Type | Description                                                                                                                                                      |
+|--------------------|--------------|-------|-------------|-----------|------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| label              | Label        | 1     | create-only | String    | computer-reasible enum label of a status                                                                                                                         |
+| reason             | Reason       | 0-1   | create-only | String    | a human-readable text that describes the rationale for the status applied to the object.                                                                         |
+| due                | Due          | 0-1   | read-write  | Timestamp | a timestamp, when this status is going to be removed automatically, or changed to other status. This field can be used to expresse lifecycle related information |
+
+Object: domainstatus
+
+Object Name: Domain Status Object
+
+Object Type: Component
+
+Description: Represents one of the status values associated with the domain name.
+
+Reference: [This-ID]
+
+Data Elements
+| Element Identifier | Element Name | Card. | Mutability  | Data Type | Description                                                                                                                                                      |
+|--------------------|--------------|-------|-------------|-----------|------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| label              | Label        | 1     | create-only | String    | computer-readible enum label of a status                                                                                                                         |
+| reason             | Reason       | 0-1   | create-only | String    | a human-readable text that describes the rationale for the status applied to the object                                                                          |
+| due                | Due          | 0-1   | read-write  | Timestamp | a timestamp, when this status is going to be removed automatically, or changed to other status. This field can be used to expresse lifecycle related information |
+
+A> TODO: IANA table: Authorisation Information Object
+A> TODO: IANA table: Postal Address Object
+A> TODO: IANA table: Postal Info Object
+A> TODO: IANA table: Disclose Object
+
+
 Object: domainName
 
 Object Name: Domain Name Resource Object
@@ -886,24 +922,24 @@ Description: Represents a domain name and its associated data.
 Reference: [This-ID]
 
 Data Elements
-| Identifier         | Name                 | Card. | Mutability  | Data Type                                              | Description                                             |
-|--------------------|----------------------|-------|-------------|--------------------------------------------------------|---------------------------------------------------------|
-| name               | Name                 | 1     | create-only | String                                                 | The fully qualified name of the domain object.          |
-| repositoryId       | Repository ID        | 1     | read-only   | String                                                 | A server-assigned unique identifier for the object.     |
-| status             | Status               | 0+    | read-only   | Domain Status Object                                   | The current status descriptors for the domain.          |
-| registrant         | Registrant           | 0-1   | read-write  | Client Identifier                                      | The registrant contact ID.                              |
-| contacts           | Contacts             | 0+    | read-write  | LabelledAggregation [Contact Object]                   | Associated contact objects.                             |
-| nameservers        | Nameservers          | 0+    | read-write  | Aggregation [Host Object] or Composition [Host Object] | A collection of nameservers associated with the domain. |
-| dns                | DNS                  | 0+    | read-write  | Composition[DNS Resource Record]                       | A collection of DNS entries related to the domain name. |
-| subordinateHosts   | Subordinate Hosts    | 0+    | read-only   | Aggregation [Host Object]                              | Subordinate host names.                                 |
-| sponsoringClientId | Sponsoring Client ID | 1     | read-only   | Client Identifier                                      | The current sponsoring client ID.                       |
-| creatingClientId   | Creating Client ID   | 0-1   | read-only   | Client Identifier                                      | The client ID that created the object.                  |
-| creationDate       | Creation Date        | 0-1   | read-only   | Timestamp                                              | Creation timestamp.                                     |
-| updatingClientId   | Updating Client ID   | 0-1   | read-only   | Client Identifier                                      | The client ID that last updated the object.             |
-| updateDate         | Update Date          | 0-1   | read-only   | Timestamp                                              | The timestamp of the last update.                       |
-| expiryDate         | Expiry Date          | 0-1   | read-only   | Timestamp                                              | Expiry timestamp.                                       |
-| transferDate       | Transfer Date        | 0-1   | read-only   | Timestamp                                              | The timestamp of the last successful transfer.          |
-| authInfo           | Authorisation Info   | 0-1   | read-write  | authInfo                                               | Authorisation information for the object.               |
+| Identifier         | Name                 | Card. | Mutability  | Data Type                                                              | Description                                             |
+|--------------------|----------------------|-------|-------------|------------------------------------------------------------------------|---------------------------------------------------------|
+| name               | Name                 | 1     | create-only | String                                                                 | The fully qualified name of the domain object.          |
+| repositoryId       | Repository ID        | 1     | read-only   | Identifier                                                             | A server-assigned unique identifier for the object.     |
+| status             | Status               | 0+    | read-only   | Domain Status Object                                                   | The current status descriptors for the domain.          |
+| registrant         | Registrant           | 0-1   | read-write  | Contact Object                                                         | The registrant contact ID.                              |
+| contacts           | Contacts             | 0+    | read-write  | LabelledAggregation [Contact Object]                                   | Associated contact objects.                             |
+| nameservers        | Nameservers          | 0+    | read-write  | Composition[Host Resource Object] or Aggregation[Host Resource Object] | A collection of nameservers associated with the domain. |
+| dns                | DNS                  | 0+    | read-write  | Composition[DNS Resource Record]                                       | A collection of DNS entries related to the domain name. |
+| subordinateHosts   | Subordinate Hosts    | 0+    | read-only   | Aggregation [Host Object]                                              | Subordinate host names.                                 |
+| sponsoringClientId | Sponsoring Client ID | 1     | read-only   | Client Identifier                                                      | The current sponsoring client ID.                       |
+| creatingClientId   | Creating Client ID   | 0-1   | read-only   | Client Identifier                                                      | The client ID that created the object.                  |
+| creationDate       | Creation Date        | 0-1   | read-only   | Timestamp                                                              | Creation timestamp.                                     |
+| updatingClientId   | Updating Client ID   | 0-1   | read-only   | Client Identifier                                                      | The client ID that last updated the object.             |
+| updateDate         | Update Date          | 0-1   | read-only   | Timestamp                                                              | The timestamp of the last update.                       |
+| expiryDate         | Expiry Date          | 0-1   | read-only   | Timestamp                                                              | Expiry timestamp.                                       |
+| transferDate       | Transfer Date        | 0-1   | read-only   | Timestamp                                                              | The timestamp of the last successful transfer.          |
+| authInfo           | Authorisation Info   | 0-1   | read-write  | authInfo                                                               | Authorisation information for the object.               |
 
 Operations
 
@@ -923,7 +959,7 @@ Description: Retrieves the data elements of a Domain Name resource.
 Parameters
 | Identifier    | Name                            | Card. | Data Type | Description                                          |
 |---------------|---------------------------------|-------|-----------|------------------------------------------------------|
-| hostsFilter   | Hosts Filter                    | 0-1   | String     | Controls which host information is returned.         |
+| hostsFilter   | Hosts Filter                    | 0-1   | String    | Controls which host information is returned.         |
 | queryAuthInfo | Query Authorisation Information | 0-1   | authInfo  | Credentials to authorise access to full object data. |
 
 Operation: Delete
@@ -942,10 +978,12 @@ Parameters
 | currentExpiryDate | Current Expiry Date | 1     | Timestamp | The expected current expiry date, for validation. |
 | renewalPeriod     | Renewal Period      | 0-1   | period    | The duration to add to the registration period.   |
 
+A> TODO: IANA table: Contact Resource Object
+A> TODO: IANA table: Host Resource Object
+
 Security Considerations
 
-(This section will discuss security issues related to the data
-objects, such as data privacy, validation, and potential for misuse.)
+A> TODO: write security considerations, if any
 
 {backmatter}
 

@@ -13,12 +13,13 @@ Expires: 13 April 2026
 
 Abstract
 
-   This document defines abstract data objects for the Registry
-   Provisioning Protocol (RPP).  The definitions for domain name,
-   contact, and host objects focus on the logical structure and
-   constraints of their constituent data elements, independent of any
-   specific data representation or media type.  This document follows
-   the architecture defined in [I-D.kowalik-rpp-architecture].
+   This document defines data objects for the Registry Provisioning
+   Protocol (RPP) and sets up IANA registries to describe and catalogue
+   them.  The definitions for domain name, contact, and host objects
+   focus on the logical structure and constraints of the data elements,
+   independent of any specific data representation or media type.  This
+   document follows the architecture defined in [I-D.kowalik-rpp-
+   architecture].
 
 Status of This Memo
 
@@ -66,7 +67,7 @@ Table of Contents
          2.4.2.2.  Read
          2.4.2.3.  Update
          2.4.2.4.  Delete
-       2.4.3.  Other operations
+       2.4.3.  Operations beyond uniform interface
    3.  Common Data Types
      3.1.  Identifier
      3.2.  Timestamp
@@ -117,11 +118,11 @@ Table of Contents
    resource objects managed through RPP: domains, contacts, and hosts.
 
    In accordance with the RPP architecture
-   [I-D.kowalik-rpp-architecture], the definitions herein are abstract.
-   They specify the logical data elements, their meanings, and their
-   constraints, rather than a specific representation format.  This
-   approach ensures that the core data model can be consistently
-   implemented across different media types.
+   [I-D.kowalik-rpp-architecture], the definitions herein specify the
+   logical data elements, their meanings, and their constraints, rather
+   than a specific representation format.  This approach ensures that
+   the core data model can be consistently implemented across different
+   media types and representation formats.
 
 1.1.  Conventions and Terminology
 
@@ -144,8 +145,8 @@ Table of Contents
 2.2.  Extensibility
 
    The set of data elements for a given resource object is extensible.
-   New data elements MAY be defined and registered with IANA to support
-   new features.
+   New data elements, relations or operations MAY be defined and
+   registered with IANA to support new features.
 
 2.3.  Data Element Semantics
 
@@ -196,7 +197,8 @@ Table of Contents
 
    For the typical set of Create, Read, Update and Delete operations the
    following set of input and output representations is specified on top
-   of additional transient input data.
+   of additional transient input data, unless an operation for the
+   specific object tells otherwise.
 
 2.4.2.1.  Create
 
@@ -221,7 +223,7 @@ Table of Contents
    the sponsoring client only.  If the querying client is not the
    sponsoring client and the client does not provide valid authorization
    information, server policy determines which OPTIONAL elements are
-   returned, if any or whether the entire request is rejected.
+   returned, if any, or whether the entire request is rejected.
 
 2.4.2.3.  Update
 
@@ -236,7 +238,7 @@ Table of Contents
    -  Output: Object representation (read-write and read-only
       properties) or no representation
 
-2.4.3.  Other operations
+2.4.3.  Operations beyond uniform interface
 
    For all other operations both input and output representation have to
    be fully specified.
@@ -248,8 +250,11 @@ Table of Contents
 
 3.1.  Identifier
 
-   (Definition of a common type for identifiers, e.g., for contacts or
-   hosts)
+   Identifiers are character strings with a specified minimum length, a
+   specified maximum length, and a specified format outlined in
+   Section 2.8 of [RFC5730].  Identifiers for certain object types MAY
+   have additional constraints imposed either by server policy, object
+   specific specifications or both.
 
 3.2.  Timestamp
 
@@ -264,6 +269,9 @@ Table of Contents
    length, a specified maximum length, and a specified format.  Contact
    identifiers use the "clIDType" client identifier syntax described in
    [RFC5730].
+
+      |  TBC: do we need this or is it a relation with an entity/RFC8543
+      |  organisation?
 
 3.4.  Phone Number
 
@@ -288,7 +296,7 @@ Table of Contents
    data model of either side of relation.  In many cases such relation
    would be attributed with a single text string label, describing a
    role or a type of relation.  Depending on the context this value
-   might be unique, which allows using such label as a key in
+   might be unique, which allows using such label as a key in a
    dictionary.
 
    The following generic Association Types are defined for RPP:
@@ -380,7 +388,7 @@ Table of Contents
          -  Identifier: value
          -  Cardinality: 1
          -  Mutability: read-write
-         -  Data Type: Integer.
+         -  Data Type: Integer
          -  Description: The numeric value of the period.
          -  Constraints: The value MUST be from 1 to 99, inclusive.
       -  Unit
@@ -403,7 +411,7 @@ Table of Contents
          -  Cardinality: 1
          -  Mutability: create-only
          -  Data Type: String
-         -  Description: computer-reasible enum label of a status
+         -  Description: computer-readible enum label of a status
          -  Constraints: Status can be set as outlined in 2.3.
             Additional statuses can be set as outlined in [RFC3915].
             This enumeration can be expanded by extensions.  Statuses
@@ -437,7 +445,7 @@ Table of Contents
          -  Identifier: hostName
          -  Cardinality: 1
          -  Mutability: read-write
-         -  Data Type: String.
+         -  Data Type: String
          -  Description: Fully qualified name of a host.
          -  Constraints: The value MUST be a syntactically valid host
             name.
@@ -506,7 +514,7 @@ Table of Contents
          -  Identifier: method
          -  Cardinality: 1
          -  Mutability: create-only
-         -  Data Type: String.
+         -  Data Type: String
          -  Description: The identifier of the RPP authorisation method.
          -  Constraints: The value MUST be one of the values registered
             at IANA.  Initial values AuthInfo.
@@ -533,7 +541,7 @@ Table of Contents
          -  Identifier: street
          -  Cardinality: 0+
          -  Mutability: read-write
-         -  Data Type: String.
+         -  Data Type: String
          -  Description: The contact's street address.
          -  Constraints: Some implementation MAY limit the maximum
             length of entries or character set.
@@ -541,7 +549,7 @@ Table of Contents
          -  Identifier: city
          -  Cardinality: 0-1
          -  Mutability: read-write
-         -  Data Type: String.
+         -  Data Type: String
          -  Description: The contact's city.
          -  Constraints: Some implementation MAY limit the maximum
             length of entries or character set.  For EPP compatibility
@@ -550,7 +558,7 @@ Table of Contents
          -  Identifier: sp
          -  Cardinality: 0-1
          -  Mutability: read-write
-         -  Data Type: String.
+         -  Data Type: String
          -  Description: The contact's state or province.
          -  Constraints: Some implementation MAY limit the maximum
             length of entries or character set.
@@ -558,7 +566,7 @@ Table of Contents
          -  Identifier: pc
          -  Cardinality: 0-1
          -  Mutability: read-write
-         -  Data Type: String.
+         -  Data Type: String
          -  Description: The contact's postal code.
          -  Constraints: Some implementation MAY limit the maximum
             length of entries or character set.  The limitations MAY
@@ -567,7 +575,7 @@ Table of Contents
          -  Identifier: cc
          -  Cardinality: 0-1
          -  Mutability: read-write
-         -  Data Type: String.
+         -  Data Type: String
          -  Description: The contact's country code.
          -  Constraints: The value MUST be a two-character identifier
             from [ISO3166-1].  For EPP compatibility this data element
@@ -583,7 +591,7 @@ Table of Contents
          -  Identifier: type
          -  Cardinality: 0-1
          -  Mutability: read-write
-         -  Data Type: String.
+         -  Data Type: String
          -  Description: Specifies whether the contact is and individual
             or an organisation.
          -  Constraints: The value MUST be one of: "PERSON" (individual)
@@ -592,7 +600,7 @@ Table of Contents
          -  Identifier: name
          -  Cardinality: 0-1
          -  Mutability: read-write
-         -  Data Type: String.
+         -  Data Type: String
          -  Description: The name of the individual or role.
          -  Constraints: Some implementation MAY limit the maximum
             length of entries or character set.  For EPP compatibility
@@ -603,7 +611,7 @@ Table of Contents
          -  Identifier: org
          -  Cardinality: 0-1
          -  Mutability: read-write
-         -  Data Type: String.
+         -  Data Type: String
          -  Description: The name of the organisation.
          -  Constraints: Some implementation MAY limit the maximum
             length of entries or character set.  The implementations MAY
@@ -612,7 +620,7 @@ Table of Contents
          -  Identifier: addr
          -  Cardinality: 0-1
          -  Mutability: read-write
-         -  Data Type: Postal Address Object.
+         -  Data Type: Postal Address Object
          -  Description: The detailed postal address.
          -  Constraints: For EPP compatibility this data element is
             obligatory.
@@ -623,8 +631,7 @@ Table of Contents
 
    -  Name: Disclose
    -  Identifier: disclose
-   -  Description: Contains postal-address information in either
-      internationalised or localised forms.
+   -  Description: TBD
 
 6.  Domain Name Resource Object
 
@@ -646,7 +653,7 @@ Table of Contents
       -  Identifier: name
       -  Cardinality: 1
       -  Mutability: create-only
-      -  Data Type: String.
+      -  Data Type: String
       -  Description: The fully qualified name of the domain object.
       -  Constraints: The value MUST be a fully qualified domain name
          that conforms to the syntax described in [RFC1035].  A server
@@ -661,7 +668,7 @@ Table of Contents
       -  Identifier: repositoryId
       -  Cardinality: 0-1
       -  Mutability: read-only
-      -  Data Type: String.
+      -  Data Type: Identifier
       -  Description: A server-assigned unique identifier for the
          object.  For EPP compatibility this data element is obligatory.
       -  Constraints: (None)
@@ -677,21 +684,19 @@ Table of Contents
       -  Constraints: Possible combinations of Domain Status Labels is
          specified in 2.3 and [RFC3915]
 
-      |  TODO: IANA registry for statuses?
-      |  
-      |  TODO: model registrant as a relation instead of identifier
+      |  TBC: IANA registry for statuses?
 
    -  Registrant
       -  Identifier: registrant
       -  Cardinality: 0-1
       -  Mutability: read-write
-      -  Data Type: String.
+      -  Data Type: Contact Object.
       -  Description: The contact object associated with the domain as
          the registrant.
       -  Constraints: The identifier MUST correspond to a valid Contact
          resource object known to the server.
 
-      |  TODO: leave registrant here or move it to contacts with a type?
+      |  TBC: leave registrant here or move it to contacts with a type?
 
    -  Contacts
 
@@ -712,7 +717,8 @@ Table of Contents
       -  Identifier: nameservers
       -  Cardinality: 0+
       -  Mutability: read-write
-      -  Data Type: Composition[Host Object] or Aggregation[Host Object]
+      -  Data Type: Composition[Host Resource Object] or
+         Aggregation[Host Resource Object]
       -  Description: A collection of nameservers associated with the
          domain.
       -  Constraints: (None)
@@ -811,7 +817,7 @@ Table of Contents
       -  Identifier: transferDate
       -  Cardinality: 0-1
       -  Mutability: read-only
-      -  Data Type: Timestamp.
+      -  Data Type: Timestamp
       -  Description: The date and time of the most recent successful
          domain object transfer.
       -  Constraints: This element MUST NOT be provided if the domain
@@ -822,7 +828,7 @@ Table of Contents
       -  Identifier: authInfo
       -  Cardinality: 0-1
       -  Mutability: read-write
-      -  Data Type: Authorisation Information Object.
+      -  Data Type: Authorisation Information Object
       -  Description: Authorisation information associated with the
          domain object.
       -  Constraints: (None)
@@ -947,7 +953,7 @@ Table of Contents
       -  Identifier: repositoryId
       -  Cardinality: 0-1
       -  Mutability: read-only
-      -  Data Type: String.
+      -  Data Type: Identifier
       -  Description: A server-assigned unique identifier for the
          object.
       -  Constraints: For EPP compatibility this data element is
@@ -958,7 +964,7 @@ Table of Contents
       -  Identifier: postalInfo
       -  Cardinality: 1-2
       -  Mutability: read-write
-      -  Data Type: AggregationDictionary[Contact Object]
+      -  Data Type: AggregationDictionary[Postal Info Object]
          -  Label Description: type of contact data localisation
          -  Label Constraints: Allowed values: "int" for
             "internationalised" all-ASCII version of an address and
@@ -1091,7 +1097,7 @@ Table of Contents
          server-operator handling to allow or restrict disclosure to
          third parties.
 
-      |  TODO: IANA registry for statuses?
+      |  TBC: IANA registry for statuses?
 
 8.  Host Resource Object
 
@@ -1275,6 +1281,96 @@ Table of Contents
 
                                   Table 4
 
+   Object: domainStatus
+
+   Object Name: Domain Status
+
+   Object Type: Component
+
+   Description: Represents one of the status values associated with the
+   domain name.
+
+   Reference: [This-ID]
+
+   Data Elements
+
+   +==========+=======+=====+===========+=========+===================+
+   |Element   |Element|Card.|Mutability |Data Type| Description       |
+   |Identifier|Name   |     |           |         |                   |
+   +==========+=======+=====+===========+=========+===================+
+   |label     |Label  |1    |create-only|String   | computer-reasible |
+   |          |       |     |           |         | enum label of a   |
+   |          |       |     |           |         | status            |
+   +----------+-------+-----+-----------+---------+-------------------+
+   |reason    |Reason |0-1  |create-only|String   | a human-readable  |
+   |          |       |     |           |         | text that         |
+   |          |       |     |           |         | describes the     |
+   |          |       |     |           |         | rationale for the |
+   |          |       |     |           |         | status applied to |
+   |          |       |     |           |         | the object.       |
+   +----------+-------+-----+-----------+---------+-------------------+
+   |due       |Due    |0-1  |read-write |Timestamp| a timestamp, when |
+   |          |       |     |           |         | this status is    |
+   |          |       |     |           |         | going to be       |
+   |          |       |     |           |         | removed           |
+   |          |       |     |           |         | automatically, or |
+   |          |       |     |           |         | changed to other  |
+   |          |       |     |           |         | status.  This     |
+   |          |       |     |           |         | field can be used |
+   |          |       |     |           |         | to expresse       |
+   |          |       |     |           |         | lifecycle related |
+   |          |       |     |           |         | information       |
+   +----------+-------+-----+-----------+---------+-------------------+
+
+                                 Table 5
+
+   Object: domainstatus
+
+   Object Name: Domain Status Object
+
+   Object Type: Component
+
+   Description: Represents one of the status values associated with the
+   domain name.
+
+   Reference: [This-ID]
+
+   Data Elements
+
+   +==========+=======+=====+===========+=========+===================+
+   |Element   |Element|Card.|Mutability |Data Type| Description       |
+   |Identifier|Name   |     |           |         |                   |
+   +==========+=======+=====+===========+=========+===================+
+   |label     |Label  |1    |create-only|String   | computer-readible |
+   |          |       |     |           |         | enum label of a   |
+   |          |       |     |           |         | status            |
+   +----------+-------+-----+-----------+---------+-------------------+
+   |reason    |Reason |0-1  |create-only|String   | a human-readable  |
+   |          |       |     |           |         | text that         |
+   |          |       |     |           |         | describes the     |
+   |          |       |     |           |         | rationale for the |
+   |          |       |     |           |         | status applied to |
+   |          |       |     |           |         | the object        |
+   +----------+-------+-----+-----------+---------+-------------------+
+   |due       |Due    |0-1  |read-write |Timestamp| a timestamp, when |
+   |          |       |     |           |         | this status is    |
+   |          |       |     |           |         | going to be       |
+   |          |       |     |           |         | removed           |
+   |          |       |     |           |         | automatically, or |
+   |          |       |     |           |         | changed to other  |
+   |          |       |     |           |         | status.  This     |
+   |          |       |     |           |         | field can be used |
+   |          |       |     |           |         | to expresse       |
+   |          |       |     |           |         | lifecycle related |
+   |          |       |     |           |         | information       |
+   +----------+-------+-----+-----------+---------+-------------------+
+
+                                 Table 6
+
+      |  TODO: IANA table: Authorisation Information Object TODO: IANA
+      |  table: Postal Address Object TODO: IANA table: Postal Info
+      |  Object TODO: IANA table: Disclose Object
+
    Object: domainName
 
    Object Name: Domain Name Resource Object
@@ -1296,7 +1392,7 @@ Table of Contents
    |                  |             |     |          |                   |domain       |
    |                  |             |     |          |                   |object.      |
    +------------------+-------------+-----+----------+-------------------+-------------+
-   |repositoryId      |Repository ID|1    |read-only |String             |A server-    |
+   |repositoryId      |Repository ID|1    |read-only |Identifier         |A server-    |
    |                  |             |     |          |                   |assigned     |
    |                  |             |     |          |                   |unique       |
    |                  |             |     |          |                   |identifier   |
@@ -1309,7 +1405,7 @@ Table of Contents
    |                  |             |     |          |                   |for the      |
    |                  |             |     |          |                   |domain.      |
    +------------------+-------------+-----+----------+-------------------+-------------+
-   |registrant        |Registrant   |0-1  |read-write|Client Identifier  |The          |
+   |registrant        |Registrant   |0-1  |read-write|Contact Object     |The          |
    |                  |             |     |          |                   |registrant   |
    |                  |             |     |          |                   |contact ID.  |
    +------------------+-------------+-----+----------+-------------------+-------------+
@@ -1317,10 +1413,10 @@ Table of Contents
    |                  |             |     |          |[Contact Object]   |contact      |
    |                  |             |     |          |                   |objects.     |
    +------------------+-------------+-----+----------+-------------------+-------------+
-   |nameservers       |Nameservers  |0+   |read-write|Aggregation [Host  |A collection |
-   |                  |             |     |          |Object] or         |of           |
-   |                  |             |     |          |Composition [Host  |nameservers  |
-   |                  |             |     |          |Object]            |associated   |
+   |nameservers       |Nameservers  |0+   |read-write|Composition[Host   |A collection |
+   |                  |             |     |          |Resource Object] or|of           |
+   |                  |             |     |          |Aggregation[Host   |nameservers  |
+   |                  |             |     |          |Resource Object]   |associated   |
    |                  |             |     |          |                   |with the     |
    |                  |             |     |          |                   |domain.      |
    +------------------+-------------+-----+----------+-------------------+-------------+
@@ -1368,7 +1464,7 @@ Table of Contents
    |                  |             |     |          |                   |object.      |
    +------------------+-------------+-----+----------+-------------------+-------------+
 
-                                  Table 5
+                                  Table 7
 
    Operations
 
@@ -1388,7 +1484,7 @@ Table of Contents
    |            |              |       |        | domain name.         |
    +------------+--------------+-------+--------+----------------------+
 
-                                  Table 6
+                                  Table 8
 
    Operation: Read
 
@@ -1412,7 +1508,7 @@ Table of Contents
    |               |               |       |          | data.          |
    +---------------+---------------+-------+----------+----------------+
 
-                                  Table 7
+                                  Table 9
 
    Operation: Delete
 
@@ -1440,12 +1536,14 @@ Table of Contents
    |                   |         |       |           | period.        |
    +-------------------+---------+-------+-----------+----------------+
 
-                                 Table 8
+                                 Table 10
+
+      |  TODO: IANA table: Contact Resource Object TODO: IANA table:
+      |  Host Resource Object
 
    Security Considerations
 
-   (This section will discuss security issues related to the data
-   objects, such as data privacy, validation, and potential for misuse.)
+      |  TODO: write security considerations, if any
 
 10.  Normative References
 
