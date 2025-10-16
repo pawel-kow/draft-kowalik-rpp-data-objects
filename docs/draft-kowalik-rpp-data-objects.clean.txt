@@ -100,6 +100,7 @@ Table of Contents
    7.  Contact Resource Object
      7.1.  Object Description
      7.2.  Data Elements
+     7.3.  Operations
    8.  Host Resource Object
      8.1.  Object Description
      8.2.  Data Elements
@@ -1099,7 +1100,9 @@ Table of Contents
          third parties.
 
       |  TBC: IANA registry for statuses?
-      |  
+
+7.3.  Operations
+
       |  TODO: Describe operations for contacts
 
 8.  Host Resource Object

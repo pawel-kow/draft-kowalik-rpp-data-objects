@@ -957,7 +957,12 @@ is &quot;all&quot;.</li>
 </ul>
 
 <aside><t>TBC: IANA registry for statuses?</t>
-<t>TODO: Describe operations for contacts</t>
+</aside>
+</section>
+
+<section anchor="operations-2"><name>Operations</name>
+
+<aside><t>TODO: Describe operations for contacts</t>
 </aside>
 </section>
 </section>
@@ -1085,7 +1090,7 @@ services for a a domain name.</t>
 </ul>
 </section>
 
-<section anchor="operations-2"><name>Operations</name>
+<section anchor="operations-3"><name>Operations</name>
 
 <aside><t>TODO: Describe operations for hosts</t>
 </aside>

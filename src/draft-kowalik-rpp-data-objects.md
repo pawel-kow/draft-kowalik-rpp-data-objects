@@ -751,6 +751,8 @@ The following data elements are defined for the Domain Name resource object.
 
 A> TBC: IANA registry for statuses?
 
+## Operations
+
 A> TODO: Describe operations for contacts
 
 # Host Resource Object
