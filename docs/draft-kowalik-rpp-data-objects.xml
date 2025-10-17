@@ -115,6 +115,12 @@ Typically it would be a value related to or derived from Authorisation Informati
 <t>For all other operations both input and output representation have to be fully specified.</t>
 </section>
 </section>
+
+<section anchor="epp-compatibility-profile"><name>EPP Compatibility Profile</name>
+<t>RPP is designed to coexist with the Extensible Provisioning Protocol (EPP), often operating in parallel against a common backend provisioning system. While RPP is not inherently constrained by all of EPP's requirements, a specific set of rules is necessary to ensure seamless interoperability in such mixed environments.</t>
+<t>To address this, this document defines an &quot;EPP Compatibility Profile&quot;. This profile specifies a set of additional constraints on RPP data objects and operations that a server MUST adhere to when supporting both RPP and EPP concurrently.</t>
+<t>Throughout this document, all constraints that are part of this profile are explicitly marked with a reference to &quot;EPP Compatibility Profile&quot;. Implementers of systems in a mixed EPP/RPP environment MUST follow these specific constraints in addition to the base RPP requirements.</t>
+</section>
 </section>
 
 <section anchor="common-data-types"><name>Common Data Types</name>
@@ -126,7 +132,7 @@ Identifiers for certain object types MAY have additional constraints imposed eit
 </section>
 
 <section anchor="timestamp"><name>Timestamp</name>
-<t>Date and time attribute values MUST be represented in Universal Coordinated Time (UTC) using the Gregorian calendar using date-time form as defined in <xref target="RFC3399"></xref>. For compatibility with EPP upper case &quot;T&quot; and &quot;Z&quot; characters SHOULD be used.</t>
+<t>Date and time attribute values MUST be represented in Universal Coordinated Time (UTC) using the Gregorian calendar using date-time form as defined in <xref target="RFC3339"></xref>. In EPP Compatibility Profile upper case &quot;T&quot; and &quot;Z&quot; characters MUST be used.</t>
 </section>
 
 <section anchor="client-identifier"><name>Client Identifier</name>
@@ -289,7 +295,7 @@ Component objects carry only data but do not define any operations.</t>
 <li>Mutability: read-write</li>
 <li>Data Type: Composition[DNS Resource Record]</li>
 <li>Description: DNS Resource Records related to the host.</li>
-<li>Constraints: In EPP compatibility the entries would be limited to A and AAAA entries for IPv4 and IPv6 glue records respectively. The labels of DNS entries MUST be subordinate to the Host Name of the Nameserver.</li>
+<li>Constraints: In EPP Compatibility Profile the entries MUST be limited to A and AAAA entries for IPv4 and IPv6 glue records respectively. The labels of DNS entries MUST be subordinate to the Host Name of the Nameserver.</li>
 </ul></li>
 </ul></li>
 </ul>
@@ -405,7 +411,7 @@ Component objects carry only data but do not define any operations.</t>
 <li>Mutability: read-write</li>
 <li>Data Type: String</li>
 <li>Description: The contact's city.</li>
-<li>Constraints: Some implementation MAY limit the maximum length of entries or character set. For EPP compatibility this data element is obligatory.</li>
+<li>Constraints: Some implementation MAY limit the maximum length of entries or character set. In EPP Compatibility Profile this data element MUST be provided.</li>
 </ul></li>
 <li><t>State/Province</t>
 
@@ -435,7 +441,7 @@ Component objects carry only data but do not define any operations.</t>
 <li>Mutability: read-write</li>
 <li>Data Type: String</li>
 <li>Description: The contact's country code.</li>
-<li>Constraints: The value MUST be a two-character identifier from <xref target="ISO3166-1"></xref>. For EPP compatibility this data element is obligatory.</li>
+<li>Constraints: The value MUST be a two-character identifier from <xref target="ISO3166-1"></xref>. In EPP Compatibility Profile this data element MUST be provided.</li>
 </ul></li>
 </ul></li>
 </ul>
@@ -446,7 +452,11 @@ Component objects carry only data but do not define any operations.</t>
 <ul spacing="compact">
 <li>Name: Postal Info Object</li>
 <li>Description: Contains postal-address information in either internationalised or localised forms.</li>
-<li><t>Data Elements:</t>
+<li>Data Elements:</li>
+</ul>
+
+<aside><t>TBC: Contact Type is not localised (shall be the same for PERSON and ORG). Moving it level up would however detach it from related/dependant fields Name/Organisation</t>
+</aside>
 
 <ul spacing="compact">
 <li><t>Contact Type</t>
@@ -467,7 +477,7 @@ Component objects carry only data but do not define any operations.</t>
 <li>Mutability: read-write</li>
 <li>Data Type: String</li>
 <li>Description: The name of the individual or role.</li>
-<li>Constraints: Some implementation MAY limit the maximum length of entries or character set. For EPP compatibility this data element is obligatory. The implementations MAY require this field if Contact Type (<tt>type</tt>) is set to &quot;PERSON&quot;.</li>
+<li>Constraints: Some implementation MAY limit the maximum length of entries or character set. In EPP Compatibility Profile this data element MUST be provided. The implementations MAY require this field if Contact Type (<tt>type</tt>) is set to &quot;PERSON&quot;.</li>
 </ul></li>
 <li><t>Organisation</t>
 
@@ -487,8 +497,7 @@ Component objects carry only data but do not define any operations.</t>
 <li>Mutability: read-write</li>
 <li>Data Type: Postal Address Object</li>
 <li>Description: The detailed postal address.</li>
-<li>Constraints: For EPP compatibility this data element is obligatory.</li>
-</ul></li>
+<li>Constraints: In EPP Compatibility Profile this data element MUST be provided.</li>
 </ul></li>
 </ul>
 </section>
@@ -538,7 +547,7 @@ Component objects carry only data but do not define any operations.</t>
 <li>Cardinality: 0-1</li>
 <li>Mutability: read-only</li>
 <li>Data Type: Identifier</li>
-<li>Description: A server-assigned unique identifier for the object. For EPP compatibility this data element is obligatory.</li>
+<li>Description: A server-assigned unique identifier for the object. In EPP Compatibility Profile this data element MUST be provided.</li>
 <li>Constraints: (None)</li>
 </ul></li>
 <li><t>Status</t>
@@ -606,7 +615,7 @@ Component objects carry only data but do not define any operations.</t>
 <li>Mutability: read-write</li>
 <li>Data Type: Composition[DNS Resource Record]</li>
 <li>Description: A collection of DNS entries related to the domain name.</li>
-<li>Constraints: The Type of the entries MAY be constrained by the server policy. Typically the values would be limited to allowed parent side resource record types. In EPP compatibility with DNSSEC Extension allowed values would be DS and DNSKEY. The labels of DNS entries MUST be subordinate to the domain name and MUST NOT be below zone cut in case of present delegation.</li>
+<li>Constraints: The Type of the entries MAY be constrained by the server policy. Typically the values would be limited to allowed parent side resource record types. In EPP Compatibility Profide with DNSSEC Extension allowed values MUST be DS and DNSKEY. The labels of DNS entries MUST be subordinate to the domain name and MUST NOT be below zone cut in case of present delegation.</li>
 </ul></li>
 <li><t>Subordinate Hosts</t>
 
@@ -825,7 +834,7 @@ is &quot;all&quot;.</li>
 <li>Mutability: read-only</li>
 <li>Data Type: Identifier</li>
 <li>Description: A server-assigned unique identifier for the object.</li>
-<li>Constraints: For EPP compatibility this data element is obligatory.</li>
+<li>Constraints: In EPP Compatibility Profile this data element MUST be provided.</li>
 </ul></li>
 <li><t>Postal Information</t>
 
@@ -1006,7 +1015,7 @@ services for a a domain name.</t>
 <li>Mutability: read-write</li>
 <li>Data Type: Composition[DNS Resource Record]</li>
 <li>Description: DNS Resource Records related to the host.</li>
-<li>Constraints: In EPP compatibility the entries would be limited to A and AAAA entries for IPv4 and IPv6 glue records respectively. The labels of DNS entries MUST be subordinate to the Host Name of the Nameserver.s</li>
+<li>Constraints: In EPP Compatibility Profile the entries MUST be limited to A and AAAA entries for IPv4 and IPv6 glue records respectively. The labels of DNS entries MUST be subordinate to the Host Name of the Nameserver.</li>
 </ul></li>
 <li><t>Status</t>
 
@@ -1655,7 +1664,7 @@ TODO: IANA table: Host Resource Object</t>
 </reference>
 <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.1035.xml"/>
 <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.2119.xml"/>
-<xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.3399.xml"/>
+<xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.3339.xml"/>
 <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.3915.xml"/>
 <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.5322.xml"/>
 <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.5730.xml"/>

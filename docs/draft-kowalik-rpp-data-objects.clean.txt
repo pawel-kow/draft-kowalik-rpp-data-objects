@@ -68,6 +68,7 @@ Table of Contents
          2.4.2.3.  Update
          2.4.2.4.  Delete
        2.4.3.  Operations beyond uniform interface
+     2.5.  EPP Compatibility Profile
    3.  Common Data Types
      3.1.  Identifier
      3.2.  Timestamp
@@ -246,6 +247,25 @@ Table of Contents
    For all other operations both input and output representation have to
    be fully specified.
 
+2.5.  EPP Compatibility Profile
+
+   RPP is designed to coexist with the Extensible Provisioning Protocol
+   (EPP), often operating in parallel against a common backend
+   provisioning system.  While RPP is not inherently constrained by all
+   of EPP's requirements, a specific set of rules is necessary to ensure
+   seamless interoperability in such mixed environments.
+
+   To address this, this document defines an "EPP Compatibility
+   Profile".  This profile specifies a set of additional constraints on
+   RPP data objects and operations that a server MUST adhere to when
+   supporting both RPP and EPP concurrently.
+
+   Throughout this document, all constraints that are part of this
+   profile are explicitly marked with a reference to "EPP Compatibility
+   Profile".  Implementers of systems in a mixed EPP/RPP environment
+   MUST follow these specific constraints in addition to the base RPP
+   requirements.
+
 3.  Common Data Types
 
    This section defines primitive data types and structures that are re-
@@ -263,8 +283,8 @@ Table of Contents
 
    Date and time attribute values MUST be represented in Universal
    Coordinated Time (UTC) using the Gregorian calendar using date-time
-   form as defined in [RFC3399].  For compatibility with EPP upper case
-   "T" and "Z" characters SHOULD be used.
+   form as defined in [RFC3339].  In EPP Compatibility Profile upper
+   case "T" and "Z" characters MUST be used.
 
 3.3.  Client Identifier
 
@@ -459,10 +479,10 @@ Table of Contents
          -  Mutability: read-write
          -  Data Type: Composition[DNS Resource Record]
          -  Description: DNS Resource Records related to the host.
-         -  Constraints: In EPP compatibility the entries would be
-            limited to A and AAAA entries for IPv4 and IPv6 glue records
-            respectively.  The labels of DNS entries MUST be subordinate
-            to the Host Name of the Nameserver.
+         -  Constraints: In EPP Compatibility Profile the entries MUST
+            be limited to A and AAAA entries for IPv4 and IPv6 glue
+            records respectively.  The labels of DNS entries MUST be
+            subordinate to the Host Name of the Nameserver.
 
 5.4.  DNS Resource Record
 
@@ -557,8 +577,8 @@ Table of Contents
          -  Data Type: String
          -  Description: The contact's city.
          -  Constraints: Some implementation MAY limit the maximum
-            length of entries or character set.  For EPP compatibility
-            this data element is obligatory.
+            length of entries or character set.  In EPP Compatibility
+            Profile this data element MUST be provided.
       -  State/Province
          -  Identifier: sp
          -  Cardinality: 0-1
@@ -583,8 +603,8 @@ Table of Contents
          -  Data Type: String
          -  Description: The contact's country code.
          -  Constraints: The value MUST be a two-character identifier
-            from [ISO3166-1].  For EPP compatibility this data element
-            is obligatory.
+            from [ISO3166-1].  In EPP Compatibility Profile this data
+            element MUST be provided.
 
 5.7.  Postal Info Object
 
@@ -592,43 +612,47 @@ Table of Contents
    -  Description: Contains postal-address information in either
       internationalised or localised forms.
    -  Data Elements:
-      -  Contact Type
-         -  Identifier: type
-         -  Cardinality: 0-1
-         -  Mutability: read-write
-         -  Data Type: String
-         -  Description: Specifies whether the contact is and individual
-            or an organisation.
-         -  Constraints: The value MUST be one of: "PERSON" (individual)
-            or "ORG" (organisation).
-      -  Name
-         -  Identifier: name
-         -  Cardinality: 0-1
-         -  Mutability: read-write
-         -  Data Type: String
-         -  Description: The name of the individual or role.
-         -  Constraints: Some implementation MAY limit the maximum
-            length of entries or character set.  For EPP compatibility
-            this data element is obligatory.  The implementations MAY
-            require this field if Contact Type (type) is set to
-            "PERSON".
-      -  Organisation
-         -  Identifier: org
-         -  Cardinality: 0-1
-         -  Mutability: read-write
-         -  Data Type: String
-         -  Description: The name of the organisation.
-         -  Constraints: Some implementation MAY limit the maximum
-            length of entries or character set.  The implementations MAY
-            require this field if Contact Type (type) is set to "ORG".
-      -  Address
-         -  Identifier: addr
-         -  Cardinality: 0-1
-         -  Mutability: read-write
-         -  Data Type: Postal Address Object
-         -  Description: The detailed postal address.
-         -  Constraints: For EPP compatibility this data element is
-            obligatory.
+
+      |  TBC: Contact Type is not localised (shall be the same for
+      |  PERSON and ORG).  Moving it level up would however detach it
+      |  from related/dependant fields Name/Organisation
+
+   -  Contact Type
+      -  Identifier: type
+      -  Cardinality: 0-1
+      -  Mutability: read-write
+      -  Data Type: String
+      -  Description: Specifies whether the contact is and individual or
+         an organisation.
+      -  Constraints: The value MUST be one of: "PERSON" (individual) or
+         "ORG" (organisation).
+   -  Name
+      -  Identifier: name
+      -  Cardinality: 0-1
+      -  Mutability: read-write
+      -  Data Type: String
+      -  Description: The name of the individual or role.
+      -  Constraints: Some implementation MAY limit the maximum length
+         of entries or character set.  In EPP Compatibility Profile this
+         data element MUST be provided.  The implementations MAY require
+         this field if Contact Type (type) is set to "PERSON".
+   -  Organisation
+      -  Identifier: org
+      -  Cardinality: 0-1
+      -  Mutability: read-write
+      -  Data Type: String
+      -  Description: The name of the organisation.
+      -  Constraints: Some implementation MAY limit the maximum length
+         of entries or character set.  The implementations MAY require
+         this field if Contact Type (type) is set to "ORG".
+   -  Address
+      -  Identifier: addr
+      -  Cardinality: 0-1
+      -  Mutability: read-write
+      -  Data Type: Postal Address Object
+      -  Description: The detailed postal address.
+      -  Constraints: In EPP Compatibility Profile this data element
+         MUST be provided.
 
 5.8.  Disclose Object
 
@@ -675,7 +699,8 @@ Table of Contents
       -  Mutability: read-only
       -  Data Type: Identifier
       -  Description: A server-assigned unique identifier for the
-         object.  For EPP compatibility this data element is obligatory.
+         object.  In EPP Compatibility Profile this data element MUST be
+         provided.
       -  Constraints: (None)
 
    -  Status
@@ -739,10 +764,10 @@ Table of Contents
       -  Constraints: The Type of the entries MAY be constrained by the
          server policy.  Typically the values would be limited to
          allowed parent side resource record types.  In EPP
-         compatibility with DNSSEC Extension allowed values would be DS
-         and DNSKEY.  The labels of DNS entries MUST be subordinate to
-         the domain name and MUST NOT be below zone cut in case of
-         present delegation.
+         Compatibility Profide with DNSSEC Extension allowed values MUST
+         be DS and DNSKEY.  The labels of DNS entries MUST be
+         subordinate to the domain name and MUST NOT be below zone cut
+         in case of present delegation.
 
    -  Subordinate Hosts
 
@@ -965,8 +990,8 @@ Table of Contents
       -  Data Type: Identifier
       -  Description: A server-assigned unique identifier for the
          object.
-      -  Constraints: For EPP compatibility this data element is
-         obligatory.
+      -  Constraints: In EPP Compatibility Profile this data element
+         MUST be provided.
 
    -  Postal Information
 
@@ -1142,10 +1167,10 @@ Table of Contents
       -  Mutability: read-write
       -  Data Type: Composition[DNS Resource Record]
       -  Description: DNS Resource Records related to the host.
-      -  Constraints: In EPP compatibility the entries would be limited
-         to A and AAAA entries for IPv4 and IPv6 glue records
+      -  Constraints: In EPP Compatibility Profile the entries MUST be
+         limited to A and AAAA entries for IPv4 and IPv6 glue records
          respectively.  The labels of DNS entries MUST be subordinate to
-         the Host Name of the Nameserver.s
+         the Host Name of the Nameserver.
 
    -  Status
 
@@ -1661,8 +1686,9 @@ Table of Contents
               DOI 10.17487/RFC2119, March 1997,
               <https://www.rfc-editor.org/info/rfc2119>.
 
-   [RFC3399]  "Not Issued", RFC 3399,
-              <https://www.rfc-editor.org/info/rfc3399>.
+   [RFC3339]  Klyne, G. and C. Newman, "Date and Time on the Internet:
+              Timestamps", RFC 3339, DOI 10.17487/RFC3339, July 2002,
+              <https://www.rfc-editor.org/info/rfc3339>.
 
    [RFC3915]  Hollenbeck, S., "Domain Registry Grace Period Mapping for
               the Extensible Provisioning Protocol (EPP)", RFC 3915,

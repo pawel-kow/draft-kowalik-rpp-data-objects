@@ -1349,6 +1349,9 @@ li > p:last-of-type:only-child {
 </li>
                 </ul>
 </li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2.2.5">
+                <p id="section-toc.1-1.2.2.5.1"><a href="#section-2.5" class="auto internal xref">2.5</a>.  <a href="#name-epp-compatibility-profile" class="internal xref">EPP Compatibility Profile</a></p>
+</li>
             </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3">
@@ -1680,6 +1683,16 @@ Typically it would be a value related to or derived from Authorisation Informati
 </div>
 </section>
 </div>
+<div id="epp-compatibility-profile">
+<section id="section-2.5">
+        <h3 id="name-epp-compatibility-profile">
+<a href="#section-2.5" class="section-number selfRef">2.5. </a><a href="#name-epp-compatibility-profile" class="section-name selfRef">EPP Compatibility Profile</a>
+        </h3>
+<p id="section-2.5-1">RPP is designed to coexist with the Extensible Provisioning Protocol (EPP), often operating in parallel against a common backend provisioning system. While RPP is not inherently constrained by all of EPP's requirements, a specific set of rules is necessary to ensure seamless interoperability in such mixed environments.<a href="#section-2.5-1" class="pilcrow">¶</a></p>
+<p id="section-2.5-2">To address this, this document defines an "EPP Compatibility Profile". This profile specifies a set of additional constraints on RPP data objects and operations that a server MUST adhere to when supporting both RPP and EPP concurrently.<a href="#section-2.5-2" class="pilcrow">¶</a></p>
+<p id="section-2.5-3">Throughout this document, all constraints that are part of this profile are explicitly marked with a reference to "EPP Compatibility Profile". Implementers of systems in a mixed EPP/RPP environment MUST follow these specific constraints in addition to the base RPP requirements.<a href="#section-2.5-3" class="pilcrow">¶</a></p>
+</section>
+</div>
 </section>
 </div>
 <div id="common-data-types">
@@ -1702,7 +1715,7 @@ Identifiers for certain object types MAY have additional constraints imposed eit
         <h3 id="name-timestamp">
 <a href="#section-3.2" class="section-number selfRef">3.2. </a><a href="#name-timestamp" class="section-name selfRef">Timestamp</a>
         </h3>
-<p id="section-3.2-1">Date and time attribute values MUST be represented in Universal Coordinated Time (UTC) using the Gregorian calendar using date-time form as defined in <span>[<a href="#RFC3399" class="cite xref">RFC3399</a>]</span>. For compatibility with EPP upper case "T" and "Z" characters SHOULD be used.<a href="#section-3.2-1" class="pilcrow">¶</a></p>
+<p id="section-3.2-1">Date and time attribute values MUST be represented in Universal Coordinated Time (UTC) using the Gregorian calendar using date-time form as defined in <span>[<a href="#RFC3339" class="cite xref">RFC3339</a>]</span>. In EPP Compatibility Profile upper case "T" and "Z" characters MUST be used.<a href="#section-3.2-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="client-identifier">
@@ -1969,7 +1982,7 @@ Component objects carry only data but do not define any operations.<a href="#sec
 </li>
                   <li class="compact" id="section-5.3-1.3.2.2.2.5">Description: DNS Resource Records related to the host.<a href="#section-5.3-1.3.2.2.2.5" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-5.3-1.3.2.2.2.6">Constraints: In EPP compatibility the entries would be limited to A and AAAA entries for IPv4 and IPv6 glue records respectively. The labels of DNS entries MUST be subordinate to the Host Name of the Nameserver.<a href="#section-5.3-1.3.2.2.2.6" class="pilcrow">¶</a>
+                  <li class="compact" id="section-5.3-1.3.2.2.2.6">Constraints: In EPP Compatibility Profile the entries MUST be limited to A and AAAA entries for IPv4 and IPv6 glue records respectively. The labels of DNS entries MUST be subordinate to the Host Name of the Nameserver.<a href="#section-5.3-1.3.2.2.2.6" class="pilcrow">¶</a>
 </li>
                 </ul>
 </li>
@@ -2159,7 +2172,7 @@ Component objects carry only data but do not define any operations.<a href="#sec
 </li>
                   <li class="compact" id="section-5.6-1.3.2.2.2.5">Description: The contact's city.<a href="#section-5.6-1.3.2.2.2.5" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-5.6-1.3.2.2.2.6">Constraints: Some implementation MAY limit the maximum length of entries or character set. For EPP compatibility this data element is obligatory.<a href="#section-5.6-1.3.2.2.2.6" class="pilcrow">¶</a>
+                  <li class="compact" id="section-5.6-1.3.2.2.2.6">Constraints: Some implementation MAY limit the maximum length of entries or character set. In EPP Compatibility Profile this data element MUST be provided.<a href="#section-5.6-1.3.2.2.2.6" class="pilcrow">¶</a>
 </li>
                 </ul>
 </li>
@@ -2210,7 +2223,7 @@ Component objects carry only data but do not define any operations.<a href="#sec
 </li>
                   <li class="compact" id="section-5.6-1.3.2.5.2.5">Description: The contact's country code.<a href="#section-5.6-1.3.2.5.2.5" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-5.6-1.3.2.5.2.6">Constraints: The value MUST be a two-character identifier from <span>[<a href="#ISO3166-1" class="cite xref">ISO3166-1</a>]</span>. For EPP compatibility this data element is obligatory.<a href="#section-5.6-1.3.2.5.2.6" class="pilcrow">¶</a>
+                  <li class="compact" id="section-5.6-1.3.2.5.2.6">Constraints: The value MUST be a two-character identifier from <span>[<a href="#ISO3166-1" class="cite xref">ISO3166-1</a>]</span>. In EPP Compatibility Profile this data element MUST be provided.<a href="#section-5.6-1.3.2.5.2.6" class="pilcrow">¶</a>
 </li>
                 </ul>
 </li>
@@ -2229,76 +2242,78 @@ Component objects carry only data but do not define any operations.<a href="#sec
 </li>
           <li class="compact" id="section-5.7-1.2">Description: Contains postal-address information in either internationalised or localised forms.<a href="#section-5.7-1.2" class="pilcrow">¶</a>
 </li>
-          <li class="compact" id="section-5.7-1.3">
-            <p id="section-5.7-1.3.1">Data Elements:<a href="#section-5.7-1.3.1" class="pilcrow">¶</a></p>
+          <li class="compact" id="section-5.7-1.3">Data Elements:<a href="#section-5.7-1.3" class="pilcrow">¶</a>
+</li>
+        </ul>
+<aside id="section-5.7-2">
+          <p id="section-5.7-2.1">TBC: Contact Type is not localised (shall be the same for PERSON and ORG). Moving it level up would however detach it from related/dependant fields Name/Organisation<a href="#section-5.7-2.1" class="pilcrow">¶</a></p>
+</aside>
 <ul class="compact">
-<li class="compact" id="section-5.7-1.3.2.1">
-                <p id="section-5.7-1.3.2.1.1">Contact Type<a href="#section-5.7-1.3.2.1.1" class="pilcrow">¶</a></p>
+<li class="compact" id="section-5.7-3.1">
+            <p id="section-5.7-3.1.1">Contact Type<a href="#section-5.7-3.1.1" class="pilcrow">¶</a></p>
 <ul class="compact">
-<li class="compact" id="section-5.7-1.3.2.1.2.1">Identifier: type<a href="#section-5.7-1.3.2.1.2.1" class="pilcrow">¶</a>
+<li class="compact" id="section-5.7-3.1.2.1">Identifier: type<a href="#section-5.7-3.1.2.1" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-5.7-1.3.2.1.2.2">Cardinality: 0-1<a href="#section-5.7-1.3.2.1.2.2" class="pilcrow">¶</a>
+              <li class="compact" id="section-5.7-3.1.2.2">Cardinality: 0-1<a href="#section-5.7-3.1.2.2" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-5.7-1.3.2.1.2.3">Mutability: read-write<a href="#section-5.7-1.3.2.1.2.3" class="pilcrow">¶</a>
+              <li class="compact" id="section-5.7-3.1.2.3">Mutability: read-write<a href="#section-5.7-3.1.2.3" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-5.7-1.3.2.1.2.4">Data Type: String<a href="#section-5.7-1.3.2.1.2.4" class="pilcrow">¶</a>
+              <li class="compact" id="section-5.7-3.1.2.4">Data Type: String<a href="#section-5.7-3.1.2.4" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-5.7-1.3.2.1.2.5">Description: Specifies whether the contact is and individual or an organisation.<a href="#section-5.7-1.3.2.1.2.5" class="pilcrow">¶</a>
+              <li class="compact" id="section-5.7-3.1.2.5">Description: Specifies whether the contact is and individual or an organisation.<a href="#section-5.7-3.1.2.5" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-5.7-1.3.2.1.2.6">Constraints: The value MUST be one of: "PERSON" (individual) or "ORG" (organisation).<a href="#section-5.7-1.3.2.1.2.6" class="pilcrow">¶</a>
+              <li class="compact" id="section-5.7-3.1.2.6">Constraints: The value MUST be one of: "PERSON" (individual) or "ORG" (organisation).<a href="#section-5.7-3.1.2.6" class="pilcrow">¶</a>
 </li>
-                </ul>
+            </ul>
 </li>
-              <li class="compact" id="section-5.7-1.3.2.2">
-                <p id="section-5.7-1.3.2.2.1">Name<a href="#section-5.7-1.3.2.2.1" class="pilcrow">¶</a></p>
+          <li class="compact" id="section-5.7-3.2">
+            <p id="section-5.7-3.2.1">Name<a href="#section-5.7-3.2.1" class="pilcrow">¶</a></p>
 <ul class="compact">
-<li class="compact" id="section-5.7-1.3.2.2.2.1">Identifier: name<a href="#section-5.7-1.3.2.2.2.1" class="pilcrow">¶</a>
+<li class="compact" id="section-5.7-3.2.2.1">Identifier: name<a href="#section-5.7-3.2.2.1" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-5.7-1.3.2.2.2.2">Cardinality: 0-1<a href="#section-5.7-1.3.2.2.2.2" class="pilcrow">¶</a>
+              <li class="compact" id="section-5.7-3.2.2.2">Cardinality: 0-1<a href="#section-5.7-3.2.2.2" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-5.7-1.3.2.2.2.3">Mutability: read-write<a href="#section-5.7-1.3.2.2.2.3" class="pilcrow">¶</a>
+              <li class="compact" id="section-5.7-3.2.2.3">Mutability: read-write<a href="#section-5.7-3.2.2.3" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-5.7-1.3.2.2.2.4">Data Type: String<a href="#section-5.7-1.3.2.2.2.4" class="pilcrow">¶</a>
+              <li class="compact" id="section-5.7-3.2.2.4">Data Type: String<a href="#section-5.7-3.2.2.4" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-5.7-1.3.2.2.2.5">Description: The name of the individual or role.<a href="#section-5.7-1.3.2.2.2.5" class="pilcrow">¶</a>
+              <li class="compact" id="section-5.7-3.2.2.5">Description: The name of the individual or role.<a href="#section-5.7-3.2.2.5" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-5.7-1.3.2.2.2.6">Constraints: Some implementation MAY limit the maximum length of entries or character set. For EPP compatibility this data element is obligatory. The implementations MAY require this field if Contact Type (<code>type</code>) is set to "PERSON".<a href="#section-5.7-1.3.2.2.2.6" class="pilcrow">¶</a>
+              <li class="compact" id="section-5.7-3.2.2.6">Constraints: Some implementation MAY limit the maximum length of entries or character set. In EPP Compatibility Profile this data element MUST be provided. The implementations MAY require this field if Contact Type (<code>type</code>) is set to "PERSON".<a href="#section-5.7-3.2.2.6" class="pilcrow">¶</a>
 </li>
-                </ul>
+            </ul>
 </li>
-              <li class="compact" id="section-5.7-1.3.2.3">
-                <p id="section-5.7-1.3.2.3.1">Organisation<a href="#section-5.7-1.3.2.3.1" class="pilcrow">¶</a></p>
+          <li class="compact" id="section-5.7-3.3">
+            <p id="section-5.7-3.3.1">Organisation<a href="#section-5.7-3.3.1" class="pilcrow">¶</a></p>
 <ul class="compact">
-<li class="compact" id="section-5.7-1.3.2.3.2.1">Identifier: org<a href="#section-5.7-1.3.2.3.2.1" class="pilcrow">¶</a>
+<li class="compact" id="section-5.7-3.3.2.1">Identifier: org<a href="#section-5.7-3.3.2.1" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-5.7-1.3.2.3.2.2">Cardinality: 0-1<a href="#section-5.7-1.3.2.3.2.2" class="pilcrow">¶</a>
+              <li class="compact" id="section-5.7-3.3.2.2">Cardinality: 0-1<a href="#section-5.7-3.3.2.2" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-5.7-1.3.2.3.2.3">Mutability: read-write<a href="#section-5.7-1.3.2.3.2.3" class="pilcrow">¶</a>
+              <li class="compact" id="section-5.7-3.3.2.3">Mutability: read-write<a href="#section-5.7-3.3.2.3" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-5.7-1.3.2.3.2.4">Data Type: String<a href="#section-5.7-1.3.2.3.2.4" class="pilcrow">¶</a>
+              <li class="compact" id="section-5.7-3.3.2.4">Data Type: String<a href="#section-5.7-3.3.2.4" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-5.7-1.3.2.3.2.5">Description: The name of the organisation.<a href="#section-5.7-1.3.2.3.2.5" class="pilcrow">¶</a>
+              <li class="compact" id="section-5.7-3.3.2.5">Description: The name of the organisation.<a href="#section-5.7-3.3.2.5" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-5.7-1.3.2.3.2.6">Constraints: Some implementation MAY limit the maximum length of entries or character set. The implementations MAY require this field if Contact Type (<code>type</code>) is set to "ORG".<a href="#section-5.7-1.3.2.3.2.6" class="pilcrow">¶</a>
+              <li class="compact" id="section-5.7-3.3.2.6">Constraints: Some implementation MAY limit the maximum length of entries or character set. The implementations MAY require this field if Contact Type (<code>type</code>) is set to "ORG".<a href="#section-5.7-3.3.2.6" class="pilcrow">¶</a>
 </li>
-                </ul>
+            </ul>
 </li>
-              <li class="compact" id="section-5.7-1.3.2.4">
-                <p id="section-5.7-1.3.2.4.1">Address<a href="#section-5.7-1.3.2.4.1" class="pilcrow">¶</a></p>
+          <li class="compact" id="section-5.7-3.4">
+            <p id="section-5.7-3.4.1">Address<a href="#section-5.7-3.4.1" class="pilcrow">¶</a></p>
 <ul class="compact">
-<li class="compact" id="section-5.7-1.3.2.4.2.1">Identifier: addr<a href="#section-5.7-1.3.2.4.2.1" class="pilcrow">¶</a>
+<li class="compact" id="section-5.7-3.4.2.1">Identifier: addr<a href="#section-5.7-3.4.2.1" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-5.7-1.3.2.4.2.2">Cardinality: 0-1<a href="#section-5.7-1.3.2.4.2.2" class="pilcrow">¶</a>
+              <li class="compact" id="section-5.7-3.4.2.2">Cardinality: 0-1<a href="#section-5.7-3.4.2.2" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-5.7-1.3.2.4.2.3">Mutability: read-write<a href="#section-5.7-1.3.2.4.2.3" class="pilcrow">¶</a>
+              <li class="compact" id="section-5.7-3.4.2.3">Mutability: read-write<a href="#section-5.7-3.4.2.3" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-5.7-1.3.2.4.2.4">Data Type: Postal Address Object<a href="#section-5.7-1.3.2.4.2.4" class="pilcrow">¶</a>
+              <li class="compact" id="section-5.7-3.4.2.4">Data Type: Postal Address Object<a href="#section-5.7-3.4.2.4" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-5.7-1.3.2.4.2.5">Description: The detailed postal address.<a href="#section-5.7-1.3.2.4.2.5" class="pilcrow">¶</a>
+              <li class="compact" id="section-5.7-3.4.2.5">Description: The detailed postal address.<a href="#section-5.7-3.4.2.5" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-5.7-1.3.2.4.2.6">Constraints: For EPP compatibility this data element is obligatory.<a href="#section-5.7-1.3.2.4.2.6" class="pilcrow">¶</a>
-</li>
-                </ul>
+              <li class="compact" id="section-5.7-3.4.2.6">Constraints: In EPP Compatibility Profile this data element MUST be provided.<a href="#section-5.7-3.4.2.6" class="pilcrow">¶</a>
 </li>
             </ul>
 </li>
@@ -2380,7 +2395,7 @@ Component objects carry only data but do not define any operations.<a href="#sec
 </li>
               <li class="compact normal" id="section-6.2-2.2.2.4">Data Type: Identifier<a href="#section-6.2-2.2.2.4" class="pilcrow">¶</a>
 </li>
-              <li class="compact normal" id="section-6.2-2.2.2.5">Description: A server-assigned unique identifier for the object. For EPP compatibility this data element is obligatory.<a href="#section-6.2-2.2.2.5" class="pilcrow">¶</a>
+              <li class="compact normal" id="section-6.2-2.2.2.5">Description: A server-assigned unique identifier for the object. In EPP Compatibility Profile this data element MUST be provided.<a href="#section-6.2-2.2.2.5" class="pilcrow">¶</a>
 </li>
               <li class="compact normal" id="section-6.2-2.2.2.6">Constraints: (None)<a href="#section-6.2-2.2.2.6" class="pilcrow">¶</a>
 </li>
@@ -2484,7 +2499,7 @@ Component objects carry only data but do not define any operations.<a href="#sec
 </li>
               <li class="compact normal" id="section-6.2-6.3.2.5">Description: A collection of DNS entries related to the domain name.<a href="#section-6.2-6.3.2.5" class="pilcrow">¶</a>
 </li>
-              <li class="compact normal" id="section-6.2-6.3.2.6">Constraints: The Type of the entries MAY be constrained by the server policy. Typically the values would be limited to allowed parent side resource record types. In EPP compatibility with DNSSEC Extension allowed values would be DS and DNSKEY. The labels of DNS entries MUST be subordinate to the domain name and MUST NOT be below zone cut in case of present delegation.<a href="#section-6.2-6.3.2.6" class="pilcrow">¶</a>
+              <li class="compact normal" id="section-6.2-6.3.2.6">Constraints: The Type of the entries MAY be constrained by the server policy. Typically the values would be limited to allowed parent side resource record types. In EPP Compatibility Profide with DNSSEC Extension allowed values MUST be DS and DNSKEY. The labels of DNS entries MUST be subordinate to the domain name and MUST NOT be below zone cut in case of present delegation.<a href="#section-6.2-6.3.2.6" class="pilcrow">¶</a>
 </li>
             </ul>
 </li>
@@ -2836,7 +2851,7 @@ is "all".<a href="#section-6.3.2-4.1.2.5" class="pilcrow">¶</a>
 </li>
               <li class="compact normal" id="section-7.2-2.2.2.5">Description: A server-assigned unique identifier for the object.<a href="#section-7.2-2.2.2.5" class="pilcrow">¶</a>
 </li>
-              <li class="compact normal" id="section-7.2-2.2.2.6">Constraints: For EPP compatibility this data element is obligatory.<a href="#section-7.2-2.2.2.6" class="pilcrow">¶</a>
+              <li class="compact normal" id="section-7.2-2.2.2.6">Constraints: In EPP Compatibility Profile this data element MUST be provided.<a href="#section-7.2-2.2.2.6" class="pilcrow">¶</a>
 </li>
             </ul>
 </li>
@@ -3138,7 +3153,7 @@ services for a a domain name.<a href="#section-8.1-1" class="pilcrow">¶</a></p>
 </li>
               <li class="compact normal" id="section-8.2-3.2.2.5">Description: DNS Resource Records related to the host.<a href="#section-8.2-3.2.2.5" class="pilcrow">¶</a>
 </li>
-              <li class="compact normal" id="section-8.2-3.2.2.6">Constraints: In EPP compatibility the entries would be limited to A and AAAA entries for IPv4 and IPv6 glue records respectively. The labels of DNS entries MUST be subordinate to the Host Name of the Nameserver.s<a href="#section-8.2-3.2.2.6" class="pilcrow">¶</a>
+              <li class="compact normal" id="section-8.2-3.2.2.6">Constraints: In EPP Compatibility Profile the entries MUST be limited to A and AAAA entries for IPv4 and IPv6 glue records respectively. The labels of DNS entries MUST be subordinate to the Host Name of the Nameserver.<a href="#section-8.2-3.2.2.6" class="pilcrow">¶</a>
 </li>
             </ul>
 </li>
@@ -3855,9 +3870,9 @@ TODO: IANA table: Host Resource Object<a href="#section-9.1.3-61.1" class="pilcr
       <dd>
 <span class="refAuthor">Bradner, S.</span>, <span class="refTitle">"Key words for use in RFCs to Indicate Requirement Levels"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 2119</span>, <span class="seriesInfo">DOI 10.17487/RFC2119</span>, <time datetime="1997-03" class="refDate">March 1997</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc2119">https://www.rfc-editor.org/info/rfc2119</a>&gt;</span>. </dd>
 <dd class="break"></dd>
-<dt id="RFC3399">[RFC3399]</dt>
+<dt id="RFC3339">[RFC3339]</dt>
       <dd>
-<span class="refTitle">"Not Issued"</span>, <span class="seriesInfo">RFC 3399</span>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc3399">https://www.rfc-editor.org/info/rfc3399</a>&gt;</span>. </dd>
+<span class="refAuthor">Klyne, G.</span> and <span class="refAuthor">C. Newman</span>, <span class="refTitle">"Date and Time on the Internet: Timestamps"</span>, <span class="seriesInfo">RFC 3339</span>, <span class="seriesInfo">DOI 10.17487/RFC3339</span>, <time datetime="2002-07" class="refDate">July 2002</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc3339">https://www.rfc-editor.org/info/rfc3339</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC3915">[RFC3915]</dt>
       <dd>
