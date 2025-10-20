@@ -167,7 +167,7 @@ Notation: Aggregation[Type]
 A relation between two independent objects.
 
 If the cardinality of target object is more than 1, this represents an ordered array. 
-It MUST assured that the same unchanged data is always inserted in the same order. In case of data insertions, deletions or updates the remaining of the data SHALL preserve its order.
+It MUST assured that the same unchanged data is always inserted in the same order in order to allow stable reference by position to data elements. In case of data insertions, deletions or updates the remaining of the data SHALL preserve its order.
 
 ## Composition
 
@@ -176,7 +176,7 @@ Notation: Composition[Type] or Type
 A relation between an independent parent object and 1 or more dependent child object(s).
 
 If the cardinality of target object is more than 1, this represents an ordered array. 
-It MUST assured that MUST assured that the same unchanged data is always inserted in the same order. In case of data insertions, deletions or updates the remaining of the data SHALL preserve its order.
+It MUST assured that the same unchanged data is always inserted in the same order  in order to allow stable reference by position to data elements. In case of data insertions, deletions or updates the remaining of the data SHALL preserve its order.
 
 ## Labelled Aggregation
 
@@ -248,7 +248,11 @@ Component objects carry only data but do not define any operations.
       * Description: machine-readible enum label of a status
       * Constraints: 
         * Exact list of allowed status labels depends on the provisioning object type. This enumeration can be expanded by extensions.
-        * Statuses MAY be either set by the server with "server" prefix, or set by the client with "client" prefix. 
+        * The status labels MUST use camel case notation and use only ASCII alphabetic characters.
+        * Statuses MAY be of three categories:
+          * those explicitly set by a server. Those MUST have "server" prefix
+          * those explicitly set by a client. Those MUST have "client" prefix
+          * those indirectly controlled by provisioning object lifecycle or business logic. Those MUST NOT use either "client" or "server" prefix. They MAY use another prefix or no prefix at all 
     * Reason
       * Indentifier: reason
       * Cardinality: 0-1
@@ -263,6 +267,8 @@ Component objects carry only data but do not define any operations.
       * Data Type: Timestamp
       * Description: a timestamp, when this status is going to be removed automatically, or changed to other status. This field can be used to expresse lifecycle related information.
       * Constraints: servers MAY restrict possibility to set or update this value by the client.
+
+A> TBD: Itea - model status object as Labelled Composition using "Label"? Con: Generic Constraints for Label will be repeated.
 
 ## Nameserver Object
 
