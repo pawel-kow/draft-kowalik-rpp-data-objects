@@ -24,6 +24,16 @@ organization = "DENIC"
   email = "pawel.kowalik@denic.de"
   uri = "https://denic.de/"
 
+[[author]]
+initials="M."
+surname="Wullink"
+fullname="Maarten Wullink"
+abbrev = ""
+organization = "SIDN Labs"
+  [author.address]
+  email = "maarten.wullink@sidn.nl"
+  uri = "https://sidn.nl/"
+
 %%%
 
 .# Abstract
