@@ -28,7 +28,7 @@ organization = "DENIC"
 
 .# Abstract
 
-This document defines data objects for the Registry Provisioning Protocol (RPP) and sets up IANA registries to describe and catalogue them. The definitions for domain name, contact, and host objects focus on the logical structure and constraints of the data elements, independent of any specific data representation or media type. This document follows the architecture defined in [I-D.kowalik-rpp-architecture].
+This document defines data objects for the Registry Provisioning Protocol (RPP) and sets up IANA registries to describe and catalogue them. Specifically, it details the logical structure, constraints, and protocol operations (including their inputs and outputs) for foundational resources: domain names, contacts, and hosts. In accordance with the RPP architecture [@!I-D.kowalik-rpp-architecture], these definitions focus entirely on the semantics, remaining independent of any specific data representation or media type (e.g., JSON or XML).
 
 {mainmatter}
 
