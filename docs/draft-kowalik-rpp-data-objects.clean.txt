@@ -5,8 +5,8 @@
 Network Working Group                                         P. Kowalik
 Internet-Draft                                                     DENIC
 Intended status: Standards Track                              M. Wullink
-Expires: 13 April 2026                                         SIDN Labs
-                                                         10 October 2025
+Expires: 23 April 2026                                         SIDN Labs
+                                                         20 October 2025
 
 
            Registry Provisioning Protocol (RPP) Data Objects
@@ -39,7 +39,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 13 April 2026.
+   This Internet-Draft will expire on 23 April 2026.
 
 Copyright Notice
 
@@ -463,20 +463,20 @@ Table of Contents
          -  Data Type: String
          -  Description: machine-readible enum label of a status
          -  Constraints:
-         -  Exact list of allowed status labels depends on the
-            provisioning object type.  This enumeration can be expanded
-            by extensions.
-         -  The status labels MUST use camel case notation and use only
-            ASCII alphabetic characters.
-         -  Statuses MAY be of three categories:
-            -  those explicitly set by a server.  Those MUST have
-               "server" prefix
-            -  those explicitly set by a client.  Those MUST have
-               "client" prefix
-            -  those indirectly controlled by provisioning object
-               lifecycle or business logic.  Those MUST NOT use either
-               "client" or "server" prefix.  They MAY use another prefix
-               or no prefix at all
+            -  Exact list of allowed status labels depends on the
+               provisioning object type.  This enumeration can be
+               expanded by extensions.
+            -  The status labels MUST use camel case notation and use
+               only ASCII alphabetic characters.
+            -  Statuses MAY be of three categories:
+            1.  those explicitly set by a server.  Those MUST have
+                "server" prefix
+            2.  those explicitly set by a client.  Those MUST have
+                "client" prefix
+            3.  those indirectly controlled by provisioning object
+                lifecycle or business logic.  Those MUST NOT use either
+                "client" or "server" prefix.  They MAY use another
+                prefix or no prefix at all
       -  Reason
          -  Indentifier: reason
          -  Cardinality: 0-1

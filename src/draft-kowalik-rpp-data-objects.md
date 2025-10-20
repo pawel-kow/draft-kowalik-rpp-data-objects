@@ -6,7 +6,7 @@ workgroup = "Network Working Group"
 submissiontype = "IETF"
 keyword = [""]
 TocDepth = 4
-date = 2025-10-10
+date = 2025-10-20
 
 [seriesInfo]
 name = "Internet-Draft"
@@ -237,36 +237,36 @@ Component objects carry only data but do not define any operations.
 
 ## Status Object
 
-  * Name: Status Object
-  * Description: Represents one of the status values associated with a provisioning object
-  * Data Elements:
-    * Label
-      * Identifier: label
-      * Cardinality: 1
-      * Mutability: create-only
-      * Data Type: String
-      * Description: machine-readible enum label of a status
-      * Constraints: 
-        * Exact list of allowed status labels depends on the provisioning object type. This enumeration can be expanded by extensions.
-        * The status labels MUST use camel case notation and use only ASCII alphabetic characters.
-        * Statuses MAY be of three categories:
-          * those explicitly set by a server. Those MUST have "server" prefix
-          * those explicitly set by a client. Those MUST have "client" prefix
-          * those indirectly controlled by provisioning object lifecycle or business logic. Those MUST NOT use either "client" or "server" prefix. They MAY use another prefix or no prefix at all 
-    * Reason
-      * Indentifier: reason
-      * Cardinality: 0-1
-      * Mutability: create-only
-      * Data Type: String
-      * Description: a human-readable text that describes the rationale for the status applied to the object.
-      * Constraints: None
-    * Due
-      * Identifier: due
-      * Cardinality: 0-1
-      * Mutability: read-write
-      * Data Type: Timestamp
-      * Description: a timestamp, when this status is going to be removed automatically, or changed to other status. This field can be used to expresse lifecycle related information.
-      * Constraints: servers MAY restrict possibility to set or update this value by the client.
+* Name: Status Object
+* Description: Represents one of the status values associated with a provisioning object
+* Data Elements:
+  * Label
+    * Identifier: label
+    * Cardinality: 1
+    * Mutability: create-only
+    * Data Type: String
+    * Description: machine-readible enum label of a status
+    * Constraints:      
+      * Exact list of allowed status labels depends on the provisioning object type. This enumeration can be expanded by extensions.
+      * The status labels MUST use camel case notation and use only ASCII alphabetic characters.
+      * Statuses MAY be of three categories:
+        1. those explicitly set by a server. Those MUST have "server" prefix
+        2. those explicitly set by a client. Those MUST have "client" prefix
+        3. those indirectly controlled by provisioning object lifecycle or business logic. Those MUST NOT use either "client" or "server" prefix. They MAY use another prefix or no prefix at all
+  * Reason
+    * Indentifier: reason
+    * Cardinality: 0-1
+    * Mutability: create-only
+    * Data Type: String
+    * Description: a human-readable text that describes the rationale for the status applied to the object.
+    * Constraints: None
+  * Due
+    * Identifier: due
+    * Cardinality: 0-1
+    * Mutability: read-write
+    * Data Type: Timestamp
+    * Description: a timestamp, when this status is going to be removed automatically, or changed to other status. This field can be used to expresse lifecycle related information.
+    * Constraints: servers MAY restrict possibility to set or update this value by the client.
 
 A> TBD: Idea - model status object as Labelled Composition using "Label"? Con: Generic Constraints for Label will be repeated.
 

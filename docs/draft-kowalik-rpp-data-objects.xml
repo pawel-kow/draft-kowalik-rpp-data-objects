@@ -10,7 +10,7 @@
 </address></author><author initials="M." surname="Wullink" fullname="Maarten Wullink"><organization>SIDN Labs</organization><address><postal><street></street>
 </postal><email>maarten.wullink@sidn.nl</email>
 <uri>https://sidn.nl/</uri>
-</address></author><date year="2025" month="October" day="10"></date>
+</address></author><date year="2025" month="October" day="20"></date>
 <area>Internet</area>
 <workgroup>Network Working Group</workgroup>
 
@@ -247,16 +247,20 @@ Component objects carry only data but do not define any operations.</t>
 <li>Mutability: create-only</li>
 <li>Data Type: String</li>
 <li>Description: machine-readible enum label of a status</li>
-<li>Constraints:</li>
-<li>Exact list of allowed status labels depends on the provisioning object type. This enumeration can be expanded by extensions.</li>
-<li>The status labels MUST use camel case notation and use only ASCII alphabetic characters.</li>
-<li><t>Statuses MAY be of three categories:</t>
+<li><t>Constraints:<br />
+</t>
 
 <ul spacing="compact">
+<li>Exact list of allowed status labels depends on the provisioning object type. This enumeration can be expanded by extensions.</li>
+<li>The status labels MUST use camel case notation and use only ASCII alphabetic characters.</li>
+<li>Statuses MAY be of three categories:</li>
+</ul>
+
+<ol spacing="compact">
 <li>those explicitly set by a server. Those MUST have &quot;server&quot; prefix</li>
 <li>those explicitly set by a client. Those MUST have &quot;client&quot; prefix</li>
 <li>those indirectly controlled by provisioning object lifecycle or business logic. Those MUST NOT use either &quot;client&quot; or &quot;server&quot; prefix. They MAY use another prefix or no prefix at all</li>
-</ul></li>
+</ol></li>
 </ul></li>
 <li><t>Reason</t>
 
