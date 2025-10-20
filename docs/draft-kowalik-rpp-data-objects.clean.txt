@@ -10,7 +10,7 @@ Expires: 23 April 2026                                         SIDN Labs
 
 
             RESTful Provisioning Protocol (RPP) Data Objects
-                   draft-kowalik-rpp-data-objects-00
+                   draft-kowalik-rpp-data-objects-01
 
 Abstract
 
