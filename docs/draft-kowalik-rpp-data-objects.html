@@ -1401,7 +1401,7 @@ li > p:last-of-type:only-child {
                 <p id="section-toc.1-1.5.2.1.1"><a href="#section-5.1" class="auto internal xref">5.1</a>.  <a href="#name-period-object" class="internal xref">Period Object</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.2">
-                <p id="section-toc.1-1.5.2.2.1"><a href="#section-5.2" class="auto internal xref">5.2</a>.  <a href="#name-domain-status-object" class="internal xref">Domain Status Object</a></p>
+                <p id="section-toc.1-1.5.2.2.1"><a href="#section-5.2" class="auto internal xref">5.2</a>.  <a href="#name-status-object" class="internal xref">Status Object</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.3">
                 <p id="section-toc.1-1.5.2.3.1"><a href="#section-5.3" class="auto internal xref">5.3</a>.  <a href="#name-nameserver-object" class="internal xref">Nameserver Object</a></p>
@@ -1871,15 +1871,15 @@ Component objects carry only data but do not define any operations.<a href="#sec
         </ul>
 </section>
 </div>
-<div id="domain-status-object">
+<div id="status-object">
 <section id="section-5.2">
-        <h3 id="name-domain-status-object">
-<a href="#section-5.2" class="section-number selfRef">5.2. </a><a href="#name-domain-status-object" class="section-name selfRef">Domain Status Object</a>
+        <h3 id="name-status-object">
+<a href="#section-5.2" class="section-number selfRef">5.2. </a><a href="#name-status-object" class="section-name selfRef">Status Object</a>
         </h3>
 <ul class="compact">
-<li class="compact" id="section-5.2-1.1">Name: Domain Status Object<a href="#section-5.2-1.1" class="pilcrow">¶</a>
+<li class="compact" id="section-5.2-1.1">Name: Status Object<a href="#section-5.2-1.1" class="pilcrow">¶</a>
 </li>
-          <li class="compact" id="section-5.2-1.2">Description: Represents one of the status values associated with the domain name<a href="#section-5.2-1.2" class="pilcrow">¶</a>
+          <li class="compact" id="section-5.2-1.2">Description: Represents one of the status values associated with a provisioning object<a href="#section-5.2-1.2" class="pilcrow">¶</a>
 </li>
           <li class="compact" id="section-5.2-1.3">
             <p id="section-5.2-1.3.1">Data Elements:<a href="#section-5.2-1.3.1" class="pilcrow">¶</a></p>
@@ -1899,7 +1899,7 @@ Component objects carry only data but do not define any operations.<a href="#sec
 </li>
                   <li class="compact" id="section-5.2-1.3.2.1.2.6">Constraints:<a href="#section-5.2-1.3.2.1.2.6" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-5.2-1.3.2.1.2.7">Status can be set as outlined in <a href="https://rfc-editor.org/rfc/rfc5731#section-2.3" class="relref">2.3</a>. Additional statuses can be set as outlined in <span>[<a href="#RFC3915" class="cite xref">RFC3915</a>]</span>. This enumeration can be expanded by extensions.<a href="#section-5.2-1.3.2.1.2.7" class="pilcrow">¶</a>
+                  <li class="compact" id="section-5.2-1.3.2.1.2.7">Exact list of allowed status labels depends on the provisioning object type. This enumeration can be expanded by extensions.<a href="#section-5.2-1.3.2.1.2.7" class="pilcrow">¶</a>
 </li>
                   <li class="compact" id="section-5.2-1.3.2.1.2.8">Statuses MAY be either set by the server with "server" prefix, or set by the client with "client" prefix.<a href="#section-5.2-1.3.2.1.2.8" class="pilcrow">¶</a>
 </li>
@@ -2496,11 +2496,11 @@ Component objects carry only data but do not define any operations.<a href="#sec
 </li>
               <li class="compact normal" id="section-6.2-2.3.2.3">Mutability: read-only<a href="#section-6.2-2.3.2.3" class="pilcrow">¶</a>
 </li>
-              <li class="compact normal" id="section-6.2-2.3.2.4">Data Type:  Domain Status Object<a href="#section-6.2-2.3.2.4" class="pilcrow">¶</a>
+              <li class="compact normal" id="section-6.2-2.3.2.4">Data Type:  Status Object<a href="#section-6.2-2.3.2.4" class="pilcrow">¶</a>
 </li>
               <li class="compact normal" id="section-6.2-2.3.2.5">Description: The current status descriptors associated with the domain.<a href="#section-6.2-2.3.2.5" class="pilcrow">¶</a>
 </li>
-              <li class="compact normal" id="section-6.2-2.3.2.6">Constraints: Possible combinations of Domain Status Labels is specified in <span><a href="https://rfc-editor.org/rfc/rfc5731#section-2.3" class="relref">Section 2.3</a> of [<a href="#RFC5731" class="cite xref">RFC5731</a>]</span> and <span>[<a href="#RFC3915" class="cite xref">RFC3915</a>]</span><a href="#section-6.2-2.3.2.6" class="pilcrow">¶</a>
+              <li class="compact normal" id="section-6.2-2.3.2.6">Constraints: Possible combinations of Status Object Labels is specified in <span><a href="https://rfc-editor.org/rfc/rfc5731#section-2.3" class="relref">Section 2.3</a> of [<a href="#RFC5731" class="cite xref">RFC5731</a>]</span> and <span>[<a href="#RFC3915" class="cite xref">RFC3915</a>]</span><a href="#section-6.2-2.3.2.6" class="pilcrow">¶</a>
 </li>
             </ul>
 </li>
@@ -3108,23 +3108,30 @@ is "all".<a href="#section-6.3.2-4.1.2.5" class="pilcrow">¶</a>
 </li>
           <li class="normal" id="section-7.2-2.7">
             <p id="section-7.2-2.7.1">Status<a href="#section-7.2-2.7.1" class="pilcrow">¶</a></p>
-<ul class="compact normal">
-<li class="compact normal" id="section-7.2-2.7.2.1">Identifier: status<a href="#section-7.2-2.7.2.1" class="pilcrow">¶</a>
+<ul class="normal">
+<li class="normal" id="section-7.2-2.7.2.1">Identifier: status<a href="#section-7.2-2.7.2.1" class="pilcrow">¶</a>
 </li>
-              <li class="compact normal" id="section-7.2-2.7.2.2">Cardinality: 0+<a href="#section-7.2-2.7.2.2" class="pilcrow">¶</a>
+              <li class="normal" id="section-7.2-2.7.2.2">Cardinality: 0+<a href="#section-7.2-2.7.2.2" class="pilcrow">¶</a>
 </li>
-              <li class="compact normal" id="section-7.2-2.7.2.3">Mutability: read-only<a href="#section-7.2-2.7.2.3" class="pilcrow">¶</a>
+              <li class="normal" id="section-7.2-2.7.2.3">Mutability: read-only<a href="#section-7.2-2.7.2.3" class="pilcrow">¶</a>
 </li>
-              <li class="compact normal" id="section-7.2-2.7.2.4">Data Type: String<a href="#section-7.2-2.7.2.4" class="pilcrow">¶</a>
+              <li class="normal" id="section-7.2-2.7.2.4">Data Type: Status Object<a href="#section-7.2-2.7.2.4" class="pilcrow">¶</a>
 </li>
-              <li class="compact normal" id="section-7.2-2.7.2.5">Description: The current status descriptors associated with the contact.<a href="#section-7.2-2.7.2.5" class="pilcrow">¶</a>
+              <li class="normal" id="section-7.2-2.7.2.5">Description: The current status descriptors associated with the contact.<a href="#section-7.2-2.7.2.5" class="pilcrow">¶</a>
 </li>
-              <li class="compact normal" id="section-7.2-2.7.2.6">
+              <li class="normal" id="section-7.2-2.7.2.6">
                 <p id="section-7.2-2.7.2.6.1">Constraints:<a href="#section-7.2-2.7.2.6.1" class="pilcrow">¶</a></p>
-<ul class="compact normal">
-<li class="compact normal" id="section-7.2-2.7.2.6.2.1">The value MUST be one of the status tokens defined in the IANA registry for domain statuses.<a href="#section-7.2-2.7.2.6.2.1" class="pilcrow">¶</a>
+<ul class="normal">
+<li class="normal" id="section-7.2-2.7.2.6.2.1">Description: The current status descriptors associated with the contact.<a href="#section-7.2-2.7.2.6.2.1" class="pilcrow">¶</a>
 </li>
-                  <li class="compact normal" id="section-7.2-2.7.2.6.2.2">The initial value list MAY be as defined in <span>[<a href="#RFC5733" class="cite xref">RFC5733</a>]</span>. In this case the values MUST have the same semantics.<a href="#section-7.2-2.7.2.6.2.2" class="pilcrow">¶</a>
+                  <li class="normal" id="section-7.2-2.7.2.6.2.2">
+                    <p id="section-7.2-2.7.2.6.2.2.1">Constraints: Possible combinations of Domain Status Labels is specified in <span><a href="https://rfc-editor.org/rfc/rfc5733#section-2.2" class="relref">Section 2.2</a> of [<a href="#RFC5733" class="cite xref">RFC5733</a>]</span><a href="#section-7.2-2.7.2.6.2.2.1" class="pilcrow">¶</a></p>
+</li>
+                  <li class="normal" id="section-7.2-2.7.2.6.2.3">
+                    <p id="section-7.2-2.7.2.6.2.3.1">The value MUST be one of the status tokens defined in the IANA registry for domain statuses.<a href="#section-7.2-2.7.2.6.2.3.1" class="pilcrow">¶</a></p>
+</li>
+                  <li class="normal" id="section-7.2-2.7.2.6.2.4">
+                    <p id="section-7.2-2.7.2.6.2.4.1">The initial value list MAY be as defined in <span>[<a href="#RFC5733" class="cite xref">RFC5733</a>]</span>. In this case the values MUST have the same semantics.<a href="#section-7.2-2.7.2.6.2.4.1" class="pilcrow">¶</a></p>
 </li>
                 </ul>
 </li>
@@ -3356,7 +3363,7 @@ services for a a domain name.<a href="#section-8.1-1" class="pilcrow">¶</a></p>
 </li>
               <li class="compact normal" id="section-8.2-3.3.2.3">Mutability: read-only<a href="#section-8.2-3.3.2.3" class="pilcrow">¶</a>
 </li>
-              <li class="compact normal" id="section-8.2-3.3.2.4">Data Type:  Domain Status Object<a href="#section-8.2-3.3.2.4" class="pilcrow">¶</a>
+              <li class="compact normal" id="section-8.2-3.3.2.4">Data Type:  Status Object<a href="#section-8.2-3.3.2.4" class="pilcrow">¶</a>
 </li>
               <li class="compact normal" id="section-8.2-3.3.2.5">Description: The current status descriptors associated with the domain.<a href="#section-8.2-3.3.2.5" class="pilcrow">¶</a>
 </li>
@@ -3733,9 +3740,9 @@ description.<a href="#section-9.1.2-2.3.2.2" class="pilcrow">¶</a>
             </tbody>
           </table>
 <p id="section-9.1.3-30">Object: domainStatus<a href="#section-9.1.3-30" class="pilcrow">¶</a></p>
-<p id="section-9.1.3-31">Object Name: Domain Status Object<a href="#section-9.1.3-31" class="pilcrow">¶</a></p>
+<p id="section-9.1.3-31">Object Name: Status Object<a href="#section-9.1.3-31" class="pilcrow">¶</a></p>
 <p id="section-9.1.3-32">Object Type: Component<a href="#section-9.1.3-32" class="pilcrow">¶</a></p>
-<p id="section-9.1.3-33">Description: Represents one of the status values associated with the domain name.<a href="#section-9.1.3-33" class="pilcrow">¶</a></p>
+<p id="section-9.1.3-33">Description: Represents one of the status values associated with the provisioning object.<a href="#section-9.1.3-33" class="pilcrow">¶</a></p>
 <p id="section-9.1.3-34">Reference: [This-ID]<a href="#section-9.1.3-34" class="pilcrow">¶</a></p>
 <p id="section-9.1.3-35">Data Elements<a href="#section-9.1.3-35" class="pilcrow">¶</a></p>
 <table class="center" id="table-5">
@@ -3822,7 +3829,7 @@ TODO: IANA table: Disclose Object<a href="#section-9.1.3-37.1" class="pilcrow">�
                 <td class="text-left" rowspan="1" colspan="1">Status</td>
                 <td class="text-left" rowspan="1" colspan="1">0+</td>
                 <td class="text-left" rowspan="1" colspan="1">read-only</td>
-                <td class="text-left" rowspan="1" colspan="1">Domain Status Object</td>
+                <td class="text-left" rowspan="1" colspan="1">Status Object</td>
                 <td class="text-left" rowspan="1" colspan="1">The current status descriptors for the domain.</td>
               </tr>
               <tr>

@@ -228,11 +228,11 @@ Component objects carry only data but do not define any operations.</t>
 </ul>
 </section>
 
-<section anchor="domain-status-object"><name>Domain Status Object</name>
+<section anchor="status-object"><name>Status Object</name>
 
 <ul spacing="compact">
-<li>Name: Domain Status Object</li>
-<li>Description: Represents one of the status values associated with the domain name</li>
+<li>Name: Status Object</li>
+<li>Description: Represents one of the status values associated with a provisioning object</li>
 <li><t>Data Elements:</t>
 
 <ul spacing="compact">
@@ -245,7 +245,7 @@ Component objects carry only data but do not define any operations.</t>
 <li>Data Type: String</li>
 <li>Description: machine-readible enum label of a status</li>
 <li>Constraints:</li>
-<li>Status can be set as outlined in <xref target="RFC5731" sectionFormat="bare" section="2.3"></xref>. Additional statuses can be set as outlined in <xref target="RFC3915"></xref>. This enumeration can be expanded by extensions.</li>
+<li>Exact list of allowed status labels depends on the provisioning object type. This enumeration can be expanded by extensions.</li>
 <li>Statuses MAY be either set by the server with &quot;server&quot; prefix, or set by the client with &quot;client&quot; prefix.</li>
 </ul></li>
 <li><t>Reason</t>
@@ -616,9 +616,9 @@ Component objects carry only data but do not define any operations.</t>
 <li>Identifier: status</li>
 <li>Cardinality: 0+</li>
 <li>Mutability: read-only</li>
-<li>Data Type:  Domain Status Object</li>
+<li>Data Type:  Status Object</li>
 <li>Description: The current status descriptors associated with the domain.</li>
-<li>Constraints: Possible combinations of Domain Status Labels is specified in <xref target="RFC5731" sectionFormat="of" section="2.3"></xref> and <xref target="RFC3915"></xref></li>
+<li>Constraints: Possible combinations of Status Object Labels is specified in <xref target="RFC5731" sectionFormat="of" section="2.3"></xref> and <xref target="RFC3915"></xref></li>
 </ul></li>
 </ul>
 
@@ -1013,17 +1013,22 @@ is &quot;all&quot;.</li>
 </ul></li>
 <li><t>Status</t>
 
-<ul spacing="compact">
+<ul>
 <li>Identifier: status</li>
 <li>Cardinality: 0+</li>
 <li>Mutability: read-only</li>
-<li>Data Type: String</li>
+<li>Data Type: Status Object</li>
 <li>Description: The current status descriptors associated with the contact.</li>
 <li><t>Constraints:</t>
 
-<ul spacing="compact">
-<li>The value MUST be one of the status tokens defined in the IANA registry for domain statuses.</li>
-<li>The initial value list MAY be as defined in <xref target="RFC5733"></xref>. In this case the values MUST have the same semantics.</li>
+<ul>
+<li>Description: The current status descriptors associated with the contact.</li>
+<li><t>Constraints: Possible combinations of Domain Status Labels is specified in <xref target="RFC5733" sectionFormat="of" section="2.2"></xref></t>
+</li>
+<li><t>The value MUST be one of the status tokens defined in the IANA registry for domain statuses.</t>
+</li>
+<li><t>The initial value list MAY be as defined in <xref target="RFC5733"></xref>. In this case the values MUST have the same semantics.</t>
+</li>
 </ul></li>
 </ul></li>
 <li><t>Sponsoring Client ID</t>
@@ -1163,7 +1168,7 @@ services for a a domain name.</t>
 <li>Identifier: status</li>
 <li>Cardinality: 0+</li>
 <li>Mutability: read-only</li>
-<li>Data Type:  Domain Status Object</li>
+<li>Data Type:  Status Object</li>
 <li>Description: The current status descriptors associated with the domain.</li>
 <li>Constraints: Possible combinations of Domain Status Labels is specified in <xref target="RFC5732" sectionFormat="of" section="2.3"></xref></li>
 </ul></li>
@@ -1463,9 +1468,9 @@ description.</li>
 </tr>
 </tbody>
 </table><t>Object: domainStatus</t>
-<t>Object Name: Domain Status Object</t>
+<t>Object Name: Status Object</t>
 <t>Object Type: Component</t>
-<t>Description: Represents one of the status values associated with the domain name.</t>
+<t>Description: Represents one of the status values associated with the provisioning object.</t>
 <t>Reference: [This-ID]</t>
 <t>Data Elements</t>
 <table>
@@ -1555,7 +1560,7 @@ TODO: IANA table: Disclose Object</t>
 <td>Status</td>
 <td>0+</td>
 <td>read-only</td>
-<td>Domain Status Object</td>
+<td>Status Object</td>
 <td>The current status descriptors for the domain.</td>
 </tr>
 

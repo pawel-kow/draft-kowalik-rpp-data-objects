@@ -85,7 +85,7 @@ Table of Contents
      4.6.  Composition Dictionary
    5.  Component Objects
      5.1.  Period Object
-     5.2.  Domain Status Object
+     5.2.  Status Object
      5.3.  Nameserver Object
      5.4.  DNS Resource Record
      5.5.  Authorisation Information Object
@@ -449,11 +449,11 @@ Table of Contents
          -  Constraints: The value MUST be one of: "y" (years) or "m"
             (months).
 
-5.2.  Domain Status Object
+5.2.  Status Object
 
-   -  Name: Domain Status Object
-   -  Description: Represents one of the status values associated with
-      the domain name
+   -  Name: Status Object
+   -  Description: Represents one of the status values associated with a
+      provisioning object
    -  Data Elements:
       -  Label
          -  Identifier: label
@@ -462,9 +462,9 @@ Table of Contents
          -  Data Type: String
          -  Description: machine-readible enum label of a status
          -  Constraints:
-         -  Status can be set as outlined in 2.3.  Additional statuses
-            can be set as outlined in [RFC3915].  This enumeration can
-            be expanded by extensions.
+         -  Exact list of allowed status labels depends on the
+            provisioning object type.  This enumeration can be expanded
+            by extensions.
          -  Statuses MAY be either set by the server with "server"
             prefix, or set by the client with "client" prefix.
       -  Reason
@@ -757,10 +757,10 @@ Table of Contents
       -  Identifier: status
       -  Cardinality: 0+
       -  Mutability: read-only
-      -  Data Type: Domain Status Object
+      -  Data Type: Status Object
       -  Description: The current status descriptors associated with the
          domain.
-      -  Constraints: Possible combinations of Domain Status Labels is
+      -  Constraints: Possible combinations of Status Object Labels is
          specified in Section 2.3 of [RFC5731] and [RFC3915]
 
       |  TBC: IANA registry for statuses?
@@ -1112,14 +1112,27 @@ Table of Contents
    -  Status
 
       -  Identifier: status
+
       -  Cardinality: 0+
+
       -  Mutability: read-only
-      -  Data Type: String
+
+      -  Data Type: Status Object
+
       -  Description: The current status descriptors associated with the
          contact.
+
       -  Constraints:
+
+         -  Description: The current status descriptors associated with
+            the contact.
+
+         -  Constraints: Possible combinations of Domain Status Labels
+            is specified in Section 2.2 of [RFC5733]
+
          -  The value MUST be one of the status tokens defined in the
             IANA registry for domain statuses.
+
          -  The initial value list MAY be as defined in [RFC5733].  In
             this case the values MUST have the same semantics.
 
@@ -1254,7 +1267,7 @@ Table of Contents
       -  Identifier: status
       -  Cardinality: 0+
       -  Mutability: read-only
-      -  Data Type: Domain Status Object
+      -  Data Type: Status Object
       -  Description: The current status descriptors associated with the
          domain.
       -  Constraints: Possible combinations of Domain Status Labels is
@@ -1518,12 +1531,12 @@ Table of Contents
 
    Object: domainStatus
 
-   Object Name: Domain Status Object
+   Object Name: Status Object
 
    Object Type: Component
 
    Description: Represents one of the status values associated with the
-   domain name.
+   provisioning object.
 
    Reference: [This-ID]
 
@@ -1590,8 +1603,8 @@ Table of Contents
    |                  |             |     |          |                   |for the      |
    |                  |             |     |          |                   |object.      |
    +------------------+-------------+-----+----------+-------------------+-------------+
-   |status            |Status       |0+   |read-only |Domain Status      |The current  |
-   |                  |             |     |          |Object             |status       |
+   |status            |Status       |0+   |read-only |Status Object      |The current  |
+   |                  |             |     |          |                   |status       |
    |                  |             |     |          |                   |descriptors  |
    |                  |             |     |          |                   |for the      |
    |                  |             |     |          |                   |domain.      |

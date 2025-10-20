@@ -225,10 +225,10 @@ Component objects carry only data but do not define any operations.
     * Description: The unit of the period.
     * Constraints: The value MUST be one of: "y" (years) or "m" (months).
 
-## Domain Status Object
+## Status Object
 
-  * Name: Domain Status Object
-  * Description: Represents one of the status values associated with the domain name
+  * Name: Status Object
+  * Description: Represents one of the status values associated with a provisioning object
   * Data Elements:
     * Label
       * Identifier: label
@@ -237,7 +237,7 @@ Component objects carry only data but do not define any operations.
       * Data Type: String
       * Description: machine-readible enum label of a status
       * Constraints: 
-        * Status can be set as outlined in [@!RFC5731, 2.3]. Additional statuses can be set as outlined in [@!RFC3915]. This enumeration can be expanded by extensions.
+        * Exact list of allowed status labels depends on the provisioning object type. This enumeration can be expanded by extensions.
         * Statuses MAY be either set by the server with "server" prefix, or set by the client with "client" prefix. 
     * Reason
       * Indentifier: reason
@@ -471,9 +471,9 @@ The following data elements are defined for the Domain Name Data Object.
   * Identifier: status
   * Cardinality: 0+
   * Mutability: read-only
-  * Data Type:  Domain Status Object
+  * Data Type:  Status Object
   * Description: The current status descriptors associated with the domain.
-  * Constraints: Possible combinations of Domain Status Labels is specified in [@!RFC5731, section 2.3] and [@!RFC3915]
+  * Constraints: Possible combinations of Status Object Labels is specified in [@!RFC5731, section 2.3] and [@!RFC3915]
 
 A> TBC: IANA registry for statuses?
 
@@ -746,9 +746,13 @@ The following data elements are defined for the Domain Name Data Object.
   * Identifier: status
   * Cardinality: 0+
   * Mutability: read-only
-  * Data Type: String
+  * Data Type: Status Object
   * Description: The current status descriptors associated with the contact.
   * Constraints:
+    * Description: The current status descriptors associated with the contact.
+    * Constraints: Possible combinations of Domain Status Labels is specified in [@!RFC5733, section 2.2]
+
+
     * The value MUST be one of the status tokens defined in the IANA registry for domain statuses.
     * The initial value list MAY be as defined in [@!RFC5733]. In this case the values MUST have the same semantics.
 
@@ -856,7 +860,7 @@ A> TBC: hostName/dns properties are identical to Nameserver Object. Shall we def
   * Identifier: status
   * Cardinality: 0+
   * Mutability: read-only
-  * Data Type:  Domain Status Object
+  * Data Type:  Status Object
   * Description: The current status descriptors associated with the domain.
   * Constraints: Possible combinations of Domain Status Labels is specified in [@!RFC5732, section 2.3]
 
@@ -1032,11 +1036,11 @@ Data Elements
 
 Object: domainStatus
 
-Object Name: Domain Status Object
+Object Name: Status Object
 
 Object Type: Component
 
-Description: Represents one of the status values associated with the domain name.
+Description: Represents one of the status values associated with the provisioning object.
 
 Reference: [This-ID]
 
@@ -1068,7 +1072,7 @@ Data Elements
 |--------------------|----------------------|-------|-------------|------------------------------------------------------------------------|---------------------------------------------------------|
 | name               | Name                 | 1     | create-only | String                                                                 | The fully qualified name of the domain object.          |
 | repositoryId       | Repository ID        | 1     | read-only   | Identifier                                                             | A server-assigned unique identifier for the object.     |
-| status             | Status               | 0+    | read-only   | Domain Status Object                                                   | The current status descriptors for the domain.          |
+| status             | Status               | 0+    | read-only   | Status Object                                                          | The current status descriptors for the domain.          |
 | registrant         | Registrant           | 0-1   | read-write  | Contact Object                                                         | The registrant contact ID.                              |
 | contacts           | Contacts             | 0+    | read-write  | LabelledAggregation [Contact Object]                                   | Associated contact objects.                             |
 | nameservers        | Nameservers          | 0+    | read-write  | Composition[Host Data Object] or Aggregation[Host Data Object] | A collection of nameservers associated with the domain. |
