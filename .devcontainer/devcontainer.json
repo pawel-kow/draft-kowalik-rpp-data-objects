@@ -6,19 +6,24 @@
         "dockerfile": "Dockerfile"
     },
 
-    // Set *default* container specific settings.json values on container create.
-    "settings": {},
-
-    // Add the IDs of extensions you want installed when the container is created.
-    "extensions": [
-        "redhat.vscode-xml",
-        "eamodio.gitlens",
-        "donjayamanne.githistory",
-        "asciidoctor.asciidoctor-vscode",
-        "Gruntfuggly.todo-tree",
-        "ms-azuretools.vscode-docker",
-        "darkriszty.markdown-table-prettify"
-    ],
+    "customizations": {
+        "vscode": {
+            // Set *default* container specific settings.json values on container create.
+            "settings": {},
+            // Add the IDs of extensions you want installed when the container is created.
+            "extensions": [
+                "redhat.vscode-xml",
+                "eamodio.gitlens",
+                "donjayamanne.githistory",
+                "asciidoctor.asciidoctor-vscode",
+                "Gruntfuggly.todo-tree",
+                "ms-azuretools.vscode-docker",
+                "darkriszty.markdown-table-prettify",
+                "GitHub.vscode-pull-request-github",
+                "AlanWalk.markdown-navigation"
+            ]
+        }
+    },
 
     // Use 'forwardPorts' to make a list of ports inside the container available locally.
     // "forwardPorts": [],
