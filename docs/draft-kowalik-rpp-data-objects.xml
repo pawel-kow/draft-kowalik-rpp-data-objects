@@ -1,0 +1,1842 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- name="GENERATOR" content="github.com/mmarkdown/mmark Mmark Markdown Processor - mmark.miek.nl" -->
+<rfc version="3" ipr="trust200902" docName="draft-kowalik-rpp-data-objects-00" submissionType="IETF" category="std" xml:lang="en" xmlns:xi="http://www.w3.org/2001/XInclude" indexInclude="true" tocDepth="4">
+
+<front>
+<title abbrev="RPP Data Objects">Registry Provisioning Protocol (RPP) Data Objects</title><seriesInfo value="draft-kowalik-rpp-data-objects-00" stream="IETF" status="standard" name="Internet-Draft"></seriesInfo>
+<author initials="P." surname="Kowalik" fullname="Pawel Kowalik"><organization>DENIC</organization><address><postal><street></street>
+</postal><email>pawel.kowalik@denic.de</email>
+<uri>https://denic.de/</uri>
+</address></author><author initials="M." surname="Wullink" fullname="Maarten Wullink"><organization>SIDN Labs</organization><address><postal><street></street>
+</postal><email>maarten.wullink@sidn.nl</email>
+<uri>https://sidn.nl/</uri>
+</address></author><date year="2025" month="October" day="20"></date>
+<area>Internet</area>
+<workgroup>Network Working Group</workgroup>
+
+<abstract>
+<t>This document defines data objects for the Registry Provisioning Protocol (RPP) and sets up IANA RPP Data Object Registry to describe and catalogue them. Specifically, it details the logical structure, constraints, and protocol operations (including their inputs and outputs) for foundational resources: domain names, contacts, and hosts. In accordance with the RPP architecture <xref target="I-D.kowalik-rpp-architecture"></xref>, these definitions focus entirely on the semantics, remaining independent of any specific data representation or media type (e.g., JSON or XML).</t>
+</abstract>
+
+</front>
+
+<middle>
+
+<section anchor="introduction"><name>Introduction</name>
+<t>The Registry Provisioning Protocol (RPP) defines a set of data objects used to represent and manage foundational registry resources, including domain names, contacts, and hosts. This initial list is not exhaustive; additional resource and component objects MAY be defined in future revisions or introduced via IANA registration to support new features and operational needs.</t>
+<t>In accordance with the RPP architecture <xref target="I-D.kowalik-rpp-architecture"></xref>, a core architectural principle is the clear distinction between the abstract data model and its concrete data representation. The data model defines the logical structure, relationships, and constraints of the objects, independent of formatting. The data representation defines how these abstract concepts are expressed in specific formats (e.g., JSON, XML, or YAML).</t>
+<t>This document focuses on the data model of RPP objects and operations on them, including the data model of operation inputs and outputs. This separation of concerns ensures the protocol maintains a stable semantic foundation that can be consistently implemented across different media types and easily adapted to new representation formats. For instance, the model defines a contact's name as a required string type, but it remains agnostic as to whether that string is ultimately encoded as a JSON property or an XML element.</t>
+
+<section anchor="conventions-and-terminology"><name>Conventions and Terminology</name>
+<t>The key words &quot;MUST&quot;, &quot;MUST NOT&quot;, &quot;REQUIRED&quot;, &quot;SHALL&quot;, &quot;SHALL NOT&quot;, &quot;SHOULD&quot;, &quot;SHOULD NOT&quot;, &quot;RECOMMENDED&quot;, &quot;NOT RECOMMENDED&quot;, &quot;MAY&quot;, and &quot;OPTIONAL&quot; in this document are to be interpreted as described in BCP 14 <xref target="RFC2119"></xref> <xref target="RFC8174"></xref> when, and only when, they appear in all capitals, as shown here.</t>
+</section>
+</section>
+
+<section anchor="resource-definition-principles"><name>Resource Definition Principles</name>
+
+<section anchor="data-element-abstraction"><name>Data Element Abstraction</name>
+<t>Each data object is composed of logical data elements. A data element is a logical unit of information identified by a stable name, independent of its representation in any given media type. The definition for each element specifies its logical name, purpose, cardinality, data type, and constraints.</t>
+</section>
+
+<section anchor="extensibility"><name>Extensibility</name>
+<t>The set of data elements for a given data object is extensible. New data elements, associations or operations MAY be defined and registered with IANA in order for the data object to support new features.</t>
+</section>
+
+<section anchor="data-element-semantics"><name>Data Element Semantics</name>
+<t>The definition of each data element within an object consists of the following attributes:</t>
+
+<ul spacing="compact">
+<li>Name: A human-readable name for the data element.</li>
+<li>Identifier: A machine-readable, unique identifier for the element, using camelCase notation.</li>
+<li><t>Cardinality: Specifies the number of times an element may appear. The notation is as follows:</t>
+
+<ul spacing="compact">
+<li><tt>1</tt> for exactly one</li>
+<li><tt>0-1</tt> for zero or one</li>
+<li><tt>0+</tt> for zero or more</li>
+<li>and <tt>1+</tt> for one or more</li>
+</ul></li>
+<li>Data Type: Defines the element's data structure, which can be a primitive type (e.g., String, Integer) or a reference to another component object.</li>
+<li>Description: Explains the purpose of the data element and any other relevant information.</li>
+<li>Constraints: Provides specific validation rules or limitations on top of the data type itself, such as value ranges.</li>
+<li><t>Mutability: Defines the lifecycle of the data element's value. It MUST be one of the following:</t>
+
+<ul spacing="compact">
+<li>create-only: The element's value is provided during the object's creation and cannot be modified thereafter.</li>
+<li>read-only: The element's value is managed by the server. It cannot be set or modified directly by the client, though it may change as a result of server-side operations.</li>
+<li>read-write: The element's value can be set and modified by the client.</li>
+</ul></li>
+</ul>
+</section>
+
+<section anchor="operations"><name>Operations</name>
+<t>For each data object a set of possible operations is defined together with their respective input and output data.</t>
+
+<section anchor="authorisation"><name>Authorisation</name>
+<t>For each operation authorisation requirements and operation behaviour is specified.
+Wherever &quot;object authorisation&quot; is mentioned, it means that an operation MAY accept or require additional authorisation data related to the object beyond default client-level authorisation, or that an operation MAY have different effect or response if such authorisation is provided.
+Typically it would be a value related to or derived from Authorisation Information Object attached to the object.</t>
+</section>
+
+<section anchor="uniform-interface"><name>Uniform interface</name>
+<t>For the typical set of Create, Read, Update and Delete operations the following set of input and output data model is specified on top of additional transient input data, unless an operation for the specific object tells otherwise.</t>
+
+<section anchor="create"><name>Create</name>
+
+<ul spacing="compact">
+<li>Input: Object representation (create-only and read-write properties)</li>
+<li>Output: Object representation (read-write and read-only properties)</li>
+</ul>
+</section>
+
+<section anchor="read"><name>Read</name>
+
+<ul spacing="compact">
+<li>Input: Object identifier</li>
+<li>Output: Object representation (read-write and read-only properties)</li>
+</ul>
+<t>The output representation MAY vary depending on the identity of the querying client, use of object authorisation information, and server policy towards unauthorized clients. If the querying client is the sponsoring client, all available information MUST be returned. If the querying client is not the sponsoring client but the client provides valid object authorisation information, all available information SHOULD be returned, however some optional elements MAY be reserved to the sponsoring client only. If the querying client is not the sponsoring client and the client does not provide valid object authorisation information, server policy determines which OPTIONAL elements are returned, if any, or whether the entire request is rejected.</t>
+</section>
+
+<section anchor="update"><name>Update</name>
+
+<ul spacing="compact">
+<li>Input: Object identifier, Object changes representation (read-write properties)</li>
+<li>Output: Object representation (read-write and read-only properties)</li>
+</ul>
+</section>
+
+<section anchor="delete"><name>Delete</name>
+
+<ul spacing="compact">
+<li>Input: Object identifier</li>
+<li>Output: Object representation (read-write and read-only properties) or no representation</li>
+</ul>
+</section>
+</section>
+
+<section anchor="operations-beyond-uniform-interface"><name>Operations beyond uniform interface</name>
+<t>For all other operations both input and output representation have to be fully specified.</t>
+</section>
+</section>
+
+<section anchor="epp-compatibility-profile"><name>EPP Compatibility Profile</name>
+<t>RPP is designed to coexist with the Extensible Provisioning Protocol (EPP), often operating in parallel against a common backend provisioning system. While RPP is not inherently constrained by all of EPP's requirements, a specific set of rules is necessary to ensure seamless interoperability in such mixed environments.</t>
+<t>To address this, this document defines an &quot;EPP Compatibility Profile&quot;. This profile specifies a set of additional constraints on RPP data objects and operations that a server MUST adhere to when supporting both RPP and EPP concurrently.</t>
+<t>Throughout this document, all constraints that are part of this profile are explicitly marked with a reference to &quot;EPP Compatibility Profile&quot;. Implementers of systems in a mixed EPP/RPP environment MUST follow these specific constraints in addition to the base RPP requirements.</t>
+</section>
+</section>
+
+<section anchor="common-data-types"><name>Common Data Types</name>
+<t>This section defines data types and structures that are re-used across multiple data object definitions.</t>
+
+<section anchor="identifier"><name>Identifier</name>
+<t>Identifiers are character strings with a specified minimum length, a specified maximum length, and a specified format outlined in <xref target="RFC5730" sectionFormat="of" section="2.8"></xref>.
+Identifiers for certain object types MAY have additional constraints imposed either by server policy, object specific specifications or both.</t>
+</section>
+
+<section anchor="timestamp"><name>Timestamp</name>
+<t>Date and time attribute values MUST be represented in Universal Coordinated Time (UTC) using the Gregorian calendar using date-time form as defined in <xref target="RFC3339"></xref>. In EPP Compatibility Profile upper case &quot;T&quot; and &quot;Z&quot; characters MUST be used.</t>
+</section>
+
+<section anchor="client-identifier"><name>Client Identifier</name>
+<t>Client identifiers are character strings with a specified minimum length, a specified maximum length, and a specified format. Contact identifiers use the &quot;clIDType&quot; client identifier syntax described in <xref target="RFC5730"></xref>.</t>
+
+<aside><t>TBC: do we need this or is it a relation with an entity/RFC8543 organisation? If registrars modeled are as first class objects (organisations), then clID is nothing else but a reference to this organisation, so maybe no need to define syntax separately on identifier level (or in other words it would be defined on this object). R8.1 in the form of -02 RPP requirements includes RFC8543.</t>
+</aside>
+</section>
+
+<section anchor="phone-number"><name>Phone Number</name>
+<t>Telephone number syntax is derived from structures defined in <xref target="ITU.E164.2005"></xref>.  Telephone numbers described in this specification are character strings that MUST begin with a plus sign (&quot;+&quot;, ASCII value 0x002B), followed by a country code defined in <xref target="ITU.E164.2005"></xref>, followed by a dot (&quot;.&quot;, ASCII value 0x002E), followed by a sequence of digits representing the telephone number.  An optional &quot;x&quot; (ASCII value 0x0078) separator with additional digits representing extension information can be appended to the end of the value.</t>
+</section>
+</section>
+
+<section anchor="associations"><name>Associations</name>
+<t>RPP allows for different types of associations (relationship) between the objects. The association may be added between 2 objects with own indpendent lifecycle (UML aggregation) or in the relation when one object's existance and lifecycle is bound to the other parent/owner object (UML composition).
+In both cases, especially if the relation allows for cardinality higher than one on either side, the association may be assigned additional attributes, not being part of an object on either side of relation. In many cases such relation would be attributed with a single text string label, describing a role or a type of relation. Depending on the context this value might be unique, which allows using such label as a key in a dictionary.</t>
+<t>The following generic Association Types are defined for RPP:</t>
+
+<section anchor="aggregation"><name>Aggregation</name>
+<t>Notation: Aggregation[Type]</t>
+<t>A relation between two independent objects.</t>
+<t>If the cardinality of target object is more than 1, this represents an ordered array.
+It MUST assured that the same unchanged data is always inserted in the same order in order to allow stable reference by position to data elements. In case of data insertions, deletions or updates the remaining of the data SHALL preserve its order.</t>
+</section>
+
+<section anchor="composition"><name>Composition</name>
+<t>Notation: Composition[Type] or Type</t>
+<t>A relation between an independent parent object and 1 or more dependent child object(s).</t>
+<t>If the cardinality of target object is more than 1, this represents an ordered array.
+It MUST assured that the same unchanged data is always inserted in the same order  in order to allow stable reference by position to data elements. In case of data insertions, deletions or updates the remaining of the data SHALL preserve its order.</t>
+</section>
+
+<section anchor="labelled-aggregation"><name>Labelled Aggregation</name>
+<t>Notation: LabelledAggregation[Type]</t>
+<t>A relation between two independent object with single text string attribute. Multiple associations with the same label are allowed.</t>
+<t>A type defining such association MUST define Label Description with semantics of the label and Label Constraints with constraints related to the label.</t>
+</section>
+
+<section anchor="aggregation-dictionary"><name>Aggregation Dictionary</name>
+<t>Notation: AggregationDictionary[Type]</t>
+<t>A relation between two independent object with single text string attribute. Only single association with the same label is allowed allowing it to be used as dictionary key.</t>
+<t>A type defining such association MUST define Label Description with semantics of the label and Label Constraints with constraints related to the label.</t>
+</section>
+
+<section anchor="labelled-composition"><name>Labelled Composition</name>
+<t>Notation: LabelledComposition[Type]</t>
+<t>A relation between an independent parent object and a dependent child object with single text string attribute. Multiple associations with the same label are allowed.</t>
+<t>A type defining such association MUST define Label Description with semantics of the label and Label Constraints with constraints related to the label.</t>
+</section>
+
+<section anchor="composition-dictionary"><name>Composition Dictionary</name>
+<t>Notation: CompositionDictionary[Type]</t>
+<t>A relation between an independent parent object and a dependent child object with single text string attribute. Only single association with the same label is allowed allowing it to be used as dictionary key.</t>
+<t>A type defining such association MUST define Label Description with semantics of the label and Label Constraints with constraints related to the label.</t>
+</section>
+</section>
+
+<section anchor="component-objects"><name>Component Objects</name>
+<t>This section defines common objects that are re-used in the definitions of top-level data objects.
+Component objects carry only data but do not define any operations.</t>
+
+<section anchor="period-object"><name>Period Object</name>
+
+<ul spacing="compact">
+<li>Name: Period Object</li>
+<li>Description: Represents a duration of time.</li>
+<li><t>Data Elements:</t>
+
+<ul spacing="compact">
+<li><t>Value</t>
+
+<ul spacing="compact">
+<li>Identifier: value</li>
+<li>Cardinality: 1</li>
+<li>Mutability: read-write</li>
+<li>Data Type: Integer</li>
+<li>Description: The numeric value of the period.</li>
+<li>Constraints: The value MUST be from 1 to 99, inclusive.</li>
+</ul></li>
+<li><t>Unit</t>
+
+<ul spacing="compact">
+<li>Identifier: unit</li>
+<li>Cardinality: 1</li>
+<li>Mutability: read-write</li>
+<li>Data Type: String</li>
+<li>Description: The unit of the period.</li>
+<li>Constraints: The value MUST be one of: &quot;y&quot; (years) or &quot;m&quot; (months).</li>
+</ul></li>
+</ul></li>
+</ul>
+</section>
+
+<section anchor="status-object"><name>Status Object</name>
+
+<ul spacing="compact">
+<li>Name: Status Object</li>
+<li>Description: Represents one of the status values associated with a provisioning object</li>
+<li><t>Data Elements:</t>
+
+<ul spacing="compact">
+<li><t>Label</t>
+
+<ul spacing="compact">
+<li>Identifier: label</li>
+<li>Cardinality: 1</li>
+<li>Mutability: create-only</li>
+<li>Data Type: String</li>
+<li>Description: machine-readible enum label of a status</li>
+<li><t>Constraints:<br />
+</t>
+
+<ul spacing="compact">
+<li>Exact list of allowed status labels depends on the provisioning object type. This enumeration can be expanded by extensions.</li>
+<li>The status labels MUST use camel case notation and use only ASCII alphabetic characters.</li>
+<li>Statuses MAY be of three categories:</li>
+</ul>
+
+<ol spacing="compact">
+<li>those explicitly set by a server. Those MUST have &quot;server&quot; prefix</li>
+<li>those explicitly set by a client. Those MUST have &quot;client&quot; prefix</li>
+<li>those indirectly controlled by provisioning object lifecycle or business logic. Those MUST NOT use either &quot;client&quot; or &quot;server&quot; prefix. They MAY use another prefix or no prefix at all</li>
+</ol></li>
+</ul></li>
+<li><t>Reason</t>
+
+<ul spacing="compact">
+<li>Indentifier: reason</li>
+<li>Cardinality: 0-1</li>
+<li>Mutability: create-only</li>
+<li>Data Type: String</li>
+<li>Description: a human-readable text that describes the rationale for the status applied to the object.</li>
+<li>Constraints: None</li>
+</ul></li>
+<li><t>Due</t>
+
+<ul spacing="compact">
+<li>Identifier: due</li>
+<li>Cardinality: 0-1</li>
+<li>Mutability: read-write</li>
+<li>Data Type: Timestamp</li>
+<li>Description: a timestamp, when this status is going to be removed automatically, or changed to other status. This field can be used to expresse lifecycle related information.</li>
+<li>Constraints: servers MAY restrict possibility to set or update this value by the client.</li>
+</ul></li>
+</ul></li>
+</ul>
+
+<aside><t>TBD: Idea - model status object as Labelled Composition using &quot;Label&quot;? Con: Generic Constraints for Label will be repeated.</t>
+</aside>
+</section>
+
+<section anchor="nameserver-object"><name>Nameserver Object</name>
+
+<ul spacing="compact">
+<li>Name: Nameserver Object</li>
+<li>Description: Represents a single nameserver.</li>
+<li><t>Data Elements:</t>
+
+<ul spacing="compact">
+<li><t>Host Name</t>
+
+<ul spacing="compact">
+<li>Identifier: hostName</li>
+<li>Cardinality: 1</li>
+<li>Mutability: read-write</li>
+<li>Data Type: String</li>
+<li>Description: Fully qualified name of a host.</li>
+<li>Constraints: The value MUST be a syntactically valid host name.</li>
+</ul></li>
+<li><t>DNS Resource Records</t>
+
+<ul spacing="compact">
+<li>Identifier: dns</li>
+<li>Cardinality: 0+</li>
+<li>Mutability: read-write</li>
+<li>Data Type: Composition[DNS Resource Record]</li>
+<li>Description: DNS Resource Records related to the host.</li>
+<li><t>Constraints:</t>
+
+<ul spacing="compact">
+<li>In EPP Compatibility Profile the entries MUST be limited to A and AAAA entries for IPv4 and IPv6 glue records respectively.</li>
+<li>The labels of DNS entries MUST be subordinate to the Host Name of the Nameserver.</li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul>
+</section>
+
+<section anchor="dns-resource-record"><name>DNS Resource Record</name>
+
+<ul spacing="compact">
+<li>Name: DNS Resource Record</li>
+<li>Description: Represents a DNS Entry</li>
+<li><t>Data Elements:</t>
+
+<ul spacing="compact">
+<li><t>Label</t>
+
+<ul spacing="compact">
+<li>Identifier: hostNamelabel</li>
+<li>Cardinality: 1</li>
+<li>Mutability: read-write</li>
+<li>Data Type: String.</li>
+<li>Description: DNS entry label.</li>
+<li><t>Constraints:</t>
+
+<ul spacing="compact">
+<li>The value MUST be a syntactically valid DNS host name in Zone file string representation.</li>
+<li>Absolute FQDNs and relative host names are allowed.</li>
+</ul></li>
+</ul></li>
+<li><t>Type</t>
+
+<ul spacing="compact">
+<li>Identifier: type</li>
+<li>Cardinality: 1</li>
+<li>Mutability: read-write</li>
+<li>Data Type: String.</li>
+<li>Description: DNS entry type.</li>
+<li><t>Constraints:</t>
+
+<ul spacing="compact">
+<li>Each value MUST be a valid string representation of resource record type as defined in <xref target="RFC1035"></xref>.</li>
+<li>Allowed values MAY be constrained by server policies. For domain provisioning typically the Type would be constrained to the allowed parent side entries.</li>
+</ul></li>
+</ul></li>
+<li><t>Data</t>
+
+<ul spacing="compact">
+<li>Identifier: data</li>
+<li>Cardinality: 1</li>
+<li>Mutability: read-write</li>
+<li>Data Type: String.</li>
+<li>Description: DNS entry value.</li>
+<li>Constraints: Each value MUST be a syntactically valid resource record data for a Type in zone file string representation.</li>
+</ul></li>
+<li><t>TTL</t>
+
+<ul spacing="compact">
+<li>Identifier: ttl</li>
+<li>Cardinality: 1</li>
+<li>Mutability: read-write</li>
+<li>Data Type: Number.</li>
+<li>Description: TTL value of a resource record as defined in <xref target="RFC1035"></xref>.</li>
+<li>Constraints: The allowed value range MAY be constrained by server policy.</li>
+</ul></li>
+</ul></li>
+</ul>
+</section>
+
+<section anchor="authorisation-information-object"><name>Authorisation Information Object</name>
+
+<ul spacing="compact">
+<li>Name: Authorisation Information</li>
+<li>Description: Contains information used to authorise operations on a data object. It may hold different kind of authorisation information.</li>
+<li><t>Data Elements:</t>
+
+<ul spacing="compact">
+<li><t>Method</t>
+
+<ul spacing="compact">
+<li>Identifier: method</li>
+<li>Cardinality: 1</li>
+<li>Mutability: create-only</li>
+<li>Data Type: String</li>
+<li>Description: The identifier of the RPP authorisation method.</li>
+<li><t>Constraints:</t>
+
+<ul spacing="compact">
+<li>The value MUST be one of the values registered at IANA as defined in [I-D.draft-wullink-rpp-core].</li>
+<li>In EPP Compatibility Profile this value MUST be set to <tt>authinfo</tt> if standard password base authorisation is used</li>
+</ul></li>
+</ul></li>
+<li><t>Authorisation Information</t>
+
+<ul spacing="compact">
+<li>Identifier: authdata</li>
+<li>Cardinality: 1</li>
+<li>Mutability: create-only</li>
+<li>Data Type: String</li>
+<li>Description: The value of the authorisation information. It might be as simple as password string, but also more complex values like public key certificates or tokens encoded as string are possible.</li>
+<li><t>Constraints:</t>
+
+<ul spacing="compact">
+<li>Authorisation Information object is immutable. If the information changes (for example password is updated) a new instance MUST be created.</li>
+<li>Depending on the method and server policy Authorisation Information MAY not be available for read or any other operation responding with this data element.</li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul>
+</section>
+
+<section anchor="postal-address-object"><name>Postal Address Object</name>
+
+<ul spacing="compact">
+<li>Name: Postal Address Object</li>
+<li>Description: Contains the components of a postal address.</li>
+<li><t>Data Elements:</t>
+
+<ul spacing="compact">
+<li><t>Street</t>
+
+<ul spacing="compact">
+<li>Identifier: street</li>
+<li>Cardinality: 0+</li>
+<li>Mutability: read-write</li>
+<li>Data Type: String</li>
+<li>Description: The contact's street address.</li>
+<li>Constraints: Implementations MAY limit the maximum length of entries or character set.</li>
+</ul></li>
+<li><t>City</t>
+
+<ul spacing="compact">
+<li>Identifier: city</li>
+<li>Cardinality: 0-1</li>
+<li>Mutability: read-write</li>
+<li>Data Type: String</li>
+<li>Description: The contact's city.</li>
+<li><t>Constraints:</t>
+
+<ul spacing="compact">
+<li>Implementations MAY limit the maximum length of entries or character set.</li>
+<li>In EPP Compatibility Profile this data element MUST be provided.</li>
+</ul></li>
+</ul></li>
+<li><t>State/Province</t>
+
+<ul spacing="compact">
+<li>Identifier: sp</li>
+<li>Cardinality: 0-1</li>
+<li>Mutability: read-write</li>
+<li>Data Type: String</li>
+<li>Description: The contact's state or province.</li>
+<li>Constraints: Implementations MAY limit the maximum length of entries or character set.</li>
+</ul></li>
+<li><t>Postal Code</t>
+
+<ul spacing="compact">
+<li>Identifier: pc</li>
+<li>Cardinality: 0-1</li>
+<li>Mutability: read-write</li>
+<li>Data Type: String</li>
+<li>Description: The contact's postal code.</li>
+<li><t>Constraints:</t>
+
+<ul spacing="compact">
+<li>Implementation MAY limit the maximum length of entries or character set.</li>
+<li>The limitations MAY differ depending on Country Code (<tt>cc</tt>) data element.</li>
+</ul></li>
+</ul></li>
+<li><t>Country Code</t>
+
+<ul spacing="compact">
+<li>Identifier: cc</li>
+<li>Cardinality: 0-1</li>
+<li>Mutability: read-write</li>
+<li>Data Type: String</li>
+<li>Description: The contact's country code.</li>
+<li><t>Constraints:</t>
+
+<ul spacing="compact">
+<li>The value MUST be a two-character identifier from <xref target="ISO3166-1"></xref>.</li>
+<li>In EPP Compatibility Profile this data element MUST be provided.</li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul>
+</section>
+
+<section anchor="postal-info-object"><name>Postal Info Object</name>
+
+<ul spacing="compact">
+<li>Name: Postal Info Object</li>
+<li>Description: Contains postal-address information in either internationalised or localised forms.</li>
+<li>Data Elements:</li>
+</ul>
+
+<aside><t>TBC: Contact Type is not localised (shall be the same for PERSON and ORG). Moving it level up would however detach it from related/dependant fields Name/Organisation</t>
+</aside>
+
+<ul spacing="compact">
+<li><t>Contact Type</t>
+
+<ul spacing="compact">
+<li>Identifier: type</li>
+<li>Cardinality: 0-1</li>
+<li>Mutability: read-write</li>
+<li>Data Type: String</li>
+<li>Description: Specifies whether the contact is and individual or an organisation.</li>
+<li>Constraints: The value MUST be one of: &quot;PERSON&quot; (individual) or &quot;ORG&quot; (organisation).</li>
+</ul></li>
+<li><t>Name</t>
+
+<ul spacing="compact">
+<li>Identifier: name</li>
+<li>Cardinality: 0-1</li>
+<li>Mutability: read-write</li>
+<li>Data Type: String</li>
+<li>Description: The name of the individual or role.</li>
+<li><t>Constraints:</t>
+
+<ul spacing="compact">
+<li>Implementations MAY limit the maximum length of entries or character set.</li>
+<li>In EPP Compatibility Profile this data element MUST be provided.</li>
+<li>The implementations MAY require this field if Contact Type (<tt>type</tt>) is set to &quot;PERSON&quot;.</li>
+</ul></li>
+</ul></li>
+<li><t>Organisation</t>
+
+<ul spacing="compact">
+<li>Identifier: org</li>
+<li>Cardinality: 0-1</li>
+<li>Mutability: read-write</li>
+<li>Data Type: String</li>
+<li>Description: The name of the organisation.</li>
+<li><t>Constraints:</t>
+
+<ul spacing="compact">
+<li>Implementations MAY limit the maximum length of entries or character set.</li>
+<li>The implementations MAY require this field if Contact Type (<tt>type</tt>) is set to &quot;ORG&quot;.</li>
+</ul></li>
+</ul></li>
+<li><t>Address</t>
+
+<ul spacing="compact">
+<li>Identifier: addr</li>
+<li>Cardinality: 0-1</li>
+<li>Mutability: read-write</li>
+<li>Data Type: Postal Address Object</li>
+<li>Description: The detailed postal address.</li>
+<li>Constraints: In EPP Compatibility Profile this data element MUST be provided.</li>
+</ul></li>
+</ul>
+</section>
+
+<section anchor="disclose-object"><name>Disclose Object</name>
+
+<aside><t>TODO: Model Disclose in universal (extendible) way</t>
+</aside>
+
+<ul spacing="compact">
+<li>Name: Disclose</li>
+<li>Identifier: disclose</li>
+<li>Description: TBD</li>
+</ul>
+</section>
+</section>
+
+<section anchor="domain-name-data-object"><name>Domain Name Data Object</name>
+
+<section anchor="object-description"><name>Object Description</name>
+
+<ul spacing="compact">
+<li>Name: Domain Name Data Object</li>
+<li>Identifier: domainName</li>
+<li>Description: A Domain Name data object represents a domain name and contains the data required for its provisioning and management in the registry.</li>
+</ul>
+</section>
+
+<section anchor="data-elements"><name>Data Elements</name>
+<t>The following data elements are defined for the Domain Name Data Object.</t>
+
+<ul>
+<li><t>Name</t>
+
+<ul spacing="compact">
+<li>Identifier: name</li>
+<li>Cardinality: 1</li>
+<li>Mutability: create-only</li>
+<li>Data Type: String</li>
+<li>Description: The fully qualified name of the domain object.</li>
+<li><t>Constraints:</t>
+
+<ul spacing="compact">
+<li>The value MUST be a fully qualified domain name that conforms to the syntax described in <xref target="RFC1035"></xref>.</li>
+<li>A server MAY restrict allowable domain names to a particular top-level domain, second-level domain, or other domain for which the server is authoritative.</li>
+<li>The trailing dot required when these names are stored in a DNS zone is implicit and MUST NOT be provided when exchanging host and domain names.</li>
+</ul></li>
+</ul></li>
+<li><t>Repository ID</t>
+
+<ul spacing="compact">
+<li>Identifier: repositoryId</li>
+<li>Cardinality: 0-1</li>
+<li>Mutability: read-only</li>
+<li>Data Type: Identifier</li>
+<li>Description: A server-assigned unique identifier for the object. In EPP Compatibility Profile this data element MUST be provided.</li>
+<li>Constraints: (None)</li>
+</ul></li>
+<li><t>Status</t>
+
+<ul spacing="compact">
+<li>Identifier: status</li>
+<li>Cardinality: 0+</li>
+<li>Mutability: read-only</li>
+<li>Data Type:  Status Object</li>
+<li>Description: The current status descriptors associated with the domain.</li>
+<li>Constraints: Possible combinations of Status Object Labels is specified in <xref target="RFC5731" sectionFormat="of" section="2.3"></xref> and <xref target="RFC3915"></xref></li>
+</ul></li>
+</ul>
+
+<aside><t>TBC: IANA registry for statuses?</t>
+</aside>
+
+<ul spacing="compact">
+<li><t>Registrant</t>
+
+<ul spacing="compact">
+<li>Identifier: registrant</li>
+<li>Cardinality: 0-1</li>
+<li>Mutability: read-write</li>
+<li>Data Type: Contact Object.</li>
+<li>Description: The contact object associated with the domain as the registrant.</li>
+<li><t>Constraints:</t>
+
+<ul spacing="compact">
+<li>The relation MUST correspond to a valid Contact Data Object known to the server.</li>
+<li>Servers MAY restrict association of a Contact Object of a different sponsoring client.</li>
+</ul></li>
+</ul></li>
+</ul>
+
+<aside><t>TBC: leave registrant here or move it to contacts with a type?</t>
+</aside>
+
+<ul spacing="compact">
+<li><t>Contacts</t>
+
+<ul spacing="compact">
+<li>Identifier: contacts</li>
+<li>Cardinality: 0+</li>
+<li>Mutability: read-write</li>
+<li><t>Data Type: LabelledAggregation[Contact Object]</t>
+
+<ul spacing="compact">
+<li>Label Description: The role of the associated contact.</li>
+<li><t>Label Constraints:</t>
+
+<ul spacing="compact">
+<li>List of supported roles is defined by server policy</li>
+<li>In the EPP Compatibility Profile, the value MUST be one of: &quot;admin&quot;, &quot;billing&quot;, or &quot;tech&quot;</li>
+</ul></li>
+</ul></li>
+<li>Description: A collection of other contact objects associated with the domain object.</li>
+<li><t>Constraints:</t>
+
+<ul spacing="compact">
+<li>Maximum number of associated contacts (per role) MAY be restricted by server policy</li>
+</ul></li>
+</ul></li>
+</ul>
+
+<aside><t>TBC: IANA registry for contact role label?</t>
+</aside>
+
+<ul>
+<li><t>Nameservers</t>
+
+<ul spacing="compact">
+<li>Identifier: nameservers</li>
+<li>Cardinality: 0+</li>
+<li>Mutability: read-write</li>
+<li>Data Type: Composition[Host Data Object] or Aggregation[Host Data Object]</li>
+<li>Description: A collection of nameservers associated with the domain.</li>
+<li>Constraints: (None)</li>
+</ul></li>
+<li><t>DNS</t>
+
+<ul spacing="compact">
+<li>Identifier: dns</li>
+<li>Cardinality: 0+</li>
+<li>Mutability: read-write</li>
+<li>Data Type: Composition[DNS Resource Record]</li>
+<li>Description: A collection of DNS entries related to the domain name.</li>
+<li><t>Constraints:</t>
+
+<ul spacing="compact">
+<li>The Type of the entries MAY be constrained by the server policy. Typically the values would be limited to allowed parent side resource record types.</li>
+<li>In EPP Compatibility Profide with DNSSEC Extension allowed values MUST be DS and DNSKEY.</li>
+<li>The labels of DNS entries MUST be subordinate to the domain name and MUST NOT be below zone cut in case of present delegation.</li>
+</ul></li>
+</ul></li>
+<li><t>Subordinate Hosts</t>
+
+<ul spacing="compact">
+<li>Identifier: subordinateHosts</li>
+<li>Cardinality: 0+</li>
+<li>Mutability: read-only</li>
+<li>Data Type: Aggregation[Host Object]</li>
+<li>Description: A collection of subordinate host objects that exist under this domain.</li>
+<li>Constraints: (None)</li>
+</ul></li>
+<li><t>Sponsoring Client ID</t>
+
+<ul spacing="compact">
+<li>Identifier: sponsoringClientId</li>
+<li>Cardinality: 1</li>
+<li>Mutability: read-only</li>
+<li>Data Type: Client Identifier.</li>
+<li>Description: The identifier of the client that is the current sponsor of the domain object.</li>
+<li>Constraints: (None)</li>
+</ul></li>
+<li><t>Creating Client ID</t>
+
+<ul spacing="compact">
+<li>Identifier: creatingClientId</li>
+<li>Cardinality: 0-1</li>
+<li>Mutability: read-only</li>
+<li>Data Type: Client Identifier.</li>
+<li>Description: The identifier of the client that created the domain object.</li>
+<li>Constraints: (None)</li>
+</ul></li>
+<li><t>Creation Date</t>
+
+<ul spacing="compact">
+<li>Identifier: creationDate</li>
+<li>Cardinality: 0-1</li>
+<li>Mutability: read-only</li>
+<li>Data Type: Timestamp.</li>
+<li>Description: The date and time of domain object creation.</li>
+<li>Constraints: The value is set by the server and cannot be specified by the client.</li>
+</ul></li>
+<li><t>Updating Client ID</t>
+
+<ul spacing="compact">
+<li>Identifier: updatingClientId</li>
+<li>Cardinality: 0-1</li>
+<li>Mutability: read-only</li>
+<li>Data Type: Client Identifier.</li>
+<li>Description: The identifier of the client that last updated the domain object.</li>
+<li>Constraints: This element MUST NOT be present if the domain has never been modified.</li>
+</ul></li>
+<li><t>Update Date</t>
+
+<ul spacing="compact">
+<li>Identifier: updateDate</li>
+<li>Cardinality: 0-1</li>
+<li>Mutability: read-only</li>
+<li>Data Type: Timestamp.</li>
+<li>Description: The date and time of the most recent domain object modification.</li>
+<li>Constraints: This element MUST NOT be present if the domain object has never been modified.</li>
+</ul></li>
+<li><t>Expiry Date</t>
+
+<ul spacing="compact">
+<li>Identifier: expiryDate</li>
+<li>Cardinality: 0-1</li>
+<li>Mutability: read-only</li>
+<li>Data Type: Timestamp.</li>
+<li>Description: The date and time identifying the end of the domain object's registration period.</li>
+<li>Constraints: The value is set by the server and cannot be specified by the client.</li>
+</ul></li>
+<li><t>Transfer Date</t>
+
+<ul spacing="compact">
+<li>Identifier: transferDate</li>
+<li>Cardinality: 0-1</li>
+<li>Mutability: read-only</li>
+<li>Data Type: Timestamp</li>
+<li>Description: The date and time of the most recent successful domain object transfer.</li>
+<li>Constraints: This element MUST NOT be provided if the domain object has never been transferred.</li>
+</ul></li>
+<li><t>Authorisation Information</t>
+
+<ul spacing="compact">
+<li>Identifier: authInfo</li>
+<li>Cardinality: 0-1</li>
+<li>Mutability: read-write</li>
+<li>Data Type: Authorisation Information Object</li>
+<li>Description: Authorisation information associated with the domain object.</li>
+<li>Constraints: (None)</li>
+</ul></li>
+</ul>
+</section>
+
+<section anchor="operations-1"><name>Operations</name>
+
+<section anchor="create-operation"><name>Create Operation</name>
+<t>The Create operation allows a client to provision a new Domain Name resource. The operation accepts as input all create-only and read-write data elements defined for the Domain Name Data Object.</t>
+
+<ul spacing="compact">
+<li><t>Authorisation:</t>
+
+<ul spacing="compact">
+<li>Generally each client is authorised to create new domain objects becoming a sponsoring client. This can be however constrained by the server policy in many ways, i.e. by applying rate limiting, billing related constraints or compliance locks.</li>
+</ul></li>
+</ul>
+<t>In addition, the following transient data element is defined for this operation:</t>
+
+<ul spacing="compact">
+<li><t>Registration Period</t>
+
+<ul spacing="compact">
+<li>Identifier: period</li>
+<li>Cardinality: 0-1</li>
+<li>Data Type: Period Object.</li>
+<li>Description: The initial registration period for the domain name. This value is used by the server to calculate the initial <tt>expiryDate</tt> of the object. This element is not persisted as part of the object's state.</li>
+</ul></li>
+</ul>
+</section>
+
+<section anchor="read-operation"><name>Read Operation</name>
+<t>The Read operation allows a client to retrieve the data elements of a
+Domain Name resource. The server's response MAY vary depending on
+client authorisation and server policy.</t>
+
+<ul spacing="compact">
+<li><t>Authorisation:</t>
+
+<ul spacing="compact">
+<li><t>Sponsoring client:</t>
+
+<ul spacing="compact">
+<li>Full object representation</li>
+</ul></li>
+<li><t>Other client:</t>
+
+<ul spacing="compact">
+<li><t>Without object authorisation:</t>
+
+<ul spacing="compact">
+<li>Limited (non-confidential) object representation or operation denied</li>
+</ul></li>
+<li><t>With object authorisation:</t>
+
+<ul spacing="compact">
+<li>Full object representation, however some properties only authorised to the sponsoring client MAY be redacted according to server policy</li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul>
+<t>The following transient data elements are defined for this operation:</t>
+
+<ul spacing="compact">
+<li><t>Hosts Filter</t>
+
+<ul spacing="compact">
+<li>Identifier: hostsFilter</li>
+<li>Cardinality: 0-1</li>
+<li>Data Type: String</li>
+<li>Description: Controls which host information is returned with
+the object.</li>
+<li>Constraints: The value MUST be one of &quot;all&quot;, &quot;del&quot;
+(delegated), &quot;sub&quot; (subordinate), or &quot;none&quot;. The default value
+is &quot;all&quot;.</li>
+</ul></li>
+</ul>
+</section>
+
+<section anchor="delete-operation"><name>Delete Operation</name>
+<t>The Delete operation allows a client to remove an existing Domain Name resource. The operation targets a specific data object identified by its name.</t>
+
+<ul spacing="compact">
+<li><t>Authorisation:</t>
+
+<ul spacing="compact">
+<li>Only sponsoring client is authorised to perform this operation</li>
+</ul></li>
+</ul>
+<t>The server SHOULD reject a delete request if subordinate host objects are associated with the domain name.</t>
+<t>The error response SHOULD indicate the related subordinate host objects.</t>
+</section>
+
+<section anchor="renew-operation"><name>Renew Operation</name>
+<t>The Renew operation allows a client to extend the validity period of an existing Domain Name resource. The operation targets a specific data object identified by its name.</t>
+
+<ul spacing="compact">
+<li><t>Authorisation:</t>
+
+<ul spacing="compact">
+<li>Only sponsoring client is authorised to perform this operation</li>
+</ul></li>
+<li>Input: Domain Name</li>
+<li>Output: Full object representation (read-write and read-only properties), or a minimum representation of properties affected by the operation (Expiry Date).</li>
+</ul>
+<t>The following transient data elements are defined for this operation:</t>
+
+<ul>
+<li><t>Current Expiry Date</t>
+
+<ul spacing="compact">
+<li>Identifier: currentExpiryDate</li>
+<li>Cardinality: 1</li>
+<li>Data Type: Timestamp</li>
+<li>Description: The current expiry date of the domain name. The server MUST validate this against the object's current <tt>expiryDate</tt> to prevent unintended duplicate renewals.</li>
+</ul></li>
+<li><t>Renewal Period</t>
+
+<ul spacing="compact">
+<li>Identifier: renewalPeriod</li>
+<li>Cardinality: 0-1</li>
+<li>Data Type: Period Object</li>
+<li>Description: The duration to be added to the object's registration period. This value is used by the server to calculate the new <tt>expiryDate</tt>. The default value MAY be defined by server policy. The number of units available MAY be subject to limits imposed by the server.</li>
+</ul></li>
+</ul>
+</section>
+
+<section anchor="transfer-operation"><name>Transfer operation</name>
+
+<aside><t>TODO: define transfer operation</t>
+</aside>
+</section>
+</section>
+</section>
+
+<section anchor="contact-data-object"><name>Contact Data Object</name>
+
+<section anchor="object-description-1"><name>Object Description</name>
+
+<ul spacing="compact">
+<li>Name: Contact Data Object</li>
+<li>Identifier: contact</li>
+<li>Description: A Contact Data Object represents the social information for an individual or organisation associated with other objects.</li>
+</ul>
+</section>
+
+<section anchor="data-elements-1"><name>Data Elements</name>
+<t>The following data elements are defined for the Domain Name Data Object.</t>
+
+<ul>
+<li><t>Handle ID</t>
+
+<ul spacing="compact">
+<li>Identifier: id</li>
+<li>Cardinality: 1</li>
+<li>Mutability: create-only</li>
+<li>Data Type: Identifier.</li>
+<li>Description: External unique identifier of the contact object.</li>
+<li><t>Constraints:</t>
+
+<ul spacing="compact">
+<li>This value MUST be supported to be provided by the client.</li>
+<li>Servers MAY support server-side generation of this value.</li>
+</ul></li>
+</ul></li>
+<li><t>Repository ID</t>
+
+<ul spacing="compact">
+<li>Identifier: repositoryId</li>
+<li>Cardinality: 0-1</li>
+<li>Mutability: read-only</li>
+<li>Data Type: Identifier</li>
+<li>Description: A server-assigned unique identifier for the object.</li>
+<li>Constraints: In EPP Compatibility Profile this data element MUST be provided.</li>
+</ul></li>
+<li><t>Postal Information</t>
+
+<ul spacing="compact">
+<li>Identifier: postalInfo</li>
+<li>Cardinality: 1-2</li>
+<li>Mutability: read-write</li>
+<li><t>Data Type: AggregationDictionary[Postal Info Object]</t>
+
+<ul spacing="compact">
+<li>Label Description: type of contact data localisation</li>
+<li>Label Constraints: Allowed values: &quot;int&quot; for &quot;internationalised&quot; all-ASCII version of an address and &quot;loc&quot; for localised forms with possible non-ASCII character sets.</li>
+</ul></li>
+<li>Description: Contains postal-address information.</li>
+<li>Constraints: There MUST be no more that 1 element of type &quot;int&quot; and one element of type &quot;loc&quot;.</li>
+</ul></li>
+<li><t>Voice Phone Number</t>
+
+<ul spacing="compact">
+<li>Identifier: voice</li>
+<li>Cardinality: 0+</li>
+<li>Mutability: read-write</li>
+<li>Data Type: Phone Number</li>
+<li>Description: Voice phone number associated with the contact</li>
+<li>Constraints: (None)</li>
+</ul></li>
+<li><t>Fax Phone Number</t>
+
+<ul spacing="compact">
+<li>Identifier: fax</li>
+<li>Cardinality: 0+</li>
+<li>Mutability: read-write</li>
+<li>Data Type: Phone Number</li>
+<li>Description: Fax number associated with the contact</li>
+<li>Constraints: (None)</li>
+</ul></li>
+<li><t>E-mail</t>
+
+<ul spacing="compact">
+<li>Identifier: email</li>
+<li>Cardinality: 0+</li>
+<li>Mutability: read-write</li>
+<li>Data Type: String.</li>
+<li>Description: The contact's email address.</li>
+<li>Constraints: Email address syntax is defined in <xref target="RFC5322"></xref>.</li>
+</ul></li>
+<li><t>Status</t>
+
+<ul>
+<li>Identifier: status</li>
+<li>Cardinality: 0+</li>
+<li>Mutability: read-only</li>
+<li>Data Type: Status Object</li>
+<li>Description: The current status descriptors associated with the contact.</li>
+<li><t>Constraints:</t>
+
+<ul>
+<li>Description: The current status descriptors associated with the contact.</li>
+<li><t>Constraints: Possible combinations of Domain Status Labels is specified in <xref target="RFC5733" sectionFormat="of" section="2.2"></xref></t>
+</li>
+<li><t>The value MUST be one of the status tokens defined in the IANA registry for domain statuses.</t>
+</li>
+<li><t>The initial value list MAY be as defined in <xref target="RFC5733"></xref>. In this case the values MUST have the same semantics.</t>
+</li>
+</ul></li>
+</ul></li>
+<li><t>Sponsoring Client ID</t>
+
+<ul spacing="compact">
+<li>Identifier: sponsoringClientId</li>
+<li>Cardinality: 1</li>
+<li>Mutability: read-only</li>
+<li>Data Type: Client Identifier.</li>
+<li>Description: The identifier of the client that is the current sponsor of the domain object.</li>
+<li>Constraints: (None)</li>
+</ul></li>
+<li><t>Creating Client ID</t>
+
+<ul spacing="compact">
+<li>Identifier: creatingClientId</li>
+<li>Cardinality: 0-1</li>
+<li>Mutability: read-only</li>
+<li>Data Type: Client Identifier.</li>
+<li>Description: The identifier of the client that created the contact object.</li>
+<li>Constraints: (None)</li>
+</ul></li>
+<li><t>Creation Date</t>
+
+<ul spacing="compact">
+<li>Identifier: creationDate</li>
+<li>Cardinality: 0-1</li>
+<li>Mutability: read-only</li>
+<li>Data Type: Timestamp.</li>
+<li>Description: The date and time of contact object creation.</li>
+<li>Constraints: The value is set by the server and cannot be specified by the client.</li>
+</ul></li>
+<li><t>Updating Client ID</t>
+
+<ul spacing="compact">
+<li>Identifier: updatingClientId</li>
+<li>Cardinality: 0-1</li>
+<li>Mutability: read-only</li>
+<li>Data Type: Client Identifier.</li>
+<li>Description: The identifier of the client that last updated the contact object.</li>
+<li>Constraints: This element MUST NOT be present if the contact has never been modified.</li>
+</ul></li>
+<li><t>Update Date</t>
+
+<ul spacing="compact">
+<li>Identifier: updateDate</li>
+<li>Cardinality: 0-1</li>
+<li>Mutability: read-only</li>
+<li>Data Type: Timestamp.</li>
+<li>Description: The date and time of the most recent contact object modification.</li>
+<li>Constraints: This element MUST NOT be present if the contact object has never been modified.</li>
+</ul></li>
+<li><t>Transfer Date</t>
+
+<ul spacing="compact">
+<li>Identifier: transferDate</li>
+<li>Cardinality: 0-1</li>
+<li>Mutability: read-only</li>
+<li>Data Type: Timestamp.</li>
+<li>Description: The date and time of the most recent successful contact object transfer.</li>
+<li>Constraints: This element MUST NOT be provided if the contact object has never been transferred.</li>
+</ul></li>
+<li><t>Authorisation Information</t>
+
+<ul spacing="compact">
+<li>Identifier: authInfo</li>
+<li>Cardinality: 0-1</li>
+<li>Mutability: read-write</li>
+<li>Data Type: Authorisation Information</li>
+<li>Description: Authorisation information associated with the contact object.</li>
+<li>Constraints: (None)</li>
+</ul></li>
+<li><t>Disclose</t>
+
+<ul spacing="compact">
+<li>Identifier: disclose</li>
+<li>Cardinality: 0-1</li>
+<li>Mutability: read-write</li>
+<li>Data Type: Disclose Object.</li>
+<li>Description: Identifies elements that require exceptional server-operator handling to allow or restrict disclosure to third parties.</li>
+</ul></li>
+</ul>
+
+<aside><t>TBC: IANA registry for statuses?</t>
+</aside>
+</section>
+
+<section anchor="operations-2"><name>Operations</name>
+
+<aside><t>TODO: Describe operations for contacts</t>
+</aside>
+</section>
+</section>
+
+<section anchor="host-data-object"><name>Host Data Object</name>
+
+<section anchor="object-description-2"><name>Object Description</name>
+<t>A Host Data Object represents a name server that provides DNS
+services for a a domain name.</t>
+</section>
+
+<section anchor="data-elements-2"><name>Data Elements</name>
+<t>The following data elements are defined for the Host Data Object.</t>
+
+<aside><t>TBC: hostName/dns properties are identical to Nameserver Object. Shall we define something like &quot;Extends&quot;?</t>
+</aside>
+
+<ul>
+<li><t>Host Name</t>
+
+<ul spacing="compact">
+<li>Identifier: hostName</li>
+<li>Cardinality: 1</li>
+<li>Mutability: read-write</li>
+<li>Data Type: String</li>
+<li>Description: Fully qualified name of a host.</li>
+<li>Constraints: The value MUST be a syntactically valid host name.</li>
+</ul></li>
+<li><t>DNS Resource Records</t>
+
+<ul spacing="compact">
+<li>Identifier: dns</li>
+<li>Cardinality: 0+</li>
+<li>Mutability: read-write</li>
+<li>Data Type: Composition[DNS Resource Record]</li>
+<li>Description: DNS Resource Records related to the host.</li>
+<li><t>Constraints:</t>
+
+<ul spacing="compact">
+<li>The labels of DNS entries MUST be subordinate to the Host Name of the Nameserver.</li>
+<li>In EPP Compatibility Profile the entries MUST be limited to A and AAAA entries for IPv4 and IPv6 glue records respectively.</li>
+</ul></li>
+</ul></li>
+<li><t>Status</t>
+
+<ul spacing="compact">
+<li>Identifier: status</li>
+<li>Cardinality: 0+</li>
+<li>Mutability: read-only</li>
+<li>Data Type:  Status Object</li>
+<li>Description: The current status descriptors associated with the domain.</li>
+<li>Constraints: Possible combinations of Domain Status Labels is specified in <xref target="RFC5732" sectionFormat="of" section="2.3"></xref></li>
+</ul></li>
+</ul>
+
+<aside><t>TBD: this block repositoryId/sponsoringClientId/creationDate/updatingClientId/updateDate/transferDate is the same as for Domain Name. Shall it be abstracted to a new component object like &quot;Provisioning Metadata&quot;?</t>
+</aside>
+
+<ul>
+<li><t>Repository ID</t>
+
+<ul spacing="compact">
+<li>Identifier: repositoryId</li>
+<li>Cardinality: 0-1</li>
+<li>Mutability: read-only</li>
+<li>Data Type: Identifier</li>
+<li>Description: A server-assigned unique identifier for the object. For EPP compatibility this data element is obligatory.</li>
+<li>Constraints: (None)</li>
+</ul></li>
+<li><t>Sponsoring Client ID</t>
+
+<ul spacing="compact">
+<li>Identifier: sponsoringClientId</li>
+<li>Cardinality: 1</li>
+<li>Mutability: read-only</li>
+<li>Data Type: Client Identifier.</li>
+<li>Description: The identifier of the client that is the current sponsor of the host object.</li>
+<li>Constraints: (None)</li>
+</ul></li>
+<li><t>Creating Client ID</t>
+
+<ul spacing="compact">
+<li>Identifier: creatingClientId</li>
+<li>Cardinality: 0-1</li>
+<li>Mutability: read-only</li>
+<li>Data Type: Client Identifier.</li>
+<li>Description: The identifier of the client that created the host object.</li>
+<li>Constraints: (None)</li>
+</ul></li>
+<li><t>Creation Date</t>
+
+<ul spacing="compact">
+<li>Identifier: creationDate</li>
+<li>Cardinality: 0-1</li>
+<li>Mutability: read-only</li>
+<li>Data Type: Timestamp.</li>
+<li>Description: The date and time of host object creation.</li>
+<li>Constraints: The value is set by the server and cannot be specified by the client.</li>
+</ul></li>
+<li><t>Updating Client ID</t>
+
+<ul spacing="compact">
+<li>Identifier: updatingClientId</li>
+<li>Cardinality: 0-1</li>
+<li>Mutability: read-only</li>
+<li>Data Type: Client Identifier.</li>
+<li>Description: The identifier of the client that last updated the host object.</li>
+<li>Constraints: This element MUST NOT be present if the domain has never been modified.</li>
+</ul></li>
+<li><t>Update Date</t>
+
+<ul spacing="compact">
+<li>Identifier: updateDate</li>
+<li>Cardinality: 0-1</li>
+<li>Mutability: read-only</li>
+<li>Data Type: Timestamp.</li>
+<li>Description: The date and time of the most recent host object modification.</li>
+<li>Constraints: This element MUST NOT be present if the host object has never been modified.</li>
+</ul></li>
+<li><t>Transfer Date</t>
+
+<ul spacing="compact">
+<li>Identifier: transferDate</li>
+<li>Cardinality: 0-1</li>
+<li>Mutability: read-only</li>
+<li>Data Type: Timestamp</li>
+<li>Description: The date and time of the most recent successful host object transfer.</li>
+<li>Constraints: This element MUST NOT be provided if the host object has never been transferred.</li>
+</ul></li>
+</ul>
+</section>
+
+<section anchor="operations-3"><name>Operations</name>
+
+<aside><t>TODO: Describe operations for hosts</t>
+</aside>
+</section>
+</section>
+
+<section anchor="iana-considerations"><name>IANA Considerations</name>
+
+<section anchor="rpp-data-object-registry"><name>RPP Data Object Registry</name>
+<t>This document establishes the &quot;Registry Provisioning Protocol (RPP)
+Data Object Registry&quot;. This registry serves as a definitive, hierarchical
+catalogue of all data objects, component objects, data elements,
+and operations used within RPP.</t>
+
+<section anchor="registration-policy"><name>Registration Policy</name>
+<t>The policy for adding new objects, data elements, or operations to
+this registry is &quot;Specification Required&quot; <xref target="RFC8126"></xref>.</t>
+</section>
+
+<section anchor="registry-structure"><name>Registry Structure</name>
+<t>The registry is organised as a collection of Object definitions. Each
+Object definition MUST include:</t>
+
+<ul>
+<li><t>A header containing the Object Identifier, Object Name, Object
+Type (Resource or Component), a brief description, and a
+reference to its defining specification.</t>
+</li>
+<li><t>A &quot;Data Elements&quot; table listing all persisted data elements
+associated with the object. Each entry MUST specify the element's
+Identifier, Name, Cardinality, Mutability, Data Type, and
+description.</t>
+</li>
+<li><t>If applicable, an &quot;Operations&quot; section. For each operation, the
+registry MUST provide:</t>
+
+<ul spacing="compact">
+<li>The Operation's Name and a description.</li>
+<li>A &quot;Parameters&quot; table listing all data elements that
+are provided as input to the operation but are not persisted
+as part of the object's state. Each entry MUST specify the
+parameter's Identifier, Name, Cardinality, Data Type, and a
+description.</li>
+</ul></li>
+</ul>
+</section>
+
+<section anchor="initial-registrations"><name>Initial Registrations</name>
+<t>The initial contents of the RPP Data Object Registry are defined below.</t>
+<t>Object: period</t>
+<t>Object Name: Period Object</t>
+<t>Object Type: Component</t>
+<t>Description: Represents a duration of time.</t>
+<t>Reference: [This-ID]</t>
+<t>Data Elements</t>
+<table>
+<thead>
+<tr>
+<th>Element Identifier</th>
+<th>Element Name</th>
+<th>Card.</th>
+<th>Mutability</th>
+<th>Data Type</th>
+<th>Description</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>value</td>
+<td>Value</td>
+<td>1</td>
+<td>read-write</td>
+<td>Integer</td>
+<td>The numeric value of the period.</td>
+</tr>
+
+<tr>
+<td>unit</td>
+<td>Unit</td>
+<td>1</td>
+<td>read-write</td>
+<td>String</td>
+<td>The unit of the period.</td>
+</tr>
+</tbody>
+</table><t>Object: nameserver</t>
+<t>Object Name: Nameserver Object</t>
+<t>Object Type: Component</t>
+<t>Description: Represents a single nameserver.</t>
+<t>Reference: [This-ID]</t>
+<t>Data Elements</t>
+<table>
+<thead>
+<tr>
+<th>Element Identifier</th>
+<th>Element Name</th>
+<th>Card.</th>
+<th>Mutability</th>
+<th>Data Type</th>
+<th>Description</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>hostName</td>
+<td>Host Name</td>
+<td>1</td>
+<td>read-write</td>
+<td>String</td>
+<td>The name of the host.</td>
+</tr>
+
+<tr>
+<td>dns</td>
+<td>DNS Resource Records</td>
+<td>0+</td>
+<td>read-write</td>
+<td>Composition[DNS Resource Record]</td>
+<td>DNS Resource Records related to the host.</td>
+</tr>
+</tbody>
+</table><t>Object: dnsrr</t>
+<t>Object Name: DNS Resource Record</t>
+<t>Object Type: Component</t>
+<t>Description: Represents a DNS Entry.</t>
+<t>Reference: [This-ID]</t>
+<t>Data Elements</t>
+<table>
+<thead>
+<tr>
+<th>Element Identifier</th>
+<th>Element Name</th>
+<th>Card.</th>
+<th>Mutability</th>
+<th>Data Type</th>
+<th>Description</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>hostNamelabel</td>
+<td>Label</td>
+<td>1</td>
+<td>read-write</td>
+<td>String</td>
+<td>DNS entry label.</td>
+</tr>
+
+<tr>
+<td>type</td>
+<td>Type</td>
+<td>1</td>
+<td>read-write</td>
+<td>String</td>
+<td>DNS entry type.</td>
+</tr>
+
+<tr>
+<td>data</td>
+<td>Data</td>
+<td>1</td>
+<td>read-write</td>
+<td>String</td>
+<td>DNS entry value.</td>
+</tr>
+
+<tr>
+<td>ttl</td>
+<td>TTL</td>
+<td>1</td>
+<td>read-write</td>
+<td>Number</td>
+<td>TTL value for a reource record.</td>
+</tr>
+</tbody>
+</table><t>Object: authInfo</t>
+<t>Object Name: Authorisation Information</t>
+<t>Object Type: Component</t>
+<t>Description: Contains authorisation credentials for an operation.</t>
+<t>Reference: [This-ID]</t>
+<t>Data Elements</t>
+<table>
+<thead>
+<tr>
+<th>Element Identifier</th>
+<th>Element Name</th>
+<th>Card.</th>
+<th>Mutability</th>
+<th>Data Type</th>
+<th>Description</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>method</td>
+<td>Method</td>
+<td>1</td>
+<td>create-only</td>
+<td>String</td>
+<td>The identifier of the RPP authorisation method.</td>
+</tr>
+
+<tr>
+<td>authdata</td>
+<td>Authorisation Information</td>
+<td>1</td>
+<td>create-only</td>
+<td>String</td>
+<td>The value of the authorisation information. It might be as simple as password string, but also more complex values like public key certificates or tokens encoded as string are possible.</td>
+</tr>
+</tbody>
+</table><t>Object: domainStatus</t>
+<t>Object Name: Status Object</t>
+<t>Object Type: Component</t>
+<t>Description: Represents one of the status values associated with the provisioning object.</t>
+<t>Reference: [This-ID]</t>
+<t>Data Elements</t>
+<table>
+<thead>
+<tr>
+<th>Element Identifier</th>
+<th>Element Name</th>
+<th>Card.</th>
+<th>Mutability</th>
+<th>Data Type</th>
+<th>Description</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>label</td>
+<td>Label</td>
+<td>1</td>
+<td>create-only</td>
+<td>String</td>
+<td>machine-reasible enum label of a status</td>
+</tr>
+
+<tr>
+<td>reason</td>
+<td>Reason</td>
+<td>0-1</td>
+<td>create-only</td>
+<td>String</td>
+<td>a human-readable text that describes the rationale for the status applied to the object.</td>
+</tr>
+
+<tr>
+<td>due</td>
+<td>Due</td>
+<td>0-1</td>
+<td>read-write</td>
+<td>Timestamp</td>
+<td>a timestamp, when this status is going to be removed automatically, or changed to other status. This field can be used to expresse lifecycle related information</td>
+</tr>
+</tbody>
+</table>
+<aside><t>TODO: IANA table: Postal Address Object
+TODO: IANA table: Postal Info Object
+TODO: IANA table: Disclose Object</t>
+</aside>
+<t>Object: domainName</t>
+<t>Object Name: Domain Name Data Object</t>
+<t>Object Type: Resource</t>
+<t>Description: Represents a domain name and its associated data.</t>
+<t>Reference: [This-ID]</t>
+<t>Data Elements</t>
+<table>
+<thead>
+<tr>
+<th>Identifier</th>
+<th>Name</th>
+<th>Card.</th>
+<th>Mutability</th>
+<th>Data Type</th>
+<th>Description</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>name</td>
+<td>Name</td>
+<td>1</td>
+<td>create-only</td>
+<td>String</td>
+<td>The fully qualified name of the domain object.</td>
+</tr>
+
+<tr>
+<td>repositoryId</td>
+<td>Repository ID</td>
+<td>0-1</td>
+<td>read-only</td>
+<td>Identifier</td>
+<td>A server-assigned unique identifier for the object.</td>
+</tr>
+
+<tr>
+<td>status</td>
+<td>Status</td>
+<td>0+</td>
+<td>read-only</td>
+<td>Status Object</td>
+<td>The current status descriptors for the domain.</td>
+</tr>
+
+<tr>
+<td>registrant</td>
+<td>Registrant</td>
+<td>0-1</td>
+<td>read-write</td>
+<td>Contact Object</td>
+<td>The registrant contact ID.</td>
+</tr>
+
+<tr>
+<td>contacts</td>
+<td>Contacts</td>
+<td>0+</td>
+<td>read-write</td>
+<td>LabelledAggregation [Contact Object]</td>
+<td>Associated contact objects.</td>
+</tr>
+
+<tr>
+<td>nameservers</td>
+<td>Nameservers</td>
+<td>0+</td>
+<td>read-write</td>
+<td>Composition[Host Data Object] or Aggregation[Host Data Object]</td>
+<td>A collection of nameservers associated with the domain.</td>
+</tr>
+
+<tr>
+<td>dns</td>
+<td>DNS</td>
+<td>0+</td>
+<td>read-write</td>
+<td>Composition[DNS Resource Record]</td>
+<td>A collection of DNS entries related to the domain name.</td>
+</tr>
+
+<tr>
+<td>subordinateHosts</td>
+<td>Subordinate Hosts</td>
+<td>0+</td>
+<td>read-only</td>
+<td>Aggregation [Host Object]</td>
+<td>Subordinate host names.</td>
+</tr>
+
+<tr>
+<td>sponsoringClientId</td>
+<td>Sponsoring Client ID</td>
+<td>1</td>
+<td>read-only</td>
+<td>Client Identifier</td>
+<td>The current sponsoring client ID.</td>
+</tr>
+
+<tr>
+<td>creatingClientId</td>
+<td>Creating Client ID</td>
+<td>0-1</td>
+<td>read-only</td>
+<td>Client Identifier</td>
+<td>The client ID that created the object.</td>
+</tr>
+
+<tr>
+<td>creationDate</td>
+<td>Creation Date</td>
+<td>0-1</td>
+<td>read-only</td>
+<td>Timestamp</td>
+<td>Creation timestamp.</td>
+</tr>
+
+<tr>
+<td>updatingClientId</td>
+<td>Updating Client ID</td>
+<td>0-1</td>
+<td>read-only</td>
+<td>Client Identifier</td>
+<td>The client ID that last updated the object.</td>
+</tr>
+
+<tr>
+<td>updateDate</td>
+<td>Update Date</td>
+<td>0-1</td>
+<td>read-only</td>
+<td>Timestamp</td>
+<td>The timestamp of the last update.</td>
+</tr>
+
+<tr>
+<td>expiryDate</td>
+<td>Expiry Date</td>
+<td>0-1</td>
+<td>read-only</td>
+<td>Timestamp</td>
+<td>Expiry timestamp.</td>
+</tr>
+
+<tr>
+<td>transferDate</td>
+<td>Transfer Date</td>
+<td>0-1</td>
+<td>read-only</td>
+<td>Timestamp</td>
+<td>The timestamp of the last successful transfer.</td>
+</tr>
+
+<tr>
+<td>authInfo</td>
+<td>Authorisation Info</td>
+<td>0-1</td>
+<td>read-write</td>
+<td>authInfo</td>
+<td>Authorisation information for the object.</td>
+</tr>
+</tbody>
+</table><t>Operations</t>
+<t>Operation: Create</t>
+<t>Description: Provisions a new Domain Name resource.</t>
+<t>Parameters</t>
+<table>
+<thead>
+<tr>
+<th>Identifier</th>
+<th>Name</th>
+<th>Card.</th>
+<th>Data Type</th>
+<th>Description</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>period</td>
+<td>Registration Period</td>
+<td>0-1</td>
+<td>period</td>
+<td>The initial registration period for the domain name.</td>
+</tr>
+</tbody>
+</table><t>Operation: Read</t>
+<t>Description: Retrieves the data elements of a Domain Name resource.</t>
+<t>Parameters</t>
+<table>
+<thead>
+<tr>
+<th>Identifier</th>
+<th>Name</th>
+<th>Card.</th>
+<th>Data Type</th>
+<th>Description</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>hostsFilter</td>
+<td>Hosts Filter</td>
+<td>0-1</td>
+<td>String</td>
+<td>Controls which host information is returned.</td>
+</tr>
+
+<tr>
+<td>queryAuthInfo</td>
+<td>Query Authorisation Information</td>
+<td>0-1</td>
+<td>authInfo</td>
+<td>Credentials to authorise access to full object data.</td>
+</tr>
+</tbody>
+</table><t>Operation: Delete</t>
+<t>Description: Removes an existing Domain Name resource.</t>
+<t>Parameters: (None)</t>
+<t>Operation: Renew</t>
+<t>Description: Extends the validity period of a Domain Name resource.</t>
+<t>Parameters</t>
+<table>
+<thead>
+<tr>
+<th>Identifier</th>
+<th>Name</th>
+<th>Card.</th>
+<th>Data Type</th>
+<th>Description</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>currentExpiryDate</td>
+<td>Current Expiry Date</td>
+<td>1</td>
+<td>Timestamp</td>
+<td>The expected current expiry date, for validation.</td>
+</tr>
+
+<tr>
+<td>renewalPeriod</td>
+<td>Renewal Period</td>
+<td>0-1</td>
+<td>period</td>
+<td>The duration to add to the registration period.</td>
+</tr>
+</tbody>
+</table>
+<aside><t>TODO: IANA table: Contact Data Object
+TODO: IANA table: Host Data Object</t>
+</aside>
+<t>Security Considerations</t>
+
+<aside><t>TODO: write security considerations, if any</t>
+</aside>
+</section>
+</section>
+</section>
+
+</middle>
+
+<back>
+<references><name>Normative References</name>
+<xi:include href="https://bib.ietf.org/public/rfc/bibxml3/reference.I-D.kowalik-rpp-architecture.xml"/>
+<reference anchor="ISO3166-1" target="">
+  <front>
+    <title>Codes for the representation of names of countries and their subdivisions -- Part 1: Country codes</title>
+    <author>
+      <organization>International Organization for Standardization</organization>
+    </author>
+    <date year="2000" month="11"></date>
+  </front>
+  <seriesInfo name="ISO Standard" value="3166"></seriesInfo>
+</reference>
+<reference anchor="ITU.E164.2005" target="">
+  <front>
+    <title>The international public telecommunication numbering plan</title>
+    <author>
+      <organization>International Telecommunication Union</organization>
+    </author>
+    <date year="2005" month="02"></date>
+  </front>
+  <seriesInfo name="ITU-T Recommendation" value="E.164"></seriesInfo>
+</reference>
+<xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.1035.xml"/>
+<xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.2119.xml"/>
+<xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.3339.xml"/>
+<xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.3915.xml"/>
+<xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.5322.xml"/>
+<xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.5730.xml"/>
+<xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.5731.xml"/>
+<xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.5732.xml"/>
+<xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.5733.xml"/>
+<xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8126.xml"/>
+<xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8174.xml"/>
+</references>
+
+</back>
+
+</rfc>
