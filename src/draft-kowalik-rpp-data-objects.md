@@ -1,5 +1,5 @@
 %%%
-title = "Registry Provisioning Protocol (RPP) Data Objects"
+title = "RESTful Provisioning Protocol (RPP) Data Objects"
 abbrev = "RPP Data Objects"
 area = "Internet"
 workgroup = "Network Working Group"
@@ -38,12 +38,12 @@ organization = "SIDN Labs"
 
 .# Abstract
 
-This document defines data objects for the Registry Provisioning Protocol (RPP) and sets up IANA RPP Data Object Registry to describe and catalogue them. Specifically, it details the logical structure, constraints, and protocol operations (including their inputs and outputs) for foundational resources: domain names, contacts, and hosts. In accordance with the RPP architecture [@!I-D.kowalik-rpp-architecture], these definitions focus entirely on the semantics, remaining independent of any specific data representation or media type (e.g., JSON or XML).
+This document defines data objects for the RESTful Provisioning Protocol (RPP) and sets up IANA RPP Data Object Registry to describe and catalogue them. Specifically, it details the logical structure, constraints, and protocol operations (including their inputs and outputs) for foundational resources: domain names, contacts, and hosts. In accordance with the RPP architecture [@!I-D.kowalik-rpp-architecture], these definitions focus entirely on the semantics, remaining independent of any specific data representation or media type (e.g., JSON or XML).
 
 {mainmatter}
 
 # Introduction
-The Registry Provisioning Protocol (RPP) defines a set of data objects used to represent and manage foundational registry resources, including domain names, contacts, and hosts. This initial list is not exhaustive; additional resource and component objects MAY be defined in future revisions or introduced via IANA registration to support new features and operational needs.
+The RESTful Provisioning Protocol (RPP) defines a set of data objects used to represent and manage foundational registry resources, including domain names, contacts, and hosts. This initial list is not exhaustive; additional resource and component objects MAY be defined in future revisions or introduced via IANA registration to support new features and operational needs.
 
 In accordance with the RPP architecture [@!I-D.kowalik-rpp-architecture], a core architectural principle is the clear distinction between the abstract data model and its concrete data representation. The data model defines the logical structure, relationships, and constraints of the objects, independent of formatting. The data representation defines how these abstract concepts are expressed in specific formats (e.g., JSON, XML, or YAML).
 
@@ -946,38 +946,24 @@ A> TODO: Describe operations for hosts
 
 ## RPP Data Object Registry
 
-This document establishes the "Registry Provisioning Protocol (RPP)
-Data Object Registry". This registry serves as a definitive, hierarchical
-catalogue of all data objects, component objects, data elements,
-and operations used within RPP.
+This document establishes the "RESTful Provisioning Protocol (RPP) Data Object Registry". This registry serves as a catalogue of all data objects, component objects, data elements, and operations used within RPP.
 
 ### Registration Policy
 
-The policy for adding new objects, data elements, or operations to
-this registry is "Specification Required" [@!RFC8126].
+The policy for adding new objects, data elements, or operations to this registry is "Specification Required" [@!RFC8126].
 
 ### Registry Structure
 
-The registry is organised as a collection of Object definitions. Each
-Object definition MUST include:
+The registry is organised as a collection of Object definitions. Each Object definition MUST include:
 
-* A header containing the Object Identifier, Object Name, Object
-Type (Resource or Component), a brief description, and a
-reference to its defining specification.
+* A header containing the Object Identifier, Object Name, Object Type (Resource or Component), a brief description, and a reference to its defining specification.
 
-* A "Data Elements" table listing all persisted data elements
-associated with the object. Each entry MUST specify the element's
-Identifier, Name, Cardinality, Mutability, Data Type, and
-description.
+* A "Data Elements" table listing all persisted data elements associated with the object. Each entry MUST specify the element's Identifier, Name, Cardinality, Mutability, Data Type, and description.
 
 * If applicable, an "Operations" section. For each operation, the
 registry MUST provide:
   * The Operation's Name and a description.
-  * A "Parameters" table listing all data elements that
-are provided as input to the operation but are not persisted
-as part of the object's state. Each entry MUST specify the
-parameter's Identifier, Name, Cardinality, Data Type, and a
-description.
+  * A "Parameters" table listing all data elements that are provided as input to the operation but are not persisted as part of the object's state. Each entry MUST specify the parameter's Identifier, Name, Cardinality, Data Type, and a description.
 
 ### Initial Registrations
 

@@ -9,12 +9,12 @@ Expires: 23 April 2026                                         SIDN Labs
                                                          20 October 2025
 
 
-           Registry Provisioning Protocol (RPP) Data Objects
+            RESTful Provisioning Protocol (RPP) Data Objects
                    draft-kowalik-rpp-data-objects-00
 
 Abstract
 
-   This document defines data objects for the Registry Provisioning
+   This document defines data objects for the RESTful Provisioning
    Protocol (RPP) and sets up IANA RPP Data Object Registry to describe
    and catalogue them.  Specifically, it details the logical structure,
    constraints, and protocol operations (including their inputs and
@@ -136,8 +136,8 @@ Internet-Draft              RPP Data Objects                October 2025
 
 1.  Introduction
 
-   The Registry Provisioning Protocol (RPP) defines a set of data
-   objects used to represent and manage foundational registry resources,
+   The RESTful Provisioning Protocol (RPP) defines a set of data objects
+   used to represent and manage foundational registry resources,
    including domain names, contacts, and hosts.  This initial list is
    not exhaustive; additional resource and component objects MAY be
    defined in future revisions or introduced via IANA registration to
@@ -1609,10 +1609,10 @@ Internet-Draft              RPP Data Objects                October 2025
 
 9.1.  RPP Data Object Registry
 
-   This document establishes the "Registry Provisioning Protocol (RPP)
-   Data Object Registry".  This registry serves as a definitive,
-   hierarchical catalogue of all data objects, component objects, data
-   elements, and operations used within RPP.
+   This document establishes the "RESTful Provisioning Protocol (RPP)
+   Data Object Registry".  This registry serves as a catalogue of all
+   data objects, component objects, data elements, and operations used
+   within RPP.
 
 9.1.1.  Registration Policy
 
