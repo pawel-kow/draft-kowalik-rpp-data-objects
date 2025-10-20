@@ -28,7 +28,7 @@ organization = "DENIC"
 
 .# Abstract
 
-This document defines data objects for the Registry Provisioning Protocol (RPP) and sets up IANA registries to describe and catalogue them. Specifically, it details the logical structure, constraints, and protocol operations (including their inputs and outputs) for foundational resources: domain names, contacts, and hosts. In accordance with the RPP architecture [@!I-D.kowalik-rpp-architecture], these definitions focus entirely on the semantics, remaining independent of any specific data representation or media type (e.g., JSON or XML).
+This document defines data objects for the Registry Provisioning Protocol (RPP) and sets up IANA RPP Data Object Registry to describe and catalogue them. Specifically, it details the logical structure, constraints, and protocol operations (including their inputs and outputs) for foundational resources: domain names, contacts, and hosts. In accordance with the RPP architecture [@!I-D.kowalik-rpp-architecture], these definitions focus entirely on the semantics, remaining independent of any specific data representation or media type (e.g., JSON or XML).
 
 {mainmatter}
 
@@ -47,11 +47,11 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "S
 
 ## Data Element Abstraction
 
-Each resource is composed of logical data elements. A data element is a logical unit of information identified by a stable name, independent of its representation in any given media type. The definition for each element specifies its logical name, purpose, cardinality, data type, and constraints.
+Each data object is composed of logical data elements. A data element is a logical unit of information identified by a stable name, independent of its representation in any given media type. The definition for each element specifies its logical name, purpose, cardinality, data type, and constraints.
 
 ## Extensibility
 
-The set of data elements for a given resource object is extensible. New data elements, relations or operations MAY be defined and registered with IANA to support new features. 
+The set of data elements for a given data object is extensible. New data elements, associations or operations MAY be defined and registered with IANA in order for the data object to support new features. 
 
 ## Data Element Semantics
 
@@ -74,17 +74,17 @@ The definition of each data element within an object consists of the following a
 
 ## Operations
 
-For each resource a set of possible operations is defined together with their respective input and output data.
+For each data object a set of possible operations is defined together with their respective input and output data.
 
 ### Authorisation
 
-For each operation authorisation requiremens and operation behaviour is specified.
-Wherever "object authorisation" is mentioned, it means that an operation may accept or require additional authorisation data related to the object beyond plain client authorisation.
+For each operation authorisation requirements and operation behaviour is specified.
+Wherever "object authorisation" is mentioned, it means that an operation MAY accept or require additional authorisation data related to the object beyond default client-level authorisation, or that an operation MAY have different effect or response if such authorisation is provided.
 Typically it would be a value related to or derived from Authorisation Information Object attached to the object.
 
 ### Uniform interface
 
-For the typical set of Create, Read, Update and Delete operations the following set of input and output representations is specified on top of additional transient input data, unless an operation for the specific object tells otherwise.
+For the typical set of Create, Read, Update and Delete operations the following set of input and output data model is specified on top of additional transient input data, unless an operation for the specific object tells otherwise.
 
 #### Create
 
@@ -96,7 +96,7 @@ For the typical set of Create, Read, Update and Delete operations the following 
 * Input: Object identifier
 * Output: Object representation (read-write and read-only properties)
 
-The output representation MAY vary depending on the identity of the querying client, use of authorization information, and server policy towards unauthorized clients. If the querying client is the sponsoring client, all available information MUST be returned. If the querying client is not the sponsoring client but the client provides valid authorization information, all available information SHOULD be returned, however some optional elements MAY be reserved to the sponsoring client only. If the querying client is not the sponsoring client and the client does not provide valid authorization information, server policy determines which OPTIONAL elements are returned, if any, or whether the entire request is rejected.
+The output representation MAY vary depending on the identity of the querying client, use of object authorisation information, and server policy towards unauthorized clients. If the querying client is the sponsoring client, all available information MUST be returned. If the querying client is not the sponsoring client but the client provides valid object authorisation information, all available information SHOULD be returned, however some optional elements MAY be reserved to the sponsoring client only. If the querying client is not the sponsoring client and the client does not provide valid object authorisation information, server policy determines which OPTIONAL elements are returned, if any, or whether the entire request is rejected.
 
 #### Update
 
@@ -122,7 +122,7 @@ Throughout this document, all constraints that are part of this profile are expl
 
 # Common Data Types
 
-This section defines primitive data types and structures that are re-used across multiple resource object definitions.
+This section defines data types and structures that are re-used across multiple data object definitions.
 
 ## Identifier
 
@@ -137,7 +137,7 @@ Date and time attribute values MUST be represented in Universal Coordinated Time
 
 Client identifiers are character strings with a specified minimum length, a specified maximum length, and a specified format. Contact identifiers use the "clIDType" client identifier syntax described in [@!RFC5730].
 
-A> TBC: do we need this or is it a relation with an entity/RFC8543 organisation? 
+A> TBC: do we need this or is it a relation with an entity/RFC8543 organisation? If registrars modeled are as first class objects (organisations), then clID is nothing else but a reference to this organisation, so maybe no need to define syntax separately on identifier level (or in other words it would be defined on this object). R8.1 in the form of -02 RPP requirements includes RFC8543. 
 
 ## Phone Number
 
@@ -145,8 +145,8 @@ Telephone number syntax is derived from structures defined in [@!ITU.E164.2005].
 
 # Associations
 
-RPP allows for different types of associations (links) between the objects. The association may be added between 2 indpendent objects with own lifecycle (UML aggregation) or in the relation when one object's existance and lifecycle is bound to the other parent/owner object (UML composition).
-In both cases, especially if the relation allows for cardinality higher than one on either side, the association may be assigned additional attributes, not being part of data model of either side of relation. In many cases such relation would be attributed with a single text string label, describing a role or a type of relation. Depending on the context this value might be unique, which allows using such label as a key in a dictionary.
+RPP allows for different types of associations (relationship) between the objects. The association may be added between 2 objects with own indpendent lifecycle (UML aggregation) or in the relation when one object's existance and lifecycle is bound to the other parent/owner object (UML composition).
+In both cases, especially if the relation allows for cardinality higher than one on either side, the association may be assigned additional attributes, not being part of an object on either side of relation. In many cases such relation would be attributed with a single text string label, describing a role or a type of relation. Depending on the context this value might be unique, which allows using such label as a key in a dictionary.
 
 The following generic Association Types are defined for RPP:
 
@@ -157,16 +157,16 @@ Notation: Aggregation[Type]
 A relation between two independent objects.
 
 If the cardinality of target object is more than 1, this represents an ordered array. 
-Data producer MUST assure the same unchanged data is always inserted in the same order. In case of data insertions, deletions or updates the remaining of the data SHALL preserve its order.
+It MUST assured that the same unchanged data is always inserted in the same order. In case of data insertions, deletions or updates the remaining of the data SHALL preserve its order.
 
 ## Composition
 
 Notation: Composition[Type] or Type
 
-A relation between an independent parent object and a dependent child object.
+A relation between an independent parent object and 1 or more dependent child object(s).
 
 If the cardinality of target object is more than 1, this represents an ordered array. 
-Data producer MUST assure the same unchanged data is always inserted in the same order. In case of data insertions, deletions or updates the remaining of the data SHALL preserve its order.
+It MUST assured that MUST assured that the same unchanged data is always inserted in the same order. In case of data insertions, deletions or updates the remaining of the data SHALL preserve its order.
 
 ## Labelled Aggregation
 
@@ -202,7 +202,7 @@ A type defining such association MUST define Label Description with semantics of
 
 # Component Objects
 
-This section defines common component objects that are re-used in the definitions of top-level resource objects.
+This section defines common objects that are re-used in the definitions of top-level data objects.
 Component objects carry only data but do not define any operations.
 
 ## Period Object
@@ -235,8 +235,10 @@ Component objects carry only data but do not define any operations.
       * Cardinality: 1
       * Mutability: create-only
       * Data Type: String
-      * Description: computer-readible enum label of a status
-      * Constraints: Status can be set as outlined in [@!RFC5731, 2.3]. Additional statuses can be set as outlined in [@!RFC3915]. This enumeration can be expanded by extensions. Statuses MAY be either set by the server with "server" prefix, or set by the client with "client" prefix. 
+      * Description: machine-readible enum label of a status
+      * Constraints: 
+        * Status can be set as outlined in [@!RFC5731, 2.3]. Additional statuses can be set as outlined in [@!RFC3915]. This enumeration can be expanded by extensions.
+        * Statuses MAY be either set by the server with "server" prefix, or set by the client with "client" prefix. 
     * Reason
       * Indentifier: reason
       * Cardinality: 0-1
@@ -270,7 +272,9 @@ Component objects carry only data but do not define any operations.
     * Mutability: read-write
     * Data Type: Composition[DNS Resource Record]
     * Description: DNS Resource Records related to the host. 
-    * Constraints: In EPP Compatibility Profile the entries MUST be limited to A and AAAA entries for IPv4 and IPv6 glue records respectively. The labels of DNS entries MUST be subordinate to the Host Name of the Nameserver.
+    * Constraints:
+      * In EPP Compatibility Profile the entries MUST be limited to A and AAAA entries for IPv4 and IPv6 glue records respectively.
+      * The labels of DNS entries MUST be subordinate to the Host Name of the Nameserver.
 
 ## DNS Resource Record
 
@@ -283,33 +287,37 @@ Component objects carry only data but do not define any operations.
     * Mutability: read-write
     * Data Type: String.
     * Description: DNS entry label.
-    * Constraints: The value MUST be a syntactically valid DNS host name in Zone file string representation. Absolute FQDNs and relative host names are allowed.
+    * Constraints: 
+      * The value MUST be a syntactically valid DNS host name in Zone file string representation. 
+      * Absolute FQDNs and relative host names are allowed.
   * Type
     * Identifier: type
     * Cardinality: 1
     * Mutability: read-write
     * Data Type: String.
     * Description: DNS entry type.
-    * Constraints: Each value MUST valid Zone file string representation of resource record type as defined in [@!RFC1035]. Allowed values MAY be constrained by server policies. For domain provisioning typically the Type would be constrained to allowed parent side entries.
+    * Constraints: 
+      * Each value MUST be a valid string representation of resource record type as defined in [@!RFC1035]. 
+      * Allowed values MAY be constrained by server policies. For domain provisioning typically the Type would be constrained to the allowed parent side entries.
   * Data
     * Identifier: data
     * Cardinality: 1
     * Mutability: read-write
     * Data Type: String.
     * Description: DNS entry value.
-    * Constraints: Each value MUST be a syntactically valid resource record data for a Type in Zone file string representation.
+    * Constraints: Each value MUST be a syntactically valid resource record data for a Type in zone file string representation.
   * TTL
     * Identifier: ttl
     * Cardinality: 1
     * Mutability: read-write
     * Data Type: Number.
-    * Description: TTL value for a reource record.
-    * Constraints: TTL value of a resource record as defined in [@!RFC1035]. The value MAY be constrained by server policy.
+    * Description: TTL value of a resource record as defined in [@!RFC1035].
+    * Constraints: The allowed value range MAY be constrained by server policy.
 
 ## Authorisation Information Object
 
 * Name: Authorisation Information
-* Description: Contains information used to authorise operations on a resource object. It may hold different kind of authorisation information. 
+* Description: Contains information used to authorise operations on a data object. It may hold different kind of authorisation information. 
 * Data Elements:
   * Method
     * Identifier: method
@@ -317,14 +325,18 @@ Component objects carry only data but do not define any operations.
     * Mutability: create-only
     * Data Type: String
     * Description: The identifier of the RPP authorisation method.
-    * Constraints: The value MUST be one of the values registered at IANA. Initial values AuthInfo.
+    * Constraints:
+      * The value MUST be one of the values registered at IANA as defined in [I-D.draft-wullink-rpp-core].
+      * In EPP Compatibility Profile this value MUST be set to `authinfo` if standard password base authorisation is used
   * Authorisation Information
     * Identifier: authdata
     * Cardinality: 1
     * Mutability: create-only
     * Data Type: String
     * Description: The value of the authorisation information. It might be as simple as password string, but also more complex values like public key certificates or tokens encoded as string are possible.
-    * Constraints: authorisation information objects are immutable. If the information changes (for example password is updated) a new instance MUST be created. Depending on the method and server policy Authorisation Information MAY not be available for reading.
+    * Constraints: 
+      * Authorisation Information object is immutable. If the information changes (for example password is updated) a new instance MUST be created.
+      * Depending on the method and server policy Authorisation Information MAY not be available for read or any other operation responding with this data element.
 
 ## Postal Address Object
 
@@ -337,35 +349,41 @@ Component objects carry only data but do not define any operations.
     * Mutability: read-write
     * Data Type: String
     * Description: The contact's street address.
-    * Constraints: Some implementation MAY limit the maximum length of entries or character set.
+    * Constraints: Implementations MAY limit the maximum length of entries or character set.
   * City
     * Identifier: city
     * Cardinality: 0-1
     * Mutability: read-write
     * Data Type: String
     * Description: The contact's city.
-    * Constraints: Some implementation MAY limit the maximum length of entries or character set. In EPP Compatibility Profile this data element MUST be provided.
+    * Constraints:
+      * Implementations MAY limit the maximum length of entries or character set.
+      * In EPP Compatibility Profile this data element MUST be provided.
   * State/Province
     * Identifier: sp
     * Cardinality: 0-1
     * Mutability: read-write
     * Data Type: String
     * Description: The contact's state or province.
-    * Constraints: Some implementation MAY limit the maximum length of entries or character set.
+    * Constraints: Implementations MAY limit the maximum length of entries or character set.
   * Postal Code
     * Identifier: pc
     * Cardinality: 0-1
     * Mutability: read-write
     * Data Type: String
     * Description: The contact's postal code.
-    * Constraints: Some implementation MAY limit the maximum length of entries or character set. The limitations MAY differ depending on Country Code (`cc`) data element.
+    * Constraints:
+      * Implementation MAY limit the maximum length of entries or character set.
+      * The limitations MAY differ depending on Country Code (`cc`) data element.
   * Country Code
     * Identifier: cc
     * Cardinality: 0-1
     * Mutability: read-write
     * Data Type: String
     * Description: The contact's country code.
-    * Constraints: The value MUST be a two-character identifier from [@!ISO3166-1]. In EPP Compatibility Profile this data element MUST be provided.
+    * Constraints: 
+      * The value MUST be a two-character identifier from [@!ISO3166-1].
+      * In EPP Compatibility Profile this data element MUST be provided.
 
 ## Postal Info Object
 
@@ -388,14 +406,19 @@ A> TBC: Contact Type is not localised (shall be the same for PERSON and ORG). Mo
     * Mutability: read-write
     * Data Type: String
     * Description: The name of the individual or role.
-    * Constraints: Some implementation MAY limit the maximum length of entries or character set. In EPP Compatibility Profile this data element MUST be provided. The implementations MAY require this field if Contact Type (`type`) is set to "PERSON".
+    * Constraints:
+      * Implementations MAY limit the maximum length of entries or character set.
+      * In EPP Compatibility Profile this data element MUST be provided.
+      * The implementations MAY require this field if Contact Type (`type`) is set to "PERSON".
   * Organisation
     * Identifier: org
     * Cardinality: 0-1
     * Mutability: read-write
     * Data Type: String
     * Description: The name of the organisation.
-    * Constraints: Some implementation MAY limit the maximum length of entries or character set. The implementations MAY require this field if Contact Type (`type`) is set to "ORG".
+    * Constraints:
+      * Implementations MAY limit the maximum length of entries or character set.
+      * The implementations MAY require this field if Contact Type (`type`) is set to "ORG".
   * Address
     * Identifier: addr
     * Cardinality: 0-1
@@ -413,17 +436,17 @@ A> TODO: Model Disclose in universal (extendible) way
 * Description: TBD
 
 
-# Domain Name Resource Object
+# Domain Name Data Object
 
 ## Object Description
 
-* Name: Domain Name Resource Object
+* Name: Domain Name Data Object
 * Identifier: domainName
-* Description: A Domain Name resource object represents a domain name and contains the data required for its provisioning and management in the registry.
+* Description: A Domain Name data object represents a domain name and contains the data required for its provisioning and management in the registry.
 
 ## Data Elements
 
-The following data elements are defined for the Domain Name resource object.
+The following data elements are defined for the Domain Name Data Object.
 
 * Name
   * Identifier: name
@@ -431,7 +454,10 @@ The following data elements are defined for the Domain Name resource object.
   * Mutability: create-only
   * Data Type: String
   * Description: The fully qualified name of the domain object.
-  * Constraints: The value MUST be a fully qualified domain name that conforms to the syntax described in [@!RFC1035]. A server MAY restrict allowable domain names to a particular top-level domain, second-level domain, or other domain for which the server is authoritative. The trailing dot required when these names are stored in a DNS zone is implicit and MUST NOT be provided when exchanging host and domain names.
+  * Constraints:
+    * The value MUST be a fully qualified domain name that conforms to the syntax described in [@!RFC1035].
+    * A server MAY restrict allowable domain names to a particular top-level domain, second-level domain, or other domain for which the server is authoritative.
+    * The trailing dot required when these names are stored in a DNS zone is implicit and MUST NOT be provided when exchanging host and domain names.
 
 * Repository ID
   * Identifier: repositoryId
@@ -457,7 +483,9 @@ A> TBC: IANA registry for statuses?
   * Mutability: read-write
   * Data Type: Contact Object.
   * Description: The contact object associated with the domain as the registrant.
-  * Constraints: The identifier MUST correspond to a valid Contact resource object known to the server.
+  * Constraints:
+    * The relation MUST correspond to a valid Contact Data Object known to the server.
+    * Servers MAY restrict association of a Contact Object of a different sponsoring client.
 
 A> TBC: leave registrant here or move it to contacts with a type?
 
@@ -467,15 +495,20 @@ A> TBC: leave registrant here or move it to contacts with a type?
   * Mutability: read-write
   * Data Type: LabelledAggregation[Contact Object]
     * Label Description: The role of the associated contact.
-    * Label Constraints: For domain name associations, the value MUST be one of: "admin", "billing", or "tech".
+    * Label Constraints:
+      * List of supported roles is defined by server policy
+      * In the EPP Compatibility Profile, the value MUST be one of: "admin", "billing", or "tech"
   * Description: A collection of other contact objects associated with the domain object.
-  * Constraints: Maximum number of associated contacts might be restricted by server policy
+  * Constraints: 
+    * Maximum number of associated contacts (per role) MAY be restricted by server policy
+
+A> TBC: IANA registry for contact role label? 
 
 * Nameservers
   * Identifier: nameservers
   * Cardinality: 0+
   * Mutability: read-write
-  * Data Type: Composition[Host Resource Object] or Aggregation[Host Resource Object]
+  * Data Type: Composition[Host Data Object] or Aggregation[Host Data Object]
   * Description: A collection of nameservers associated with the domain.
   * Constraints: (None)
 
@@ -485,7 +518,10 @@ A> TBC: leave registrant here or move it to contacts with a type?
   * Mutability: read-write
   * Data Type: Composition[DNS Resource Record]
   * Description: A collection of DNS entries related to the domain name.
-  * Constraints: The Type of the entries MAY be constrained by the server policy. Typically the values would be limited to allowed parent side resource record types. In EPP Compatibility Profide with DNSSEC Extension allowed values MUST be DS and DNSKEY. The labels of DNS entries MUST be subordinate to the domain name and MUST NOT be below zone cut in case of present delegation. 
+  * Constraints:
+    * The Type of the entries MAY be constrained by the server policy. Typically the values would be limited to allowed parent side resource record types.
+    * In EPP Compatibility Profide with DNSSEC Extension allowed values MUST be DS and DNSKEY.
+    * The labels of DNS entries MUST be subordinate to the domain name and MUST NOT be below zone cut in case of present delegation. 
 
 * Subordinate Hosts
   * Identifier: subordinateHosts
@@ -563,7 +599,10 @@ A> TBC: leave registrant here or move it to contacts with a type?
 
 ### Create Operation
 
-The Create operation allows a client to provision a new Domain Name resource. The operation accepts as input all create-only and read-write data elements defined for the Domain Name Resource Object.
+The Create operation allows a client to provision a new Domain Name resource. The operation accepts as input all create-only and read-write data elements defined for the Domain Name Data Object.
+
+* Authorisation:
+  * Generally each client is authorised to create new domain objects becoming a sponsoring client. This can be however constrained by the server policy in many ways, i.e. by applying rate limiting, billing related constraints or compliance locks.
 
 In addition, the following transient data element is defined for this operation:
 
@@ -579,14 +618,14 @@ The Read operation allows a client to retrieve the data elements of a
 Domain Name resource. The server's response MAY vary depending on
 client authorisation and server policy.
 
-Authorisation:
-* Sponsoring client:
-  * Full object representation
-* Other client:
-  * Without object authorisation:
-    * Limited (non-confidential) object representation or operation denied
-  * With object authorisation:
-    * Full object representation, however some properties only authorised to the sponsoring client MAY be redacted according to server policy
+* Authorisation:
+  * Sponsoring client:
+    * Full object representation
+  * Other client:
+    * Without object authorisation:
+      * Limited (non-confidential) object representation or operation denied
+    * With object authorisation:
+      * Full object representation, however some properties only authorised to the sponsoring client MAY be redacted according to server policy
 
 The following transient data elements are defined for this operation:
 
@@ -602,7 +641,10 @@ is "all".
 
 ### Delete Operation
 
-The Delete operation allows a client to remove an existing Domain Name resource. The operation targets a specific resource object identified by its name.
+The Delete operation allows a client to remove an existing Domain Name resource. The operation targets a specific data object identified by its name.
+
+* Authorisation:
+  * Only sponsoring client is authorised to perform this operation
 
 The server SHOULD reject a delete request if subordinate host objects are associated with the domain name.
 
@@ -610,8 +652,11 @@ The error response SHOULD indicate the related subordinate host objects.
 
 ### Renew Operation
 
-The Renew operation allows a client to extend the validity period of an existing Domain Name resource. The operation targets a specific resource object identified by its name.
+The Renew operation allows a client to extend the validity period of an existing Domain Name resource. The operation targets a specific data object identified by its name.
 
+
+* Authorisation:
+  * Only sponsoring client is authorised to perform this operation
 * Input: Domain Name
 * Output: Full object representation (read-write and read-only properties), or a minimum representation of properties affected by the operation (Expiry Date).
 
@@ -633,17 +678,17 @@ The following transient data elements are defined for this operation:
 
 A> TODO: define transfer op
 
-# Contact Resource Object
+# Contact Data Object
 
 ## Object Description
 
-* Name: Contact Resource Object
+* Name: Contact Data Object
 * Identifier: contact
-* Description: A Contact resource object represents the social information for an individual or organisation associated with other objects.
+* Description: A Contact Data Object represents the social information for an individual or organisation associated with other objects.
 
 ## Data Elements
 
-The following data elements are defined for the Domain Name resource object.
+The following data elements are defined for the Domain Name Data Object.
 
 * Handle ID
   * Identifier: id
@@ -651,7 +696,9 @@ The following data elements are defined for the Domain Name resource object.
   * Mutability: create-only
   * Data Type: Identifier.
   * Description: External unique identifier of the contact object.
-  * Constraints: This value MUST be supported to be provided by the client. Servers MAY support server-side generation of this value.
+  * Constraints:
+    * This value MUST be supported to be provided by the client.
+    * Servers MAY support server-side generation of this value.
 
 * Repository ID
   * Identifier: repositoryId
@@ -701,7 +748,9 @@ The following data elements are defined for the Domain Name resource object.
   * Mutability: read-only
   * Data Type: String
   * Description: The current status descriptors associated with the contact.
-  * Constraints: The value MUST be one of the status tokens defined in the IANA registry for domain statuses. The initial value list MAY be as defined in [@!RFC5733]. In this case the values MUST have the same semantics.
+  * Constraints:
+    * The value MUST be one of the status tokens defined in the IANA registry for domain statuses.
+    * The initial value list MAY be as defined in [@!RFC5733]. In this case the values MUST have the same semantics.
 
 * Sponsoring Client ID
   * Identifier: sponsoringClientId
@@ -772,16 +821,16 @@ A> TBC: IANA registry for statuses?
 
 A> TODO: Describe operations for contacts
 
-# Host Resource Object
+# Host Data Object
 
 ## Object Description
 
-A Host resource object represents a name server that provides DNS
+A Host Data Object represents a name server that provides DNS
 services for a a domain name.
 
 ## Data Elements
 
-The following data elements are defined for the Host Resource Object.
+The following data elements are defined for the Host Data Object.
 
 A> TBC: hostName/dns properties are identical to Nameserver Object. Shall we define something like "Extends"?
 
@@ -799,7 +848,9 @@ A> TBC: hostName/dns properties are identical to Nameserver Object. Shall we def
   * Mutability: read-write
   * Data Type: Composition[DNS Resource Record]
   * Description: DNS Resource Records related to the host. 
-  * Constraints: In EPP Compatibility Profile the entries MUST be limited to A and AAAA entries for IPv4 and IPv6 glue records respectively. The labels of DNS entries MUST be subordinate to the Host Name of the Nameserver.
+  * Constraints: 
+    * The labels of DNS entries MUST be subordinate to the Host Name of the Nameserver.
+    * In EPP Compatibility Profile the entries MUST be limited to A and AAAA entries for IPv4 and IPv6 glue records respectively.
 
 * Status
   * Identifier: status
@@ -873,11 +924,11 @@ A> TODO: Describe operations for hosts
 
 # IANA Considerations
 
-## RPP Object Registry
+## RPP Data Object Registry
 
 This document establishes the "Registry Provisioning Protocol (RPP)
-Object Registry". This registry serves as a definitive, hierarchical
-catalogue of all resource objects, component objects, data elements,
+Data Object Registry". This registry serves as a definitive, hierarchical
+catalogue of all data objects, component objects, data elements,
 and operations used within RPP.
 
 ### Registration Policy
@@ -910,7 +961,7 @@ description.
 
 ### Initial Registrations
 
-The initial contents of the RPP Object Registry are defined below.
+The initial contents of the RPP Data Object Registry are defined below.
 
 Object: period
 
@@ -992,7 +1043,7 @@ Reference: [This-ID]
 Data Elements
 | Element Identifier | Element Name | Card. | Mutability  | Data Type | Description                                                                                                                                                      |
 |--------------------|--------------|-------|-------------|-----------|------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| label              | Label        | 1     | create-only | String    | computer-reasible enum label of a status                                                                                                                         |
+| label              | Label        | 1     | create-only | String    | machine-reasible enum label of a status                                                                                                                          |
 | reason             | Reason       | 0-1   | create-only | String    | a human-readable text that describes the rationale for the status applied to the object.                                                                         |
 | due                | Due          | 0-1   | read-write  | Timestamp | a timestamp, when this status is going to be removed automatically, or changed to other status. This field can be used to expresse lifecycle related information |
 
@@ -1004,7 +1055,7 @@ A> TODO: IANA table: Disclose Object
 
 Object: domainName
 
-Object Name: Domain Name Resource Object
+Object Name: Domain Name Data Object
 
 Object Type: Resource
 
@@ -1020,7 +1071,7 @@ Data Elements
 | status             | Status               | 0+    | read-only   | Domain Status Object                                                   | The current status descriptors for the domain.          |
 | registrant         | Registrant           | 0-1   | read-write  | Contact Object                                                         | The registrant contact ID.                              |
 | contacts           | Contacts             | 0+    | read-write  | LabelledAggregation [Contact Object]                                   | Associated contact objects.                             |
-| nameservers        | Nameservers          | 0+    | read-write  | Composition[Host Resource Object] or Aggregation[Host Resource Object] | A collection of nameservers associated with the domain. |
+| nameservers        | Nameservers          | 0+    | read-write  | Composition[Host Data Object] or Aggregation[Host Data Object] | A collection of nameservers associated with the domain. |
 | dns                | DNS                  | 0+    | read-write  | Composition[DNS Resource Record]                                       | A collection of DNS entries related to the domain name. |
 | subordinateHosts   | Subordinate Hosts    | 0+    | read-only   | Aggregation [Host Object]                                              | Subordinate host names.                                 |
 | sponsoringClientId | Sponsoring Client ID | 1     | read-only   | Client Identifier                                                      | The current sponsoring client ID.                       |
@@ -1069,8 +1120,8 @@ Parameters
 | currentExpiryDate | Current Expiry Date | 1     | Timestamp | The expected current expiry date, for validation. |
 | renewalPeriod     | Renewal Period      | 0-1   | period    | The duration to add to the registration period.   |
 
-A> TODO: IANA table: Contact Resource Object
-A> TODO: IANA table: Host Resource Object
+A> TODO: IANA table: Contact Data Object
+A> TODO: IANA table: Host Data Object
 
 Security Considerations
 

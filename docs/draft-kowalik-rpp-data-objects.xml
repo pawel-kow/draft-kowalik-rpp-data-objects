@@ -12,7 +12,7 @@
 <workgroup>Network Working Group</workgroup>
 
 <abstract>
-<t>This document defines data objects for the Registry Provisioning Protocol (RPP) and sets up IANA registries to describe and catalogue them. The definitions for domain name, contact, and host objects focus on the logical structure and constraints of the data elements, independent of any specific data representation or media type. This document follows the architecture defined in [I-D.kowalik-rpp-architecture].</t>
+<t>This document defines data objects for the Registry Provisioning Protocol (RPP) and sets up IANA RPP Data Object Registry to describe and catalogue them. Specifically, it details the logical structure, constraints, and protocol operations (including their inputs and outputs) for foundational resources: domain names, contacts, and hosts. In accordance with the RPP architecture <xref target="I-D.kowalik-rpp-architecture"></xref>, these definitions focus entirely on the semantics, remaining independent of any specific data representation or media type (e.g., JSON or XML).</t>
 </abstract>
 
 </front>
@@ -20,8 +20,9 @@
 <middle>
 
 <section anchor="introduction"><name>Introduction</name>
-<t>The Registry Provisioning Protocol (RPP) requires a clear definition of its data objects. This document catalogues the fundamental resource objects managed through RPP: domains, contacts, and hosts.</t>
-<t>In accordance with the RPP architecture <xref target="I-D.kowalik-rpp-architecture"></xref>, the definitions herein specify the logical data elements, their meanings, and their constraints, rather than a specific representation format. This approach ensures that the core data model can be consistently implemented across different media types and representation formats.</t>
+<t>The Registry Provisioning Protocol (RPP) defines a set of data objects used to represent and manage foundational registry resources, including domain names, contacts, and hosts. This initial list is not exhaustive; additional resource and component objects MAY be defined in future revisions or introduced via IANA registration to support new features and operational needs.</t>
+<t>In accordance with the RPP architecture <xref target="I-D.kowalik-rpp-architecture"></xref>, a core architectural principle is the clear distinction between the abstract data model and its concrete data representation. The data model defines the logical structure, relationships, and constraints of the objects, independent of formatting. The data representation defines how these abstract concepts are expressed in specific formats (e.g., JSON, XML, or YAML).</t>
+<t>This document focuses on the data model of RPP objects and operations on them, including the data model of operation inputs and outputs. This separation of concerns ensures the protocol maintains a stable semantic foundation that can be consistently implemented across different media types and easily adapted to new representation formats. For instance, the model defines a contact's name as a required string type, but it remains agnostic as to whether that string is ultimately encoded as a JSON property or an XML element.</t>
 
 <section anchor="conventions-and-terminology"><name>Conventions and Terminology</name>
 <t>The key words &quot;MUST&quot;, &quot;MUST NOT&quot;, &quot;REQUIRED&quot;, &quot;SHALL&quot;, &quot;SHALL NOT&quot;, &quot;SHOULD&quot;, &quot;SHOULD NOT&quot;, &quot;RECOMMENDED&quot;, &quot;NOT RECOMMENDED&quot;, &quot;MAY&quot;, and &quot;OPTIONAL&quot; in this document are to be interpreted as described in BCP 14 <xref target="RFC2119"></xref> <xref target="RFC8174"></xref> when, and only when, they appear in all capitals, as shown here.</t>
@@ -31,11 +32,11 @@
 <section anchor="resource-definition-principles"><name>Resource Definition Principles</name>
 
 <section anchor="data-element-abstraction"><name>Data Element Abstraction</name>
-<t>Each resource is composed of logical data elements. A data element is a logical unit of information identified by a stable name, independent of its representation in any given media type. The definition for each element specifies its logical name, purpose, cardinality, data type, and constraints.</t>
+<t>Each data object is composed of logical data elements. A data element is a logical unit of information identified by a stable name, independent of its representation in any given media type. The definition for each element specifies its logical name, purpose, cardinality, data type, and constraints.</t>
 </section>
 
 <section anchor="extensibility"><name>Extensibility</name>
-<t>The set of data elements for a given resource object is extensible. New data elements, relations or operations MAY be defined and registered with IANA to support new features.</t>
+<t>The set of data elements for a given data object is extensible. New data elements, associations or operations MAY be defined and registered with IANA in order for the data object to support new features.</t>
 </section>
 
 <section anchor="data-element-semantics"><name>Data Element Semantics</name>
@@ -66,16 +67,16 @@
 </section>
 
 <section anchor="operations"><name>Operations</name>
-<t>For each resource a set of possible operations is defined together with their respective input and output data.</t>
+<t>For each data object a set of possible operations is defined together with their respective input and output data.</t>
 
 <section anchor="authorisation"><name>Authorisation</name>
-<t>For each operation authorisation requiremens and operation behaviour is specified.
-Wherever &quot;object authorisation&quot; is mentioned, it means that an operation may accept or require additional authorisation data related to the object beyond plain client authorisation.
+<t>For each operation authorisation requirements and operation behaviour is specified.
+Wherever &quot;object authorisation&quot; is mentioned, it means that an operation MAY accept or require additional authorisation data related to the object beyond default client-level authorisation, or that an operation MAY have different effect or response if such authorisation is provided.
 Typically it would be a value related to or derived from Authorisation Information Object attached to the object.</t>
 </section>
 
 <section anchor="uniform-interface"><name>Uniform interface</name>
-<t>For the typical set of Create, Read, Update and Delete operations the following set of input and output representations is specified on top of additional transient input data, unless an operation for the specific object tells otherwise.</t>
+<t>For the typical set of Create, Read, Update and Delete operations the following set of input and output data model is specified on top of additional transient input data, unless an operation for the specific object tells otherwise.</t>
 
 <section anchor="create"><name>Create</name>
 
@@ -91,7 +92,7 @@ Typically it would be a value related to or derived from Authorisation Informati
 <li>Input: Object identifier</li>
 <li>Output: Object representation (read-write and read-only properties)</li>
 </ul>
-<t>The output representation MAY vary depending on the identity of the querying client, use of authorization information, and server policy towards unauthorized clients. If the querying client is the sponsoring client, all available information MUST be returned. If the querying client is not the sponsoring client but the client provides valid authorization information, all available information SHOULD be returned, however some optional elements MAY be reserved to the sponsoring client only. If the querying client is not the sponsoring client and the client does not provide valid authorization information, server policy determines which OPTIONAL elements are returned, if any, or whether the entire request is rejected.</t>
+<t>The output representation MAY vary depending on the identity of the querying client, use of object authorisation information, and server policy towards unauthorized clients. If the querying client is the sponsoring client, all available information MUST be returned. If the querying client is not the sponsoring client but the client provides valid object authorisation information, all available information SHOULD be returned, however some optional elements MAY be reserved to the sponsoring client only. If the querying client is not the sponsoring client and the client does not provide valid object authorisation information, server policy determines which OPTIONAL elements are returned, if any, or whether the entire request is rejected.</t>
 </section>
 
 <section anchor="update"><name>Update</name>
@@ -124,7 +125,7 @@ Typically it would be a value related to or derived from Authorisation Informati
 </section>
 
 <section anchor="common-data-types"><name>Common Data Types</name>
-<t>This section defines primitive data types and structures that are re-used across multiple resource object definitions.</t>
+<t>This section defines data types and structures that are re-used across multiple data object definitions.</t>
 
 <section anchor="identifier"><name>Identifier</name>
 <t>Identifiers are character strings with a specified minimum length, a specified maximum length, and a specified format outlined in <xref target="RFC5730" sectionFormat="of" section="2.8"></xref>.
@@ -138,7 +139,7 @@ Identifiers for certain object types MAY have additional constraints imposed eit
 <section anchor="client-identifier"><name>Client Identifier</name>
 <t>Client identifiers are character strings with a specified minimum length, a specified maximum length, and a specified format. Contact identifiers use the &quot;clIDType&quot; client identifier syntax described in <xref target="RFC5730"></xref>.</t>
 
-<aside><t>TBC: do we need this or is it a relation with an entity/RFC8543 organisation?</t>
+<aside><t>TBC: do we need this or is it a relation with an entity/RFC8543 organisation? If registrars modeled are as first class objects (organisations), then clID is nothing else but a reference to this organisation, so maybe no need to define syntax separately on identifier level (or in other words it would be defined on this object). R8.1 in the form of -02 RPP requirements includes RFC8543.</t>
 </aside>
 </section>
 
@@ -148,22 +149,22 @@ Identifiers for certain object types MAY have additional constraints imposed eit
 </section>
 
 <section anchor="associations"><name>Associations</name>
-<t>RPP allows for different types of associations (links) between the objects. The association may be added between 2 indpendent objects with own lifecycle (UML aggregation) or in the relation when one object's existance and lifecycle is bound to the other parent/owner object (UML composition).
-In both cases, especially if the relation allows for cardinality higher than one on either side, the association may be assigned additional attributes, not being part of data model of either side of relation. In many cases such relation would be attributed with a single text string label, describing a role or a type of relation. Depending on the context this value might be unique, which allows using such label as a key in a dictionary.</t>
+<t>RPP allows for different types of associations (relationship) between the objects. The association may be added between 2 objects with own indpendent lifecycle (UML aggregation) or in the relation when one object's existance and lifecycle is bound to the other parent/owner object (UML composition).
+In both cases, especially if the relation allows for cardinality higher than one on either side, the association may be assigned additional attributes, not being part of an object on either side of relation. In many cases such relation would be attributed with a single text string label, describing a role or a type of relation. Depending on the context this value might be unique, which allows using such label as a key in a dictionary.</t>
 <t>The following generic Association Types are defined for RPP:</t>
 
 <section anchor="aggregation"><name>Aggregation</name>
 <t>Notation: Aggregation[Type]</t>
 <t>A relation between two independent objects.</t>
 <t>If the cardinality of target object is more than 1, this represents an ordered array.
-Data producer MUST assure the same unchanged data is always inserted in the same order. In case of data insertions, deletions or updates the remaining of the data SHALL preserve its order.</t>
+It MUST assured that the same unchanged data is always inserted in the same order. In case of data insertions, deletions or updates the remaining of the data SHALL preserve its order.</t>
 </section>
 
 <section anchor="composition"><name>Composition</name>
 <t>Notation: Composition[Type] or Type</t>
-<t>A relation between an independent parent object and a dependent child object.</t>
+<t>A relation between an independent parent object and 1 or more dependent child object(s).</t>
 <t>If the cardinality of target object is more than 1, this represents an ordered array.
-Data producer MUST assure the same unchanged data is always inserted in the same order. In case of data insertions, deletions or updates the remaining of the data SHALL preserve its order.</t>
+It MUST assured that MUST assured that the same unchanged data is always inserted in the same order. In case of data insertions, deletions or updates the remaining of the data SHALL preserve its order.</t>
 </section>
 
 <section anchor="labelled-aggregation"><name>Labelled Aggregation</name>
@@ -192,7 +193,7 @@ Data producer MUST assure the same unchanged data is always inserted in the same
 </section>
 
 <section anchor="component-objects"><name>Component Objects</name>
-<t>This section defines common component objects that are re-used in the definitions of top-level resource objects.
+<t>This section defines common objects that are re-used in the definitions of top-level data objects.
 Component objects carry only data but do not define any operations.</t>
 
 <section anchor="period-object"><name>Period Object</name>
@@ -242,8 +243,10 @@ Component objects carry only data but do not define any operations.</t>
 <li>Cardinality: 1</li>
 <li>Mutability: create-only</li>
 <li>Data Type: String</li>
-<li>Description: computer-readible enum label of a status</li>
-<li>Constraints: Status can be set as outlined in <xref target="RFC5731" sectionFormat="bare" section="2.3"></xref>. Additional statuses can be set as outlined in <xref target="RFC3915"></xref>. This enumeration can be expanded by extensions. Statuses MAY be either set by the server with &quot;server&quot; prefix, or set by the client with &quot;client&quot; prefix.</li>
+<li>Description: machine-readible enum label of a status</li>
+<li>Constraints:</li>
+<li>Status can be set as outlined in <xref target="RFC5731" sectionFormat="bare" section="2.3"></xref>. Additional statuses can be set as outlined in <xref target="RFC3915"></xref>. This enumeration can be expanded by extensions.</li>
+<li>Statuses MAY be either set by the server with &quot;server&quot; prefix, or set by the client with &quot;client&quot; prefix.</li>
 </ul></li>
 <li><t>Reason</t>
 
@@ -295,7 +298,12 @@ Component objects carry only data but do not define any operations.</t>
 <li>Mutability: read-write</li>
 <li>Data Type: Composition[DNS Resource Record]</li>
 <li>Description: DNS Resource Records related to the host.</li>
-<li>Constraints: In EPP Compatibility Profile the entries MUST be limited to A and AAAA entries for IPv4 and IPv6 glue records respectively. The labels of DNS entries MUST be subordinate to the Host Name of the Nameserver.</li>
+<li><t>Constraints:</t>
+
+<ul spacing="compact">
+<li>In EPP Compatibility Profile the entries MUST be limited to A and AAAA entries for IPv4 and IPv6 glue records respectively.</li>
+<li>The labels of DNS entries MUST be subordinate to the Host Name of the Nameserver.</li>
+</ul></li>
 </ul></li>
 </ul></li>
 </ul>
@@ -317,7 +325,12 @@ Component objects carry only data but do not define any operations.</t>
 <li>Mutability: read-write</li>
 <li>Data Type: String.</li>
 <li>Description: DNS entry label.</li>
-<li>Constraints: The value MUST be a syntactically valid DNS host name in Zone file string representation. Absolute FQDNs and relative host names are allowed.</li>
+<li><t>Constraints:</t>
+
+<ul spacing="compact">
+<li>The value MUST be a syntactically valid DNS host name in Zone file string representation.</li>
+<li>Absolute FQDNs and relative host names are allowed.</li>
+</ul></li>
 </ul></li>
 <li><t>Type</t>
 
@@ -327,7 +340,12 @@ Component objects carry only data but do not define any operations.</t>
 <li>Mutability: read-write</li>
 <li>Data Type: String.</li>
 <li>Description: DNS entry type.</li>
-<li>Constraints: Each value MUST valid Zone file string representation of resource record type as defined in <xref target="RFC1035"></xref>. Allowed values MAY be constrained by server policies. For domain provisioning typically the Type would be constrained to allowed parent side entries.</li>
+<li><t>Constraints:</t>
+
+<ul spacing="compact">
+<li>Each value MUST be a valid string representation of resource record type as defined in <xref target="RFC1035"></xref>.</li>
+<li>Allowed values MAY be constrained by server policies. For domain provisioning typically the Type would be constrained to the allowed parent side entries.</li>
+</ul></li>
 </ul></li>
 <li><t>Data</t>
 
@@ -337,7 +355,7 @@ Component objects carry only data but do not define any operations.</t>
 <li>Mutability: read-write</li>
 <li>Data Type: String.</li>
 <li>Description: DNS entry value.</li>
-<li>Constraints: Each value MUST be a syntactically valid resource record data for a Type in Zone file string representation.</li>
+<li>Constraints: Each value MUST be a syntactically valid resource record data for a Type in zone file string representation.</li>
 </ul></li>
 <li><t>TTL</t>
 
@@ -346,8 +364,8 @@ Component objects carry only data but do not define any operations.</t>
 <li>Cardinality: 1</li>
 <li>Mutability: read-write</li>
 <li>Data Type: Number.</li>
-<li>Description: TTL value for a reource record.</li>
-<li>Constraints: TTL value of a resource record as defined in <xref target="RFC1035"></xref>. The value MAY be constrained by server policy.</li>
+<li>Description: TTL value of a resource record as defined in <xref target="RFC1035"></xref>.</li>
+<li>Constraints: The allowed value range MAY be constrained by server policy.</li>
 </ul></li>
 </ul></li>
 </ul>
@@ -357,7 +375,7 @@ Component objects carry only data but do not define any operations.</t>
 
 <ul spacing="compact">
 <li>Name: Authorisation Information</li>
-<li>Description: Contains information used to authorise operations on a resource object. It may hold different kind of authorisation information.</li>
+<li>Description: Contains information used to authorise operations on a data object. It may hold different kind of authorisation information.</li>
 <li><t>Data Elements:</t>
 
 <ul spacing="compact">
@@ -369,7 +387,12 @@ Component objects carry only data but do not define any operations.</t>
 <li>Mutability: create-only</li>
 <li>Data Type: String</li>
 <li>Description: The identifier of the RPP authorisation method.</li>
-<li>Constraints: The value MUST be one of the values registered at IANA. Initial values AuthInfo.</li>
+<li><t>Constraints:</t>
+
+<ul spacing="compact">
+<li>The value MUST be one of the values registered at IANA as defined in [I-D.draft-wullink-rpp-core].</li>
+<li>In EPP Compatibility Profile this value MUST be set to <tt>authinfo</tt> if standard password base authorisation is used</li>
+</ul></li>
 </ul></li>
 <li><t>Authorisation Information</t>
 
@@ -379,7 +402,12 @@ Component objects carry only data but do not define any operations.</t>
 <li>Mutability: create-only</li>
 <li>Data Type: String</li>
 <li>Description: The value of the authorisation information. It might be as simple as password string, but also more complex values like public key certificates or tokens encoded as string are possible.</li>
-<li>Constraints: authorisation information objects are immutable. If the information changes (for example password is updated) a new instance MUST be created. Depending on the method and server policy Authorisation Information MAY not be available for reading.</li>
+<li><t>Constraints:</t>
+
+<ul spacing="compact">
+<li>Authorisation Information object is immutable. If the information changes (for example password is updated) a new instance MUST be created.</li>
+<li>Depending on the method and server policy Authorisation Information MAY not be available for read or any other operation responding with this data element.</li>
+</ul></li>
 </ul></li>
 </ul></li>
 </ul>
@@ -401,7 +429,7 @@ Component objects carry only data but do not define any operations.</t>
 <li>Mutability: read-write</li>
 <li>Data Type: String</li>
 <li>Description: The contact's street address.</li>
-<li>Constraints: Some implementation MAY limit the maximum length of entries or character set.</li>
+<li>Constraints: Implementations MAY limit the maximum length of entries or character set.</li>
 </ul></li>
 <li><t>City</t>
 
@@ -411,7 +439,12 @@ Component objects carry only data but do not define any operations.</t>
 <li>Mutability: read-write</li>
 <li>Data Type: String</li>
 <li>Description: The contact's city.</li>
-<li>Constraints: Some implementation MAY limit the maximum length of entries or character set. In EPP Compatibility Profile this data element MUST be provided.</li>
+<li><t>Constraints:</t>
+
+<ul spacing="compact">
+<li>Implementations MAY limit the maximum length of entries or character set.</li>
+<li>In EPP Compatibility Profile this data element MUST be provided.</li>
+</ul></li>
 </ul></li>
 <li><t>State/Province</t>
 
@@ -421,7 +454,7 @@ Component objects carry only data but do not define any operations.</t>
 <li>Mutability: read-write</li>
 <li>Data Type: String</li>
 <li>Description: The contact's state or province.</li>
-<li>Constraints: Some implementation MAY limit the maximum length of entries or character set.</li>
+<li>Constraints: Implementations MAY limit the maximum length of entries or character set.</li>
 </ul></li>
 <li><t>Postal Code</t>
 
@@ -431,7 +464,12 @@ Component objects carry only data but do not define any operations.</t>
 <li>Mutability: read-write</li>
 <li>Data Type: String</li>
 <li>Description: The contact's postal code.</li>
-<li>Constraints: Some implementation MAY limit the maximum length of entries or character set. The limitations MAY differ depending on Country Code (<tt>cc</tt>) data element.</li>
+<li><t>Constraints:</t>
+
+<ul spacing="compact">
+<li>Implementation MAY limit the maximum length of entries or character set.</li>
+<li>The limitations MAY differ depending on Country Code (<tt>cc</tt>) data element.</li>
+</ul></li>
 </ul></li>
 <li><t>Country Code</t>
 
@@ -441,7 +479,12 @@ Component objects carry only data but do not define any operations.</t>
 <li>Mutability: read-write</li>
 <li>Data Type: String</li>
 <li>Description: The contact's country code.</li>
-<li>Constraints: The value MUST be a two-character identifier from <xref target="ISO3166-1"></xref>. In EPP Compatibility Profile this data element MUST be provided.</li>
+<li><t>Constraints:</t>
+
+<ul spacing="compact">
+<li>The value MUST be a two-character identifier from <xref target="ISO3166-1"></xref>.</li>
+<li>In EPP Compatibility Profile this data element MUST be provided.</li>
+</ul></li>
 </ul></li>
 </ul></li>
 </ul>
@@ -477,7 +520,13 @@ Component objects carry only data but do not define any operations.</t>
 <li>Mutability: read-write</li>
 <li>Data Type: String</li>
 <li>Description: The name of the individual or role.</li>
-<li>Constraints: Some implementation MAY limit the maximum length of entries or character set. In EPP Compatibility Profile this data element MUST be provided. The implementations MAY require this field if Contact Type (<tt>type</tt>) is set to &quot;PERSON&quot;.</li>
+<li><t>Constraints:</t>
+
+<ul spacing="compact">
+<li>Implementations MAY limit the maximum length of entries or character set.</li>
+<li>In EPP Compatibility Profile this data element MUST be provided.</li>
+<li>The implementations MAY require this field if Contact Type (<tt>type</tt>) is set to &quot;PERSON&quot;.</li>
+</ul></li>
 </ul></li>
 <li><t>Organisation</t>
 
@@ -487,7 +536,12 @@ Component objects carry only data but do not define any operations.</t>
 <li>Mutability: read-write</li>
 <li>Data Type: String</li>
 <li>Description: The name of the organisation.</li>
-<li>Constraints: Some implementation MAY limit the maximum length of entries or character set. The implementations MAY require this field if Contact Type (<tt>type</tt>) is set to &quot;ORG&quot;.</li>
+<li><t>Constraints:</t>
+
+<ul spacing="compact">
+<li>Implementations MAY limit the maximum length of entries or character set.</li>
+<li>The implementations MAY require this field if Contact Type (<tt>type</tt>) is set to &quot;ORG&quot;.</li>
+</ul></li>
 </ul></li>
 <li><t>Address</t>
 
@@ -515,19 +569,19 @@ Component objects carry only data but do not define any operations.</t>
 </section>
 </section>
 
-<section anchor="domain-name-resource-object"><name>Domain Name Resource Object</name>
+<section anchor="domain-name-data-object"><name>Domain Name Data Object</name>
 
 <section anchor="object-description"><name>Object Description</name>
 
 <ul spacing="compact">
-<li>Name: Domain Name Resource Object</li>
+<li>Name: Domain Name Data Object</li>
 <li>Identifier: domainName</li>
-<li>Description: A Domain Name resource object represents a domain name and contains the data required for its provisioning and management in the registry.</li>
+<li>Description: A Domain Name data object represents a domain name and contains the data required for its provisioning and management in the registry.</li>
 </ul>
 </section>
 
 <section anchor="data-elements"><name>Data Elements</name>
-<t>The following data elements are defined for the Domain Name resource object.</t>
+<t>The following data elements are defined for the Domain Name Data Object.</t>
 
 <ul>
 <li><t>Name</t>
@@ -538,7 +592,13 @@ Component objects carry only data but do not define any operations.</t>
 <li>Mutability: create-only</li>
 <li>Data Type: String</li>
 <li>Description: The fully qualified name of the domain object.</li>
-<li>Constraints: The value MUST be a fully qualified domain name that conforms to the syntax described in <xref target="RFC1035"></xref>. A server MAY restrict allowable domain names to a particular top-level domain, second-level domain, or other domain for which the server is authoritative. The trailing dot required when these names are stored in a DNS zone is implicit and MUST NOT be provided when exchanging host and domain names.</li>
+<li><t>Constraints:</t>
+
+<ul spacing="compact">
+<li>The value MUST be a fully qualified domain name that conforms to the syntax described in <xref target="RFC1035"></xref>.</li>
+<li>A server MAY restrict allowable domain names to a particular top-level domain, second-level domain, or other domain for which the server is authoritative.</li>
+<li>The trailing dot required when these names are stored in a DNS zone is implicit and MUST NOT be provided when exchanging host and domain names.</li>
+</ul></li>
 </ul></li>
 <li><t>Repository ID</t>
 
@@ -574,14 +634,19 @@ Component objects carry only data but do not define any operations.</t>
 <li>Mutability: read-write</li>
 <li>Data Type: Contact Object.</li>
 <li>Description: The contact object associated with the domain as the registrant.</li>
-<li>Constraints: The identifier MUST correspond to a valid Contact resource object known to the server.</li>
+<li><t>Constraints:</t>
+
+<ul spacing="compact">
+<li>The relation MUST correspond to a valid Contact Data Object known to the server.</li>
+<li>Servers MAY restrict association of a Contact Object of a different sponsoring client.</li>
+</ul></li>
 </ul></li>
 </ul>
 
 <aside><t>TBC: leave registrant here or move it to contacts with a type?</t>
 </aside>
 
-<ul>
+<ul spacing="compact">
 <li><t>Contacts</t>
 
 <ul spacing="compact">
@@ -592,18 +657,33 @@ Component objects carry only data but do not define any operations.</t>
 
 <ul spacing="compact">
 <li>Label Description: The role of the associated contact.</li>
-<li>Label Constraints: For domain name associations, the value MUST be one of: &quot;admin&quot;, &quot;billing&quot;, or &quot;tech&quot;.</li>
+<li><t>Label Constraints:</t>
+
+<ul spacing="compact">
+<li>List of supported roles is defined by server policy</li>
+<li>In the EPP Compatibility Profile, the value MUST be one of: &quot;admin&quot;, &quot;billing&quot;, or &quot;tech&quot;</li>
+</ul></li>
 </ul></li>
 <li>Description: A collection of other contact objects associated with the domain object.</li>
-<li>Constraints: Maximum number of associated contacts might be restricted by server policy</li>
+<li><t>Constraints:</t>
+
+<ul spacing="compact">
+<li>Maximum number of associated contacts (per role) MAY be restricted by server policy</li>
 </ul></li>
+</ul></li>
+</ul>
+
+<aside><t>TBC: IANA registry for contact role label?</t>
+</aside>
+
+<ul>
 <li><t>Nameservers</t>
 
 <ul spacing="compact">
 <li>Identifier: nameservers</li>
 <li>Cardinality: 0+</li>
 <li>Mutability: read-write</li>
-<li>Data Type: Composition[Host Resource Object] or Aggregation[Host Resource Object]</li>
+<li>Data Type: Composition[Host Data Object] or Aggregation[Host Data Object]</li>
 <li>Description: A collection of nameservers associated with the domain.</li>
 <li>Constraints: (None)</li>
 </ul></li>
@@ -615,7 +695,13 @@ Component objects carry only data but do not define any operations.</t>
 <li>Mutability: read-write</li>
 <li>Data Type: Composition[DNS Resource Record]</li>
 <li>Description: A collection of DNS entries related to the domain name.</li>
-<li>Constraints: The Type of the entries MAY be constrained by the server policy. Typically the values would be limited to allowed parent side resource record types. In EPP Compatibility Profide with DNSSEC Extension allowed values MUST be DS and DNSKEY. The labels of DNS entries MUST be subordinate to the domain name and MUST NOT be below zone cut in case of present delegation.</li>
+<li><t>Constraints:</t>
+
+<ul spacing="compact">
+<li>The Type of the entries MAY be constrained by the server policy. Typically the values would be limited to allowed parent side resource record types.</li>
+<li>In EPP Compatibility Profide with DNSSEC Extension allowed values MUST be DS and DNSKEY.</li>
+<li>The labels of DNS entries MUST be subordinate to the domain name and MUST NOT be below zone cut in case of present delegation.</li>
+</ul></li>
 </ul></li>
 <li><t>Subordinate Hosts</t>
 
@@ -713,7 +799,15 @@ Component objects carry only data but do not define any operations.</t>
 <section anchor="operations-1"><name>Operations</name>
 
 <section anchor="create-operation"><name>Create Operation</name>
-<t>The Create operation allows a client to provision a new Domain Name resource. The operation accepts as input all create-only and read-write data elements defined for the Domain Name Resource Object.</t>
+<t>The Create operation allows a client to provision a new Domain Name resource. The operation accepts as input all create-only and read-write data elements defined for the Domain Name Data Object.</t>
+
+<ul spacing="compact">
+<li><t>Authorisation:</t>
+
+<ul spacing="compact">
+<li>Generally each client is authorised to create new domain objects becoming a sponsoring client. This can be however constrained by the server policy in many ways, i.e. by applying rate limiting, billing related constraints or compliance locks.</li>
+</ul></li>
+</ul>
 <t>In addition, the following transient data element is defined for this operation:</t>
 
 <ul spacing="compact">
@@ -732,14 +826,32 @@ Component objects carry only data but do not define any operations.</t>
 <t>The Read operation allows a client to retrieve the data elements of a
 Domain Name resource. The server's response MAY vary depending on
 client authorisation and server policy.</t>
-<t>Authorisation:
-* Sponsoring client:
-  * Full object representation
-* Other client:
-  * Without object authorisation:
-    * Limited (non-confidential) object representation or operation denied
-  * With object authorisation:
-    * Full object representation, however some properties only authorised to the sponsoring client MAY be redacted according to server policy</t>
+
+<ul spacing="compact">
+<li><t>Authorisation:</t>
+
+<ul spacing="compact">
+<li><t>Sponsoring client:</t>
+
+<ul spacing="compact">
+<li>Full object representation</li>
+</ul></li>
+<li><t>Other client:</t>
+
+<ul spacing="compact">
+<li><t>Without object authorisation:</t>
+
+<ul spacing="compact">
+<li>Limited (non-confidential) object representation or operation denied</li>
+</ul></li>
+<li><t>With object authorisation:</t>
+
+<ul spacing="compact">
+<li>Full object representation, however some properties only authorised to the sponsoring client MAY be redacted according to server policy</li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul>
 <t>The following transient data elements are defined for this operation:</t>
 
 <ul spacing="compact">
@@ -759,15 +871,28 @@ is &quot;all&quot;.</li>
 </section>
 
 <section anchor="delete-operation"><name>Delete Operation</name>
-<t>The Delete operation allows a client to remove an existing Domain Name resource. The operation targets a specific resource object identified by its name.</t>
+<t>The Delete operation allows a client to remove an existing Domain Name resource. The operation targets a specific data object identified by its name.</t>
+
+<ul spacing="compact">
+<li><t>Authorisation:</t>
+
+<ul spacing="compact">
+<li>Only sponsoring client is authorised to perform this operation</li>
+</ul></li>
+</ul>
 <t>The server SHOULD reject a delete request if subordinate host objects are associated with the domain name.</t>
 <t>The error response SHOULD indicate the related subordinate host objects.</t>
 </section>
 
 <section anchor="renew-operation"><name>Renew Operation</name>
-<t>The Renew operation allows a client to extend the validity period of an existing Domain Name resource. The operation targets a specific resource object identified by its name.</t>
+<t>The Renew operation allows a client to extend the validity period of an existing Domain Name resource. The operation targets a specific data object identified by its name.</t>
 
 <ul spacing="compact">
+<li><t>Authorisation:</t>
+
+<ul spacing="compact">
+<li>Only sponsoring client is authorised to perform this operation</li>
+</ul></li>
 <li>Input: Domain Name</li>
 <li>Output: Full object representation (read-write and read-only properties), or a minimum representation of properties affected by the operation (Expiry Date).</li>
 </ul>
@@ -801,19 +926,19 @@ is &quot;all&quot;.</li>
 </section>
 </section>
 
-<section anchor="contact-resource-object"><name>Contact Resource Object</name>
+<section anchor="contact-data-object"><name>Contact Data Object</name>
 
 <section anchor="object-description-1"><name>Object Description</name>
 
 <ul spacing="compact">
-<li>Name: Contact Resource Object</li>
+<li>Name: Contact Data Object</li>
 <li>Identifier: contact</li>
-<li>Description: A Contact resource object represents the social information for an individual or organisation associated with other objects.</li>
+<li>Description: A Contact Data Object represents the social information for an individual or organisation associated with other objects.</li>
 </ul>
 </section>
 
 <section anchor="data-elements-1"><name>Data Elements</name>
-<t>The following data elements are defined for the Domain Name resource object.</t>
+<t>The following data elements are defined for the Domain Name Data Object.</t>
 
 <ul>
 <li><t>Handle ID</t>
@@ -824,7 +949,12 @@ is &quot;all&quot;.</li>
 <li>Mutability: create-only</li>
 <li>Data Type: Identifier.</li>
 <li>Description: External unique identifier of the contact object.</li>
-<li>Constraints: This value MUST be supported to be provided by the client. Servers MAY support server-side generation of this value.</li>
+<li><t>Constraints:</t>
+
+<ul spacing="compact">
+<li>This value MUST be supported to be provided by the client.</li>
+<li>Servers MAY support server-side generation of this value.</li>
+</ul></li>
 </ul></li>
 <li><t>Repository ID</t>
 
@@ -889,7 +1019,12 @@ is &quot;all&quot;.</li>
 <li>Mutability: read-only</li>
 <li>Data Type: String</li>
 <li>Description: The current status descriptors associated with the contact.</li>
-<li>Constraints: The value MUST be one of the status tokens defined in the IANA registry for domain statuses. The initial value list MAY be as defined in <xref target="RFC5733"></xref>. In this case the values MUST have the same semantics.</li>
+<li><t>Constraints:</t>
+
+<ul spacing="compact">
+<li>The value MUST be one of the status tokens defined in the IANA registry for domain statuses.</li>
+<li>The initial value list MAY be as defined in <xref target="RFC5733"></xref>. In this case the values MUST have the same semantics.</li>
+</ul></li>
 </ul></li>
 <li><t>Sponsoring Client ID</t>
 
@@ -983,15 +1118,15 @@ is &quot;all&quot;.</li>
 </section>
 </section>
 
-<section anchor="host-resource-object"><name>Host Resource Object</name>
+<section anchor="host-data-object"><name>Host Data Object</name>
 
 <section anchor="object-description-2"><name>Object Description</name>
-<t>A Host resource object represents a name server that provides DNS
+<t>A Host Data Object represents a name server that provides DNS
 services for a a domain name.</t>
 </section>
 
 <section anchor="data-elements-2"><name>Data Elements</name>
-<t>The following data elements are defined for the Host Resource Object.</t>
+<t>The following data elements are defined for the Host Data Object.</t>
 
 <aside><t>TBC: hostName/dns properties are identical to Nameserver Object. Shall we define something like &quot;Extends&quot;?</t>
 </aside>
@@ -1015,7 +1150,12 @@ services for a a domain name.</t>
 <li>Mutability: read-write</li>
 <li>Data Type: Composition[DNS Resource Record]</li>
 <li>Description: DNS Resource Records related to the host.</li>
-<li>Constraints: In EPP Compatibility Profile the entries MUST be limited to A and AAAA entries for IPv4 and IPv6 glue records respectively. The labels of DNS entries MUST be subordinate to the Host Name of the Nameserver.</li>
+<li><t>Constraints:</t>
+
+<ul spacing="compact">
+<li>The labels of DNS entries MUST be subordinate to the Host Name of the Nameserver.</li>
+<li>In EPP Compatibility Profile the entries MUST be limited to A and AAAA entries for IPv4 and IPv6 glue records respectively.</li>
+</ul></li>
 </ul></li>
 <li><t>Status</t>
 
@@ -1115,10 +1255,10 @@ services for a a domain name.</t>
 
 <section anchor="iana-considerations"><name>IANA Considerations</name>
 
-<section anchor="rpp-object-registry"><name>RPP Object Registry</name>
+<section anchor="rpp-data-object-registry"><name>RPP Data Object Registry</name>
 <t>This document establishes the &quot;Registry Provisioning Protocol (RPP)
-Object Registry&quot;. This registry serves as a definitive, hierarchical
-catalogue of all resource objects, component objects, data elements,
+Data Object Registry&quot;. This registry serves as a definitive, hierarchical
+catalogue of all data objects, component objects, data elements,
 and operations used within RPP.</t>
 
 <section anchor="registration-policy"><name>Registration Policy</name>
@@ -1155,7 +1295,7 @@ description.</li>
 </section>
 
 <section anchor="initial-registrations"><name>Initial Registrations</name>
-<t>The initial contents of the RPP Object Registry are defined below.</t>
+<t>The initial contents of the RPP Data Object Registry are defined below.</t>
 <t>Object: period</t>
 <t>Object Name: Period Object</t>
 <t>Object Type: Component</t>
@@ -1347,7 +1487,7 @@ description.</li>
 <td>1</td>
 <td>create-only</td>
 <td>String</td>
-<td>computer-reasible enum label of a status</td>
+<td>machine-reasible enum label of a status</td>
 </tr>
 
 <tr>
@@ -1374,7 +1514,7 @@ TODO: IANA table: Postal Info Object
 TODO: IANA table: Disclose Object</t>
 </aside>
 <t>Object: domainName</t>
-<t>Object Name: Domain Name Resource Object</t>
+<t>Object Name: Domain Name Data Object</t>
 <t>Object Type: Resource</t>
 <t>Description: Represents a domain name and its associated data.</t>
 <t>Reference: [This-ID]</t>
@@ -1442,7 +1582,7 @@ TODO: IANA table: Disclose Object</t>
 <td>Nameservers</td>
 <td>0+</td>
 <td>read-write</td>
-<td>Composition[Host Resource Object] or Aggregation[Host Resource Object]</td>
+<td>Composition[Host Data Object] or Aggregation[Host Data Object]</td>
 <td>A collection of nameservers associated with the domain.</td>
 </tr>
 
@@ -1626,8 +1766,8 @@ TODO: IANA table: Disclose Object</t>
 </tr>
 </tbody>
 </table>
-<aside><t>TODO: IANA table: Contact Resource Object
-TODO: IANA table: Host Resource Object</t>
+<aside><t>TODO: IANA table: Contact Data Object
+TODO: IANA table: Host Data Object</t>
 </aside>
 <t>Security Considerations</t>
 

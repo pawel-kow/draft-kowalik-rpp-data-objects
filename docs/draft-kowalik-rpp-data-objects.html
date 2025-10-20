@@ -7,7 +7,7 @@
 <title>Registry Provisioning Protocol (RPP) Data Objects</title>
 <meta content="Pawel Kowalik" name="author">
 <meta content="
-       This document defines data objects for the Registry Provisioning Protocol (RPP) and sets up IANA registries to describe and catalogue them. The definitions for domain name, contact, and host objects focus on the logical structure and constraints of the data elements, independent of any specific data representation or media type. This document follows the architecture defined in [I-D.kowalik-rpp-architecture]. 
+       This document defines data objects for the Registry Provisioning Protocol (RPP) and sets up IANA RPP Data Object Registry to describe and catalogue them. Specifically, it details the logical structure, constraints, and protocol operations (including their inputs and outputs) for foundational resources: domain names, contacts, and hosts. In accordance with the RPP architecture  , these definitions focus entirely on the semantics, remaining independent of any specific data representation or media type (e.g., JSON or XML). 
     " name="description">
 <meta content="xml2rfc 3.30.0" name="generator">
 <meta content="draft-kowalik-rpp-data-objects-00" name="ietf.draft">
@@ -1251,7 +1251,7 @@ li > p:last-of-type:only-child {
 <h1 id="title">Registry Provisioning Protocol (RPP) Data Objects</h1>
 <section id="section-abstract">
       <h2 id="abstract"><a href="#abstract" class="selfRef">Abstract</a></h2>
-<p id="section-abstract-1">This document defines data objects for the Registry Provisioning Protocol (RPP) and sets up IANA registries to describe and catalogue them. The definitions for domain name, contact, and host objects focus on the logical structure and constraints of the data elements, independent of any specific data representation or media type. This document follows the architecture defined in [I-D.kowalik-rpp-architecture].<a href="#section-abstract-1" class="pilcrow">¶</a></p>
+<p id="section-abstract-1">This document defines data objects for the Registry Provisioning Protocol (RPP) and sets up IANA RPP Data Object Registry to describe and catalogue them. Specifically, it details the logical structure, constraints, and protocol operations (including their inputs and outputs) for foundational resources: domain names, contacts, and hosts. In accordance with the RPP architecture <span>[<a href="#I-D.kowalik-rpp-architecture" class="cite xref">I-D.kowalik-rpp-architecture</a>]</span>, these definitions focus entirely on the semantics, remaining independent of any specific data representation or media type (e.g., JSON or XML).<a href="#section-abstract-1" class="pilcrow">¶</a></p>
 </section>
 <div id="status-of-memo">
 <section id="section-boilerplate.1">
@@ -1424,7 +1424,7 @@ li > p:last-of-type:only-child {
             </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6">
-            <p id="section-toc.1-1.6.1"><a href="#section-6" class="auto internal xref">6</a>.  <a href="#name-domain-name-resource-object" class="internal xref">Domain Name Resource Object</a></p>
+            <p id="section-toc.1-1.6.1"><a href="#section-6" class="auto internal xref">6</a>.  <a href="#name-domain-name-data-object" class="internal xref">Domain Name Data Object</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.1">
                 <p id="section-toc.1-1.6.2.1.1"><a href="#section-6.1" class="auto internal xref">6.1</a>.  <a href="#name-object-description" class="internal xref">Object Description</a></p>
@@ -1455,7 +1455,7 @@ li > p:last-of-type:only-child {
             </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7">
-            <p id="section-toc.1-1.7.1"><a href="#section-7" class="auto internal xref">7</a>.  <a href="#name-contact-resource-object" class="internal xref">Contact Resource Object</a></p>
+            <p id="section-toc.1-1.7.1"><a href="#section-7" class="auto internal xref">7</a>.  <a href="#name-contact-data-object" class="internal xref">Contact Data Object</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.1">
                 <p id="section-toc.1-1.7.2.1.1"><a href="#section-7.1" class="auto internal xref">7.1</a>.  <a href="#name-object-description-2" class="internal xref">Object Description</a></p>
@@ -1469,7 +1469,7 @@ li > p:last-of-type:only-child {
             </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8">
-            <p id="section-toc.1-1.8.1"><a href="#section-8" class="auto internal xref">8</a>.  <a href="#name-host-resource-object" class="internal xref">Host Resource Object</a></p>
+            <p id="section-toc.1-1.8.1"><a href="#section-8" class="auto internal xref">8</a>.  <a href="#name-host-data-object" class="internal xref">Host Data Object</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.1">
                 <p id="section-toc.1-1.8.2.1.1"><a href="#section-8.1" class="auto internal xref">8.1</a>.  <a href="#name-object-description-3" class="internal xref">Object Description</a></p>
@@ -1486,7 +1486,7 @@ li > p:last-of-type:only-child {
             <p id="section-toc.1-1.9.1"><a href="#section-9" class="auto internal xref">9</a>.  <a href="#name-iana-considerations" class="internal xref">IANA Considerations</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.1">
-                <p id="section-toc.1-1.9.2.1.1"><a href="#section-9.1" class="auto internal xref">9.1</a>.  <a href="#name-rpp-object-registry" class="internal xref">RPP Object Registry</a></p>
+                <p id="section-toc.1-1.9.2.1.1"><a href="#section-9.1" class="auto internal xref">9.1</a>.  <a href="#name-rpp-data-object-registry" class="internal xref">RPP Data Object Registry</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.1.2.1">
                     <p id="section-toc.1-1.9.2.1.2.1.1"><a href="#section-9.1.1" class="auto internal xref">9.1.1</a>.  <a href="#name-registration-policy" class="internal xref">Registration Policy</a></p>
@@ -1516,8 +1516,9 @@ li > p:last-of-type:only-child {
       <h2 id="name-introduction">
 <a href="#section-1" class="section-number selfRef">1. </a><a href="#name-introduction" class="section-name selfRef">Introduction</a>
       </h2>
-<p id="section-1-1">The Registry Provisioning Protocol (RPP) requires a clear definition of its data objects. This document catalogues the fundamental resource objects managed through RPP: domains, contacts, and hosts.<a href="#section-1-1" class="pilcrow">¶</a></p>
-<p id="section-1-2">In accordance with the RPP architecture <span>[<a href="#I-D.kowalik-rpp-architecture" class="cite xref">I-D.kowalik-rpp-architecture</a>]</span>, the definitions herein specify the logical data elements, their meanings, and their constraints, rather than a specific representation format. This approach ensures that the core data model can be consistently implemented across different media types and representation formats.<a href="#section-1-2" class="pilcrow">¶</a></p>
+<p id="section-1-1">The Registry Provisioning Protocol (RPP) defines a set of data objects used to represent and manage foundational registry resources, including domain names, contacts, and hosts. This initial list is not exhaustive; additional resource and component objects MAY be defined in future revisions or introduced via IANA registration to support new features and operational needs.<a href="#section-1-1" class="pilcrow">¶</a></p>
+<p id="section-1-2">In accordance with the RPP architecture <span>[<a href="#I-D.kowalik-rpp-architecture" class="cite xref">I-D.kowalik-rpp-architecture</a>]</span>, a core architectural principle is the clear distinction between the abstract data model and its concrete data representation. The data model defines the logical structure, relationships, and constraints of the objects, independent of formatting. The data representation defines how these abstract concepts are expressed in specific formats (e.g., JSON, XML, or YAML).<a href="#section-1-2" class="pilcrow">¶</a></p>
+<p id="section-1-3">This document focuses on the data model of RPP objects and operations on them, including the data model of operation inputs and outputs. This separation of concerns ensures the protocol maintains a stable semantic foundation that can be consistently implemented across different media types and easily adapted to new representation formats. For instance, the model defines a contact's name as a required string type, but it remains agnostic as to whether that string is ultimately encoded as a JSON property or an XML element.<a href="#section-1-3" class="pilcrow">¶</a></p>
 <div id="conventions-and-terminology">
 <section id="section-1.1">
         <h3 id="name-conventions-and-terminology">
@@ -1538,7 +1539,7 @@ li > p:last-of-type:only-child {
         <h3 id="name-data-element-abstraction">
 <a href="#section-2.1" class="section-number selfRef">2.1. </a><a href="#name-data-element-abstraction" class="section-name selfRef">Data Element Abstraction</a>
         </h3>
-<p id="section-2.1-1">Each resource is composed of logical data elements. A data element is a logical unit of information identified by a stable name, independent of its representation in any given media type. The definition for each element specifies its logical name, purpose, cardinality, data type, and constraints.<a href="#section-2.1-1" class="pilcrow">¶</a></p>
+<p id="section-2.1-1">Each data object is composed of logical data elements. A data element is a logical unit of information identified by a stable name, independent of its representation in any given media type. The definition for each element specifies its logical name, purpose, cardinality, data type, and constraints.<a href="#section-2.1-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="extensibility">
@@ -1546,7 +1547,7 @@ li > p:last-of-type:only-child {
         <h3 id="name-extensibility">
 <a href="#section-2.2" class="section-number selfRef">2.2. </a><a href="#name-extensibility" class="section-name selfRef">Extensibility</a>
         </h3>
-<p id="section-2.2-1">The set of data elements for a given resource object is extensible. New data elements, relations or operations MAY be defined and registered with IANA to support new features.<a href="#section-2.2-1" class="pilcrow">¶</a></p>
+<p id="section-2.2-1">The set of data elements for a given data object is extensible. New data elements, associations or operations MAY be defined and registered with IANA in order for the data object to support new features.<a href="#section-2.2-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="data-element-semantics">
@@ -1601,14 +1602,14 @@ li > p:last-of-type:only-child {
         <h3 id="name-operations">
 <a href="#section-2.4" class="section-number selfRef">2.4. </a><a href="#name-operations" class="section-name selfRef">Operations</a>
         </h3>
-<p id="section-2.4-1">For each resource a set of possible operations is defined together with their respective input and output data.<a href="#section-2.4-1" class="pilcrow">¶</a></p>
+<p id="section-2.4-1">For each data object a set of possible operations is defined together with their respective input and output data.<a href="#section-2.4-1" class="pilcrow">¶</a></p>
 <div id="authorisation">
 <section id="section-2.4.1">
           <h4 id="name-authorisation">
 <a href="#section-2.4.1" class="section-number selfRef">2.4.1. </a><a href="#name-authorisation" class="section-name selfRef">Authorisation</a>
           </h4>
-<p id="section-2.4.1-1">For each operation authorisation requiremens and operation behaviour is specified.
-Wherever "object authorisation" is mentioned, it means that an operation may accept or require additional authorisation data related to the object beyond plain client authorisation.
+<p id="section-2.4.1-1">For each operation authorisation requirements and operation behaviour is specified.
+Wherever "object authorisation" is mentioned, it means that an operation MAY accept or require additional authorisation data related to the object beyond default client-level authorisation, or that an operation MAY have different effect or response if such authorisation is provided.
 Typically it would be a value related to or derived from Authorisation Information Object attached to the object.<a href="#section-2.4.1-1" class="pilcrow">¶</a></p>
 </section>
 </div>
@@ -1617,7 +1618,7 @@ Typically it would be a value related to or derived from Authorisation Informati
           <h4 id="name-uniform-interface">
 <a href="#section-2.4.2" class="section-number selfRef">2.4.2. </a><a href="#name-uniform-interface" class="section-name selfRef">Uniform interface</a>
           </h4>
-<p id="section-2.4.2-1">For the typical set of Create, Read, Update and Delete operations the following set of input and output representations is specified on top of additional transient input data, unless an operation for the specific object tells otherwise.<a href="#section-2.4.2-1" class="pilcrow">¶</a></p>
+<p id="section-2.4.2-1">For the typical set of Create, Read, Update and Delete operations the following set of input and output data model is specified on top of additional transient input data, unless an operation for the specific object tells otherwise.<a href="#section-2.4.2-1" class="pilcrow">¶</a></p>
 <div id="create">
 <section id="section-2.4.2.1">
             <h5 id="name-create">
@@ -1642,7 +1643,7 @@ Typically it would be a value related to or derived from Authorisation Informati
               <li class="compact" id="section-2.4.2.2-1.2">Output: Object representation (read-write and read-only properties)<a href="#section-2.4.2.2-1.2" class="pilcrow">¶</a>
 </li>
             </ul>
-<p id="section-2.4.2.2-2">The output representation MAY vary depending on the identity of the querying client, use of authorization information, and server policy towards unauthorized clients. If the querying client is the sponsoring client, all available information MUST be returned. If the querying client is not the sponsoring client but the client provides valid authorization information, all available information SHOULD be returned, however some optional elements MAY be reserved to the sponsoring client only. If the querying client is not the sponsoring client and the client does not provide valid authorization information, server policy determines which OPTIONAL elements are returned, if any, or whether the entire request is rejected.<a href="#section-2.4.2.2-2" class="pilcrow">¶</a></p>
+<p id="section-2.4.2.2-2">The output representation MAY vary depending on the identity of the querying client, use of object authorisation information, and server policy towards unauthorized clients. If the querying client is the sponsoring client, all available information MUST be returned. If the querying client is not the sponsoring client but the client provides valid object authorisation information, all available information SHOULD be returned, however some optional elements MAY be reserved to the sponsoring client only. If the querying client is not the sponsoring client and the client does not provide valid object authorisation information, server policy determines which OPTIONAL elements are returned, if any, or whether the entire request is rejected.<a href="#section-2.4.2.2-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="update">
@@ -1700,7 +1701,7 @@ Typically it would be a value related to or derived from Authorisation Informati
       <h2 id="name-common-data-types">
 <a href="#section-3" class="section-number selfRef">3. </a><a href="#name-common-data-types" class="section-name selfRef">Common Data Types</a>
       </h2>
-<p id="section-3-1">This section defines primitive data types and structures that are re-used across multiple resource object definitions.<a href="#section-3-1" class="pilcrow">¶</a></p>
+<p id="section-3-1">This section defines data types and structures that are re-used across multiple data object definitions.<a href="#section-3-1" class="pilcrow">¶</a></p>
 <div id="identifier">
 <section id="section-3.1">
         <h3 id="name-identifier">
@@ -1725,7 +1726,7 @@ Identifiers for certain object types MAY have additional constraints imposed eit
         </h3>
 <p id="section-3.3-1">Client identifiers are character strings with a specified minimum length, a specified maximum length, and a specified format. Contact identifiers use the "clIDType" client identifier syntax described in <span>[<a href="#RFC5730" class="cite xref">RFC5730</a>]</span>.<a href="#section-3.3-1" class="pilcrow">¶</a></p>
 <aside id="section-3.3-2">
-          <p id="section-3.3-2.1">TBC: do we need this or is it a relation with an entity/RFC8543 organisation?<a href="#section-3.3-2.1" class="pilcrow">¶</a></p>
+          <p id="section-3.3-2.1">TBC: do we need this or is it a relation with an entity/RFC8543 organisation? If registrars modeled are as first class objects (organisations), then clID is nothing else but a reference to this organisation, so maybe no need to define syntax separately on identifier level (or in other words it would be defined on this object). R8.1 in the form of -02 RPP requirements includes RFC8543.<a href="#section-3.3-2.1" class="pilcrow">¶</a></p>
 </aside>
 </section>
 </div>
@@ -1744,8 +1745,8 @@ Identifiers for certain object types MAY have additional constraints imposed eit
       <h2 id="name-associations">
 <a href="#section-4" class="section-number selfRef">4. </a><a href="#name-associations" class="section-name selfRef">Associations</a>
       </h2>
-<p id="section-4-1">RPP allows for different types of associations (links) between the objects. The association may be added between 2 indpendent objects with own lifecycle (UML aggregation) or in the relation when one object's existance and lifecycle is bound to the other parent/owner object (UML composition).
-In both cases, especially if the relation allows for cardinality higher than one on either side, the association may be assigned additional attributes, not being part of data model of either side of relation. In many cases such relation would be attributed with a single text string label, describing a role or a type of relation. Depending on the context this value might be unique, which allows using such label as a key in a dictionary.<a href="#section-4-1" class="pilcrow">¶</a></p>
+<p id="section-4-1">RPP allows for different types of associations (relationship) between the objects. The association may be added between 2 objects with own indpendent lifecycle (UML aggregation) or in the relation when one object's existance and lifecycle is bound to the other parent/owner object (UML composition).
+In both cases, especially if the relation allows for cardinality higher than one on either side, the association may be assigned additional attributes, not being part of an object on either side of relation. In many cases such relation would be attributed with a single text string label, describing a role or a type of relation. Depending on the context this value might be unique, which allows using such label as a key in a dictionary.<a href="#section-4-1" class="pilcrow">¶</a></p>
 <p id="section-4-2">The following generic Association Types are defined for RPP:<a href="#section-4-2" class="pilcrow">¶</a></p>
 <div id="aggregation">
 <section id="section-4.1">
@@ -1755,7 +1756,7 @@ In both cases, especially if the relation allows for cardinality higher than one
 <p id="section-4.1-1">Notation: Aggregation[Type]<a href="#section-4.1-1" class="pilcrow">¶</a></p>
 <p id="section-4.1-2">A relation between two independent objects.<a href="#section-4.1-2" class="pilcrow">¶</a></p>
 <p id="section-4.1-3">If the cardinality of target object is more than 1, this represents an ordered array.
-Data producer MUST assure the same unchanged data is always inserted in the same order. In case of data insertions, deletions or updates the remaining of the data SHALL preserve its order.<a href="#section-4.1-3" class="pilcrow">¶</a></p>
+It MUST assured that the same unchanged data is always inserted in the same order. In case of data insertions, deletions or updates the remaining of the data SHALL preserve its order.<a href="#section-4.1-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="composition">
@@ -1764,9 +1765,9 @@ Data producer MUST assure the same unchanged data is always inserted in the same
 <a href="#section-4.2" class="section-number selfRef">4.2. </a><a href="#name-composition" class="section-name selfRef">Composition</a>
         </h3>
 <p id="section-4.2-1">Notation: Composition[Type] or Type<a href="#section-4.2-1" class="pilcrow">¶</a></p>
-<p id="section-4.2-2">A relation between an independent parent object and a dependent child object.<a href="#section-4.2-2" class="pilcrow">¶</a></p>
+<p id="section-4.2-2">A relation between an independent parent object and 1 or more dependent child object(s).<a href="#section-4.2-2" class="pilcrow">¶</a></p>
 <p id="section-4.2-3">If the cardinality of target object is more than 1, this represents an ordered array.
-Data producer MUST assure the same unchanged data is always inserted in the same order. In case of data insertions, deletions or updates the remaining of the data SHALL preserve its order.<a href="#section-4.2-3" class="pilcrow">¶</a></p>
+It MUST assured that MUST assured that the same unchanged data is always inserted in the same order. In case of data insertions, deletions or updates the remaining of the data SHALL preserve its order.<a href="#section-4.2-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="labelled-aggregation">
@@ -1816,7 +1817,7 @@ Data producer MUST assure the same unchanged data is always inserted in the same
       <h2 id="name-component-objects">
 <a href="#section-5" class="section-number selfRef">5. </a><a href="#name-component-objects" class="section-name selfRef">Component Objects</a>
       </h2>
-<p id="section-5-1">This section defines common component objects that are re-used in the definitions of top-level resource objects.
+<p id="section-5-1">This section defines common objects that are re-used in the definitions of top-level data objects.
 Component objects carry only data but do not define any operations.<a href="#section-5-1" class="pilcrow">¶</a></p>
 <div id="period-object">
 <section id="section-5.1">
@@ -1894,9 +1895,13 @@ Component objects carry only data but do not define any operations.<a href="#sec
 </li>
                   <li class="compact" id="section-5.2-1.3.2.1.2.4">Data Type: String<a href="#section-5.2-1.3.2.1.2.4" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-5.2-1.3.2.1.2.5">Description: computer-readible enum label of a status<a href="#section-5.2-1.3.2.1.2.5" class="pilcrow">¶</a>
+                  <li class="compact" id="section-5.2-1.3.2.1.2.5">Description: machine-readible enum label of a status<a href="#section-5.2-1.3.2.1.2.5" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-5.2-1.3.2.1.2.6">Constraints: Status can be set as outlined in <a href="https://rfc-editor.org/rfc/rfc5731#section-2.3" class="relref">2.3</a>. Additional statuses can be set as outlined in <span>[<a href="#RFC3915" class="cite xref">RFC3915</a>]</span>. This enumeration can be expanded by extensions. Statuses MAY be either set by the server with "server" prefix, or set by the client with "client" prefix.<a href="#section-5.2-1.3.2.1.2.6" class="pilcrow">¶</a>
+                  <li class="compact" id="section-5.2-1.3.2.1.2.6">Constraints:<a href="#section-5.2-1.3.2.1.2.6" class="pilcrow">¶</a>
+</li>
+                  <li class="compact" id="section-5.2-1.3.2.1.2.7">Status can be set as outlined in <a href="https://rfc-editor.org/rfc/rfc5731#section-2.3" class="relref">2.3</a>. Additional statuses can be set as outlined in <span>[<a href="#RFC3915" class="cite xref">RFC3915</a>]</span>. This enumeration can be expanded by extensions.<a href="#section-5.2-1.3.2.1.2.7" class="pilcrow">¶</a>
+</li>
+                  <li class="compact" id="section-5.2-1.3.2.1.2.8">Statuses MAY be either set by the server with "server" prefix, or set by the client with "client" prefix.<a href="#section-5.2-1.3.2.1.2.8" class="pilcrow">¶</a>
 </li>
                 </ul>
 </li>
@@ -1982,7 +1987,14 @@ Component objects carry only data but do not define any operations.<a href="#sec
 </li>
                   <li class="compact" id="section-5.3-1.3.2.2.2.5">Description: DNS Resource Records related to the host.<a href="#section-5.3-1.3.2.2.2.5" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-5.3-1.3.2.2.2.6">Constraints: In EPP Compatibility Profile the entries MUST be limited to A and AAAA entries for IPv4 and IPv6 glue records respectively. The labels of DNS entries MUST be subordinate to the Host Name of the Nameserver.<a href="#section-5.3-1.3.2.2.2.6" class="pilcrow">¶</a>
+                  <li class="compact" id="section-5.3-1.3.2.2.2.6">
+                    <p id="section-5.3-1.3.2.2.2.6.1">Constraints:<a href="#section-5.3-1.3.2.2.2.6.1" class="pilcrow">¶</a></p>
+<ul class="compact">
+<li class="compact" id="section-5.3-1.3.2.2.2.6.2.1">In EPP Compatibility Profile the entries MUST be limited to A and AAAA entries for IPv4 and IPv6 glue records respectively.<a href="#section-5.3-1.3.2.2.2.6.2.1" class="pilcrow">¶</a>
+</li>
+                      <li class="compact" id="section-5.3-1.3.2.2.2.6.2.2">The labels of DNS entries MUST be subordinate to the Host Name of the Nameserver.<a href="#section-5.3-1.3.2.2.2.6.2.2" class="pilcrow">¶</a>
+</li>
+                    </ul>
 </li>
                 </ul>
 </li>
@@ -2017,7 +2029,14 @@ Component objects carry only data but do not define any operations.<a href="#sec
 </li>
                   <li class="compact" id="section-5.4-1.3.2.1.2.5">Description: DNS entry label.<a href="#section-5.4-1.3.2.1.2.5" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-5.4-1.3.2.1.2.6">Constraints: The value MUST be a syntactically valid DNS host name in Zone file string representation. Absolute FQDNs and relative host names are allowed.<a href="#section-5.4-1.3.2.1.2.6" class="pilcrow">¶</a>
+                  <li class="compact" id="section-5.4-1.3.2.1.2.6">
+                    <p id="section-5.4-1.3.2.1.2.6.1">Constraints:<a href="#section-5.4-1.3.2.1.2.6.1" class="pilcrow">¶</a></p>
+<ul class="compact">
+<li class="compact" id="section-5.4-1.3.2.1.2.6.2.1">The value MUST be a syntactically valid DNS host name in Zone file string representation.<a href="#section-5.4-1.3.2.1.2.6.2.1" class="pilcrow">¶</a>
+</li>
+                      <li class="compact" id="section-5.4-1.3.2.1.2.6.2.2">Absolute FQDNs and relative host names are allowed.<a href="#section-5.4-1.3.2.1.2.6.2.2" class="pilcrow">¶</a>
+</li>
+                    </ul>
 </li>
                 </ul>
 </li>
@@ -2034,7 +2053,14 @@ Component objects carry only data but do not define any operations.<a href="#sec
 </li>
                   <li class="compact" id="section-5.4-1.3.2.2.2.5">Description: DNS entry type.<a href="#section-5.4-1.3.2.2.2.5" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-5.4-1.3.2.2.2.6">Constraints: Each value MUST valid Zone file string representation of resource record type as defined in <span>[<a href="#RFC1035" class="cite xref">RFC1035</a>]</span>. Allowed values MAY be constrained by server policies. For domain provisioning typically the Type would be constrained to allowed parent side entries.<a href="#section-5.4-1.3.2.2.2.6" class="pilcrow">¶</a>
+                  <li class="compact" id="section-5.4-1.3.2.2.2.6">
+                    <p id="section-5.4-1.3.2.2.2.6.1">Constraints:<a href="#section-5.4-1.3.2.2.2.6.1" class="pilcrow">¶</a></p>
+<ul class="compact">
+<li class="compact" id="section-5.4-1.3.2.2.2.6.2.1">Each value MUST be a valid string representation of resource record type as defined in <span>[<a href="#RFC1035" class="cite xref">RFC1035</a>]</span>.<a href="#section-5.4-1.3.2.2.2.6.2.1" class="pilcrow">¶</a>
+</li>
+                      <li class="compact" id="section-5.4-1.3.2.2.2.6.2.2">Allowed values MAY be constrained by server policies. For domain provisioning typically the Type would be constrained to the allowed parent side entries.<a href="#section-5.4-1.3.2.2.2.6.2.2" class="pilcrow">¶</a>
+</li>
+                    </ul>
 </li>
                 </ul>
 </li>
@@ -2051,7 +2077,7 @@ Component objects carry only data but do not define any operations.<a href="#sec
 </li>
                   <li class="compact" id="section-5.4-1.3.2.3.2.5">Description: DNS entry value.<a href="#section-5.4-1.3.2.3.2.5" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-5.4-1.3.2.3.2.6">Constraints: Each value MUST be a syntactically valid resource record data for a Type in Zone file string representation.<a href="#section-5.4-1.3.2.3.2.6" class="pilcrow">¶</a>
+                  <li class="compact" id="section-5.4-1.3.2.3.2.6">Constraints: Each value MUST be a syntactically valid resource record data for a Type in zone file string representation.<a href="#section-5.4-1.3.2.3.2.6" class="pilcrow">¶</a>
 </li>
                 </ul>
 </li>
@@ -2066,9 +2092,9 @@ Component objects carry only data but do not define any operations.<a href="#sec
 </li>
                   <li class="compact" id="section-5.4-1.3.2.4.2.4">Data Type: Number.<a href="#section-5.4-1.3.2.4.2.4" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-5.4-1.3.2.4.2.5">Description: TTL value for a reource record.<a href="#section-5.4-1.3.2.4.2.5" class="pilcrow">¶</a>
+                  <li class="compact" id="section-5.4-1.3.2.4.2.5">Description: TTL value of a resource record as defined in <span>[<a href="#RFC1035" class="cite xref">RFC1035</a>]</span>.<a href="#section-5.4-1.3.2.4.2.5" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-5.4-1.3.2.4.2.6">Constraints: TTL value of a resource record as defined in <span>[<a href="#RFC1035" class="cite xref">RFC1035</a>]</span>. The value MAY be constrained by server policy.<a href="#section-5.4-1.3.2.4.2.6" class="pilcrow">¶</a>
+                  <li class="compact" id="section-5.4-1.3.2.4.2.6">Constraints: The allowed value range MAY be constrained by server policy.<a href="#section-5.4-1.3.2.4.2.6" class="pilcrow">¶</a>
 </li>
                 </ul>
 </li>
@@ -2085,7 +2111,7 @@ Component objects carry only data but do not define any operations.<a href="#sec
 <ul class="compact">
 <li class="compact" id="section-5.5-1.1">Name: Authorisation Information<a href="#section-5.5-1.1" class="pilcrow">¶</a>
 </li>
-          <li class="compact" id="section-5.5-1.2">Description: Contains information used to authorise operations on a resource object. It may hold different kind of authorisation information.<a href="#section-5.5-1.2" class="pilcrow">¶</a>
+          <li class="compact" id="section-5.5-1.2">Description: Contains information used to authorise operations on a data object. It may hold different kind of authorisation information.<a href="#section-5.5-1.2" class="pilcrow">¶</a>
 </li>
           <li class="compact" id="section-5.5-1.3">
             <p id="section-5.5-1.3.1">Data Elements:<a href="#section-5.5-1.3.1" class="pilcrow">¶</a></p>
@@ -2103,7 +2129,14 @@ Component objects carry only data but do not define any operations.<a href="#sec
 </li>
                   <li class="compact" id="section-5.5-1.3.2.1.2.5">Description: The identifier of the RPP authorisation method.<a href="#section-5.5-1.3.2.1.2.5" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-5.5-1.3.2.1.2.6">Constraints: The value MUST be one of the values registered at IANA. Initial values AuthInfo.<a href="#section-5.5-1.3.2.1.2.6" class="pilcrow">¶</a>
+                  <li class="compact" id="section-5.5-1.3.2.1.2.6">
+                    <p id="section-5.5-1.3.2.1.2.6.1">Constraints:<a href="#section-5.5-1.3.2.1.2.6.1" class="pilcrow">¶</a></p>
+<ul class="compact">
+<li class="compact" id="section-5.5-1.3.2.1.2.6.2.1">The value MUST be one of the values registered at IANA as defined in [I-D.draft-wullink-rpp-core].<a href="#section-5.5-1.3.2.1.2.6.2.1" class="pilcrow">¶</a>
+</li>
+                      <li class="compact" id="section-5.5-1.3.2.1.2.6.2.2">In EPP Compatibility Profile this value MUST be set to <code>authinfo</code> if standard password base authorisation is used<a href="#section-5.5-1.3.2.1.2.6.2.2" class="pilcrow">¶</a>
+</li>
+                    </ul>
 </li>
                 </ul>
 </li>
@@ -2120,7 +2153,14 @@ Component objects carry only data but do not define any operations.<a href="#sec
 </li>
                   <li class="compact" id="section-5.5-1.3.2.2.2.5">Description: The value of the authorisation information. It might be as simple as password string, but also more complex values like public key certificates or tokens encoded as string are possible.<a href="#section-5.5-1.3.2.2.2.5" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-5.5-1.3.2.2.2.6">Constraints: authorisation information objects are immutable. If the information changes (for example password is updated) a new instance MUST be created. Depending on the method and server policy Authorisation Information MAY not be available for reading.<a href="#section-5.5-1.3.2.2.2.6" class="pilcrow">¶</a>
+                  <li class="compact" id="section-5.5-1.3.2.2.2.6">
+                    <p id="section-5.5-1.3.2.2.2.6.1">Constraints:<a href="#section-5.5-1.3.2.2.2.6.1" class="pilcrow">¶</a></p>
+<ul class="compact">
+<li class="compact" id="section-5.5-1.3.2.2.2.6.2.1">Authorisation Information object is immutable. If the information changes (for example password is updated) a new instance MUST be created.<a href="#section-5.5-1.3.2.2.2.6.2.1" class="pilcrow">¶</a>
+</li>
+                      <li class="compact" id="section-5.5-1.3.2.2.2.6.2.2">Depending on the method and server policy Authorisation Information MAY not be available for read or any other operation responding with this data element.<a href="#section-5.5-1.3.2.2.2.6.2.2" class="pilcrow">¶</a>
+</li>
+                    </ul>
 </li>
                 </ul>
 </li>
@@ -2155,7 +2195,7 @@ Component objects carry only data but do not define any operations.<a href="#sec
 </li>
                   <li class="compact" id="section-5.6-1.3.2.1.2.5">Description: The contact's street address.<a href="#section-5.6-1.3.2.1.2.5" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-5.6-1.3.2.1.2.6">Constraints: Some implementation MAY limit the maximum length of entries or character set.<a href="#section-5.6-1.3.2.1.2.6" class="pilcrow">¶</a>
+                  <li class="compact" id="section-5.6-1.3.2.1.2.6">Constraints: Implementations MAY limit the maximum length of entries or character set.<a href="#section-5.6-1.3.2.1.2.6" class="pilcrow">¶</a>
 </li>
                 </ul>
 </li>
@@ -2172,7 +2212,14 @@ Component objects carry only data but do not define any operations.<a href="#sec
 </li>
                   <li class="compact" id="section-5.6-1.3.2.2.2.5">Description: The contact's city.<a href="#section-5.6-1.3.2.2.2.5" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-5.6-1.3.2.2.2.6">Constraints: Some implementation MAY limit the maximum length of entries or character set. In EPP Compatibility Profile this data element MUST be provided.<a href="#section-5.6-1.3.2.2.2.6" class="pilcrow">¶</a>
+                  <li class="compact" id="section-5.6-1.3.2.2.2.6">
+                    <p id="section-5.6-1.3.2.2.2.6.1">Constraints:<a href="#section-5.6-1.3.2.2.2.6.1" class="pilcrow">¶</a></p>
+<ul class="compact">
+<li class="compact" id="section-5.6-1.3.2.2.2.6.2.1">Implementations MAY limit the maximum length of entries or character set.<a href="#section-5.6-1.3.2.2.2.6.2.1" class="pilcrow">¶</a>
+</li>
+                      <li class="compact" id="section-5.6-1.3.2.2.2.6.2.2">In EPP Compatibility Profile this data element MUST be provided.<a href="#section-5.6-1.3.2.2.2.6.2.2" class="pilcrow">¶</a>
+</li>
+                    </ul>
 </li>
                 </ul>
 </li>
@@ -2189,7 +2236,7 @@ Component objects carry only data but do not define any operations.<a href="#sec
 </li>
                   <li class="compact" id="section-5.6-1.3.2.3.2.5">Description: The contact's state or province.<a href="#section-5.6-1.3.2.3.2.5" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-5.6-1.3.2.3.2.6">Constraints: Some implementation MAY limit the maximum length of entries or character set.<a href="#section-5.6-1.3.2.3.2.6" class="pilcrow">¶</a>
+                  <li class="compact" id="section-5.6-1.3.2.3.2.6">Constraints: Implementations MAY limit the maximum length of entries or character set.<a href="#section-5.6-1.3.2.3.2.6" class="pilcrow">¶</a>
 </li>
                 </ul>
 </li>
@@ -2206,7 +2253,14 @@ Component objects carry only data but do not define any operations.<a href="#sec
 </li>
                   <li class="compact" id="section-5.6-1.3.2.4.2.5">Description: The contact's postal code.<a href="#section-5.6-1.3.2.4.2.5" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-5.6-1.3.2.4.2.6">Constraints: Some implementation MAY limit the maximum length of entries or character set. The limitations MAY differ depending on Country Code (<code>cc</code>) data element.<a href="#section-5.6-1.3.2.4.2.6" class="pilcrow">¶</a>
+                  <li class="compact" id="section-5.6-1.3.2.4.2.6">
+                    <p id="section-5.6-1.3.2.4.2.6.1">Constraints:<a href="#section-5.6-1.3.2.4.2.6.1" class="pilcrow">¶</a></p>
+<ul class="compact">
+<li class="compact" id="section-5.6-1.3.2.4.2.6.2.1">Implementation MAY limit the maximum length of entries or character set.<a href="#section-5.6-1.3.2.4.2.6.2.1" class="pilcrow">¶</a>
+</li>
+                      <li class="compact" id="section-5.6-1.3.2.4.2.6.2.2">The limitations MAY differ depending on Country Code (<code>cc</code>) data element.<a href="#section-5.6-1.3.2.4.2.6.2.2" class="pilcrow">¶</a>
+</li>
+                    </ul>
 </li>
                 </ul>
 </li>
@@ -2223,7 +2277,14 @@ Component objects carry only data but do not define any operations.<a href="#sec
 </li>
                   <li class="compact" id="section-5.6-1.3.2.5.2.5">Description: The contact's country code.<a href="#section-5.6-1.3.2.5.2.5" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-5.6-1.3.2.5.2.6">Constraints: The value MUST be a two-character identifier from <span>[<a href="#ISO3166-1" class="cite xref">ISO3166-1</a>]</span>. In EPP Compatibility Profile this data element MUST be provided.<a href="#section-5.6-1.3.2.5.2.6" class="pilcrow">¶</a>
+                  <li class="compact" id="section-5.6-1.3.2.5.2.6">
+                    <p id="section-5.6-1.3.2.5.2.6.1">Constraints:<a href="#section-5.6-1.3.2.5.2.6.1" class="pilcrow">¶</a></p>
+<ul class="compact">
+<li class="compact" id="section-5.6-1.3.2.5.2.6.2.1">The value MUST be a two-character identifier from <span>[<a href="#ISO3166-1" class="cite xref">ISO3166-1</a>]</span>.<a href="#section-5.6-1.3.2.5.2.6.2.1" class="pilcrow">¶</a>
+</li>
+                      <li class="compact" id="section-5.6-1.3.2.5.2.6.2.2">In EPP Compatibility Profile this data element MUST be provided.<a href="#section-5.6-1.3.2.5.2.6.2.2" class="pilcrow">¶</a>
+</li>
+                    </ul>
 </li>
                 </ul>
 </li>
@@ -2279,7 +2340,16 @@ Component objects carry only data but do not define any operations.<a href="#sec
 </li>
               <li class="compact" id="section-5.7-3.2.2.5">Description: The name of the individual or role.<a href="#section-5.7-3.2.2.5" class="pilcrow">¶</a>
 </li>
-              <li class="compact" id="section-5.7-3.2.2.6">Constraints: Some implementation MAY limit the maximum length of entries or character set. In EPP Compatibility Profile this data element MUST be provided. The implementations MAY require this field if Contact Type (<code>type</code>) is set to "PERSON".<a href="#section-5.7-3.2.2.6" class="pilcrow">¶</a>
+              <li class="compact" id="section-5.7-3.2.2.6">
+                <p id="section-5.7-3.2.2.6.1">Constraints:<a href="#section-5.7-3.2.2.6.1" class="pilcrow">¶</a></p>
+<ul class="compact">
+<li class="compact" id="section-5.7-3.2.2.6.2.1">Implementations MAY limit the maximum length of entries or character set.<a href="#section-5.7-3.2.2.6.2.1" class="pilcrow">¶</a>
+</li>
+                  <li class="compact" id="section-5.7-3.2.2.6.2.2">In EPP Compatibility Profile this data element MUST be provided.<a href="#section-5.7-3.2.2.6.2.2" class="pilcrow">¶</a>
+</li>
+                  <li class="compact" id="section-5.7-3.2.2.6.2.3">The implementations MAY require this field if Contact Type (<code>type</code>) is set to "PERSON".<a href="#section-5.7-3.2.2.6.2.3" class="pilcrow">¶</a>
+</li>
+                </ul>
 </li>
             </ul>
 </li>
@@ -2296,7 +2366,14 @@ Component objects carry only data but do not define any operations.<a href="#sec
 </li>
               <li class="compact" id="section-5.7-3.3.2.5">Description: The name of the organisation.<a href="#section-5.7-3.3.2.5" class="pilcrow">¶</a>
 </li>
-              <li class="compact" id="section-5.7-3.3.2.6">Constraints: Some implementation MAY limit the maximum length of entries or character set. The implementations MAY require this field if Contact Type (<code>type</code>) is set to "ORG".<a href="#section-5.7-3.3.2.6" class="pilcrow">¶</a>
+              <li class="compact" id="section-5.7-3.3.2.6">
+                <p id="section-5.7-3.3.2.6.1">Constraints:<a href="#section-5.7-3.3.2.6.1" class="pilcrow">¶</a></p>
+<ul class="compact">
+<li class="compact" id="section-5.7-3.3.2.6.2.1">Implementations MAY limit the maximum length of entries or character set.<a href="#section-5.7-3.3.2.6.2.1" class="pilcrow">¶</a>
+</li>
+                  <li class="compact" id="section-5.7-3.3.2.6.2.2">The implementations MAY require this field if Contact Type (<code>type</code>) is set to "ORG".<a href="#section-5.7-3.3.2.6.2.2" class="pilcrow">¶</a>
+</li>
+                </ul>
 </li>
             </ul>
 </li>
@@ -2340,10 +2417,10 @@ Component objects carry only data but do not define any operations.<a href="#sec
 </div>
 </section>
 </div>
-<div id="domain-name-resource-object">
+<div id="domain-name-data-object">
 <section id="section-6">
-      <h2 id="name-domain-name-resource-object">
-<a href="#section-6" class="section-number selfRef">6. </a><a href="#name-domain-name-resource-object" class="section-name selfRef">Domain Name Resource Object</a>
+      <h2 id="name-domain-name-data-object">
+<a href="#section-6" class="section-number selfRef">6. </a><a href="#name-domain-name-data-object" class="section-name selfRef">Domain Name Data Object</a>
       </h2>
 <div id="object-description">
 <section id="section-6.1">
@@ -2351,11 +2428,11 @@ Component objects carry only data but do not define any operations.<a href="#sec
 <a href="#section-6.1" class="section-number selfRef">6.1. </a><a href="#name-object-description" class="section-name selfRef">Object Description</a>
         </h3>
 <ul class="compact">
-<li class="compact" id="section-6.1-1.1">Name: Domain Name Resource Object<a href="#section-6.1-1.1" class="pilcrow">¶</a>
+<li class="compact" id="section-6.1-1.1">Name: Domain Name Data Object<a href="#section-6.1-1.1" class="pilcrow">¶</a>
 </li>
           <li class="compact" id="section-6.1-1.2">Identifier: domainName<a href="#section-6.1-1.2" class="pilcrow">¶</a>
 </li>
-          <li class="compact" id="section-6.1-1.3">Description: A Domain Name resource object represents a domain name and contains the data required for its provisioning and management in the registry.<a href="#section-6.1-1.3" class="pilcrow">¶</a>
+          <li class="compact" id="section-6.1-1.3">Description: A Domain Name data object represents a domain name and contains the data required for its provisioning and management in the registry.<a href="#section-6.1-1.3" class="pilcrow">¶</a>
 </li>
         </ul>
 </section>
@@ -2365,7 +2442,7 @@ Component objects carry only data but do not define any operations.<a href="#sec
         <h3 id="name-data-elements">
 <a href="#section-6.2" class="section-number selfRef">6.2. </a><a href="#name-data-elements" class="section-name selfRef">Data Elements</a>
         </h3>
-<p id="section-6.2-1">The following data elements are defined for the Domain Name resource object.<a href="#section-6.2-1" class="pilcrow">¶</a></p>
+<p id="section-6.2-1">The following data elements are defined for the Domain Name Data Object.<a href="#section-6.2-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-6.2-2.1">
             <p id="section-6.2-2.1.1">Name<a href="#section-6.2-2.1.1" class="pilcrow">¶</a></p>
@@ -2380,7 +2457,16 @@ Component objects carry only data but do not define any operations.<a href="#sec
 </li>
               <li class="compact normal" id="section-6.2-2.1.2.5">Description: The fully qualified name of the domain object.<a href="#section-6.2-2.1.2.5" class="pilcrow">¶</a>
 </li>
-              <li class="compact normal" id="section-6.2-2.1.2.6">Constraints: The value MUST be a fully qualified domain name that conforms to the syntax described in <span>[<a href="#RFC1035" class="cite xref">RFC1035</a>]</span>. A server MAY restrict allowable domain names to a particular top-level domain, second-level domain, or other domain for which the server is authoritative. The trailing dot required when these names are stored in a DNS zone is implicit and MUST NOT be provided when exchanging host and domain names.<a href="#section-6.2-2.1.2.6" class="pilcrow">¶</a>
+              <li class="compact normal" id="section-6.2-2.1.2.6">
+                <p id="section-6.2-2.1.2.6.1">Constraints:<a href="#section-6.2-2.1.2.6.1" class="pilcrow">¶</a></p>
+<ul class="compact normal">
+<li class="compact normal" id="section-6.2-2.1.2.6.2.1">The value MUST be a fully qualified domain name that conforms to the syntax described in <span>[<a href="#RFC1035" class="cite xref">RFC1035</a>]</span>.<a href="#section-6.2-2.1.2.6.2.1" class="pilcrow">¶</a>
+</li>
+                  <li class="compact normal" id="section-6.2-2.1.2.6.2.2">A server MAY restrict allowable domain names to a particular top-level domain, second-level domain, or other domain for which the server is authoritative.<a href="#section-6.2-2.1.2.6.2.2" class="pilcrow">¶</a>
+</li>
+                  <li class="compact normal" id="section-6.2-2.1.2.6.2.3">The trailing dot required when these names are stored in a DNS zone is implicit and MUST NOT be provided when exchanging host and domain names.<a href="#section-6.2-2.1.2.6.2.3" class="pilcrow">¶</a>
+</li>
+                </ul>
 </li>
             </ul>
 </li>
@@ -2436,7 +2522,14 @@ Component objects carry only data but do not define any operations.<a href="#sec
 </li>
               <li class="compact" id="section-6.2-4.1.2.5">Description: The contact object associated with the domain as the registrant.<a href="#section-6.2-4.1.2.5" class="pilcrow">¶</a>
 </li>
-              <li class="compact" id="section-6.2-4.1.2.6">Constraints: The identifier MUST correspond to a valid Contact resource object known to the server.<a href="#section-6.2-4.1.2.6" class="pilcrow">¶</a>
+              <li class="compact" id="section-6.2-4.1.2.6">
+                <p id="section-6.2-4.1.2.6.1">Constraints:<a href="#section-6.2-4.1.2.6.1" class="pilcrow">¶</a></p>
+<ul class="compact">
+<li class="compact" id="section-6.2-4.1.2.6.2.1">The relation MUST correspond to a valid Contact Data Object known to the server.<a href="#section-6.2-4.1.2.6.2.1" class="pilcrow">¶</a>
+</li>
+                  <li class="compact" id="section-6.2-4.1.2.6.2.2">Servers MAY restrict association of a Contact Object of a different sponsoring client.<a href="#section-6.2-4.1.2.6.2.2" class="pilcrow">¶</a>
+</li>
+                </ul>
 </li>
             </ul>
 </li>
@@ -2444,215 +2537,241 @@ Component objects carry only data but do not define any operations.<a href="#sec
 <aside id="section-6.2-5">
           <p id="section-6.2-5.1">TBC: leave registrant here or move it to contacts with a type?<a href="#section-6.2-5.1" class="pilcrow">¶</a></p>
 </aside>
-<ul class="normal">
-<li class="normal" id="section-6.2-6.1">
+<ul class="compact">
+<li class="compact" id="section-6.2-6.1">
             <p id="section-6.2-6.1.1">Contacts<a href="#section-6.2-6.1.1" class="pilcrow">¶</a></p>
-<ul class="compact normal">
-<li class="compact normal" id="section-6.2-6.1.2.1">Identifier: contacts<a href="#section-6.2-6.1.2.1" class="pilcrow">¶</a>
+<ul class="compact">
+<li class="compact" id="section-6.2-6.1.2.1">Identifier: contacts<a href="#section-6.2-6.1.2.1" class="pilcrow">¶</a>
 </li>
-              <li class="compact normal" id="section-6.2-6.1.2.2">Cardinality: 0+<a href="#section-6.2-6.1.2.2" class="pilcrow">¶</a>
+              <li class="compact" id="section-6.2-6.1.2.2">Cardinality: 0+<a href="#section-6.2-6.1.2.2" class="pilcrow">¶</a>
 </li>
-              <li class="compact normal" id="section-6.2-6.1.2.3">Mutability: read-write<a href="#section-6.2-6.1.2.3" class="pilcrow">¶</a>
+              <li class="compact" id="section-6.2-6.1.2.3">Mutability: read-write<a href="#section-6.2-6.1.2.3" class="pilcrow">¶</a>
 </li>
-              <li class="compact normal" id="section-6.2-6.1.2.4">
+              <li class="compact" id="section-6.2-6.1.2.4">
                 <p id="section-6.2-6.1.2.4.1">Data Type: LabelledAggregation[Contact Object]<a href="#section-6.2-6.1.2.4.1" class="pilcrow">¶</a></p>
-<ul class="compact normal">
-<li class="compact normal" id="section-6.2-6.1.2.4.2.1">Label Description: The role of the associated contact.<a href="#section-6.2-6.1.2.4.2.1" class="pilcrow">¶</a>
+<ul class="compact">
+<li class="compact" id="section-6.2-6.1.2.4.2.1">Label Description: The role of the associated contact.<a href="#section-6.2-6.1.2.4.2.1" class="pilcrow">¶</a>
 </li>
-                  <li class="compact normal" id="section-6.2-6.1.2.4.2.2">Label Constraints: For domain name associations, the value MUST be one of: "admin", "billing", or "tech".<a href="#section-6.2-6.1.2.4.2.2" class="pilcrow">¶</a>
+                  <li class="compact" id="section-6.2-6.1.2.4.2.2">
+                    <p id="section-6.2-6.1.2.4.2.2.1">Label Constraints:<a href="#section-6.2-6.1.2.4.2.2.1" class="pilcrow">¶</a></p>
+<ul class="compact">
+<li class="compact" id="section-6.2-6.1.2.4.2.2.2.1">List of supported roles is defined by server policy<a href="#section-6.2-6.1.2.4.2.2.2.1" class="pilcrow">¶</a>
+</li>
+                      <li class="compact" id="section-6.2-6.1.2.4.2.2.2.2">In the EPP Compatibility Profile, the value MUST be one of: "admin", "billing", or "tech"<a href="#section-6.2-6.1.2.4.2.2.2.2" class="pilcrow">¶</a>
+</li>
+                    </ul>
 </li>
                 </ul>
 </li>
-              <li class="compact normal" id="section-6.2-6.1.2.5">Description: A collection of other contact objects associated with the domain object.<a href="#section-6.2-6.1.2.5" class="pilcrow">¶</a>
+              <li class="compact" id="section-6.2-6.1.2.5">Description: A collection of other contact objects associated with the domain object.<a href="#section-6.2-6.1.2.5" class="pilcrow">¶</a>
 </li>
-              <li class="compact normal" id="section-6.2-6.1.2.6">Constraints: Maximum number of associated contacts might be restricted by server policy<a href="#section-6.2-6.1.2.6" class="pilcrow">¶</a>
+              <li class="compact" id="section-6.2-6.1.2.6">
+                <p id="section-6.2-6.1.2.6.1">Constraints:<a href="#section-6.2-6.1.2.6.1" class="pilcrow">¶</a></p>
+<ul class="compact">
+<li class="compact" id="section-6.2-6.1.2.6.2.1">Maximum number of associated contacts (per role) MAY be restricted by server policy<a href="#section-6.2-6.1.2.6.2.1" class="pilcrow">¶</a>
 </li>
-            </ul>
-</li>
-          <li class="normal" id="section-6.2-6.2">
-            <p id="section-6.2-6.2.1">Nameservers<a href="#section-6.2-6.2.1" class="pilcrow">¶</a></p>
-<ul class="compact normal">
-<li class="compact normal" id="section-6.2-6.2.2.1">Identifier: nameservers<a href="#section-6.2-6.2.2.1" class="pilcrow">¶</a>
-</li>
-              <li class="compact normal" id="section-6.2-6.2.2.2">Cardinality: 0+<a href="#section-6.2-6.2.2.2" class="pilcrow">¶</a>
-</li>
-              <li class="compact normal" id="section-6.2-6.2.2.3">Mutability: read-write<a href="#section-6.2-6.2.2.3" class="pilcrow">¶</a>
-</li>
-              <li class="compact normal" id="section-6.2-6.2.2.4">Data Type: Composition[Host Resource Object] or Aggregation[Host Resource Object]<a href="#section-6.2-6.2.2.4" class="pilcrow">¶</a>
-</li>
-              <li class="compact normal" id="section-6.2-6.2.2.5">Description: A collection of nameservers associated with the domain.<a href="#section-6.2-6.2.2.5" class="pilcrow">¶</a>
-</li>
-              <li class="compact normal" id="section-6.2-6.2.2.6">Constraints: (None)<a href="#section-6.2-6.2.2.6" class="pilcrow">¶</a>
+                </ul>
 </li>
             </ul>
 </li>
-          <li class="normal" id="section-6.2-6.3">
-            <p id="section-6.2-6.3.1">DNS<a href="#section-6.2-6.3.1" class="pilcrow">¶</a></p>
+        </ul>
+<aside id="section-6.2-7">
+          <p id="section-6.2-7.1">TBC: IANA registry for contact role label?<a href="#section-6.2-7.1" class="pilcrow">¶</a></p>
+</aside>
+<ul class="normal">
+<li class="normal" id="section-6.2-8.1">
+            <p id="section-6.2-8.1.1">Nameservers<a href="#section-6.2-8.1.1" class="pilcrow">¶</a></p>
 <ul class="compact normal">
-<li class="compact normal" id="section-6.2-6.3.2.1">Identifier: dns<a href="#section-6.2-6.3.2.1" class="pilcrow">¶</a>
+<li class="compact normal" id="section-6.2-8.1.2.1">Identifier: nameservers<a href="#section-6.2-8.1.2.1" class="pilcrow">¶</a>
 </li>
-              <li class="compact normal" id="section-6.2-6.3.2.2">Cardinality: 0+<a href="#section-6.2-6.3.2.2" class="pilcrow">¶</a>
+              <li class="compact normal" id="section-6.2-8.1.2.2">Cardinality: 0+<a href="#section-6.2-8.1.2.2" class="pilcrow">¶</a>
 </li>
-              <li class="compact normal" id="section-6.2-6.3.2.3">Mutability: read-write<a href="#section-6.2-6.3.2.3" class="pilcrow">¶</a>
+              <li class="compact normal" id="section-6.2-8.1.2.3">Mutability: read-write<a href="#section-6.2-8.1.2.3" class="pilcrow">¶</a>
 </li>
-              <li class="compact normal" id="section-6.2-6.3.2.4">Data Type: Composition[DNS Resource Record]<a href="#section-6.2-6.3.2.4" class="pilcrow">¶</a>
+              <li class="compact normal" id="section-6.2-8.1.2.4">Data Type: Composition[Host Data Object] or Aggregation[Host Data Object]<a href="#section-6.2-8.1.2.4" class="pilcrow">¶</a>
 </li>
-              <li class="compact normal" id="section-6.2-6.3.2.5">Description: A collection of DNS entries related to the domain name.<a href="#section-6.2-6.3.2.5" class="pilcrow">¶</a>
+              <li class="compact normal" id="section-6.2-8.1.2.5">Description: A collection of nameservers associated with the domain.<a href="#section-6.2-8.1.2.5" class="pilcrow">¶</a>
 </li>
-              <li class="compact normal" id="section-6.2-6.3.2.6">Constraints: The Type of the entries MAY be constrained by the server policy. Typically the values would be limited to allowed parent side resource record types. In EPP Compatibility Profide with DNSSEC Extension allowed values MUST be DS and DNSKEY. The labels of DNS entries MUST be subordinate to the domain name and MUST NOT be below zone cut in case of present delegation.<a href="#section-6.2-6.3.2.6" class="pilcrow">¶</a>
+              <li class="compact normal" id="section-6.2-8.1.2.6">Constraints: (None)<a href="#section-6.2-8.1.2.6" class="pilcrow">¶</a>
 </li>
             </ul>
 </li>
-          <li class="normal" id="section-6.2-6.4">
-            <p id="section-6.2-6.4.1">Subordinate Hosts<a href="#section-6.2-6.4.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-6.2-8.2">
+            <p id="section-6.2-8.2.1">DNS<a href="#section-6.2-8.2.1" class="pilcrow">¶</a></p>
 <ul class="compact normal">
-<li class="compact normal" id="section-6.2-6.4.2.1">Identifier: subordinateHosts<a href="#section-6.2-6.4.2.1" class="pilcrow">¶</a>
+<li class="compact normal" id="section-6.2-8.2.2.1">Identifier: dns<a href="#section-6.2-8.2.2.1" class="pilcrow">¶</a>
 </li>
-              <li class="compact normal" id="section-6.2-6.4.2.2">Cardinality: 0+<a href="#section-6.2-6.4.2.2" class="pilcrow">¶</a>
+              <li class="compact normal" id="section-6.2-8.2.2.2">Cardinality: 0+<a href="#section-6.2-8.2.2.2" class="pilcrow">¶</a>
 </li>
-              <li class="compact normal" id="section-6.2-6.4.2.3">Mutability: read-only<a href="#section-6.2-6.4.2.3" class="pilcrow">¶</a>
+              <li class="compact normal" id="section-6.2-8.2.2.3">Mutability: read-write<a href="#section-6.2-8.2.2.3" class="pilcrow">¶</a>
 </li>
-              <li class="compact normal" id="section-6.2-6.4.2.4">Data Type: Aggregation[Host Object]<a href="#section-6.2-6.4.2.4" class="pilcrow">¶</a>
+              <li class="compact normal" id="section-6.2-8.2.2.4">Data Type: Composition[DNS Resource Record]<a href="#section-6.2-8.2.2.4" class="pilcrow">¶</a>
 </li>
-              <li class="compact normal" id="section-6.2-6.4.2.5">Description: A collection of subordinate host objects that exist under this domain.<a href="#section-6.2-6.4.2.5" class="pilcrow">¶</a>
+              <li class="compact normal" id="section-6.2-8.2.2.5">Description: A collection of DNS entries related to the domain name.<a href="#section-6.2-8.2.2.5" class="pilcrow">¶</a>
 </li>
-              <li class="compact normal" id="section-6.2-6.4.2.6">Constraints: (None)<a href="#section-6.2-6.4.2.6" class="pilcrow">¶</a>
+              <li class="compact normal" id="section-6.2-8.2.2.6">
+                <p id="section-6.2-8.2.2.6.1">Constraints:<a href="#section-6.2-8.2.2.6.1" class="pilcrow">¶</a></p>
+<ul class="compact normal">
+<li class="compact normal" id="section-6.2-8.2.2.6.2.1">The Type of the entries MAY be constrained by the server policy. Typically the values would be limited to allowed parent side resource record types.<a href="#section-6.2-8.2.2.6.2.1" class="pilcrow">¶</a>
+</li>
+                  <li class="compact normal" id="section-6.2-8.2.2.6.2.2">In EPP Compatibility Profide with DNSSEC Extension allowed values MUST be DS and DNSKEY.<a href="#section-6.2-8.2.2.6.2.2" class="pilcrow">¶</a>
+</li>
+                  <li class="compact normal" id="section-6.2-8.2.2.6.2.3">The labels of DNS entries MUST be subordinate to the domain name and MUST NOT be below zone cut in case of present delegation.<a href="#section-6.2-8.2.2.6.2.3" class="pilcrow">¶</a>
+</li>
+                </ul>
 </li>
             </ul>
 </li>
-          <li class="normal" id="section-6.2-6.5">
-            <p id="section-6.2-6.5.1">Sponsoring Client ID<a href="#section-6.2-6.5.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-6.2-8.3">
+            <p id="section-6.2-8.3.1">Subordinate Hosts<a href="#section-6.2-8.3.1" class="pilcrow">¶</a></p>
 <ul class="compact normal">
-<li class="compact normal" id="section-6.2-6.5.2.1">Identifier: sponsoringClientId<a href="#section-6.2-6.5.2.1" class="pilcrow">¶</a>
+<li class="compact normal" id="section-6.2-8.3.2.1">Identifier: subordinateHosts<a href="#section-6.2-8.3.2.1" class="pilcrow">¶</a>
 </li>
-              <li class="compact normal" id="section-6.2-6.5.2.2">Cardinality: 1<a href="#section-6.2-6.5.2.2" class="pilcrow">¶</a>
+              <li class="compact normal" id="section-6.2-8.3.2.2">Cardinality: 0+<a href="#section-6.2-8.3.2.2" class="pilcrow">¶</a>
 </li>
-              <li class="compact normal" id="section-6.2-6.5.2.3">Mutability: read-only<a href="#section-6.2-6.5.2.3" class="pilcrow">¶</a>
+              <li class="compact normal" id="section-6.2-8.3.2.3">Mutability: read-only<a href="#section-6.2-8.3.2.3" class="pilcrow">¶</a>
 </li>
-              <li class="compact normal" id="section-6.2-6.5.2.4">Data Type: Client Identifier.<a href="#section-6.2-6.5.2.4" class="pilcrow">¶</a>
+              <li class="compact normal" id="section-6.2-8.3.2.4">Data Type: Aggregation[Host Object]<a href="#section-6.2-8.3.2.4" class="pilcrow">¶</a>
 </li>
-              <li class="compact normal" id="section-6.2-6.5.2.5">Description: The identifier of the client that is the current sponsor of the domain object.<a href="#section-6.2-6.5.2.5" class="pilcrow">¶</a>
+              <li class="compact normal" id="section-6.2-8.3.2.5">Description: A collection of subordinate host objects that exist under this domain.<a href="#section-6.2-8.3.2.5" class="pilcrow">¶</a>
 </li>
-              <li class="compact normal" id="section-6.2-6.5.2.6">Constraints: (None)<a href="#section-6.2-6.5.2.6" class="pilcrow">¶</a>
+              <li class="compact normal" id="section-6.2-8.3.2.6">Constraints: (None)<a href="#section-6.2-8.3.2.6" class="pilcrow">¶</a>
 </li>
             </ul>
 </li>
-          <li class="normal" id="section-6.2-6.6">
-            <p id="section-6.2-6.6.1">Creating Client ID<a href="#section-6.2-6.6.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-6.2-8.4">
+            <p id="section-6.2-8.4.1">Sponsoring Client ID<a href="#section-6.2-8.4.1" class="pilcrow">¶</a></p>
 <ul class="compact normal">
-<li class="compact normal" id="section-6.2-6.6.2.1">Identifier: creatingClientId<a href="#section-6.2-6.6.2.1" class="pilcrow">¶</a>
+<li class="compact normal" id="section-6.2-8.4.2.1">Identifier: sponsoringClientId<a href="#section-6.2-8.4.2.1" class="pilcrow">¶</a>
 </li>
-              <li class="compact normal" id="section-6.2-6.6.2.2">Cardinality: 0-1<a href="#section-6.2-6.6.2.2" class="pilcrow">¶</a>
+              <li class="compact normal" id="section-6.2-8.4.2.2">Cardinality: 1<a href="#section-6.2-8.4.2.2" class="pilcrow">¶</a>
 </li>
-              <li class="compact normal" id="section-6.2-6.6.2.3">Mutability: read-only<a href="#section-6.2-6.6.2.3" class="pilcrow">¶</a>
+              <li class="compact normal" id="section-6.2-8.4.2.3">Mutability: read-only<a href="#section-6.2-8.4.2.3" class="pilcrow">¶</a>
 </li>
-              <li class="compact normal" id="section-6.2-6.6.2.4">Data Type: Client Identifier.<a href="#section-6.2-6.6.2.4" class="pilcrow">¶</a>
+              <li class="compact normal" id="section-6.2-8.4.2.4">Data Type: Client Identifier.<a href="#section-6.2-8.4.2.4" class="pilcrow">¶</a>
 </li>
-              <li class="compact normal" id="section-6.2-6.6.2.5">Description: The identifier of the client that created the domain object.<a href="#section-6.2-6.6.2.5" class="pilcrow">¶</a>
+              <li class="compact normal" id="section-6.2-8.4.2.5">Description: The identifier of the client that is the current sponsor of the domain object.<a href="#section-6.2-8.4.2.5" class="pilcrow">¶</a>
 </li>
-              <li class="compact normal" id="section-6.2-6.6.2.6">Constraints: (None)<a href="#section-6.2-6.6.2.6" class="pilcrow">¶</a>
+              <li class="compact normal" id="section-6.2-8.4.2.6">Constraints: (None)<a href="#section-6.2-8.4.2.6" class="pilcrow">¶</a>
 </li>
             </ul>
 </li>
-          <li class="normal" id="section-6.2-6.7">
-            <p id="section-6.2-6.7.1">Creation Date<a href="#section-6.2-6.7.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-6.2-8.5">
+            <p id="section-6.2-8.5.1">Creating Client ID<a href="#section-6.2-8.5.1" class="pilcrow">¶</a></p>
 <ul class="compact normal">
-<li class="compact normal" id="section-6.2-6.7.2.1">Identifier: creationDate<a href="#section-6.2-6.7.2.1" class="pilcrow">¶</a>
+<li class="compact normal" id="section-6.2-8.5.2.1">Identifier: creatingClientId<a href="#section-6.2-8.5.2.1" class="pilcrow">¶</a>
 </li>
-              <li class="compact normal" id="section-6.2-6.7.2.2">Cardinality: 0-1<a href="#section-6.2-6.7.2.2" class="pilcrow">¶</a>
+              <li class="compact normal" id="section-6.2-8.5.2.2">Cardinality: 0-1<a href="#section-6.2-8.5.2.2" class="pilcrow">¶</a>
 </li>
-              <li class="compact normal" id="section-6.2-6.7.2.3">Mutability: read-only<a href="#section-6.2-6.7.2.3" class="pilcrow">¶</a>
+              <li class="compact normal" id="section-6.2-8.5.2.3">Mutability: read-only<a href="#section-6.2-8.5.2.3" class="pilcrow">¶</a>
 </li>
-              <li class="compact normal" id="section-6.2-6.7.2.4">Data Type: Timestamp.<a href="#section-6.2-6.7.2.4" class="pilcrow">¶</a>
+              <li class="compact normal" id="section-6.2-8.5.2.4">Data Type: Client Identifier.<a href="#section-6.2-8.5.2.4" class="pilcrow">¶</a>
 </li>
-              <li class="compact normal" id="section-6.2-6.7.2.5">Description: The date and time of domain object creation.<a href="#section-6.2-6.7.2.5" class="pilcrow">¶</a>
+              <li class="compact normal" id="section-6.2-8.5.2.5">Description: The identifier of the client that created the domain object.<a href="#section-6.2-8.5.2.5" class="pilcrow">¶</a>
 </li>
-              <li class="compact normal" id="section-6.2-6.7.2.6">Constraints: The value is set by the server and cannot be specified by the client.<a href="#section-6.2-6.7.2.6" class="pilcrow">¶</a>
+              <li class="compact normal" id="section-6.2-8.5.2.6">Constraints: (None)<a href="#section-6.2-8.5.2.6" class="pilcrow">¶</a>
 </li>
             </ul>
 </li>
-          <li class="normal" id="section-6.2-6.8">
-            <p id="section-6.2-6.8.1">Updating Client ID<a href="#section-6.2-6.8.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-6.2-8.6">
+            <p id="section-6.2-8.6.1">Creation Date<a href="#section-6.2-8.6.1" class="pilcrow">¶</a></p>
 <ul class="compact normal">
-<li class="compact normal" id="section-6.2-6.8.2.1">Identifier: updatingClientId<a href="#section-6.2-6.8.2.1" class="pilcrow">¶</a>
+<li class="compact normal" id="section-6.2-8.6.2.1">Identifier: creationDate<a href="#section-6.2-8.6.2.1" class="pilcrow">¶</a>
 </li>
-              <li class="compact normal" id="section-6.2-6.8.2.2">Cardinality: 0-1<a href="#section-6.2-6.8.2.2" class="pilcrow">¶</a>
+              <li class="compact normal" id="section-6.2-8.6.2.2">Cardinality: 0-1<a href="#section-6.2-8.6.2.2" class="pilcrow">¶</a>
 </li>
-              <li class="compact normal" id="section-6.2-6.8.2.3">Mutability: read-only<a href="#section-6.2-6.8.2.3" class="pilcrow">¶</a>
+              <li class="compact normal" id="section-6.2-8.6.2.3">Mutability: read-only<a href="#section-6.2-8.6.2.3" class="pilcrow">¶</a>
 </li>
-              <li class="compact normal" id="section-6.2-6.8.2.4">Data Type: Client Identifier.<a href="#section-6.2-6.8.2.4" class="pilcrow">¶</a>
+              <li class="compact normal" id="section-6.2-8.6.2.4">Data Type: Timestamp.<a href="#section-6.2-8.6.2.4" class="pilcrow">¶</a>
 </li>
-              <li class="compact normal" id="section-6.2-6.8.2.5">Description: The identifier of the client that last updated the domain object.<a href="#section-6.2-6.8.2.5" class="pilcrow">¶</a>
+              <li class="compact normal" id="section-6.2-8.6.2.5">Description: The date and time of domain object creation.<a href="#section-6.2-8.6.2.5" class="pilcrow">¶</a>
 </li>
-              <li class="compact normal" id="section-6.2-6.8.2.6">Constraints: This element MUST NOT be present if the domain has never been modified.<a href="#section-6.2-6.8.2.6" class="pilcrow">¶</a>
+              <li class="compact normal" id="section-6.2-8.6.2.6">Constraints: The value is set by the server and cannot be specified by the client.<a href="#section-6.2-8.6.2.6" class="pilcrow">¶</a>
 </li>
             </ul>
 </li>
-          <li class="normal" id="section-6.2-6.9">
-            <p id="section-6.2-6.9.1">Update Date<a href="#section-6.2-6.9.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-6.2-8.7">
+            <p id="section-6.2-8.7.1">Updating Client ID<a href="#section-6.2-8.7.1" class="pilcrow">¶</a></p>
 <ul class="compact normal">
-<li class="compact normal" id="section-6.2-6.9.2.1">Identifier: updateDate<a href="#section-6.2-6.9.2.1" class="pilcrow">¶</a>
+<li class="compact normal" id="section-6.2-8.7.2.1">Identifier: updatingClientId<a href="#section-6.2-8.7.2.1" class="pilcrow">¶</a>
 </li>
-              <li class="compact normal" id="section-6.2-6.9.2.2">Cardinality: 0-1<a href="#section-6.2-6.9.2.2" class="pilcrow">¶</a>
+              <li class="compact normal" id="section-6.2-8.7.2.2">Cardinality: 0-1<a href="#section-6.2-8.7.2.2" class="pilcrow">¶</a>
 </li>
-              <li class="compact normal" id="section-6.2-6.9.2.3">Mutability: read-only<a href="#section-6.2-6.9.2.3" class="pilcrow">¶</a>
+              <li class="compact normal" id="section-6.2-8.7.2.3">Mutability: read-only<a href="#section-6.2-8.7.2.3" class="pilcrow">¶</a>
 </li>
-              <li class="compact normal" id="section-6.2-6.9.2.4">Data Type: Timestamp.<a href="#section-6.2-6.9.2.4" class="pilcrow">¶</a>
+              <li class="compact normal" id="section-6.2-8.7.2.4">Data Type: Client Identifier.<a href="#section-6.2-8.7.2.4" class="pilcrow">¶</a>
 </li>
-              <li class="compact normal" id="section-6.2-6.9.2.5">Description: The date and time of the most recent domain object modification.<a href="#section-6.2-6.9.2.5" class="pilcrow">¶</a>
+              <li class="compact normal" id="section-6.2-8.7.2.5">Description: The identifier of the client that last updated the domain object.<a href="#section-6.2-8.7.2.5" class="pilcrow">¶</a>
 </li>
-              <li class="compact normal" id="section-6.2-6.9.2.6">Constraints: This element MUST NOT be present if the domain object has never been modified.<a href="#section-6.2-6.9.2.6" class="pilcrow">¶</a>
+              <li class="compact normal" id="section-6.2-8.7.2.6">Constraints: This element MUST NOT be present if the domain has never been modified.<a href="#section-6.2-8.7.2.6" class="pilcrow">¶</a>
 </li>
             </ul>
 </li>
-          <li class="normal" id="section-6.2-6.10">
-            <p id="section-6.2-6.10.1">Expiry Date<a href="#section-6.2-6.10.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-6.2-8.8">
+            <p id="section-6.2-8.8.1">Update Date<a href="#section-6.2-8.8.1" class="pilcrow">¶</a></p>
 <ul class="compact normal">
-<li class="compact normal" id="section-6.2-6.10.2.1">Identifier: expiryDate<a href="#section-6.2-6.10.2.1" class="pilcrow">¶</a>
+<li class="compact normal" id="section-6.2-8.8.2.1">Identifier: updateDate<a href="#section-6.2-8.8.2.1" class="pilcrow">¶</a>
 </li>
-              <li class="compact normal" id="section-6.2-6.10.2.2">Cardinality: 0-1<a href="#section-6.2-6.10.2.2" class="pilcrow">¶</a>
+              <li class="compact normal" id="section-6.2-8.8.2.2">Cardinality: 0-1<a href="#section-6.2-8.8.2.2" class="pilcrow">¶</a>
 </li>
-              <li class="compact normal" id="section-6.2-6.10.2.3">Mutability: read-only<a href="#section-6.2-6.10.2.3" class="pilcrow">¶</a>
+              <li class="compact normal" id="section-6.2-8.8.2.3">Mutability: read-only<a href="#section-6.2-8.8.2.3" class="pilcrow">¶</a>
 </li>
-              <li class="compact normal" id="section-6.2-6.10.2.4">Data Type: Timestamp.<a href="#section-6.2-6.10.2.4" class="pilcrow">¶</a>
+              <li class="compact normal" id="section-6.2-8.8.2.4">Data Type: Timestamp.<a href="#section-6.2-8.8.2.4" class="pilcrow">¶</a>
 </li>
-              <li class="compact normal" id="section-6.2-6.10.2.5">Description: The date and time identifying the end of the domain object's registration period.<a href="#section-6.2-6.10.2.5" class="pilcrow">¶</a>
+              <li class="compact normal" id="section-6.2-8.8.2.5">Description: The date and time of the most recent domain object modification.<a href="#section-6.2-8.8.2.5" class="pilcrow">¶</a>
 </li>
-              <li class="compact normal" id="section-6.2-6.10.2.6">Constraints: The value is set by the server and cannot be specified by the client.<a href="#section-6.2-6.10.2.6" class="pilcrow">¶</a>
+              <li class="compact normal" id="section-6.2-8.8.2.6">Constraints: This element MUST NOT be present if the domain object has never been modified.<a href="#section-6.2-8.8.2.6" class="pilcrow">¶</a>
 </li>
             </ul>
 </li>
-          <li class="normal" id="section-6.2-6.11">
-            <p id="section-6.2-6.11.1">Transfer Date<a href="#section-6.2-6.11.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-6.2-8.9">
+            <p id="section-6.2-8.9.1">Expiry Date<a href="#section-6.2-8.9.1" class="pilcrow">¶</a></p>
 <ul class="compact normal">
-<li class="compact normal" id="section-6.2-6.11.2.1">Identifier: transferDate<a href="#section-6.2-6.11.2.1" class="pilcrow">¶</a>
+<li class="compact normal" id="section-6.2-8.9.2.1">Identifier: expiryDate<a href="#section-6.2-8.9.2.1" class="pilcrow">¶</a>
 </li>
-              <li class="compact normal" id="section-6.2-6.11.2.2">Cardinality: 0-1<a href="#section-6.2-6.11.2.2" class="pilcrow">¶</a>
+              <li class="compact normal" id="section-6.2-8.9.2.2">Cardinality: 0-1<a href="#section-6.2-8.9.2.2" class="pilcrow">¶</a>
 </li>
-              <li class="compact normal" id="section-6.2-6.11.2.3">Mutability: read-only<a href="#section-6.2-6.11.2.3" class="pilcrow">¶</a>
+              <li class="compact normal" id="section-6.2-8.9.2.3">Mutability: read-only<a href="#section-6.2-8.9.2.3" class="pilcrow">¶</a>
 </li>
-              <li class="compact normal" id="section-6.2-6.11.2.4">Data Type: Timestamp<a href="#section-6.2-6.11.2.4" class="pilcrow">¶</a>
+              <li class="compact normal" id="section-6.2-8.9.2.4">Data Type: Timestamp.<a href="#section-6.2-8.9.2.4" class="pilcrow">¶</a>
 </li>
-              <li class="compact normal" id="section-6.2-6.11.2.5">Description: The date and time of the most recent successful domain object transfer.<a href="#section-6.2-6.11.2.5" class="pilcrow">¶</a>
+              <li class="compact normal" id="section-6.2-8.9.2.5">Description: The date and time identifying the end of the domain object's registration period.<a href="#section-6.2-8.9.2.5" class="pilcrow">¶</a>
 </li>
-              <li class="compact normal" id="section-6.2-6.11.2.6">Constraints: This element MUST NOT be provided if the domain object has never been transferred.<a href="#section-6.2-6.11.2.6" class="pilcrow">¶</a>
+              <li class="compact normal" id="section-6.2-8.9.2.6">Constraints: The value is set by the server and cannot be specified by the client.<a href="#section-6.2-8.9.2.6" class="pilcrow">¶</a>
 </li>
             </ul>
 </li>
-          <li class="normal" id="section-6.2-6.12">
-            <p id="section-6.2-6.12.1">Authorisation Information<a href="#section-6.2-6.12.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-6.2-8.10">
+            <p id="section-6.2-8.10.1">Transfer Date<a href="#section-6.2-8.10.1" class="pilcrow">¶</a></p>
 <ul class="compact normal">
-<li class="compact normal" id="section-6.2-6.12.2.1">Identifier: authInfo<a href="#section-6.2-6.12.2.1" class="pilcrow">¶</a>
+<li class="compact normal" id="section-6.2-8.10.2.1">Identifier: transferDate<a href="#section-6.2-8.10.2.1" class="pilcrow">¶</a>
 </li>
-              <li class="compact normal" id="section-6.2-6.12.2.2">Cardinality: 0-1<a href="#section-6.2-6.12.2.2" class="pilcrow">¶</a>
+              <li class="compact normal" id="section-6.2-8.10.2.2">Cardinality: 0-1<a href="#section-6.2-8.10.2.2" class="pilcrow">¶</a>
 </li>
-              <li class="compact normal" id="section-6.2-6.12.2.3">Mutability: read-write<a href="#section-6.2-6.12.2.3" class="pilcrow">¶</a>
+              <li class="compact normal" id="section-6.2-8.10.2.3">Mutability: read-only<a href="#section-6.2-8.10.2.3" class="pilcrow">¶</a>
 </li>
-              <li class="compact normal" id="section-6.2-6.12.2.4">Data Type: Authorisation Information Object<a href="#section-6.2-6.12.2.4" class="pilcrow">¶</a>
+              <li class="compact normal" id="section-6.2-8.10.2.4">Data Type: Timestamp<a href="#section-6.2-8.10.2.4" class="pilcrow">¶</a>
 </li>
-              <li class="compact normal" id="section-6.2-6.12.2.5">Description: Authorisation information associated with the domain object.<a href="#section-6.2-6.12.2.5" class="pilcrow">¶</a>
+              <li class="compact normal" id="section-6.2-8.10.2.5">Description: The date and time of the most recent successful domain object transfer.<a href="#section-6.2-8.10.2.5" class="pilcrow">¶</a>
 </li>
-              <li class="compact normal" id="section-6.2-6.12.2.6">Constraints: (None)<a href="#section-6.2-6.12.2.6" class="pilcrow">¶</a>
+              <li class="compact normal" id="section-6.2-8.10.2.6">Constraints: This element MUST NOT be provided if the domain object has never been transferred.<a href="#section-6.2-8.10.2.6" class="pilcrow">¶</a>
+</li>
+            </ul>
+</li>
+          <li class="normal" id="section-6.2-8.11">
+            <p id="section-6.2-8.11.1">Authorisation Information<a href="#section-6.2-8.11.1" class="pilcrow">¶</a></p>
+<ul class="compact normal">
+<li class="compact normal" id="section-6.2-8.11.2.1">Identifier: authInfo<a href="#section-6.2-8.11.2.1" class="pilcrow">¶</a>
+</li>
+              <li class="compact normal" id="section-6.2-8.11.2.2">Cardinality: 0-1<a href="#section-6.2-8.11.2.2" class="pilcrow">¶</a>
+</li>
+              <li class="compact normal" id="section-6.2-8.11.2.3">Mutability: read-write<a href="#section-6.2-8.11.2.3" class="pilcrow">¶</a>
+</li>
+              <li class="compact normal" id="section-6.2-8.11.2.4">Data Type: Authorisation Information Object<a href="#section-6.2-8.11.2.4" class="pilcrow">¶</a>
+</li>
+              <li class="compact normal" id="section-6.2-8.11.2.5">Description: Authorisation information associated with the domain object.<a href="#section-6.2-8.11.2.5" class="pilcrow">¶</a>
+</li>
+              <li class="compact normal" id="section-6.2-8.11.2.6">Constraints: (None)<a href="#section-6.2-8.11.2.6" class="pilcrow">¶</a>
 </li>
             </ul>
 </li>
@@ -2669,19 +2788,28 @@ Component objects carry only data but do not define any operations.<a href="#sec
           <h4 id="name-create-operation">
 <a href="#section-6.3.1" class="section-number selfRef">6.3.1. </a><a href="#name-create-operation" class="section-name selfRef">Create Operation</a>
           </h4>
-<p id="section-6.3.1-1">The Create operation allows a client to provision a new Domain Name resource. The operation accepts as input all create-only and read-write data elements defined for the Domain Name Resource Object.<a href="#section-6.3.1-1" class="pilcrow">¶</a></p>
-<p id="section-6.3.1-2">In addition, the following transient data element is defined for this operation:<a href="#section-6.3.1-2" class="pilcrow">¶</a></p>
+<p id="section-6.3.1-1">The Create operation allows a client to provision a new Domain Name resource. The operation accepts as input all create-only and read-write data elements defined for the Domain Name Data Object.<a href="#section-6.3.1-1" class="pilcrow">¶</a></p>
 <ul class="compact">
-<li class="compact" id="section-6.3.1-3.1">
-              <p id="section-6.3.1-3.1.1">Registration Period<a href="#section-6.3.1-3.1.1" class="pilcrow">¶</a></p>
+<li class="compact" id="section-6.3.1-2.1">
+              <p id="section-6.3.1-2.1.1">Authorisation:<a href="#section-6.3.1-2.1.1" class="pilcrow">¶</a></p>
 <ul class="compact">
-<li class="compact" id="section-6.3.1-3.1.2.1">Identifier: period<a href="#section-6.3.1-3.1.2.1" class="pilcrow">¶</a>
+<li class="compact" id="section-6.3.1-2.1.2.1">Generally each client is authorised to create new domain objects becoming a sponsoring client. This can be however constrained by the server policy in many ways, i.e. by applying rate limiting, billing related constraints or compliance locks.<a href="#section-6.3.1-2.1.2.1" class="pilcrow">¶</a>
 </li>
-                <li class="compact" id="section-6.3.1-3.1.2.2">Cardinality: 0-1<a href="#section-6.3.1-3.1.2.2" class="pilcrow">¶</a>
+              </ul>
 </li>
-                <li class="compact" id="section-6.3.1-3.1.2.3">Data Type: Period Object.<a href="#section-6.3.1-3.1.2.3" class="pilcrow">¶</a>
+          </ul>
+<p id="section-6.3.1-3">In addition, the following transient data element is defined for this operation:<a href="#section-6.3.1-3" class="pilcrow">¶</a></p>
+<ul class="compact">
+<li class="compact" id="section-6.3.1-4.1">
+              <p id="section-6.3.1-4.1.1">Registration Period<a href="#section-6.3.1-4.1.1" class="pilcrow">¶</a></p>
+<ul class="compact">
+<li class="compact" id="section-6.3.1-4.1.2.1">Identifier: period<a href="#section-6.3.1-4.1.2.1" class="pilcrow">¶</a>
 </li>
-                <li class="compact" id="section-6.3.1-3.1.2.4">Description: The initial registration period for the domain name. This value is used by the server to calculate the initial <code>expiryDate</code> of the object. This element is not persisted as part of the object's state.<a href="#section-6.3.1-3.1.2.4" class="pilcrow">¶</a>
+                <li class="compact" id="section-6.3.1-4.1.2.2">Cardinality: 0-1<a href="#section-6.3.1-4.1.2.2" class="pilcrow">¶</a>
+</li>
+                <li class="compact" id="section-6.3.1-4.1.2.3">Data Type: Period Object.<a href="#section-6.3.1-4.1.2.3" class="pilcrow">¶</a>
+</li>
+                <li class="compact" id="section-6.3.1-4.1.2.4">Description: The initial registration period for the domain name. This value is used by the server to calculate the initial <code>expiryDate</code> of the object. This element is not persisted as part of the object's state.<a href="#section-6.3.1-4.1.2.4" class="pilcrow">¶</a>
 </li>
               </ul>
 </li>
@@ -2696,14 +2824,39 @@ Component objects carry only data but do not define any operations.<a href="#sec
 <p id="section-6.3.2-1">The Read operation allows a client to retrieve the data elements of a
 Domain Name resource. The server's response MAY vary depending on
 client authorisation and server policy.<a href="#section-6.3.2-1" class="pilcrow">¶</a></p>
-<p id="section-6.3.2-2">Authorisation:
-* Sponsoring client:
-  * Full object representation
-* Other client:
-  * Without object authorisation:
-    * Limited (non-confidential) object representation or operation denied
-  * With object authorisation:
-    * Full object representation, however some properties only authorised to the sponsoring client MAY be redacted according to server policy<a href="#section-6.3.2-2" class="pilcrow">¶</a></p>
+<ul class="compact">
+<li class="compact" id="section-6.3.2-2.1">
+              <p id="section-6.3.2-2.1.1">Authorisation:<a href="#section-6.3.2-2.1.1" class="pilcrow">¶</a></p>
+<ul class="compact">
+<li class="compact" id="section-6.3.2-2.1.2.1">
+                  <p id="section-6.3.2-2.1.2.1.1">Sponsoring client:<a href="#section-6.3.2-2.1.2.1.1" class="pilcrow">¶</a></p>
+<ul class="compact">
+<li class="compact" id="section-6.3.2-2.1.2.1.2.1">Full object representation<a href="#section-6.3.2-2.1.2.1.2.1" class="pilcrow">¶</a>
+</li>
+                  </ul>
+</li>
+                <li class="compact" id="section-6.3.2-2.1.2.2">
+                  <p id="section-6.3.2-2.1.2.2.1">Other client:<a href="#section-6.3.2-2.1.2.2.1" class="pilcrow">¶</a></p>
+<ul class="compact">
+<li class="compact" id="section-6.3.2-2.1.2.2.2.1">
+                      <p id="section-6.3.2-2.1.2.2.2.1.1">Without object authorisation:<a href="#section-6.3.2-2.1.2.2.2.1.1" class="pilcrow">¶</a></p>
+<ul class="compact">
+<li class="compact" id="section-6.3.2-2.1.2.2.2.1.2.1">Limited (non-confidential) object representation or operation denied<a href="#section-6.3.2-2.1.2.2.2.1.2.1" class="pilcrow">¶</a>
+</li>
+                      </ul>
+</li>
+                    <li class="compact" id="section-6.3.2-2.1.2.2.2.2">
+                      <p id="section-6.3.2-2.1.2.2.2.2.1">With object authorisation:<a href="#section-6.3.2-2.1.2.2.2.2.1" class="pilcrow">¶</a></p>
+<ul class="compact">
+<li class="compact" id="section-6.3.2-2.1.2.2.2.2.2.1">Full object representation, however some properties only authorised to the sponsoring client MAY be redacted according to server policy<a href="#section-6.3.2-2.1.2.2.2.2.2.1" class="pilcrow">¶</a>
+</li>
+                      </ul>
+</li>
+                  </ul>
+</li>
+              </ul>
+</li>
+          </ul>
 <p id="section-6.3.2-3">The following transient data elements are defined for this operation:<a href="#section-6.3.2-3" class="pilcrow">¶</a></p>
 <ul class="compact">
 <li class="compact" id="section-6.3.2-4.1">
@@ -2732,9 +2885,18 @@ is "all".<a href="#section-6.3.2-4.1.2.5" class="pilcrow">¶</a>
           <h4 id="name-delete-operation">
 <a href="#section-6.3.3" class="section-number selfRef">6.3.3. </a><a href="#name-delete-operation" class="section-name selfRef">Delete Operation</a>
           </h4>
-<p id="section-6.3.3-1">The Delete operation allows a client to remove an existing Domain Name resource. The operation targets a specific resource object identified by its name.<a href="#section-6.3.3-1" class="pilcrow">¶</a></p>
-<p id="section-6.3.3-2">The server SHOULD reject a delete request if subordinate host objects are associated with the domain name.<a href="#section-6.3.3-2" class="pilcrow">¶</a></p>
-<p id="section-6.3.3-3">The error response SHOULD indicate the related subordinate host objects.<a href="#section-6.3.3-3" class="pilcrow">¶</a></p>
+<p id="section-6.3.3-1">The Delete operation allows a client to remove an existing Domain Name resource. The operation targets a specific data object identified by its name.<a href="#section-6.3.3-1" class="pilcrow">¶</a></p>
+<ul class="compact">
+<li class="compact" id="section-6.3.3-2.1">
+              <p id="section-6.3.3-2.1.1">Authorisation:<a href="#section-6.3.3-2.1.1" class="pilcrow">¶</a></p>
+<ul class="compact">
+<li class="compact" id="section-6.3.3-2.1.2.1">Only sponsoring client is authorised to perform this operation<a href="#section-6.3.3-2.1.2.1" class="pilcrow">¶</a>
+</li>
+              </ul>
+</li>
+          </ul>
+<p id="section-6.3.3-3">The server SHOULD reject a delete request if subordinate host objects are associated with the domain name.<a href="#section-6.3.3-3" class="pilcrow">¶</a></p>
+<p id="section-6.3.3-4">The error response SHOULD indicate the related subordinate host objects.<a href="#section-6.3.3-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="renew-operation">
@@ -2742,11 +2904,18 @@ is "all".<a href="#section-6.3.2-4.1.2.5" class="pilcrow">¶</a>
           <h4 id="name-renew-operation">
 <a href="#section-6.3.4" class="section-number selfRef">6.3.4. </a><a href="#name-renew-operation" class="section-name selfRef">Renew Operation</a>
           </h4>
-<p id="section-6.3.4-1">The Renew operation allows a client to extend the validity period of an existing Domain Name resource. The operation targets a specific resource object identified by its name.<a href="#section-6.3.4-1" class="pilcrow">¶</a></p>
+<p id="section-6.3.4-1">The Renew operation allows a client to extend the validity period of an existing Domain Name resource. The operation targets a specific data object identified by its name.<a href="#section-6.3.4-1" class="pilcrow">¶</a></p>
 <ul class="compact">
-<li class="compact" id="section-6.3.4-2.1">Input: Domain Name<a href="#section-6.3.4-2.1" class="pilcrow">¶</a>
+<li class="compact" id="section-6.3.4-2.1">
+              <p id="section-6.3.4-2.1.1">Authorisation:<a href="#section-6.3.4-2.1.1" class="pilcrow">¶</a></p>
+<ul class="compact">
+<li class="compact" id="section-6.3.4-2.1.2.1">Only sponsoring client is authorised to perform this operation<a href="#section-6.3.4-2.1.2.1" class="pilcrow">¶</a>
 </li>
-            <li class="compact" id="section-6.3.4-2.2">Output: Full object representation (read-write and read-only properties), or a minimum representation of properties affected by the operation (Expiry Date).<a href="#section-6.3.4-2.2" class="pilcrow">¶</a>
+              </ul>
+</li>
+            <li class="compact" id="section-6.3.4-2.2">Input: Domain Name<a href="#section-6.3.4-2.2" class="pilcrow">¶</a>
+</li>
+            <li class="compact" id="section-6.3.4-2.3">Output: Full object representation (read-write and read-only properties), or a minimum representation of properties affected by the operation (Expiry Date).<a href="#section-6.3.4-2.3" class="pilcrow">¶</a>
 </li>
           </ul>
 <p id="section-6.3.4-3">The following transient data elements are defined for this operation:<a href="#section-6.3.4-3" class="pilcrow">¶</a></p>
@@ -2794,10 +2963,10 @@ is "all".<a href="#section-6.3.2-4.1.2.5" class="pilcrow">¶</a>
 </div>
 </section>
 </div>
-<div id="contact-resource-object">
+<div id="contact-data-object">
 <section id="section-7">
-      <h2 id="name-contact-resource-object">
-<a href="#section-7" class="section-number selfRef">7. </a><a href="#name-contact-resource-object" class="section-name selfRef">Contact Resource Object</a>
+      <h2 id="name-contact-data-object">
+<a href="#section-7" class="section-number selfRef">7. </a><a href="#name-contact-data-object" class="section-name selfRef">Contact Data Object</a>
       </h2>
 <div id="object-description-1">
 <section id="section-7.1">
@@ -2805,11 +2974,11 @@ is "all".<a href="#section-6.3.2-4.1.2.5" class="pilcrow">¶</a>
 <a href="#section-7.1" class="section-number selfRef">7.1. </a><a href="#name-object-description-2" class="section-name selfRef">Object Description</a>
         </h3>
 <ul class="compact">
-<li class="compact" id="section-7.1-1.1">Name: Contact Resource Object<a href="#section-7.1-1.1" class="pilcrow">¶</a>
+<li class="compact" id="section-7.1-1.1">Name: Contact Data Object<a href="#section-7.1-1.1" class="pilcrow">¶</a>
 </li>
           <li class="compact" id="section-7.1-1.2">Identifier: contact<a href="#section-7.1-1.2" class="pilcrow">¶</a>
 </li>
-          <li class="compact" id="section-7.1-1.3">Description: A Contact resource object represents the social information for an individual or organisation associated with other objects.<a href="#section-7.1-1.3" class="pilcrow">¶</a>
+          <li class="compact" id="section-7.1-1.3">Description: A Contact Data Object represents the social information for an individual or organisation associated with other objects.<a href="#section-7.1-1.3" class="pilcrow">¶</a>
 </li>
         </ul>
 </section>
@@ -2819,7 +2988,7 @@ is "all".<a href="#section-6.3.2-4.1.2.5" class="pilcrow">¶</a>
         <h3 id="name-data-elements-2">
 <a href="#section-7.2" class="section-number selfRef">7.2. </a><a href="#name-data-elements-2" class="section-name selfRef">Data Elements</a>
         </h3>
-<p id="section-7.2-1">The following data elements are defined for the Domain Name resource object.<a href="#section-7.2-1" class="pilcrow">¶</a></p>
+<p id="section-7.2-1">The following data elements are defined for the Domain Name Data Object.<a href="#section-7.2-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-7.2-2.1">
             <p id="section-7.2-2.1.1">Handle ID<a href="#section-7.2-2.1.1" class="pilcrow">¶</a></p>
@@ -2834,7 +3003,14 @@ is "all".<a href="#section-6.3.2-4.1.2.5" class="pilcrow">¶</a>
 </li>
               <li class="compact normal" id="section-7.2-2.1.2.5">Description: External unique identifier of the contact object.<a href="#section-7.2-2.1.2.5" class="pilcrow">¶</a>
 </li>
-              <li class="compact normal" id="section-7.2-2.1.2.6">Constraints: This value MUST be supported to be provided by the client. Servers MAY support server-side generation of this value.<a href="#section-7.2-2.1.2.6" class="pilcrow">¶</a>
+              <li class="compact normal" id="section-7.2-2.1.2.6">
+                <p id="section-7.2-2.1.2.6.1">Constraints:<a href="#section-7.2-2.1.2.6.1" class="pilcrow">¶</a></p>
+<ul class="compact normal">
+<li class="compact normal" id="section-7.2-2.1.2.6.2.1">This value MUST be supported to be provided by the client.<a href="#section-7.2-2.1.2.6.2.1" class="pilcrow">¶</a>
+</li>
+                  <li class="compact normal" id="section-7.2-2.1.2.6.2.2">Servers MAY support server-side generation of this value.<a href="#section-7.2-2.1.2.6.2.2" class="pilcrow">¶</a>
+</li>
+                </ul>
 </li>
             </ul>
 </li>
@@ -2943,7 +3119,14 @@ is "all".<a href="#section-6.3.2-4.1.2.5" class="pilcrow">¶</a>
 </li>
               <li class="compact normal" id="section-7.2-2.7.2.5">Description: The current status descriptors associated with the contact.<a href="#section-7.2-2.7.2.5" class="pilcrow">¶</a>
 </li>
-              <li class="compact normal" id="section-7.2-2.7.2.6">Constraints: The value MUST be one of the status tokens defined in the IANA registry for domain statuses. The initial value list MAY be as defined in <span>[<a href="#RFC5733" class="cite xref">RFC5733</a>]</span>. In this case the values MUST have the same semantics.<a href="#section-7.2-2.7.2.6" class="pilcrow">¶</a>
+              <li class="compact normal" id="section-7.2-2.7.2.6">
+                <p id="section-7.2-2.7.2.6.1">Constraints:<a href="#section-7.2-2.7.2.6.1" class="pilcrow">¶</a></p>
+<ul class="compact normal">
+<li class="compact normal" id="section-7.2-2.7.2.6.2.1">The value MUST be one of the status tokens defined in the IANA registry for domain statuses.<a href="#section-7.2-2.7.2.6.2.1" class="pilcrow">¶</a>
+</li>
+                  <li class="compact normal" id="section-7.2-2.7.2.6.2.2">The initial value list MAY be as defined in <span>[<a href="#RFC5733" class="cite xref">RFC5733</a>]</span>. In this case the values MUST have the same semantics.<a href="#section-7.2-2.7.2.6.2.2" class="pilcrow">¶</a>
+</li>
+                </ul>
 </li>
             </ul>
 </li>
@@ -3099,17 +3282,17 @@ is "all".<a href="#section-6.3.2-4.1.2.5" class="pilcrow">¶</a>
 </div>
 </section>
 </div>
-<div id="host-resource-object">
+<div id="host-data-object">
 <section id="section-8">
-      <h2 id="name-host-resource-object">
-<a href="#section-8" class="section-number selfRef">8. </a><a href="#name-host-resource-object" class="section-name selfRef">Host Resource Object</a>
+      <h2 id="name-host-data-object">
+<a href="#section-8" class="section-number selfRef">8. </a><a href="#name-host-data-object" class="section-name selfRef">Host Data Object</a>
       </h2>
 <div id="object-description-2">
 <section id="section-8.1">
         <h3 id="name-object-description-3">
 <a href="#section-8.1" class="section-number selfRef">8.1. </a><a href="#name-object-description-3" class="section-name selfRef">Object Description</a>
         </h3>
-<p id="section-8.1-1">A Host resource object represents a name server that provides DNS
+<p id="section-8.1-1">A Host Data Object represents a name server that provides DNS
 services for a a domain name.<a href="#section-8.1-1" class="pilcrow">¶</a></p>
 </section>
 </div>
@@ -3118,7 +3301,7 @@ services for a a domain name.<a href="#section-8.1-1" class="pilcrow">¶</a></p>
         <h3 id="name-data-elements-3">
 <a href="#section-8.2" class="section-number selfRef">8.2. </a><a href="#name-data-elements-3" class="section-name selfRef">Data Elements</a>
         </h3>
-<p id="section-8.2-1">The following data elements are defined for the Host Resource Object.<a href="#section-8.2-1" class="pilcrow">¶</a></p>
+<p id="section-8.2-1">The following data elements are defined for the Host Data Object.<a href="#section-8.2-1" class="pilcrow">¶</a></p>
 <aside id="section-8.2-2">
           <p id="section-8.2-2.1">TBC: hostName/dns properties are identical to Nameserver Object. Shall we define something like "Extends"?<a href="#section-8.2-2.1" class="pilcrow">¶</a></p>
 </aside>
@@ -3153,7 +3336,14 @@ services for a a domain name.<a href="#section-8.1-1" class="pilcrow">¶</a></p>
 </li>
               <li class="compact normal" id="section-8.2-3.2.2.5">Description: DNS Resource Records related to the host.<a href="#section-8.2-3.2.2.5" class="pilcrow">¶</a>
 </li>
-              <li class="compact normal" id="section-8.2-3.2.2.6">Constraints: In EPP Compatibility Profile the entries MUST be limited to A and AAAA entries for IPv4 and IPv6 glue records respectively. The labels of DNS entries MUST be subordinate to the Host Name of the Nameserver.<a href="#section-8.2-3.2.2.6" class="pilcrow">¶</a>
+              <li class="compact normal" id="section-8.2-3.2.2.6">
+                <p id="section-8.2-3.2.2.6.1">Constraints:<a href="#section-8.2-3.2.2.6.1" class="pilcrow">¶</a></p>
+<ul class="compact normal">
+<li class="compact normal" id="section-8.2-3.2.2.6.2.1">The labels of DNS entries MUST be subordinate to the Host Name of the Nameserver.<a href="#section-8.2-3.2.2.6.2.1" class="pilcrow">¶</a>
+</li>
+                  <li class="compact normal" id="section-8.2-3.2.2.6.2.2">In EPP Compatibility Profile the entries MUST be limited to A and AAAA entries for IPv4 and IPv6 glue records respectively.<a href="#section-8.2-3.2.2.6.2.2" class="pilcrow">¶</a>
+</li>
+                </ul>
 </li>
             </ul>
 </li>
@@ -3318,14 +3508,14 @@ services for a a domain name.<a href="#section-8.1-1" class="pilcrow">¶</a></p>
       <h2 id="name-iana-considerations">
 <a href="#section-9" class="section-number selfRef">9. </a><a href="#name-iana-considerations" class="section-name selfRef">IANA Considerations</a>
       </h2>
-<div id="rpp-object-registry">
+<div id="rpp-data-object-registry">
 <section id="section-9.1">
-        <h3 id="name-rpp-object-registry">
-<a href="#section-9.1" class="section-number selfRef">9.1. </a><a href="#name-rpp-object-registry" class="section-name selfRef">RPP Object Registry</a>
+        <h3 id="name-rpp-data-object-registry">
+<a href="#section-9.1" class="section-number selfRef">9.1. </a><a href="#name-rpp-data-object-registry" class="section-name selfRef">RPP Data Object Registry</a>
         </h3>
 <p id="section-9.1-1">This document establishes the "Registry Provisioning Protocol (RPP)
-Object Registry". This registry serves as a definitive, hierarchical
-catalogue of all resource objects, component objects, data elements,
+Data Object Registry". This registry serves as a definitive, hierarchical
+catalogue of all data objects, component objects, data elements,
 and operations used within RPP.<a href="#section-9.1-1" class="pilcrow">¶</a></p>
 <div id="registration-policy">
 <section id="section-9.1.1">
@@ -3377,7 +3567,7 @@ description.<a href="#section-9.1.2-2.3.2.2" class="pilcrow">¶</a>
           <h4 id="name-initial-registrations">
 <a href="#section-9.1.3" class="section-number selfRef">9.1.3. </a><a href="#name-initial-registrations" class="section-name selfRef">Initial Registrations</a>
           </h4>
-<p id="section-9.1.3-1">The initial contents of the RPP Object Registry are defined below.<a href="#section-9.1.3-1" class="pilcrow">¶</a></p>
+<p id="section-9.1.3-1">The initial contents of the RPP Data Object Registry are defined below.<a href="#section-9.1.3-1" class="pilcrow">¶</a></p>
 <p id="section-9.1.3-2">Object: period<a href="#section-9.1.3-2" class="pilcrow">¶</a></p>
 <p id="section-9.1.3-3">Object Name: Period Object<a href="#section-9.1.3-3" class="pilcrow">¶</a></p>
 <p id="section-9.1.3-4">Object Type: Component<a href="#section-9.1.3-4" class="pilcrow">¶</a></p>
@@ -3567,7 +3757,7 @@ description.<a href="#section-9.1.2-2.3.2.2" class="pilcrow">¶</a>
                 <td class="text-left" rowspan="1" colspan="1">1</td>
                 <td class="text-left" rowspan="1" colspan="1">create-only</td>
                 <td class="text-left" rowspan="1" colspan="1">String</td>
-                <td class="text-left" rowspan="1" colspan="1">computer-reasible enum label of a status</td>
+                <td class="text-left" rowspan="1" colspan="1">machine-reasible enum label of a status</td>
               </tr>
               <tr>
                 <td class="text-left" rowspan="1" colspan="1">reason</td>
@@ -3593,7 +3783,7 @@ TODO: IANA table: Postal Info Object
 TODO: IANA table: Disclose Object<a href="#section-9.1.3-37.1" class="pilcrow">¶</a></p>
 </aside>
 <p id="section-9.1.3-38">Object: domainName<a href="#section-9.1.3-38" class="pilcrow">¶</a></p>
-<p id="section-9.1.3-39">Object Name: Domain Name Resource Object<a href="#section-9.1.3-39" class="pilcrow">¶</a></p>
+<p id="section-9.1.3-39">Object Name: Domain Name Data Object<a href="#section-9.1.3-39" class="pilcrow">¶</a></p>
 <p id="section-9.1.3-40">Object Type: Resource<a href="#section-9.1.3-40" class="pilcrow">¶</a></p>
 <p id="section-9.1.3-41">Description: Represents a domain name and its associated data.<a href="#section-9.1.3-41" class="pilcrow">¶</a></p>
 <p id="section-9.1.3-42">Reference: [This-ID]<a href="#section-9.1.3-42" class="pilcrow">¶</a></p>
@@ -3656,7 +3846,7 @@ TODO: IANA table: Disclose Object<a href="#section-9.1.3-37.1" class="pilcrow">�
                 <td class="text-left" rowspan="1" colspan="1">Nameservers</td>
                 <td class="text-left" rowspan="1" colspan="1">0+</td>
                 <td class="text-left" rowspan="1" colspan="1">read-write</td>
-                <td class="text-left" rowspan="1" colspan="1">Composition[Host Resource Object] or Aggregation[Host Resource Object]</td>
+                <td class="text-left" rowspan="1" colspan="1">Composition[Host Data Object] or Aggregation[Host Data Object]</td>
                 <td class="text-left" rowspan="1" colspan="1">A collection of nameservers associated with the domain.</td>
               </tr>
               <tr>
@@ -3832,8 +4022,8 @@ TODO: IANA table: Disclose Object<a href="#section-9.1.3-37.1" class="pilcrow">�
             </tbody>
           </table>
 <aside id="section-9.1.3-61">
-            <p id="section-9.1.3-61.1">TODO: IANA table: Contact Resource Object
-TODO: IANA table: Host Resource Object<a href="#section-9.1.3-61.1" class="pilcrow">¶</a></p>
+            <p id="section-9.1.3-61.1">TODO: IANA table: Contact Data Object
+TODO: IANA table: Host Data Object<a href="#section-9.1.3-61.1" class="pilcrow">¶</a></p>
 </aside>
 <p id="section-9.1.3-62">Security Considerations<a href="#section-9.1.3-62" class="pilcrow">¶</a></p>
 <aside id="section-9.1.3-63">
