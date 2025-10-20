@@ -160,14 +160,14 @@ In both cases, especially if the relation allows for cardinality higher than one
 <t>Notation: Aggregation[Type]</t>
 <t>A relation between two independent objects.</t>
 <t>If the cardinality of target object is more than 1, this represents an ordered array.
-It MUST assured that the same unchanged data is always inserted in the same order. In case of data insertions, deletions or updates the remaining of the data SHALL preserve its order.</t>
+It MUST assured that the same unchanged data is always inserted in the same order in order to allow stable reference by position to data elements. In case of data insertions, deletions or updates the remaining of the data SHALL preserve its order.</t>
 </section>
 
 <section anchor="composition"><name>Composition</name>
 <t>Notation: Composition[Type] or Type</t>
 <t>A relation between an independent parent object and 1 or more dependent child object(s).</t>
 <t>If the cardinality of target object is more than 1, this represents an ordered array.
-It MUST assured that MUST assured that the same unchanged data is always inserted in the same order. In case of data insertions, deletions or updates the remaining of the data SHALL preserve its order.</t>
+It MUST assured that the same unchanged data is always inserted in the same order  in order to allow stable reference by position to data elements. In case of data insertions, deletions or updates the remaining of the data SHALL preserve its order.</t>
 </section>
 
 <section anchor="labelled-aggregation"><name>Labelled Aggregation</name>
@@ -249,7 +249,14 @@ Component objects carry only data but do not define any operations.</t>
 <li>Description: machine-readible enum label of a status</li>
 <li>Constraints:</li>
 <li>Exact list of allowed status labels depends on the provisioning object type. This enumeration can be expanded by extensions.</li>
-<li>Statuses MAY be either set by the server with &quot;server&quot; prefix, or set by the client with &quot;client&quot; prefix.</li>
+<li>The status labels MUST use camel case notation and use only ASCII alphabetic characters.</li>
+<li><t>Statuses MAY be of three categories:</t>
+
+<ul spacing="compact">
+<li>those explicitly set by a server. Those MUST have &quot;server&quot; prefix</li>
+<li>those explicitly set by a client. Those MUST have &quot;client&quot; prefix</li>
+<li>those indirectly controlled by provisioning object lifecycle or business logic. Those MUST NOT use either &quot;client&quot; or &quot;server&quot; prefix. They MAY use another prefix or no prefix at all</li>
+</ul></li>
 </ul></li>
 <li><t>Reason</t>
 
@@ -273,6 +280,9 @@ Component objects carry only data but do not define any operations.</t>
 </ul></li>
 </ul></li>
 </ul>
+
+<aside><t>TBD: Idea - model status object as Labelled Composition using &quot;Label&quot;? Con: Generic Constraints for Label will be repeated.</t>
+</aside>
 </section>
 
 <section anchor="nameserver-object"><name>Nameserver Object</name>
@@ -923,7 +933,7 @@ is &quot;all&quot;.</li>
 
 <section anchor="transfer-operation"><name>Transfer operation</name>
 
-<aside><t>TODO: define transfer op</t>
+<aside><t>TODO: define transfer operation</t>
 </aside>
 </section>
 </section>
@@ -1552,7 +1562,7 @@ TODO: IANA table: Disclose Object</t>
 <tr>
 <td>repositoryId</td>
 <td>Repository ID</td>
-<td>1</td>
+<td>0-1</td>
 <td>read-only</td>
 <td>Identifier</td>
 <td>A server-assigned unique identifier for the object.</td>

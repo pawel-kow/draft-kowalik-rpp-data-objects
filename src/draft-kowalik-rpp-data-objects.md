@@ -268,7 +268,7 @@ Component objects carry only data but do not define any operations.
       * Description: a timestamp, when this status is going to be removed automatically, or changed to other status. This field can be used to expresse lifecycle related information.
       * Constraints: servers MAY restrict possibility to set or update this value by the client.
 
-A> TBD: Itea - model status object as Labelled Composition using "Label"? Con: Generic Constraints for Label will be repeated.
+A> TBD: Idea - model status object as Labelled Composition using "Label"? Con: Generic Constraints for Label will be repeated.
 
 ## Nameserver Object
 
@@ -692,7 +692,7 @@ The following transient data elements are defined for this operation:
 
 ### Transfer operation
 
-A> TODO: define transfer op
+A> TODO: define transfer operation
 
 # Contact Data Object
 
