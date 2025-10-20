@@ -1081,7 +1081,7 @@ Data Elements
 | Identifier         | Name                 | Card. | Mutability  | Data Type                                                              | Description                                             |
 |--------------------|----------------------|-------|-------------|------------------------------------------------------------------------|---------------------------------------------------------|
 | name               | Name                 | 1     | create-only | String                                                                 | The fully qualified name of the domain object.          |
-| repositoryId       | Repository ID        | 1     | read-only   | Identifier                                                             | A server-assigned unique identifier for the object.     |
+| repositoryId       | Repository ID        | 0-1   | read-only   | Identifier                                                             | A server-assigned unique identifier for the object.     |
 | status             | Status               | 0+    | read-only   | Status Object                                                          | The current status descriptors for the domain.          |
 | registrant         | Registrant           | 0-1   | read-write  | Contact Object                                                         | The registrant contact ID.                              |
 | contacts           | Contacts             | 0+    | read-write  | LabelledAggregation [Contact Object]                                   | Associated contact objects.                             |
