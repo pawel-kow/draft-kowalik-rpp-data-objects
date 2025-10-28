@@ -73,7 +73,7 @@ A Boolean represents a logical true or false value. An example of a boolean is `
 
 ### Decimal
 
- Decimal is a number providing an exact, base-10 representation of fractional values within a defined precision. Usage of this type MUST impose additional constraints on decimal values, such as precision or range, based specific data element definitions. An example of a decimal is 3.14159.
+ Decimal is a number providing an exact, base-10 representation of fractional values within a defined precision. Usage of this type MUST impose additional constraints on decimal values, such as precision or range, based on specific data element definitions. An example of a decimal is 3.14159.
 
 ### Date
 
