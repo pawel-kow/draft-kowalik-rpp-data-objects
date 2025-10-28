@@ -55,13 +55,50 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "S
 
 # Resource Definition Principles
 
+## Primitive Data Types
+
+RPP data elements use strict typing, meaning that each element must conform exactly to its declared primitive data type, and type violations MUST be treated as errors by implementations. The exact specifications for these types, including allowed ranges, encoding, and formatting, are determined by the representation format used (e.g., JSON, XML, CBOR). New RPP non-primitive data types based on existing primitive data types MAY be defined to support additional features.
+
+### String
+
+A String is a sequence of Unicode characters. Usages MAY impose additional constraints on string values, such as maximum length or allowed character sets, based on specific data element definitions. An example of a string is `"host.example"`.
+
+### Integer
+
+An Integer is a whole number, positive or negative. Usages MAY impose additional constraints on integer values, such as minimum and maximum allowable values, based on specific data element definitions. An example of an integer is `42`.
+
+### Boolean
+
+A Boolean represents a logical true or false value. An example of a boolean is `true` or `false`, but it MAY be different depending on the native encoding of boolean values in the representation.
+
+### Decimal
+
+ Decimal is a number providing an exact, base-10 representation of fractional values within a defined precision. Usage of this type MUST impose additional constraints on decimal values, such as precision or range, based on specific data element definitions. An example of a decimal is 3.14159.
+
+### Date
+
+A Date is a full-date calendar date as described in [@!RFC3339], an example of a date is `2025-10-27`.
+
+### Timestamp
+
+Timestamp (Date and time attribute) values MUST be represented in Universal Coordinated Time (UTC) using the Gregorian calendar using date-time form as defined in [@!RFC3339]. In EPP Compatibility Profile upper case "T" and "Z" characters MUST be used. An example of a timestamp is `2025-10-27T09:42:51Z`.
+
+### URL
+
+A Uniform Resource Locator (URL) as defined in [@!RFC1738]. An example of a URL is `"https://host.example"`.
+
+### Binary
+
+Raw binary data, implementations MAY choose how to encode the binary data, for example as base64 or hexadecimal string. An example of binary data encoded as base64 is `"UlBQIFNheXMgSGk="`.
+
 ## Data Element Abstraction
 
 Each data object is composed of logical data elements. A data element is a logical unit of information identified by a stable name, independent of its representation in any given media type. The definition for each element specifies its logical name, purpose, cardinality, data type, and constraints.
+The data type of a data element may also be a reference to another data object, using the target object's stable name.
 
 ## Extensibility
 
-The set of data elements for a given data object is extensible. New data elements, associations or operations MAY be defined and registered with IANA in order for the data object to support new features. 
+The set of data elements for a given data object is extensible. New data elements, associations or operations MAY be defined and registered with IANA in order for the data object to support new features.
 
 ## Data Element Semantics
 
@@ -74,7 +111,7 @@ The definition of each data element within an object consists of the following a
   * `0-1` for zero or one
   * `0+` for zero or more
   * and `1+` for one or more
-* Data Type: Defines the element's data structure, which can be a primitive type (e.g., String, Integer) or a reference to another component object.
+* Data Type: Defines the element's data structure, which can be a primitive type, a Common Data Type or a reference to another component object.
 * Description: Explains the purpose of the data element and any other relevant information.
 * Constraints: Provides specific validation rules or limitations on top of the data type itself, such as value ranges.
 * Mutability: Defines the lifecycle of the data element's value. It MUST be one of the following:
@@ -132,16 +169,11 @@ Throughout this document, all constraints that are part of this profile are expl
 
 # Common Data Types
 
-This section defines data types and structures that are re-used across multiple data object definitions.
+This section defines new shared data types and structures that are re-used across multiple data object definitions and are based on the existing Primitive Data Types.
 
 ## Identifier
 
-Identifiers are character strings with a specified minimum length, a specified maximum length, and a specified format outlined in [@!RFC5730, section 2.8].
-Identifiers for certain object types MAY have additional constraints imposed either by server policy, object specific specifications or both.
-
-## Timestamp
-
-Date and time attribute values MUST be represented in Universal Coordinated Time (UTC) using the Gregorian calendar using date-time form as defined in [@!RFC3339]. In EPP Compatibility Profile upper case "T" and "Z" characters MUST be used.
+Identifiers are character strings with a specified minimum length, a specified maximum length, and a specified format outlined in [@!RFC5730, section 2.8]. Identifiers for certain object types MAY have additional constraints imposed either by server policy, object specific specifications or both.
 
 ## Client Identifier
 
