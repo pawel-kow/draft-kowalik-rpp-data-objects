@@ -61,19 +61,19 @@ RPP data elements use strict typing, meaning that each element must conform exac
 
 ### String
 
-A String is a sequence of Unicode characters. Implementations MAY impose additional constraints on string values, such as maximum length or allowed character sets, based on server policy or specific data element definitions. An example of a string is `"host.example"`.
+A String is a sequence of Unicode characters. Usages MAY impose additional constraints on string values, such as maximum length or allowed character sets, based on server policy or specific data element definitions. An example of a string is `"host.example"`.
 
 ### Integer
 
-An Integer is a whole number, positive or negative. Implementations MAY impose additional constraints on integer values, such as minimum and maximum allowable values, based on server policy or specific data element definitions. An example of an integer is `42`.
+An Integer is a whole number, positive or negative. Usages MAY impose additional constraints on integer values, such as minimum and maximum allowable values, based on server policy or specific data element definitions. An example of an integer is `42`.
 
 ### Boolean
 
-A Boolean represents a logical true or false value. An example of a boolean is `true` or `false`.
+A Boolean represents a logical true or false value. An example of a boolean is `true` or `false`, but it MAY be different depending on the native encoding of boolean values in the representation.
 
 ### Decimal
 
-A Decimal is a decimal number, supporting fractional values. Implementations MAY impose additional constraints on decimal values, such as precision or range, based on server policy or specific data element definitions. An example of a decimal is `3.14159`.
+ Decimal is a number providing an exact, base-10 representation of fractional values within a defined precision. Usage of this type MUST impose additional constraints on decimal values, such as precision or range, based specific data element definitions. An example of a decimal is 3.14159.
 
 ### Date
 
@@ -90,8 +90,6 @@ A Uniform Resource Locator (URL) as defined in [@!RFC1738]. An example of a URL 
 ### Binary
 
 Raw binary data, implementations MAY choose how to encode the binary data, for example as base64 or hexadecimal string. An example of binary data encoded as base64 is `"UlBQIFNheXMgSGk="`.
-
-A> TODO: do we need a Date type separately from Timestamp?
 
 ## Data Element Abstraction
 
