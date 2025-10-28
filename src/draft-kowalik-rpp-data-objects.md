@@ -77,7 +77,7 @@ A Decimal is a decimal number, supporting fractional values. Implementations MAY
 
 ### Date
 
-A Date is a Gregorian calendar date as described in ISO8601, an example of a date is `2025-10-27`.
+A Date is a full-date calendar date as described in [@!RFC3339], an example of a date is `2025-10-27`.
 
 ### Timestamp
 
