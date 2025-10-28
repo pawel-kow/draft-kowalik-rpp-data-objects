@@ -692,7 +692,7 @@ The following transient data elements are defined for this operation:
 
 ### Transfer operation
 
-A> TODO: define transfer operation
+A> TODO: define transfer operation https://github.com/pawel-kow/draft-kowalik-rpp-data-objects/issues/23
 
 # Contact Data Object
 
@@ -839,7 +839,7 @@ A> TBC: IANA registry for statuses?
 
 ## Operations
 
-A> TODO: Describe operations for contacts
+A> TODO: Describe operations for contacts https://github.com/pawel-kow/draft-kowalik-rpp-data-objects/issues/15
 
 # Host Data Object
 
@@ -940,7 +940,7 @@ A> TBD: this block repositoryId/sponsoringClientId/creationDate/updatingClientId
 
 ## Operations
 
-A> TODO: Describe operations for hosts
+A> TODO: Describe operations for hosts https://github.com/pawel-kow/draft-kowalik-rpp-data-objects/issues/16
 
 # IANA Considerations
 
