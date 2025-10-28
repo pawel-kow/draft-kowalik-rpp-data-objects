@@ -65,7 +65,7 @@ A String is a sequence of Unicode characters. Usages MAY impose additional const
 
 ### Integer
 
-An Integer is a whole number, positive or negative. Usages MAY impose additional constraints on integer values, such as minimum and maximum allowable values, based on server policy or specific data element definitions. An example of an integer is `42`.
+An Integer is a whole number, positive or negative. Usages MAY impose additional constraints on integer values, such as minimum and maximum allowable values, based on specific data element definitions. An example of an integer is `42`.
 
 ### Boolean
 
