@@ -61,7 +61,7 @@ RPP data elements use strict typing, meaning that each element must conform exac
 
 ### String
 
-A String is a sequence of Unicode characters. Usages MAY impose additional constraints on string values, such as maximum length or allowed character sets, based on server policy or specific data element definitions. An example of a string is `"host.example"`.
+A String is a sequence of Unicode characters. Usages MAY impose additional constraints on string values, such as maximum length or allowed character sets, based on specific data element definitions. An example of a string is `"host.example"`.
 
 ### Integer
 
