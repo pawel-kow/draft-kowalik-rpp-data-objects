@@ -171,34 +171,35 @@ It MUST assured that the same unchanged data is always inserted in the same orde
 
 Example aggregation having cardinality 1:
 
-```json
-{
-  "foo": {
-    "id": "12345",
-    "name": "example"
-  }
-}
+```ascii
++-------------------+
+|   (root parent)   |
+|-------------------|
+| foo:              |
+|   |         +----------+
+|   +-------- | [Object] |
+|             |    ...   |
+|             +----------+
++-------------------+
 ```
 
 Example aggregation having cardinality >1:
 
-```json
-{
-  "foo": [
-    {
-      "id": "1",
-      "name": "example1"
-    },
-    {
-      "id": "2",
-      "name": "example1"
-    },
-    {
-      "id": "3",
-      "name": "example2"
-    }
-  ]
-}
+```ascii
++-------------------+
+|   (root parent)   |
+|-------------------|
+| foo:              |
+|   +-----[0] +----------+
+|   |         | [Object] |
+|   |         |    ...   |
+|   |         +----------+
+|   +-----[1] +----------+
+|             | [Object] |
+|             |    ...   |
+|             +----------+
+|         ...       |
++-------------------+
 ```
 
 ## Composition
@@ -210,7 +211,35 @@ A relation between an independent parent object and 1 or more dependent child ob
 If the cardinality of target object is more than 1, this represents an ordered array. 
 It MUST assured that the same unchanged data is always inserted in the same order  in order to allow stable reference by position to data elements. In case of data insertions, deletions or updates the remaining of the data SHALL preserve its order.
 
-See the examples in Aggregation these are also valid for Composition.
+Example composition having cardinality 1:
+
+```ascii
++-------------------+
+|      (root)       |
+|-------------------|
+| foo:              |
+|   |  +-------+    |
+|   +--| ...   |    |
+|      +-------+    |
++-------------------+
+```
+
+Example composition having cardinality >1:
+
+```ascii
++-------------------+
+|      (root)       |
+|-------------------|
+| foo:              |
+|   +-[0] +-------+ |
+|   |     | ...   | |
+|   |     +-------+ |
+|   +-[1] +-------+ |
+|   |     | ...   | |
+|   |     +-------+ |
+|   ...             |
++-------------------+
+```
 
 ## Labelled Aggregation
 
@@ -222,18 +251,27 @@ A type defining such association MUST define Label Description with semantics of
 
 Example labelled aggregation:
 
-```json
-{
-  "foo": [
-    {
-      "label": "bar",
-      "value": {
-        "id": "12345",
-        "name": "example"
-      }
-    }
-  ]
-}
+```ascii
++--------------------------------+
+|             (root)             |
+|--------------------------------|
+| foo:                           |
+|   |                            |
+|   +---("label_A")--->  +----------+
+|   |                    | [Object] |
+|   |                    |   ...    |
+|   |                    +----------+
+|   +---("label_B")--->  +----------+
+|   |                    | [Object] |
+|   |                    |   ...    |
+|   |                    +----------+
+|   +---("label_A")--->  +----------+
+|   |  (labels repeat)   | [Object] |
+|   |                    |   ...    |
+|   |                    +----------+
+|   ...                          |
++--------------------------------+
+
 ```
 
 ## Aggregation Dictionary
@@ -246,19 +284,21 @@ A type defining such association MUST define Label Description with semantics of
 
 Example Aggregation Dictionary:
 
-```json
-{
-  "foo": {
-    "bar": {
-      "id": "12345",
-      "name": "example"
-    },
-    "baz": {
-      "id": "67890",
-      "name": "example2"
-    }
-  }
-}
+```ascii
++--------------------------+
+|         (root)           |
+|--------------------------|
+| foo:                     |
+|   "key1" ->       +-----------+
+|                   | [Object]  |
+|                   |   ...     |
+|                   +-----------+
+|   "key2" ->       +-----------+
+|                   | [Object]  |
+|                   |   ...     |
+|                   +-----------+
+|     ...                  |
++--------------------------+
 ```
 
 ## Labelled Composition
@@ -269,7 +309,29 @@ A relation between an independent parent object and a dependent child object wit
 
 A type defining such association MUST define Label Description with semantics of the label and Label Constraints with constraints related to the label.
 
-See the examples in Labelled Aggregation these are also valid for Labelled Composition.
+Example Labelled Composition:
+
+```ascii
++-------------------------------------+
+|        (root parent)                |
+|-------------------------------------|
+| foo:                                |
+|   |                                 |
+|   +---("label_A")--->  +----------+ |
+|   |                    | [Child]  | |
+|   |                    |   ...    | |
+|   |                    +----------+ |
+|   +---("label_B")--->  +----------+ |
+|   |                    | [Child]  | |
+|   |                    |   ...    | |
+|   |                    +----------+ |
+|   +---("label_A")--->  +----------+ |
+|   |  (labels repeat)   | [Child]  | |
+|   |                    |   ...    | |
+|   |                    +----------+ |
+|   ...                               |
++-------------------------------------+
+```
 
 ## Composition Dictionary
 
@@ -279,7 +341,24 @@ A relation between an independent parent object and a dependent child object wit
 
 A type defining such association MUST define Label Description with semantics of the label and Label Constraints with constraints related to the label.
 
-See the examples in Aggregation Dictionary these are also valid for Composition Dictionary.
+Example Composition Dictionary:
+```ascii
++--------------------------+
+|         (root)           |
+|--------------------------|
+| foo:                     |
+|   "key1" -> +---------+  |
+|             | [Child] |  |
+|             |   ...   |  |
+|             +---------+  |
+|   "key2" -> +---------+  |
+|             | [Child] |  |
+|             |   ...   |  |
+|             +---------+  |
+|     ...                  |
++--------------------------+
+```
+
 
 # Component Objects
 
