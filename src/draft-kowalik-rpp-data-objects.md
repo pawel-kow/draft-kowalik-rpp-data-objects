@@ -169,6 +169,38 @@ A relation between two independent objects.
 If the cardinality of target object is more than 1, this represents an ordered array. 
 It MUST assured that the same unchanged data is always inserted in the same order in order to allow stable reference by position to data elements. In case of data insertions, deletions or updates the remaining of the data SHALL preserve its order.
 
+Example aggregation having cardinality 1:
+
+```json
+{
+  "foo": {
+    "id": "12345",
+    "name": "example"
+  }
+}
+```
+
+Example aggregation having cardinality >1:
+
+```json
+{
+  "foo": [
+    {
+      "id": "1",
+      "name": "example1"
+    },
+    {
+      "id": "2",
+      "name": "example1"
+    },
+    {
+      "id": "3",
+      "name": "example2"
+    }
+  ]
+}
+```
+
 ## Composition
 
 Notation: Composition[Type] or Type
@@ -178,21 +210,56 @@ A relation between an independent parent object and 1 or more dependent child ob
 If the cardinality of target object is more than 1, this represents an ordered array. 
 It MUST assured that the same unchanged data is always inserted in the same order  in order to allow stable reference by position to data elements. In case of data insertions, deletions or updates the remaining of the data SHALL preserve its order.
 
+See the examples in Aggregation these are also valid for Composition.
+
 ## Labelled Aggregation
 
 Notation: LabelledAggregation[Type]
 
-A relation between two independent object with single text string attribute. Multiple associations with the same label are allowed.
+A relation between two independent object with single text string attribute. Multiple associations with the same label are allowed and represent an unordered array.
 
 A type defining such association MUST define Label Description with semantics of the label and Label Constraints with constraints related to the label.
+
+Example labelled aggregation:
+
+```json
+{
+  "foo": [
+    {
+      "label": "bar",
+      "value": {
+        "id": "12345",
+        "name": "example"
+      }
+    }
+  ]
+}
+```
 
 ## Aggregation Dictionary
 
 Notation: AggregationDictionary[Type]
 
-A relation between two independent object with single text string attribute. Only single association with the same label is allowed allowing it to be used as dictionary key.
+A relation between two independent object with single text string attribute. Association labels MUST be unique allowing it to be used as dictionary key.
 
 A type defining such association MUST define Label Description with semantics of the label and Label Constraints with constraints related to the label.
+
+Example Aggregation Dictionary:
+
+```json
+{
+  "foo": {
+    "bar": {
+      "id": "12345",
+      "name": "example"
+    },
+    "baz": {
+      "id": "67890",
+      "name": "example2"
+    }
+  }
+}
+```
 
 ## Labelled Composition
 
@@ -202,6 +269,8 @@ A relation between an independent parent object and a dependent child object wit
 
 A type defining such association MUST define Label Description with semantics of the label and Label Constraints with constraints related to the label.
 
+See the examples in Labelled Aggregation these are also valid for Labelled Composition.
+
 ## Composition Dictionary
 
 Notation: CompositionDictionary[Type]
@@ -209,6 +278,8 @@ Notation: CompositionDictionary[Type]
 A relation between an independent parent object and a dependent child object with single text string attribute. Only single association with the same label is allowed allowing it to be used as dictionary key.
 
 A type defining such association MUST define Label Description with semantics of the label and Label Constraints with constraints related to the label.
+
+See the examples in Aggregation Dictionary these are also valid for Composition Dictionary.
 
 # Component Objects
 
