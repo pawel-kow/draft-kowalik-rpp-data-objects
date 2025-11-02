@@ -201,6 +201,39 @@ A relation between two independent objects.
 If the cardinality of target object is more than 1, this represents an ordered array. 
 It MUST assured that the same unchanged data is always inserted in the same order in order to allow stable reference by position to data elements. In case of data insertions, deletions or updates the remaining of the data SHALL preserve its order.
 
+Example aggregation having cardinality 1:
+
+```ascii
++-------------------+
+|   (root parent)   |
+|-------------------|
+| foo:              |
+|   |         +----------+
+|   +-------- | [Object] |
+|             |    ...   |
+|             +----------+
++-------------------+
+```
+
+Example aggregation having cardinality >1:
+
+```ascii
++-------------------+
+|   (root parent)   |
+|-------------------|
+| foo:              |
+|   +-----[0] +----------+
+|   |         | [Object] |
+|   |         |    ...   |
+|   |         +----------+
+|   +-----[1] +----------+
+|             | [Object] |
+|             |    ...   |
+|             +----------+
+|         ...       |
++-------------------+
+```
+
 ## Composition
 
 Notation: Composition[Type] or Type
@@ -210,21 +243,95 @@ A relation between an independent parent object and 1 or more dependent child ob
 If the cardinality of target object is more than 1, this represents an ordered array. 
 It MUST assured that the same unchanged data is always inserted in the same order  in order to allow stable reference by position to data elements. In case of data insertions, deletions or updates the remaining of the data SHALL preserve its order.
 
+Example composition having cardinality 1:
+
+```ascii
++-------------------+
+|      (root)       |
+|-------------------|
+| foo:              |
+|   |  +-------+    |
+|   +--| ...   |    |
+|      +-------+    |
++-------------------+
+```
+
+Example composition having cardinality >1:
+
+```ascii
++-------------------+
+|      (root)       |
+|-------------------|
+| foo:              |
+|   +-[0] +-------+ |
+|   |     | ...   | |
+|   |     +-------+ |
+|   +-[1] +-------+ |
+|   |     | ...   | |
+|   |     +-------+ |
+|   ...             |
++-------------------+
+```
+
 ## Labelled Aggregation
 
 Notation: LabelledAggregation[Type]
 
-A relation between two independent object with single text string attribute. Multiple associations with the same label are allowed.
+A relation between two independent object with single text string attribute. Multiple associations with the same label are allowed and represent an unordered array.
 
 A type defining such association MUST define Label Description with semantics of the label and Label Constraints with constraints related to the label.
+
+Example labelled aggregation:
+
+```ascii
++--------------------------------+
+|             (root)             |
+|--------------------------------|
+| foo:                           |
+|   |                            |
+|   +---("label_A")--->  +----------+
+|   |                    | [Object] |
+|   |                    |   ...    |
+|   |                    +----------+
+|   +---("label_B")--->  +----------+
+|   |                    | [Object] |
+|   |                    |   ...    |
+|   |                    +----------+
+|   +---("label_A")--->  +----------+
+|   |  (labels repeat)   | [Object] |
+|   |                    |   ...    |
+|   |                    +----------+
+|   ...                          |
++--------------------------------+
+
+```
 
 ## Aggregation Dictionary
 
 Notation: AggregationDictionary[Type]
 
-A relation between two independent object with single text string attribute. Only single association with the same label is allowed allowing it to be used as dictionary key.
+A relation between two independent object with single text string attribute. Association labels MUST be unique allowing it to be used as dictionary key.
 
 A type defining such association MUST define Label Description with semantics of the label and Label Constraints with constraints related to the label.
+
+Example Aggregation Dictionary:
+
+```ascii
++--------------------------+
+|         (root)           |
+|--------------------------|
+| foo:                     |
+|   "key1" ->       +-----------+
+|                   | [Object]  |
+|                   |   ...     |
+|                   +-----------+
+|   "key2" ->       +-----------+
+|                   | [Object]  |
+|                   |   ...     |
+|                   +-----------+
+|     ...                  |
++--------------------------+
+```
 
 ## Labelled Composition
 
@@ -234,6 +341,30 @@ A relation between an independent parent object and a dependent child object wit
 
 A type defining such association MUST define Label Description with semantics of the label and Label Constraints with constraints related to the label.
 
+Example Labelled Composition:
+
+```ascii
++-------------------------------------+
+|        (root parent)                |
+|-------------------------------------|
+| foo:                                |
+|   |                                 |
+|   +---("label_A")--->  +----------+ |
+|   |                    | [Child]  | |
+|   |                    |   ...    | |
+|   |                    +----------+ |
+|   +---("label_B")--->  +----------+ |
+|   |                    | [Child]  | |
+|   |                    |   ...    | |
+|   |                    +----------+ |
+|   +---("label_A")--->  +----------+ |
+|   |  (labels repeat)   | [Child]  | |
+|   |                    |   ...    | |
+|   |                    +----------+ |
+|   ...                               |
++-------------------------------------+
+```
+
 ## Composition Dictionary
 
 Notation: CompositionDictionary[Type]
@@ -241,6 +372,25 @@ Notation: CompositionDictionary[Type]
 A relation between an independent parent object and a dependent child object with single text string attribute. Only single association with the same label is allowed allowing it to be used as dictionary key.
 
 A type defining such association MUST define Label Description with semantics of the label and Label Constraints with constraints related to the label.
+
+Example Composition Dictionary:
+```ascii
++--------------------------+
+|         (root)           |
+|--------------------------|
+| foo:                     |
+|   "key1" -> +---------+  |
+|             | [Child] |  |
+|             |   ...   |  |
+|             +---------+  |
+|   "key2" -> +---------+  |
+|             | [Child] |  |
+|             |   ...   |  |
+|             +---------+  |
+|     ...                  |
++--------------------------+
+```
+
 
 # Component Objects
 
