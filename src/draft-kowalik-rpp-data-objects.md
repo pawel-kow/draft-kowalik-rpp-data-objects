@@ -1311,9 +1311,20 @@ Parameters
 A> TODO: IANA table: Contact Data Object
 A> TODO: IANA table: Host Data Object
 
-Security Considerations
+# Security Considerations
 
 A> TODO: write security considerations, if any
+
+{removeInRFC="true"}
+{toc="exclude"}
+# Changes History
+
+{toc="exclude"}
+{numbered="false"}
+## draft-kowalik-rpp-data-objects -01 - -02
+
+* ontology of allowed basic datatypes #4
+* add examples of associations #31
 
 {backmatter}
 

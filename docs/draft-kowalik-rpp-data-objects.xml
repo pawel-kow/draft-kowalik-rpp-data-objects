@@ -34,8 +34,45 @@
 
 <section anchor="resource-definition-principles"><name>Resource Definition Principles</name>
 
+<section anchor="primitive-data-types"><name>Primitive Data Types</name>
+<t>RPP data elements use strict typing, meaning that each element must conform exactly to its declared primitive data type, and type violations MUST be treated as errors by implementations. The exact specifications for these types, including allowed ranges, encoding, and formatting, are determined by the representation format used (e.g., JSON, XML, CBOR). New RPP non-primitive data types based on existing primitive data types MAY be defined to support additional features.</t>
+
+<section anchor="string"><name>String</name>
+<t>A String is a sequence of Unicode characters. Usages MAY impose additional constraints on string values, such as maximum length or allowed character sets, based on specific data element definitions. An example of a string is <tt>&quot;host.example&quot;</tt>.</t>
+</section>
+
+<section anchor="integer"><name>Integer</name>
+<t>An Integer is a whole number, positive or negative. Usages MAY impose additional constraints on integer values, such as minimum and maximum allowable values, based on specific data element definitions. An example of an integer is <tt>42</tt>.</t>
+</section>
+
+<section anchor="boolean"><name>Boolean</name>
+<t>A Boolean represents a logical true or false value. An example of a boolean is <tt>true</tt> or <tt>false</tt>, but it MAY be different depending on the native encoding of boolean values in the representation.</t>
+</section>
+
+<section anchor="decimal"><name>Decimal</name>
+<t>Decimal is a number providing an exact, base-10 representation of fractional values within a defined precision. Usage of this type MUST impose additional constraints on decimal values, such as precision or range, based on specific data element definitions. An example of a decimal is 3.14159.</t>
+</section>
+
+<section anchor="date"><name>Date</name>
+<t>A Date is a full-date calendar date as described in <xref target="RFC3339"></xref>, an example of a date is <tt>2025-10-27</tt>.</t>
+</section>
+
+<section anchor="timestamp"><name>Timestamp</name>
+<t>Timestamp (Date and time attribute) values MUST be represented in Universal Coordinated Time (UTC) using the Gregorian calendar using date-time form as defined in <xref target="RFC3339"></xref>. In EPP Compatibility Profile upper case &quot;T&quot; and &quot;Z&quot; characters MUST be used. An example of a timestamp is <tt>2025-10-27T09:42:51Z</tt>.</t>
+</section>
+
+<section anchor="url"><name>URL</name>
+<t>A Uniform Resource Locator (URL) as defined in <xref target="RFC1738"></xref>. An example of a URL is <tt>&quot;https://host.example&quot;</tt>.</t>
+</section>
+
+<section anchor="binary"><name>Binary</name>
+<t>Raw binary data, implementations MAY choose how to encode the binary data, for example as base64 or hexadecimal string. An example of binary data encoded as base64 is <tt>&quot;UlBQIFNheXMgSGk=&quot;</tt>.</t>
+</section>
+</section>
+
 <section anchor="data-element-abstraction"><name>Data Element Abstraction</name>
-<t>Each data object is composed of logical data elements. A data element is a logical unit of information identified by a stable name, independent of its representation in any given media type. The definition for each element specifies its logical name, purpose, cardinality, data type, and constraints.</t>
+<t>Each data object is composed of logical data elements. A data element is a logical unit of information identified by a stable name, independent of its representation in any given media type. The definition for each element specifies its logical name, purpose, cardinality, data type, and constraints.
+The data type of a data element may also be a reference to another data object, using the target object's stable name.</t>
 </section>
 
 <section anchor="extensibility"><name>Extensibility</name>
@@ -56,7 +93,7 @@
 <li><tt>0+</tt> for zero or more</li>
 <li>and <tt>1+</tt> for one or more</li>
 </ul></li>
-<li>Data Type: Defines the element's data structure, which can be a primitive type (e.g., String, Integer) or a reference to another component object.</li>
+<li>Data Type: Defines the element's data structure, which can be a primitive type, a Common Data Type or a reference to another component object.</li>
 <li>Description: Explains the purpose of the data element and any other relevant information.</li>
 <li>Constraints: Provides specific validation rules or limitations on top of the data type itself, such as value ranges.</li>
 <li><t>Mutability: Defines the lifecycle of the data element's value. It MUST be one of the following:</t>
@@ -128,15 +165,10 @@ Typically it would be a value related to or derived from Authorisation Informati
 </section>
 
 <section anchor="common-data-types"><name>Common Data Types</name>
-<t>This section defines data types and structures that are re-used across multiple data object definitions.</t>
+<t>This section defines new shared data types and structures that are re-used across multiple data object definitions and are based on the existing Primitive Data Types.</t>
 
 <section anchor="identifier"><name>Identifier</name>
-<t>Identifiers are character strings with a specified minimum length, a specified maximum length, and a specified format outlined in <xref target="RFC5730" sectionFormat="of" section="2.8"></xref>.
-Identifiers for certain object types MAY have additional constraints imposed either by server policy, object specific specifications or both.</t>
-</section>
-
-<section anchor="timestamp"><name>Timestamp</name>
-<t>Date and time attribute values MUST be represented in Universal Coordinated Time (UTC) using the Gregorian calendar using date-time form as defined in <xref target="RFC3339"></xref>. In EPP Compatibility Profile upper case &quot;T&quot; and &quot;Z&quot; characters MUST be used.</t>
+<t>Identifiers are character strings with a specified minimum length, a specified maximum length, and a specified format outlined in <xref target="RFC5730" sectionFormat="of" section="2.8"></xref>. Identifiers for certain object types MAY have additional constraints imposed either by server policy, object specific specifications or both.</t>
 </section>
 
 <section anchor="client-identifier"><name>Client Identifier</name>
@@ -161,6 +193,35 @@ In both cases, especially if the relation allows for cardinality higher than one
 <t>A relation between two independent objects.</t>
 <t>If the cardinality of target object is more than 1, this represents an ordered array.
 It MUST assured that the same unchanged data is always inserted in the same order in order to allow stable reference by position to data elements. In case of data insertions, deletions or updates the remaining of the data SHALL preserve its order.</t>
+<t>Example aggregation having cardinality 1:</t>
+
+<sourcecode type="ascii"><![CDATA[+-------------------+
+|   (root parent)   |
+|-------------------|
+| foo:              |
+|   |         +----------+
+|   +-------- | [Object] |
+|             |    ...   |
+|             +----------+
++-------------------+
+]]></sourcecode>
+<t>Example aggregation having cardinality &gt;1:</t>
+
+<sourcecode type="ascii"><![CDATA[+-------------------+
+|   (root parent)   |
+|-------------------|
+| foo:              |
+|   +-----[0] +----------+
+|   |         | [Object] |
+|   |         |    ...   |
+|   |         +----------+
+|   +-----[1] +----------+
+|             | [Object] |
+|             |    ...   |
+|             +----------+
+|         ...       |
++-------------------+
+]]></sourcecode>
 </section>
 
 <section anchor="composition"><name>Composition</name>
@@ -168,30 +229,135 @@ It MUST assured that the same unchanged data is always inserted in the same orde
 <t>A relation between an independent parent object and 1 or more dependent child object(s).</t>
 <t>If the cardinality of target object is more than 1, this represents an ordered array.
 It MUST assured that the same unchanged data is always inserted in the same order  in order to allow stable reference by position to data elements. In case of data insertions, deletions or updates the remaining of the data SHALL preserve its order.</t>
+<t>Example composition having cardinality 1:</t>
+
+<sourcecode type="ascii"><![CDATA[+-------------------+
+|      (root)       |
+|-------------------|
+| foo:              |
+|   |  +-------+    |
+|   +--| ...   |    |
+|      +-------+    |
++-------------------+
+]]></sourcecode>
+<t>Example composition having cardinality &gt;1:</t>
+
+<sourcecode type="ascii"><![CDATA[+-------------------+
+|      (root)       |
+|-------------------|
+| foo:              |
+|   +-[0] +-------+ |
+|   |     | ...   | |
+|   |     +-------+ |
+|   +-[1] +-------+ |
+|   |     | ...   | |
+|   |     +-------+ |
+|   ...             |
++-------------------+
+]]></sourcecode>
 </section>
 
 <section anchor="labelled-aggregation"><name>Labelled Aggregation</name>
 <t>Notation: LabelledAggregation[Type]</t>
-<t>A relation between two independent object with single text string attribute. Multiple associations with the same label are allowed.</t>
+<t>A relation between two independent object with single text string attribute. Multiple associations with the same label are allowed and represent an unordered array.</t>
 <t>A type defining such association MUST define Label Description with semantics of the label and Label Constraints with constraints related to the label.</t>
+<t>Example labelled aggregation:</t>
+
+<sourcecode type="ascii"><![CDATA[+--------------------------------+
+|             (root)             |
+|--------------------------------|
+| foo:                           |
+|   |                            |
+|   +---("label_A")--->  +----------+
+|   |                    | [Object] |
+|   |                    |   ...    |
+|   |                    +----------+
+|   +---("label_B")--->  +----------+
+|   |                    | [Object] |
+|   |                    |   ...    |
+|   |                    +----------+
+|   +---("label_A")--->  +----------+
+|   |  (labels repeat)   | [Object] |
+|   |                    |   ...    |
+|   |                    +----------+
+|   ...                          |
++--------------------------------+
+
+]]></sourcecode>
 </section>
 
 <section anchor="aggregation-dictionary"><name>Aggregation Dictionary</name>
 <t>Notation: AggregationDictionary[Type]</t>
-<t>A relation between two independent object with single text string attribute. Only single association with the same label is allowed allowing it to be used as dictionary key.</t>
+<t>A relation between two independent object with single text string attribute. Association labels MUST be unique allowing it to be used as dictionary key.</t>
 <t>A type defining such association MUST define Label Description with semantics of the label and Label Constraints with constraints related to the label.</t>
+<t>Example Aggregation Dictionary:</t>
+
+<sourcecode type="ascii"><![CDATA[+--------------------------+
+|         (root)           |
+|--------------------------|
+| foo:                     |
+|   "key1" ->       +-----------+
+|                   | [Object]  |
+|                   |   ...     |
+|                   +-----------+
+|   "key2" ->       +-----------+
+|                   | [Object]  |
+|                   |   ...     |
+|                   +-----------+
+|     ...                  |
++--------------------------+
+]]></sourcecode>
 </section>
 
 <section anchor="labelled-composition"><name>Labelled Composition</name>
 <t>Notation: LabelledComposition[Type]</t>
 <t>A relation between an independent parent object and a dependent child object with single text string attribute. Multiple associations with the same label are allowed.</t>
 <t>A type defining such association MUST define Label Description with semantics of the label and Label Constraints with constraints related to the label.</t>
+<t>Example Labelled Composition:</t>
+
+<sourcecode type="ascii"><![CDATA[+-------------------------------------+
+|        (root parent)                |
+|-------------------------------------|
+| foo:                                |
+|   |                                 |
+|   +---("label_A")--->  +----------+ |
+|   |                    | [Child]  | |
+|   |                    |   ...    | |
+|   |                    +----------+ |
+|   +---("label_B")--->  +----------+ |
+|   |                    | [Child]  | |
+|   |                    |   ...    | |
+|   |                    +----------+ |
+|   +---("label_A")--->  +----------+ |
+|   |  (labels repeat)   | [Child]  | |
+|   |                    |   ...    | |
+|   |                    +----------+ |
+|   ...                               |
++-------------------------------------+
+]]></sourcecode>
 </section>
 
 <section anchor="composition-dictionary"><name>Composition Dictionary</name>
 <t>Notation: CompositionDictionary[Type]</t>
 <t>A relation between an independent parent object and a dependent child object with single text string attribute. Only single association with the same label is allowed allowing it to be used as dictionary key.</t>
 <t>A type defining such association MUST define Label Description with semantics of the label and Label Constraints with constraints related to the label.</t>
+<t>Example Composition Dictionary:</t>
+
+<sourcecode type="ascii"><![CDATA[+--------------------------+
+|         (root)           |
+|--------------------------|
+| foo:                     |
+|   "key1" -> +---------+  |
+|             | [Child] |  |
+|             |   ...   |  |
+|             +---------+  |
+|   "key2" -> +---------+  |
+|             | [Child] |  |
+|             |   ...   |  |
+|             +---------+  |
+|     ...                  |
++--------------------------+
+]]></sourcecode>
 </section>
 </section>
 
@@ -937,7 +1103,7 @@ is &quot;all&quot;.</li>
 
 <section anchor="transfer-operation"><name>Transfer operation</name>
 
-<aside><t>TODO: define transfer operation</t>
+<aside><t>TODO: define transfer operation <eref target="https://github.com/pawel-kow/draft-kowalik-rpp-data-objects/issues/23">https://github.com/pawel-kow/draft-kowalik-rpp-data-objects/issues/23</eref></t>
 </aside>
 </section>
 </section>
@@ -1135,7 +1301,7 @@ is &quot;all&quot;.</li>
 
 <section anchor="operations-2"><name>Operations</name>
 
-<aside><t>TODO: Describe operations for contacts</t>
+<aside><t>TODO: Describe operations for contacts <eref target="https://github.com/pawel-kow/draft-kowalik-rpp-data-objects/issues/15">https://github.com/pawel-kow/draft-kowalik-rpp-data-objects/issues/15</eref></t>
 </aside>
 </section>
 </section>
@@ -1270,7 +1436,7 @@ services for a a domain name.</t>
 
 <section anchor="operations-3"><name>Operations</name>
 
-<aside><t>TODO: Describe operations for hosts</t>
+<aside><t>TODO: Describe operations for hosts <eref target="https://github.com/pawel-kow/draft-kowalik-rpp-data-objects/issues/16">https://github.com/pawel-kow/draft-kowalik-rpp-data-objects/issues/16</eref></t>
 </aside>
 </section>
 </section>
@@ -1777,11 +1943,24 @@ TODO: IANA table: Disclose Object</t>
 <aside><t>TODO: IANA table: Contact Data Object
 TODO: IANA table: Host Data Object</t>
 </aside>
-<t>Security Considerations</t>
+</section>
+</section>
+</section>
+
+<section anchor="security-considerations"><name>Security Considerations</name>
 
 <aside><t>TODO: write security considerations, if any</t>
 </aside>
 </section>
+
+<section anchor="changes-history" toc="exclude"><name>Changes History</name>
+
+<section anchor="draft-kowalik-rpp-data-objects-01-02" numbered="false"><name>draft-kowalik-rpp-data-objects -01 - -02</name>
+
+<ul spacing="compact">
+<li>ontology of allowed basic datatypes #4</li>
+<li>add examples of associations #31</li>
+</ul>
 </section>
 </section>
 
@@ -1811,6 +1990,7 @@ TODO: IANA table: Host Data Object</t>
   <seriesInfo name="ITU-T Recommendation" value="E.164"></seriesInfo>
 </reference>
 <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.1035.xml"/>
+<xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.1738.xml"/>
 <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.2119.xml"/>
 <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.3339.xml"/>
 <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.3915.xml"/>

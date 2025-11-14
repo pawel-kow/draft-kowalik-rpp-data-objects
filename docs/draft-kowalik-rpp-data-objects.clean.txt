@@ -60,23 +60,31 @@ Table of Contents
    1.  Introduction
      1.1.  Conventions and Terminology
    2.  Resource Definition Principles
-     2.1.  Data Element Abstraction
-     2.2.  Extensibility
-     2.3.  Data Element Semantics
-     2.4.  Operations
-       2.4.1.  Authorisation
-       2.4.2.  Uniform interface
-         2.4.2.1.  Create
-         2.4.2.2.  Read
-         2.4.2.3.  Update
-         2.4.2.4.  Delete
-       2.4.3.  Operations beyond uniform interface
-     2.5.  EPP Compatibility Profile
+     2.1.  Primitive Data Types
+       2.1.1.  String
+       2.1.2.  Integer
+       2.1.3.  Boolean
+       2.1.4.  Decimal
+       2.1.5.  Date
+       2.1.6.  Timestamp
+       2.1.7.  URL
+       2.1.8.  Binary
+     2.2.  Data Element Abstraction
+     2.3.  Extensibility
+     2.4.  Data Element Semantics
+     2.5.  Operations
+       2.5.1.  Authorisation
+       2.5.2.  Uniform interface
+         2.5.2.1.  Create
+         2.5.2.2.  Read
+         2.5.2.3.  Update
+         2.5.2.4.  Delete
+       2.5.3.  Operations beyond uniform interface
+     2.6.  EPP Compatibility Profile
    3.  Common Data Types
      3.1.  Identifier
-     3.2.  Timestamp
-     3.3.  Client Identifier
-     3.4.  Phone Number
+     3.2.  Client Identifier
+     3.3.  Phone Number
    4.  Associations
      4.1.  Aggregation
      4.2.  Composition
@@ -115,7 +123,8 @@ Table of Contents
        9.1.1.  Registration Policy
        9.1.2.  Registry Structure
        9.1.3.  Initial Registrations
-   10. Normative References
+   10. Security Considerations
+   12. Normative References
    Authors' Addresses
 
 1.  Introduction
@@ -155,22 +164,87 @@ Table of Contents
 
 2.  Resource Definition Principles
 
-2.1.  Data Element Abstraction
+2.1.  Primitive Data Types
+
+   RPP data elements use strict typing, meaning that each element must
+   conform exactly to its declared primitive data type, and type
+   violations MUST be treated as errors by implementations.  The exact
+   specifications for these types, including allowed ranges, encoding,
+   and formatting, are determined by the representation format used
+   (e.g., JSON, XML, CBOR).  New RPP non-primitive data types based on
+   existing primitive data types MAY be defined to support additional
+   features.
+
+2.1.1.  String
+
+   A String is a sequence of Unicode characters.  Usages MAY impose
+   additional constraints on string values, such as maximum length or
+   allowed character sets, based on specific data element definitions.
+   An example of a string is "host.example".
+
+2.1.2.  Integer
+
+   An Integer is a whole number, positive or negative.  Usages MAY
+   impose additional constraints on integer values, such as minimum and
+   maximum allowable values, based on specific data element definitions.
+   An example of an integer is 42.
+
+2.1.3.  Boolean
+
+   A Boolean represents a logical true or false value.  An example of a
+   boolean is true or false, but it MAY be different depending on the
+   native encoding of boolean values in the representation.
+
+2.1.4.  Decimal
+
+   Decimal is a number providing an exact, base-10 representation of
+   fractional values within a defined precision.  Usage of this type
+   MUST impose additional constraints on decimal values, such as
+   precision or range, based on specific data element definitions.  An
+   example of a decimal is 3.14159.
+
+2.1.5.  Date
+
+   A Date is a full-date calendar date as described in [RFC3339], an
+   example of a date is 2025-10-27.
+
+2.1.6.  Timestamp
+
+   Timestamp (Date and time attribute) values MUST be represented in
+   Universal Coordinated Time (UTC) using the Gregorian calendar using
+   date-time form as defined in [RFC3339].  In EPP Compatibility Profile
+   upper case "T" and "Z" characters MUST be used.  An example of a
+   timestamp is 2025-10-27T09:42:51Z.
+
+2.1.7.  URL
+
+   A Uniform Resource Locator (URL) as defined in [RFC1738].  An example
+   of a URL is "https://host.example".
+
+2.1.8.  Binary
+
+   Raw binary data, implementations MAY choose how to encode the binary
+   data, for example as base64 or hexadecimal string.  An example of
+   binary data encoded as base64 is "UlBQIFNheXMgSGk=".
+
+2.2.  Data Element Abstraction
 
    Each data object is composed of logical data elements.  A data
    element is a logical unit of information identified by a stable name,
    independent of its representation in any given media type.  The
    definition for each element specifies its logical name, purpose,
-   cardinality, data type, and constraints.
+   cardinality, data type, and constraints.  The data type of a data
+   element may also be a reference to another data object, using the
+   target object's stable name.
 
-2.2.  Extensibility
+2.3.  Extensibility
 
    The set of data elements for a given data object is extensible.  New
    data elements, associations or operations MAY be defined and
    registered with IANA in order for the data object to support new
    features.
 
-2.3.  Data Element Semantics
+2.4.  Data Element Semantics
 
    The definition of each data element within an object consists of the
    following attributes:
@@ -185,7 +259,7 @@ Table of Contents
       -  0+ for zero or more
       -  and 1+ for one or more
    -  Data Type: Defines the element's data structure, which can be a
-      primitive type (e.g., String, Integer) or a reference to another
+      primitive type, a Common Data Type or a reference to another
       component object.
    -  Description: Explains the purpose of the data element and any
       other relevant information.
@@ -201,12 +275,12 @@ Table of Contents
       -  read-write: The element's value can be set and modified by the
          client.
 
-2.4.  Operations
+2.5.  Operations
 
    For each data object a set of possible operations is defined together
    with their respective input and output data.
 
-2.4.1.  Authorisation
+2.5.1.  Authorisation
 
    For each operation authorisation requirements and operation behaviour
    is specified.  Wherever "object authorisation" is mentioned, it means
@@ -217,21 +291,21 @@ Table of Contents
    or derived from Authorisation Information Object attached to the
    object.
 
-2.4.2.  Uniform interface
+2.5.2.  Uniform interface
 
    For the typical set of Create, Read, Update and Delete operations the
    following set of input and output data model is specified on top of
    additional transient input data, unless an operation for the specific
    object tells otherwise.
 
-2.4.2.1.  Create
+2.5.2.1.  Create
 
    -  Input: Object representation (create-only and read-write
       properties)
    -  Output: Object representation (read-write and read-only
       properties)
 
-2.4.2.2.  Read
+2.5.2.2.  Read
 
    -  Input: Object identifier
    -  Output: Object representation (read-write and read-only
@@ -250,25 +324,25 @@ Table of Contents
    OPTIONAL elements are returned, if any, or whether the entire request
    is rejected.
 
-2.4.2.3.  Update
+2.5.2.3.  Update
 
    -  Input: Object identifier, Object changes representation (read-
       write properties)
    -  Output: Object representation (read-write and read-only
       properties)
 
-2.4.2.4.  Delete
+2.5.2.4.  Delete
 
    -  Input: Object identifier
    -  Output: Object representation (read-write and read-only
       properties) or no representation
 
-2.4.3.  Operations beyond uniform interface
+2.5.3.  Operations beyond uniform interface
 
    For all other operations both input and output representation have to
    be fully specified.
 
-2.5.  EPP Compatibility Profile
+2.6.  EPP Compatibility Profile
 
    RPP is designed to coexist with the Extensible Provisioning Protocol
    (EPP), often operating in parallel against a common backend
@@ -289,8 +363,9 @@ Table of Contents
 
 3.  Common Data Types
 
-   This section defines data types and structures that are re-used
-   across multiple data object definitions.
+   This section defines new shared data types and structures that are
+   re-used across multiple data object definitions and are based on the
+   existing Primitive Data Types.
 
 3.1.  Identifier
 
@@ -300,14 +375,7 @@ Table of Contents
    have additional constraints imposed either by server policy, object
    specific specifications or both.
 
-3.2.  Timestamp
-
-   Date and time attribute values MUST be represented in Universal
-   Coordinated Time (UTC) using the Gregorian calendar using date-time
-   form as defined in [RFC3339].  In EPP Compatibility Profile upper
-   case "T" and "Z" characters MUST be used.
-
-3.3.  Client Identifier
+3.2.  Client Identifier
 
    Client identifiers are character strings with a specified minimum
    length, a specified maximum length, and a specified format.  Contact
@@ -322,7 +390,7 @@ Table of Contents
       |  this object).  R8.1 in the form of -02 RPP requirements
       |  includes RFC8543.
 
-3.4.  Phone Number
+3.3.  Phone Number
 
    Telephone number syntax is derived from structures defined in
    [ITU.E164.2005].  Telephone numbers described in this specification
@@ -362,6 +430,35 @@ Table of Contents
    by position to data elements.  In case of data insertions, deletions
    or updates the remaining of the data SHALL preserve its order.
 
+   Example aggregation having cardinality 1:
+
+   +-------------------+
+   |   (root parent)   |
+   |-------------------|
+   | foo:              |
+   |   |         +----------+
+   |   +-------- | [Object] |
+   |             |    ...   |
+   |             +----------+
+   +-------------------+
+
+   Example aggregation having cardinality >1:
+
+   +-------------------+
+   |   (root parent)   |
+   |-------------------|
+   | foo:              |
+   |   +-----[0] +----------+
+   |   |         | [Object] |
+   |   |         |    ...   |
+   |   |         +----------+
+   |   +-----[1] +----------+
+   |             | [Object] |
+   |             |    ...   |
+   |             +----------+
+   |         ...       |
+   +-------------------+
+
 4.2.  Composition
 
    Notation: Composition[Type] or Type
@@ -375,28 +472,94 @@ Table of Contents
    by position to data elements.  In case of data insertions, deletions
    or updates the remaining of the data SHALL preserve its order.
 
+   Example composition having cardinality 1:
+
+   +-------------------+
+   |      (root)       |
+   |-------------------|
+   | foo:              |
+   |   |  +-------+    |
+   |   +--| ...   |    |
+   |      +-------+    |
+   +-------------------+
+
+   Example composition having cardinality >1:
+
+   +-------------------+
+   |      (root)       |
+   |-------------------|
+   | foo:              |
+   |   +-[0] +-------+ |
+   |   |     | ...   | |
+   |   |     +-------+ |
+   |   +-[1] +-------+ |
+   |   |     | ...   | |
+   |   |     +-------+ |
+   |   ...             |
+   +-------------------+
+
 4.3.  Labelled Aggregation
 
    Notation: LabelledAggregation[Type]
 
    A relation between two independent object with single text string
-   attribute.  Multiple associations with the same label are allowed.
+   attribute.  Multiple associations with the same label are allowed and
+   represent an unordered array.
 
    A type defining such association MUST define Label Description with
    semantics of the label and Label Constraints with constraints related
    to the label.
+
+   Example labelled aggregation:
+
+   +--------------------------------+
+   |             (root)             |
+   |--------------------------------|
+   | foo:                           |
+   |   |                            |
+   |   +---("label_A")--->  +----------+
+   |   |                    | [Object] |
+   |   |                    |   ...    |
+   |   |                    +----------+
+   |   +---("label_B")--->  +----------+
+   |   |                    | [Object] |
+   |   |                    |   ...    |
+   |   |                    +----------+
+   |   +---("label_A")--->  +----------+
+   |   |  (labels repeat)   | [Object] |
+   |   |                    |   ...    |
+   |   |                    +----------+
+   |   ...                          |
+   +--------------------------------+
 
 4.4.  Aggregation Dictionary
 
    Notation: AggregationDictionary[Type]
 
    A relation between two independent object with single text string
-   attribute.  Only single association with the same label is allowed
-   allowing it to be used as dictionary key.
+   attribute.  Association labels MUST be unique allowing it to be used
+   as dictionary key.
 
    A type defining such association MUST define Label Description with
    semantics of the label and Label Constraints with constraints related
    to the label.
+
+   Example Aggregation Dictionary:
+
+   +--------------------------+
+   |         (root)           |
+   |--------------------------|
+   | foo:                     |
+   |   "key1" ->       +-----------+
+   |                   | [Object]  |
+   |                   |   ...     |
+   |                   +-----------+
+   |   "key2" ->       +-----------+
+   |                   | [Object]  |
+   |                   |   ...     |
+   |                   +-----------+
+   |     ...                  |
+   +--------------------------+
 
 4.5.  Labelled Composition
 
@@ -410,6 +573,28 @@ Table of Contents
    semantics of the label and Label Constraints with constraints related
    to the label.
 
+   Example Labelled Composition:
+
+   +-------------------------------------+
+   |        (root parent)                |
+   |-------------------------------------|
+   | foo:                                |
+   |   |                                 |
+   |   +---("label_A")--->  +----------+ |
+   |   |                    | [Child]  | |
+   |   |                    |   ...    | |
+   |   |                    +----------+ |
+   |   +---("label_B")--->  +----------+ |
+   |   |                    | [Child]  | |
+   |   |                    |   ...    | |
+   |   |                    +----------+ |
+   |   +---("label_A")--->  +----------+ |
+   |   |  (labels repeat)   | [Child]  | |
+   |   |                    |   ...    | |
+   |   |                    +----------+ |
+   |   ...                               |
+   +-------------------------------------+
+
 4.6.  Composition Dictionary
 
    Notation: CompositionDictionary[Type]
@@ -422,6 +607,23 @@ Table of Contents
    A type defining such association MUST define Label Description with
    semantics of the label and Label Constraints with constraints related
    to the label.
+
+   Example Composition Dictionary:
+
+   +--------------------------+
+   |         (root)           |
+   |--------------------------|
+   | foo:                     |
+   |   "key1" -> +---------+  |
+   |             | [Child] |  |
+   |             |   ...   |  |
+   |             +---------+  |
+   |   "key2" -> +---------+  |
+   |             | [Child] |  |
+   |             |   ...   |  |
+   |             +---------+  |
+   |     ...                  |
+   +--------------------------+
 
 5.  Component Objects
 
@@ -1041,7 +1243,9 @@ Table of Contents
 
 6.3.5.  Transfer operation
 
-      |  TODO: define transfer operation
+      |  TODO: define transfer operation https://github.com/pawel-kow/
+      |  draft-kowalik-rpp-data-objects/issues/23 (https://github.com/
+      |  pawel-kow/draft-kowalik-rpp-data-objects/issues/23)
 
 7.  Contact Data Object
 
@@ -1236,7 +1440,10 @@ Table of Contents
 
 7.3.  Operations
 
-      |  TODO: Describe operations for contacts
+      |  TODO: Describe operations for contacts https://github.com/
+      |  pawel-kow/draft-kowalik-rpp-data-objects/issues/15
+      |  (https://github.com/pawel-kow/draft-kowalik-rpp-data-objects/
+      |  issues/15)
 
 8.  Host Data Object
 
@@ -1367,7 +1574,10 @@ Table of Contents
 
 8.3.  Operations
 
-      |  TODO: Describe operations for hosts
+      |  TODO: Describe operations for hosts https://github.com/pawel-
+      |  kow/draft-kowalik-rpp-data-objects/issues/16
+      |  (https://github.com/pawel-kow/draft-kowalik-rpp-data-objects/
+      |  issues/16)
 
 9.  IANA Considerations
 
@@ -1758,17 +1968,25 @@ Table of Contents
       |  TODO: IANA table: Contact Data Object TODO: IANA table: Host
       |  Data Object
 
-   Security Considerations
+10.  Security Considerations
 
       |  TODO: write security considerations, if any
 
-10.  Normative References
+11.  Changes History
+
+draft-kowalik-rpp-data-objects -01 - -02
+
+   -  ontology of allowed basic datatypes #4
+   -  add examples of associations #31
+
+12.  Normative References
 
    [I-D.kowalik-rpp-architecture]
               Kowalik, P. and M. Wullink, "RPP Architecture", Work in
               Progress, Internet-Draft, draft-kowalik-rpp-architecture-
-              02, 29 June 2025, <https://datatracker.ietf.org/doc/html/
-              draft-kowalik-rpp-architecture-02>.
+              03, 10 October 2025,
+              <https://datatracker.ietf.org/doc/html/draft-kowalik-rpp-
+              architecture-03>.
 
    [ISO3166-1]
               International Organization for Standardization, "Codes for
@@ -1784,6 +2002,10 @@ Table of Contents
    [RFC1035]  Mockapetris, P., "Domain names - implementation and
               specification", STD 13, RFC 1035, DOI 10.17487/RFC1035,
               November 1987, <https://www.rfc-editor.org/info/rfc1035>.
+
+   [RFC1738]  Berners-Lee, T., Masinter, L., and M. McCahill, "Uniform
+              Resource Locators (URL)", RFC 1738, DOI 10.17487/RFC1738,
+              December 1994, <https://www.rfc-editor.org/info/rfc1738>.
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,

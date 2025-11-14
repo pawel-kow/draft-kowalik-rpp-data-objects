@@ -68,44 +68,44 @@ Table of Contents
    1.  Introduction  . . . . . . . . . . . . . . . . . . . . . . . .   3
      1.1.  Conventions and Terminology . . . . . . . . . . . . . . .   4
    2.  Resource Definition Principles  . . . . . . . . . . . . . . .   4
-     2.1.  Data Element Abstraction  . . . . . . . . . . . . . . . .   4
-     2.2.  Extensibility . . . . . . . . . . . . . . . . . . . . . .   4
-     2.3.  Data Element Semantics  . . . . . . . . . . . . . . . . .   4
-     2.4.  Operations  . . . . . . . . . . . . . . . . . . . . . . .   5
-       2.4.1.  Authorisation . . . . . . . . . . . . . . . . . . . .   5
-       2.4.2.  Uniform interface . . . . . . . . . . . . . . . . . .   5
-         2.4.2.1.  Create  . . . . . . . . . . . . . . . . . . . . .   5
-         2.4.2.2.  Read  . . . . . . . . . . . . . . . . . . . . . .   5
-         2.4.2.3.  Update  . . . . . . . . . . . . . . . . . . . . .   6
-         2.4.2.4.  Delete  . . . . . . . . . . . . . . . . . . . . .   6
-       2.4.3.  Operations beyond uniform interface . . . . . . . . .   6
-     2.5.  EPP Compatibility Profile . . . . . . . . . . . . . . . .   6
-   3.  Common Data Types . . . . . . . . . . . . . . . . . . . . . .   7
-     3.1.  Identifier  . . . . . . . . . . . . . . . . . . . . . . .   7
-     3.2.  Timestamp . . . . . . . . . . . . . . . . . . . . . . . .   7
-     3.3.  Client Identifier . . . . . . . . . . . . . . . . . . . .   7
-     3.4.  Phone Number  . . . . . . . . . . . . . . . . . . . . . .   7
-   4.  Associations  . . . . . . . . . . . . . . . . . . . . . . . .   8
-     4.1.  Aggregation . . . . . . . . . . . . . . . . . . . . . . .   8
-     4.2.  Composition . . . . . . . . . . . . . . . . . . . . . . .   8
-     4.3.  Labelled Aggregation  . . . . . . . . . . . . . . . . . .   8
-     4.4.  Aggregation Dictionary  . . . . . . . . . . . . . . . . .   9
-     4.5.  Labelled Composition  . . . . . . . . . . . . . . . . . .   9
-     4.6.  Composition Dictionary  . . . . . . . . . . . . . . . . .   9
-   5.  Component Objects . . . . . . . . . . . . . . . . . . . . . .   9
-     5.1.  Period Object . . . . . . . . . . . . . . . . . . . . . .  10
-     5.2.  Status Object . . . . . . . . . . . . . . . . . . . . . .  10
-     5.3.  Nameserver Object . . . . . . . . . . . . . . . . . . . .  11
-     5.4.  DNS Resource Record . . . . . . . . . . . . . . . . . . .  12
-     5.5.  Authorisation Information Object  . . . . . . . . . . . .  12
-     5.6.  Postal Address Object . . . . . . . . . . . . . . . . . .  13
-     5.7.  Postal Info Object  . . . . . . . . . . . . . . . . . . .  14
-     5.8.  Disclose Object . . . . . . . . . . . . . . . . . . . . .  16
-   6.  Domain Name Data Object . . . . . . . . . . . . . . . . . . .  16
-     6.1.  Object Description  . . . . . . . . . . . . . . . . . . .  16
-     6.2.  Data Elements . . . . . . . . . . . . . . . . . . . . . .  16
-     6.3.  Operations  . . . . . . . . . . . . . . . . . . . . . . .  20
-       6.3.1.  Create Operation  . . . . . . . . . . . . . . . . . .  20
+     2.1.  Primitive Data Types  . . . . . . . . . . . . . . . . . .   4
+       2.1.1.  String  . . . . . . . . . . . . . . . . . . . . . . .   4
+       2.1.2.  Integer . . . . . . . . . . . . . . . . . . . . . . .   4
+       2.1.3.  Boolean . . . . . . . . . . . . . . . . . . . . . . .   5
+       2.1.4.  Decimal . . . . . . . . . . . . . . . . . . . . . . .   5
+       2.1.5.  Date  . . . . . . . . . . . . . . . . . . . . . . . .   5
+       2.1.6.  Timestamp . . . . . . . . . . . . . . . . . . . . . .   5
+       2.1.7.  URL . . . . . . . . . . . . . . . . . . . . . . . . .   5
+       2.1.8.  Binary  . . . . . . . . . . . . . . . . . . . . . . .   5
+     2.2.  Data Element Abstraction  . . . . . . . . . . . . . . . .   5
+     2.3.  Extensibility . . . . . . . . . . . . . . . . . . . . . .   6
+     2.4.  Data Element Semantics  . . . . . . . . . . . . . . . . .   6
+     2.5.  Operations  . . . . . . . . . . . . . . . . . . . . . . .   6
+       2.5.1.  Authorisation . . . . . . . . . . . . . . . . . . . .   7
+       2.5.2.  Uniform interface . . . . . . . . . . . . . . . . . .   7
+         2.5.2.1.  Create  . . . . . . . . . . . . . . . . . . . . .   7
+         2.5.2.2.  Read  . . . . . . . . . . . . . . . . . . . . . .   7
+         2.5.2.3.  Update  . . . . . . . . . . . . . . . . . . . . .   7
+         2.5.2.4.  Delete  . . . . . . . . . . . . . . . . . . . . .   8
+       2.5.3.  Operations beyond uniform interface . . . . . . . . .   8
+     2.6.  EPP Compatibility Profile . . . . . . . . . . . . . . . .   8
+   3.  Common Data Types . . . . . . . . . . . . . . . . . . . . . .   8
+     3.1.  Identifier  . . . . . . . . . . . . . . . . . . . . . . .   8
+     3.2.  Client Identifier . . . . . . . . . . . . . . . . . . . .   9
+     3.3.  Phone Number  . . . . . . . . . . . . . . . . . . . . . .   9
+   4.  Associations  . . . . . . . . . . . . . . . . . . . . . . . .   9
+     4.1.  Aggregation . . . . . . . . . . . . . . . . . . . . . . .   9
+     4.2.  Composition . . . . . . . . . . . . . . . . . . . . . . .  10
+     4.3.  Labelled Aggregation  . . . . . . . . . . . . . . . . . .  11
+     4.4.  Aggregation Dictionary  . . . . . . . . . . . . . . . . .  12
+     4.5.  Labelled Composition  . . . . . . . . . . . . . . . . . .  13
+     4.6.  Composition Dictionary  . . . . . . . . . . . . . . . . .  13
+   5.  Component Objects . . . . . . . . . . . . . . . . . . . . . .  14
+     5.1.  Period Object . . . . . . . . . . . . . . . . . . . . . .  14
+     5.2.  Status Object . . . . . . . . . . . . . . . . . . . . . .  14
+     5.3.  Nameserver Object . . . . . . . . . . . . . . . . . . . .  15
+     5.4.  DNS Resource Record . . . . . . . . . . . . . . . . . . .  16
+     5.5.  Authorisation Information Object  . . . . . . . . . . . .  17
 
 
 
@@ -114,25 +114,34 @@ Kowalik & Wullink         Expires 23 April 2026                 [Page 2]
 Internet-Draft              RPP Data Objects                October 2025
 
 
-       6.3.2.  Read Operation  . . . . . . . . . . . . . . . . . . .  21
-       6.3.3.  Delete Operation  . . . . . . . . . . . . . . . . . .  21
-       6.3.4.  Renew Operation . . . . . . . . . . . . . . . . . . .  22
-       6.3.5.  Transfer operation  . . . . . . . . . . . . . . . . .  22
-   7.  Contact Data Object . . . . . . . . . . . . . . . . . . . . .  22
-     7.1.  Object Description  . . . . . . . . . . . . . . . . . . .  22
-     7.2.  Data Elements . . . . . . . . . . . . . . . . . . . . . .  23
-     7.3.  Operations  . . . . . . . . . . . . . . . . . . . . . . .  26
-   8.  Host Data Object  . . . . . . . . . . . . . . . . . . . . . .  26
-     8.1.  Object Description  . . . . . . . . . . . . . . . . . . .  27
-     8.2.  Data Elements . . . . . . . . . . . . . . . . . . . . . .  27
-     8.3.  Operations  . . . . . . . . . . . . . . . . . . . . . . .  29
-   9.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .  29
-     9.1.  RPP Data Object Registry  . . . . . . . . . . . . . . . .  29
-       9.1.1.  Registration Policy . . . . . . . . . . . . . . . . .  29
-       9.1.2.  Registry Structure  . . . . . . . . . . . . . . . . .  30
-       9.1.3.  Initial Registrations . . . . . . . . . . . . . . . .  30
-   10. Normative References  . . . . . . . . . . . . . . . . . . . .  38
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  39
+     5.6.  Postal Address Object . . . . . . . . . . . . . . . . . .  18
+     5.7.  Postal Info Object  . . . . . . . . . . . . . . . . . . .  19
+     5.8.  Disclose Object . . . . . . . . . . . . . . . . . . . . .  20
+   6.  Domain Name Data Object . . . . . . . . . . . . . . . . . . .  20
+     6.1.  Object Description  . . . . . . . . . . . . . . . . . . .  20
+     6.2.  Data Elements . . . . . . . . . . . . . . . . . . . . . .  20
+     6.3.  Operations  . . . . . . . . . . . . . . . . . . . . . . .  24
+       6.3.1.  Create Operation  . . . . . . . . . . . . . . . . . .  25
+       6.3.2.  Read Operation  . . . . . . . . . . . . . . . . . . .  25
+       6.3.3.  Delete Operation  . . . . . . . . . . . . . . . . . .  26
+       6.3.4.  Renew Operation . . . . . . . . . . . . . . . . . . .  26
+       6.3.5.  Transfer operation  . . . . . . . . . . . . . . . . .  27
+   7.  Contact Data Object . . . . . . . . . . . . . . . . . . . . .  27
+     7.1.  Object Description  . . . . . . . . . . . . . . . . . . .  27
+     7.2.  Data Elements . . . . . . . . . . . . . . . . . . . . . .  27
+     7.3.  Operations  . . . . . . . . . . . . . . . . . . . . . . .  31
+   8.  Host Data Object  . . . . . . . . . . . . . . . . . . . . . .  31
+     8.1.  Object Description  . . . . . . . . . . . . . . . . . . .  31
+     8.2.  Data Elements . . . . . . . . . . . . . . . . . . . . . .  31
+     8.3.  Operations  . . . . . . . . . . . . . . . . . . . . . . .  34
+   9.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .  34
+     9.1.  RPP Data Object Registry  . . . . . . . . . . . . . . . .  34
+       9.1.1.  Registration Policy . . . . . . . . . . . . . . . . .  34
+       9.1.2.  Registry Structure  . . . . . . . . . . . . . . . . .  34
+       9.1.3.  Initial Registrations . . . . . . . . . . . . . . . .  35
+   10. Security Considerations . . . . . . . . . . . . . . . . . . .  42
+   12. Normative References  . . . . . . . . . . . . . . . . . . . .  42
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  44
 
 1.  Introduction
 
@@ -152,15 +161,6 @@ Internet-Draft              RPP Data Objects                October 2025
    concepts are expressed in specific formats (e.g., JSON, XML, or
    YAML).
 
-   This document focuses on the data model of RPP objects and operations
-   on them, including the data model of operation inputs and outputs.
-   This separation of concerns ensures the protocol maintains a stable
-   semantic foundation that can be consistently implemented across
-   different media types and easily adapted to new representation
-   formats.  For instance, the model defines a contact's name as a
-   required string type, but it remains agnostic as to whether that
-   string is ultimately encoded as a JSON property or an XML element.
-
 
 
 
@@ -169,6 +169,15 @@ Kowalik & Wullink         Expires 23 April 2026                 [Page 3]
 
 Internet-Draft              RPP Data Objects                October 2025
 
+
+   This document focuses on the data model of RPP objects and operations
+   on them, including the data model of operation inputs and outputs.
+   This separation of concerns ensures the protocol maintains a stable
+   semantic foundation that can be consistently implemented across
+   different media types and easily adapted to new representation
+   formats.  For instance, the model defines a contact's name as a
+   required string type, but it remains agnostic as to whether that
+   string is ultimately encoded as a JSON property or an XML element.
 
 1.1.  Conventions and Terminology
 
@@ -180,22 +189,107 @@ Internet-Draft              RPP Data Objects                October 2025
 
 2.  Resource Definition Principles
 
-2.1.  Data Element Abstraction
+2.1.  Primitive Data Types
+
+   RPP data elements use strict typing, meaning that each element must
+   conform exactly to its declared primitive data type, and type
+   violations MUST be treated as errors by implementations.  The exact
+   specifications for these types, including allowed ranges, encoding,
+   and formatting, are determined by the representation format used
+   (e.g., JSON, XML, CBOR).  New RPP non-primitive data types based on
+   existing primitive data types MAY be defined to support additional
+   features.
+
+2.1.1.  String
+
+   A String is a sequence of Unicode characters.  Usages MAY impose
+   additional constraints on string values, such as maximum length or
+   allowed character sets, based on specific data element definitions.
+   An example of a string is "host.example".
+
+2.1.2.  Integer
+
+   An Integer is a whole number, positive or negative.  Usages MAY
+   impose additional constraints on integer values, such as minimum and
+   maximum allowable values, based on specific data element definitions.
+   An example of an integer is 42.
+
+
+
+
+
+
+
+
+Kowalik & Wullink         Expires 23 April 2026                 [Page 4]
+
+Internet-Draft              RPP Data Objects                October 2025
+
+
+2.1.3.  Boolean
+
+   A Boolean represents a logical true or false value.  An example of a
+   boolean is true or false, but it MAY be different depending on the
+   native encoding of boolean values in the representation.
+
+2.1.4.  Decimal
+
+   Decimal is a number providing an exact, base-10 representation of
+   fractional values within a defined precision.  Usage of this type
+   MUST impose additional constraints on decimal values, such as
+   precision or range, based on specific data element definitions.  An
+   example of a decimal is 3.14159.
+
+2.1.5.  Date
+
+   A Date is a full-date calendar date as described in [RFC3339], an
+   example of a date is 2025-10-27.
+
+2.1.6.  Timestamp
+
+   Timestamp (Date and time attribute) values MUST be represented in
+   Universal Coordinated Time (UTC) using the Gregorian calendar using
+   date-time form as defined in [RFC3339].  In EPP Compatibility Profile
+   upper case "T" and "Z" characters MUST be used.  An example of a
+   timestamp is 2025-10-27T09:42:51Z.
+
+2.1.7.  URL
+
+   A Uniform Resource Locator (URL) as defined in [RFC1738].  An example
+   of a URL is "https://host.example".
+
+2.1.8.  Binary
+
+   Raw binary data, implementations MAY choose how to encode the binary
+   data, for example as base64 or hexadecimal string.  An example of
+   binary data encoded as base64 is "UlBQIFNheXMgSGk=".
+
+2.2.  Data Element Abstraction
 
    Each data object is composed of logical data elements.  A data
    element is a logical unit of information identified by a stable name,
    independent of its representation in any given media type.  The
    definition for each element specifies its logical name, purpose,
-   cardinality, data type, and constraints.
+   cardinality, data type, and constraints.  The data type of a data
+   element may also be a reference to another data object, using the
+   target object's stable name.
 
-2.2.  Extensibility
+
+
+
+Kowalik & Wullink         Expires 23 April 2026                 [Page 5]
+
+Internet-Draft              RPP Data Objects                October 2025
+
+
+2.3.  Extensibility
 
    The set of data elements for a given data object is extensible.  New
    data elements, associations or operations MAY be defined and
    registered with IANA in order for the data object to support new
    features.
 
-2.3.  Data Element Semantics
+2.4.  Data Element Semantics
 
    The definition of each data element within an object consists of the
    following attributes:
@@ -210,7 +304,7 @@ Internet-Draft              RPP Data Objects                October 2025
       -  0+ for zero or more
       -  and 1+ for one or more
    -  Data Type: Defines the element's data structure, which can be a
-      primitive type (e.g., String, Integer) or a reference to another
+      primitive type, a Common Data Type or a reference to another
       component object.
    -  Description: Explains the purpose of the data element and any
       other relevant information.
@@ -218,14 +312,6 @@ Internet-Draft              RPP Data Objects                October 2025
       top of the data type itself, such as value ranges.
    -  Mutability: Defines the lifecycle of the data element's value.  It
       MUST be one of the following:
-
-
-
-Kowalik & Wullink         Expires 23 April 2026                 [Page 4]
-
-Internet-Draft              RPP Data Objects                October 2025
-
-
       -  create-only: The element's value is provided during the
          object's creation and cannot be modified thereafter.
       -  read-only: The element's value is managed by the server.  It
@@ -234,12 +320,25 @@ Internet-Draft              RPP Data Objects                October 2025
       -  read-write: The element's value can be set and modified by the
          client.
 
-2.4.  Operations
+2.5.  Operations
 
    For each data object a set of possible operations is defined together
    with their respective input and output data.
 
-2.4.1.  Authorisation
+
+
+
+
+
+
+
+
+Kowalik & Wullink         Expires 23 April 2026                 [Page 6]
+
+Internet-Draft              RPP Data Objects                October 2025
+
+
+2.5.1.  Authorisation
 
    For each operation authorisation requirements and operation behaviour
    is specified.  Wherever "object authorisation" is mentioned, it means
@@ -250,21 +349,21 @@ Internet-Draft              RPP Data Objects                October 2025
    or derived from Authorisation Information Object attached to the
    object.
 
-2.4.2.  Uniform interface
+2.5.2.  Uniform interface
 
    For the typical set of Create, Read, Update and Delete operations the
    following set of input and output data model is specified on top of
    additional transient input data, unless an operation for the specific
    object tells otherwise.
 
-2.4.2.1.  Create
+2.5.2.1.  Create
 
    -  Input: Object representation (create-only and read-write
       properties)
    -  Output: Object representation (read-write and read-only
       properties)
 
-2.4.2.2.  Read
+2.5.2.2.  Read
 
    -  Input: Object identifier
    -  Output: Object representation (read-write and read-only
@@ -274,14 +373,6 @@ Internet-Draft              RPP Data Objects                October 2025
    querying client, use of object authorisation information, and server
    policy towards unauthorized clients.  If the querying client is the
    sponsoring client, all available information MUST be returned.  If
-
-
-
-Kowalik & Wullink         Expires 23 April 2026                 [Page 5]
-
-Internet-Draft              RPP Data Objects                October 2025
-
-
    the querying client is not the sponsoring client but the client
    provides valid object authorisation information, all available
    information SHOULD be returned, however some optional elements MAY be
@@ -291,25 +382,33 @@ Internet-Draft              RPP Data Objects                October 2025
    OPTIONAL elements are returned, if any, or whether the entire request
    is rejected.
 
-2.4.2.3.  Update
+2.5.2.3.  Update
 
    -  Input: Object identifier, Object changes representation (read-
       write properties)
+
+
+
+Kowalik & Wullink         Expires 23 April 2026                 [Page 7]
+
+Internet-Draft              RPP Data Objects                October 2025
+
+
    -  Output: Object representation (read-write and read-only
       properties)
 
-2.4.2.4.  Delete
+2.5.2.4.  Delete
 
    -  Input: Object identifier
    -  Output: Object representation (read-write and read-only
       properties) or no representation
 
-2.4.3.  Operations beyond uniform interface
+2.5.3.  Operations beyond uniform interface
 
    For all other operations both input and output representation have to
    be fully specified.
 
-2.5.  EPP Compatibility Profile
+2.6.  EPP Compatibility Profile
 
    RPP is designed to coexist with the Extensible Provisioning Protocol
    (EPP), often operating in parallel against a common backend
@@ -328,20 +427,11 @@ Internet-Draft              RPP Data Objects                October 2025
    MUST follow these specific constraints in addition to the base RPP
    requirements.
 
-
-
-
-
-
-Kowalik & Wullink         Expires 23 April 2026                 [Page 6]
-
-Internet-Draft              RPP Data Objects                October 2025
-
-
 3.  Common Data Types
 
-   This section defines data types and structures that are re-used
-   across multiple data object definitions.
+   This section defines new shared data types and structures that are
+   re-used across multiple data object definitions and are based on the
+   existing Primitive Data Types.
 
 3.1.  Identifier
 
@@ -351,14 +441,16 @@ Internet-Draft              RPP Data Objects                October 2025
    have additional constraints imposed either by server policy, object
    specific specifications or both.
 
-3.2.  Timestamp
 
-   Date and time attribute values MUST be represented in Universal
-   Coordinated Time (UTC) using the Gregorian calendar using date-time
-   form as defined in [RFC3339].  In EPP Compatibility Profile upper
-   case "T" and "Z" characters MUST be used.
 
-3.3.  Client Identifier
+
+
+Kowalik & Wullink         Expires 23 April 2026                 [Page 8]
+
+Internet-Draft              RPP Data Objects                October 2025
+
+
+3.2.  Client Identifier
 
    Client identifiers are character strings with a specified minimum
    length, a specified maximum length, and a specified format.  Contact
@@ -373,7 +465,7 @@ Internet-Draft              RPP Data Objects                October 2025
       |  this object).  R8.1 in the form of -02 RPP requirements
       |  includes RFC8543.
 
-3.4.  Phone Number
+3.3.  Phone Number
 
    Telephone number syntax is derived from structures defined in
    [ITU.E164.2005].  Telephone numbers described in this specification
@@ -383,16 +475,6 @@ Internet-Draft              RPP Data Objects                October 2025
    of digits representing the telephone number.  An optional "x" (ASCII
    value 0x0078) separator with additional digits representing extension
    information can be appended to the end of the value.
-
-
-
-
-
-
-Kowalik & Wullink         Expires 23 April 2026                 [Page 7]
-
-Internet-Draft              RPP Data Objects                October 2025
-
 
 4.  Associations
 
@@ -417,11 +499,47 @@ Internet-Draft              RPP Data Objects                October 2025
 
    A relation between two independent objects.
 
+
+
+Kowalik & Wullink         Expires 23 April 2026                 [Page 9]
+
+Internet-Draft              RPP Data Objects                October 2025
+
+
    If the cardinality of target object is more than 1, this represents
    an ordered array.  It MUST assured that the same unchanged data is
    always inserted in the same order in order to allow stable reference
    by position to data elements.  In case of data insertions, deletions
    or updates the remaining of the data SHALL preserve its order.
+
+   Example aggregation having cardinality 1:
+
+   +-------------------+
+   |   (root parent)   |
+   |-------------------|
+   | foo:              |
+   |   |         +----------+
+   |   +-------- | [Object] |
+   |             |    ...   |
+   |             +----------+
+   +-------------------+
+
+   Example aggregation having cardinality >1:
+
+   +-------------------+
+   |   (root parent)   |
+   |-------------------|
+   | foo:              |
+   |   +-----[0] +----------+
+   |   |         | [Object] |
+   |   |         |    ...   |
+   |   |         +----------+
+   |   +-----[1] +----------+
+   |             | [Object] |
+   |             |    ...   |
+   |             +----------+
+   |         ...       |
+   +-------------------+
 
 4.2.  Composition
 
@@ -436,35 +554,125 @@ Internet-Draft              RPP Data Objects                October 2025
    by position to data elements.  In case of data insertions, deletions
    or updates the remaining of the data SHALL preserve its order.
 
+
+
+
+Kowalik & Wullink         Expires 23 April 2026                [Page 10]
+
+Internet-Draft              RPP Data Objects                October 2025
+
+
+   Example composition having cardinality 1:
+
+   +-------------------+
+   |      (root)       |
+   |-------------------|
+   | foo:              |
+   |   |  +-------+    |
+   |   +--| ...   |    |
+   |      +-------+    |
+   +-------------------+
+
+   Example composition having cardinality >1:
+
+   +-------------------+
+   |      (root)       |
+   |-------------------|
+   | foo:              |
+   |   +-[0] +-------+ |
+   |   |     | ...   | |
+   |   |     +-------+ |
+   |   +-[1] +-------+ |
+   |   |     | ...   | |
+   |   |     +-------+ |
+   |   ...             |
+   +-------------------+
+
 4.3.  Labelled Aggregation
 
    Notation: LabelledAggregation[Type]
 
    A relation between two independent object with single text string
-   attribute.  Multiple associations with the same label are allowed.
-
-
-
-Kowalik & Wullink         Expires 23 April 2026                 [Page 8]
-
-Internet-Draft              RPP Data Objects                October 2025
-
+   attribute.  Multiple associations with the same label are allowed and
+   represent an unordered array.
 
    A type defining such association MUST define Label Description with
    semantics of the label and Label Constraints with constraints related
    to the label.
+
+   Example labelled aggregation:
+
+
+
+
+
+
+
+
+
+
+
+
+Kowalik & Wullink         Expires 23 April 2026                [Page 11]
+
+Internet-Draft              RPP Data Objects                October 2025
+
+
+   +--------------------------------+
+   |             (root)             |
+   |--------------------------------|
+   | foo:                           |
+   |   |                            |
+   |   +---("label_A")--->  +----------+
+   |   |                    | [Object] |
+   |   |                    |   ...    |
+   |   |                    +----------+
+   |   +---("label_B")--->  +----------+
+   |   |                    | [Object] |
+   |   |                    |   ...    |
+   |   |                    +----------+
+   |   +---("label_A")--->  +----------+
+   |   |  (labels repeat)   | [Object] |
+   |   |                    |   ...    |
+   |   |                    +----------+
+   |   ...                          |
+   +--------------------------------+
 
 4.4.  Aggregation Dictionary
 
    Notation: AggregationDictionary[Type]
 
    A relation between two independent object with single text string
-   attribute.  Only single association with the same label is allowed
-   allowing it to be used as dictionary key.
+   attribute.  Association labels MUST be unique allowing it to be used
+   as dictionary key.
 
    A type defining such association MUST define Label Description with
    semantics of the label and Label Constraints with constraints related
    to the label.
+
+   Example Aggregation Dictionary:
+
+   +--------------------------+
+   |         (root)           |
+   |--------------------------|
+   | foo:                     |
+   |   "key1" ->       +-----------+
+   |                   | [Object]  |
+   |                   |   ...     |
+   |                   +-----------+
+   |   "key2" ->       +-----------+
+   |                   | [Object]  |
+   |                   |   ...     |
+   |                   +-----------+
+   |     ...                  |
+   +--------------------------+
+
+
+
+Kowalik & Wullink         Expires 23 April 2026                [Page 12]
+
+Internet-Draft              RPP Data Objects                October 2025
+
 
 4.5.  Labelled Composition
 
@@ -477,6 +685,28 @@ Internet-Draft              RPP Data Objects                October 2025
    A type defining such association MUST define Label Description with
    semantics of the label and Label Constraints with constraints related
    to the label.
+
+   Example Labelled Composition:
+
+   +-------------------------------------+
+   |        (root parent)                |
+   |-------------------------------------|
+   | foo:                                |
+   |   |                                 |
+   |   +---("label_A")--->  +----------+ |
+   |   |                    | [Child]  | |
+   |   |                    |   ...    | |
+   |   |                    +----------+ |
+   |   +---("label_B")--->  +----------+ |
+   |   |                    | [Child]  | |
+   |   |                    |   ...    | |
+   |   |                    +----------+ |
+   |   +---("label_A")--->  +----------+ |
+   |   |  (labels repeat)   | [Child]  | |
+   |   |                    |   ...    | |
+   |   |                    +----------+ |
+   |   ...                               |
+   +-------------------------------------+
 
 4.6.  Composition Dictionary
 
@@ -491,20 +721,35 @@ Internet-Draft              RPP Data Objects                October 2025
    semantics of the label and Label Constraints with constraints related
    to the label.
 
+   Example Composition Dictionary:
+
+
+
+Kowalik & Wullink         Expires 23 April 2026                [Page 13]
+
+Internet-Draft              RPP Data Objects                October 2025
+
+
+   +--------------------------+
+   |         (root)           |
+   |--------------------------|
+   | foo:                     |
+   |   "key1" -> +---------+  |
+   |             | [Child] |  |
+   |             |   ...   |  |
+   |             +---------+  |
+   |   "key2" -> +---------+  |
+   |             | [Child] |  |
+   |             |   ...   |  |
+   |             +---------+  |
+   |     ...                  |
+   +--------------------------+
+
 5.  Component Objects
 
    This section defines common objects that are re-used in the
    definitions of top-level data objects.  Component objects carry only
    data but do not define any operations.
-
-
-
-
-
-Kowalik & Wullink         Expires 23 April 2026                 [Page 9]
-
-Internet-Draft              RPP Data Objects                October 2025
-
 
 5.1.  Period Object
 
@@ -533,6 +778,14 @@ Internet-Draft              RPP Data Objects                October 2025
    -  Description: Represents one of the status values associated with a
       provisioning object
    -  Data Elements:
+
+
+
+Kowalik & Wullink         Expires 23 April 2026                [Page 14]
+
+Internet-Draft              RPP Data Objects                October 2025
+
+
       -  Label
          -  Identifier: label
          -  Cardinality: 1
@@ -554,14 +807,6 @@ Internet-Draft              RPP Data Objects                October 2025
                 lifecycle or business logic.  Those MUST NOT use either
                 "client" or "server" prefix.  They MAY use another
                 prefix or no prefix at all
-
-
-
-Kowalik & Wullink         Expires 23 April 2026                [Page 10]
-
-Internet-Draft              RPP Data Objects                October 2025
-
-
       -  Reason
          -  Indentifier: reason
          -  Cardinality: 0-1
@@ -589,6 +834,14 @@ Internet-Draft              RPP Data Objects                October 2025
    -  Name: Nameserver Object
    -  Description: Represents a single nameserver.
    -  Data Elements:
+
+
+
+Kowalik & Wullink         Expires 23 April 2026                [Page 15]
+
+Internet-Draft              RPP Data Objects                October 2025
+
+
       -  Host Name
          -  Identifier: hostName
          -  Cardinality: 1
@@ -609,14 +862,6 @@ Internet-Draft              RPP Data Objects                October 2025
                respectively.
             -  The labels of DNS entries MUST be subordinate to the Host
                Name of the Nameserver.
-
-
-
-
-Kowalik & Wullink         Expires 23 April 2026                [Page 11]
-
-Internet-Draft              RPP Data Objects                October 2025
-
 
 5.4.  DNS Resource Record
 
@@ -645,6 +890,14 @@ Internet-Draft              RPP Data Objects                October 2025
             -  Allowed values MAY be constrained by server policies.
                For domain provisioning typically the Type would be
                constrained to the allowed parent side entries.
+
+
+
+Kowalik & Wullink         Expires 23 April 2026                [Page 16]
+
+Internet-Draft              RPP Data Objects                October 2025
+
+
       -  Data
          -  Identifier: data
          -  Cardinality: 1
@@ -665,14 +918,6 @@ Internet-Draft              RPP Data Objects                October 2025
             server policy.
 
 5.5.  Authorisation Information Object
-
-
-
-
-Kowalik & Wullink         Expires 23 April 2026                [Page 12]
-
-Internet-Draft              RPP Data Objects                October 2025
-
 
    -  Name: Authorisation Information
    -  Description: Contains information used to authorise operations on
@@ -700,6 +945,15 @@ Internet-Draft              RPP Data Objects                October 2025
             values like public key certificates or tokens encoded as
             string are possible.
          -  Constraints:
+
+
+
+
+Kowalik & Wullink         Expires 23 April 2026                [Page 17]
+
+Internet-Draft              RPP Data Objects                October 2025
+
+
             -  Authorisation Information object is immutable.  If the
                information changes (for example password is updated) a
                new instance MUST be created.
@@ -722,14 +976,6 @@ Internet-Draft              RPP Data Objects                October 2025
             entries or character set.
       -  City
          -  Identifier: city
-
-
-
-Kowalik & Wullink         Expires 23 April 2026                [Page 13]
-
-Internet-Draft              RPP Data Objects                October 2025
-
-
          -  Cardinality: 0-1
          -  Mutability: read-write
          -  Data Type: String
@@ -756,6 +1002,14 @@ Internet-Draft              RPP Data Objects                October 2025
          -  Constraints:
             -  Implementation MAY limit the maximum length of entries or
                character set.
+
+
+
+Kowalik & Wullink         Expires 23 April 2026                [Page 18]
+
+Internet-Draft              RPP Data Objects                October 2025
+
+
             -  The limitations MAY differ depending on Country Code (cc)
                data element.
       -  Country Code
@@ -776,15 +1030,6 @@ Internet-Draft              RPP Data Objects                October 2025
    -  Description: Contains postal-address information in either
       internationalised or localised forms.
    -  Data Elements:
-
-
-
-
-
-Kowalik & Wullink         Expires 23 April 2026                [Page 14]
-
-Internet-Draft              RPP Data Objects                October 2025
-
 
       |  TBC: Contact Type is not localised (shall be the same for
       |  PERSON and ORG).  Moving it level up would however detach it
@@ -813,6 +1058,14 @@ Internet-Draft              RPP Data Objects                October 2025
          -  The implementations MAY require this field if Contact Type
             (type) is set to "PERSON".
    -  Organisation
+
+
+
+Kowalik & Wullink         Expires 23 April 2026                [Page 19]
+
+Internet-Draft              RPP Data Objects                October 2025
+
+
       -  Identifier: org
       -  Cardinality: 0-1
       -  Mutability: read-write
@@ -831,16 +1084,6 @@ Internet-Draft              RPP Data Objects                October 2025
       -  Description: The detailed postal address.
       -  Constraints: In EPP Compatibility Profile this data element
          MUST be provided.
-
-
-
-
-
-
-Kowalik & Wullink         Expires 23 April 2026                [Page 15]
-
-Internet-Draft              RPP Data Objects                October 2025
-
 
 5.8.  Disclose Object
 
@@ -871,6 +1114,14 @@ Internet-Draft              RPP Data Objects                October 2025
       -  Cardinality: 1
       -  Mutability: create-only
       -  Data Type: String
+
+
+
+Kowalik & Wullink         Expires 23 April 2026                [Page 20]
+
+Internet-Draft              RPP Data Objects                October 2025
+
+
       -  Description: The fully qualified name of the domain object.
       -  Constraints:
          -  The value MUST be a fully qualified domain name that
@@ -888,16 +1139,6 @@ Internet-Draft              RPP Data Objects                October 2025
       -  Cardinality: 0-1
       -  Mutability: read-only
       -  Data Type: Identifier
-
-
-
-
-
-Kowalik & Wullink         Expires 23 April 2026                [Page 16]
-
-Internet-Draft              RPP Data Objects                October 2025
-
-
       -  Description: A server-assigned unique identifier for the
          object.  In EPP Compatibility Profile this data element MUST be
          provided.
@@ -929,6 +1170,14 @@ Internet-Draft              RPP Data Objects                October 2025
          -  Servers MAY restrict association of a Contact Object of a
             different sponsoring client.
 
+
+
+
+Kowalik & Wullink         Expires 23 April 2026                [Page 21]
+
+Internet-Draft              RPP Data Objects                October 2025
+
+
       |  TBC: leave registrant here or move it to contacts with a type?
 
    -  Contacts
@@ -946,13 +1195,6 @@ Internet-Draft              RPP Data Objects                October 2025
       -  Constraints:
          -  Maximum number of associated contacts (per role) MAY be
             restricted by server policy
-
-
-
-Kowalik & Wullink         Expires 23 April 2026                [Page 17]
-
-Internet-Draft              RPP Data Objects                October 2025
-
 
       |  TBC: IANA registry for contact role label?
 
@@ -985,6 +1227,13 @@ Internet-Draft              RPP Data Objects                October 2025
             name and MUST NOT be below zone cut in case of present
             delegation.
 
+
+
+Kowalik & Wullink         Expires 23 April 2026                [Page 22]
+
+Internet-Draft              RPP Data Objects                October 2025
+
+
    -  Subordinate Hosts
 
       -  Identifier: subordinateHosts
@@ -1001,15 +1250,6 @@ Internet-Draft              RPP Data Objects                October 2025
       -  Cardinality: 1
       -  Mutability: read-only
       -  Data Type: Client Identifier.
-
-
-
-
-Kowalik & Wullink         Expires 23 April 2026                [Page 18]
-
-Internet-Draft              RPP Data Objects                October 2025
-
-
       -  Description: The identifier of the client that is the current
          sponsor of the domain object.
       -  Constraints: (None)
@@ -1042,6 +1282,14 @@ Internet-Draft              RPP Data Objects                October 2025
       -  Data Type: Client Identifier.
       -  Description: The identifier of the client that last updated the
          domain object.
+
+
+
+Kowalik & Wullink         Expires 23 April 2026                [Page 23]
+
+Internet-Draft              RPP Data Objects                October 2025
+
+
       -  Constraints: This element MUST NOT be present if the domain has
          never been modified.
 
@@ -1057,14 +1305,6 @@ Internet-Draft              RPP Data Objects                October 2025
          object has never been modified.
 
    -  Expiry Date
-
-
-
-
-Kowalik & Wullink         Expires 23 April 2026                [Page 19]
-
-Internet-Draft              RPP Data Objects                October 2025
-
 
       -  Identifier: expiryDate
       -  Cardinality: 0-1
@@ -1098,6 +1338,14 @@ Internet-Draft              RPP Data Objects                October 2025
 
 6.3.  Operations
 
+
+
+
+Kowalik & Wullink         Expires 23 April 2026                [Page 24]
+
+Internet-Draft              RPP Data Objects                October 2025
+
+
 6.3.1.  Create Operation
 
    The Create operation allows a client to provision a new Domain Name
@@ -1114,14 +1362,6 @@ Internet-Draft              RPP Data Objects                October 2025
    operation:
 
    -  Registration Period
-
-
-
-Kowalik & Wullink         Expires 23 April 2026                [Page 20]
-
-Internet-Draft              RPP Data Objects                October 2025
-
-
       -  Identifier: period
       -  Cardinality: 0-1
       -  Data Type: Period Object.
@@ -1154,6 +1394,14 @@ Internet-Draft              RPP Data Objects                October 2025
       -  Identifier: hostsFilter
       -  Cardinality: 0-1
       -  Data Type: String
+
+
+
+Kowalik & Wullink         Expires 23 April 2026                [Page 25]
+
+Internet-Draft              RPP Data Objects                October 2025
+
+
       -  Description: Controls which host information is returned with
          the object.
       -  Constraints: The value MUST be one of "all", "del" (delegated),
@@ -1170,13 +1418,6 @@ Internet-Draft              RPP Data Objects                October 2025
 
    The server SHOULD reject a delete request if subordinate host objects
    are associated with the domain name.
-
-
-
-Kowalik & Wullink         Expires 23 April 2026                [Page 21]
-
-Internet-Draft              RPP Data Objects                October 2025
-
 
    The error response SHOULD indicate the related subordinate host
    objects.
@@ -1209,6 +1450,14 @@ Internet-Draft              RPP Data Objects                October 2025
 
       -  Identifier: renewalPeriod
       -  Cardinality: 0-1
+
+
+
+Kowalik & Wullink         Expires 23 April 2026                [Page 26]
+
+Internet-Draft              RPP Data Objects                October 2025
+
+
       -  Data Type: Period Object
       -  Description: The duration to be added to the object's
          registration period.  This value is used by the server to
@@ -1218,7 +1467,9 @@ Internet-Draft              RPP Data Objects                October 2025
 
 6.3.5.  Transfer operation
 
-      |  TODO: define transfer operation
+      |  TODO: define transfer operation https://github.com/pawel-kow/
+      |  draft-kowalik-rpp-data-objects/issues/23 (https://github.com/
+      |  pawel-kow/draft-kowalik-rpp-data-objects/issues/23)
 
 7.  Contact Data Object
 
@@ -1226,14 +1477,6 @@ Internet-Draft              RPP Data Objects                October 2025
 
    -  Name: Contact Data Object
    -  Identifier: contact
-
-
-
-Kowalik & Wullink         Expires 23 April 2026                [Page 22]
-
-Internet-Draft              RPP Data Objects                October 2025
-
-
    -  Description: A Contact Data Object represents the social
       information for an individual or organisation associated with
       other objects.
@@ -1262,6 +1505,15 @@ Internet-Draft              RPP Data Objects                October 2025
       -  Data Type: Identifier
       -  Description: A server-assigned unique identifier for the
          object.
+
+
+
+
+Kowalik & Wullink         Expires 23 April 2026                [Page 27]
+
+Internet-Draft              RPP Data Objects                October 2025
+
+
       -  Constraints: In EPP Compatibility Profile this data element
          MUST be provided.
 
@@ -1281,14 +1533,6 @@ Internet-Draft              RPP Data Objects                October 2025
          and one element of type "loc".
 
    -  Voice Phone Number
-
-
-
-
-Kowalik & Wullink         Expires 23 April 2026                [Page 23]
-
-Internet-Draft              RPP Data Objects                October 2025
-
 
       -  Identifier: voice
       -  Cardinality: 0+
@@ -1319,6 +1563,13 @@ Internet-Draft              RPP Data Objects                October 2025
 
       -  Identifier: status
 
+
+
+Kowalik & Wullink         Expires 23 April 2026                [Page 28]
+
+Internet-Draft              RPP Data Objects                October 2025
+
+
       -  Cardinality: 0+
 
       -  Mutability: read-only
@@ -1338,13 +1589,6 @@ Internet-Draft              RPP Data Objects                October 2025
 
          -  The value MUST be one of the status tokens defined in the
             IANA registry for domain statuses.
-
-
-
-Kowalik & Wullink         Expires 23 April 2026                [Page 24]
-
-Internet-Draft              RPP Data Objects                October 2025
-
 
          -  The initial value list MAY be as defined in [RFC5733].  In
             this case the values MUST have the same semantics.
@@ -1374,6 +1618,14 @@ Internet-Draft              RPP Data Objects                October 2025
       -  Identifier: creationDate
       -  Cardinality: 0-1
       -  Mutability: read-only
+
+
+
+Kowalik & Wullink         Expires 23 April 2026                [Page 29]
+
+Internet-Draft              RPP Data Objects                October 2025
+
+
       -  Data Type: Timestamp.
       -  Description: The date and time of contact object creation.
       -  Constraints: The value is set by the server and cannot be
@@ -1394,14 +1646,6 @@ Internet-Draft              RPP Data Objects                October 2025
 
       -  Identifier: updateDate
       -  Cardinality: 0-1
-
-
-
-Kowalik & Wullink         Expires 23 April 2026                [Page 25]
-
-Internet-Draft              RPP Data Objects                October 2025
-
-
       -  Mutability: read-only
       -  Data Type: Timestamp.
       -  Description: The date and time of the most recent contact
@@ -1430,6 +1674,14 @@ Internet-Draft              RPP Data Objects                October 2025
          contact object.
       -  Constraints: (None)
 
+
+
+
+Kowalik & Wullink         Expires 23 April 2026                [Page 30]
+
+Internet-Draft              RPP Data Objects                October 2025
+
+
    -  Disclose
 
       -  Identifier: disclose
@@ -1444,19 +1696,12 @@ Internet-Draft              RPP Data Objects                October 2025
 
 7.3.  Operations
 
-      |  TODO: Describe operations for contacts
+      |  TODO: Describe operations for contacts https://github.com/
+      |  pawel-kow/draft-kowalik-rpp-data-objects/issues/15
+      |  (https://github.com/pawel-kow/draft-kowalik-rpp-data-objects/
+      |  issues/15)
 
 8.  Host Data Object
-
-
-
-
-
-
-Kowalik & Wullink         Expires 23 April 2026                [Page 26]
-
-Internet-Draft              RPP Data Objects                October 2025
-
 
 8.1.  Object Description
 
@@ -1485,6 +1730,14 @@ Internet-Draft              RPP Data Objects                October 2025
       -  Cardinality: 0+
       -  Mutability: read-write
       -  Data Type: Composition[DNS Resource Record]
+
+
+
+Kowalik & Wullink         Expires 23 April 2026                [Page 31]
+
+Internet-Draft              RPP Data Objects                October 2025
+
+
       -  Description: DNS Resource Records related to the host.
       -  Constraints:
          -  The labels of DNS entries MUST be subordinate to the Host
@@ -1503,16 +1756,6 @@ Internet-Draft              RPP Data Objects                October 2025
          domain.
       -  Constraints: Possible combinations of Domain Status Labels is
          specified in Section 2.3 of [RFC5732]
-
-
-
-
-
-
-Kowalik & Wullink         Expires 23 April 2026                [Page 27]
-
-Internet-Draft              RPP Data Objects                October 2025
-
 
       |  TBD: this block
       |  repositoryId/sponsoringClientId/creationDate/updatingClientId/
@@ -1543,6 +1786,14 @@ Internet-Draft              RPP Data Objects                October 2025
    -  Creating Client ID
 
       -  Identifier: creatingClientId
+
+
+
+Kowalik & Wullink         Expires 23 April 2026                [Page 32]
+
+Internet-Draft              RPP Data Objects                October 2025
+
+
       -  Cardinality: 0-1
       -  Mutability: read-only
       -  Data Type: Client Identifier.
@@ -1561,14 +1812,6 @@ Internet-Draft              RPP Data Objects                October 2025
          specified by the client.
 
    -  Updating Client ID
-
-
-
-
-Kowalik & Wullink         Expires 23 April 2026                [Page 28]
-
-Internet-Draft              RPP Data Objects                October 2025
-
 
       -  Identifier: updatingClientId
       -  Cardinality: 0-1
@@ -1598,12 +1841,24 @@ Internet-Draft              RPP Data Objects                October 2025
       -  Data Type: Timestamp
       -  Description: The date and time of the most recent successful
          host object transfer.
+
+
+
+
+Kowalik & Wullink         Expires 23 April 2026                [Page 33]
+
+Internet-Draft              RPP Data Objects                October 2025
+
+
       -  Constraints: This element MUST NOT be provided if the host
          object has never been transferred.
 
 8.3.  Operations
 
-      |  TODO: Describe operations for hosts
+      |  TODO: Describe operations for hosts https://github.com/pawel-
+      |  kow/draft-kowalik-rpp-data-objects/issues/16
+      |  (https://github.com/pawel-kow/draft-kowalik-rpp-data-objects/
+      |  issues/16)
 
 9.  IANA Considerations
 
@@ -1618,13 +1873,6 @@ Internet-Draft              RPP Data Objects                October 2025
 
    The policy for adding new objects, data elements, or operations to
    this registry is "Specification Required" [RFC8126].
-
-
-
-Kowalik & Wullink         Expires 23 April 2026                [Page 29]
-
-Internet-Draft              RPP Data Objects                October 2025
-
 
 9.1.2.  Registry Structure
 
@@ -1650,6 +1898,14 @@ Internet-Draft              RPP Data Objects                October 2025
          parameter's Identifier, Name, Cardinality, Data Type, and a
          description.
 
+
+
+
+Kowalik & Wullink         Expires 23 April 2026                [Page 34]
+
+Internet-Draft              RPP Data Objects                October 2025
+
+
 9.1.3.  Initial Registrations
 
    The initial contents of the RPP Data Object Registry are defined
@@ -1666,21 +1922,6 @@ Internet-Draft              RPP Data Objects                October 2025
    Reference: [This-ID]
 
    Data Elements
-
-
-
-
-
-
-
-
-
-
-
-Kowalik & Wullink         Expires 23 April 2026                [Page 30]
-
-Internet-Draft              RPP Data Objects                October 2025
-
 
     +============+=========+=====+============+=========+=============+
     | Element    | Element |Card.| Mutability | Data    | Description |
@@ -1708,6 +1949,19 @@ Internet-Draft              RPP Data Objects                October 2025
 
    Data Elements
 
+
+
+
+
+
+
+
+
+Kowalik & Wullink         Expires 23 April 2026                [Page 35]
+
+Internet-Draft              RPP Data Objects                October 2025
+
+
    +==========+========+=====+==========+=================+============+
    |Element   |Element |Card.|Mutability| Data Type       |Description |
    |Identifier|Name    |     |          |                 |            |
@@ -1729,14 +1983,6 @@ Internet-Draft              RPP Data Objects                October 2025
    Object Name: DNS Resource Record
 
    Object Type: Component
-
-
-
-
-Kowalik & Wullink         Expires 23 April 2026                [Page 31]
-
-Internet-Draft              RPP Data Objects                October 2025
-
 
    Description: Represents a DNS Entry.
 
@@ -1765,6 +2011,13 @@ Internet-Draft              RPP Data Objects                October 2025
 
                                   Table 3
 
+
+
+Kowalik & Wullink         Expires 23 April 2026                [Page 36]
+
+Internet-Draft              RPP Data Objects                October 2025
+
+
    Object: authInfo
 
    Object Name: Authorisation Information
@@ -1776,23 +2029,6 @@ Internet-Draft              RPP Data Objects                October 2025
    Reference: [This-ID]
 
    Data Elements
-
-
-
-
-
-
-
-
-
-
-
-
-
-Kowalik & Wullink         Expires 23 April 2026                [Page 32]
-
-Internet-Draft              RPP Data Objects                October 2025
-
 
    +==========+=============+=====+===========+======+=================+
    |Element   |Element Name |Card.|Mutability |Data  | Description     |
@@ -1831,24 +2067,19 @@ Internet-Draft              RPP Data Objects                October 2025
 
    Object Type: Component
 
+
+
+Kowalik & Wullink         Expires 23 April 2026                [Page 37]
+
+Internet-Draft              RPP Data Objects                October 2025
+
+
    Description: Represents one of the status values associated with the
    provisioning object.
 
    Reference: [This-ID]
 
    Data Elements
-
-
-
-
-
-
-
-
-Kowalik & Wullink         Expires 23 April 2026                [Page 33]
-
-Internet-Draft              RPP Data Objects                October 2025
-
 
    +==========+=======+=====+===========+=========+===================+
    |Element   |Element|Card.|Mutability |Data Type| Description       |
@@ -1891,20 +2122,17 @@ Internet-Draft              RPP Data Objects                October 2025
 
    Description: Represents a domain name and its associated data.
 
-   Reference: [This-ID]
-
-   Data Elements
 
 
 
-
-
-
-
-Kowalik & Wullink         Expires 23 April 2026                [Page 34]
+Kowalik & Wullink         Expires 23 April 2026                [Page 38]
 
 Internet-Draft              RPP Data Objects                October 2025
 
+
+   Reference: [This-ID]
+
+   Data Elements
 
    +==================+=============+=====+==========+===================+=============+
    |Identifier        |Name         |Card.|Mutability|Data Type          |Description  |
@@ -1950,18 +2178,18 @@ Internet-Draft              RPP Data Objects                October 2025
    |                  |             |     |          |                   |the domain   |
    |                  |             |     |          |                   |name.        |
    +------------------+-------------+-----+----------+-------------------+-------------+
-   |subordinateHosts  |Subordinate  |0+   |read-only |Aggregation [Host  |Subordinate  |
-   |                  |Hosts        |     |          |Object]            |host names.  |
-   +------------------+-------------+-----+----------+-------------------+-------------+
-   |sponsoringClientId|Sponsoring   |1    |read-only |Client Identifier  |The current  |
 
 
 
-Kowalik & Wullink         Expires 23 April 2026                [Page 35]
+Kowalik & Wullink         Expires 23 April 2026                [Page 39]
 
 Internet-Draft              RPP Data Objects                October 2025
 
 
+   |subordinateHosts  |Subordinate  |0+   |read-only |Aggregation [Host  |Subordinate  |
+   |                  |Hosts        |     |          |Object]            |host names.  |
+   +------------------+-------------+-----+----------+-------------------+-------------+
+   |sponsoringClientId|Sponsoring   |1    |read-only |Client Identifier  |The current  |
    |                  |Client ID    |     |          |                   |sponsoring   |
    |                  |             |     |          |                   |client ID.   |
    +------------------+-------------+-----+----------+-------------------+-------------+
@@ -2009,11 +2237,7 @@ Internet-Draft              RPP Data Objects                October 2025
 
 
 
-
-
-
-
-Kowalik & Wullink         Expires 23 April 2026                [Page 36]
+Kowalik & Wullink         Expires 23 April 2026                [Page 40]
 
 Internet-Draft              RPP Data Objects                October 2025
 
@@ -2069,7 +2293,7 @@ Internet-Draft              RPP Data Objects                October 2025
 
 
 
-Kowalik & Wullink         Expires 23 April 2026                [Page 37]
+Kowalik & Wullink         Expires 23 April 2026                [Page 41]
 
 Internet-Draft              RPP Data Objects                October 2025
 
@@ -2093,23 +2317,42 @@ Internet-Draft              RPP Data Objects                October 2025
       |  TODO: IANA table: Contact Data Object TODO: IANA table: Host
       |  Data Object
 
-   Security Considerations
+10.  Security Considerations
 
       |  TODO: write security considerations, if any
 
-10.  Normative References
+11.  Changes History
+
+draft-kowalik-rpp-data-objects -01 - -02
+
+   -  ontology of allowed basic datatypes #4
+   -  add examples of associations #31
+
+12.  Normative References
 
    [I-D.kowalik-rpp-architecture]
               Kowalik, P. and M. Wullink, "RPP Architecture", Work in
               Progress, Internet-Draft, draft-kowalik-rpp-architecture-
-              02, 29 June 2025, <https://datatracker.ietf.org/doc/html/
-              draft-kowalik-rpp-architecture-02>.
+              03, 10 October 2025,
+              <https://datatracker.ietf.org/doc/html/draft-kowalik-rpp-
+              architecture-03>.
 
    [ISO3166-1]
               International Organization for Standardization, "Codes for
               the representation of names of countries and their
               subdivisions -- Part 1: Country codes", ISO Standard 3166,
               November 2000.
+
+
+
+
+
+
+
+Kowalik & Wullink         Expires 23 April 2026                [Page 42]
+
+Internet-Draft              RPP Data Objects                October 2025
+
 
    [ITU.E164.2005]
               International Telecommunication Union, "The international
@@ -2120,15 +2363,9 @@ Internet-Draft              RPP Data Objects                October 2025
               specification", STD 13, RFC 1035, DOI 10.17487/RFC1035,
               November 1987, <https://www.rfc-editor.org/info/rfc1035>.
 
-
-
-
-
-
-Kowalik & Wullink         Expires 23 April 2026                [Page 38]
-
-Internet-Draft              RPP Data Objects                October 2025
-
+   [RFC1738]  Berners-Lee, T., Masinter, L., and M. McCahill, "Uniform
+              Resource Locators (URL)", RFC 1738, DOI 10.17487/RFC1738,
+              December 1994, <https://www.rfc-editor.org/info/rfc1738>.
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
@@ -2165,6 +2402,14 @@ Internet-Draft              RPP Data Objects                October 2025
               Contact Mapping", STD 69, RFC 5733, DOI 10.17487/RFC5733,
               August 2009, <https://www.rfc-editor.org/info/rfc5733>.
 
+
+
+
+Kowalik & Wullink         Expires 23 April 2026                [Page 43]
+
+Internet-Draft              RPP Data Objects                October 2025
+
+
    [RFC8126]  Cotton, M., Leiba, B., and T. Narten, "Guidelines for
               Writing an IANA Considerations Section in RFCs", BCP 26,
               RFC 8126, DOI 10.17487/RFC8126, June 2017,
@@ -2178,14 +2423,6 @@ Authors' Addresses
 
    Pawel Kowalik
    DENIC
-
-
-
-Kowalik & Wullink         Expires 23 April 2026                [Page 39]
-
-Internet-Draft              RPP Data Objects                October 2025
-
-
    Email: pawel.kowalik@denic.de
    URI:   https://denic.de/
 
@@ -2224,17 +2461,4 @@ Internet-Draft              RPP Data Objects                October 2025
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-Kowalik & Wullink         Expires 23 April 2026                [Page 40]
+Kowalik & Wullink         Expires 23 April 2026                [Page 44]
