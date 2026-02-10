@@ -94,13 +94,14 @@ Table of Contents
      4.6.  Composition Dictionary
    5.  Component Objects
      5.1.  Period Object
-     5.2.  Status Object
-     5.3.  Nameserver Object
-     5.4.  DNS Resource Record
-     5.5.  Authorisation Information Object
-     5.6.  Postal Address Object
-     5.7.  Postal Info Object
-     5.8.  Disclose Object
+     5.2.  Provisioning Metadata Object
+     5.3.  Status Object
+     5.4.  Nameserver Object
+     5.5.  DNS Resource Record
+     5.6.  Authorisation Information Object
+     5.7.  Postal Address Object
+     5.8.  Postal Info Object
+     5.9.  Disclose Object
    6.  Domain Name Data Object
      6.1.  Object Description
      6.2.  Data Elements
@@ -652,7 +653,76 @@ Table of Contents
          -  Constraints: The value MUST be one of: "y" (years) or "m"
             (months).
 
-5.2.  Status Object
+5.2.  Provisioning Metadata Object
+
+   -  Name: Provisioning Metadata Object
+   -  Identifier: provisioningMetadata
+   -  Description: Contains standard metadata about the lifecycle and
+      ownership of a provisioned object.  This metadata is common across
+      all resource objects in the registry system.
+   -  Data Elements:
+      -  Repository ID
+         -  Identifier: repositoryId
+         -  Cardinality: 0-1
+         -  Mutability: read-only
+         -  Data Type: Identifier
+         -  Description: A server-assigned unique identifier for the
+            object.
+         -  Constraints: In EPP Compatibility Profile this data element
+            MUST be provided.
+      -  Sponsoring Client ID
+         -  Identifier: sponsoringClientId
+         -  Cardinality: 1
+         -  Mutability: read-only
+         -  Data Type: Client Identifier
+         -  Description: The identifier of the client that is the
+            current sponsor of the object.
+         -  Constraints: (None)
+      -  Creating Client ID
+         -  Identifier: creatingClientId
+         -  Cardinality: 0-1
+         -  Mutability: read-only
+         -  Data Type: Client Identifier
+         -  Description: The identifier of the client that created the
+            object.
+         -  Constraints: (None)
+      -  Creation Date
+         -  Identifier: creationDate
+         -  Cardinality: 0-1
+         -  Mutability: read-only
+         -  Data Type: Timestamp
+         -  Description: The date and time of object creation.
+         -  Constraints: The value is set by the server and cannot be
+            specified by the client.
+      -  Updating Client ID
+         -  Identifier: updatingClientId
+         -  Cardinality: 0-1
+         -  Mutability: read-only
+         -  Data Type: Client Identifier
+         -  Description: The identifier of the client that last updated
+            the object.
+         -  Constraints: This element MUST NOT be present if the object
+            has never been modified.
+      -  Update Date
+         -  Identifier: updateDate
+         -  Cardinality: 0-1
+         -  Mutability: read-only
+         -  Data Type: Timestamp
+         -  Description: The date and time of the most recent object
+            modification.
+         -  Constraints: This element MUST NOT be present if the object
+            has never been modified.
+      -  Transfer Date
+         -  Identifier: transferDate
+         -  Cardinality: 0-1
+         -  Mutability: read-only
+         -  Data Type: Timestamp
+         -  Description: The date and time of the most recent successful
+            object transfer.
+         -  Constraints: This element MUST NOT be provided if the object
+            has never been transferred.
+
+5.3.  Status Object
 
    -  Name: Status Object
    -  Description: Represents one of the status values associated with a
@@ -701,7 +771,7 @@ Table of Contents
       |  TBD: Idea - model status object as Labelled Composition using
       |  "Label"?  Con: Generic Constraints for Label will be repeated.
 
-5.3.  Nameserver Object
+5.4.  Nameserver Object
 
    -  Name: Nameserver Object
    -  Description: Represents a single nameserver.
@@ -727,7 +797,7 @@ Table of Contents
             -  The labels of DNS entries MUST be subordinate to the Host
                Name of the Nameserver.
 
-5.4.  DNS Resource Record
+5.5.  DNS Resource Record
 
    -  Name: DNS Resource Record
    -  Description: Represents a DNS Entry
@@ -773,7 +843,7 @@ Table of Contents
          -  Constraints: The allowed value range MAY be constrained by
             server policy.
 
-5.5.  Authorisation Information Object
+5.6.  Authorisation Information Object
 
    -  Name: Authorisation Information
    -  Description: Contains information used to authorise operations on
@@ -808,7 +878,7 @@ Table of Contents
                Information MAY not be available for read or any other
                operation responding with this data element.
 
-5.6.  Postal Address Object
+5.7.  Postal Address Object
 
    -  Name: Postal Address Object
    -  Description: Contains the components of a postal address.
@@ -863,7 +933,7 @@ Table of Contents
             -  In EPP Compatibility Profile this data element MUST be
                provided.
 
-5.7.  Postal Info Object
+5.8.  Postal Info Object
 
    -  Name: Postal Info Object
    -  Description: Contains postal-address information in either
@@ -916,7 +986,7 @@ Table of Contents
       -  Constraints: In EPP Compatibility Profile this data element
          MUST be provided.
 
-5.8.  Disclose Object
+5.9.  Disclose Object
 
       |  TODO: Model Disclose in universal (extendible) way
 
@@ -956,15 +1026,14 @@ Table of Contents
             DNS zone is implicit and MUST NOT be provided when
             exchanging host and domain names.
 
-   -  Repository ID
+   -  Provisioning Metadata
 
-      -  Identifier: repositoryId
-      -  Cardinality: 0-1
+      -  Identifier: provisioningMetadata
+      -  Cardinality: 1
       -  Mutability: read-only
-      -  Data Type: Identifier
-      -  Description: A server-assigned unique identifier for the
-         object.  In EPP Compatibility Profile this data element MUST be
-         provided.
+      -  Data Type: Provisioning Metadata Object
+      -  Description: Standard metadata about the object's lifecycle and
+         ownership.
       -  Constraints: (None)
 
    -  Status
@@ -1052,58 +1121,6 @@ Table of Contents
          exist under this domain.
       -  Constraints: (None)
 
-   -  Sponsoring Client ID
-
-      -  Identifier: sponsoringClientId
-      -  Cardinality: 1
-      -  Mutability: read-only
-      -  Data Type: Client Identifier.
-      -  Description: The identifier of the client that is the current
-         sponsor of the domain object.
-      -  Constraints: (None)
-
-   -  Creating Client ID
-
-      -  Identifier: creatingClientId
-      -  Cardinality: 0-1
-      -  Mutability: read-only
-      -  Data Type: Client Identifier.
-      -  Description: The identifier of the client that created the
-         domain object.
-      -  Constraints: (None)
-
-   -  Creation Date
-
-      -  Identifier: creationDate
-      -  Cardinality: 0-1
-      -  Mutability: read-only
-      -  Data Type: Timestamp.
-      -  Description: The date and time of domain object creation.
-      -  Constraints: The value is set by the server and cannot be
-         specified by the client.
-
-   -  Updating Client ID
-
-      -  Identifier: updatingClientId
-      -  Cardinality: 0-1
-      -  Mutability: read-only
-      -  Data Type: Client Identifier.
-      -  Description: The identifier of the client that last updated the
-         domain object.
-      -  Constraints: This element MUST NOT be present if the domain has
-         never been modified.
-
-   -  Update Date
-
-      -  Identifier: updateDate
-      -  Cardinality: 0-1
-      -  Mutability: read-only
-      -  Data Type: Timestamp.
-      -  Description: The date and time of the most recent domain object
-         modification.
-      -  Constraints: This element MUST NOT be present if the domain
-         object has never been modified.
-
    -  Expiry Date
 
       -  Identifier: expiryDate
@@ -1114,17 +1131,6 @@ Table of Contents
          domain object's registration period.
       -  Constraints: The value is set by the server and cannot be
          specified by the client.
-
-   -  Transfer Date
-
-      -  Identifier: transferDate
-      -  Cardinality: 0-1
-      -  Mutability: read-only
-      -  Data Type: Timestamp
-      -  Description: The date and time of the most recent successful
-         domain object transfer.
-      -  Constraints: This element MUST NOT be provided if the domain
-         object has never been transferred.
 
    -  Authorisation Information
 
@@ -1273,16 +1279,31 @@ Table of Contents
          -  This value MUST be supported to be provided by the client.
          -  Servers MAY support server-side generation of this value.
 
-   -  Repository ID
+   -  Provisioning Metadata
 
-      -  Identifier: repositoryId
-      -  Cardinality: 0-1
+      -  Identifier: provisioningMetadata
+      -  Cardinality: 1
       -  Mutability: read-only
-      -  Data Type: Identifier
-      -  Description: A server-assigned unique identifier for the
-         object.
-      -  Constraints: In EPP Compatibility Profile this data element
-         MUST be provided.
+      -  Data Type: Provisioning Metadata Object
+      -  Description: Standard metadata about the object's lifecycle and
+         ownership.
+      -  Constraints: (None)
+
+   -  Status
+
+      -  Identifier: status
+      -  Cardinality: 0+
+      -  Mutability: read-only
+      -  Data Type: Status Object
+      -  Description: The current status descriptors associated with the
+         contact.
+      -  Constraints:
+         -  Possible combinations of Domain Status Labels is specified
+            in Section 2.2 of [RFC5733]
+         -  The value MUST be one of the status tokens defined in the
+            IANA registry for domain statuses.
+         -  The initial value list MAY be as defined in [RFC5733].  In
+            this case the values MUST have the same semantics.
 
    -  Postal Information
 
@@ -1325,96 +1346,6 @@ Table of Contents
       -  Data Type: String.
       -  Description: The contact's email address.
       -  Constraints: Email address syntax is defined in [RFC5322].
-
-   -  Status
-
-      -  Identifier: status
-
-      -  Cardinality: 0+
-
-      -  Mutability: read-only
-
-      -  Data Type: Status Object
-
-      -  Description: The current status descriptors associated with the
-         contact.
-
-      -  Constraints:
-
-         -  Description: The current status descriptors associated with
-            the contact.
-
-         -  Constraints: Possible combinations of Domain Status Labels
-            is specified in Section 2.2 of [RFC5733]
-
-         -  The value MUST be one of the status tokens defined in the
-            IANA registry for domain statuses.
-
-         -  The initial value list MAY be as defined in [RFC5733].  In
-            this case the values MUST have the same semantics.
-
-   -  Sponsoring Client ID
-
-      -  Identifier: sponsoringClientId
-      -  Cardinality: 1
-      -  Mutability: read-only
-      -  Data Type: Client Identifier.
-      -  Description: The identifier of the client that is the current
-         sponsor of the domain object.
-      -  Constraints: (None)
-
-   -  Creating Client ID
-
-      -  Identifier: creatingClientId
-      -  Cardinality: 0-1
-      -  Mutability: read-only
-      -  Data Type: Client Identifier.
-      -  Description: The identifier of the client that created the
-         contact object.
-      -  Constraints: (None)
-
-   -  Creation Date
-
-      -  Identifier: creationDate
-      -  Cardinality: 0-1
-      -  Mutability: read-only
-      -  Data Type: Timestamp.
-      -  Description: The date and time of contact object creation.
-      -  Constraints: The value is set by the server and cannot be
-         specified by the client.
-
-   -  Updating Client ID
-
-      -  Identifier: updatingClientId
-      -  Cardinality: 0-1
-      -  Mutability: read-only
-      -  Data Type: Client Identifier.
-      -  Description: The identifier of the client that last updated the
-         contact object.
-      -  Constraints: This element MUST NOT be present if the contact
-         has never been modified.
-
-   -  Update Date
-
-      -  Identifier: updateDate
-      -  Cardinality: 0-1
-      -  Mutability: read-only
-      -  Data Type: Timestamp.
-      -  Description: The date and time of the most recent contact
-         object modification.
-      -  Constraints: This element MUST NOT be present if the contact
-         object has never been modified.
-
-   -  Transfer Date
-
-      -  Identifier: transferDate
-      -  Cardinality: 0-1
-      -  Mutability: read-only
-      -  Data Type: Timestamp.
-      -  Description: The date and time of the most recent successful
-         contact object transfer.
-      -  Constraints: This element MUST NOT be provided if the contact
-         object has never been transferred.
 
    -  Authorisation Information
 
@@ -1468,6 +1399,27 @@ Table of Contents
       -  Description: Fully qualified name of a host.
       -  Constraints: The value MUST be a syntactically valid host name.
 
+   -  Provisioning Metadata
+
+      -  Identifier: provisioningMetadata
+      -  Cardinality: 1
+      -  Mutability: read-only
+      -  Data Type: Provisioning Metadata Object
+      -  Description: Standard metadata about the object's lifecycle and
+         ownership.
+      -  Constraints: (None)
+
+   -  Status
+
+      -  Identifier: status
+      -  Cardinality: 0+
+      -  Mutability: read-only
+      -  Data Type: Status Object
+      -  Description: The current status descriptors associated with the
+         domain.
+      -  Constraints: Possible combinations of Domain Status Labels is
+         specified in Section 2.3 of [RFC5732]
+
    -  DNS Resource Records
 
       -  Identifier: dns
@@ -1481,96 +1433,6 @@ Table of Contents
          -  In EPP Compatibility Profile the entries MUST be limited to
             A and AAAA entries for IPv4 and IPv6 glue records
             respectively.
-
-   -  Status
-
-      -  Identifier: status
-      -  Cardinality: 0+
-      -  Mutability: read-only
-      -  Data Type: Status Object
-      -  Description: The current status descriptors associated with the
-         domain.
-      -  Constraints: Possible combinations of Domain Status Labels is
-         specified in Section 2.3 of [RFC5732]
-
-      |  TBD: this block
-      |  repositoryId/sponsoringClientId/creationDate/updatingClientId/
-      |  updateDate/transferDate is the same as for Domain Name.  Shall
-      |  it be abstracted to a new component object like "Provisioning
-      |  Metadata"?
-
-   -  Repository ID
-
-      -  Identifier: repositoryId
-      -  Cardinality: 0-1
-      -  Mutability: read-only
-      -  Data Type: Identifier
-      -  Description: A server-assigned unique identifier for the
-         object.  For EPP compatibility this data element is obligatory.
-      -  Constraints: (None)
-
-   -  Sponsoring Client ID
-
-      -  Identifier: sponsoringClientId
-      -  Cardinality: 1
-      -  Mutability: read-only
-      -  Data Type: Client Identifier.
-      -  Description: The identifier of the client that is the current
-         sponsor of the host object.
-      -  Constraints: (None)
-
-   -  Creating Client ID
-
-      -  Identifier: creatingClientId
-      -  Cardinality: 0-1
-      -  Mutability: read-only
-      -  Data Type: Client Identifier.
-      -  Description: The identifier of the client that created the host
-         object.
-      -  Constraints: (None)
-
-   -  Creation Date
-
-      -  Identifier: creationDate
-      -  Cardinality: 0-1
-      -  Mutability: read-only
-      -  Data Type: Timestamp.
-      -  Description: The date and time of host object creation.
-      -  Constraints: The value is set by the server and cannot be
-         specified by the client.
-
-   -  Updating Client ID
-
-      -  Identifier: updatingClientId
-      -  Cardinality: 0-1
-      -  Mutability: read-only
-      -  Data Type: Client Identifier.
-      -  Description: The identifier of the client that last updated the
-         host object.
-      -  Constraints: This element MUST NOT be present if the domain has
-         never been modified.
-
-   -  Update Date
-
-      -  Identifier: updateDate
-      -  Cardinality: 0-1
-      -  Mutability: read-only
-      -  Data Type: Timestamp.
-      -  Description: The date and time of the most recent host object
-         modification.
-      -  Constraints: This element MUST NOT be present if the host
-         object has never been modified.
-
-   -  Transfer Date
-
-      -  Identifier: transferDate
-      -  Cardinality: 0-1
-      -  Mutability: read-only
-      -  Data Type: Timestamp
-      -  Description: The date and time of the most recent successful
-         host object transfer.
-      -  Constraints: This element MUST NOT be provided if the host
-         object has never been transferred.
 
 8.3.  Operations
 
@@ -1795,6 +1657,72 @@ Table of Contents
 
                                  Table 5
 
+   Object: provisioningMetadata
+
+   Object Name: Provisioning Metadata Object
+
+   Object Type: Component
+
+   Description: Contains standard metadata about the lifecycle and
+   ownership of a provisioned object.
+
+   Reference: [This-ID]
+
+   Data Elements
+
+   +==================+==========+=====+==========+==========+=============+
+   |Element Identifier|Element   |Card.|Mutability|Data Type |Description  |
+   |                  |Name      |     |          |          |             |
+   +==================+==========+=====+==========+==========+=============+
+   |repositoryId      |Repository|0-1  |read-only |Identifier|A server-    |
+   |                  |ID        |     |          |          |assigned     |
+   |                  |          |     |          |          |unique       |
+   |                  |          |     |          |          |identifier   |
+   |                  |          |     |          |          |for the      |
+   |                  |          |     |          |          |object.      |
+   +------------------+----------+-----+----------+----------+-------------+
+   |sponsoringClientId|Sponsoring|1    |read-only |Client    |The          |
+   |                  |Client ID |     |          |Identifier|identifier of|
+   |                  |          |     |          |          |the client   |
+   |                  |          |     |          |          |that is the  |
+   |                  |          |     |          |          |current      |
+   |                  |          |     |          |          |sponsor of   |
+   |                  |          |     |          |          |the object.  |
+   +------------------+----------+-----+----------+----------+-------------+
+   |creatingClientId  |Creating  |0-1  |read-only |Client    |The          |
+   |                  |Client ID |     |          |Identifier|identifier of|
+   |                  |          |     |          |          |the client   |
+   |                  |          |     |          |          |that created |
+   |                  |          |     |          |          |the object.  |
+   +------------------+----------+-----+----------+----------+-------------+
+   |creationDate      |Creation  |0-1  |read-only |Timestamp |The date and |
+   |                  |Date      |     |          |          |time of      |
+   |                  |          |     |          |          |object       |
+   |                  |          |     |          |          |creation.    |
+   +------------------+----------+-----+----------+----------+-------------+
+   |updatingClientId  |Updating  |0-1  |read-only |Client    |The          |
+   |                  |Client ID |     |          |Identifier|identifier of|
+   |                  |          |     |          |          |the client   |
+   |                  |          |     |          |          |that last    |
+   |                  |          |     |          |          |updated the  |
+   |                  |          |     |          |          |object.      |
+   +------------------+----------+-----+----------+----------+-------------+
+   |updateDate        |Update    |0-1  |read-only |Timestamp |The date and |
+   |                  |Date      |     |          |          |time of the  |
+   |                  |          |     |          |          |most recent  |
+   |                  |          |     |          |          |object       |
+   |                  |          |     |          |          |modification.|
+   +------------------+----------+-----+----------+----------+-------------+
+   |transferDate      |Transfer  |0-1  |read-only |Timestamp |The date and |
+   |                  |Date      |     |          |          |time of the  |
+   |                  |          |     |          |          |most recent  |
+   |                  |          |     |          |          |successful   |
+   |                  |          |     |          |          |object       |
+   |                  |          |     |          |          |transfer.    |
+   +------------------+----------+-----+----------+----------+-------------+
+
+                                  Table 6
+
       |  TODO: IANA table: Postal Address Object TODO: IANA table:
       |  Postal Info Object TODO: IANA table: Disclose Object
 
@@ -1810,88 +1738,62 @@ Table of Contents
 
    Data Elements
 
-   +==================+=============+=====+==========+===================+=============+
-   |Identifier        |Name         |Card.|Mutability|Data Type          |Description  |
-   +==================+=============+=====+==========+===================+=============+
-   |name              |Name         |1    |create-   |String             |The fully    |
-   |                  |             |     |only      |                   |qualified    |
-   |                  |             |     |          |                   |name of the  |
-   |                  |             |     |          |                   |domain       |
-   |                  |             |     |          |                   |object.      |
-   +------------------+-------------+-----+----------+-------------------+-------------+
-   |repositoryId      |Repository ID|0-1  |read-only |Identifier         |A server-    |
-   |                  |             |     |          |                   |assigned     |
-   |                  |             |     |          |                   |unique       |
-   |                  |             |     |          |                   |identifier   |
-   |                  |             |     |          |                   |for the      |
-   |                  |             |     |          |                   |object.      |
-   +------------------+-------------+-----+----------+-------------------+-------------+
-   |status            |Status       |0+   |read-only |Status Object      |The current  |
-   |                  |             |     |          |                   |status       |
-   |                  |             |     |          |                   |descriptors  |
-   |                  |             |     |          |                   |for the      |
-   |                  |             |     |          |                   |domain.      |
-   +------------------+-------------+-----+----------+-------------------+-------------+
-   |registrant        |Registrant   |0-1  |read-write|Contact Object     |The          |
-   |                  |             |     |          |                   |registrant   |
-   |                  |             |     |          |                   |contact ID.  |
-   +------------------+-------------+-----+----------+-------------------+-------------+
-   |contacts          |Contacts     |0+   |read-write|LabelledAggregation|Associated   |
-   |                  |             |     |          |[Contact Object]   |contact      |
-   |                  |             |     |          |                   |objects.     |
-   +------------------+-------------+-----+----------+-------------------+-------------+
-   |nameservers       |Nameservers  |0+   |read-write|Composition[Host   |A collection |
-   |                  |             |     |          |Data Object] or    |of           |
-   |                  |             |     |          |Aggregation[Host   |nameservers  |
-   |                  |             |     |          |Data Object]       |associated   |
-   |                  |             |     |          |                   |with the     |
-   |                  |             |     |          |                   |domain.      |
-   +------------------+-------------+-----+----------+-------------------+-------------+
-   |dns               |DNS          |0+   |read-write|Composition[DNS    |A collection |
-   |                  |             |     |          |Resource Record]   |of DNS       |
-   |                  |             |     |          |                   |entries      |
-   |                  |             |     |          |                   |related to   |
-   |                  |             |     |          |                   |the domain   |
-   |                  |             |     |          |                   |name.        |
-   +------------------+-------------+-----+----------+-------------------+-------------+
-   |subordinateHosts  |Subordinate  |0+   |read-only |Aggregation [Host  |Subordinate  |
-   |                  |Hosts        |     |          |Object]            |host names.  |
-   +------------------+-------------+-----+----------+-------------------+-------------+
-   |sponsoringClientId|Sponsoring   |1    |read-only |Client Identifier  |The current  |
-   |                  |Client ID    |     |          |                   |sponsoring   |
-   |                  |             |     |          |                   |client ID.   |
-   +------------------+-------------+-----+----------+-------------------+-------------+
-   |creatingClientId  |Creating     |0-1  |read-only |Client Identifier  |The client ID|
-   |                  |Client ID    |     |          |                   |that created |
-   |                  |             |     |          |                   |the object.  |
-   +------------------+-------------+-----+----------+-------------------+-------------+
-   |creationDate      |Creation Date|0-1  |read-only |Timestamp          |Creation     |
-   |                  |             |     |          |                   |timestamp.   |
-   +------------------+-------------+-----+----------+-------------------+-------------+
-   |updatingClientId  |Updating     |0-1  |read-only |Client Identifier  |The client ID|
-   |                  |Client ID    |     |          |                   |that last    |
-   |                  |             |     |          |                   |updated the  |
-   |                  |             |     |          |                   |object.      |
-   +------------------+-------------+-----+----------+-------------------+-------------+
-   |updateDate        |Update Date  |0-1  |read-only |Timestamp          |The timestamp|
-   |                  |             |     |          |                   |of the last  |
-   |                  |             |     |          |                   |update.      |
-   +------------------+-------------+-----+----------+-------------------+-------------+
-   |expiryDate        |Expiry Date  |0-1  |read-only |Timestamp          |Expiry       |
-   |                  |             |     |          |                   |timestamp.   |
-   +------------------+-------------+-----+----------+-------------------+-------------+
-   |transferDate      |Transfer Date|0-1  |read-only |Timestamp          |The timestamp|
-   |                  |             |     |          |                   |of the last  |
-   |                  |             |     |          |                   |successful   |
-   |                  |             |     |          |                   |transfer.    |
-   +------------------+-------------+-----+----------+-------------------+-------------+
-   |authInfo          |Authorisation|0-1  |read-write|authInfo           |Authorisation|
-   |                  |Info         |     |          |                   |information  |
-   |                  |             |     |          |                   |for the      |
-   |                  |             |     |          |                   |object.      |
-   +------------------+-------------+-----+----------+-------------------+-------------+
+   +====================+=============+=====+==========+===================+=============+
+   |Identifier          |Name         |Card.|Mutability|Data Type          |Description  |
+   +====================+=============+=====+==========+===================+=============+
+   |name                |Name         |1    |create-   |String             |The fully    |
+   |                    |             |     |only      |                   |qualified    |
+   |                    |             |     |          |                   |name of the  |
+   |                    |             |     |          |                   |domain       |
+   |                    |             |     |          |                   |object.      |
+   +--------------------+-------------+-----+----------+-------------------+-------------+
+   |provisioningMetadata|Provisioning |1    |read-only |Provisioning       |Standard     |
+   |                    |Metadata     |     |          |Metadata Object    |metadata     |
+   |                    |             |     |          |                   |about object |
+   |                    |             |     |          |                   |lifecycle and|
+   |                    |             |     |          |                   |ownership.   |
+   +--------------------+-------------+-----+----------+-------------------+-------------+
+   |status              |Status       |0+   |read-only |Status Object      |The current  |
+   |                    |             |     |          |                   |status       |
+   |                    |             |     |          |                   |descriptors  |
+   |                    |             |     |          |                   |for the      |
+   |                    |             |     |          |                   |domain.      |
+   +--------------------+-------------+-----+----------+-------------------+-------------+
+   |registrant          |Registrant   |0-1  |read-write|Contact Object     |The          |
+   |                    |             |     |          |                   |registrant   |
+   |                    |             |     |          |                   |contact ID.  |
+   +--------------------+-------------+-----+----------+-------------------+-------------+
+   |contacts            |Contacts     |0+   |read-write|LabelledAggregation|Associated   |
+   |                    |             |     |          |[Contact Object]   |contact      |
+   |                    |             |     |          |                   |objects.     |
+   +--------------------+-------------+-----+----------+-------------------+-------------+
+   |nameservers         |Nameservers  |0+   |read-write|Composition[Host   |A collection |
+   |                    |             |     |          |Data Object] or    |of           |
+   |                    |             |     |          |Aggregation[Host   |nameservers  |
+   |                    |             |     |          |Data Object]       |associated   |
+   |                    |             |     |          |                   |with the     |
+   |                    |             |     |          |                   |domain.      |
+   +--------------------+-------------+-----+----------+-------------------+-------------+
+   |dns                 |DNS          |0+   |read-write|Composition[DNS    |A collection |
+   |                    |             |     |          |Resource Record]   |of DNS       |
+   |                    |             |     |          |                   |entries      |
+   |                    |             |     |          |                   |related to   |
+   |                    |             |     |          |                   |the domain   |
+   |                    |             |     |          |                   |name.        |
+   +--------------------+-------------+-----+----------+-------------------+-------------+
+   |subordinateHosts    |Subordinate  |0+   |read-only |Aggregation [Host  |Subordinate  |
+   |                    |Hosts        |     |          |Object]            |host names.  |
+   +--------------------+-------------+-----+----------+-------------------+-------------+
+   |expiryDate          |Expiry Date  |0-1  |read-only |Timestamp          |Expiry       |
+   |                    |             |     |          |                   |timestamp.   |
+   +--------------------+-------------+-----+----------+-------------------+-------------+
+   |authInfo            |Authorisation|0-1  |read-write|authInfo           |Authorisation|
+   |                    |Info         |     |          |                   |information  |
+   |                    |             |     |          |                   |for the      |
+   |                    |             |     |          |                   |object.      |
+   +--------------------+-------------+-----+----------+-------------------+-------------+
 
-                                  Table 6
+                                  Table 7
 
    Operations
 
@@ -1911,7 +1813,7 @@ Table of Contents
    |            |              |       |        | domain name.         |
    +------------+--------------+-------+--------+----------------------+
 
-                                  Table 7
+                                  Table 8
 
    Operation: Read
 
@@ -1935,7 +1837,7 @@ Table of Contents
    |               |               |       |          | data.          |
    +---------------+---------------+-------+----------+----------------+
 
-                                  Table 8
+                                  Table 9
 
    Operation: Delete
 
@@ -1963,7 +1865,7 @@ Table of Contents
    |                   |         |       |           | period.        |
    +-------------------+---------+-------+-----------+----------------+
 
-                                 Table 9
+                                 Table 10
 
       |  TODO: IANA table: Contact Data Object TODO: IANA table: Host
       |  Data Object
@@ -1973,6 +1875,11 @@ Table of Contents
       |  TODO: write security considerations, if any
 
 11.  Changes History
+
+draft-kowalik-rpp-data-objects -02 - -03
+
+   -  abstract common provisioning metadata into reusable component
+      object
 
 draft-kowalik-rpp-data-objects -01 - -02
 
