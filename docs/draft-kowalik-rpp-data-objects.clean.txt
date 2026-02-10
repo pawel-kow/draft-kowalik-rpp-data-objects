@@ -89,9 +89,9 @@ Table of Contents
      4.1.  Aggregation
      4.2.  Composition
      4.3.  Labelled Aggregation
-     4.4.  Aggregation Dictionary
+     4.4.  Dictionary Aggregation
      4.5.  Labelled Composition
-     4.6.  Composition Dictionary
+     4.6.  Dictionary Composition
    5.  Component Objects
      5.1.  Period Object
      5.2.  Provisioning Metadata Object
@@ -533,9 +533,9 @@ Table of Contents
    |   ...                          |
    +--------------------------------+
 
-4.4.  Aggregation Dictionary
+4.4.  Dictionary Aggregation
 
-   Notation: AggregationDictionary[Type]
+   Notation: DictionaryAggregation[Type]
 
    A relation between two independent object with single text string
    attribute.  Association labels MUST be unique allowing it to be used
@@ -545,7 +545,7 @@ Table of Contents
    semantics of the label and Label Constraints with constraints related
    to the label.
 
-   Example Aggregation Dictionary:
+   Example Dictionary Aggregation:
 
    +--------------------------+
    |         (root)           |
@@ -596,9 +596,9 @@ Table of Contents
    |   ...                               |
    +-------------------------------------+
 
-4.6.  Composition Dictionary
+4.6.  Dictionary Composition
 
-   Notation: CompositionDictionary[Type]
+   Notation: DictionaryComposition[Type]
 
    A relation between an independent parent object and a dependent child
    object with single text string attribute.  Only single association
@@ -609,7 +609,7 @@ Table of Contents
    semantics of the label and Label Constraints with constraints related
    to the label.
 
-   Example Composition Dictionary:
+   Example Dictionary Composition:
 
    +--------------------------+
    |         (root)           |
@@ -1310,7 +1310,7 @@ Table of Contents
       -  Identifier: postalInfo
       -  Cardinality: 1-2
       -  Mutability: read-write
-      -  Data Type: AggregationDictionary[Postal Info Object]
+      -  Data Type: DictionaryAggregation[Postal Info Object]
          -  Label Description: type of contact data localisation
          -  Label Constraints: Allowed values: "int" for
             "internationalised" all-ASCII version of an address and
@@ -1880,6 +1880,8 @@ draft-kowalik-rpp-data-objects -02 - -03
 
    -  abstract common provisioning metadata into reusable component
       object
+   -  change "Aggregation/Composition Dictionary" to "Dictionary
+      Aggregation/Composition" (Issue #32)
 
 draft-kowalik-rpp-data-objects -01 - -02
 
