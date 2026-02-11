@@ -53,6 +53,13 @@ This document focuses on the data model of RPP objects and operations on them, i
 
 The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in BCP 14 [@!RFC2119] [@!RFC8174] when, and only when, they appear in all capitals, as shown here.
 
+The following terms related to the relationship between host objects and domain objects are used as defined in [@!RFC5732, section 1.1]:
+
+* Subordinate host: A host name object that has a subordinate relationship to a superordinate domain name object. For example, host name "ns1.example.com" has a subordinate relationship to domain name "example.com".
+* Superordinate domain: A domain name object to which a host name object is subordinate.
+* Internal host: A host whose name belongs to the namespace of the repository in which the host is being used for delegation purposes.
+* External host: A host whose name does not belong to the namespace of the repository in which the host is being used for delegation purposes.
+
 # Resource Definition Principles
 
 ## Primitive Data Types
@@ -879,9 +886,11 @@ The following transient data elements are defined for this operation:
   * Data Type: Period Object
   * Description: The duration to be added to the object's registration period. This value is used by the server to calculate the new `expiryDate`. The default value MAY be defined by server policy. The number of units available MAY be subject to limits imposed by the server.
 
-### Transfer operation
+### Transfer Operation
 
 A> TODO: define transfer operation https://github.com/pawel-kow/draft-kowalik-rpp-data-objects/issues/23
+
+Subordinate host objects MUST be transferred implicitly when the domain object is transferred.
 
 # Contact Data Object
 
@@ -1013,8 +1022,8 @@ A> TBC: hostName/dns properties are identical to Nameserver Object. Shall we def
   * Cardinality: 0+
   * Mutability: read-only
   * Data Type:  Status Object
-  * Description: The current status descriptors associated with the domain.
-  * Constraints: Possible combinations of Domain Status Labels is specified in [@!RFC5732, section 2.3]
+  * Description: The current status descriptors associated with the host.
+  * Constraints: Possible combinations of Host Status Labels is specified in [@!RFC5732, section 2.3]
 
 * DNS Resource Records
   * Identifier: dns
@@ -1028,7 +1037,45 @@ A> TBC: hostName/dns properties are identical to Nameserver Object. Shall we def
 
 ## Operations
 
-A> TODO: Describe operations for hosts https://github.com/pawel-kow/draft-kowalik-rpp-data-objects/issues/16
+### Create Operation
+
+The Create operation allows a client to provision a new Host Data Object. The operation accepts as input all create-only and read-write data elements defined for the Host Data Object.
+
+* Authorisation:
+  * Generally each client is authorised to create new host objects becoming a sponsoring client. This can be however constrained by the server policy, e.g. by applying rate limiting or compliance locks.
+
+If the host name exists in a namespace for which the server is authoritative, then the superordinate domain of the host MUST be known to the server before the host object can be created.
+
+In EPP Compatibility Profile, IP addresses are REQUIRED only as needed to produce DNS glue records. If the host name exists in a namespace for which the server is authoritative and is subordinate to an existing domain, IP addresses SHOULD be provided. If the host name is external to the server's namespace, IP addresses are not required by the DNS and MAY be omitted.
+
+### Read Operation
+
+The Read operation allows a client to retrieve the data elements of a Host Data Object.
+
+* Authorisation:
+  * Any client is authorised to retrieve the full object representation. In EPP Compatibility Profile, host objects do not carry authorisation information and there is no distinction based on client identity as described in [@!RFC5732, section 3.1.2].
+
+### Update Operation
+
+The Update operation allows a client to modify the attributes of an existing Host Data Object. The operation targets a specific data object identified by its host name.
+
+* Authorisation:
+  * Only sponsoring client is authorised to perform this operation
+
+Host name changes MAY require the addition or removal of IP addresses to be accepted by the server. IP address association MAY be subject to server policies for provisioning hosts as name servers.
+
+Host name changes can have an impact on associated objects that refer to the host object. A host name change SHOULD NOT require additional updates of associated objects to preserve existing associations, with one exception: changing an external host object that has associations with objects that are sponsored by a different client. Attempts to update such hosts directly MUST fail. The change can be provisioned by creating a new external host with a new name and any needed new attributes, and subsequently updating the other objects sponsored by the client.
+
+### Delete Operation
+
+The Delete operation allows a client to remove an existing Host Data Object. The operation targets a specific data object identified by its host name.
+
+* Authorisation:
+  * Only sponsoring client is authorised to perform this operation
+
+The server SHOULD reject a delete request if the host object is associated with any other object, such as a domain name object. Deleting a host object without first breaking existing associations can cause DNS resolution failure for domain objects that refer to the deleted host object.
+
+The error response SHOULD indicate the related associated objects.
 
 # IANA Considerations
 
@@ -1230,7 +1277,50 @@ Parameters
 | renewalPeriod     | Renewal Period      | 0-1   | period    | The duration to add to the registration period.   |
 
 A> TODO: IANA table: Contact Data Object
-A> TODO: IANA table: Host Data Object
+
+Object: host
+
+Object Name: Host Data Object
+
+Object Type: Resource
+
+Description: Represents a name server that provides DNS services for a domain name.
+
+Reference: [This-ID]
+
+Data Elements
+| Identifier           | Name                  | Card. | Mutability | Data Type                        | Description                                             |
+|----------------------|-----------------------|-------|------------|----------------------------------|---------------------------------------------------------|
+| hostName             | Host Name             | 1     | read-write | String                           | Fully qualified name of a host.                         |
+| provisioningMetadata | Provisioning Metadata | 1     | read-only  | Provisioning Metadata Object     | Standard metadata about object lifecycle and ownership. |
+| status               | Status                | 0+    | read-only  | Status Object                    | The current status descriptors for the host.            |
+| dns                  | DNS Resource Records  | 0+    | read-write | Composition[DNS Resource Record] | DNS Resource Records related to the host.               |
+
+Operations
+
+Operation: Create
+
+Description: Provisions a new Host Data Object.
+
+Parameters: (None)
+
+Operation: Read
+
+Description: Retrieves the data elements of a Host Data Object.
+
+Parameters: (None)
+
+Operation: Update
+
+Description: Modifies the attributes of a Host Data Object.
+
+Parameters: (None)
+
+Operation: Delete
+
+Description: Removes an existing Host Data Object.
+
+Parameters: (None)
 
 # Security Considerations
 
@@ -1245,6 +1335,8 @@ A> TODO: write security considerations, if any
 ## draft-kowalik-rpp-data-objects -02 - -03
 
 * abstract common provisioning metadata into reusable component object
+* describe operations for hosts #16
+* add host/domain relationship terminology from RFC 5732
 
 {toc="exclude"}
 {numbered="false"}
