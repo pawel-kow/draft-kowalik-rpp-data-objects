@@ -977,7 +977,64 @@ A> TBC: IANA registry for statuses?
 
 ## Operations
 
-A> TODO: Describe operations for contacts https://github.com/pawel-kow/draft-kowalik-rpp-data-objects/issues/15
+### Create Operation
+
+The Create operation allows a client to provision a new Contact resource. The operation accepts as input all create-only and read-write data elements defined for the Contact Data Object.
+
+* Authorisation:
+  * Generally each client is authorised to create new contact objects becoming a sponsoring client. This can be however constrained by the server policy, e.g. by applying rate limiting or compliance locks.
+
+In EPP Compatibility Profile, the following data elements MUST be provided:
+  * Handle ID (`id`)
+  * At least one Postal Information entry (`postalInfo`) containing a Name (`name`) and an Address (`addr`) with City (`city`) and Country Code (`cc`)
+  * E-mail (`email`)
+  * Authorisation Information (`authInfo`)
+
+### Read Operation
+
+The Read operation allows a client to retrieve the data elements of a Contact resource. The server's response MAY vary depending on client authorisation and server policy.
+
+* Authorisation:
+  * Sponsoring client:
+    * Full object representation
+  * Other client:
+    * Without object authorisation:
+      * Limited (non-confidential) object representation or operation denied
+    * With object authorisation:
+      * Full object representation, however some properties only authorised to the sponsoring client MAY be redacted according to server policy
+
+Authorisation Information (`authInfo`) MUST NOT be provided in the response if the querying client is not the current sponsoring client.
+
+When constructing the response, the server MUST respect the disclosure policies defined by the Disclose Object (`disclose`), whether set by the server operator's default data-collection policy or by the sponsoring client for the contact. Data elements marked for non-disclosure MUST NOT be included in responses to unauthorised clients.
+
+### Update Operation
+
+The Update operation allows a client to modify the attributes of an existing Contact resource.
+
+* Authorisation:
+  * Only sponsoring client is authorised to perform this operation
+
+The following aspects of the contact object MAY be modified:
+
+* Status values that are client-manageable (prefixed with "client") MAY be added or removed.
+* Postal Information, Voice Phone Number, Fax Phone Number, E-mail, Authorisation Information, and Disclose preferences MAY be changed.
+
+A client MUST NOT alter status values set by the server. A server MAY alter or override status values set by a client, subject to server policy.
+
+### Delete Operation
+
+The Delete operation allows a client to remove an existing Contact resource. The operation targets a specific data object identified by its Handle ID.
+
+* Authorisation:
+  * Only sponsoring client is authorised to perform this operation
+
+The server SHOULD reject a delete request if the contact object is associated with other known objects (e.g., domain names). An associated contact SHOULD NOT be deleted until associations with other known objects have been broken.
+
+The error response SHOULD indicate the existing object associations.
+
+### Transfer Operation
+
+A> TODO: define transfer operation https://github.com/pawel-kow/draft-kowalik-rpp-data-objects/issues/23
 
 # Host Data Object
 
@@ -1245,6 +1302,7 @@ A> TODO: write security considerations, if any
 ## draft-kowalik-rpp-data-objects -02 - -03
 
 * abstract common provisioning metadata into reusable component object
+* describe operations for contacts #15
 
 {toc="exclude"}
 {numbered="false"}
