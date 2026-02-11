@@ -1389,10 +1389,14 @@ Table of Contents
          limiting or compliance locks.
 
    In EPP Compatibility Profile, the following data elements MUST be
-   provided: * Handle ID (id) * At least one Postal Information entry
-   (postalInfo) containing a Name (name) and an Address (addr) with City
-   (city) and Country Code (cc) * E-mail (email) * Authorisation
-   Information (authInfo)
+   provided:
+
+   -  Handle ID (id)
+   -  At least one Postal Information entry (postalInfo) containing a
+      Name (name) and an Address (addr) with City (city) and Country
+      Code (cc)
+   -  E-mail (email)
+   -  Authorisation Information (authInfo)
 
 7.3.2.  Read Operation
 

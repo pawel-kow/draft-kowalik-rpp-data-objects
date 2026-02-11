@@ -985,10 +985,11 @@ The Create operation allows a client to provision a new Contact resource. The op
   * Generally each client is authorised to create new contact objects becoming a sponsoring client. This can be however constrained by the server policy, e.g. by applying rate limiting or compliance locks.
 
 In EPP Compatibility Profile, the following data elements MUST be provided:
-  * Handle ID (`id`)
-  * At least one Postal Information entry (`postalInfo`) containing a Name (`name`) and an Address (`addr`) with City (`city`) and Country Code (`cc`)
-  * E-mail (`email`)
-  * Authorisation Information (`authInfo`)
+
+* Handle ID (`id`)
+* At least one Postal Information entry (`postalInfo`) containing a Name (`name`) and an Address (`addr`) with City (`city`) and Country Code (`cc`)
+* E-mail (`email`)
+* Authorisation Information (`authInfo`)
 
 ### Read Operation
 
