@@ -159,6 +159,119 @@ The output representation MAY vary depending on the identity of the querying cli
 
 For all other operations both input and output representation have to be fully specified.
 
+### Transfer Operations
+
+Transfer operations manage the change of sponsorship of a provisioned object from one client (the sponsoring client) to another (the gaining client). They are specified once in this section as the transfer model is common across all transferable resource objects. Individual object definitions reference this section and specify any object-specific extensions to the common pattern.
+
+RPP supports two types of transfer:
+
+* Pull Transfer: Initiated by the gaining client. The gaining client MUST provide valid authorisation information associated with the object to initiate the request.
+* Push Transfer: Initiated by the sponsoring client, who designates a gaining client in the request.
+
+The transfer process MAY be immediate or follow a multi-step workflow depending on server policy. If the server implements immediate transfers, the approve, reject, and cancel operations need not be supported; the server completes the transfer upon receipt of the request.
+
+All transfer operations return the Transfer Data Object as output.
+
+A> TODO: The server MUST notify the current sponsoring client of a pending transfer request. The notification mechanism is not defined in this document.
+
+A> TODO: Transfer-specific error conditions (object not eligible for transfer, object pending transfer, object not pending transfer) are not defined in this document.
+
+#### Transfer Request Operation
+
+* Identifier: transferRequest
+
+The Transfer Request operation initiates a transfer of an object.
+
+* Input:
+  * Object Identifier
+  * Object authorisation information (REQUIRED only for pull transfers)
+* Output: Transfer Data Object
+
+The following transient data elements are common for all transfer requests:
+
+* Transfer Direction
+  * Identifier: transferDirection
+  * Cardinality: 0-1
+  * Data Type: String
+  * Description: Indicates whether the transfer is a "pull" or "push" transfer. Per policy servers usually will support only one model.
+  * Constraints: The value MUST be one of: "pull" or "push".
+
+* Gaining Client ID
+  * Identifier: gainingClientId
+  * Cardinality: 0-1
+  * Data Type: Client Identifier
+  * Description: The identifier of the designated gaining client. This element is REQUIRED for push transfers and MUST NOT be provided for pull transfers.
+  * Constraints: (None)
+
+* Authorisation:
+  * Pull transfer:
+    * The requesting client (gaining client) MUST provide valid authorisation information associated with the object.
+  * Push transfer:
+    * Only the sponsoring client is authorised to initiate a push transfer.
+
+#### Transfer Approve Operation
+
+* Identifier: transferApprove
+
+The Transfer Approve operation allows the appropriate client to accept a pending transfer request. For a pending pull transfer, only the sponsoring client is authorised to approve. For a pending push transfer, only the designated gaining client is authorised to approve.
+
+* Input: Object Identifier
+* Output: Transfer Data Object
+
+* Authorisation:
+  * Pull transfer: only the sponsoring client
+  * Push transfer: only the designated gaining client
+  * The server MUST reject any approval attempts not initiated by the authorised client.
+
+#### Transfer Reject Operation
+
+* Identifier: transferReject
+
+The Transfer Reject operation allows the appropriate client to reject a pending transfer request. For a pending pull transfer, only the sponsoring client is authorised to reject. For a pending push transfer, only the designated gaining client is authorised to reject.
+
+* Input: Object Identifier
+* Output: Transfer Data Object
+
+The following transient data elements are defined for this operation:
+
+* Reason
+  * Identifier: reason
+  * Cardinality: 0-1
+  * Data Type: String
+  * Description: A human-readable text describing the rationale for rejecting the transfer request.
+  * Constraints: In EPP Compatibility Profile this data element MUST NOT be used
+
+* Authorisation:
+  * Pull transfer: only the sponsoring client
+  * Push transfer: only the designated gaining client
+  * The server MUST reject any rejection attempts not initiated by the authorised client.
+
+#### Transfer Cancel Operation
+
+* Identifier: transferCancel
+
+The Transfer Cancel operation allows the initiating client to cancel its own pending transfer request.
+
+* Input: Object Identifier
+* Output: Transfer Data Object
+
+* Authorisation:
+  * Only the initiating client (the client that originally requested the transfer) is authorised to cancel.
+  * The server MUST reject any cancellation attempts not initiated by the initiating client.
+
+#### Transfer Query Operation
+
+* Identifier: transferQuery
+
+The Transfer Query operation allows a client to determine the real-time status of a pending or recently completed transfer request.
+
+* Input: Object Identifier
+* Output: Transfer Data Object
+
+* Authorisation:
+  * This operation MUST be accessible to both the sponsoring client and the gaining client.
+  * Server policy determines whether other clients may query transfer status and what information is returned.
+
 ## EPP Compatibility Profile
 
 RPP is designed to coexist with the Extensible Provisioning Protocol (EPP), often operating in parallel against a common backend provisioning system. While RPP is not inherently constrained by all of EPP's requirements, a specific set of rules is necessary to ensure seamless interoperability in such mixed environments.
@@ -681,6 +794,55 @@ A> TBC: Contact Type is not localised (shall be the same for PERSON and ORG). Mo
     * Description: The detailed postal address.
     * Constraints: In EPP Compatibility Profile this data element MUST be provided.
 
+## Transfer Data Object
+
+* Name: Transfer Data Object
+* Identifier: transferData
+* Description: Represents the state of a transfer request for a provisioned object. This object is returned as the output of transfer operations (request, approve, reject, cancel, query) for any transferable resource object.
+* Data Elements:
+  * Transfer Status
+    * Identifier: transferStatus
+    * Cardinality: 1
+    * Mutability: read-only
+    * Data Type: String
+    * Description: The state of the most recent transfer request.
+    * Constraints: The value MUST be one of: "pending", "clientApproved", "clientCancelled", "clientRejected", "serverApproved", "serverCancelled".
+  * Transfer Direction
+    * Identifier: transferDirection
+    * Cardinality: 1
+    * Mutability: read-only
+    * Data Type: String
+    * Description: Indicates the direction of the transfer.
+    * Constraints: The value MUST be one of: "pull" (initiated by the gaining client) or "push" (initiated by the sponsoring client).
+  * Requesting Client ID
+    * Identifier: requestingClientId
+    * Cardinality: 1
+    * Mutability: read-only
+    * Data Type: Client Identifier
+    * Description: The identifier of the client that initiated the transfer request.
+    * Constraints: (None)
+  * Request Date
+    * Identifier: requestDate
+    * Cardinality: 1
+    * Mutability: read-only
+    * Data Type: Timestamp
+    * Description: The date and time that the transfer was requested.
+    * Constraints: (None)
+  * Acting Client ID
+    * Identifier: actingClientId
+    * Cardinality: 1
+    * Mutability: read-only
+    * Data Type: Client Identifier
+    * Description: For a pending pull transfer, the identifier of the sponsoring client that SHOULD act upon the request. For a pending push transfer, the identifier of the designated gaining client that SHOULD act upon the request. For all other statuses, the identifier of the client that took the indicated action.
+    * Constraints: (None)
+  * Action Date
+    * Identifier: actionDate
+    * Cardinality: 1
+    * Mutability: read-only
+    * Data Type: Timestamp
+    * Description: For a pending request, the date and time by which a response is required before an automated response action SHOULD be taken by the server. For all other statuses, the date and time when the request was completed.
+    * Constraints: (None)
+
 ## Disclose Object
 
 A> TODO: Model Disclose in universal (extendible) way
@@ -804,6 +966,8 @@ A> TBC: IANA registry for contact role label?
 
 ### Create Operation
 
+* Identifier: create
+
 The Create operation allows a client to provision a new Domain Name resource. The operation accepts as input all create-only and read-write data elements defined for the Domain Name Data Object.
 
 * Authorisation:
@@ -818,6 +982,8 @@ In addition, the following transient data element is defined for this operation:
   * Description: The initial registration period for the domain name. This value is used by the server to calculate the initial `expiryDate` of the object. This element is not persisted as part of the object's state. 
 
 ### Read Operation
+
+* Identifier: read
 
 The Read operation allows a client to retrieve the data elements of a
 Domain Name resource. The server's response MAY vary depending on
@@ -846,6 +1012,8 @@ is "all".
 
 ### Delete Operation
 
+* Identifier: delete
+
 The Delete operation allows a client to remove an existing Domain Name resource. The operation targets a specific data object identified by its name.
 
 * Authorisation:
@@ -856,6 +1024,8 @@ The server SHOULD reject a delete request if subordinate host objects are associ
 The error response SHOULD indicate the related subordinate host objects.
 
 ### Renew Operation
+
+* Identifier: renew
 
 The Renew operation allows a client to extend the validity period of an existing Domain Name resource. The operation targets a specific data object identified by its name.
 
@@ -879,9 +1049,28 @@ The following transient data elements are defined for this operation:
   * Data Type: Period Object
   * Description: The duration to be added to the object's registration period. This value is used by the server to calculate the new `expiryDate`. The default value MAY be defined by server policy. The number of units available MAY be subject to limits imposed by the server.
 
-### Transfer operation
+### Transfer Operations
 
-A> TODO: define transfer operation https://github.com/pawel-kow/draft-kowalik-rpp-data-objects/issues/23
+The Domain Name Data Object supports the common transfer operations defined in the [Transfer Operations] section. The transfer of a domain name changes the sponsoring client of the domain object.
+
+Transfer of a domain object MUST implicitly transfer all host objects that are subordinate to the domain object. For example, if domain object "example.com" is transferred and host object "ns1.example.com" exists, the host object MUST be transferred as part of the "example.com" transfer process.
+
+In addition to the common transfer data elements, the following object-specific transient data elements are defined for the Transfer Request operation:
+
+* Transfer Period
+  * Identifier: transferPeriod
+  * Cardinality: 0-1
+  * Data Type: Period Object
+  * Description: The number of units to be added to the registration period of the domain object upon successful completion of the transfer. The number of units available MAY be subject to limits imposed by the server.
+  * Constraints: This element is only applicable to the Transfer Request operation and MUST be ignored for other transfer operations.
+
+In addition to the common Transfer Data Object elements, the following object-specific data element is included in the output of domain transfer operations:
+
+* Expiry Date
+  * Identifier: expiryDate
+  * Cardinality: 0-1
+  * Data Type: Timestamp
+  * Description: The end of the domain object's registration period if the transfer caused or causes a change in the validity period.
 
 # Contact Data Object
 
@@ -977,7 +1166,13 @@ A> TBC: IANA registry for statuses?
 
 ## Operations
 
-A> TODO: Describe operations for contacts https://github.com/pawel-kow/draft-kowalik-rpp-data-objects/issues/15
+A> TODO: Describe CRUD operations for contacts https://github.com/pawel-kow/draft-kowalik-rpp-data-objects/issues/15
+
+### Transfer Operations
+
+The Contact Data Object supports the common transfer operations defined in the [Transfer Operations] section. The transfer of a contact changes the sponsoring client of the contact object.
+
+No object-specific transient data elements are defined for contact transfer operations beyond the common transfer data elements. Specifically, contacts do not have validity periods, so no renewal period or expiry date elements apply.
 
 # Host Data Object
 
@@ -1050,7 +1245,7 @@ The registry is organised as a collection of Object definitions. Each Object def
 
 * If applicable, an "Operations" section. For each operation, the
 registry MUST provide:
-  * The Operation's Name and a description.
+  * The Operation's Name, Identifier, and a description.
   * A "Parameters" table listing all data elements that are provided as input to the operation but are not persisted as part of the object's state. Each entry MUST specify the parameter's Identifier, Name, Cardinality, Data Type, and a description.
 
 ### Initial Registrations
@@ -1163,6 +1358,26 @@ Data Elements
 | updateDate         | Update Date          | 0-1   | read-only  | Timestamp         | The date and time of the most recent object modification.               |
 | transferDate       | Transfer Date        | 0-1   | read-only  | Timestamp         | The date and time of the most recent successful object transfer.        |
 
+Object: transferData
+
+Object Name: Transfer Data Object
+
+Object Type: Component
+
+Description: Represents the state of a transfer request for a provisioned object.
+
+Reference: [This-ID]
+
+Data Elements
+| Element Identifier   | Element Name         | Card. | Mutability | Data Type         | Description                                                            |
+|----------------------|----------------------|-------|------------|-------------------|------------------------------------------------------------------------|
+| transferStatus       | Transfer Status      | 1     | read-only  | String            | The state of the most recent transfer request.                         |
+| transferDirection    | Transfer Direction   | 1     | read-only  | String            | Indicates the direction of the transfer (pull or push).                |
+| requestingClientId   | Requesting Client ID | 1     | read-only  | Client Identifier | The identifier of the client that initiated the transfer request.      |
+| requestDate          | Request Date         | 1     | read-only  | Timestamp         | The date and time that the transfer was requested.                     |
+| actingClientId       | Acting Client ID     | 1     | read-only  | Client Identifier | The identifier of the client that should or did act on the request.    |
+| actionDate           | Action Date          | 1     | read-only  | Timestamp         | The response deadline (if pending) or completion date.                 |
+
 A> TODO: IANA table: Postal Address Object
 A> TODO: IANA table: Postal Info Object
 A> TODO: IANA table: Disclose Object
@@ -1196,6 +1411,8 @@ Operations
 
 Operation: Create
 
+Operation Identifier: create
+
 Description: Provisions a new Domain Name resource.
 
 Parameters
@@ -1204,6 +1421,8 @@ Parameters
 | period     | Registration Period | 0-1   | period    | The initial registration period for the domain name. |
 
 Operation: Read
+
+Operation Identifier: read
 
 Description: Retrieves the data elements of a Domain Name resource.
 
@@ -1215,11 +1434,15 @@ Parameters
 
 Operation: Delete
 
+Operation Identifier: delete
+
 Description: Removes an existing Domain Name resource.
 
 Parameters: (None)
 
 Operation: Renew
+
+Operation Identifier: renew
 
 Description: Extends the validity period of a Domain Name resource.
 
@@ -1228,6 +1451,54 @@ Parameters
 |-------------------|---------------------|-------|-----------|---------------------------------------------------|
 | currentExpiryDate | Current Expiry Date | 1     | Timestamp | The expected current expiry date, for validation. |
 | renewalPeriod     | Renewal Period      | 0-1   | period    | The duration to add to the registration period.   |
+
+Operation: Transfer Request
+
+Operation Identifier: transferRequest
+
+Description: Initiates a transfer of a Domain Name resource.
+
+Parameters
+| Identifier         | Name                | Card. | Data Type         | Description                                                            |
+|--------------------|---------------------|-------|-------------------|------------------------------------------------------------------------|
+| transferDirection  | Transfer Direction  | 0-1   | String            | Indicates whether the transfer is a "pull" or "push" transfer.         |
+| gainingClientId    | Gaining Client ID   | 0-1   | Client Identifier | The designated gaining client (required for push transfers).           |
+| transferPeriod     | Transfer Period     | 0-1   | period            | The duration to add to the registration period upon transfer.          |
+
+Operation: Transfer Approve
+
+Operation Identifier: transferApprove
+
+Description: Approves a pending transfer of a Domain Name resource.
+
+Parameters: (None)
+
+Operation: Transfer Reject
+
+Operation Identifier: transferReject
+
+Description: Rejects a pending transfer of a Domain Name resource.
+
+Parameters
+| Identifier | Name   | Card. | Data Type | Description                                                  |
+|------------|--------|-------|-----------|--------------------------------------------------------------|
+| reason     | Reason | 0-1   | String    | A human-readable text describing the rationale for rejection.|
+
+Operation: Transfer Cancel
+
+Operation Identifier: transferCancel
+
+Description: Cancels a pending transfer of a Domain Name resource.
+
+Parameters: (None)
+
+Operation: Transfer Query
+
+Operation Identifier: transferQuery
+
+Description: Queries the status of a transfer of a Domain Name resource.
+
+Parameters: (None)
 
 A> TODO: IANA table: Contact Data Object
 A> TODO: IANA table: Host Data Object
@@ -1245,6 +1516,10 @@ A> TODO: write security considerations, if any
 ## draft-kowalik-rpp-data-objects -02 - -03
 
 * abstract common provisioning metadata into reusable component object
+* define common transfer operations and Transfer Data Object with support for pull and push transfers #23
+* add domain-specific transfer operations with implicit renewal and subordinate host transfer
+* add contact transfer operations referencing common transfer pattern
+* add identifiers to all operations
 
 {toc="exclude"}
 {numbered="false"}
