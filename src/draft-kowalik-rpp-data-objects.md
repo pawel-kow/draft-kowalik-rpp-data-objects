@@ -98,7 +98,27 @@ The data type of a data element may also be a reference to another data object, 
 
 ## Extensibility
 
-The set of data elements for a given data object is extensible. New data elements, associations or operations MAY be defined and registered with IANA in order for the data object to support new features.
+The RPP data model is designed to be extensible. Extensions MAY introduce new data objects, add new data elements or associations to existing objects, and define new operations or extend the inputs and outputs of existing operations with additional transient data elements.
+
+### Standardised and Private Extensions
+
+RPP distinguishes between standardised and private extensions:
+
+* Standardised extensions MUST be registered with IANA, as described in the IANA Considerations section of this document and in [@!I-D.ietf-rpp-architecture]. Registration ensures global uniqueness of extension identifiers and promotes interoperability across implementations.
+
+* Private (non-standardised) extensions MAY be defined for use within specific implementations or organisations. Private extensions are not required to be registered with IANA, but MUST still use unique identifiers that are unlikely to conflict with standardised extensions or other private extensions. The use of reverse domain notation as a prefix (e.g., `org.example.rpp.myElement`) is RECOMMENDED for private extension identifiers to avoid naming collisions.
+
+### Extension Points
+
+The following aspects of the data model are extensible:
+
+* New data objects: Additional resource or component objects MAY be defined by extensions and registered with IANA.
+* New data elements: Extensions MAY add new data elements to existing data objects. Such elements follow the same Data Element Semantics as core data elements.
+* New associations: Extensions MAY introduce new associations between existing or new objects.
+* New operations: Extensions MAY define entirely new operations on existing or new data objects.
+* Extended operation inputs and outputs: Extensions MAY add new transient data elements to the inputs or outputs of existing operations.
+
+When an extension adds data elements or transient parameters to a core object or operation, these additions MUST NOT alter the semantics or constraints of existing core data elements.
 
 ## Data Element Semantics
 
@@ -1040,18 +1060,24 @@ This document establishes the "RESTful Provisioning Protocol (RPP) Data Object R
 
 The policy for adding new objects, data elements, or operations to this registry is "Specification Required" [@!RFC8126].
 
+Standardised RPP extensions that introduce new data objects, add data elements to existing objects, or define new operations or operation parameters MUST register these additions in this registry. Each such registration MUST reference the specification that defines the extension.
+
+Private (non-standardised) extensions are not required to register in this registry.
+
 ### Registry Structure
 
 The registry is organised as a collection of Object definitions. Each Object definition MUST include:
 
 * A header containing the Object Identifier, Object Name, Object Type (Resource or Component), a brief description, and a reference to its defining specification.
 
-* A "Data Elements" table listing all persisted data elements associated with the object. Each entry MUST specify the element's Identifier, Name, Cardinality, Mutability, Data Type, and description.
+* A "Data Elements" table listing all persisted data elements associated with the object. Each entry MUST specify the element's Identifier, Name, Cardinality, Mutability, Data Type, description, and a reference to the specification that defines it.
 
 * If applicable, an "Operations" section. For each operation, the
 registry MUST provide:
-  * The Operation's Name and a description.
-  * A "Parameters" table listing all data elements that are provided as input to the operation but are not persisted as part of the object's state. Each entry MUST specify the parameter's Identifier, Name, Cardinality, Data Type, and a description.
+  * The Operation's Name, a description, and a reference to the specification that defines it.
+  * A "Parameters" table listing all data elements that are provided as input to the operation but are not persisted as part of the object's state. Each entry MUST specify the parameter's Identifier, Name, Cardinality, Data Type, description, and a reference to the specification that defines it.
+
+Extensions MAY add new data elements, operations, or operation parameters to existing Object definitions in the registry. Each such addition MUST reference the extension specification that introduces it, allowing implementations to distinguish core protocol elements from extension-defined elements.
 
 ### Initial Registrations
 
@@ -1245,6 +1271,8 @@ A> TODO: write security considerations, if any
 ## draft-kowalik-rpp-data-objects -02 - -03
 
 * abstract common provisioning metadata into reusable component object
+* expand extensibility section with standardised/private extension mechanisms, extension points, and operation extensibility
+* update IANA registration policy and registry structure to accommodate extension registrations
 * change "Aggregation/Composition Dictionary" to "Dictionary Aggregation/Composition" (Issue #32) 
 
 {toc="exclude"}
