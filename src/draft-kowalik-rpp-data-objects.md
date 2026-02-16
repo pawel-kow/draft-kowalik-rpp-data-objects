@@ -326,15 +326,15 @@ Example labelled aggregation:
 
 ```
 
-## Aggregation Dictionary
+## Dictionary Aggregation
 
-Notation: AggregationDictionary[Type]
+Notation: DictionaryAggregation[Type]
 
 A relation between two independent object with single text string attribute. Association labels MUST be unique allowing it to be used as dictionary key.
 
 A type defining such association MUST define Label Description with semantics of the label and Label Constraints with constraints related to the label.
 
-Example Aggregation Dictionary:
+Example Dictionary Aggregation:
 
 ```ascii
 +--------------------------+
@@ -385,15 +385,15 @@ Example Labelled Composition:
 +-------------------------------------+
 ```
 
-## Composition Dictionary
+## Dictionary Composition
 
-Notation: CompositionDictionary[Type]
+Notation: DictionaryComposition[Type]
 
 A relation between an independent parent object and a dependent child object with single text string attribute. Only single association with the same label is allowed allowing it to be used as dictionary key.
 
 A type defining such association MUST define Label Description with semantics of the label and Label Constraints with constraints related to the label.
 
-Example Composition Dictionary:
+Example Dictionary Composition:
 ```ascii
 +--------------------------+
 |         (root)           |
@@ -948,7 +948,7 @@ The following data elements are defined for the Domain Name Data Object.
   * Identifier: postalInfo
   * Cardinality: 1-2
   * Mutability: read-write
-  * Data Type: AggregationDictionary[Postal Info Object]
+  * Data Type: DictionaryAggregation[Postal Info Object]
     * Label Description: type of contact data localisation
     * Label Constraints: Allowed values: "int" for "internationalised" all-ASCII version of an address and "loc" for localised forms with possible non-ASCII character sets.
   * Description: Contains postal-address information.
@@ -1273,6 +1273,7 @@ A> TODO: write security considerations, if any
 * abstract common provisioning metadata into reusable component object
 * expand extensibility section with standardised/private extension mechanisms, extension points, and operation extensibility
 * update IANA registration policy and registry structure to accommodate extension registrations
+* change "Aggregation/Composition Dictionary" to "Dictionary Aggregation/Composition" (Issue #32) 
 
 {toc="exclude"}
 {numbered="false"}
