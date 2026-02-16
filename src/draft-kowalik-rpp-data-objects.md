@@ -515,28 +515,6 @@ Component objects carry only data but do not define any operations.
 
 A> TBD: Idea - model status object as Labelled Composition using "Label"? Con: Generic Constraints for Label will be repeated.
 
-## Nameserver Object
-
-* Name: Nameserver Object
-* Description: Represents a single nameserver.
-* Data Elements:
-  * Host Name
-    * Identifier: hostName
-    * Cardinality: 1
-    * Mutability: read-write
-    * Data Type: String
-    * Description: Fully qualified name of a host.
-    * Constraints: The value MUST be a syntactically valid host name.
-  * DNS Resource Records
-    * Identifier: dns
-    * Cardinality: 0+
-    * Mutability: read-write
-    * Data Type: Composition[DNS Resource Record]
-    * Description: DNS Resource Records related to the host. 
-    * Constraints:
-      * In EPP Compatibility Profile the entries MUST be limited to A and AAAA entries for IPv4 and IPv6 glue records respectively.
-      * The labels of DNS entries MUST be subordinate to the Host Name of the Nameserver.
-
 ## DNS Resource Record
 
 * Name: DNS Resource Record
@@ -768,7 +746,7 @@ A> TBC: IANA registry for contact role label?
   * Identifier: nameservers
   * Cardinality: 0+
   * Mutability: read-write
-  * Data Type: Composition[Host Data Object] or Aggregation[Host Data Object]
+  * Data Type: Aggregation[Host Data Object]
   * Description: A collection of nameservers associated with the domain.
   * Constraints: (None)
 
@@ -787,7 +765,7 @@ A> TBC: IANA registry for contact role label?
   * Identifier: subordinateHosts
   * Cardinality: 0+
   * Mutability: read-only
-  * Data Type: Aggregation[Host Object]
+  * Data Type: Aggregation[Host Data Object]
   * Description: A collection of subordinate host objects that exist under this domain.
   * Constraints: (None)
 
@@ -999,8 +977,6 @@ services for a a domain name.
 
 The following data elements are defined for the Host Data Object.
 
-A> TBC: hostName/dns properties are identical to Nameserver Object. Shall we define something like "Extends"?
-
 * Host Name
   * Identifier: hostName
   * Cardinality: 1
@@ -1120,22 +1096,6 @@ Data Elements
 | value              | Value        | 1     | read-write | Integer   | The numeric value of the period. |
 | unit               | Unit         | 1     | read-write | String    | The unit of the period.          |
 
-Object: nameserver
-
-Object Name: Nameserver Object
-
-Object Type: Component
-
-Description: Represents a single nameserver.
-
-Reference: [This-ID]
-
-Data Elements
-| Element Identifier | Element Name         | Card. | Mutability | Data Type                        | Description                               |
-|--------------------|----------------------|-------|------------|----------------------------------|-------------------------------------------|
-| hostName           | Host Name            | 1     | read-write | String                           | The name of the host.                     |
-| dns                | DNS Resource Records | 0+    | read-write | Composition[DNS Resource Record] | DNS Resource Records related to the host. |
-
 Object: dnsrr
 
 Object Name: DNS Resource Record
@@ -1233,9 +1193,9 @@ Data Elements
 | status               | Status                | 0+    | read-only   | Status Object                                                  | The current status descriptors for the domain.          |
 | registrant           | Registrant            | 0-1   | read-write  | Contact Object                                                 | The registrant contact ID.                              |
 | contacts             | Contacts              | 0+    | read-write  | LabelledAggregation [Contact Object]                           | Associated contact objects.                             |
-| nameservers          | Nameservers           | 0+    | read-write  | Composition[Host Data Object] or Aggregation[Host Data Object] | A collection of nameservers associated with the domain. |
+| nameservers          | Nameservers           | 0+    | read-write  | Aggregation[Host Data Object]                                   | A collection of nameservers associated with the domain. |
 | dns                  | DNS                   | 0+    | read-write  | Composition[DNS Resource Record]                               | A collection of DNS entries related to the domain name. |
-| subordinateHosts     | Subordinate Hosts     | 0+    | read-only   | Aggregation [Host Object]                                      | Subordinate host names.                                 |
+| subordinateHosts     | Subordinate Hosts     | 0+    | read-only   | Aggregation [Host Data Object]                                 | Subordinate host names.                                 |
 | expiryDate           | Expiry Date           | 0-1   | read-only   | Timestamp                                                      | Expiry timestamp.                                       |
 | authInfo             | Authorisation Info    | 0-1   | read-write  | authInfo                                                       | Authorisation information for the object.               |
 
@@ -1337,6 +1297,7 @@ A> TODO: write security considerations, if any
 * abstract common provisioning metadata into reusable component object
 * describe operations for hosts #16
 * add host/domain relationship terminology from RFC 5732
+* remove redundant Nameserver Component Object, domain nameservers use Aggregation[Host Data Object]
 
 {toc="exclude"}
 {numbered="false"}
