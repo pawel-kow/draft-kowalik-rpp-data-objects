@@ -170,6 +170,8 @@ RPP supports two types of transfer:
 
 The transfer process MAY be immediate or follow a multi-step workflow depending on server policy. If the server implements immediate transfers, the approve, reject, and cancel operations need not be supported; the server completes the transfer upon receipt of the request.
 
+The server MAY implement local policies to prevent transfers from stalling and implement a form of automated transfer escalation, approval or cancellation when such a stalled process is recognised.
+
 All transfer operations return the Transfer Data Object as output.
 
 A> TODO: The server MUST notify the current sponsoring client of a pending transfer request. The notification mechanism is not defined in this document.

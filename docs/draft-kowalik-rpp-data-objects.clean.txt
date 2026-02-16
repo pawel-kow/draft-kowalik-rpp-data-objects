@@ -374,6 +374,10 @@ Table of Contents
    supported; the server completes the transfer upon receipt of the
    request.
 
+   The server MAY implement local policies to prevent transfers from
+   stalling and implement a form of automated transfer escalation,
+   approval or cancellation when such a stalled process is recognised.
+
    All transfer operations return the Transfer Data Object as output.
 
       |  TODO: The server MUST notify the current sponsoring client of a
