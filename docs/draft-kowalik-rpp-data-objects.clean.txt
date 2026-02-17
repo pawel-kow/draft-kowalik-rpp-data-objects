@@ -104,13 +104,12 @@ Table of Contents
      5.1.  Period Object
      5.2.  Provisioning Metadata Object
      5.3.  Status Object
-     5.4.  Nameserver Object
-     5.5.  DNS Resource Record
-     5.6.  Authorisation Information Object
-     5.7.  Postal Address Object
-     5.8.  Postal Info Object
-     5.9.  Transfer Data Object
-     5.10. Disclose Object
+     5.4.  DNS Resource Record
+     5.5.  Authorisation Information Object
+     5.6.  Postal Address Object
+     5.7.  Postal Info Object
+     5.8.  Transfer Data Object
+     5.9.  Disclose Object
    6.  Domain Name Data Object
      6.1.  Object Description
      6.2.  Data Elements
@@ -129,6 +128,10 @@ Table of Contents
      8.1.  Object Description
      8.2.  Data Elements
      8.3.  Operations
+       8.3.1.  Create Operation
+       8.3.2.  Read Operation
+       8.3.3.  Update Operation
+       8.3.4.  Delete Operation
    9.  IANA Considerations
      9.1.  RPP Data Object Registry
        9.1.1.  Registration Policy
@@ -172,6 +175,22 @@ Table of Contents
    "OPTIONAL" in this document are to be interpreted as described in BCP
    14 [RFC2119] [RFC8174] when, and only when, they appear in all
    capitals, as shown here.
+
+   The following terms related to the relationship between host objects
+   and domain objects are used as defined in Section 1.1 of [RFC5732]:
+
+   -  Subordinate host: A host name object that has a subordinate
+      relationship to a superordinate domain name object.  For example,
+      host name "ns1.example.com" has a subordinate relationship to
+      domain name "example.com".
+   -  Superordinate domain: A domain name object to which a host name
+      object is subordinate.
+   -  Internal host: A host whose name belongs to the namespace of the
+      repository in which the host is being used for delegation
+      purposes.
+   -  External host: A host whose name does not belong to the namespace
+      of the repository in which the host is being used for delegation
+      purposes.
 
 2.  Resource Definition Principles
 
@@ -991,33 +1010,7 @@ Table of Contents
       |  TBD: Idea - model status object as Labelled Composition using
       |  "Label"?  Con: Generic Constraints for Label will be repeated.
 
-5.4.  Nameserver Object
-
-   -  Name: Nameserver Object
-   -  Description: Represents a single nameserver.
-   -  Data Elements:
-      -  Host Name
-         -  Identifier: hostName
-         -  Cardinality: 1
-         -  Mutability: read-write
-         -  Data Type: String
-         -  Description: Fully qualified name of a host.
-         -  Constraints: The value MUST be a syntactically valid host
-            name.
-      -  DNS Resource Records
-         -  Identifier: dns
-         -  Cardinality: 0+
-         -  Mutability: read-write
-         -  Data Type: Composition[DNS Resource Record]
-         -  Description: DNS Resource Records related to the host.
-         -  Constraints:
-            -  In EPP Compatibility Profile the entries MUST be limited
-               to A and AAAA entries for IPv4 and IPv6 glue records
-               respectively.
-            -  The labels of DNS entries MUST be subordinate to the Host
-               Name of the Nameserver.
-
-5.5.  DNS Resource Record
+5.4.  DNS Resource Record
 
    -  Name: DNS Resource Record
    -  Description: Represents a DNS Entry
@@ -1063,7 +1056,7 @@ Table of Contents
          -  Constraints: The allowed value range MAY be constrained by
             server policy.
 
-5.6.  Authorisation Information Object
+5.5.  Authorisation Information Object
 
    -  Name: Authorisation Information
    -  Description: Contains information used to authorise operations on
@@ -1098,7 +1091,7 @@ Table of Contents
                Information MAY not be available for read or any other
                operation responding with this data element.
 
-5.7.  Postal Address Object
+5.6.  Postal Address Object
 
    -  Name: Postal Address Object
    -  Description: Contains the components of a postal address.
@@ -1153,7 +1146,7 @@ Table of Contents
             -  In EPP Compatibility Profile this data element MUST be
                provided.
 
-5.8.  Postal Info Object
+5.7.  Postal Info Object
 
    -  Name: Postal Info Object
    -  Description: Contains postal-address information in either
@@ -1206,7 +1199,7 @@ Table of Contents
       -  Constraints: In EPP Compatibility Profile this data element
          MUST be provided.
 
-5.9.  Transfer Data Object
+5.8.  Transfer Data Object
 
    -  Name: Transfer Data Object
    -  Identifier: transferData
@@ -1272,7 +1265,7 @@ Table of Contents
             statuses, the date and time when the request was completed.
          -  Constraints: (None)
 
-5.10.  Disclose Object
+5.9.  Disclose Object
 
       |  TODO: Model Disclose in universal (extendible) way
 
@@ -1373,8 +1366,7 @@ Table of Contents
       -  Identifier: nameservers
       -  Cardinality: 0+
       -  Mutability: read-write
-      -  Data Type: Composition[Host Data Object] or Aggregation[Host
-         Data Object]
+      -  Data Type: Aggregation[Host Data Object]
       -  Description: A collection of nameservers associated with the
          domain.
       -  Constraints: (None)
@@ -1402,7 +1394,7 @@ Table of Contents
       -  Identifier: subordinateHosts
       -  Cardinality: 0+
       -  Mutability: read-only
-      -  Data Type: Aggregation[Host Object]
+      -  Data Type: Aggregation[Host Data Object]
       -  Description: A collection of subordinate host objects that
          exist under this domain.
       -  Constraints: (None)
@@ -1581,6 +1573,9 @@ Table of Contents
          if the transfer caused or causes a change in the validity
          period.
 
+   Subordinate host objects MUST be transferred implicitly when the
+   domain object is transferred.
+
 7.  Contact Data Object
 
 7.1.  Object Description
@@ -1726,9 +1721,6 @@ Table of Contents
 
    The following data elements are defined for the Host Data Object.
 
-      |  TBC: hostName/dns properties are identical to Nameserver
-      |  Object.  Shall we define something like "Extends"?
-
    -  Host Name
 
       -  Identifier: hostName
@@ -1755,8 +1747,8 @@ Table of Contents
       -  Mutability: read-only
       -  Data Type: Status Object
       -  Description: The current status descriptors associated with the
-         domain.
-      -  Constraints: Possible combinations of Domain Status Labels is
+         host.
+      -  Constraints: Possible combinations of Host Status Labels is
          specified in Section 2.3 of [RFC5732]
 
    -  DNS Resource Records
@@ -1775,10 +1767,80 @@ Table of Contents
 
 8.3.  Operations
 
-      |  TODO: Describe operations for hosts https://github.com/pawel-
-      |  kow/draft-kowalik-rpp-data-objects/issues/16
-      |  (https://github.com/pawel-kow/draft-kowalik-rpp-data-objects/
-      |  issues/16)
+8.3.1.  Create Operation
+
+   The Create operation allows a client to provision a new Host Data
+   Object.  The operation accepts as input all create-only and read-
+   write data elements defined for the Host Data Object.
+
+   -  Authorisation:
+      -  Generally each client is authorised to create new host objects
+         becoming a sponsoring client.  This can be however constrained
+         by the server policy, e.g. by applying rate limiting or
+         compliance locks.
+
+   If the host name exists in a namespace for which the server is
+   authoritative, then the superordinate domain of the host MUST be
+   known to the server before the host object can be created.
+
+   In EPP Compatibility Profile, IP addresses are REQUIRED only as
+   needed to produce DNS glue records.  If the host name exists in a
+   namespace for which the server is authoritative and is subordinate to
+   an existing domain, IP addresses SHOULD be provided.  If the host
+   name is external to the server's namespace, IP addresses are not
+   required by the DNS and MAY be omitted.
+
+8.3.2.  Read Operation
+
+   The Read operation allows a client to retrieve the data elements of a
+   Host Data Object.
+
+   -  Authorisation:
+      -  Any client is authorised to retrieve the full object
+         representation.  In EPP Compatibility Profile, host objects do
+         not carry authorisation information and there is no distinction
+         based on client identity as described in Section 3.1.2 of
+         [RFC5732].
+
+8.3.3.  Update Operation
+
+   The Update operation allows a client to modify the attributes of an
+   existing Host Data Object.  The operation targets a specific data
+   object identified by its host name.
+
+   -  Authorisation:
+      -  Only sponsoring client is authorised to perform this operation
+
+   Host name changes MAY require the addition or removal of IP addresses
+   to be accepted by the server.  IP address association MAY be subject
+   to server policies for provisioning hosts as name servers.
+
+   Host name changes can have an impact on associated objects that refer
+   to the host object.  A host name change SHOULD NOT require additional
+   updates of associated objects to preserve existing associations, with
+   one exception: changing an external host object that has associations
+   with objects that are sponsored by a different client.  Attempts to
+   update such hosts directly MUST fail.  The change can be provisioned
+   by creating a new external host with a new name and any needed new
+   attributes, and subsequently updating the other objects sponsored by
+   the client.
+
+8.3.4.  Delete Operation
+
+   The Delete operation allows a client to remove an existing Host Data
+   Object.  The operation targets a specific data object identified by
+   its host name.
+
+   -  Authorisation:
+      -  Only sponsoring client is authorised to perform this operation
+
+   The server SHOULD reject a delete request if the host object is
+   associated with any other object, such as a domain name object.
+   Deleting a host object without first breaking existing associations
+   can cause DNS resolution failure for domain objects that refer to the
+   deleted host object.
+
+   The error response SHOULD indicate the related associated objects.
 
 9.  IANA Considerations
 
@@ -1866,34 +1928,6 @@ Table of Contents
 
                                   Table 1
 
-   Object: nameserver
-
-   Object Name: Nameserver Object
-
-   Object Type: Component
-
-   Description: Represents a single nameserver.
-
-   Reference: [This-ID]
-
-   Data Elements
-
-   +==========+========+=====+==========+=================+============+
-   |Element   |Element |Card.|Mutability| Data Type       |Description |
-   |Identifier|Name    |     |          |                 |            |
-   +==========+========+=====+==========+=================+============+
-   |hostName  |Host    |1    |read-write| String          |The name of |
-   |          |Name    |     |          |                 |the host.   |
-   +----------+--------+-----+----------+-----------------+------------+
-   |dns       |DNS     |0+   |read-write| Composition[DNS |DNS         |
-   |          |Resource|     |          | Resource        |Resource    |
-   |          |Records |     |          | Record]         |Records     |
-   |          |        |     |          |                 |related to  |
-   |          |        |     |          |                 |the host.   |
-   +----------+--------+-----+----------+-----------------+------------+
-
-                                  Table 2
-
    Object: dnsrr
 
    Object Name: DNS Resource Record
@@ -1925,7 +1959,7 @@ Table of Contents
    |               |         |     |            |      | record.       |
    +---------------+---------+-----+------------+------+---------------+
 
-                                  Table 3
+                                  Table 2
 
    Object: authInfo
 
@@ -1968,7 +2002,7 @@ Table of Contents
    |          |             |     |           |      | possible.       |
    +----------+-------------+-----+-----------+------+-----------------+
 
-                                  Table 4
+                                  Table 3
 
    Object: domainStatus
 
@@ -2011,7 +2045,7 @@ Table of Contents
    |          |       |     |           |         | information       |
    +----------+-------+-----+-----------+---------+-------------------+
 
-                                 Table 5
+                                 Table 4
 
    Object: provisioningMetadata
 
@@ -2077,7 +2111,7 @@ Table of Contents
    |                  |          |     |          |          |transfer.    |
    +------------------+----------+-----+----------+----------+-------------+
 
-                                  Table 6
+                                  Table 5
 
    Object: transferData
 
@@ -2144,7 +2178,7 @@ Table of Contents
    |                  |          |     |          |          |date.      |
    +------------------+----------+-----+----------+----------+-----------+
 
-                                  Table 7
+                                  Table 6
 
       |  TODO: IANA table: Postal Address Object TODO: IANA table:
       |  Postal Info Object TODO: IANA table: Disclose Object
@@ -2190,10 +2224,10 @@ Table of Contents
    |                    |             |     |          |[Contact Object]   |contact      |
    |                    |             |     |          |                   |objects.     |
    +--------------------+-------------+-----+----------+-------------------+-------------+
-   |nameservers         |Nameservers  |0+   |read-write|Composition[Host   |A collection |
-   |                    |             |     |          |Data Object] or    |of           |
-   |                    |             |     |          |Aggregation[Host   |nameservers  |
-   |                    |             |     |          |Data Object]       |associated   |
+   |nameservers         |Nameservers  |0+   |read-write|Aggregation[Host   |A collection |
+   |                    |             |     |          |Data Object]       |of           |
+   |                    |             |     |          |                   |nameservers  |
+   |                    |             |     |          |                   |associated   |
    |                    |             |     |          |                   |with the     |
    |                    |             |     |          |                   |domain.      |
    +--------------------+-------------+-----+----------+-------------------+-------------+
@@ -2205,7 +2239,7 @@ Table of Contents
    |                    |             |     |          |                   |name.        |
    +--------------------+-------------+-----+----------+-------------------+-------------+
    |subordinateHosts    |Subordinate  |0+   |read-only |Aggregation [Host  |Subordinate  |
-   |                    |Hosts        |     |          |Object]            |host names.  |
+   |                    |Hosts        |     |          |Data Object]       |host names.  |
    +--------------------+-------------+-----+----------+-------------------+-------------+
    |expiryDate          |Expiry Date  |0-1  |read-only |Timestamp          |Expiry       |
    |                    |             |     |          |                   |timestamp.   |
@@ -2216,7 +2250,7 @@ Table of Contents
    |                    |             |     |          |                   |object.      |
    +--------------------+-------------+-----+----------+-------------------+-------------+
 
-                                  Table 8
+                                  Table 7
 
    Operations
 
@@ -2238,7 +2272,7 @@ Table of Contents
    |            |              |       |        | domain name.         |
    +------------+--------------+-------+--------+----------------------+
 
-                                  Table 9
+                                  Table 8
 
    Operation: Read
 
@@ -2264,7 +2298,7 @@ Table of Contents
    |               |               |       |          | data.          |
    +---------------+---------------+-------+----------+----------------+
 
-                                  Table 10
+                                  Table 9
 
    Operation: Delete
 
@@ -2296,7 +2330,7 @@ Table of Contents
    |                   |         |       |           | period.        |
    +-------------------+---------+-------+-----------+----------------+
 
-                                 Table 11
+                                 Table 10
 
    Operation: Transfer Request
 
@@ -2332,7 +2366,7 @@ Table of Contents
    |                   |           |     |            | transfer.      |
    +-------------------+-----------+-----+------------+----------------+
 
-                                  Table 12
+                                  Table 11
 
    Operation: Transfer Approve
 
@@ -2359,7 +2393,7 @@ Table of Contents
     |            |        |       |        | for rejection.           |
     +------------+--------+-------+--------+--------------------------+
 
-                                  Table 13
+                                  Table 12
 
    Operation: Transfer Cancel
 
@@ -2378,8 +2412,77 @@ Table of Contents
 
    Parameters: (None)
 
-      |  TODO: IANA table: Contact Data Object TODO: IANA table: Host
-      |  Data Object
+      |  TODO: IANA table: Contact Data Object
+
+   Object: host
+
+   Object Name: Host Data Object
+
+   Object Type: Resource
+
+   Description: Represents a name server that provides DNS services for
+   a domain name.
+
+   Reference: [This-ID]
+
+   Data Elements
+
+   +====================+============+=====+==========+===============+===========+
+   |Identifier          |Name        |Card.|Mutability|Data Type      |Description|
+   +====================+============+=====+==========+===============+===========+
+   |hostName            |Host Name   |1    |read-write|String         |Fully      |
+   |                    |            |     |          |               |qualified  |
+   |                    |            |     |          |               |name of a  |
+   |                    |            |     |          |               |host.      |
+   +--------------------+------------+-----+----------+---------------+-----------+
+   |provisioningMetadata|Provisioning|1    |read-only |Provisioning   |Standard   |
+   |                    |Metadata    |     |          |Metadata Object|metadata   |
+   |                    |            |     |          |               |about      |
+   |                    |            |     |          |               |object     |
+   |                    |            |     |          |               |lifecycle  |
+   |                    |            |     |          |               |and        |
+   |                    |            |     |          |               |ownership. |
+   +--------------------+------------+-----+----------+---------------+-----------+
+   |status              |Status      |0+   |read-only |Status Object  |The current|
+   |                    |            |     |          |               |status     |
+   |                    |            |     |          |               |descriptors|
+   |                    |            |     |          |               |for the    |
+   |                    |            |     |          |               |host.      |
+   +--------------------+------------+-----+----------+---------------+-----------+
+   |dns                 |DNS Resource|0+   |read-write|Composition[DNS|DNS        |
+   |                    |Records     |     |          |Resource       |Resource   |
+   |                    |            |     |          |Record]        |Records    |
+   |                    |            |     |          |               |related to |
+   |                    |            |     |          |               |the host.  |
+   +--------------------+------------+-----+----------+---------------+-----------+
+
+                                  Table 13
+
+   Operations
+
+   Operation: Create
+
+   Description: Provisions a new Host Data Object.
+
+   Parameters: (None)
+
+   Operation: Read
+
+   Description: Retrieves the data elements of a Host Data Object.
+
+   Parameters: (None)
+
+   Operation: Update
+
+   Description: Modifies the attributes of a Host Data Object.
+
+   Parameters: (None)
+
+   Operation: Delete
+
+   Description: Removes an existing Host Data Object.
+
+   Parameters: (None)
 
 10.  Security Considerations
 
@@ -2391,6 +2494,10 @@ draft-kowalik-rpp-data-objects -02 - -03
 
    -  abstract common provisioning metadata into reusable component
       object
+   -  describe operations for hosts #16
+   -  add host/domain relationship terminology from RFC 5732
+   -  remove redundant Nameserver Component Object, domain nameservers
+      use Aggregation[Host Data Object]
    -  expand extensibility section with standardised/private extension
       mechanisms, extension points, and operation extensibility
    -  update IANA registration policy and registry structure to
