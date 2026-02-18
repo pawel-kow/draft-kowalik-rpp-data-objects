@@ -1218,7 +1218,7 @@ The following aspects of the contact object MAY be modified:
 * Status values that are client-manageable (prefixed with "client") MAY be added or removed.
 * Postal Information, Voice Phone Number, Fax Phone Number, E-mail, Authorisation Information, and Disclose preferences MAY be changed.
 
-A client MUST NOT alter status values set by the server. A server MAY alter or override status values set by a client, subject to server policy.
+A client MUST NOT add, delete or alter values for statuses managed by the server (prefixed with "server"). A server MAY add, delete or alter status values set by a client, subject to server policy.
 
 ### Delete Operation
 

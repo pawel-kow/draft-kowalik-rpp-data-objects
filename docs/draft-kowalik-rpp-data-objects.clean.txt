@@ -1764,9 +1764,9 @@ Table of Contents
       Authorisation Information, and Disclose preferences MAY be
       changed.
 
-   A client MUST NOT alter status values set by the server.  A server
-   MAY alter or override status values set by a client, subject to
-   server policy.
+   A client MUST NOT add, delete or alter values for statuses managed by
+   the server (prefixed with "server").  A server MAY add, delete or
+   alter status values set by a client, subject to server policy.
 
 7.3.4.  Delete Operation
 
