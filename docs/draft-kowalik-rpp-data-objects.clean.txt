@@ -494,7 +494,7 @@ Table of Contents
 
    -  Transfer Direction
 
-      -  Identifier: transferDirection
+      -  Identifier: transferDir
       -  Cardinality: 0-1
       -  Data Type: String
       -  Description: Indicates whether the transfer is a "pull" or
@@ -922,7 +922,7 @@ Table of Contents
 5.2.  Provisioning Metadata Object
 
    -  Name: Provisioning Metadata Object
-   -  Identifier: provisioningMetadata
+   -  Identifier: provMetadata
    -  Description: Contains standard metadata about the lifecycle and
       ownership of a provisioned object.  This metadata is common across
       all resource objects in the registry system.
@@ -937,7 +937,7 @@ Table of Contents
          -  Constraints: In EPP Compatibility Profile this data element
             MUST be provided.
       -  Sponsoring Client ID
-         -  Identifier: sponsoringClientId
+         -  Identifier: spClientId
          -  Cardinality: 1
          -  Mutability: read-only
          -  Data Type: Client Identifier
@@ -945,7 +945,7 @@ Table of Contents
             current sponsor of the object.
          -  Constraints: (None)
       -  Creating Client ID
-         -  Identifier: creatingClientId
+         -  Identifier: crClientId
          -  Cardinality: 0-1
          -  Mutability: read-only
          -  Data Type: Client Identifier
@@ -953,7 +953,7 @@ Table of Contents
             object.
          -  Constraints: (None)
       -  Creation Date
-         -  Identifier: creationDate
+         -  Identifier: crDate
          -  Cardinality: 0-1
          -  Mutability: read-only
          -  Data Type: Timestamp
@@ -961,7 +961,7 @@ Table of Contents
          -  Constraints: The value is set by the server and cannot be
             specified by the client.
       -  Updating Client ID
-         -  Identifier: updatingClientId
+         -  Identifier: upClientId
          -  Cardinality: 0-1
          -  Mutability: read-only
          -  Data Type: Client Identifier
@@ -970,7 +970,7 @@ Table of Contents
          -  Constraints: This element MUST NOT be present if the object
             has never been modified.
       -  Update Date
-         -  Identifier: updateDate
+         -  Identifier: upDate
          -  Cardinality: 0-1
          -  Mutability: read-only
          -  Data Type: Timestamp
@@ -979,7 +979,7 @@ Table of Contents
          -  Constraints: This element MUST NOT be present if the object
             has never been modified.
       -  Transfer Date
-         -  Identifier: transferDate
+         -  Identifier: trDate
          -  Cardinality: 0-1
          -  Mutability: read-only
          -  Data Type: Timestamp
@@ -1150,7 +1150,7 @@ Table of Contents
             -  A server MAY ignore client-specified TTL values and apply
                default or policy-defined values.
       -  Maximum Signature Lifetime
-         -  Identifier: maximumSignatureLifetime
+         -  Identifier: maxSigLifetime
          -  Cardinality: 0-1
          -  Mutability: read-write
          -  Data Type: Dictionary[Integer]
@@ -1361,7 +1361,7 @@ Table of Contents
       any transferable resource object.
    -  Data Elements:
       -  Transfer Status
-         -  Identifier: transferStatus
+         -  Identifier: trStatus
          -  Cardinality: 1
          -  Mutability: read-only
          -  Data Type: String
@@ -1370,7 +1370,7 @@ Table of Contents
             "clientApproved", "clientCancelled", "clientRejected",
             "serverApproved", "serverCancelled".
       -  Transfer Direction
-         -  Identifier: transferDirection
+         -  Identifier: transferDir
          -  Cardinality: 1
          -  Mutability: read-only
          -  Data Type: String
@@ -1379,7 +1379,7 @@ Table of Contents
             the gaining client) or "push" (initiated by the sponsoring
             client).
       -  Requesting Client ID
-         -  Identifier: requestingClientId
+         -  Identifier: reqClientId
          -  Cardinality: 1
          -  Mutability: read-only
          -  Data Type: Client Identifier
@@ -1395,7 +1395,7 @@ Table of Contents
             requested.
          -  Constraints: (None)
       -  Acting Client ID
-         -  Identifier: actingClientId
+         -  Identifier: actClientId
          -  Cardinality: 1
          -  Mutability: read-only
          -  Data Type: Client Identifier
@@ -1459,7 +1459,7 @@ Table of Contents
 
    -  Provisioning Metadata
 
-      -  Identifier: provisioningMetadata
+      -  Identifier: provMetadata
       -  Cardinality: 1
       -  Mutability: read-only
       -  Data Type: Provisioning Metadata Object
@@ -1790,7 +1790,7 @@ Table of Contents
 
    -  Provisioning Metadata
 
-      -  Identifier: provisioningMetadata
+      -  Identifier: provMetadata
       -  Cardinality: 1
       -  Mutability: read-only
       -  Data Type: Provisioning Metadata Object
@@ -1920,7 +1920,7 @@ Table of Contents
 
    -  Provisioning Metadata
 
-      -  Identifier: provisioningMetadata
+      -  Identifier: provMetadata
       -  Cardinality: 1
       -  Mutability: read-only
       -  Data Type: Provisioning Metadata Object
@@ -2167,8 +2167,90 @@ Table of Contents
 
                                   Table 2
 
-      |  TODO: IANA table: DNS Controls Object TODO: IANA table: DNS
-      |  Data Object
+   Object: dnsControls
+
+   Object Name: DNS Controls Object
+
+   Object Type: Component
+
+   Description: Contains operational control parameters that a client
+   MAY use to influence server-side DNS behaviour for a set of DNS
+   records.
+
+   Reference: [This-ID]
+
+   Data Elements
+
+   +================+=========+=====+==========+==========+============+
+   | Element        |Element  |Card.|Mutability|Data Type |Description |
+   | Identifier     |Name     |     |          |          |            |
+   +================+=========+=====+==========+==========+============+
+   | ttl            |TTL      |0-1  |read-write|Dictionary|Controls    |
+   |                |         |     |          |[Integer] |the caching |
+   |                |         |     |          |          |behaviour   |
+   |                |         |     |          |          |of DNS      |
+   |                |         |     |          |          |resource    |
+   |                |         |     |          |          |records,    |
+   |                |         |     |          |          |keyed by    |
+   |                |         |     |          |          |lower-case  |
+   |                |         |     |          |          |record type |
+   |                |         |     |          |          |name.       |
+   +----------------+---------+-----+----------+----------+------------+
+   | maxSigLifetime |Maximum  |0-1  |read-write|Dictionary|Maximum     |
+   |                |Signature|     |          |[Integer] |number of   |
+   |                |Lifetime |     |          |          |seconds     |
+   |                |         |     |          |          |after       |
+   |                |         |     |          |          |signature   |
+   |                |         |     |          |          |generation  |
+   |                |         |     |          |          |when the    |
+   |                |         |     |          |          |parent's    |
+   |                |         |     |          |          |signature   |
+   |                |         |     |          |          |on signed   |
+   |                |         |     |          |          |DNS data    |
+   |                |         |     |          |          |should      |
+   |                |         |     |          |          |expire,     |
+   |                |         |     |          |          |keyed by    |
+   |                |         |     |          |          |lower-case  |
+   |                |         |     |          |          |record type |
+   |                |         |     |          |          |name.       |
+   +----------------+---------+-----+----------+----------+------------+
+
+                                  Table 3
+
+   Object: dnsData
+
+   Object Name: DNS Data Object
+
+   Object Type: Component
+
+   Description: A container for DNS resource records and associated
+   operational controls for a provisioned object.
+
+   Reference: [This-ID]
+
+   Data Elements
+
+   +==========+========+=====+============+=============+==============+
+   |Element   |Element |Card.| Mutability | Data Type   | Description  |
+   |Identifier|Name    |     |            |             |              |
+   +==========+========+=====+============+=============+==============+
+   |records   |Records |0+   | read-write | Composition | An array of  |
+   |          |        |     |            | [DNS Record | DNS          |
+   |          |        |     |            | Object]     | resource     |
+   |          |        |     |            |             | records      |
+   |          |        |     |            |             | associated   |
+   |          |        |     |            |             | with the     |
+   |          |        |     |            |             | provisioned  |
+   |          |        |     |            |             | object.      |
+   +----------+--------+-----+------------+-------------+--------------+
+   |controls  |Controls|0-1  | read-write | DNS         | Operational  |
+   |          |        |     |            | Controls    | control      |
+   |          |        |     |            | Object      | parameters   |
+   |          |        |     |            |             | for the DNS  |
+   |          |        |     |            |             | records.     |
+   +----------+--------+-----+------------+-------------+--------------+
+
+                                  Table 4
 
    Object: authInfo
 
@@ -2211,7 +2293,7 @@ Table of Contents
    |          |             |     |           |      | possible.       |
    +----------+-------------+-----+-----------+------+-----------------+
 
-                                  Table 3
+                                  Table 5
 
    Object: domainStatus
 
@@ -2254,9 +2336,9 @@ Table of Contents
    |          |       |     |           |         | information       |
    +----------+-------+-----+-----------+---------+-------------------+
 
-                                 Table 4
+                                 Table 6
 
-   Object: provisioningMetadata
+   Object: provMetadata
 
    Object Name: Provisioning Metadata Object
 
@@ -2269,58 +2351,51 @@ Table of Contents
 
    Data Elements
 
-   +==================+==========+=====+==========+==========+=============+
-   |Element Identifier|Element   |Card.|Mutability|Data Type |Description  |
-   |                  |Name      |     |          |          |             |
-   +==================+==========+=====+==========+==========+=============+
-   |repositoryId      |Repository|0-1  |read-only |Identifier|A server-    |
-   |                  |ID        |     |          |          |assigned     |
-   |                  |          |     |          |          |unique       |
-   |                  |          |     |          |          |identifier   |
-   |                  |          |     |          |          |for the      |
-   |                  |          |     |          |          |object.      |
-   +------------------+----------+-----+----------+----------+-------------+
-   |sponsoringClientId|Sponsoring|1    |read-only |Client    |The          |
-   |                  |Client ID |     |          |Identifier|identifier of|
-   |                  |          |     |          |          |the client   |
-   |                  |          |     |          |          |that is the  |
-   |                  |          |     |          |          |current      |
-   |                  |          |     |          |          |sponsor of   |
-   |                  |          |     |          |          |the object.  |
-   +------------------+----------+-----+----------+----------+-------------+
-   |creatingClientId  |Creating  |0-1  |read-only |Client    |The          |
-   |                  |Client ID |     |          |Identifier|identifier of|
-   |                  |          |     |          |          |the client   |
-   |                  |          |     |          |          |that created |
-   |                  |          |     |          |          |the object.  |
-   +------------------+----------+-----+----------+----------+-------------+
-   |creationDate      |Creation  |0-1  |read-only |Timestamp |The date and |
-   |                  |Date      |     |          |          |time of      |
-   |                  |          |     |          |          |object       |
-   |                  |          |     |          |          |creation.    |
-   +------------------+----------+-----+----------+----------+-------------+
-   |updatingClientId  |Updating  |0-1  |read-only |Client    |The          |
-   |                  |Client ID |     |          |Identifier|identifier of|
-   |                  |          |     |          |          |the client   |
-   |                  |          |     |          |          |that last    |
-   |                  |          |     |          |          |updated the  |
-   |                  |          |     |          |          |object.      |
-   +------------------+----------+-----+----------+----------+-------------+
-   |updateDate        |Update    |0-1  |read-only |Timestamp |The date and |
-   |                  |Date      |     |          |          |time of the  |
-   |                  |          |     |          |          |most recent  |
-   |                  |          |     |          |          |object       |
-   |                  |          |     |          |          |modification.|
-   +------------------+----------+-----+----------+----------+-------------+
-   |transferDate      |Transfer  |0-1  |read-only |Timestamp |The date and |
-   |                  |Date      |     |          |          |time of the  |
-   |                  |          |     |          |          |most recent  |
-   |                  |          |     |          |          |successful   |
-   |                  |          |     |          |          |object       |
-   |                  |          |     |          |          |transfer.    |
-   +------------------+----------+-----+----------+----------+-------------+
+   +============+==========+=====+==========+==========+===============+
+   |Element     |Element   |Card.|Mutability|Data Type |Description    |
+   |Identifier  |Name      |     |          |          |               |
+   +============+==========+=====+==========+==========+===============+
+   |repositoryId|Repository|0-1  |read-only |Identifier|A server-      |
+   |            |ID        |     |          |          |assigned unique|
+   |            |          |     |          |          |identifier for |
+   |            |          |     |          |          |the object.    |
+   +------------+----------+-----+----------+----------+---------------+
+   |spClientId  |Sponsoring|1    |read-only |Client    |The identifier |
+   |            |Client ID |     |          |Identifier|of the client  |
+   |            |          |     |          |          |that is the    |
+   |            |          |     |          |          |current sponsor|
+   |            |          |     |          |          |of the object. |
+   +------------+----------+-----+----------+----------+---------------+
+   |crClientId  |Creating  |0-1  |read-only |Client    |The identifier |
+   |            |Client ID |     |          |Identifier|of the client  |
+   |            |          |     |          |          |that created   |
+   |            |          |     |          |          |the object.    |
+   +------------+----------+-----+----------+----------+---------------+
+   |crDate      |Creation  |0-1  |read-only |Timestamp |The date and   |
+   |            |Date      |     |          |          |time of object |
+   |            |          |     |          |          |creation.      |
+   +------------+----------+-----+----------+----------+---------------+
+   |upClientId  |Updating  |0-1  |read-only |Client    |The identifier |
+   |            |Client ID |     |          |Identifier|of the client  |
+   |            |          |     |          |          |that last      |
+   |            |          |     |          |          |updated the    |
+   |            |          |     |          |          |object.        |
+   +------------+----------+-----+----------+----------+---------------+
+   |upDate      |Update    |0-1  |read-only |Timestamp |The date and   |
+   |            |Date      |     |          |          |time of the    |
+   |            |          |     |          |          |most recent    |
+   |            |          |     |          |          |object         |
+   |            |          |     |          |          |modification.  |
+   +------------+----------+-----+----------+----------+---------------+
+   |trDate      |Transfer  |0-1  |read-only |Timestamp |The date and   |
+   |            |Date      |     |          |          |time of the    |
+   |            |          |     |          |          |most recent    |
+   |            |          |     |          |          |successful     |
+   |            |          |     |          |          |object         |
+   |            |          |     |          |          |transfer.      |
+   +------------+----------+-----+----------+----------+---------------+
 
-                                  Table 5
+                                  Table 7
 
    Object: transferData
 
@@ -2335,59 +2410,59 @@ Table of Contents
 
    Data Elements
 
-   +==================+==========+=====+==========+==========+===========+
-   |Element Identifier|Element   |Card.|Mutability|Data Type |Description|
-   |                  |Name      |     |          |          |           |
-   +==================+==========+=====+==========+==========+===========+
-   |transferStatus    |Transfer  |1    |read-only |String    |The state  |
-   |                  |Status    |     |          |          |of the most|
-   |                  |          |     |          |          |recent     |
-   |                  |          |     |          |          |transfer   |
-   |                  |          |     |          |          |request.   |
-   +------------------+----------+-----+----------+----------+-----------+
-   |transferDirection |Transfer  |1    |read-only |String    |Indicates  |
-   |                  |Direction |     |          |          |the        |
-   |                  |          |     |          |          |direction  |
-   |                  |          |     |          |          |of the     |
-   |                  |          |     |          |          |transfer   |
-   |                  |          |     |          |          |(pull or   |
-   |                  |          |     |          |          |push).     |
-   +------------------+----------+-----+----------+----------+-----------+
-   |requestingClientId|Requesting|1    |read-only |Client    |The        |
-   |                  |Client ID |     |          |Identifier|identifier |
-   |                  |          |     |          |          |of the     |
-   |                  |          |     |          |          |client that|
-   |                  |          |     |          |          |initiated  |
-   |                  |          |     |          |          |the        |
-   |                  |          |     |          |          |transfer   |
-   |                  |          |     |          |          |request.   |
-   +------------------+----------+-----+----------+----------+-----------+
-   |requestDate       |Request   |1    |read-only |Timestamp |The date   |
-   |                  |Date      |     |          |          |and time   |
-   |                  |          |     |          |          |that the   |
-   |                  |          |     |          |          |transfer   |
-   |                  |          |     |          |          |was        |
-   |                  |          |     |          |          |requested. |
-   +------------------+----------+-----+----------+----------+-----------+
-   |actingClientId    |Acting    |1    |read-only |Client    |The        |
-   |                  |Client ID |     |          |Identifier|identifier |
-   |                  |          |     |          |          |of the     |
-   |                  |          |     |          |          |client that|
-   |                  |          |     |          |          |should or  |
-   |                  |          |     |          |          |did act on |
-   |                  |          |     |          |          |the        |
-   |                  |          |     |          |          |request.   |
-   +------------------+----------+-----+----------+----------+-----------+
-   |actionDate        |Action    |1    |read-only |Timestamp |The        |
-   |                  |Date      |     |          |          |response   |
-   |                  |          |     |          |          |deadline   |
-   |                  |          |     |          |          |(if        |
-   |                  |          |     |          |          |pending) or|
-   |                  |          |     |          |          |completion |
-   |                  |          |     |          |          |date.      |
-   +------------------+----------+-----+----------+----------+-----------+
+   +=============+==========+=====+==========+==========+==============+
+   | Element     |Element   |Card.|Mutability|Data Type | Description  |
+   | Identifier  |Name      |     |          |          |              |
+   +=============+==========+=====+==========+==========+==============+
+   | trStatus    |Transfer  |1    |read-only |String    | The state    |
+   |             |Status    |     |          |          | of the most  |
+   |             |          |     |          |          | recent       |
+   |             |          |     |          |          | transfer     |
+   |             |          |     |          |          | request.     |
+   +-------------+----------+-----+----------+----------+--------------+
+   | transferDir |Transfer  |1    |read-only |String    | Indicates    |
+   |             |Direction |     |          |          | the          |
+   |             |          |     |          |          | direction    |
+   |             |          |     |          |          | of the       |
+   |             |          |     |          |          | transfer     |
+   |             |          |     |          |          | (pull or     |
+   |             |          |     |          |          | push).       |
+   +-------------+----------+-----+----------+----------+--------------+
+   | reqClientId |Requesting|1    |read-only |Client    | The          |
+   |             |Client ID |     |          |Identifier| identifier   |
+   |             |          |     |          |          | of the       |
+   |             |          |     |          |          | client that  |
+   |             |          |     |          |          | initiated    |
+   |             |          |     |          |          | the          |
+   |             |          |     |          |          | transfer     |
+   |             |          |     |          |          | request.     |
+   +-------------+----------+-----+----------+----------+--------------+
+   | requestDate |Request   |1    |read-only |Timestamp | The date     |
+   |             |Date      |     |          |          | and time     |
+   |             |          |     |          |          | that the     |
+   |             |          |     |          |          | transfer     |
+   |             |          |     |          |          | was          |
+   |             |          |     |          |          | requested.   |
+   +-------------+----------+-----+----------+----------+--------------+
+   | actClientId |Acting    |1    |read-only |Client    | The          |
+   |             |Client ID |     |          |Identifier| identifier   |
+   |             |          |     |          |          | of the       |
+   |             |          |     |          |          | client that  |
+   |             |          |     |          |          | should or    |
+   |             |          |     |          |          | did act on   |
+   |             |          |     |          |          | the          |
+   |             |          |     |          |          | request.     |
+   +-------------+----------+-----+----------+----------+--------------+
+   | actionDate  |Action    |1    |read-only |Timestamp | The          |
+   |             |Date      |     |          |          | response     |
+   |             |          |     |          |          | deadline     |
+   |             |          |     |          |          | (if          |
+   |             |          |     |          |          | pending) or  |
+   |             |          |     |          |          | completion   |
+   |             |          |     |          |          | date.        |
+   +-------------+----------+-----+----------+----------+--------------+
 
-                                  Table 6
+                                  Table 8
 
       |  TODO: IANA table: Postal Address Object TODO: IANA table:
       |  Postal Info Object TODO: IANA table: Disclose Object
@@ -2404,63 +2479,63 @@ Table of Contents
 
    Data Elements
 
-   +====================+=============+=====+==========+===================+=============+
-   |Identifier          |Name         |Card.|Mutability|Data Type          |Description  |
-   +====================+=============+=====+==========+===================+=============+
-   |name                |Name         |1    |create-   |String             |The fully    |
-   |                    |             |     |only      |                   |qualified    |
-   |                    |             |     |          |                   |name of the  |
-   |                    |             |     |          |                   |domain       |
-   |                    |             |     |          |                   |object.      |
-   +--------------------+-------------+-----+----------+-------------------+-------------+
-   |provisioningMetadata|Provisioning |1    |read-only |Provisioning       |Standard     |
-   |                    |Metadata     |     |          |Metadata Object    |metadata     |
-   |                    |             |     |          |                   |about object |
-   |                    |             |     |          |                   |lifecycle and|
-   |                    |             |     |          |                   |ownership.   |
-   +--------------------+-------------+-----+----------+-------------------+-------------+
-   |status              |Status       |0+   |read-only |Status Object      |The current  |
-   |                    |             |     |          |                   |status       |
-   |                    |             |     |          |                   |descriptors  |
-   |                    |             |     |          |                   |for the      |
-   |                    |             |     |          |                   |domain.      |
-   +--------------------+-------------+-----+----------+-------------------+-------------+
-   |registrant          |Registrant   |0-1  |read-write|Contact Object     |The          |
-   |                    |             |     |          |                   |registrant   |
-   |                    |             |     |          |                   |contact ID.  |
-   +--------------------+-------------+-----+----------+-------------------+-------------+
-   |contacts            |Contacts     |0+   |read-write|LabelledAggregation|Associated   |
-   |                    |             |     |          |[Contact Object]   |contact      |
-   |                    |             |     |          |                   |objects.     |
-   +--------------------+-------------+-----+----------+-------------------+-------------+
-   |nameservers         |Nameservers  |0+   |read-write|Aggregation[Host   |A collection |
-   |                    |             |     |          |Data Object]       |of           |
-   |                    |             |     |          |                   |nameservers  |
-   |                    |             |     |          |                   |associated   |
-   |                    |             |     |          |                   |with the     |
-   |                    |             |     |          |                   |domain.      |
-   +--------------------+-------------+-----+----------+-------------------+-------------+
-   |dns                 |DNS Data     |0-1  |read-write|DNS Data Object    |DNS resource |
-   |                    |             |     |          |                   |records and  |
-   |                    |             |     |          |                   |operational  |
-   |                    |             |     |          |                   |controls     |
-   |                    |             |     |          |                   |related to   |
-   |                    |             |     |          |                   |the domain   |
-   |                    |             |     |          |                   |name.        |
-   +--------------------+-------------+-----+----------+-------------------+-------------+
-   |subordinateHosts    |Subordinate  |0+   |read-only |Aggregation [Host  |Subordinate  |
-   |                    |Hosts        |     |          |Data Object]       |host names.  |
-   +--------------------+-------------+-----+----------+-------------------+-------------+
-   |expiryDate          |Expiry Date  |0-1  |read-only |Timestamp          |Expiry       |
-   |                    |             |     |          |                   |timestamp.   |
-   +--------------------+-------------+-----+----------+-------------------+-------------+
-   |authInfo            |Authorisation|0-1  |read-write|authInfo           |Authorisation|
-   |                    |Info         |     |          |                   |information  |
-   |                    |             |     |          |                   |for the      |
-   |                    |             |     |          |                   |object.      |
-   +--------------------+-------------+-----+----------+-------------------+-------------+
+   +================+=============+=====+==========+===================+=============+
+   |Identifier      |Name         |Card.|Mutability|Data Type          |Description  |
+   +================+=============+=====+==========+===================+=============+
+   |name            |Name         |1    |create-   |String             |The fully    |
+   |                |             |     |only      |                   |qualified    |
+   |                |             |     |          |                   |name of the  |
+   |                |             |     |          |                   |domain       |
+   |                |             |     |          |                   |object.      |
+   +----------------+-------------+-----+----------+-------------------+-------------+
+   |provMetadata    |Provisioning |1    |read-only |Provisioning       |Standard     |
+   |                |Metadata     |     |          |Metadata Object    |metadata     |
+   |                |             |     |          |                   |about object |
+   |                |             |     |          |                   |lifecycle and|
+   |                |             |     |          |                   |ownership.   |
+   +----------------+-------------+-----+----------+-------------------+-------------+
+   |status          |Status       |0+   |read-only |Status Object      |The current  |
+   |                |             |     |          |                   |status       |
+   |                |             |     |          |                   |descriptors  |
+   |                |             |     |          |                   |for the      |
+   |                |             |     |          |                   |domain.      |
+   +----------------+-------------+-----+----------+-------------------+-------------+
+   |registrant      |Registrant   |0-1  |read-write|Contact Object     |The          |
+   |                |             |     |          |                   |registrant   |
+   |                |             |     |          |                   |contact ID.  |
+   +----------------+-------------+-----+----------+-------------------+-------------+
+   |contacts        |Contacts     |0+   |read-write|LabelledAggregation|Associated   |
+   |                |             |     |          |[Contact Object]   |contact      |
+   |                |             |     |          |                   |objects.     |
+   +----------------+-------------+-----+----------+-------------------+-------------+
+   |nameservers     |Nameservers  |0+   |read-write|Aggregation [Host  |A collection |
+   |                |             |     |          |Data Object]       |of           |
+   |                |             |     |          |                   |nameservers  |
+   |                |             |     |          |                   |associated   |
+   |                |             |     |          |                   |with the     |
+   |                |             |     |          |                   |domain.      |
+   +----------------+-------------+-----+----------+-------------------+-------------+
+   |dns             |DNS Data     |0-1  |read-write|DNS Data Object    |DNS resource |
+   |                |             |     |          |                   |records and  |
+   |                |             |     |          |                   |operational  |
+   |                |             |     |          |                   |controls     |
+   |                |             |     |          |                   |related to   |
+   |                |             |     |          |                   |the domain   |
+   |                |             |     |          |                   |name.        |
+   +----------------+-------------+-----+----------+-------------------+-------------+
+   |subordinateHosts|Subordinate  |0+   |read-only |Aggregation [Host  |Subordinate  |
+   |                |Hosts        |     |          |Data Object]       |host names.  |
+   +----------------+-------------+-----+----------+-------------------+-------------+
+   |expiryDate      |Expiry Date  |0-1  |read-only |Timestamp          |Expiry       |
+   |                |             |     |          |                   |timestamp.   |
+   +----------------+-------------+-----+----------+-------------------+-------------+
+   |authInfo        |Authorisation|0-1  |read-write|authInfo           |Authorisation|
+   |                |Info         |     |          |                   |information  |
+   |                |             |     |          |                   |for the      |
+   |                |             |     |          |                   |object.      |
+   +----------------+-------------+-----+----------+-------------------+-------------+
 
-                                  Table 7
+                                  Table 9
 
    Operations
 
@@ -2482,7 +2557,7 @@ Table of Contents
    |            |              |       |        | domain name.         |
    +------------+--------------+-------+--------+----------------------+
 
-                                  Table 8
+                                  Table 10
 
    Operation: Read
 
@@ -2508,7 +2583,7 @@ Table of Contents
    |               |               |       |          | data.          |
    +---------------+---------------+-------+----------+----------------+
 
-                                  Table 9
+                                  Table 11
 
    Operation: Update
 
@@ -2526,7 +2601,7 @@ Table of Contents
     |            |        |       |         | update by the server.  |
     +------------+--------+-------+---------+------------------------+
 
-                                 Table 10
+                                 Table 12
 
    Operation: Delete
 
@@ -2558,7 +2633,7 @@ Table of Contents
    |                   |         |       |           | period.        |
    +-------------------+---------+-------+-----------+----------------+
 
-                                 Table 11
+                                 Table 13
 
    Operation: Transfer Request
 
@@ -2568,33 +2643,33 @@ Table of Contents
 
    Parameters
 
-   +===================+===========+=====+============+================+
-   | Identifier        | Name      |Card.| Data Type  | Description    |
-   +===================+===========+=====+============+================+
-   | transferDirection | Transfer  |0-1  | String     | Indicates      |
-   |                   | Direction |     |            | whether the    |
-   |                   |           |     |            | transfer is    |
-   |                   |           |     |            | a "pull" or    |
-   |                   |           |     |            | "push"         |
-   |                   |           |     |            | transfer.      |
-   +-------------------+-----------+-----+------------+----------------+
-   | gainingClientId   | Gaining   |0-1  | Client     | The            |
-   |                   | Client ID |     | Identifier | designated     |
-   |                   |           |     |            | gaining        |
-   |                   |           |     |            | client         |
-   |                   |           |     |            | (required      |
-   |                   |           |     |            | for push       |
-   |                   |           |     |            | transfers).    |
-   +-------------------+-----------+-----+------------+----------------+
-   | transferPeriod    | Transfer  |0-1  | period     | The duration   |
-   |                   | Period    |     |            | to add to      |
-   |                   |           |     |            | the            |
-   |                   |           |     |            | registration   |
-   |                   |           |     |            | period upon    |
-   |                   |           |     |            | transfer.      |
-   +-------------------+-----------+-----+------------+----------------+
+   +=================+===========+=======+============+================+
+   | Identifier      | Name      | Card. | Data Type  | Description    |
+   +=================+===========+=======+============+================+
+   | transferDir     | Transfer  | 0-1   | String     | Indicates      |
+   |                 | Direction |       |            | whether the    |
+   |                 |           |       |            | transfer is    |
+   |                 |           |       |            | a "pull" or    |
+   |                 |           |       |            | "push"         |
+   |                 |           |       |            | transfer.      |
+   +-----------------+-----------+-------+------------+----------------+
+   | gainingClientId | Gaining   | 0-1   | Client     | The            |
+   |                 | Client ID |       | Identifier | designated     |
+   |                 |           |       |            | gaining        |
+   |                 |           |       |            | client         |
+   |                 |           |       |            | (required      |
+   |                 |           |       |            | for push       |
+   |                 |           |       |            | transfers).    |
+   +-----------------+-----------+-------+------------+----------------+
+   | transferPeriod  | Transfer  | 0-1   | period     | The duration   |
+   |                 | Period    |       |            | to add to      |
+   |                 |           |       |            | the            |
+   |                 |           |       |            | registration   |
+   |                 |           |       |            | period upon    |
+   |                 |           |       |            | transfer.      |
+   +-----------------+-----------+-------+------------+----------------+
 
-                                  Table 12
+                                  Table 14
 
    Operation: Transfer Approve
 
@@ -2621,7 +2696,7 @@ Table of Contents
     |            |        |       |        | for rejection.           |
     +------------+--------+-------+--------+--------------------------+
 
-                                  Table 13
+                                  Table 15
 
    Operation: Transfer Cancel
 
@@ -2655,38 +2730,38 @@ Table of Contents
 
    Data Elements
 
-   +====================+============+=====+==========+============+===========+
-   |Identifier          |Name        |Card.|Mutability|Data Type   |Description|
-   +====================+============+=====+==========+============+===========+
-   |hostName            |Host Name   |1    |read-write|String      |Fully      |
-   |                    |            |     |          |            |qualified  |
-   |                    |            |     |          |            |name of a  |
-   |                    |            |     |          |            |host.      |
-   +--------------------+------------+-----+----------+------------+-----------+
-   |provisioningMetadata|Provisioning|1    |read-only |Provisioning|Standard   |
-   |                    |Metadata    |     |          |Metadata    |metadata   |
-   |                    |            |     |          |Object      |about      |
-   |                    |            |     |          |            |object     |
-   |                    |            |     |          |            |lifecycle  |
-   |                    |            |     |          |            |and        |
-   |                    |            |     |          |            |ownership. |
-   +--------------------+------------+-----+----------+------------+-----------+
-   |status              |Status      |0+   |read-only |Status      |The current|
-   |                    |            |     |          |Object      |status     |
-   |                    |            |     |          |            |descriptors|
-   |                    |            |     |          |            |for the    |
-   |                    |            |     |          |            |host.      |
-   +--------------------+------------+-----+----------+------------+-----------+
-   |dns                 |DNS Data    |0-1  |read-write|DNS Data    |DNS        |
-   |                    |            |     |          |Object      |resource   |
-   |                    |            |     |          |            |records and|
-   |                    |            |     |          |            |operational|
-   |                    |            |     |          |            |controls   |
-   |                    |            |     |          |            |related to |
-   |                    |            |     |          |            |the host.  |
-   +--------------------+------------+-----+----------+------------+-----------+
+   +============+============+=====+==========+============+===========+
+   |Identifier  |Name        |Card.|Mutability|Data Type   |Description|
+   +============+============+=====+==========+============+===========+
+   |hostName    |Host Name   |1    |read-write|String      |Fully      |
+   |            |            |     |          |            |qualified  |
+   |            |            |     |          |            |name of a  |
+   |            |            |     |          |            |host.      |
+   +------------+------------+-----+----------+------------+-----------+
+   |provMetadata|Provisioning|1    |read-only |Provisioning|Standard   |
+   |            |Metadata    |     |          |Metadata    |metadata   |
+   |            |            |     |          |Object      |about      |
+   |            |            |     |          |            |object     |
+   |            |            |     |          |            |lifecycle  |
+   |            |            |     |          |            |and        |
+   |            |            |     |          |            |ownership. |
+   +------------+------------+-----+----------+------------+-----------+
+   |status      |Status      |0+   |read-only |Status      |The current|
+   |            |            |     |          |Object      |status     |
+   |            |            |     |          |            |descriptors|
+   |            |            |     |          |            |for the    |
+   |            |            |     |          |            |host.      |
+   +------------+------------+-----+----------+------------+-----------+
+   |dns         |DNS Data    |0-1  |read-write|DNS Data    |DNS        |
+   |            |            |     |          |Object      |resource   |
+   |            |            |     |          |            |records and|
+   |            |            |     |          |            |operational|
+   |            |            |     |          |            |controls   |
+   |            |            |     |          |            |related to |
+   |            |            |     |          |            |the host.  |
+   +------------+------------+-----+----------+------------+-----------+
 
-                                  Table 14
+                                  Table 16
 
    Operations
 
@@ -2743,11 +2818,10 @@ draft-kowalik-rpp-data-objects -02 - -03
    -  add identifiers to all operations
    -  restructure DNS data model aligned with draft-simmen-rpp-dns-data-
       01: redefine DNS Record Object (name, class, type, rdata), add DNS
-      Controls Object (ttl, maximumSignatureLifetime), add DNS Data
-      Object (records + controls)
+      Controls Object (ttl, maxSigLifetime), add DNS Data Object
+      (records + controls)
    -  add DNSSEC support based on [RFC5910]: DS and DNSKEY record types
-      with structured RDATA fields, maximumSignatureLifetime operational
-      control
+      with structured RDATA fields, maxSigLifetime operational control
    -  update Domain, Host, and Nameserver objects to use DNS Data Object
    -  add Domain Update operation with urgent transient parameter from
       [RFC5910]

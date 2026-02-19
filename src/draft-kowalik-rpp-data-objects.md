@@ -229,7 +229,7 @@ The Transfer Request operation initiates a transfer of an object.
 The following transient data elements are common for all transfer requests:
 
 * Transfer Direction
-  * Identifier: transferDirection
+  * Identifier: transferDir
   * Cardinality: 0-1
   * Data Type: String
   * Description: Indicates whether the transfer is a "pull" or "push" transfer. Per policy servers usually will support only one model.
@@ -572,7 +572,7 @@ Component objects carry only data but do not define any operations.
 ## Provisioning Metadata Object
 
 * Name: Provisioning Metadata Object
-* Identifier: provisioningMetadata
+* Identifier: provMetadata
 * Description: Contains standard metadata about the lifecycle and ownership of a provisioned object. This metadata is common across all resource objects in the registry system.
 * Data Elements:
   * Repository ID
@@ -583,42 +583,42 @@ Component objects carry only data but do not define any operations.
     * Description: A server-assigned unique identifier for the object.
     * Constraints: In EPP Compatibility Profile this data element MUST be provided.
   * Sponsoring Client ID
-    * Identifier: sponsoringClientId
+    * Identifier: spClientId
     * Cardinality: 1
     * Mutability: read-only
     * Data Type: Client Identifier
     * Description: The identifier of the client that is the current sponsor of the object.
     * Constraints: (None)
   * Creating Client ID
-    * Identifier: creatingClientId
+    * Identifier: crClientId
     * Cardinality: 0-1
     * Mutability: read-only
     * Data Type: Client Identifier
     * Description: The identifier of the client that created the object.
     * Constraints: (None)
   * Creation Date
-    * Identifier: creationDate
+    * Identifier: crDate
     * Cardinality: 0-1
     * Mutability: read-only
     * Data Type: Timestamp
     * Description: The date and time of object creation.
     * Constraints: The value is set by the server and cannot be specified by the client.
   * Updating Client ID
-    * Identifier: updatingClientId
+    * Identifier: upClientId
     * Cardinality: 0-1
     * Mutability: read-only
     * Data Type: Client Identifier
     * Description: The identifier of the client that last updated the object.
     * Constraints: This element MUST NOT be present if the object has never been modified.
   * Update Date
-    * Identifier: updateDate
+    * Identifier: upDate
     * Cardinality: 0-1
     * Mutability: read-only
     * Data Type: Timestamp
     * Description: The date and time of the most recent object modification.
     * Constraints: This element MUST NOT be present if the object has never been modified.
   * Transfer Date
-    * Identifier: transferDate
+    * Identifier: trDate
     * Cardinality: 0-1
     * Mutability: read-only
     * Data Type: Timestamp
@@ -727,7 +727,7 @@ A> TBC: Optional keyData inside dsData (RFC 5910 Section 4.1): In the DS Data In
       * The allowed value ranges MAY be constrained by server policy.
       * A server MAY ignore client-specified TTL values and apply default or policy-defined values.
   * Maximum Signature Lifetime
-    * Identifier: maximumSignatureLifetime
+    * Identifier: maxSigLifetime
     * Cardinality: 0-1
     * Mutability: read-write
     * Data Type: Dictionary[Integer]
@@ -881,21 +881,21 @@ A> TBC: Contact Type is not localised (shall be the same for PERSON and ORG). Mo
 * Description: Represents the state of a transfer request for a provisioned object. This object is returned as the output of transfer operations (request, approve, reject, cancel, query) for any transferable resource object.
 * Data Elements:
   * Transfer Status
-    * Identifier: transferStatus
+    * Identifier: trStatus
     * Cardinality: 1
     * Mutability: read-only
     * Data Type: String
     * Description: The state of the most recent transfer request.
     * Constraints: The value MUST be one of: "pending", "clientApproved", "clientCancelled", "clientRejected", "serverApproved", "serverCancelled".
   * Transfer Direction
-    * Identifier: transferDirection
+    * Identifier: transferDir
     * Cardinality: 1
     * Mutability: read-only
     * Data Type: String
     * Description: Indicates the direction of the transfer.
     * Constraints: The value MUST be one of: "pull" (initiated by the gaining client) or "push" (initiated by the sponsoring client).
   * Requesting Client ID
-    * Identifier: requestingClientId
+    * Identifier: reqClientId
     * Cardinality: 1
     * Mutability: read-only
     * Data Type: Client Identifier
@@ -909,7 +909,7 @@ A> TBC: Contact Type is not localised (shall be the same for PERSON and ORG). Mo
     * Description: The date and time that the transfer was requested.
     * Constraints: (None)
   * Acting Client ID
-    * Identifier: actingClientId
+    * Identifier: actClientId
     * Cardinality: 1
     * Mutability: read-only
     * Data Type: Client Identifier
@@ -955,7 +955,7 @@ The following data elements are defined for the Domain Name Data Object.
     * The trailing dot required when these names are stored in a DNS zone is implicit and MUST NOT be provided when exchanging host and domain names.
 
 * Provisioning Metadata
-  * Identifier: provisioningMetadata
+  * Identifier: provMetadata
   * Cardinality: 1
   * Mutability: read-only
   * Data Type: Provisioning Metadata Object
@@ -1196,7 +1196,7 @@ The following data elements are defined for the Domain Name Data Object.
     * Servers MAY support server-side generation of this value.
 
 * Provisioning Metadata
-  * Identifier: provisioningMetadata
+  * Identifier: provMetadata
   * Cardinality: 1
   * Mutability: read-only
   * Data Type: Provisioning Metadata Object
@@ -1296,7 +1296,7 @@ The following data elements are defined for the Host Data Object.
   * Constraints: The value MUST be a syntactically valid host name.
 
 * Provisioning Metadata
-  * Identifier: provisioningMetadata
+  * Identifier: provMetadata
   * Cardinality: 1
   * Mutability: read-only
   * Data Type: Provisioning Metadata Object
@@ -1432,8 +1432,37 @@ Data Elements
 | type               | Type         | 1     | read-write | String    | The DNS resource record type, indicating the format of the RDATA field.                        |
 | rdata              | RDATA        | 1     | read-write | Object    | The actual payload data of the DNS record. Structure depends on the record type.               |
 
-A> TODO: IANA table: DNS Controls Object
-A> TODO: IANA table: DNS Data Object
+Object: dnsControls
+
+Object Name: DNS Controls Object
+
+Object Type: Component
+
+Description: Contains operational control parameters that a client MAY use to influence server-side DNS behaviour for a set of DNS records.
+
+Reference: [This-ID]
+
+Data Elements
+| Element Identifier       | Element Name              | Card. | Mutability | Data Type          | Description                                                                                                      |
+|--------------------------|---------------------------|-------|------------|--------------------|------------------------------------------------------------------------------------------------------------------|
+| ttl                      | TTL                       | 0-1   | read-write | Dictionary [Integer] | Controls the caching behaviour of DNS resource records, keyed by lower-case record type name.                   |
+| maxSigLifetime | Maximum Signature Lifetime | 0-1  | read-write | Dictionary [Integer] | Maximum number of seconds after signature generation when the parent's signature on signed DNS data should expire, keyed by lower-case record type name. |
+
+Object: dnsData
+
+Object Name: DNS Data Object
+
+Object Type: Component
+
+Description: A container for DNS resource records and associated operational controls for a provisioned object.
+
+Reference: [This-ID]
+
+Data Elements
+| Element Identifier | Element Name | Card. | Mutability | Data Type                    | Description                                                           |
+|--------------------|--------------|-------|------------|------------------------------|-----------------------------------------------------------------------|
+| records            | Records      | 0+    | read-write | Composition [DNS Record Object] | An array of DNS resource records associated with the provisioned object. |
+| controls           | Controls     | 0-1   | read-write | DNS Controls Object          | Operational control parameters for the DNS records.                   |
 
 Object: authInfo
 
@@ -1470,7 +1499,7 @@ Data Elements
 | due                | Due          | 0-1   | read-write  | Timestamp | a timestamp, when this status is going to be removed automatically, or changed to other status. This field can be used to expresse lifecycle related information |
 
 
-Object: provisioningMetadata
+Object: provMetadata
 
 Object Name: Provisioning Metadata Object
 
@@ -1484,12 +1513,12 @@ Data Elements
 | Element Identifier | Element Name         | Card. | Mutability | Data Type         | Description                                                             |
 |--------------------|----------------------|-------|------------|-------------------|-------------------------------------------------------------------------|
 | repositoryId       | Repository ID        | 0-1   | read-only  | Identifier        | A server-assigned unique identifier for the object.                     |
-| sponsoringClientId | Sponsoring Client ID | 1     | read-only  | Client Identifier | The identifier of the client that is the current sponsor of the object. |
-| creatingClientId   | Creating Client ID   | 0-1   | read-only  | Client Identifier | The identifier of the client that created the object.                   |
-| creationDate       | Creation Date        | 0-1   | read-only  | Timestamp         | The date and time of object creation.                                   |
-| updatingClientId   | Updating Client ID   | 0-1   | read-only  | Client Identifier | The identifier of the client that last updated the object.              |
-| updateDate         | Update Date          | 0-1   | read-only  | Timestamp         | The date and time of the most recent object modification.               |
-| transferDate       | Transfer Date        | 0-1   | read-only  | Timestamp         | The date and time of the most recent successful object transfer.        |
+| spClientId | Sponsoring Client ID | 1     | read-only  | Client Identifier | The identifier of the client that is the current sponsor of the object. |
+| crClientId   | Creating Client ID   | 0-1   | read-only  | Client Identifier | The identifier of the client that created the object.                   |
+| crDate       | Creation Date        | 0-1   | read-only  | Timestamp         | The date and time of object creation.                                   |
+| upClientId   | Updating Client ID   | 0-1   | read-only  | Client Identifier | The identifier of the client that last updated the object.              |
+| upDate         | Update Date          | 0-1   | read-only  | Timestamp         | The date and time of the most recent object modification.               |
+| trDate       | Transfer Date        | 0-1   | read-only  | Timestamp         | The date and time of the most recent successful object transfer.        |
 
 Object: transferData
 
@@ -1504,11 +1533,11 @@ Reference: [This-ID]
 Data Elements
 | Element Identifier   | Element Name         | Card. | Mutability | Data Type         | Description                                                            |
 |----------------------|----------------------|-------|------------|-------------------|------------------------------------------------------------------------|
-| transferStatus       | Transfer Status      | 1     | read-only  | String            | The state of the most recent transfer request.                         |
-| transferDirection    | Transfer Direction   | 1     | read-only  | String            | Indicates the direction of the transfer (pull or push).                |
-| requestingClientId   | Requesting Client ID | 1     | read-only  | Client Identifier | The identifier of the client that initiated the transfer request.      |
+| trStatus       | Transfer Status      | 1     | read-only  | String            | The state of the most recent transfer request.                         |
+| transferDir    | Transfer Direction   | 1     | read-only  | String            | Indicates the direction of the transfer (pull or push).                |
+| reqClientId   | Requesting Client ID | 1     | read-only  | Client Identifier | The identifier of the client that initiated the transfer request.      |
 | requestDate          | Request Date         | 1     | read-only  | Timestamp         | The date and time that the transfer was requested.                     |
-| actingClientId       | Acting Client ID     | 1     | read-only  | Client Identifier | The identifier of the client that should or did act on the request.    |
+| actClientId       | Acting Client ID     | 1     | read-only  | Client Identifier | The identifier of the client that should or did act on the request.    |
 | actionDate           | Action Date          | 1     | read-only  | Timestamp         | The response deadline (if pending) or completion date.                 |
 
 A> TODO: IANA table: Postal Address Object
@@ -1530,11 +1559,11 @@ Data Elements
 | Identifier           | Name                  | Card. | Mutability  | Data Type                                                      | Description                                                          |
 |----------------------|-----------------------|-------|-------------|----------------------------------------------------------------|----------------------------------------------------------------------|
 | name                 | Name                  | 1     | create-only | String                                                         | The fully qualified name of the domain object.                       |
-| provisioningMetadata | Provisioning Metadata | 1     | read-only   | Provisioning Metadata Object                                   | Standard metadata about object lifecycle and ownership.              |
+| provMetadata | Provisioning Metadata | 1     | read-only   | Provisioning Metadata Object                                   | Standard metadata about object lifecycle and ownership.              |
 | status               | Status                | 0+    | read-only   | Status Object                                                  | The current status descriptors for the domain.                       |
 | registrant           | Registrant            | 0-1   | read-write  | Contact Object                                                 | The registrant contact ID.                                           |
 | contacts             | Contacts              | 0+    | read-write  | LabelledAggregation [Contact Object]                           | Associated contact objects.                                          |
-| nameservers          | Nameservers           | 0+    | read-write  | Aggregation[Host Data Object]                                  | A collection of nameservers associated with the domain.              |
+| nameservers          | Nameservers           | 0+    | read-write  | Aggregation [Host Data Object]                                  | A collection of nameservers associated with the domain.              |
 | dns                  | DNS Data              | 0-1   | read-write  | DNS Data Object                                                | DNS resource records and operational controls related to the domain name.        |
 | subordinateHosts     | Subordinate Hosts     | 0+    | read-only   | Aggregation [Host Data Object]                                 | Subordinate host names.                                              |
 | expiryDate           | Expiry Date           | 0-1   | read-only   | Timestamp                                                      | Expiry timestamp.                                                    |
@@ -1603,7 +1632,7 @@ Description: Initiates a transfer of a Domain Name resource.
 Parameters
 | Identifier         | Name                | Card. | Data Type         | Description                                                            |
 |--------------------|---------------------|-------|-------------------|------------------------------------------------------------------------|
-| transferDirection  | Transfer Direction  | 0-1   | String            | Indicates whether the transfer is a "pull" or "push" transfer.         |
+| transferDir  | Transfer Direction  | 0-1   | String            | Indicates whether the transfer is a "pull" or "push" transfer.         |
 | gainingClientId    | Gaining Client ID   | 0-1   | Client Identifier | The designated gaining client (required for push transfers).           |
 | transferPeriod     | Transfer Period     | 0-1   | period            | The duration to add to the registration period upon transfer.          |
 
@@ -1658,7 +1687,7 @@ Data Elements
 | Identifier           | Name                  | Card. | Mutability | Data Type                        | Description                                             |
 |----------------------|-----------------------|-------|------------|----------------------------------|---------------------------------------------------------|
 | hostName             | Host Name             | 1     | read-write | String                           | Fully qualified name of a host.                         |
-| provisioningMetadata | Provisioning Metadata | 1     | read-only  | Provisioning Metadata Object     | Standard metadata about object lifecycle and ownership. |
+| provMetadata | Provisioning Metadata | 1     | read-only  | Provisioning Metadata Object     | Standard metadata about object lifecycle and ownership. |
 | status               | Status                | 0+    | read-only  | Status Object                    | The current status descriptors for the host.            |
 | dns                  | DNS Data              | 0-1    | read-write | DNS Data Object                  | DNS resource records and operational controls related to the host.              |
 
@@ -1711,8 +1740,8 @@ A> TODO: write security considerations, if any
 * add domain-specific transfer operations with implicit renewal and subordinate host transfer
 * add contact transfer operations referencing common transfer pattern
 * add identifiers to all operations
-* restructure DNS data model aligned with draft-simmen-rpp-dns-data-01: redefine DNS Record Object (name, class, type, rdata), add DNS Controls Object (ttl, maximumSignatureLifetime), add DNS Data Object (records + controls)
-* add DNSSEC support based on [@RFC5910]: DS and DNSKEY record types with structured RDATA fields, maximumSignatureLifetime operational control
+* restructure DNS data model aligned with draft-simmen-rpp-dns-data-01: redefine DNS Record Object (name, class, type, rdata), add DNS Controls Object (ttl, maxSigLifetime), add DNS Data Object (records + controls)
+* add DNSSEC support based on [@RFC5910]: DS and DNSKEY record types with structured RDATA fields, maxSigLifetime operational control
 * update Domain, Host, and Nameserver objects to use DNS Data Object
 * add Domain Update operation with urgent transient parameter from [@RFC5910]
 * add Object and Dictionary[Value Type] primitive data types
