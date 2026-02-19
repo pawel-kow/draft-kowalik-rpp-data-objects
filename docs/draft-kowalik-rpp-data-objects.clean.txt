@@ -1900,8 +1900,10 @@ Table of Contents
 
 8.1.  Object Description
 
-   A Host Data Object represents a name server that provides DNS
-   services for a a domain name.
+   -  Name: Host Data Object
+   -  Identifier: host
+   -  Description: A Host Data Object represents a name server that
+      provides DNS services for a domain name.
 
 8.2.  Data Elements
 
@@ -2118,36 +2120,50 @@ Table of Contents
 
                                   Table 1
 
-   Object: dnsrr
+   Object: dnsRecord
 
    Object Name: DNS Record Object
 
    Object Type: Component
 
-   Description: Represents a DNS Entry.
+   Description: Represents a single DNS resource record.
 
    Reference: [This-ID]
 
    Data Elements
 
-   +===============+=========+=====+============+======+===============+
-   | Element       | Element |Card.| Mutability |Data  | Description   |
-   | Identifier    | Name    |     |            |Type  |               |
-   +===============+=========+=====+============+======+===============+
-   | hostNamelabel | Label   |1    | read-write |String| DNS entry     |
-   |               |         |     |            |      | label.        |
-   +---------------+---------+-----+------------+------+---------------+
-   | type          | Type    |1    | read-write |String| DNS entry     |
-   |               |         |     |            |      | type.         |
-   +---------------+---------+-----+------------+------+---------------+
-   | data          | Data    |1    | read-write |String| DNS entry     |
-   |               |         |     |            |      | value.        |
-   +---------------+---------+-----+------------+------+---------------+
-   | ttl           | TTL     |1    | read-write |Number| TTL value     |
-   |               |         |     |            |      | for a         |
-   |               |         |     |            |      | reource       |
-   |               |         |     |            |      | record.       |
-   +---------------+---------+-----+------------+------+---------------+
+   +============+=========+=======+============+========+==============+
+   | Element    | Element | Card. | Mutability | Data   | Description  |
+   | Identifier | Name    |       |            | Type   |              |
+   +============+=========+=======+============+========+==============+
+   | name       | Name    | 1     | read-write | String | The owner    |
+   |            |         |       |            |        | name of the  |
+   |            |         |       |            |        | DNS entry.   |
+   +------------+---------+-------+------------+--------+--------------+
+   | class      | Class   | 0-1   | read-write | String | The DNS      |
+   |            |         |       |            |        | resource     |
+   |            |         |       |            |        | record       |
+   |            |         |       |            |        | class.       |
+   +------------+---------+-------+------------+--------+--------------+
+   | type       | Type    | 1     | read-write | String | The DNS      |
+   |            |         |       |            |        | resource     |
+   |            |         |       |            |        | record       |
+   |            |         |       |            |        | type,        |
+   |            |         |       |            |        | indicating   |
+   |            |         |       |            |        | the format   |
+   |            |         |       |            |        | of the       |
+   |            |         |       |            |        | RDATA        |
+   |            |         |       |            |        | field.       |
+   +------------+---------+-------+------------+--------+--------------+
+   | rdata      | RDATA   | 1     | read-write | Object | The actual   |
+   |            |         |       |            |        | payload      |
+   |            |         |       |            |        | data of the  |
+   |            |         |       |            |        | DNS record.  |
+   |            |         |       |            |        | Structure    |
+   |            |         |       |            |        | depends on   |
+   |            |         |       |            |        | the record   |
+   |            |         |       |            |        | type.        |
+   +------------+---------+-------+------------+--------+--------------+
 
                                   Table 2
 
@@ -2726,10 +2742,9 @@ draft-kowalik-rpp-data-objects -02 - -03
       pattern
    -  add identifiers to all operations
    -  restructure DNS data model aligned with draft-simmen-rpp-dns-data-
-      01: replace DNS Record Object with DNS Record Object (name, class,
-      type, rdata), add DNS Controls Object (ttl,
-      maximumSignatureLifetime), add DNS Data Object (records +
-      controls)
+      01: redefine DNS Record Object (name, class, type, rdata), add DNS
+      Controls Object (ttl, maximumSignatureLifetime), add DNS Data
+      Object (records + controls)
    -  add DNSSEC support based on [RFC5910]: DS and DNSKEY record types
       with structured RDATA fields, maximumSignatureLifetime operational
       control

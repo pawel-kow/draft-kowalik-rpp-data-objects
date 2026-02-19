@@ -1279,7 +1279,9 @@ No object-specific transient data elements are defined for contact transfer oper
 
 ## Object Description
 
-A Host Data Object represents a name server that provides DNS services for a a domain name.
+* Name: Host Data Object
+* Identifier: host
+* Description: A Host Data Object represents a name server that provides DNS services for a domain name.
 
 ## Data Elements
 
@@ -1412,23 +1414,23 @@ Data Elements
 | value              | Value        | 1     | read-write | Integer   | The numeric value of the period. |
 | unit               | Unit         | 1     | read-write | String    | The unit of the period.          |
 
-Object: dnsrr
+Object: dnsRecord
 
 Object Name: DNS Record Object
 
 Object Type: Component
 
-Description: Represents a DNS Entry.
+Description: Represents a single DNS resource record.
 
 Reference: [This-ID]
 
 Data Elements
-| Element Identifier | Element Name | Card. | Mutability | Data Type | Description                     |
-|--------------------|--------------|-------|------------|-----------|---------------------------------|
-| hostNamelabel      | Label        | 1     | read-write | String    | DNS entry label.                |
-| type               | Type         | 1     | read-write | String    | DNS entry type.                 |
-| data               | Data         | 1     | read-write | String    | DNS entry value.                |
-| ttl                | TTL          | 1     | read-write | Number    | TTL value for a reource record. |
+| Element Identifier | Element Name | Card. | Mutability | Data Type | Description                                                                                     |
+|--------------------|--------------|-------|------------|-----------|-----------------------------------------------------------------------------------------------|
+| name               | Name         | 1     | read-write | String    | The owner name of the DNS entry.                                                               |
+| class              | Class        | 0-1   | read-write | String    | The DNS resource record class.                                                                 |
+| type               | Type         | 1     | read-write | String    | The DNS resource record type, indicating the format of the RDATA field.                        |
+| rdata              | RDATA        | 1     | read-write | Object    | The actual payload data of the DNS record. Structure depends on the record type.               |
 
 A> TODO: IANA table: DNS Controls Object
 A> TODO: IANA table: DNS Data Object
@@ -1709,7 +1711,7 @@ A> TODO: write security considerations, if any
 * add domain-specific transfer operations with implicit renewal and subordinate host transfer
 * add contact transfer operations referencing common transfer pattern
 * add identifiers to all operations
-* restructure DNS data model aligned with draft-simmen-rpp-dns-data-01: replace DNS Record Object with DNS Record Object (name, class, type, rdata), add DNS Controls Object (ttl, maximumSignatureLifetime), add DNS Data Object (records + controls)
+* restructure DNS data model aligned with draft-simmen-rpp-dns-data-01: redefine DNS Record Object (name, class, type, rdata), add DNS Controls Object (ttl, maximumSignatureLifetime), add DNS Data Object (records + controls)
 * add DNSSEC support based on [@RFC5910]: DS and DNSKEY record types with structured RDATA fields, maximumSignatureLifetime operational control
 * update Domain, Host, and Nameserver objects to use DNS Data Object
 * add Domain Update operation with urgent transient parameter from [@RFC5910]
