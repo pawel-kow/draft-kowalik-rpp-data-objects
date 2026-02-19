@@ -1054,11 +1054,13 @@ A> TODO: Model Disclose in universal (extendible) way
     * Constraints: None.
   * Restore Time
     * Identifier: restoreTime
-    * Cardinality: 1
+    * Cardinality: 0-1
     * Mutability: read-write
     * Data Type: Timestamp
     * Description: The date and time when the original restore request operation was sent to the server.
-    * Constraints: None.
+    * Constraints:
+      * This element MAY be omitted when the restore report is submitted inline within the restore request in a single-step process.
+      * In EPP Compatibility Profile this element MUST be present as defined in [@!RFC3915].
   * Restore Reason
     * Identifier: restoreReason
     * Cardinality: 1
@@ -1681,7 +1683,7 @@ Data Elements
 | preData            | Pre-Delete Data   | 1     | read-write | String    | A copy of the registration data that existed for the object prior to deletion.                                                 |
 | postData           | Post-Restore Data | 1     | read-write | String    | A copy of the registration data that exists for the the object at the time the restore report is submitted.                        |
 | deleteTime         | Delete Time       | 1     | read-write | Timestamp | The date and time when the object delete request was sent to the server.                                                       |
-| restoreTime        | Restore Time      | 1     | read-write | Timestamp | The date and time when the original restore request operation was sent to the server.                                               |
+| restoreTime        | Restore Time      | 0-1   | read-write | Timestamp | The date and time when the original restore request operation was sent to the server. |
 | restoreReason      | Restore Reason    | 1     | read-write | String    | A brief explanation of the reason for restoring the object.                                                                    |
 | statements         | Statements        | 1+    | read-write | String    | Mandatory client statements required by the RGP process. At least one and at most two statements MUST be provided.                  |
 | other              | Other             | 0-1   | read-write | String    | Any additional information needed to support the statements provided by the client.                                                  |

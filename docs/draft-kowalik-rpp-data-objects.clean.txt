@@ -1588,12 +1588,17 @@ Table of Contents
          -  Constraints: None.
       -  Restore Time
          -  Identifier: restoreTime
-         -  Cardinality: 1
+         -  Cardinality: 0-1
          -  Mutability: read-write
          -  Data Type: Timestamp
          -  Description: The date and time when the original restore
             request operation was sent to the server.
-         -  Constraints: None.
+         -  Constraints:
+            -  This element MAY be omitted when the restore report is
+               submitted inline within the restore request in a single-
+               step process.
+            -  In EPP Compatibility Profile this element MUST be present
+               as defined in [RFC3915].
       -  Restore Reason
          -  Identifier: restoreReason
          -  Cardinality: 1
@@ -2640,7 +2645,7 @@ Table of Contents
    |             |            |     |          |         |sent to the  |
    |             |            |     |          |         |server.      |
    +-------------+------------+-----+----------+---------+-------------+
-   |restoreTime  |Restore Time|1    |read-write|Timestamp|The date and |
+   |restoreTime  |Restore Time|0-1  |read-write|Timestamp|The date and |
    |             |            |     |          |         |time when    |
    |             |            |     |          |         |the original |
    |             |            |     |          |         |restore      |
