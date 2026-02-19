@@ -1425,12 +1425,12 @@ Description: Represents a single DNS resource record.
 Reference: [This-ID]
 
 Data Elements
-| Element Identifier | Element Name | Card. | Mutability | Data Type | Description                                                                                     |
-|--------------------|--------------|-------|------------|-----------|-----------------------------------------------------------------------------------------------|
-| name               | Name         | 1     | read-write | String    | The owner name of the DNS entry.                                                               |
-| class              | Class        | 0-1   | read-write | String    | The DNS resource record class.                                                                 |
-| type               | Type         | 1     | read-write | String    | The DNS resource record type, indicating the format of the RDATA field.                        |
-| rdata              | RDATA        | 1     | read-write | Object    | The actual payload data of the DNS record. Structure depends on the record type.               |
+| Element Identifier | Element Name | Card. | Mutability | Data Type | Description                                                                      |
+|--------------------|--------------|-------|------------|-----------|----------------------------------------------------------------------------------|
+| name               | Name         | 1     | read-write | String    | The owner name of the DNS entry.                                                 |
+| class              | Class        | 0-1   | read-write | String    | The DNS resource record class.                                                   |
+| type               | Type         | 1     | read-write | String    | The DNS resource record type, indicating the format of the RDATA field.          |
+| rdata              | RDATA        | 1     | read-write | Object    | The actual payload data of the DNS record. Structure depends on the record type. |
 
 Object: dnsControls
 
@@ -1443,10 +1443,10 @@ Description: Contains operational control parameters that a client MAY use to in
 Reference: [This-ID]
 
 Data Elements
-| Element Identifier       | Element Name              | Card. | Mutability | Data Type          | Description                                                                                                      |
-|--------------------------|---------------------------|-------|------------|--------------------|------------------------------------------------------------------------------------------------------------------|
-| ttl                      | TTL                       | 0-1   | read-write | Dictionary [Integer] | Controls the caching behaviour of DNS resource records, keyed by lower-case record type name.                   |
-| maxSigLifetime | Maximum Signature Lifetime | 0-1  | read-write | Dictionary [Integer] | Maximum number of seconds after signature generation when the parent's signature on signed DNS data should expire, keyed by lower-case record type name. |
+| Element Identifier | Element Name               | Card. | Mutability | Data Type            | Description                                                                                                                                              |
+|--------------------|----------------------------|-------|------------|----------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------|
+| ttl                | TTL                        | 0-1   | read-write | Dictionary [Integer] | Controls the caching behaviour of DNS resource records, keyed by lower-case record type name.                                                            |
+| maxSigLifetime     | Maximum Signature Lifetime | 0-1   | read-write | Dictionary [Integer] | Maximum number of seconds after signature generation when the parent's signature on signed DNS data should expire, keyed by lower-case record type name. |
 
 Object: dnsData
 
@@ -1459,10 +1459,10 @@ Description: A container for DNS resource records and associated operational con
 Reference: [This-ID]
 
 Data Elements
-| Element Identifier | Element Name | Card. | Mutability | Data Type                    | Description                                                           |
-|--------------------|--------------|-------|------------|------------------------------|-----------------------------------------------------------------------|
+| Element Identifier | Element Name | Card. | Mutability | Data Type                       | Description                                                              |
+|--------------------|--------------|-------|------------|---------------------------------|--------------------------------------------------------------------------|
 | records            | Records      | 0+    | read-write | Composition [DNS Record Object] | An array of DNS resource records associated with the provisioned object. |
-| controls           | Controls     | 0-1   | read-write | DNS Controls Object          | Operational control parameters for the DNS records.                   |
+| controls           | Controls     | 0-1   | read-write | DNS Controls Object             | Operational control parameters for the DNS records.                      |
 
 Object: authInfo
 
@@ -1513,12 +1513,12 @@ Data Elements
 | Element Identifier | Element Name         | Card. | Mutability | Data Type         | Description                                                             |
 |--------------------|----------------------|-------|------------|-------------------|-------------------------------------------------------------------------|
 | repositoryId       | Repository ID        | 0-1   | read-only  | Identifier        | A server-assigned unique identifier for the object.                     |
-| spClientId | Sponsoring Client ID | 1     | read-only  | Client Identifier | The identifier of the client that is the current sponsor of the object. |
-| crClientId   | Creating Client ID   | 0-1   | read-only  | Client Identifier | The identifier of the client that created the object.                   |
-| crDate       | Creation Date        | 0-1   | read-only  | Timestamp         | The date and time of object creation.                                   |
-| upClientId   | Updating Client ID   | 0-1   | read-only  | Client Identifier | The identifier of the client that last updated the object.              |
-| upDate         | Update Date          | 0-1   | read-only  | Timestamp         | The date and time of the most recent object modification.               |
-| trDate       | Transfer Date        | 0-1   | read-only  | Timestamp         | The date and time of the most recent successful object transfer.        |
+| spClientId         | Sponsoring Client ID | 1     | read-only  | Client Identifier | The identifier of the client that is the current sponsor of the object. |
+| crClientId         | Creating Client ID   | 0-1   | read-only  | Client Identifier | The identifier of the client that created the object.                   |
+| crDate             | Creation Date        | 0-1   | read-only  | Timestamp         | The date and time of object creation.                                   |
+| upClientId         | Updating Client ID   | 0-1   | read-only  | Client Identifier | The identifier of the client that last updated the object.              |
+| upDate             | Update Date          | 0-1   | read-only  | Timestamp         | The date and time of the most recent object modification.               |
+| trDate             | Transfer Date        | 0-1   | read-only  | Timestamp         | The date and time of the most recent successful object transfer.        |
 
 Object: transferData
 
@@ -1531,14 +1531,14 @@ Description: Represents the state of a transfer request for a provisioned object
 Reference: [This-ID]
 
 Data Elements
-| Element Identifier   | Element Name         | Card. | Mutability | Data Type         | Description                                                            |
-|----------------------|----------------------|-------|------------|-------------------|------------------------------------------------------------------------|
-| trStatus       | Transfer Status      | 1     | read-only  | String            | The state of the most recent transfer request.                         |
-| transferDir    | Transfer Direction   | 1     | read-only  | String            | Indicates the direction of the transfer (pull or push).                |
-| reqClientId   | Requesting Client ID | 1     | read-only  | Client Identifier | The identifier of the client that initiated the transfer request.      |
-| requestDate          | Request Date         | 1     | read-only  | Timestamp         | The date and time that the transfer was requested.                     |
-| actClientId       | Acting Client ID     | 1     | read-only  | Client Identifier | The identifier of the client that should or did act on the request.    |
-| actionDate           | Action Date          | 1     | read-only  | Timestamp         | The response deadline (if pending) or completion date.                 |
+| Element Identifier | Element Name         | Card. | Mutability | Data Type         | Description                                                         |
+|--------------------|----------------------|-------|------------|-------------------|---------------------------------------------------------------------|
+| trStatus           | Transfer Status      | 1     | read-only  | String            | The state of the most recent transfer request.                      |
+| transferDir        | Transfer Direction   | 1     | read-only  | String            | Indicates the direction of the transfer (pull or push).             |
+| reqClientId        | Requesting Client ID | 1     | read-only  | Client Identifier | The identifier of the client that initiated the transfer request.   |
+| requestDate        | Request Date         | 1     | read-only  | Timestamp         | The date and time that the transfer was requested.                  |
+| actClientId        | Acting Client ID     | 1     | read-only  | Client Identifier | The identifier of the client that should or did act on the request. |
+| actionDate         | Action Date          | 1     | read-only  | Timestamp         | The response deadline (if pending) or completion date.              |
 
 A> TODO: IANA table: Postal Address Object
 A> TODO: IANA table: Postal Info Object
@@ -1556,18 +1556,18 @@ Description: Represents a domain name and its associated data.
 Reference: [This-ID]
 
 Data Elements
-| Identifier           | Name                  | Card. | Mutability  | Data Type                                                      | Description                                                          |
-|----------------------|-----------------------|-------|-------------|----------------------------------------------------------------|----------------------------------------------------------------------|
-| name                 | Name                  | 1     | create-only | String                                                         | The fully qualified name of the domain object.                       |
-| provMetadata | Provisioning Metadata | 1     | read-only   | Provisioning Metadata Object                                   | Standard metadata about object lifecycle and ownership.              |
-| status               | Status                | 0+    | read-only   | Status Object                                                  | The current status descriptors for the domain.                       |
-| registrant           | Registrant            | 0-1   | read-write  | Contact Object                                                 | The registrant contact ID.                                           |
-| contacts             | Contacts              | 0+    | read-write  | LabelledAggregation [Contact Object]                           | Associated contact objects.                                          |
-| nameservers          | Nameservers           | 0+    | read-write  | Aggregation [Host Data Object]                                  | A collection of nameservers associated with the domain.              |
-| dns                  | DNS Data              | 0-1   | read-write  | DNS Data Object                                                | DNS resource records and operational controls related to the domain name.        |
-| subordinateHosts     | Subordinate Hosts     | 0+    | read-only   | Aggregation [Host Data Object]                                 | Subordinate host names.                                              |
-| expiryDate           | Expiry Date           | 0-1   | read-only   | Timestamp                                                      | Expiry timestamp.                                                    |
-| authInfo             | Authorisation Info    | 0-1   | read-write  | authInfo                                                       | Authorisation information for the object.                            |
+| Identifier       | Name                  | Card. | Mutability  | Data Type                            | Description                                                               |
+|------------------|-----------------------|-------|-------------|--------------------------------------|---------------------------------------------------------------------------|
+| name             | Name                  | 1     | create-only | String                               | The fully qualified name of the domain object.                            |
+| provMetadata     | Provisioning Metadata | 1     | read-only   | Provisioning Metadata Object         | Standard metadata about object lifecycle and ownership.                   |
+| status           | Status                | 0+    | read-only   | Status Object                        | The current status descriptors for the domain.                            |
+| registrant       | Registrant            | 0-1   | read-write  | Contact Object                       | The registrant contact ID.                                                |
+| contacts         | Contacts              | 0+    | read-write  | LabelledAggregation [Contact Object] | Associated contact objects.                                               |
+| nameservers      | Nameservers           | 0+    | read-write  | Aggregation [Host Data Object]       | A collection of nameservers associated with the domain.                   |
+| dns              | DNS Data              | 0-1   | read-write  | DNS Data Object                      | DNS resource records and operational controls related to the domain name. |
+| subordinateHosts | Subordinate Hosts     | 0+    | read-only   | Aggregation [Host Data Object]       | Subordinate host names.                                                   |
+| expiryDate       | Expiry Date           | 0-1   | read-only   | Timestamp                            | Expiry timestamp.                                                         |
+| authInfo         | Authorisation Info    | 0-1   | read-write  | authInfo                             | Authorisation information for the object.                                 |
 
 Operations
 
@@ -1630,11 +1630,11 @@ Operation Identifier: transferRequest
 Description: Initiates a transfer of a Domain Name resource.
 
 Parameters
-| Identifier         | Name                | Card. | Data Type         | Description                                                            |
-|--------------------|---------------------|-------|-------------------|------------------------------------------------------------------------|
-| transferDir  | Transfer Direction  | 0-1   | String            | Indicates whether the transfer is a "pull" or "push" transfer.         |
-| gainingClientId    | Gaining Client ID   | 0-1   | Client Identifier | The designated gaining client (required for push transfers).           |
-| transferPeriod     | Transfer Period     | 0-1   | period            | The duration to add to the registration period upon transfer.          |
+| Identifier      | Name               | Card. | Data Type         | Description                                                    |
+|-----------------|--------------------|-------|-------------------|----------------------------------------------------------------|
+| transferDir     | Transfer Direction | 0-1   | String            | Indicates whether the transfer is a "pull" or "push" transfer. |
+| gainingClientId | Gaining Client ID  | 0-1   | Client Identifier | The designated gaining client (required for push transfers).   |
+| transferPeriod  | Transfer Period    | 0-1   | period            | The duration to add to the registration period upon transfer.  |
 
 Operation: Transfer Approve
 
@@ -1651,9 +1651,9 @@ Operation Identifier: transferReject
 Description: Rejects a pending transfer of a Domain Name resource.
 
 Parameters
-| Identifier | Name   | Card. | Data Type | Description                                                  |
-|------------|--------|-------|-----------|--------------------------------------------------------------|
-| reason     | Reason | 0-1   | String    | A human-readable text describing the rationale for rejection.|
+| Identifier | Name   | Card. | Data Type | Description                                                   |
+|------------|--------|-------|-----------|---------------------------------------------------------------|
+| reason     | Reason | 0-1   | String    | A human-readable text describing the rationale for rejection. |
 
 Operation: Transfer Cancel
 
@@ -1684,12 +1684,12 @@ Description: Represents a name server that provides DNS services for a domain na
 Reference: [This-ID]
 
 Data Elements
-| Identifier           | Name                  | Card. | Mutability | Data Type                        | Description                                             |
-|----------------------|-----------------------|-------|------------|----------------------------------|---------------------------------------------------------|
-| hostName             | Host Name             | 1     | read-write | String                           | Fully qualified name of a host.                         |
-| provMetadata | Provisioning Metadata | 1     | read-only  | Provisioning Metadata Object     | Standard metadata about object lifecycle and ownership. |
-| status               | Status                | 0+    | read-only  | Status Object                    | The current status descriptors for the host.            |
-| dns                  | DNS Data              | 0-1    | read-write | DNS Data Object                  | DNS resource records and operational controls related to the host.              |
+| Identifier   | Name                  | Card. | Mutability | Data Type                    | Description                                                        |
+|--------------|-----------------------|-------|------------|------------------------------|--------------------------------------------------------------------|
+| hostName     | Host Name             | 1     | read-write | String                       | Fully qualified name of a host.                                    |
+| provMetadata | Provisioning Metadata | 1     | read-only  | Provisioning Metadata Object | Standard metadata about object lifecycle and ownership.            |
+| status       | Status                | 0+    | read-only  | Status Object                | The current status descriptors for the host.                       |
+| dns          | DNS Data              | 0-1   | read-write | DNS Data Object              | DNS resource records and operational controls related to the host. |
 
 Operations
 
