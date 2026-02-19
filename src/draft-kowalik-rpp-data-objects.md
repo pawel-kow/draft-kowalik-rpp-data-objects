@@ -982,6 +982,14 @@ A> TBC: Contact Type is not localised (shall be the same for PERSON and ORG). Mo
     * Description: For a pending request, the date and time by which a response is required before an automated response action SHOULD be taken by the server. For all other statuses, the date and time when the request was completed.
     * Constraints: (None)
 
+## Disclose Object
+
+A> TODO: Model Disclose in universal (extendible) way
+
+* Name: Disclose
+* Identifier: disclose
+* Description: TBD
+
 ## Restore Data Object
 
 * Name: Restore Data Object
@@ -1016,14 +1024,6 @@ A> TBC: Contact Type is not localised (shall be the same for PERSON and ORG). Mo
     * Data Type: Timestamp
     * Description: The date and time by which a restore report must be submitted before the object reverts to `redemptionPeriod` state. Only present when the object is in `pendingRestore` state.
     * Constraints: MUST NOT be present when `restoreStatus` is not `"pendingRestore"`.
-
-## Disclose Object
-
-A> TODO: Model Disclose in universal (extendible) way
-
-* Name: Disclose
-* Identifier: disclose
-* Description: TBD
 
 ## Restore Report Object
 

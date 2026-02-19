@@ -114,8 +114,8 @@ Table of Contents
      5.6.  Postal Address Object
      5.7.  Postal Info Object
      5.8.  Transfer Data Object
-     5.9.  Restore Data Object
-     5.10. Disclose Object
+     5.9.  Disclose Object
+     5.10. Restore Data Object
      5.11. Restore Report Object
    6.  Domain Name Data Object
      6.1.  Object Description
@@ -1497,7 +1497,15 @@ Table of Contents
             statuses, the date and time when the request was completed.
          -  Constraints: (None)
 
-5.9.  Restore Data Object
+5.9.  Disclose Object
+
+      |  TODO: Model Disclose in universal (extendible) way
+
+   -  Name: Disclose
+   -  Identifier: disclose
+   -  Description: TBD
+
+5.10.  Restore Data Object
 
    -  Name: Restore Data Object
    -  Identifier: restoreData
@@ -1541,14 +1549,6 @@ Table of Contents
             pendingRestore state.
          -  Constraints: MUST NOT be present when restoreStatus is not
             "pendingRestore".
-
-5.10.  Disclose Object
-
-      |  TODO: Model Disclose in universal (extendible) way
-
-   -  Name: Disclose
-   -  Identifier: disclose
-   -  Description: TBD
 
 5.11.  Restore Report Object
 
