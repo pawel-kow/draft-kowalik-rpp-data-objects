@@ -375,20 +375,17 @@ Table of Contents
 
 2.5.2.1.  Create
 
-   -  Input: Object representation (create-only and read-write
-      properties)
-   -  Output: Object representation (read-write and read-only
-      properties)
+   -  Input: Object (create-only and read-write properties)
+   -  Output: Object (read-write and read-only properties)
 
 2.5.2.2.  Read
 
    -  Input: Object identifier
-   -  Output: Object representation (read-write and read-only
-      properties)
+   -  Output: Object (read-write and read-only properties)
 
-   The output representation MAY vary depending on the identity of the
-   querying client, use of object authorisation information, and server
-   policy towards unauthorized clients.  If the querying client is the
+   The output Object MAY vary depending on the identity of the querying
+   client, use of object authorisation information, and server policy
+   towards unauthorized clients.  If the querying client is the
    sponsoring client, all available information MUST be returned.  If
    the querying client is not the sponsoring client but the client
    provides valid object authorisation information, all available
@@ -401,21 +398,18 @@ Table of Contents
 
 2.5.2.3.  Update
 
-   -  Input: Object identifier, Object changes representation (read-
-      write properties)
-   -  Output: Object representation (read-write and read-only
-      properties)
+   -  Input: Object identifier, Object changes (read-write properties)
+   -  Output: Object (read-write and read-only properties)
 
 2.5.2.4.  Delete
 
    -  Input: Object identifier
-   -  Output: Object representation (read-write and read-only
-      properties) or no representation
+   -  Output: Object (read-write and read-only properties) or nothing
 
 2.5.3.  Operations beyond uniform interface
 
-   For all other operations both input and output representation have to
-   be fully specified.
+   For all other operations both input and output have to be fully
+   specified.
 
 2.5.4.  Transfer Operations
 
@@ -1462,15 +1456,15 @@ Table of Contents
 
    -  Authorisation:
       -  Sponsoring client:
-         -  Full object representation
+         -  Full object
       -  Other client:
          -  Without object authorisation:
-            -  Limited (non-confidential) object representation or
-               operation denied
+            -  Limited object (non-confidential properties) or operation
+               denied
          -  With object authorisation:
-            -  Full object representation, however some properties only
-               authorised to the sponsoring client MAY be redacted
-               according to server policy
+            -  Full object, however some properties only authorised to
+               the sponsoring client MAY be redacted according to server
+               policy
 
    The following transient data elements are defined for this operation:
 
@@ -1511,9 +1505,8 @@ Table of Contents
    -  Authorisation:
       -  Only sponsoring client is authorised to perform this operation
    -  Input: Domain Name
-   -  Output: Full object representation (read-write and read-only
-      properties), or a minimum representation of properties affected by
-      the operation (Expiry Date).
+   -  Output: Full object (read-write and read-only properties), or a
+      minimum set of properties affected by the operation (Expiry Date).
 
    The following transient data elements are defined for this operation:
 
@@ -1728,15 +1721,15 @@ Table of Contents
 
    -  Authorisation:
       -  Sponsoring client:
-         -  Full object representation
+         -  Full object
       -  Other client:
          -  Without object authorisation:
-            -  Limited (non-confidential) object representation or
-               operation denied
+            -  Limited object (non-confidential properties) or operation
+               denied
          -  With object authorisation:
-            -  Full object representation, however some properties only
-               authorised to the sponsoring client MAY be redacted
-               according to server policy
+            -  Full object, however some properties only authorised to
+               the sponsoring client MAY be redacted according to server
+               policy
 
    Authorisation Information (authInfo) MUST NOT be provided in the
    response if the querying client is not the current sponsoring client.
@@ -1879,11 +1872,10 @@ Table of Contents
    Host Data Object.
 
    -  Authorisation:
-      -  Any client is authorised to retrieve the full object
-         representation.  In EPP Compatibility Profile, host objects do
-         not carry authorisation information and there is no distinction
-         based on client identity as described in Section 3.1.2 of
-         [RFC5732].
+      -  Any client is authorised to retrieve the full object.  In EPP
+         Compatibility Profile, host objects do not carry authorisation
+         information and there is no distinction based on client
+         identity as described in Section 3.1.2 of [RFC5732].
 
 8.3.3.  Update Operation
 
@@ -2575,6 +2567,7 @@ Table of Contents
 
 draft-kowalik-rpp-data-objects -02 - -03
 
+   -  removed notion of "representation" from both inputs and outputs
    -  abstract common provisioning metadata into reusable component
       object
    -  describe operations for hosts #16
