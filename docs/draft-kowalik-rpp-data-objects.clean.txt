@@ -17,9 +17,9 @@ Abstract
    This document defines data objects for the RESTful Provisioning
    Protocol (RPP) and sets up IANA RPP Data Object Registry to describe
    and catalogue them.  Specifically, it details the logical structure,
-   constraints, and protocol operations (including their inputs and
-   outputs) for foundational resources: domain names, contacts, and
-   hosts.  In accordance with the RPP architecture
+   constraints, and protocol operations (including their inputs, outputs
+   and business logic) for foundational resources: domain names,
+   contacts, and hosts.  In accordance with the RPP architecture
    [I-D.kowalik-rpp-architecture], these definitions focus entirely on
    the semantics, remaining independent of any specific data
    representation or media type (e.g., JSON or XML).
@@ -140,6 +140,7 @@ Table of Contents
        8.3.2.  Read Operation
        8.3.3.  Update Operation
        8.3.4.  Delete Operation
+       8.3.5.  Restore Operations
    9.  IANA Considerations
      9.1.  RPP Data Object Registry
        9.1.1.  Registration Policy
@@ -168,8 +169,9 @@ Table of Contents
    YAML).
 
    This document focuses on the data model of RPP objects and operations
-   on them, including the data model of operation inputs and outputs.
-   This separation of concerns ensures the protocol maintains a stable
+   on them, including the data model of operation inputs, outputs as
+   well as the necessary business logic of state transitions.  This
+   separation of concerns ensures the protocol maintains a stable
    semantic foundation that can be consistently implemented across
    different media types and easily adapted to new representation
    formats.  For instance, the model defines a contact's name as a
@@ -594,17 +596,18 @@ Table of Contents
 
    Restore operations manage the recovery of an object that has entered
    the Redemption Grace Period (RGP).  They are OPTIONAL and are only
-   available when the RGP feature is supported by the server.
+   available when the RGP feature is supported by the server and MAY be
+   supported only for a subset of Data Object types.
 
    The RGP process MAY involve two distinct steps:
 
-   -  Restore Request: Initiates the recovery of an object in the
-      redemptionPeriod state, signalling to the registry the intent to
-      restore.  On success, the object transitions to pendingRestore.
-   -  Restore Report: Submits a report documenting the circumstances of
-      the deletion and restoration, as required by registry policy.  On
-      success, the object is returned to its pre-deletion status and all
-      RGP status labels are removed.
+   -  Restore Request: (REQUIRED) Initiates the recovery of an object in
+      the redemptionPeriod state, signalling to the registry the intent
+      to restore.  On success, the object transitions to pendingRestore.
+   -  Restore Report: (OPTIONAL) Submits a report documenting the
+      circumstances of the deletion and restoration, as required by
+      registry policy.  On success, the object is returned to its pre-
+      deletion status and all RGP status labels are removed.
 
    Whether a restore report is required after a restore request is a
    matter of server policy.  If the server does not require a restore
@@ -726,6 +729,9 @@ Table of Contents
 2.5.5.3.  Restore Report Operation
 
    -  Identifier: restoreReport
+
+   This operation is OPTIONAL, only for the servers which support or
+   require submission of restore report.
 
    The Restore Report operation submits the restore report required by
    the RGP process for an object in the pendingRestore state.  A report
@@ -1564,7 +1570,7 @@ Table of Contents
    -  Data Elements:
       -  Pre-Delete Data
          -  Identifier: preData
-         -  Cardinality: 1
+         -  Cardinality: 0-1
          -  Mutability: read-write
          -  Data Type: String
          -  Description: A copy of the registration data that existed
@@ -1572,7 +1578,7 @@ Table of Contents
          -  Constraints: None.
       -  Post-Restore Data
          -  Identifier: postData
-         -  Cardinality: 1
+         -  Cardinality: 0-1
          -  Mutability: read-write
          -  Data Type: String
          -  Description: A copy of the registration data that exists for
@@ -1580,7 +1586,7 @@ Table of Contents
          -  Constraints: None.
       -  Delete Time
          -  Identifier: deleteTime
-         -  Cardinality: 1
+         -  Cardinality: 0-1
          -  Mutability: read-write
          -  Data Type: Timestamp
          -  Description: The date and time when the object delete
@@ -1601,7 +1607,7 @@ Table of Contents
                as defined in [RFC3915].
       -  Restore Reason
          -  Identifier: restoreReason
-         -  Cardinality: 1
+         -  Cardinality: 0-1
          -  Mutability: read-write
          -  Data Type: String
          -  Description: A brief explanation of the reason for restoring
@@ -1609,7 +1615,7 @@ Table of Contents
          -  Constraints: None.
       -  Statements
          -  Identifier: statements
-         -  Cardinality: 1+
+         -  Cardinality: 0+
          -  Mutability: read-write
          -  Data Type: String
          -  Description: Client statements required by the RGP process.
@@ -1932,11 +1938,11 @@ Table of Contents
 6.3.6.  Restore Operations
 
    The Domain Name Data Object supports the restore operations defined
-   in the [Restore Operations] section.  These operations are OPTIONAL
-   and are only available when the RGP feature is supported.
+   in the section.  These operations are OPTIONAL and are only available
+   when the RGP feature is supported.
 
    No domain-specific transient data elements extend the common restore
-   operations beyond those defined in the [Restore Operations] section.
+   operations beyond those defined in the Section 2.5.5.
 
 7.  Contact Data Object
 
@@ -2203,6 +2209,15 @@ Table of Contents
    deleted host object.
 
    The error response SHOULD indicate the related associated objects.
+
+8.3.5.  Restore Operations
+
+   The Host Data Object supports the restore operations defined in the
+   Section 2.5.5.  These operations are OPTIONAL and are only available
+   when the RGP feature for Host Data Object is supported by the server.
+
+   No domain-specific transient data elements extend the common restore
+   operations beyond those defined in the Section 2.5.5.
 
 9.  IANA Considerations
 
@@ -2616,7 +2631,7 @@ Table of Contents
    |Element      |Element Name|Card.|Mutability|Data Type|Description  |
    |Identifier   |            |     |          |         |             |
    +=============+============+=====+==========+=========+=============+
-   |preData      |Pre-Delete  |1    |read-write|String   |A copy of    |
+   |preData      |Pre-Delete  |0-1  |read-write|String   |A copy of    |
    |             |Data        |     |          |         |the          |
    |             |            |     |          |         |registration |
    |             |            |     |          |         |data that    |
@@ -2625,7 +2640,7 @@ Table of Contents
    |             |            |     |          |         |prior to     |
    |             |            |     |          |         |deletion.    |
    +-------------+------------+-----+----------+---------+-------------+
-   |postData     |Post-Restore|1    |read-write|String   |A copy of    |
+   |postData     |Post-Restore|0-1  |read-write|String   |A copy of    |
    |             |Data        |     |          |         |the          |
    |             |            |     |          |         |registration |
    |             |            |     |          |         |data that    |
@@ -2637,7 +2652,7 @@ Table of Contents
    |             |            |     |          |         |report is    |
    |             |            |     |          |         |submitted.   |
    +-------------+------------+-----+----------+---------+-------------+
-   |deleteTime   |Delete Time |1    |read-write|Timestamp|The date and |
+   |deleteTime   |Delete Time |0-1  |read-write|Timestamp|The date and |
    |             |            |     |          |         |time when    |
    |             |            |     |          |         |the object   |
    |             |            |     |          |         |delete       |
@@ -2654,14 +2669,14 @@ Table of Contents
    |             |            |     |          |         |was sent to  |
    |             |            |     |          |         |the server.  |
    +-------------+------------+-----+----------+---------+-------------+
-   |restoreReason|Restore     |1    |read-write|String   |A brief      |
+   |restoreReason|Restore     |0-1  |read-write|String   |A brief      |
    |             |Reason      |     |          |         |explanation  |
    |             |            |     |          |         |of the       |
    |             |            |     |          |         |reason for   |
    |             |            |     |          |         |restoring    |
    |             |            |     |          |         |the object.  |
    +-------------+------------+-----+----------+---------+-------------+
-   |statements   |Statements  |1+   |read-write|String   |Mandatory    |
+   |statements   |Statements  |0+   |read-write|String   |Mandatory    |
    |             |            |     |          |         |client       |
    |             |            |     |          |         |statements   |
    |             |            |     |          |         |required by  |

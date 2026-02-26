@@ -38,7 +38,7 @@ organization = "SIDN Labs"
 
 .# Abstract
 
-This document defines data objects for the RESTful Provisioning Protocol (RPP) and sets up IANA RPP Data Object Registry to describe and catalogue them. Specifically, it details the logical structure, constraints, and protocol operations (including their inputs and outputs) for foundational resources: domain names, contacts, and hosts. In accordance with the RPP architecture [@!I-D.kowalik-rpp-architecture], these definitions focus entirely on the semantics, remaining independent of any specific data representation or media type (e.g., JSON or XML).
+This document defines data objects for the RESTful Provisioning Protocol (RPP) and sets up IANA RPP Data Object Registry to describe and catalogue them. Specifically, it details the logical structure, constraints, and protocol operations (including their inputs, outputs and business logic) for foundational resources: domain names, contacts, and hosts. In accordance with the RPP architecture [@!I-D.kowalik-rpp-architecture], these definitions focus entirely on the semantics, remaining independent of any specific data representation or media type (e.g., JSON or XML).
 
 {mainmatter}
 
@@ -47,7 +47,7 @@ The RESTful Provisioning Protocol (RPP) defines a set of data objects used to re
 
 In accordance with the RPP architecture [@!I-D.kowalik-rpp-architecture], a core architectural principle is the clear distinction between the abstract data model and its concrete data representation. The data model defines the logical structure, relationships, and constraints of the objects, independent of formatting. The data representation defines how these abstract concepts are expressed in specific formats (e.g., JSON, XML, or YAML).
 
-This document focuses on the data model of RPP objects and operations on them, including the data model of operation inputs and outputs. This separation of concerns ensures the protocol maintains a stable semantic foundation that can be consistently implemented across different media types and easily adapted to new representation formats. For instance, the model defines a contact's name as a required string type, but it remains agnostic as to whether that string is ultimately encoded as a JSON property or an XML element.
+This document focuses on the data model of RPP objects and operations on them, including the data model of operation inputs, outputs as well as the necessary business logic of state transitions. This separation of concerns ensures the protocol maintains a stable semantic foundation that can be consistently implemented across different media types and easily adapted to new representation formats. For instance, the model defines a contact's name as a required string type, but it remains agnostic as to whether that string is ultimately encoded as a JSON property or an XML element.
 
 ## Conventions and Terminology
 
@@ -301,14 +301,14 @@ The Transfer Query operation allows a client to determine the real-time status o
   * This operation MUST be accessible to both the sponsoring client and the gaining client.
   * Server policy determines whether other clients may query transfer status and what information is returned.
 
-### Restore Operations
+### Restore Operations {#restore-ops}
 
-Restore operations manage the recovery of an object that has entered the Redemption Grace Period (RGP). They are OPTIONAL and are only available when the RGP feature is supported by the server.
+Restore operations manage the recovery of an object that has entered the Redemption Grace Period (RGP). They are OPTIONAL and are only available when the RGP feature is supported by the server and MAY be supported only for a subset of Data Object types.
 
 The RGP process MAY involve two distinct steps:
 
-* Restore Request: Initiates the recovery of an object in the `redemptionPeriod` state, signalling to the registry the intent to restore. On success, the object transitions to `pendingRestore`.
-* Restore Report: Submits a report documenting the circumstances of the deletion and restoration, as required by registry policy. On success, the object is returned to its pre-deletion status and all RGP status labels are removed.
+* Restore Request: (REQUIRED) Initiates the recovery of an object in the `redemptionPeriod` state, signalling to the registry the intent to restore. On success, the object transitions to `pendingRestore`.
+* Restore Report: (OPTIONAL) Submits a report documenting the circumstances of the deletion and restoration, as required by registry policy. On success, the object is returned to its pre-deletion status and all RGP status labels are removed.
 
 Whether a restore report is required after a restore request is a matter of server policy. If the server does not require a restore report, the object returns to its pre-deletion status immediately upon a successful restore request, bypassing the `pendingRestore` state.
 
@@ -389,6 +389,8 @@ The following transient data elements are defined for this operation:
 #### Restore Report Operation
 
 * Identifier: restoreReport
+
+This operation is OPTIONAL, only for the servers which support or require submission of restore report.
 
 The Restore Report operation submits the restore report required by the RGP process for an object in the `pendingRestore` state. A report MAY be submitted more than once if corrections are required. The server MUST reject this operation if the object is not in the `pendingRestore` state.
 
@@ -1033,21 +1035,21 @@ A> TODO: Model Disclose in universal (extendible) way
 * Data Elements:
   * Pre-Delete Data
     * Identifier: preData
-    * Cardinality: 1
+    * Cardinality: 0-1
     * Mutability: read-write
     * Data Type: String
     * Description: A copy of the registration data that existed for the object prior to the object being deleted.
     * Constraints: None.
   * Post-Restore Data
     * Identifier: postData
-    * Cardinality: 1
+    * Cardinality: 0-1
     * Mutability: read-write
     * Data Type: String
     * Description: A copy of the registration data that exists for the object at the time the restore report is submitted.
     * Constraints: None.
   * Delete Time
     * Identifier: deleteTime
-    * Cardinality: 1
+    * Cardinality: 0-1
     * Mutability: read-write
     * Data Type: Timestamp
     * Description: The date and time when the object delete request was sent to the server.
@@ -1063,14 +1065,14 @@ A> TODO: Model Disclose in universal (extendible) way
       * In EPP Compatibility Profile this element MUST be present as defined in [@!RFC3915].
   * Restore Reason
     * Identifier: restoreReason
-    * Cardinality: 1
+    * Cardinality: 0-1
     * Mutability: read-write
     * Data Type: String
     * Description: A brief explanation of the reason for restoring the object.
     * Constraints: None.
   * Statements
     * Identifier: statements
-    * Cardinality: 1+
+    * Cardinality: 0+
     * Mutability: read-write
     * Data Type: String
     * Description: Client statements required by the RGP process.
@@ -1309,9 +1311,9 @@ Subordinate host objects MUST be transferred implicitly when the domain object i
 
 ### Restore Operations
 
-The Domain Name Data Object supports the restore operations defined in the [Restore Operations] section. These operations are OPTIONAL and are only available when the RGP feature is supported.
+The Domain Name Data Object supports the restore operations defined in the  section. These operations are OPTIONAL and are only available when the RGP feature is supported.
 
-No domain-specific transient data elements extend the common restore operations beyond those defined in the [Restore Operations] section.
+No domain-specific transient data elements extend the common restore operations beyond those defined in the (#restore-ops).
 
 # Contact Data Object
 
@@ -1502,6 +1504,12 @@ The server SHOULD reject a delete request if the host object is associated with 
 
 The error response SHOULD indicate the related associated objects.
 
+### Restore Operations
+
+The Host Data Object supports the restore operations defined in the (#restore-ops). These operations are OPTIONAL and are only available when the RGP feature for Host Data Object is supported by the server.
+
+No domain-specific transient data elements extend the common restore operations beyond those defined in the (#restore-ops).
+
 # IANA Considerations
 
 ## RPP Data Object Registry
@@ -1547,7 +1555,7 @@ Reference: [This-ID]
 
 Data Elements
 | Element Identifier | Element Name | Card. | Mutability | Data Type | Description                      |
-|--------------------|--------------|-------|------------|-----------|----------------------------------|
+| ------------------ | ------------ | ----- | ---------- | --------- | -------------------------------- |
 | value              | Value        | 1     | read-write | Integer   | The numeric value of the period. |
 | unit               | Unit         | 1     | read-write | String    | The unit of the period.          |
 
@@ -1563,7 +1571,7 @@ Reference: [This-ID]
 
 Data Elements
 | Element Identifier | Element Name | Card. | Mutability | Data Type | Description                     |
-|--------------------|--------------|-------|------------|-----------|---------------------------------|
+| ------------------ | ------------ | ----- | ---------- | --------- | ------------------------------- |
 | hostNamelabel      | Label        | 1     | read-write | String    | DNS entry label.                |
 | type               | Type         | 1     | read-write | String    | DNS entry type.                 |
 | data               | Data         | 1     | read-write | String    | DNS entry value.                |
@@ -1581,7 +1589,7 @@ Reference: [This-ID]
 
 Data Elements
 | Element Identifier | Element Name              | Card. | Mutability  | Data Type | Description                                                                                                                                                                               |
-|--------------------|---------------------------|-------|-------------|-----------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| ------------------ | ------------------------- | ----- | ----------- | --------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | method             | Method                    | 1     | create-only | String    | The identifier of the RPP authorisation method.                                                                                                                                           |
 | authdata           | Authorisation Information | 1     | create-only | String    | The value of the authorisation information. It might be as simple as password string, but also more complex values like public key certificates or tokens encoded as string are possible. |
 
@@ -1598,7 +1606,7 @@ Reference: [This-ID]
 
 Data Elements
 | Element Identifier | Element Name | Card. | Mutability  | Data Type | Description                                                                                                                                                      |
-|--------------------|--------------|-------|-------------|-----------|------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| ------------------ | ------------ | ----- | ----------- | --------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | label              | Label        | 1     | create-only | String    | machine-reasible enum label of a status                                                                                                                          |
 | reason             | Reason       | 0-1   | create-only | String    | a human-readable text that describes the rationale for the status applied to the object.                                                                         |
 | due                | Due          | 0-1   | read-write  | Timestamp | a timestamp, when this status is going to be removed automatically, or changed to other status. This field can be used to expresse lifecycle related information |
@@ -1616,7 +1624,7 @@ Reference: [This-ID]
 
 Data Elements
 | Element Identifier | Element Name         | Card. | Mutability | Data Type         | Description                                                             |
-|--------------------|----------------------|-------|------------|-------------------|-------------------------------------------------------------------------|
+| ------------------ | -------------------- | ----- | ---------- | ----------------- | ----------------------------------------------------------------------- |
 | repositoryId       | Repository ID        | 0-1   | read-only  | Identifier        | A server-assigned unique identifier for the object.                     |
 | sponsoringClientId | Sponsoring Client ID | 1     | read-only  | Client Identifier | The identifier of the client that is the current sponsor of the object. |
 | creatingClientId   | Creating Client ID   | 0-1   | read-only  | Client Identifier | The identifier of the client that created the object.                   |
@@ -1636,14 +1644,14 @@ Description: Represents the state of a transfer request for a provisioned object
 Reference: [This-ID]
 
 Data Elements
-| Element Identifier   | Element Name         | Card. | Mutability | Data Type         | Description                                                            |
-|----------------------|----------------------|-------|------------|-------------------|------------------------------------------------------------------------|
-| transferStatus       | Transfer Status      | 1     | read-only  | String            | The state of the most recent transfer request.                         |
-| transferDirection    | Transfer Direction   | 1     | read-only  | String            | Indicates the direction of the transfer (pull or push).                |
-| requestingClientId   | Requesting Client ID | 1     | read-only  | Client Identifier | The identifier of the client that initiated the transfer request.      |
-| requestDate          | Request Date         | 1     | read-only  | Timestamp         | The date and time that the transfer was requested.                     |
-| actingClientId       | Acting Client ID     | 1     | read-only  | Client Identifier | The identifier of the client that should or did act on the request.    |
-| actionDate           | Action Date          | 1     | read-only  | Timestamp         | The response deadline (if pending) or completion date.                 |
+| Element Identifier | Element Name         | Card. | Mutability | Data Type         | Description                                                         |
+| ------------------ | -------------------- | ----- | ---------- | ----------------- | ------------------------------------------------------------------- |
+| transferStatus     | Transfer Status      | 1     | read-only  | String            | The state of the most recent transfer request.                      |
+| transferDirection  | Transfer Direction   | 1     | read-only  | String            | Indicates the direction of the transfer (pull or push).             |
+| requestingClientId | Requesting Client ID | 1     | read-only  | Client Identifier | The identifier of the client that initiated the transfer request.   |
+| requestDate        | Request Date         | 1     | read-only  | Timestamp         | The date and time that the transfer was requested.                  |
+| actingClientId     | Acting Client ID     | 1     | read-only  | Client Identifier | The identifier of the client that should or did act on the request. |
+| actionDate         | Action Date          | 1     | read-only  | Timestamp         | The response deadline (if pending) or completion date.              |
 
 A> TODO: IANA table: Postal Address Object
 A> TODO: IANA table: Postal Info Object
@@ -1660,12 +1668,12 @@ Description: Represents the current state of a restore request for an object tha
 Reference: [This-ID]
 
 Data Elements
-| Element Identifier | Element Name      | Card. | Mutability | Data Type         | Description                                                                                                                              |
-|--------------------|-------------------|-------|------------|-------------------|------------------------------------------------------------------------------------------------------------------------------------------|
-| restoreStatus      | Restore Status    | 1     | read-only  | String            | The current state of the restore process.                                                                                                |
-| requestDate        | Request Date      | 0-1   | read-only  | Timestamp         | The date and time when the restore request was submitted. Absent if no request has been submitted.                                       |
-| reportDate         | Report Date       | 0-1   | read-only  | Timestamp         | The date and time when the most recent restore report was accepted. Absent if no report has been accepted.                               |
-| reportDueDate      | Report Due Date   | 0-1   | read-only  | Timestamp         | The deadline for submitting a restore report before the object reverts to redemptionPeriod. Present only when status is pendingRestore.  |
+| Element Identifier | Element Name    | Card. | Mutability | Data Type | Description                                                                                                                             |
+| ------------------ | --------------- | ----- | ---------- | --------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| restoreStatus      | Restore Status  | 1     | read-only  | String    | The current state of the restore process.                                                                                               |
+| requestDate        | Request Date    | 0-1   | read-only  | Timestamp | The date and time when the restore request was submitted. Absent if no request has been submitted.                                      |
+| reportDate         | Report Date     | 0-1   | read-only  | Timestamp | The date and time when the most recent restore report was accepted. Absent if no report has been accepted.                              |
+| reportDueDate      | Report Due Date | 0-1   | read-only  | Timestamp | The deadline for submitting a restore report before the object reverts to redemptionPeriod. Present only when status is pendingRestore. |
 
 Object: restoreReport
 
@@ -1678,15 +1686,15 @@ Description: Contains the redemption grace period restore report submitted by th
 Reference: [This-ID]
 
 Data Elements
-| Element Identifier | Element Name      | Card. | Mutability | Data Type | Description                                                                                                                         |
-|--------------------|-------------------|-------|------------|-----------|-------------------------------------------------------------------------------------------------------------------------------------|
-| preData            | Pre-Delete Data   | 1     | read-write | String    | A copy of the registration data that existed for the object prior to deletion.                                                 |
-| postData           | Post-Restore Data | 1     | read-write | String    | A copy of the registration data that exists for the the object at the time the restore report is submitted.                        |
-| deleteTime         | Delete Time       | 1     | read-write | Timestamp | The date and time when the object delete request was sent to the server.                                                       |
-| restoreTime        | Restore Time      | 0-1   | read-write | Timestamp | The date and time when the original restore request operation was sent to the server. |
-| restoreReason      | Restore Reason    | 1     | read-write | String    | A brief explanation of the reason for restoring the object.                                                                    |
-| statements         | Statements        | 1+    | read-write | String    | Mandatory client statements required by the RGP process. At least one and at most two statements MUST be provided.                  |
-| other              | Other             | 0-1   | read-write | String    | Any additional information needed to support the statements provided by the client.                                                  |
+| Element Identifier | Element Name      | Card. | Mutability | Data Type | Description                                                                                                        |
+| ------------------ | ----------------- | ----- | ---------- | --------- | ------------------------------------------------------------------------------------------------------------------ |
+| preData            | Pre-Delete Data   | 0-1   | read-write | String    | A copy of the registration data that existed for the object prior to deletion.                                     |
+| postData           | Post-Restore Data | 0-1   | read-write | String    | A copy of the registration data that exists for the the object at the time the restore report is submitted.        |
+| deleteTime         | Delete Time       | 0-1   | read-write | Timestamp | The date and time when the object delete request was sent to the server.                                           |
+| restoreTime        | Restore Time      | 0-1   | read-write | Timestamp | The date and time when the original restore request operation was sent to the server.                              |
+| restoreReason      | Restore Reason    | 0-1   | read-write | String    | A brief explanation of the reason for restoring the object.                                                        |
+| statements         | Statements        | 0+    | read-write | String    | Mandatory client statements required by the RGP process. At least one and at most two statements MUST be provided. |
+| other              | Other             | 0-1   | read-write | String    | Any additional information needed to support the statements provided by the client.                                |
 
 
 Object: domainName
@@ -1700,18 +1708,18 @@ Description: Represents a domain name and its associated data.
 Reference: [This-ID]
 
 Data Elements
-| Identifier           | Name                  | Card. | Mutability  | Data Type                                                      | Description                                             |
-|----------------------|-----------------------|-------|-------------|----------------------------------------------------------------|---------------------------------------------------------|
-| name                 | Name                  | 1     | create-only | String                                                         | The fully qualified name of the domain object.          |
-| provisioningMetadata | Provisioning Metadata | 1     | read-only   | Provisioning Metadata Object                                   | Standard metadata about object lifecycle and ownership. |
-| status               | Status                | 0+    | read-only   | Status Object                                                  | The current status descriptors for the domain.          |
-| registrant           | Registrant            | 0-1   | read-write  | Contact Object                                                 | The registrant contact ID.                              |
-| contacts             | Contacts              | 0+    | read-write  | LabelledAggregation [Contact Object]                           | Associated contact objects.                             |
-| nameservers          | Nameservers           | 0+    | read-write  | Aggregation[Host Data Object]                                   | A collection of nameservers associated with the domain. |
-| dns                  | DNS                   | 0+    | read-write  | Composition[DNS Resource Record]                               | A collection of DNS entries related to the domain name. |
-| subordinateHosts     | Subordinate Hosts     | 0+    | read-only   | Aggregation [Host Data Object]                                 | Subordinate host names.                                 |
-| expiryDate           | Expiry Date           | 0-1   | read-only   | Timestamp                                                      | Expiry timestamp.                                       |
-| authInfo             | Authorisation Info    | 0-1   | read-write  | authInfo                                                       | Authorisation information for the object.               |
+| Identifier           | Name                  | Card. | Mutability  | Data Type                            | Description                                             |
+| -------------------- | --------------------- | ----- | ----------- | ------------------------------------ | ------------------------------------------------------- |
+| name                 | Name                  | 1     | create-only | String                               | The fully qualified name of the domain object.          |
+| provisioningMetadata | Provisioning Metadata | 1     | read-only   | Provisioning Metadata Object         | Standard metadata about object lifecycle and ownership. |
+| status               | Status                | 0+    | read-only   | Status Object                        | The current status descriptors for the domain.          |
+| registrant           | Registrant            | 0-1   | read-write  | Contact Object                       | The registrant contact ID.                              |
+| contacts             | Contacts              | 0+    | read-write  | LabelledAggregation [Contact Object] | Associated contact objects.                             |
+| nameservers          | Nameservers           | 0+    | read-write  | Aggregation[Host Data Object]        | A collection of nameservers associated with the domain. |
+| dns                  | DNS                   | 0+    | read-write  | Composition[DNS Resource Record]     | A collection of DNS entries related to the domain name. |
+| subordinateHosts     | Subordinate Hosts     | 0+    | read-only   | Aggregation [Host Data Object]       | Subordinate host names.                                 |
+| expiryDate           | Expiry Date           | 0-1   | read-only   | Timestamp                            | Expiry timestamp.                                       |
+| authInfo             | Authorisation Info    | 0-1   | read-write  | authInfo                             | Authorisation information for the object.               |
 
 Operations
 
@@ -1723,7 +1731,7 @@ Description: Provisions a new Domain Name resource.
 
 Parameters
 | Identifier | Name                | Card. | Data Type | Description                                          |
-|------------|---------------------|-------|-----------|------------------------------------------------------|
+| ---------- | ------------------- | ----- | --------- | ---------------------------------------------------- |
 | period     | Registration Period | 0-1   | period    | The initial registration period for the domain name. |
 
 Operation: Read
@@ -1734,7 +1742,7 @@ Description: Retrieves the data elements of a Domain Name resource.
 
 Parameters
 | Identifier    | Name                            | Card. | Data Type | Description                                          |
-|---------------|---------------------------------|-------|-----------|------------------------------------------------------|
+| ------------- | ------------------------------- | ----- | --------- | ---------------------------------------------------- |
 | hostsFilter   | Hosts Filter                    | 0-1   | String    | Controls which host information is returned.         |
 | queryAuthInfo | Query Authorisation Information | 0-1   | authInfo  | Credentials to authorise access to full object data. |
 
@@ -1754,7 +1762,7 @@ Description: Extends the validity period of a Domain Name resource.
 
 Parameters
 | Identifier        | Name                | Card. | Data Type | Description                                       |
-|-------------------|---------------------|-------|-----------|---------------------------------------------------|
+| ----------------- | ------------------- | ----- | --------- | ------------------------------------------------- |
 | currentExpiryDate | Current Expiry Date | 1     | Timestamp | The expected current expiry date, for validation. |
 | renewalPeriod     | Renewal Period      | 0-1   | period    | The duration to add to the registration period.   |
 
@@ -1765,11 +1773,11 @@ Operation Identifier: transferRequest
 Description: Initiates a transfer of a Domain Name resource.
 
 Parameters
-| Identifier         | Name                | Card. | Data Type         | Description                                                            |
-|--------------------|---------------------|-------|-------------------|------------------------------------------------------------------------|
-| transferDirection  | Transfer Direction  | 0-1   | String            | Indicates whether the transfer is a "pull" or "push" transfer.         |
-| gainingClientId    | Gaining Client ID   | 0-1   | Client Identifier | The designated gaining client (required for push transfers).           |
-| transferPeriod     | Transfer Period     | 0-1   | period            | The duration to add to the registration period upon transfer.          |
+| Identifier        | Name               | Card. | Data Type         | Description                                                    |
+| ----------------- | ------------------ | ----- | ----------------- | -------------------------------------------------------------- |
+| transferDirection | Transfer Direction | 0-1   | String            | Indicates whether the transfer is a "pull" or "push" transfer. |
+| gainingClientId   | Gaining Client ID  | 0-1   | Client Identifier | The designated gaining client (required for push transfers).   |
+| transferPeriod    | Transfer Period    | 0-1   | period            | The duration to add to the registration period upon transfer.  |
 
 Operation: Transfer Approve
 
@@ -1786,9 +1794,9 @@ Operation Identifier: transferReject
 Description: Rejects a pending transfer of a Domain Name resource.
 
 Parameters
-| Identifier | Name   | Card. | Data Type | Description                                                  |
-|------------|--------|-------|-----------|--------------------------------------------------------------|
-| reason     | Reason | 0-1   | String    | A human-readable text describing the rationale for rejection.|
+| Identifier | Name   | Card. | Data Type | Description                                                   |
+| ---------- | ------ | ----- | --------- | ------------------------------------------------------------- |
+| reason     | Reason | 0-1   | String    | A human-readable text describing the rationale for rejection. |
 
 Operation: Transfer Cancel
 
@@ -1813,9 +1821,9 @@ Operation Identifier: restoreRequest
 Description: Initiates recovery of an domain name in the redemptionPeriod state. This operation is OPTIONAL and is only available when the RGP feature is supported.
 
 Parameters
-| Identifier     | Name           | Card. | Data Type             | Description                                                                                                                                                                      |
-|----------------|----------------|-------|-----------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| restoreReport  | Restore Report | 0-1   | Restore Report Object | An inline restore report. |
+| Identifier    | Name           | Card. | Data Type             | Description               |
+| ------------- | -------------- | ----- | --------------------- | ------------------------- |
+| restoreReport | Restore Report | 0-1   | Restore Report Object | An inline restore report. |
 
 Operation: Restore Report
 
@@ -1824,9 +1832,9 @@ Operation Identifier: restoreReport
 Description: Submits the restore report for a domain name in the pendingRestore state. This operation is OPTIONAL and is only available when the RGP feature is supported and the server requires a restore report.
 
 Parameters
-| Identifier     | Name           | Card. | Data Type             | Description                            |
-|----------------|----------------|-------|-----------------------|----------------------------------------|
-| restoreReport  | Restore Report | 1     | Restore Report Object | The restore report to be submitted.    |
+| Identifier    | Name           | Card. | Data Type             | Description                         |
+| ------------- | -------------- | ----- | --------------------- | ----------------------------------- |
+| restoreReport | Restore Report | 1     | Restore Report Object | The restore report to be submitted. |
 
 Operation: Restore Query
 
@@ -1850,7 +1858,7 @@ Reference: [This-ID]
 
 Data Elements
 | Identifier           | Name                  | Card. | Mutability | Data Type                        | Description                                             |
-|----------------------|-----------------------|-------|------------|----------------------------------|---------------------------------------------------------|
+| -------------------- | --------------------- | ----- | ---------- | -------------------------------- | ------------------------------------------------------- |
 | hostName             | Host Name             | 1     | read-write | String                           | Fully qualified name of a host.                         |
 | provisioningMetadata | Provisioning Metadata | 1     | read-only  | Provisioning Metadata Object     | Standard metadata about object lifecycle and ownership. |
 | status               | Status                | 0+    | read-only  | Status Object                    | The current status descriptors for the host.            |
