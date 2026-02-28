@@ -111,8 +111,8 @@ Table of Contents
      5.1.  Period Object
      5.2.  Provisioning Metadata Object
      5.3.  Status Object
-     5.4.  DNS Record Object
-     5.5.  DNS Controls Object
+     5.4.  DNS Resource Record Object
+     5.5.  DNS Operational Controls Object
      5.6.  DNS Data Object
      5.7.  Authorisation Information Object
      5.8.  Postal Address Object
@@ -1273,9 +1273,9 @@ Table of Contents
       |  TBD: Idea - model status object as Labelled Composition using
       |  "Label"?  Con: Generic Constraints for Label will be repeated.
 
-5.4.  DNS Record Object
+5.4.  DNS Resource Record Object
 
-   -  Name: DNS Record Object
+   -  Name: DNS Resource Record Object
    -  Identifier: dnsRecord
    -  Description: Represents a single DNS resource record.  The
       structure follows the top-level format of a DNS resource record as
@@ -1358,9 +1358,9 @@ Table of Contents
       |  DS hash.  The draft doesn't describe this pattern - a client
       |  submitting a DS record with accompanying DNSKEY for validation.
 
-5.5.  DNS Controls Object
+5.5.  DNS Operational Controls Object
 
-   -  Name: DNS Controls Object
+   -  Name: DNS Operational Controls Object
    -  Identifier: dnsControls
    -  Description: Contains operational control parameters that a client
       MAY use to influence server-side DNS behaviour for a set of DNS
@@ -1422,7 +1422,7 @@ Table of Contents
          -  Identifier: records
          -  Cardinality: 0+
          -  Mutability: read-write
-         -  Data Type: Composition[DNS Record Object]
+         -  Data Type: Composition[DNS Resource Record Object]
          -  Description: An array of DNS resource records associated
             with the provisioned object.
          -  Constraints:
@@ -1439,7 +1439,7 @@ Table of Contents
          -  Identifier: controls
          -  Cardinality: 0-1
          -  Mutability: read-write
-         -  Data Type: DNS Controls Object
+         -  Data Type: DNS Operational Controls Object
          -  Description: Operational control parameters for the DNS
             records.
          -  Constraints: (None)
@@ -2574,7 +2574,7 @@ Table of Contents
 
    Object: dnsRecord
 
-   Object Name: DNS Record Object
+   Object Name: DNS Resource Record Object
 
    Object Type: Component
 
@@ -2621,7 +2621,7 @@ Table of Contents
 
    Object: dnsControls
 
-   Object Name: DNS Controls Object
+   Object Name: DNS Operational Controls Object
 
    Object Type: Component
 
@@ -2687,18 +2687,18 @@ Table of Contents
    |Identifier|Name    |     |            |             |              |
    +==========+========+=====+============+=============+==============+
    |records   |Records |0+   | read-write | Composition | An array of  |
-   |          |        |     |            | [DNS Record | DNS          |
-   |          |        |     |            | Object]     | resource     |
-   |          |        |     |            |             | records      |
-   |          |        |     |            |             | associated   |
+   |          |        |     |            | [DNS        | DNS          |
+   |          |        |     |            | Resource    | resource     |
+   |          |        |     |            | Record      | records      |
+   |          |        |     |            | Object]     | associated   |
    |          |        |     |            |             | with the     |
    |          |        |     |            |             | provisioned  |
    |          |        |     |            |             | object.      |
    +----------+--------+-----+------------+-------------+--------------+
    |controls  |Controls|0-1  | read-write | DNS         | Operational  |
-   |          |        |     |            | Controls    | control      |
-   |          |        |     |            | Object      | parameters   |
-   |          |        |     |            |             | for the DNS  |
+   |          |        |     |            | Operational | control      |
+   |          |        |     |            | Controls    | parameters   |
+   |          |        |     |            | Object      | for the DNS  |
    |          |        |     |            |             | records.     |
    +----------+--------+-----+------------+-------------+--------------+
 
@@ -3462,9 +3462,9 @@ draft-kowalik-rpp-data-objects -02 - -03
       pattern
    -  add identifiers to all operations
    -  restructure DNS data model aligned with draft-simmen-rpp-dns-data-
-      01: redefine DNS Record Object (name, class, type, rdata), add DNS
-      Controls Object (ttl, maxSigLifetime), add DNS Data Object
-      (records + controls)
+      01: redefine DNS Resource Record Object (name, class, type,
+      rdata), add DNS Operational Controls Object (ttl, maxSigLifetime),
+      add DNS Data Object (records + controls)
    -  add DNSSEC support based on [RFC5910]: DS and DNSKEY record types
       with structured RDATA fields, maxSigLifetime operational control
    -  update Domain, Host, and Nameserver objects to use DNS Data Object

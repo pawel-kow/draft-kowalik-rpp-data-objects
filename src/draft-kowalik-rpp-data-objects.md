@@ -794,9 +794,9 @@ A> TODO: find a better home for this list (own section + IANA registry). Add sta
 
 A> TBD: Idea - model status object as Labelled Composition using "Label"? Con: Generic Constraints for Label will be repeated.
 
-## DNS Record Object
+## DNS Resource Record Object
 
-* Name: DNS Record Object
+* Name: DNS Resource Record Object
 * Identifier: dnsRecord
 * Description: Represents a single DNS resource record. The structure follows the top-level format of a DNS resource record as described in Section 3.2.1 of [@!RFC1035], adapted for use in provisioning. The RDATA field is represented as a structured object whose fields depend on the record type, following the RDATA presentation format described by the corresponding RFC defining the record type. This approach is aligned with [@I-D.simmen-rpp-dns-data].
 * Data Elements:
@@ -843,9 +843,9 @@ A> TBD: Idea - model status object as Labelled Composition using "Label"? Con: G
 
 A> TBC: Optional keyData inside dsData (RFC 5910 Section 4.1): In the DS Data Interface, a DS record MAY optionally contain a nested keyData element used for server-side validation of the DS hash. The draft doesn't describe this pattern - a client submitting a DS record with accompanying DNSKEY for validation.
 
-## DNS Controls Object
+## DNS Operational Controls Object
 
-* Name: DNS Controls Object
+* Name: DNS Operational Controls Object
 * Identifier: dnsControls
 * Description: Contains operational control parameters that a client MAY use to influence server-side DNS behaviour for a set of DNS records. A server MAY ignore these values, e.g. for policy reasons. This structure is aligned with [@I-D.simmen-rpp-dns-data].
 * Data Elements:
@@ -881,7 +881,7 @@ A> TBC: Optional keyData inside dsData (RFC 5910 Section 4.1): In the DS Data In
     * Identifier: records
     * Cardinality: 0+
     * Mutability: read-write
-    * Data Type: Composition[DNS Record Object]
+    * Data Type: Composition[DNS Resource Record Object]
     * Description: An array of DNS resource records associated with the provisioned object.
     * Constraints:
       * Allowed record types MAY be constrained by server policy.
@@ -891,7 +891,7 @@ A> TBC: Optional keyData inside dsData (RFC 5910 Section 4.1): In the DS Data In
     * Identifier: controls
     * Cardinality: 0-1
     * Mutability: read-write
-    * Data Type: DNS Controls Object
+    * Data Type: DNS Operational Controls Object
     * Description: Operational control parameters for the DNS records.
     * Constraints: (None)
 
@@ -1710,7 +1710,7 @@ Data Elements
 
 Object: dnsRecord
 
-Object Name: DNS Record Object
+Object Name: DNS Resource Record Object
 
 Object Type: Component
 
@@ -1728,7 +1728,7 @@ Data Elements
 
 Object: dnsControls
 
-Object Name: DNS Controls Object
+Object Name: DNS Operational Controls Object
 
 Object Type: Component
 
@@ -1755,8 +1755,8 @@ Reference: [This-ID]
 Data Elements
 | Element Identifier | Element Name | Card. | Mutability | Data Type                       | Description                                                              |
 | ------------------ | ------------ | ----- | ---------- | ------------------------------- | ------------------------------------------------------------------------ |
-| records            | Records      | 0+    | read-write | Composition [DNS Record Object] | An array of DNS resource records associated with the provisioned object. |
-| controls           | Controls     | 0-1   | read-write | DNS Controls Object             | Operational control parameters for the DNS records.                      |
+| records            | Records      | 0+    | read-write | Composition [DNS Resource Record Object] | An array of DNS resource records associated with the provisioned object. |
+| controls           | Controls     | 0-1   | read-write | DNS Operational Controls Object             | Operational control parameters for the DNS records.                      |
 
 Object: authInfo
 
@@ -2104,7 +2104,7 @@ A> TODO: write security considerations, if any
 * add domain-specific transfer operations with implicit renewal and subordinate host transfer
 * add contact transfer operations referencing common transfer pattern
 * add identifiers to all operations
-* restructure DNS data model aligned with draft-simmen-rpp-dns-data-01: redefine DNS Record Object (name, class, type, rdata), add DNS Controls Object (ttl, maxSigLifetime), add DNS Data Object (records + controls)
+* restructure DNS data model aligned with draft-simmen-rpp-dns-data-01: redefine DNS Resource Record Object (name, class, type, rdata), add DNS Operational Controls Object (ttl, maxSigLifetime), add DNS Data Object (records + controls)
 * add DNSSEC support based on [@RFC5910]: DS and DNSKEY record types with structured RDATA fields, maxSigLifetime operational control
 * update Domain, Host, and Nameserver objects to use DNS Data Object
 * add Domain Update operation with urgent transient parameter from [@RFC5910]
