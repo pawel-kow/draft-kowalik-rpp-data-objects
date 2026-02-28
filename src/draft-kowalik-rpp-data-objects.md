@@ -809,7 +809,6 @@ A> TBD: Idea - model status object as Labelled Composition using "Label"? Con: G
     * Constraints:
       * The value MUST be a syntactically valid DNS host name.
       * Absolute FQDNs (with trailing dot) and relative host names are allowed, as well as the "@" symbol representing the domain name itself.
-      * A server MUST NOT accept a name which is not the provisioned domain name or a subordinate label to it.
   * Class
     * Identifier: class
     * Cardinality: 0-1
@@ -829,6 +828,8 @@ A> TBD: Idea - model status object as Labelled Composition using "Label"? Con: G
       * The value MUST be a valid string representation of a resource record type as defined in [@!RFC1035] or other RFC describing the record type.
       * Allowed values MAY be constrained by server policies. For domain provisioning, the type would typically be constrained to the allowed parent-side entries.
       * Values MUST be converted to lower case.
+      * In EPP Compatibility Profile ([@!RFC5732]), the following record types MUST be supported: `ns`, `a`, and `aaaa`.
+      * In EPP Compatibility Profile with DNSSEC Extension [@RFC5910], the following record types MUST additionally be supported: `ds` and `dnskey`.
   * RDATA
     * Identifier: rdata
     * Cardinality: 1
@@ -837,9 +838,22 @@ A> TBD: Idea - model status object as Labelled Composition using "Label"? Con: G
     * Description: The actual payload data of the DNS record. The structure of this object depends on the record type and MUST follow the RDATA presentation format described by the corresponding RFC. Property names MUST be written in camelCase. All property values MUST be represented as Strings encoding the presentation format of the value.
     * Constraints:
       * The fields within RDATA MUST match the expected structure for the given record type.
-      * In EPP Compatibility Profile with DNSSEC Extension [@RFC5910], the following RDATA structures MUST be supported:
-        * For DS records ([@RFC4034], Section 5): `keyTag` (key tag value), `algorithm` (algorithm number), `digestType` (digest algorithm type), and `digest` (digest value).
-        * For DNSKEY records ([@RFC4034], Section 2): `flags` (flags field value), `protocol` (protocol field value), `algorithm` (algorithm number), and `publicKey` (encoded public key value).
+      * See (#rdata-structures) for required structures in the EPP Compatibility Profile.
+
+### RDATA Structures in EPP Profile {#rdata-structures}
+
+This section defines the RDATA field structures required for interoperability in the EPP Compatibility Profile.
+
+In EPP Compatibility Profile ([@!RFC5732]), the following RDATA structures MUST be supported:
+
+* For NS records ([@!RFC1035], Section 3.3.11): `nsdname` (the fully qualified domain name of the name server).
+* For A records ([@!RFC1035], Section 3.4.1): `address` (the IPv4 address in dotted-decimal notation).
+* For AAAA records ([@RFC3596], Section 2.2): `address` (the IPv6 address in text representation as defined in [@!RFC5952]).
+
+In EPP Compatibility Profile with DNSSEC Extension ([@RFC5910]), the following RDATA structures MUST additionally be supported:
+
+* For DS records ([@RFC4034], Section 5): `keyTag` (key tag value), `algorithm` (algorithm number), `digestType` (digest algorithm type), and `digest` (digest value).
+* For DNSKEY records ([@RFC4034], Section 2): `flags` (flags field value), `protocol` (protocol field value), `algorithm` (algorithm number), and `publicKey` (encoded public key value).
 
 A> TBC: Optional keyData inside dsData (RFC 5910 Section 4.1): In the DS Data Interface, a DS record MAY optionally contain a nested keyData element used for server-side validation of the DS hash. The draft doesn't describe this pattern - a client submitting a DS record with accompanying DNSKEY for validation.
 
@@ -2110,6 +2124,8 @@ A> TODO: write security considerations, if any
 * add Domain Update operation with urgent transient parameter from [@RFC5910]
 * add Object and Dictionary[Value Type] primitive data types
 * describe operations for contacts #15
+* add NS, A, and AAAA RDATA structures and record type constraints to EPP compatibility profile for DNS Resource Record Object
+* move RDATA EPP compatibility structures into dedicated subchapter with cross-reference from field definition
 
 {toc="exclude"}
 {numbered="false"}
