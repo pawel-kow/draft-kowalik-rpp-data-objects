@@ -866,8 +866,8 @@ Table of Contents
 
    RPP allows for different types of associations (relationship) between
    the objects.  The association may be added between 2 objects with own
-   indpendent lifecycle (UML aggregation) or in the relation when one
-   object's existance and lifecycle is bound to the other parent/owner
+   independent lifecycle (UML aggregation) or in the relation when one
+   object's existence and lifecycle is bound to the other parent/owner
    object (UML composition).  In both cases, especially if the relation
    allows for cardinality higher than one on either side, the
    association may be assigned additional attributes, not being part of
@@ -886,7 +886,7 @@ Table of Contents
    A relation between two independent objects.
 
    If the cardinality of target object is more than 1, this represents
-   an ordered array.  It MUST assured that the same unchanged data is
+   an ordered array.  It MUST be assured that the same unchanged data is
    always inserted in the same order in order to allow stable reference
    by position to data elements.  In case of data insertions, deletions
    or updates the remaining of the data SHALL preserve its order.
@@ -928,7 +928,7 @@ Table of Contents
    dependent child object(s).
 
    If the cardinality of target object is more than 1, this represents
-   an ordered array.  It MUST assured that the same unchanged data is
+   an ordered array.  It MUST be assured that the same unchanged data is
    always inserted in the same order in order to allow stable reference
    by position to data elements.  In case of data insertions, deletions
    or updates the remaining of the data SHALL preserve its order.
@@ -1193,7 +1193,7 @@ Table of Contents
          -  Cardinality: 1
          -  Mutability: create-only
          -  Data Type: String
-         -  Description: machine-readible enum label of a status
+         -  Description: machine-readable enum label of a status
          -  Constraints:
             -  Exact list of allowed status labels depends on the
                provisioning object type.  This enumeration can be
@@ -1252,7 +1252,7 @@ Table of Contents
       |  types like client/serverHold).
 
    -  Reason
-      -  Indentifier: reason
+      -  Identifier: reason
       -  Cardinality: 0-1
       -  Mutability: create-only
       -  Data Type: String
@@ -1266,7 +1266,7 @@ Table of Contents
       -  Data Type: Timestamp
       -  Description: a timestamp, when this status is going to be
          removed automatically, or changed to other status.  This field
-         can be used to expresse lifecycle related information.
+         can be used to express lifecycle related information.
       -  Constraints: servers MAY restrict possibility to set or update
          this value by the client.
 
@@ -2764,7 +2764,7 @@ Table of Contents
    |Element   |Element|Card.|Mutability |Data Type| Description       |
    |Identifier|Name   |     |           |         |                   |
    +==========+=======+=====+===========+=========+===================+
-   |label     |Label  |1    |create-only|String   | machine-reasible  |
+   |label     |Label  |1    |create-only|String   | machine-readable  |
    |          |       |     |           |         | enum label of a   |
    |          |       |     |           |         | status            |
    +----------+-------+-----+-----------+---------+-------------------+
@@ -2783,7 +2783,7 @@ Table of Contents
    |          |       |     |           |         | changed to other  |
    |          |       |     |           |         | status.  This     |
    |          |       |     |           |         | field can be used |
-   |          |       |     |           |         | to expresse       |
+   |          |       |     |           |         | to express        |
    |          |       |     |           |         | lifecycle related |
    |          |       |     |           |         | information       |
    +----------+-------+-----+-----------+---------+-------------------+
@@ -3004,10 +3004,9 @@ Table of Contents
    |             |            |     |          |         |registration |
    |             |            |     |          |         |data that    |
    |             |            |     |          |         |exists for   |
-   |             |            |     |          |         |the the      |
-   |             |            |     |          |         |object at    |
-   |             |            |     |          |         |the time the |
-   |             |            |     |          |         |restore      |
+   |             |            |     |          |         |the object   |
+   |             |            |     |          |         |at the time  |
+   |             |            |     |          |         |the restore  |
    |             |            |     |          |         |report is    |
    |             |            |     |          |         |submitted.   |
    +-------------+------------+-----+----------+---------+-------------+
@@ -3312,7 +3311,7 @@ Table of Contents
 
    Operation Identifier: restoreRequest
 
-   Description: Initiates recovery of an domain name in the
+   Description: Initiates recovery of a domain name in the
    redemptionPeriod state.  This operation is OPTIONAL and is only
    available when the RGP feature is supported.
 

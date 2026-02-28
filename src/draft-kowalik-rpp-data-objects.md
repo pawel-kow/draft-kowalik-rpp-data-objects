@@ -462,7 +462,7 @@ Telephone number syntax is derived from structures defined in [@!ITU.E164.2005].
 
 # Associations
 
-RPP allows for different types of associations (relationship) between the objects. The association may be added between 2 objects with own indpendent lifecycle (UML aggregation) or in the relation when one object's existance and lifecycle is bound to the other parent/owner object (UML composition).
+RPP allows for different types of associations (relationship) between the objects. The association may be added between 2 objects with own independent lifecycle (UML aggregation) or in the relation when one object's existence and lifecycle is bound to the other parent/owner object (UML composition).
 In both cases, especially if the relation allows for cardinality higher than one on either side, the association may be assigned additional attributes, not being part of an object on either side of relation. In many cases such relation would be attributed with a single text string label, describing a role or a type of relation. Depending on the context this value might be unique, which allows using such label as a key in a dictionary.
 
 The following generic Association Types are defined for RPP:
@@ -473,8 +473,8 @@ Notation: Aggregation[Type]
 
 A relation between two independent objects.
 
-If the cardinality of target object is more than 1, this represents an ordered array. 
-It MUST assured that the same unchanged data is always inserted in the same order in order to allow stable reference by position to data elements. In case of data insertions, deletions or updates the remaining of the data SHALL preserve its order.
+If the cardinality of target object is more than 1, this represents an ordered array.
+It MUST be assured that the same unchanged data is always inserted in the same order in order to allow stable reference by position to data elements. In case of data insertions, deletions or updates the remaining of the data SHALL preserve its order.
 
 Example aggregation having cardinality 1:
 
@@ -515,8 +515,8 @@ Notation: Composition[Type] or Type
 
 A relation between an independent parent object and 1 or more dependent child object(s).
 
-If the cardinality of target object is more than 1, this represents an ordered array. 
-It MUST assured that the same unchanged data is always inserted in the same order  in order to allow stable reference by position to data elements. In case of data insertions, deletions or updates the remaining of the data SHALL preserve its order.
+If the cardinality of target object is more than 1, this represents an ordered array.
+It MUST be assured that the same unchanged data is always inserted in the same order in order to allow stable reference by position to data elements. In case of data insertions, deletions or updates the remaining of the data SHALL preserve its order.
 
 Example composition having cardinality 1:
 
@@ -758,7 +758,7 @@ Component objects carry only data but do not define any operations.
     * Cardinality: 1
     * Mutability: create-only
     * Data Type: String
-    * Description: machine-readible enum label of a status
+    * Description: machine-readable enum label of a status
     * Constraints:      
       * Exact list of allowed status labels depends on the provisioning object type. This enumeration can be expanded by extensions.
       * The status labels MUST use camel case notation and use only ASCII alphabetic characters.
@@ -778,7 +778,7 @@ Component objects carry only data but do not define any operations.
 A> TODO: find a better home for this list (own section + IANA registry). Add standard domain statuses here as well (and solve the issue of statuses not applicable to other object types like client/serverHold).
       
   * Reason
-    * Indentifier: reason
+    * Identifier: reason
     * Cardinality: 0-1
     * Mutability: create-only
     * Data Type: String
@@ -789,7 +789,7 @@ A> TODO: find a better home for this list (own section + IANA registry). Add sta
     * Cardinality: 0-1
     * Mutability: read-write
     * Data Type: Timestamp
-    * Description: a timestamp, when this status is going to be removed automatically, or changed to other status. This field can be used to expresse lifecycle related information.
+    * Description: a timestamp, when this status is going to be removed automatically, or changed to other status. This field can be used to express lifecycle related information.
     * Constraints: servers MAY restrict possibility to set or update this value by the client.
 
 A> TBD: Idea - model status object as Labelled Composition using "Label"? Con: Generic Constraints for Label will be repeated.
@@ -1788,9 +1788,9 @@ Reference: [This-ID]
 Data Elements
 | Element Identifier | Element Name | Card. | Mutability  | Data Type | Description                                                                                                                                                      |
 | ------------------ | ------------ | ----- | ----------- | --------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| label              | Label        | 1     | create-only | String    | machine-reasible enum label of a status                                                                                                                          |
+| label              | Label        | 1     | create-only | String    | machine-readable enum label of a status                                                                                                                          |
 | reason             | Reason       | 0-1   | create-only | String    | a human-readable text that describes the rationale for the status applied to the object.                                                                         |
-| due                | Due          | 0-1   | read-write  | Timestamp | a timestamp, when this status is going to be removed automatically, or changed to other status. This field can be used to expresse lifecycle related information |
+| due                | Due          | 0-1   | read-write  | Timestamp | a timestamp, when this status is going to be removed automatically, or changed to other status. This field can be used to express lifecycle related information |
 
 
 Object: provMetadata
@@ -1870,7 +1870,7 @@ Data Elements
 | Element Identifier | Element Name      | Card. | Mutability | Data Type | Description                                                                                                        |
 | ------------------ | ----------------- | ----- | ---------- | --------- | ------------------------------------------------------------------------------------------------------------------ |
 | preData            | Pre-Delete Data   | 0-1   | read-write | String    | A copy of the registration data that existed for the object prior to deletion.                                     |
-| postData           | Post-Restore Data | 0-1   | read-write | String    | A copy of the registration data that exists for the the object at the time the restore report is submitted.        |
+| postData           | Post-Restore Data | 0-1   | read-write | String    | A copy of the registration data that exists for the object at the time the restore report is submitted.        |
 | deleteTime         | Delete Time       | 0-1   | read-write | Timestamp | The date and time when the object delete request was sent to the server.                                           |
 | restoreTime        | Restore Time      | 0-1   | read-write | Timestamp | The date and time when the original restore request operation was sent to the server.                              |
 | restoreReason      | Restore Reason    | 0-1   | read-write | String    | A brief explanation of the reason for restoring the object.                                                        |
@@ -2008,7 +2008,7 @@ Operation: Restore Request
 
 Operation Identifier: restoreRequest
 
-Description: Initiates recovery of an domain name in the redemptionPeriod state. This operation is OPTIONAL and is only available when the RGP feature is supported.
+Description: Initiates recovery of a domain name in the redemptionPeriod state. This operation is OPTIONAL and is only available when the RGP feature is supported.
 
 Parameters
 | Identifier    | Name           | Card. | Data Type             | Description               |
