@@ -162,29 +162,29 @@ For the typical set of Create, Read, Update and Delete operations the following 
 
 #### Create
 
-* Input: Object representation (create-only and read-write properties)
-* Output: Object representation (read-write and read-only properties)
+* Input: Object (create-only and read-write properties)
+* Output: Object (read-write and read-only properties)
 
 #### Read
 
 * Input: Object identifier
-* Output: Object representation (read-write and read-only properties)
+* Output: Object (read-write and read-only properties)
 
-The output representation MAY vary depending on the identity of the querying client, use of object authorisation information, and server policy towards unauthorized clients. If the querying client is the sponsoring client, all available information MUST be returned. If the querying client is not the sponsoring client but the client provides valid object authorisation information, all available information SHOULD be returned, however some optional elements MAY be reserved to the sponsoring client only. If the querying client is not the sponsoring client and the client does not provide valid object authorisation information, server policy determines which OPTIONAL elements are returned, if any, or whether the entire request is rejected.
+The output Object MAY vary depending on the identity of the querying client, use of object authorisation information, and server policy towards unauthorized clients. If the querying client is the sponsoring client, all available information MUST be returned. If the querying client is not the sponsoring client but the client provides valid object authorisation information, all available information SHOULD be returned, however some optional elements MAY be reserved to the sponsoring client only. If the querying client is not the sponsoring client and the client does not provide valid object authorisation information, server policy determines which OPTIONAL elements are returned, if any, or whether the entire request is rejected.
 
 #### Update
 
-* Input: Object identifier, Object changes representation (read-write properties)
-* Output: Object representation (read-write and read-only properties)
+* Input: Object identifier, Object changes (read-write properties)
+* Output: Object (read-write and read-only properties)
 
 #### Delete
 
 * Input: Object identifier
-* Output: Object representation (read-write and read-only properties) or no representation
+* Output: Object (read-write and read-only properties) or nothing
 
 ### Operations beyond uniform interface
 
-For all other operations both input and output representation have to be fully specified.
+For all other operations both input and output have to be fully specified.
 
 ### Transfer Operations
 
@@ -998,12 +998,12 @@ client authorisation and server policy.
 
 * Authorisation:
   * Sponsoring client:
-    * Full object representation
+    * Full object
   * Other client:
     * Without object authorisation:
-      * Limited (non-confidential) object representation or operation denied
+      * Limited object (non-confidential properties) or operation denied
     * With object authorisation:
-      * Full object representation, however some properties only authorised to the sponsoring client MAY be redacted according to server policy
+      * Full object, however some properties only authorised to the sponsoring client MAY be redacted according to server policy
 
 The following transient data elements are defined for this operation:
 
@@ -1040,7 +1040,7 @@ The Renew operation allows a client to extend the validity period of an existing
 * Authorisation:
   * Only sponsoring client is authorised to perform this operation
 * Input: Domain Name
-* Output: Full object representation (read-write and read-only properties), or a minimum representation of properties affected by the operation (Expiry Date).
+* Output: Full object (read-write and read-only properties), or a minimum set of properties affected by the operation (Expiry Date).
 
 The following transient data elements are defined for this operation:
 
@@ -1175,13 +1175,67 @@ A> TBC: IANA registry for statuses?
 
 ## Operations
 
-A> TODO: Describe CRUD operations for contacts https://github.com/pawel-kow/draft-kowalik-rpp-data-objects/issues/15
+### Create Operation
+
+The Create operation allows a client to provision a new Contact resource. The operation accepts as input all create-only and read-write data elements defined for the Contact Data Object.
+
+* Authorisation:
+  * Generally each client is authorised to create new contact objects becoming a sponsoring client. This can be however constrained by the server policy, e.g. by applying rate limiting or compliance locks.
+
+In EPP Compatibility Profile, the following data elements MUST be provided:
+
+* Handle ID (`id`)
+* At least one Postal Information entry (`postalInfo`) containing a Name (`name`) and an Address (`addr`) with City (`city`) and Country Code (`cc`)
+* E-mail (`email`)
+* Authorisation Information (`authInfo`)
+
+### Read Operation
+
+The Read operation allows a client to retrieve the data elements of a Contact resource. The server's response MAY vary depending on client authorisation and server policy.
+
+* Authorisation:
+  * Sponsoring client:
+    * Full object
+  * Other client:
+    * Without object authorisation:
+      * Limited object (non-confidential properties) or operation denied
+    * With object authorisation:
+      * Full object, however some properties only authorised to the sponsoring client MAY be redacted according to server policy
+
+Authorisation Information (`authInfo`) MUST NOT be provided in the response if the querying client is not the current sponsoring client.
+
+When constructing the response, the server MUST respect the disclosure policies defined by the Disclose Object (`disclose`), whether set by the server operator's default data-collection policy or by the sponsoring client for the contact. Data elements marked for non-disclosure MUST NOT be included in responses to unauthorised clients.
+
+### Update Operation
+
+The Update operation allows a client to modify the attributes of an existing Contact resource.
+
+* Authorisation:
+  * Only sponsoring client is authorised to perform this operation
+
+The following aspects of the contact object MAY be modified:
+
+* Status values that are client-manageable (prefixed with "client") MAY be added or removed.
+* Postal Information, Voice Phone Number, Fax Phone Number, E-mail, Authorisation Information, and Disclose preferences MAY be changed.
+
+A client MUST NOT add, delete or alter values for statuses managed by the server (prefixed with "server"). A server MAY add, delete or alter status values set by a client, subject to server policy.
+
+### Delete Operation
+
+The Delete operation allows a client to remove an existing Contact resource. The operation targets a specific data object identified by its Handle ID.
+
+* Authorisation:
+  * Only sponsoring client is authorised to perform this operation
+
+The server SHOULD reject a delete request if the contact object is associated with other known objects (e.g., domain names). An associated contact SHOULD NOT be deleted until associations with other known objects have been broken.
+
+The error response SHOULD indicate the existing object associations.
 
 ### Transfer Operations
 
 The Contact Data Object supports the common transfer operations defined in the [Transfer Operations] section. The transfer of a contact changes the sponsoring client of the contact object.
 
-No object-specific transient data elements are defined for contact transfer operations beyond the common transfer data elements. Specifically, contacts do not have validity periods, so no renewal period or expiry date elements apply.
+No object-specific transient data elements are defined for contact transfer operations beyond the common transfer data elements.
 
 # Host Data Object
 
@@ -1246,7 +1300,7 @@ In EPP Compatibility Profile, IP addresses are REQUIRED only as needed to produc
 The Read operation allows a client to retrieve the data elements of a Host Data Object.
 
 * Authorisation:
-  * Any client is authorised to retrieve the full object representation. In EPP Compatibility Profile, host objects do not carry authorisation information and there is no distinction based on client identity as described in [@!RFC5732, section 3.1.2].
+  * Any client is authorised to retrieve the full object. In EPP Compatibility Profile, host objects do not carry authorisation information and there is no distinction based on client identity as described in [@!RFC5732, section 3.1.2].
 
 ### Update Operation
 
@@ -1593,6 +1647,7 @@ A> TODO: write security considerations, if any
 {numbered="false"}
 ## draft-kowalik-rpp-data-objects -02 - -03
 
+* removed notion of "representation" from both inputs and outputs
 * abstract common provisioning metadata into reusable component object
 * describe operations for hosts #16
 * add host/domain relationship terminology from RFC 5732
@@ -1604,6 +1659,7 @@ A> TODO: write security considerations, if any
 * add domain-specific transfer operations with implicit renewal and subordinate host transfer
 * add contact transfer operations referencing common transfer pattern
 * add identifiers to all operations
+* describe operations for contacts #15
 
 {toc="exclude"}
 {numbered="false"}
