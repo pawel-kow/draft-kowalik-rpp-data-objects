@@ -17,6 +17,7 @@ nopagination-txt: $(NOPAGINATION_TXT)
 
 %.clean.txt: %.xml
 	xml2rfc -P --text --v3 ../docs/$< --out  ../docs/$@ --list-symbols -
+	$(if $(filter nopagination-txt,$(MAKECMDGOALS)),git checkout -- ../docs/$<)
 
 
 html: $(HTML)
@@ -38,4 +39,4 @@ pdf: $(PDF)
 clean:
 	rm -f *.txt *.xml
 
-all: txt nopagination-txt html pdf 
+all: txt html pdf nopagination-txt
