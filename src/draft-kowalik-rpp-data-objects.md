@@ -75,7 +75,7 @@ Process Object
 : An object that represents a long-running or multi-step operation initiated on a Data Object. Process Objects carry operation-related state and data, and may define their own operations to interact with the process. They have no independent existence — their lifecycle is bound to the owning Data Object.
 
 Owner Data Object
-: A Data Object which a process (represented as Process Object) was initiated upon and which own this Process Object
+: A Data Object which a process (represented as Process Object) was initiated upon and which owns this Process Object
 
 # Resource Definition Principles
 
@@ -197,7 +197,7 @@ For the typical set of Create, Read, Update and Delete operations the following 
 * Input: Object identifier
 * Output: Object (read-write and read-only properties)
 
-The output Object MAY vary depending on the identity of the querying client, use of Object Authorisation information, and server policy towards unauthorized clients.
+The output Object MAY vary depending on the identity of the querying client, use of Object Authorisation information, and server policy towards unauthorised clients.
 
 If the querying client is the sponsoring client, all available information MUST be returned.
 
@@ -219,7 +219,7 @@ If the querying client is not the sponsoring client and the client does not prov
 
 For all other operations both input and output have to be fully specified.
 
-### Transfer Operations {#tranfer-operations}
+### Transfer Operations {#transfer-operations}
 
 Transfer operations manage the change of sponsorship of a provisioned object from one client (the sponsoring client) to another (the gaining client). They are specified once in this section as the transfer model is common across all transferable resource objects. Individual object definitions reference this section and specify any object-specific extensions to the common pattern.
 
@@ -1412,7 +1412,7 @@ The following transient data elements are defined for this operation:
 
 ### Transfer Operations
 
-The Domain Name Data Object supports the common transfer operations defined in the (#tranfer-operations). The transfer of a domain name changes the sponsoring client of the domain object.
+The Domain Name Data Object supports the common transfer operations defined in the (#transfer-operations). The transfer of a domain name changes the sponsoring client of the domain object.
 
 Transfer of a domain object MUST implicitly transfer all host objects that are subordinate to the domain object. For example, if domain object "example.com" is transferred and host object "ns1.example.com" exists, the host object MUST be transferred as part of the "example.com" transfer process.
 
@@ -1595,7 +1595,7 @@ The error response SHOULD indicate the existing object associations.
 
 ### Transfer Operations
 
-The Contact Data Object supports the common transfer operations defined in the (#tranfer-operations). The transfer of a contact changes the sponsoring client of the contact object.
+The Contact Data Object supports the common transfer operations defined in the (#transfer-operations). The transfer of a contact changes the sponsoring client of the contact object.
 
 No object-specific transient data elements are defined for contact transfer operations beyond the common transfer data elements.
 
