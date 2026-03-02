@@ -540,6 +540,7 @@ This section defines the Component Objects used in this document.
 ## Period Object
 
 * Name: Period Object
+* Identifier: period
 * Description: Represents a duration of time.
 * Data Elements:
   * Value
@@ -616,6 +617,7 @@ This section defines the Component Objects used in this document.
 ## Status Object
 
 * Name: Status Object
+* Identifier: status
 * Description: Represents one of the status values associated with a provisioning object
 * Data Elements:
   * Label
@@ -777,6 +779,7 @@ A> TBC: Optional keyData inside dsData (RFC 5910 Section 4.1): In the DS Data In
 ## Authorisation Information Object
 
 * Name: Authorisation Information
+* Identifier: authorisation
 * Description: Contains information used to authorise operations on a data object. It may hold different kind of authorisation information. 
 * Data Elements:
   * Method
@@ -801,6 +804,7 @@ A> TBC: Optional keyData inside dsData (RFC 5910 Section 4.1): In the DS Data In
 ## Postal Address Object
 
 * Name: Postal Address Object
+* Identifier: postalData
 * Description: Contains the components of a postal address.
 * Data Elements:
   * Street
@@ -848,6 +852,7 @@ A> TBC: Optional keyData inside dsData (RFC 5910 Section 4.1): In the DS Data In
 ## Postal Info Object
 
 * Name: Postal Info Object
+* Identifier: postalInfo
 * Description: Contains postal-address information in either internationalised or localised forms.
 * Data Elements:
 
@@ -960,7 +965,7 @@ This section defines the Process Objects used in this document.
 ## Transfer Process Object
 
 * Name: Transfer Process Object
-* Identifier: transferData
+* Identifier: transferProcess
 * Description: Represents a transfer request for a provisioned object. Creating this object initiates a transfer. The object supports approve and reject as additional operations, and delete as the cancel operation. Reading the object returns the current transfer status.
 * Data Elements:
   * Transfer Direction
@@ -1098,7 +1103,7 @@ The following transient data elements are defined for this operation:
 ## Restore Process Object
 
 * Name: Restore Process Object
-* Identifier: restoreData
+* Identifier: restoreProcess
 * Description: Represents the current state of a restore request for an object that has entered the Redemption Grace Period (RGP).
 * Data Elements:
   * Restore Status
@@ -1850,7 +1855,7 @@ Data Elements
 | upDate             | Update Date          | 0-1   | read-only  | Timestamp         | The date and time of the most recent object modification.               |
 | trDate             | Transfer Date        | 0-1   | read-only  | Timestamp         | The date and time of the most recent successful object transfer.        |
 
-Object: transferData
+Object: transferProcess
 
 Object Name: Transfer Process Object
 
@@ -1924,7 +1929,7 @@ A> TODO: IANA table: Postal Address Object
 A> TODO: IANA table: Postal Info Object
 A> TODO: IANA table: Disclose Object
 
-Object: restoreData
+Object: restoreProcess
 
 Object Name: Restore Process Object
 

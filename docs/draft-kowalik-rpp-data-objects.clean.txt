@@ -913,6 +913,7 @@ Table of Contents
 5.1.  Period Object
 
    -  Name: Period Object
+   -  Identifier: period
    -  Description: Represents a duration of time.
    -  Data Elements:
       -  Value
@@ -1003,6 +1004,7 @@ Table of Contents
 5.3.  Status Object
 
    -  Name: Status Object
+   -  Identifier: status
    -  Description: Represents one of the status values associated with a
       provisioning object
    -  Data Elements:
@@ -1285,6 +1287,7 @@ Table of Contents
 5.7.  Authorisation Information Object
 
    -  Name: Authorisation Information
+   -  Identifier: authorisation
    -  Description: Contains information used to authorise operations on
       a data object.  It may hold different kind of authorisation
       information.
@@ -1320,6 +1323,7 @@ Table of Contents
 5.8.  Postal Address Object
 
    -  Name: Postal Address Object
+   -  Identifier: postalData
    -  Description: Contains the components of a postal address.
    -  Data Elements:
       -  Street
@@ -1375,6 +1379,7 @@ Table of Contents
 5.9.  Postal Info Object
 
    -  Name: Postal Info Object
+   -  Identifier: postalInfo
    -  Description: Contains postal-address information in either
       internationalised or localised forms.
    -  Data Elements:
@@ -1515,7 +1520,7 @@ Table of Contents
 6.1.  Transfer Process Object
 
    -  Name: Transfer Process Object
-   -  Identifier: transferData
+   -  Identifier: transferProcess
    -  Description: Represents a transfer request for a provisioned
       object.  Creating this object initiates a transfer.  The object
       supports approve and reject as additional operations, and delete
@@ -1700,7 +1705,7 @@ Table of Contents
 6.2.  Restore Process Object
 
    -  Name: Restore Process Object
-   -  Identifier: restoreData
+   -  Identifier: restoreProcess
    -  Description: Represents the current state of a restore request for
       an object that has entered the Redemption Grace Period (RGP).
    -  Data Elements:
@@ -2907,7 +2912,7 @@ Table of Contents
 
                                   Table 7
 
-   Object: transferData
+   Object: transferProcess
 
    Object Name: Transfer Process Object
 
@@ -3060,7 +3065,7 @@ Table of Contents
       |  TODO: IANA table: Postal Address Object TODO: IANA table:
       |  Postal Info Object TODO: IANA table: Disclose Object
 
-   Object: restoreData
+   Object: restoreProcess
 
    Object Name: Restore Process Object
 
