@@ -779,7 +779,7 @@ A> TBC: Optional keyData inside dsData (RFC 5910 Section 4.1): In the DS Data In
 ## Authorisation Information Object
 
 * Name: Authorisation Information
-* Identifier: authorisation
+* Identifier: authInfo
 * Description: Contains information used to authorise operations on a data object. It may hold different kind of authorisation information. 
 * Data Elements:
   * Method
@@ -1816,7 +1816,7 @@ Data Elements
 | authdata           | Authorisation Information | 1     | create-only | String    | The value of the authorisation information. It might be as simple as password string, but also more complex values like public key certificates or tokens encoded as string are possible. |
 
 
-Object: domainStatus
+Object: status
 
 Object Name: Status Object
 
