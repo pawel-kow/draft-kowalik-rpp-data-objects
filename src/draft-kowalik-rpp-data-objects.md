@@ -59,6 +59,7 @@ The following terms related to the relationship between host objects and domain 
 * Superordinate domain: A domain name object to which a host name object is subordinate.
 * Internal host: A host whose name belongs to the namespace of the repository in which the host is being used for delegation purposes.
 * External host: A host whose name does not belong to the namespace of the repository in which the host is being used for delegation purposes.
+* Object Authorisation: Authorisation data related to the object beyond default client-level authorisation provided by the client with the request, in order to authorise operation on the related object. Typically it is be a value related to or derived from Authorisation Information Object provisioned to the object.
 
 # Resource Definition Principles
 
@@ -164,7 +165,6 @@ For each data object a set of possible operations is defined together with their
 
 For each operation authorisation requirements and operation behaviour is specified.
 Wherever "Object Authorisation" is mentioned, it means that an operation MAY accept or require additional authorisation data related to the object beyond default client-level authorisation, or that an operation MAY have different effect or response if such authorisation is provided.
-Typically it would be a value related to or derived from Authorisation Information Object attached to the object.
 
 ### Uniform interface
 
