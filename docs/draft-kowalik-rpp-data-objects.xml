@@ -31,12 +31,16 @@
 <t>The key words &quot;MUST&quot;, &quot;MUST NOT&quot;, &quot;REQUIRED&quot;, &quot;SHALL&quot;, &quot;SHALL NOT&quot;, &quot;SHOULD&quot;, &quot;SHOULD NOT&quot;, &quot;RECOMMENDED&quot;, &quot;NOT RECOMMENDED&quot;, &quot;MAY&quot;, and &quot;OPTIONAL&quot; in this document are to be interpreted as described in BCP 14 <xref target="RFC2119"></xref> <xref target="RFC8174"></xref> when, and only when, they appear in all capitals, as shown here.</t>
 <t>The following terms related to the relationship between host objects and domain objects are used as defined in <xref target="RFC5732" sectionFormat="of" section="1.1"></xref>:</t>
 
-<ul spacing="compact">
-<li>Subordinate host: A host name object that has a subordinate relationship to a superordinate domain name object. For example, host name &quot;ns1.example.com&quot; has a subordinate relationship to domain name &quot;example.com&quot;.</li>
-<li>Superordinate domain: A domain name object to which a host name object is subordinate.</li>
-<li>Internal host: A host whose name belongs to the namespace of the repository in which the host is being used for delegation purposes.</li>
-<li>External host: A host whose name does not belong to the namespace of the repository in which the host is being used for delegation purposes.</li>
-</ul>
+<dl spacing="compact">
+<dt>Subordinate host</dt>
+<dd>A host name object that has a subordinate relationship to a superordinate domain name object. For example, host name &quot;ns1.example.com&quot; has a subordinate relationship to domain name &quot;example.com&quot;.</dd>
+<dt>Superordinate domain</dt>
+<dd>A domain name object to which a host name object is subordinate.</dd>
+<dt>Internal host</dt>
+<dd>A host whose name belongs to the namespace of the repository in which the host is being used for delegation purposes.</dd>
+<dt>External host</dt>
+<dd>A host whose name does not belong to the namespace of the repository in which the host is being used for delegation purposes.</dd>
+</dl>
 <t>The following terms are defined and used in this document</t>
 
 <dl spacing="compact">
