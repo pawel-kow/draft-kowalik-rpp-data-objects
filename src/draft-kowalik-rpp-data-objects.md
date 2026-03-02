@@ -59,7 +59,23 @@ The following terms related to the relationship between host objects and domain 
 * Superordinate domain: A domain name object to which a host name object is subordinate.
 * Internal host: A host whose name belongs to the namespace of the repository in which the host is being used for delegation purposes.
 * External host: A host whose name does not belong to the namespace of the repository in which the host is being used for delegation purposes.
-* Object Authorisation: Authorisation data related to the object beyond default client-level authorisation provided by the client with the request, in order to authorise operation on the related object. Typically it is be a value related to or derived from Authorisation Information Object provisioned to the object.
+
+The following terms are defined and used in this document
+
+Object Authorisation
+: Authorisation data related to the object beyond the default client-level authorisation accompanying the request, in order to authorise operations on the object. Typically it is a value related to or derived from an Authorisation Information Object provisioned with the object.
+
+Data Object
+: A top-level provisioned resource object that has an independent lifecycle and identity in the registry. Data Objects carry data elements describing the resource and define the set of operations that can be performed on them.
+
+Component Object
+: A reusable data structure that carries data only, with no operations of its own. Component Objects are embedded within Data Objects or other objects to avoid repetition of common data patterns.
+
+Process Object
+: An object that represents a long-running or multi-step operation initiated on a Data Object. Process Objects carry operation-related state and data, and may define their own operations to interact with the process. They have no independent existence — their lifecycle is bound to the owning Data Object.
+
+Owner Data Object
+: A Data Object which a process (represented as Process Object) was initiated upon and which own this Process Object
 
 # Resource Definition Principles
 
@@ -164,7 +180,8 @@ For each data object a set of possible operations is defined together with their
 ### Authorisation
 
 For each operation authorisation requirements and operation behaviour is specified.
-Wherever "Object Authorisation" is mentioned, it means that an operation MAY accept or require additional authorisation data related to the object beyond default client-level authorisation, or that an operation MAY have different effect or response if such authorisation is provided.
+
+Wherever "Object Authorisation" is mentioned, it means that an operation MAY accept or require additional authorisation data related to the object beyond default client-level authorisation, or that an operation MAY result in different processing or response if such authorisation is provided.
 
 ### Uniform interface
 
@@ -215,7 +232,7 @@ The transfer process MAY be immediate or follow a multi-step workflow depending 
 
 The server MAY implement local policies to prevent transfers from stalling and implement a form of automated transfer escalation, approval or cancellation when such a stalled process is recognised.
 
-All transfer operations act on or return the Transfer Process Object and are executed in the context of Data Object the operation is created upon.
+All transfer operations act on or return the Transfer Process Object and are executed in the context of Owner Data Object the operation is created upon.
 
 A> TODO: The server MUST notify the current sponsoring client of a pending transfer request. The notification mechanism is not defined in this document.
 
@@ -234,7 +251,7 @@ Whether a restore report is required after a restore request is a matter of serv
 
 The Create operation MAY include the restore report inline to complete both steps atomically in a single operation.
 
-All restore operations act on or return the Restore Process Object and are executed in the context of Data Object the operation is created upon..
+All restore operations act on or return the Restore Process Object and are executed in the context of Owner Data Object the operation is created upon.
 
 #### Redemption Grace Period State Diagram
 
@@ -518,8 +535,7 @@ Example Dictionary Composition:
 
 # Component Objects
 
-This section defines common objects that are re-used in the definitions of top-level data objects.
-Component objects carry only data but do not define any operations.
+This section defines the Component Objects used in this document.
 
 ## Period Object
 
@@ -939,10 +955,7 @@ A> TODO: Model Disclose in universal (extendible) way
 
 # Process Objects
 
-This section defines common objects that are used in the definitions of operations on top level data objects.
-Process Objects can carry data related to the operation or a long running process itself and can also define operations to interact with the process.
-
-Process Objects are not an independent, therefore all operations are executed in context of their owning data object (Data Object used to create Process Object).
+This section defines the Process Objects used in this document.
 
 ## Transfer Process Object
 
@@ -2121,6 +2134,7 @@ A> TODO: write security considerations, if any
 {numbered="false"}
 ## draft-kowalik-rpp-data-objects -03 - -04
 
+* simplify Component Objects and Process Objects section intros, now redundant with terminology definitions
 * rework transfer operations to resource-oriented style: transferRequest→create, transferQuery→read, transferCancel→delete, transferApprove→approve, transferReject→reject on Transfer Process Object #61
 * move transferDir and gainingClientId from transient parameters to create-only data elements of Transfer Process Object
 * move transferPeriod (domain-specific) from transient parameter to create-only data element of domain Transfer Process Object
