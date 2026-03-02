@@ -11,7 +11,7 @@
        This document defines data objects for the RESTful Provisioning Protocol (RPP) and sets up IANA RPP Data Object Registry to describe and catalogue them. Specifically, it details the logical structure, constraints, and protocol operations (including their inputs, outputs and business logic) for foundational resources: domain names, contacts, and hosts. In accordance with the RPP architecture  , these definitions focus entirely on the semantics, remaining independent of any specific data representation or media type (e.g., JSON or XML). 
     " name="description">
 <meta content="xml2rfc 3.30.0" name="generator">
-<meta content="draft-kowalik-rpp-data-objects-03" name="ietf.draft">
+<meta content="draft-kowalik-rpp-data-objects-04 (editor)" name="ietf.draft">
 <!-- Generator version information:
   xml2rfc 3.30.0
     Python 3.10.12
@@ -1231,7 +1231,7 @@ li > p:last-of-type:only-child {
 <dt class="label-workgroup">Workgroup:</dt>
 <dd class="workgroup">Network Working Group</dd>
 <dt class="label-internet-draft">Internet-Draft:</dt>
-<dd class="internet-draft">draft-kowalik-rpp-data-objects-03</dd>
+<dd class="internet-draft">draft-kowalik-rpp-data-objects-04 (editor)</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
 <time datetime="2026-03-02" class="published">2 March 2026</time>
@@ -6136,56 +6136,63 @@ TODO: IANA table: Disclose Object<a href="#section-10.1.3-81.1" class="pilcrow">
       <h2 id="name-changes-history">
 <a href="#section-12" class="section-number selfRef">12. </a><a href="#name-changes-history" class="section-name selfRef">Changes History</a>
       </h2>
-<div id="draft-kowalik-rpp-data-objects-02-03">
+<div id="draft-kowalik-rpp-data-objects-03-04">
 <section id="section-12.1">
         <h3 id="name-draft-kowalik-rpp-data-obje">
-<a href="#name-draft-kowalik-rpp-data-obje" class="section-name selfRef">draft-kowalik-rpp-data-objects -02 - -03</a>
+<a href="#name-draft-kowalik-rpp-data-obje" class="section-name selfRef">draft-kowalik-rpp-data-objects -03 - -04</a>
+      </h3>
+</section>
+</div>
+<div id="draft-kowalik-rpp-data-objects-02-03">
+<section id="section-12.2">
+        <h3 id="name-draft-kowalik-rpp-data-objec">
+<a href="#name-draft-kowalik-rpp-data-objec" class="section-name selfRef">draft-kowalik-rpp-data-objects -02 - -03</a>
         </h3>
 <ul class="compact">
-<li class="compact" id="section-12.1-1.1">add Object and Dictionary[Value Type] primitive data types<a href="#section-12.1-1.1" class="pilcrow">¶</a>
+<li class="compact" id="section-12.2-1.1">add Object and Dictionary[Value Type] primitive data types<a href="#section-12.2-1.1" class="pilcrow">¶</a>
 </li>
-          <li class="compact" id="section-12.1-1.2">change "Aggregation/Composition Dictionary" to "Dictionary Aggregation/Composition" (Issue #32)<a href="#section-12.1-1.2" class="pilcrow">¶</a>
+          <li class="compact" id="section-12.2-1.2">change "Aggregation/Composition Dictionary" to "Dictionary Aggregation/Composition" (Issue #32)<a href="#section-12.2-1.2" class="pilcrow">¶</a>
 </li>
-          <li class="compact" id="section-12.1-1.3">describe operations for contacts #15<a href="#section-12.1-1.3" class="pilcrow">¶</a>
+          <li class="compact" id="section-12.2-1.3">describe operations for contacts #15<a href="#section-12.2-1.3" class="pilcrow">¶</a>
 </li>
-          <li class="compact" id="section-12.1-1.4">describe operations for hosts #16<a href="#section-12.1-1.4" class="pilcrow">¶</a>
+          <li class="compact" id="section-12.2-1.4">describe operations for hosts #16<a href="#section-12.2-1.4" class="pilcrow">¶</a>
 </li>
-          <li class="compact" id="section-12.1-1.5">add Domain Update operation with urgent transient parameter from <span>[<a href="#RFC5910" class="cite xref">RFC5910</a>]</span><a href="#section-12.1-1.5" class="pilcrow">¶</a>
+          <li class="compact" id="section-12.2-1.5">add Domain Update operation with urgent transient parameter from <span>[<a href="#RFC5910" class="cite xref">RFC5910</a>]</span><a href="#section-12.2-1.5" class="pilcrow">¶</a>
 </li>
-          <li class="compact" id="section-12.1-1.6">add identifiers to all operations<a href="#section-12.1-1.6" class="pilcrow">¶</a>
+          <li class="compact" id="section-12.2-1.6">add identifiers to all operations<a href="#section-12.2-1.6" class="pilcrow">¶</a>
 </li>
-          <li class="compact" id="section-12.1-1.7">abstract common provisioning metadata into reusable component object<a href="#section-12.1-1.7" class="pilcrow">¶</a>
+          <li class="compact" id="section-12.2-1.7">abstract common provisioning metadata into reusable component object<a href="#section-12.2-1.7" class="pilcrow">¶</a>
 </li>
-          <li class="compact" id="section-12.1-1.8">define common RGP/restore process and Restore Process Object<a href="#section-12.1-1.8" class="pilcrow">¶</a>
+          <li class="compact" id="section-12.2-1.8">define common RGP/restore process and Restore Process Object<a href="#section-12.2-1.8" class="pilcrow">¶</a>
 </li>
-          <li class="compact" id="section-12.1-1.9">define common transfer operations and Transfer Process Object with support for pull and push transfers #23<a href="#section-12.1-1.9" class="pilcrow">¶</a>
+          <li class="compact" id="section-12.2-1.9">define common transfer operations and Transfer Process Object with support for pull and push transfers #23<a href="#section-12.2-1.9" class="pilcrow">¶</a>
 </li>
-          <li class="compact" id="section-12.1-1.10">add domain-specific transfer operations with implicit renewal and subordinate host transfer<a href="#section-12.1-1.10" class="pilcrow">¶</a>
+          <li class="compact" id="section-12.2-1.10">add domain-specific transfer operations with implicit renewal and subordinate host transfer<a href="#section-12.2-1.10" class="pilcrow">¶</a>
 </li>
-          <li class="compact" id="section-12.1-1.11">add host/domain relationship terminology from RFC 5732<a href="#section-12.1-1.11" class="pilcrow">¶</a>
+          <li class="compact" id="section-12.2-1.11">add host/domain relationship terminology from RFC 5732<a href="#section-12.2-1.11" class="pilcrow">¶</a>
 </li>
-          <li class="compact" id="section-12.1-1.12">restructure DNS data model aligned with draft-simmen-rpp-dns-data-01: redefine DNS Resource Record Object, add DNS Operational Controls Object, add DNS Data Object; update Domain, Host, and Nameserver objects to use it<a href="#section-12.1-1.12" class="pilcrow">¶</a>
+          <li class="compact" id="section-12.2-1.12">restructure DNS data model aligned with draft-simmen-rpp-dns-data-01: redefine DNS Resource Record Object, add DNS Operational Controls Object, add DNS Data Object; update Domain, Host, and Nameserver objects to use it<a href="#section-12.2-1.12" class="pilcrow">¶</a>
 </li>
-          <li class="compact" id="section-12.1-1.13">add DNSSEC support based on <span>[<a href="#RFC5910" class="cite xref">RFC5910</a>]</span>: DS and DNSKEY record types with structured RDATA fields<a href="#section-12.1-1.13" class="pilcrow">¶</a>
+          <li class="compact" id="section-12.2-1.13">add DNSSEC support based on <span>[<a href="#RFC5910" class="cite xref">RFC5910</a>]</span>: DS and DNSKEY record types with structured RDATA fields<a href="#section-12.2-1.13" class="pilcrow">¶</a>
 </li>
-          <li class="compact" id="section-12.1-1.14">add NS, A, and AAAA RDATA structures and record type constraints to EPP compatibility profile for DNS Resource Record Object<a href="#section-12.1-1.14" class="pilcrow">¶</a>
+          <li class="compact" id="section-12.2-1.14">add NS, A, and AAAA RDATA structures and record type constraints to EPP compatibility profile for DNS Resource Record Object<a href="#section-12.2-1.14" class="pilcrow">¶</a>
 </li>
-          <li class="compact" id="section-12.1-1.15">expand extensibility section with standardised/private extension mechanisms, extension points, and operation extensibility<a href="#section-12.1-1.15" class="pilcrow">¶</a>
+          <li class="compact" id="section-12.2-1.15">expand extensibility section with standardised/private extension mechanisms, extension points, and operation extensibility<a href="#section-12.2-1.15" class="pilcrow">¶</a>
 </li>
-          <li class="compact" id="section-12.1-1.16">update IANA registration policy and registry structure to accommodate extension registrations<a href="#section-12.1-1.16" class="pilcrow">¶</a>
+          <li class="compact" id="section-12.2-1.16">update IANA registration policy and registry structure to accommodate extension registrations<a href="#section-12.2-1.16" class="pilcrow">¶</a>
 </li>
         </ul>
 </section>
 </div>
 <div id="draft-kowalik-rpp-data-objects-01-02">
-<section id="section-12.2">
-        <h3 id="name-draft-kowalik-rpp-data-objec">
-<a href="#name-draft-kowalik-rpp-data-objec" class="section-name selfRef">draft-kowalik-rpp-data-objects -01 - -02</a>
+<section id="section-12.3">
+        <h3 id="name-draft-kowalik-rpp-data-object">
+<a href="#name-draft-kowalik-rpp-data-object" class="section-name selfRef">draft-kowalik-rpp-data-objects -01 - -02</a>
         </h3>
 <ul class="compact">
-<li class="compact" id="section-12.2-1.1">ontology of allowed basic datatypes #4<a href="#section-12.2-1.1" class="pilcrow">¶</a>
+<li class="compact" id="section-12.3-1.1">ontology of allowed basic datatypes #4<a href="#section-12.3-1.1" class="pilcrow">¶</a>
 </li>
-          <li class="compact" id="section-12.2-1.2">add examples of associations #31<a href="#section-12.2-1.2" class="pilcrow">¶</a>
+          <li class="compact" id="section-12.3-1.2">add examples of associations #31<a href="#section-12.3-1.2" class="pilcrow">¶</a>
 </li>
         </ul>
 </section>

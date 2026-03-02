@@ -10,7 +10,7 @@ Expires: 3 September 2026                                      SIDN Labs
 
 
             RESTful Provisioning Protocol (RPP) Data Objects
-                   draft-kowalik-rpp-data-objects-03
+               draft-kowalik-rpp-data-objects-04 (editor)
 
 Abstract
 
@@ -4218,6 +4218,8 @@ Internet-Draft              RPP Data Objects                  March 2026
 
 12.  Changes History
 
+draft-kowalik-rpp-data-objects -03 - -04
+
 draft-kowalik-rpp-data-objects -02 - -03
 
    -  add Object and Dictionary[Value Type] primitive data types
@@ -4248,8 +4250,6 @@ draft-kowalik-rpp-data-objects -02 - -03
       mechanisms, extension points, and operation extensibility
    -  update IANA registration policy and registry structure to
       accommodate extension registrations
-
-
 
 
 

@@ -10,7 +10,7 @@ date = 2026-03-02
 
 [seriesInfo]
 name = "Internet-Draft"
-value = "draft-kowalik-rpp-data-objects-03"
+value = "draft-kowalik-rpp-data-objects-04 (editor)"
 stream = "IETF"
 status = "standard"
 
@@ -2134,6 +2134,11 @@ A> TODO: write security considerations, if any
 {removeInRFC="true"}
 {toc="exclude"}
 # Changes History
+
+{toc="exclude"}
+{numbered="false"}
+## draft-kowalik-rpp-data-objects -03 - -04
+
 
 {toc="exclude"}
 {numbered="false"}
