@@ -462,7 +462,7 @@ Telephone number syntax is derived from structures defined in [@!ITU.E164.2005].
 
 # Associations
 
-RPP allows for different types of associations (relationship) between the objects. The association may be added between 2 objects with own indpendent lifecycle (UML aggregation) or in the relation when one object's existance and lifecycle is bound to the other parent/owner object (UML composition).
+RPP allows for different types of associations (relationship) between the objects. The association may be added between 2 objects with own independent lifecycle (UML aggregation) or in the relation when one object's existence and lifecycle is bound to the other parent/owner object (UML composition).
 In both cases, especially if the relation allows for cardinality higher than one on either side, the association may be assigned additional attributes, not being part of an object on either side of relation. In many cases such relation would be attributed with a single text string label, describing a role or a type of relation. Depending on the context this value might be unique, which allows using such label as a key in a dictionary.
 
 The following generic Association Types are defined for RPP:
@@ -473,8 +473,8 @@ Notation: Aggregation[Type]
 
 A relation between two independent objects.
 
-If the cardinality of target object is more than 1, this represents an ordered array. 
-It MUST assured that the same unchanged data is always inserted in the same order in order to allow stable reference by position to data elements. In case of data insertions, deletions or updates the remaining of the data SHALL preserve its order.
+If the cardinality of target object is more than 1, this represents an ordered array.
+It MUST be assured that the same unchanged data is always inserted in the same order in order to allow stable reference by position to data elements. In case of data insertions, deletions or updates the remaining of the data SHALL preserve its order.
 
 Example aggregation having cardinality 1:
 
@@ -515,8 +515,8 @@ Notation: Composition[Type] or Type
 
 A relation between an independent parent object and 1 or more dependent child object(s).
 
-If the cardinality of target object is more than 1, this represents an ordered array. 
-It MUST assured that the same unchanged data is always inserted in the same order  in order to allow stable reference by position to data elements. In case of data insertions, deletions or updates the remaining of the data SHALL preserve its order.
+If the cardinality of target object is more than 1, this represents an ordered array.
+It MUST be assured that the same unchanged data is always inserted in the same order in order to allow stable reference by position to data elements. In case of data insertions, deletions or updates the remaining of the data SHALL preserve its order.
 
 Example composition having cardinality 1:
 
@@ -758,7 +758,7 @@ Component objects carry only data but do not define any operations.
     * Cardinality: 1
     * Mutability: create-only
     * Data Type: String
-    * Description: machine-readible enum label of a status
+    * Description: machine-readable enum label of a status
     * Constraints:      
       * Exact list of allowed status labels depends on the provisioning object type. This enumeration can be expanded by extensions.
       * The status labels MUST use camel case notation and use only ASCII alphabetic characters.
@@ -778,7 +778,7 @@ Component objects carry only data but do not define any operations.
 A> TODO: find a better home for this list (own section + IANA registry). Add standard domain statuses here as well (and solve the issue of statuses not applicable to other object types like client/serverHold).
       
   * Reason
-    * Indentifier: reason
+    * Identifier: reason
     * Cardinality: 0-1
     * Mutability: create-only
     * Data Type: String
@@ -789,7 +789,7 @@ A> TODO: find a better home for this list (own section + IANA registry). Add sta
     * Cardinality: 0-1
     * Mutability: read-write
     * Data Type: Timestamp
-    * Description: a timestamp, when this status is going to be removed automatically, or changed to other status. This field can be used to expresse lifecycle related information.
+    * Description: a timestamp, when this status is going to be removed automatically, or changed to other status. This field can be used to express lifecycle related information.
     * Constraints: servers MAY restrict possibility to set or update this value by the client.
 
 A> TBD: Idea - model status object as Labelled Composition using "Label"? Con: Generic Constraints for Label will be repeated.
@@ -809,7 +809,6 @@ A> TBD: Idea - model status object as Labelled Composition using "Label"? Con: G
     * Constraints:
       * The value MUST be a syntactically valid DNS host name.
       * Absolute FQDNs (with trailing dot) and relative host names are allowed, as well as the "@" symbol representing the domain name itself.
-      * A server MUST NOT accept a name which is not the provisioned domain name or a subordinate label to it.
   * Class
     * Identifier: class
     * Cardinality: 0-1
@@ -829,6 +828,8 @@ A> TBD: Idea - model status object as Labelled Composition using "Label"? Con: G
       * The value MUST be a valid string representation of a resource record type as defined in [@!RFC1035] or other RFC describing the record type.
       * Allowed values MAY be constrained by server policies. For domain provisioning, the type would typically be constrained to the allowed parent-side entries.
       * Values MUST be converted to lower case.
+      * In EPP Compatibility Profile ([@!RFC5732]), the following record types MUST be supported: `ns`, `a`, and `aaaa`.
+      * In EPP Compatibility Profile with DNSSEC Extension [@RFC5910], the following record types MUST additionally be supported: `ds` and `dnskey`.
   * RDATA
     * Identifier: rdata
     * Cardinality: 1
@@ -837,9 +838,22 @@ A> TBD: Idea - model status object as Labelled Composition using "Label"? Con: G
     * Description: The actual payload data of the DNS record. The structure of this object depends on the record type and MUST follow the RDATA presentation format described by the corresponding RFC. Property names MUST be written in camelCase. All property values MUST be represented as Strings encoding the presentation format of the value.
     * Constraints:
       * The fields within RDATA MUST match the expected structure for the given record type.
-      * In EPP Compatibility Profile with DNSSEC Extension [@RFC5910], the following RDATA structures MUST be supported:
-        * For DS records ([@RFC4034], Section 5): `keyTag` (key tag value), `algorithm` (algorithm number), `digestType` (digest algorithm type), and `digest` (digest value).
-        * For DNSKEY records ([@RFC4034], Section 2): `flags` (flags field value), `protocol` (protocol field value), `algorithm` (algorithm number), and `publicKey` (encoded public key value).
+      * See (#rdata-structures) for required structures in the EPP Compatibility Profile.
+
+### RDATA Structures in EPP Profile {#rdata-structures}
+
+This section defines the RDATA field structures required for interoperability in the EPP Compatibility Profile.
+
+In EPP Compatibility Profile ([@!RFC5732]), the following RDATA structures MUST be supported:
+
+* For NS records ([@!RFC1035], Section 3.3.11): `nsdname` (the fully qualified domain name of the name server).
+* For A records ([@!RFC1035], Section 3.4.1): `address` (the IPv4 address in dotted-decimal notation).
+* For AAAA records ([@RFC3596], Section 2.2): `address` (the IPv6 address in text representation as defined in [@!RFC5952]).
+
+In EPP Compatibility Profile with DNSSEC Extension ([@RFC5910]), the following RDATA structures MUST additionally be supported:
+
+* For DS records ([@RFC4034], Section 5): `keyTag` (key tag value), `algorithm` (algorithm number), `digestType` (digest algorithm type), and `digest` (digest value).
+* For DNSKEY records ([@RFC4034], Section 2): `flags` (flags field value), `protocol` (protocol field value), `algorithm` (algorithm number), and `publicKey` (encoded public key value).
 
 A> TBC: Optional keyData inside dsData (RFC 5910 Section 4.1): In the DS Data Interface, a DS record MAY optionally contain a nested keyData element used for server-side validation of the DS hash. The draft doesn't describe this pattern - a client submitting a DS record with accompanying DNSKEY for validation.
 
@@ -1788,9 +1802,9 @@ Reference: [This-ID]
 Data Elements
 | Element Identifier | Element Name | Card. | Mutability  | Data Type | Description                                                                                                                                                      |
 | ------------------ | ------------ | ----- | ----------- | --------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| label              | Label        | 1     | create-only | String    | machine-reasible enum label of a status                                                                                                                          |
+| label              | Label        | 1     | create-only | String    | machine-readable enum label of a status                                                                                                                          |
 | reason             | Reason       | 0-1   | create-only | String    | a human-readable text that describes the rationale for the status applied to the object.                                                                         |
-| due                | Due          | 0-1   | read-write  | Timestamp | a timestamp, when this status is going to be removed automatically, or changed to other status. This field can be used to expresse lifecycle related information |
+| due                | Due          | 0-1   | read-write  | Timestamp | a timestamp, when this status is going to be removed automatically, or changed to other status. This field can be used to express lifecycle related information |
 
 
 Object: provMetadata
@@ -1870,7 +1884,7 @@ Data Elements
 | Element Identifier | Element Name      | Card. | Mutability | Data Type | Description                                                                                                        |
 | ------------------ | ----------------- | ----- | ---------- | --------- | ------------------------------------------------------------------------------------------------------------------ |
 | preData            | Pre-Delete Data   | 0-1   | read-write | String    | A copy of the registration data that existed for the object prior to deletion.                                     |
-| postData           | Post-Restore Data | 0-1   | read-write | String    | A copy of the registration data that exists for the the object at the time the restore report is submitted.        |
+| postData           | Post-Restore Data | 0-1   | read-write | String    | A copy of the registration data that exists for the object at the time the restore report is submitted.        |
 | deleteTime         | Delete Time       | 0-1   | read-write | Timestamp | The date and time when the object delete request was sent to the server.                                           |
 | restoreTime        | Restore Time      | 0-1   | read-write | Timestamp | The date and time when the original restore request operation was sent to the server.                              |
 | restoreReason      | Restore Reason    | 0-1   | read-write | String    | A brief explanation of the reason for restoring the object.                                                        |
@@ -2008,7 +2022,7 @@ Operation: Restore Request
 
 Operation Identifier: restoreRequest
 
-Description: Initiates recovery of an domain name in the redemptionPeriod state. This operation is OPTIONAL and is only available when the RGP feature is supported.
+Description: Initiates recovery of a domain name in the redemptionPeriod state. This operation is OPTIONAL and is only available when the RGP feature is supported.
 
 Parameters
 | Identifier    | Name           | Card. | Data Type             | Description               |
@@ -2110,6 +2124,8 @@ A> TODO: write security considerations, if any
 * add Domain Update operation with urgent transient parameter from [@RFC5910]
 * add Object and Dictionary[Value Type] primitive data types
 * describe operations for contacts #15
+* add NS, A, and AAAA RDATA structures and record type constraints to EPP compatibility profile for DNS Resource Record Object
+* move RDATA EPP compatibility structures into dedicated subchapter with cross-reference from field definition
 
 {toc="exclude"}
 {numbered="false"}

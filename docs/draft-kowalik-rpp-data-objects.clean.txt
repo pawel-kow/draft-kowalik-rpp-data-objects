@@ -112,6 +112,7 @@ Table of Contents
      5.2.  Provisioning Metadata Object
      5.3.  Status Object
      5.4.  DNS Resource Record Object
+       5.4.1.  RDATA Structures in EPP Profile
      5.5.  DNS Operational Controls Object
      5.6.  DNS Data Object
      5.7.  Authorisation Information Object
@@ -866,8 +867,8 @@ Table of Contents
 
    RPP allows for different types of associations (relationship) between
    the objects.  The association may be added between 2 objects with own
-   indpendent lifecycle (UML aggregation) or in the relation when one
-   object's existance and lifecycle is bound to the other parent/owner
+   independent lifecycle (UML aggregation) or in the relation when one
+   object's existence and lifecycle is bound to the other parent/owner
    object (UML composition).  In both cases, especially if the relation
    allows for cardinality higher than one on either side, the
    association may be assigned additional attributes, not being part of
@@ -886,7 +887,7 @@ Table of Contents
    A relation between two independent objects.
 
    If the cardinality of target object is more than 1, this represents
-   an ordered array.  It MUST assured that the same unchanged data is
+   an ordered array.  It MUST be assured that the same unchanged data is
    always inserted in the same order in order to allow stable reference
    by position to data elements.  In case of data insertions, deletions
    or updates the remaining of the data SHALL preserve its order.
@@ -928,7 +929,7 @@ Table of Contents
    dependent child object(s).
 
    If the cardinality of target object is more than 1, this represents
-   an ordered array.  It MUST assured that the same unchanged data is
+   an ordered array.  It MUST be assured that the same unchanged data is
    always inserted in the same order in order to allow stable reference
    by position to data elements.  In case of data insertions, deletions
    or updates the remaining of the data SHALL preserve its order.
@@ -1193,7 +1194,7 @@ Table of Contents
          -  Cardinality: 1
          -  Mutability: create-only
          -  Data Type: String
-         -  Description: machine-readible enum label of a status
+         -  Description: machine-readable enum label of a status
          -  Constraints:
             -  Exact list of allowed status labels depends on the
                provisioning object type.  This enumeration can be
@@ -1252,7 +1253,7 @@ Table of Contents
       |  types like client/serverHold).
 
    -  Reason
-      -  Indentifier: reason
+      -  Identifier: reason
       -  Cardinality: 0-1
       -  Mutability: create-only
       -  Data Type: String
@@ -1266,7 +1267,7 @@ Table of Contents
       -  Data Type: Timestamp
       -  Description: a timestamp, when this status is going to be
          removed automatically, or changed to other status.  This field
-         can be used to expresse lifecycle related information.
+         can be used to express lifecycle related information.
       -  Constraints: servers MAY restrict possibility to set or update
          this value by the client.
 
@@ -1298,8 +1299,6 @@ Table of Contents
             -  Absolute FQDNs (with trailing dot) and relative host
                names are allowed, as well as the "@" symbol representing
                the domain name itself.
-            -  A server MUST NOT accept a name which is not the
-               provisioned domain name or a subordinate label to it.
       -  Class
          -  Identifier: class
          -  Cardinality: 0-1
@@ -1327,6 +1326,11 @@ Table of Contents
                For domain provisioning, the type would typically be
                constrained to the allowed parent-side entries.
             -  Values MUST be converted to lower case.
+            -  In EPP Compatibility Profile ([RFC5732]), the following
+               record types MUST be supported: ns, a, and aaaa.
+            -  In EPP Compatibility Profile with DNSSEC Extension
+               [RFC5910], the following record types MUST additionally
+               be supported: ds and dnskey.
       -  RDATA
          -  Identifier: rdata
          -  Cardinality: 1
@@ -1341,16 +1345,33 @@ Table of Contents
          -  Constraints:
             -  The fields within RDATA MUST match the expected structure
                for the given record type.
-            -  In EPP Compatibility Profile with DNSSEC Extension
-               [RFC5910], the following RDATA structures MUST be
-               supported:
-            -  For DS records ([RFC4034], Section 5): keyTag (key tag
-               value), algorithm (algorithm number), digestType (digest
-               algorithm type), and digest (digest value).
-            -  For DNSKEY records ([RFC4034], Section 2): flags (flags
-               field value), protocol (protocol field value), algorithm
-               (algorithm number), and publicKey (encoded public key
-               value).
+            -  See Section 5.4.1 for required structures in the EPP
+               Compatibility Profile.
+
+5.4.1.  RDATA Structures in EPP Profile
+
+   This section defines the RDATA field structures required for
+   interoperability in the EPP Compatibility Profile.
+
+   In EPP Compatibility Profile ([RFC5732]), the following RDATA
+   structures MUST be supported:
+
+   -  For NS records ([RFC1035], Section 3.3.11): nsdname (the fully
+      qualified domain name of the name server).
+   -  For A records ([RFC1035], Section 3.4.1): address (the IPv4
+      address in dotted-decimal notation).
+   -  For AAAA records ([RFC3596], Section 2.2): address (the IPv6
+      address in text representation as defined in [RFC5952]).
+
+   In EPP Compatibility Profile with DNSSEC Extension ([RFC5910]), the
+   following RDATA structures MUST additionally be supported:
+
+   -  For DS records ([RFC4034], Section 5): keyTag (key tag value),
+      algorithm (algorithm number), digestType (digest algorithm type),
+      and digest (digest value).
+   -  For DNSKEY records ([RFC4034], Section 2): flags (flags field
+      value), protocol (protocol field value), algorithm (algorithm
+      number), and publicKey (encoded public key value).
 
       |  TBC: Optional keyData inside dsData (RFC 5910 Section 4.1): In
       |  the DS Data Interface, a DS record MAY optionally contain a
@@ -2764,7 +2785,7 @@ Table of Contents
    |Element   |Element|Card.|Mutability |Data Type| Description       |
    |Identifier|Name   |     |           |         |                   |
    +==========+=======+=====+===========+=========+===================+
-   |label     |Label  |1    |create-only|String   | machine-reasible  |
+   |label     |Label  |1    |create-only|String   | machine-readable  |
    |          |       |     |           |         | enum label of a   |
    |          |       |     |           |         | status            |
    +----------+-------+-----+-----------+---------+-------------------+
@@ -2783,7 +2804,7 @@ Table of Contents
    |          |       |     |           |         | changed to other  |
    |          |       |     |           |         | status.  This     |
    |          |       |     |           |         | field can be used |
-   |          |       |     |           |         | to expresse       |
+   |          |       |     |           |         | to express        |
    |          |       |     |           |         | lifecycle related |
    |          |       |     |           |         | information       |
    +----------+-------+-----+-----------+---------+-------------------+
@@ -3004,10 +3025,9 @@ Table of Contents
    |             |            |     |          |         |registration |
    |             |            |     |          |         |data that    |
    |             |            |     |          |         |exists for   |
-   |             |            |     |          |         |the the      |
-   |             |            |     |          |         |object at    |
-   |             |            |     |          |         |the time the |
-   |             |            |     |          |         |restore      |
+   |             |            |     |          |         |the object   |
+   |             |            |     |          |         |at the time  |
+   |             |            |     |          |         |the restore  |
    |             |            |     |          |         |report is    |
    |             |            |     |          |         |submitted.   |
    +-------------+------------+-----+----------+---------+-------------+
@@ -3312,7 +3332,7 @@ Table of Contents
 
    Operation Identifier: restoreRequest
 
-   Description: Initiates recovery of an domain name in the
+   Description: Initiates recovery of a domain name in the
    redemptionPeriod state.  This operation is OPTIONAL and is only
    available when the RGP feature is supported.
 
@@ -3472,6 +3492,10 @@ draft-kowalik-rpp-data-objects -02 - -03
       [RFC5910]
    -  add Object and Dictionary[Value Type] primitive data types
    -  describe operations for contacts #15
+   -  add NS, A, and AAAA RDATA structures and record type constraints
+      to EPP compatibility profile for DNS Resource Record Object
+   -  move RDATA EPP compatibility structures into dedicated subchapter
+      with cross-reference from field definition
 
 draft-kowalik-rpp-data-objects -01 - -02
 
@@ -3549,6 +3573,11 @@ draft-kowalik-rpp-data-objects -01 - -02
               Contact Mapping", STD 69, RFC 5733, DOI 10.17487/RFC5733,
               August 2009, <https://www.rfc-editor.org/info/rfc5733>.
 
+   [RFC5952]  Kawamura, S. and M. Kawashima, "A Recommendation for IPv6
+              Address Text Representation", RFC 5952,
+              DOI 10.17487/RFC5952, August 2010,
+              <https://www.rfc-editor.org/info/rfc5952>.
+
    [RFC8126]  Cotton, M., Leiba, B., and T. Narten, "Guidelines for
               Writing an IANA Considerations Section in RFCs", BCP 26,
               RFC 8126, DOI 10.17487/RFC8126, June 2017,
@@ -3566,6 +3595,11 @@ draft-kowalik-rpp-data-objects -01 - -02
               Progress, Internet-Draft, draft-simmen-rpp-dns-data-01, 20
               October 2025, <https://datatracker.ietf.org/doc/html/
               draft-simmen-rpp-dns-data-01>.
+
+   [RFC3596]  Thomson, S., Huitema, C., Ksinant, V., and M. Souissi,
+              "DNS Extensions to Support IP Version 6", STD 88,
+              RFC 3596, DOI 10.17487/RFC3596, October 2003,
+              <https://www.rfc-editor.org/info/rfc3596>.
 
    [RFC4034]  Arends, R., Austein, R., Larson, M., Massey, D., and S.
               Rose, "Resource Records for the DNS Security Extensions",
