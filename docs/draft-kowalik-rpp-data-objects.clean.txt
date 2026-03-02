@@ -85,16 +85,8 @@ Table of Contents
          2.5.2.4.  Delete
        2.5.3.  Operations beyond uniform interface
        2.5.4.  Transfer Operations
-         2.5.4.1.  Transfer Request Operation
-         2.5.4.2.  Transfer Approve Operation
-         2.5.4.3.  Transfer Reject Operation
-         2.5.4.4.  Transfer Cancel Operation
-         2.5.4.5.  Transfer Query Operation
        2.5.5.  Restore Operations
          2.5.5.1.  Redemption Grace Period State Diagram
-         2.5.5.2.  Restore Request Operation
-         2.5.5.3.  Restore Report Operation
-         2.5.5.4.  Restore Query Operation
      2.6.  EPP Compatibility Profile
    3.  Common Data Types
      3.1.  Identifier
@@ -118,22 +110,22 @@ Table of Contents
      5.7.  Authorisation Information Object
      5.8.  Postal Address Object
      5.9.  Postal Info Object
-     5.10. Transfer Data Object
-     5.11. Disclose Object
-     5.12. Restore Data Object
-     5.13. Restore Report Object
-   6.  Domain Name Data Object
-     6.1.  Object Description
-     6.2.  Data Elements
-     6.3.  Operations
-       6.3.1.  Create Operation
-       6.3.2.  Read Operation
-       6.3.3.  Update Operation
-       6.3.4.  Delete Operation
-       6.3.5.  Renew Operation
-       6.3.6.  Transfer Operations
-       6.3.7.  Restore Operations
-   7.  Contact Data Object
+     5.10. Disclose Object
+     5.11. Restore Report Object
+   6.  Process Objects
+     6.1.  Transfer Process Object
+       6.1.1.  Operations
+         6.1.1.1.  Create (Transfer Request)
+         6.1.1.2.  Read (Transfer Query)
+         6.1.1.3.  Delete (Transfer Cancel)
+         6.1.1.4.  Approve
+         6.1.1.5.  Reject
+     6.2.  Restore Process Object
+       6.2.1.  Operations
+         6.2.1.1.  Create (Restore Request)
+         6.2.1.2.  Read (Restore Query)
+         6.2.1.3.  Report
+   7.  Domain Name Data Object
      7.1.  Object Description
      7.2.  Data Elements
      7.3.  Operations
@@ -141,8 +133,10 @@ Table of Contents
        7.3.2.  Read Operation
        7.3.3.  Update Operation
        7.3.4.  Delete Operation
-       7.3.5.  Transfer Operations
-   8.  Host Data Object
+       7.3.5.  Renew Operation
+       7.3.6.  Transfer Operations
+       7.3.7.  Restore Operations
+   8.  Contact Data Object
      8.1.  Object Description
      8.2.  Data Elements
      8.3.  Operations
@@ -150,16 +144,25 @@ Table of Contents
        8.3.2.  Read Operation
        8.3.3.  Update Operation
        8.3.4.  Delete Operation
-       8.3.5.  Restore Operations
-   9.  IANA Considerations
-     9.1.  RPP Data Object Registry
-       9.1.1.  Registration Policy
-       9.1.2.  Registry Structure
-       9.1.3.  Initial Registrations
-   10. Security Considerations
-   12. References
-     12.1.  Normative References
-     12.2.  Informative References
+       8.3.5.  Transfer Operations
+   9.  Host Data Object
+     9.1.  Object Description
+     9.2.  Data Elements
+     9.3.  Operations
+       9.3.1.  Create Operation
+       9.3.2.  Read Operation
+       9.3.3.  Update Operation
+       9.3.4.  Delete Operation
+       9.3.5.  Restore Operations
+   10. IANA Considerations
+     10.1.  RPP Data Object Registry
+       10.1.1.  Registration Policy
+       10.1.2.  Registry Structure
+       10.1.3.  Initial Registrations
+   11. Security Considerations
+   13. References
+     13.1.  Normative References
+     13.2.  Informative References
    Authors' Addresses
 
 1.  Introduction
@@ -213,6 +216,30 @@ Table of Contents
    -  External host: A host whose name does not belong to the namespace
       of the repository in which the host is being used for delegation
       purposes.
+
+   The following terms are defined and used in this document
+
+   Object Authorisation  Authorisation data related to the object beyond
+      the default client-level authorisation accompanying the request,
+      in order to authorise operations on the object.  Typically it is a
+      value related to or derived from an Authorisation Information
+      Object provisioned with the object.
+   Data Object  A top-level provisioned resource object that has an
+      independent lifecycle and identity in the registry.  Data Objects
+      carry data elements describing the resource and define the set of
+      operations that can be performed on them.
+   Component Object  A reusable data structure that carries data only,
+      with no operations of its own.  Component Objects are embedded
+      within Data Objects or other objects to avoid repetition of common
+      data patterns.
+   Process Object  An object that represents a long-running or multi-
+      step operation initiated on a Data Object.  Process Objects carry
+      operation-related state and data, and may define their own
+      operations to interact with the process.  They have no independent
+      existence — their lifecycle is bound to the owning Data Object.
+   Owner Data Object  A Data Object which a process (represented as
+      Process Object) was initiated upon and which owns this Process
+      Object
 
 2.  Resource Definition Principles
 
@@ -396,13 +423,13 @@ Table of Contents
 2.5.1.  Authorisation
 
    For each operation authorisation requirements and operation behaviour
-   is specified.  Wherever "object authorisation" is mentioned, it means
-   that an operation MAY accept or require additional authorisation data
-   related to the object beyond default client-level authorisation, or
-   that an operation MAY have different effect or response if such
-   authorisation is provided.  Typically it would be a value related to
-   or derived from Authorisation Information Object attached to the
-   object.
+   is specified.
+
+   Wherever "Object Authorisation" is mentioned, it means that an
+   operation MAY accept or require additional authorisation data related
+   to the object beyond default client-level authorisation, or that an
+   operation MAY result in different processing or response if such
+   authorisation is provided.
 
 2.5.2.  Uniform interface
 
@@ -422,17 +449,21 @@ Table of Contents
    -  Output: Object (read-write and read-only properties)
 
    The output Object MAY vary depending on the identity of the querying
-   client, use of object authorisation information, and server policy
-   towards unauthorized clients.  If the querying client is the
-   sponsoring client, all available information MUST be returned.  If
-   the querying client is not the sponsoring client but the client
-   provides valid object authorisation information, all available
+   client, use of Object Authorisation information, and server policy
+   towards unauthorised clients.
+
+   If the querying client is the sponsoring client, all available
+   information MUST be returned.
+
+   If the querying client is not the sponsoring client but the client
+   provides valid Object Authorisation information, all available
    information SHOULD be returned, however some optional elements MAY be
-   reserved to the sponsoring client only.  If the querying client is
-   not the sponsoring client and the client does not provide valid
-   object authorisation information, server policy determines which
-   OPTIONAL elements are returned, if any, or whether the entire request
-   is rejected.
+   reserved to the sponsoring client only.
+
+   If the querying client is not the sponsoring client and the client
+   does not provide valid Object Authorisation information, server
+   policy determines which OPTIONAL elements are returned, if any, or
+   whether the entire request is rejected.
 
 2.5.2.3.  Update
 
@@ -461,22 +492,24 @@ Table of Contents
    RPP supports two types of transfer:
 
    -  Pull Transfer: Initiated by the gaining client.  The gaining
-      client MUST provide valid authorisation information associated
-      with the object to initiate the request.
+      client MUST provide valid Object Authorisation to initiate the
+      request.
    -  Push Transfer: Initiated by the sponsoring client, who designates
       a gaining client in the request.
 
    The transfer process MAY be immediate or follow a multi-step workflow
    depending on server policy.  If the server implements immediate
-   transfers, the approve, reject, and cancel operations need not be
-   supported; the server completes the transfer upon receipt of the
-   request.
+   transfers, the Approve and Reject operations need not be supported;
+   the server completes the transfer upon receipt of the Create
+   operation.
 
    The server MAY implement local policies to prevent transfers from
    stalling and implement a form of automated transfer escalation,
    approval or cancellation when such a stalled process is recognised.
 
-   All transfer operations return the Transfer Data Object as output.
+   All transfer operations act on or return the Transfer Process Object
+   and are executed in the context of Owner Data Object the operation is
+   created upon.
 
       |  TODO: The server MUST notify the current sponsoring client of a
       |  pending transfer request.  The notification mechanism is not
@@ -485,138 +518,6 @@ Table of Contents
       |  TODO: Transfer-specific error conditions (object not eligible
       |  for transfer, object pending transfer, object not pending
       |  transfer) are not defined in this document.
-
-2.5.4.1.  Transfer Request Operation
-
-   -  Identifier: transferRequest
-
-   The Transfer Request operation initiates a transfer of an object.
-
-   -  Input:
-      -  Object Identifier
-      -  Object authorisation information (REQUIRED only for pull
-         transfers)
-   -  Output: Transfer Data Object
-
-   The following transient data elements are common for all transfer
-   requests:
-
-   -  Transfer Direction
-
-      -  Identifier: transferDir
-      -  Cardinality: 0-1
-      -  Data Type: String
-      -  Description: Indicates whether the transfer is a "pull" or
-         "push" transfer.  Per policy servers usually will support only
-         one model.
-      -  Constraints: The value MUST be one of: "pull" or "push".
-
-   -  Gaining Client ID
-
-      -  Identifier: gainingClientId
-      -  Cardinality: 0-1
-      -  Data Type: Client Identifier
-      -  Description: The identifier of the designated gaining client.
-         This element is REQUIRED for push transfers and MUST NOT be
-         provided for pull transfers.
-      -  Constraints: (None)
-
-   -  Authorisation:
-
-      -  Pull transfer:
-         -  The requesting client (gaining client) MUST provide valid
-            authorisation information associated with the object.
-      -  Push transfer:
-         -  Only the sponsoring client is authorised to initiate a push
-            transfer.
-
-2.5.4.2.  Transfer Approve Operation
-
-   -  Identifier: transferApprove
-
-   The Transfer Approve operation allows the appropriate client to
-   accept a pending transfer request.  For a pending pull transfer, only
-   the sponsoring client is authorised to approve.  For a pending push
-   transfer, only the designated gaining client is authorised to
-   approve.
-
-   -  Input: Object Identifier
-
-   -  Output: Transfer Data Object
-
-   -  Authorisation:
-
-      -  Pull transfer: only the sponsoring client
-      -  Push transfer: only the designated gaining client
-      -  The server MUST reject any approval attempts not initiated by
-         the authorised client.
-
-2.5.4.3.  Transfer Reject Operation
-
-   -  Identifier: transferReject
-
-   The Transfer Reject operation allows the appropriate client to reject
-   a pending transfer request.  For a pending pull transfer, only the
-   sponsoring client is authorised to reject.  For a pending push
-   transfer, only the designated gaining client is authorised to reject.
-
-   -  Input: Object Identifier
-   -  Output: Transfer Data Object
-
-   The following transient data elements are defined for this operation:
-
-   -  Reason
-
-      -  Identifier: reason
-      -  Cardinality: 0-1
-      -  Data Type: String
-      -  Description: A human-readable text describing the rationale for
-         rejecting the transfer request.
-      -  Constraints: In EPP Compatibility Profile this data element
-         MUST NOT be used
-
-   -  Authorisation:
-
-      -  Pull transfer: only the sponsoring client
-      -  Push transfer: only the designated gaining client
-      -  The server MUST reject any rejection attempts not initiated by
-         the authorised client.
-
-2.5.4.4.  Transfer Cancel Operation
-
-   -  Identifier: transferCancel
-
-   The Transfer Cancel operation allows the initiating client to cancel
-   its own pending transfer request.
-
-   -  Input: Object Identifier
-
-   -  Output: Transfer Data Object
-
-   -  Authorisation:
-
-      -  Only the initiating client (the client that originally
-         requested the transfer) is authorised to cancel.
-      -  The server MUST reject any cancellation attempts not initiated
-         by the initiating client.
-
-2.5.4.5.  Transfer Query Operation
-
-   -  Identifier: transferQuery
-
-   The Transfer Query operation allows a client to determine the real-
-   time status of a pending or recently completed transfer request.
-
-   -  Input: Object Identifier
-
-   -  Output: Transfer Data Object
-
-   -  Authorisation:
-
-      -  This operation MUST be accessible to both the sponsoring client
-         and the gaining client.
-      -  Server policy determines whether other clients may query
-         transfer status and what information is returned.
 
 2.5.5.  Restore Operations
 
@@ -629,22 +530,27 @@ Table of Contents
 
    -  Restore Request: (REQUIRED) Initiates the recovery of an object in
       the redemptionPeriod state, signalling to the registry the intent
-      to restore.  On success, the object transitions to pendingRestore.
+      to restore.  This corresponds to the Create operation on the
+      Restore Process Object.  On success, the object transitions to
+      pendingRestore.
    -  Restore Report: (OPTIONAL) Submits a report documenting the
       circumstances of the deletion and restoration, as required by
-      registry policy.  On success, the object is returned to its pre-
-      deletion status and all RGP status labels are removed.
+      registry policy.  This corresponds to the Report operation on the
+      Restore Process Object.  On success, the object is returned to its
+      pre-deletion status and all RGP status labels are removed.
 
    Whether a restore report is required after a restore request is a
    matter of server policy.  If the server does not require a restore
    report, the object returns to its pre-deletion status immediately
-   upon a successful restore request, bypassing the pendingRestore
+   upon a successful Create operation, bypassing the pendingRestore
    state.
 
-   The restore request MAY include the restore report inline to complete
-   both steps atomically in a single operation.
+   The Create operation MAY include the restore report inline to
+   complete both steps atomically in a single operation.
 
-   All restore operations return the Restore Data Object as output.
+   All restore operations act on or return the Restore Process Object
+   and are executed in the context of Owner Data Object the operation is
+   created upon.
 
 2.5.5.1.  Redemption Grace Period State Diagram
 
@@ -656,8 +562,10 @@ Table of Contents
    In the diagram below, RPP status labels are shown in the status field
    of the object.  Standard EPP-origin status labels (e.g., ok,
    pendingDelete) are used alongside the RGP-specific labels defined in
-   this document.  The restore operation replaces the EPP extended
-   <update> command with op=request and op=report attributes.
+   this document.  The <create> and <report> labels refer to the Create
+   and Report operations on the Restore Process Object, replacing the
+   EPP extended <update> command with op=request and op=report
+   attributes.
 
                  |
                  v                     (2)
@@ -667,7 +575,7 @@ Table of Contents
    +----------------------------+              +-------------------------------+
       ^   ^             restore, no report      | ^  |                |
       |   |             and report required  (4)| |  |        No (9)  |
-      |   |               <restoreRequest>      | |  |       restore  |
+      |   |                  <create>           | |  |       restore  |
       |   |                  +------------------+ |  |       restore  |
       |   |                  v                    |  |                v
       |   |  +------------------+                 |  | +-----------------------+
@@ -677,10 +585,10 @@ Table of Contents
       |   |  +------------------+   received         | +-----------------------+
       |   |                (8) |                     |                |
       |   |    report received |                     |     purge (11) |
-      |   |    <restoreReport> |      restore (5)    |                v
+      |   |       <report>     |      restore (5)    |                v
       |   +--------------------+      with report    | +-----------------------+
       |                               or not req.    | |      Purged       (12)|
-      |                             <restoreRequest> | +-----------------------+
+      |                                  <create>    | +-----------------------+
       +----------------------------------------------+
 
    State descriptions:
@@ -691,14 +599,14 @@ Table of Contents
    3.   RGP begins.  The object enters pendingDelete + redemptionPeriod
         state.  The object remains here until a restore operation is
         requested or the redemption period elapses.
-   4.   A restore operation is requested.  The registry accepts the
-        request.  Go to step 8 if the redemption period elapses before a
-        restore is received (4a).
+   4.   A restore Create operation is submitted.  The registry accepts
+        the request.  Go to step 8 if the redemption period elapses
+        before a restore is received (4a).
    5.   If the server does not require a restore report, the object
         returns to its pre-deletion status (1) immediately upon a
-        successful restoreRequest operation.  If the server requires a
-        report but the client includes it inline in the restoreRequest,
-        the server processes both atomically and the object transitions
+        successful Create operation.  If the server requires a report
+        but the client includes it inline in the Create operation, the
+        server processes both atomically and the object transitions
         directly from redemptionPeriod to its pre-deletion status (1),
         bypassing the pendingRestore state.
    6.   The object enters pendingDelete + pendingRestore state.  The
@@ -714,95 +622,6 @@ Table of Contents
         awaits final purge processing.
    11.  The pending delete period elapses and the object is purged.
    12.  The object is purged and available for re-registration.
-
-2.5.5.2.  Restore Request Operation
-
-   -  Identifier: restoreRequest
-
-   The Restore Request operation initiates the recovery of an object in
-   the redemptionPeriod state.  The server MUST reject this operation if
-   the object is not in the redemptionPeriod state.
-
-   -  Input: Object Identifier
-
-   -  Output: Restore Data Object
-
-   -  Authorisation:
-
-      -  Only the sponsoring client is authorised to perform this
-         operation.
-
-   The following transient data elements are defined for this operation:
-
-   -  Restore Report
-      -  Identifier: restoreReport
-      -  Cardinality: 0-1
-      -  Data Type: Restore Report Object
-      -  Description: An OPTIONAL inline restore report.  If provided,
-         the server processes the request and the report atomically.  If
-         the server does not require a restore report, this element MUST
-         NOT be present and the restore is completed immediately.  If
-         the server requires a report and this element is absent, the
-         object transitions to pendingRestore state awaiting a
-         subsequent Restore Report operation.
-      -  Constraints:
-         -  MUST NOT be provided if the server does not require a
-            restore report.
-         -  In EPP Compatibility Profile, corresponds to op="request"
-            (without report) or a combined op="request" followed
-            immediately by op="report" as defined in [RFC3915].
-
-2.5.5.3.  Restore Report Operation
-
-   -  Identifier: restoreReport
-
-   This operation is OPTIONAL, only for the servers which support or
-   require submission of restore report.
-
-   The Restore Report operation submits the restore report required by
-   the RGP process for an object in the pendingRestore state.  A report
-   MAY be submitted more than once if corrections are required.  The
-   server MUST reject this operation if the object is not in the
-   pendingRestore state.
-
-   -  Input: Object Identifier, Restore Report Object
-
-   -  Output: Restore Data Object
-
-   -  Authorisation:
-
-      -  Only the sponsoring client is authorised to perform this
-         operation.
-
-   The following transient data elements are defined for this operation:
-
-   -  Restore Report
-      -  Identifier: restoreReport
-      -  Cardinality: 1
-      -  Data Type: Restore Report Object
-      -  Description: The restore report to be submitted as part of the
-         RGP process.
-      -  Constraints:
-         -  In EPP Compatibility Profile, corresponds to op="report" as
-            defined in [RFC3915].
-
-2.5.5.4.  Restore Query Operation
-
-   -  Identifier: restoreQuery
-
-   The Restore Query operation allows the sponsoring client to retrieve
-   the current state of the RGP process for an object.
-
-   -  Input: Object Identifier
-
-   -  Output: Restore Data Object
-
-   -  Authorisation:
-
-      -  Only the sponsoring client is authorised to perform this
-         operation.
-
-   In EPP Compatibility Profile this operation is not supported.
 
 2.6.  EPP Compatibility Profile
 
@@ -1089,9 +908,7 @@ Table of Contents
 
 5.  Component Objects
 
-   This section defines common objects that are re-used in the
-   definitions of top-level data objects.  Component objects carry only
-   data but do not define any operations.
+   This section defines the Component Objects used in this document.
 
 5.1.  Period Object
 
@@ -1608,73 +1425,7 @@ Table of Contents
       -  Constraints: In EPP Compatibility Profile this data element
          MUST be provided.
 
-5.10.  Transfer Data Object
-
-   -  Name: Transfer Data Object
-   -  Identifier: transferData
-   -  Description: Represents the state of a transfer request for a
-      provisioned object.  This object is returned as the output of
-      transfer operations (request, approve, reject, cancel, query) for
-      any transferable resource object.
-   -  Data Elements:
-      -  Transfer Status
-         -  Identifier: trStatus
-         -  Cardinality: 1
-         -  Mutability: read-only
-         -  Data Type: String
-         -  Description: The state of the most recent transfer request.
-         -  Constraints: The value MUST be one of: "pending",
-            "clientApproved", "clientCancelled", "clientRejected",
-            "serverApproved", "serverCancelled".
-      -  Transfer Direction
-         -  Identifier: transferDir
-         -  Cardinality: 1
-         -  Mutability: read-only
-         -  Data Type: String
-         -  Description: Indicates the direction of the transfer.
-         -  Constraints: The value MUST be one of: "pull" (initiated by
-            the gaining client) or "push" (initiated by the sponsoring
-            client).
-      -  Requesting Client ID
-         -  Identifier: reqClientId
-         -  Cardinality: 1
-         -  Mutability: read-only
-         -  Data Type: Client Identifier
-         -  Description: The identifier of the client that initiated the
-            transfer request.
-         -  Constraints: (None)
-      -  Request Date
-         -  Identifier: requestDate
-         -  Cardinality: 1
-         -  Mutability: read-only
-         -  Data Type: Timestamp
-         -  Description: The date and time that the transfer was
-            requested.
-         -  Constraints: (None)
-      -  Acting Client ID
-         -  Identifier: actClientId
-         -  Cardinality: 1
-         -  Mutability: read-only
-         -  Data Type: Client Identifier
-         -  Description: For a pending pull transfer, the identifier of
-            the sponsoring client that SHOULD act upon the request.  For
-            a pending push transfer, the identifier of the designated
-            gaining client that SHOULD act upon the request.  For all
-            other statuses, the identifier of the client that took the
-            indicated action.
-         -  Constraints: (None)
-      -  Action Date
-         -  Identifier: actionDate
-         -  Cardinality: 1
-         -  Mutability: read-only
-         -  Data Type: Timestamp
-         -  Description: For a pending request, the date and time by
-            which a response is required before an automated response
-            action SHOULD be taken by the server.  For all other
-            statuses, the date and time when the request was completed.
-         -  Constraints: (None)
-
-5.11.  Disclose Object
+5.10.  Disclose Object
 
       |  TODO: Model Disclose in universal (extendible) way
 
@@ -1682,52 +1433,7 @@ Table of Contents
    -  Identifier: disclose
    -  Description: TBD
 
-5.12.  Restore Data Object
-
-   -  Name: Restore Data Object
-   -  Identifier: restoreData
-   -  Description: Represents the current state of a restore request for
-      an object that has entered the Redemption Grace Period (RGP).
-   -  Data Elements:
-      -  Restore Status
-         -  Identifier: restoreStatus
-         -  Cardinality: 1
-         -  Mutability: read-only
-         -  Data Type: String
-         -  Description: The current state of the restore process.
-         -  Constraints: The value MUST be one of: "pendingRestore",
-            "restored", "rgpPendingDelete"
-      -  Request Date
-         -  Identifier: requestDate
-         -  Cardinality: 0-1
-         -  Mutability: read-only
-         -  Data Type: Timestamp
-         -  Description: The date and time when the restore request was
-            submitted.
-         -  Constraints: MUST NOT be present if no restore request has
-            been submitted yet.
-      -  Report Date
-         -  Identifier: reportDate
-         -  Cardinality: 0-1
-         -  Mutability: read-only
-         -  Data Type: Timestamp
-         -  Description: The date and time when the most recent restore
-            report was accepted by the server.
-         -  Constraints: MUST NOT be present if no restore report has
-            been accepted yet.
-      -  Report Due Date
-         -  Identifier: reportDueDate
-         -  Cardinality: 0-1
-         -  Mutability: read-only
-         -  Data Type: Timestamp
-         -  Description: The date and time by which a restore report
-            must be submitted before the object reverts to
-            redemptionPeriod state.  Only present when the object is in
-            pendingRestore state.
-         -  Constraints: MUST NOT be present when restoreStatus is not
-            "pendingRestore".
-
-5.13.  Restore Report Object
+5.11.  Restore Report Object
 
    -  Name: Restore Report Object
    -  Identifier: restoreReport
@@ -1802,9 +1508,336 @@ Table of Contents
             the statements provided by the client.
          -  Constraints: None.
 
-6.  Domain Name Data Object
+6.  Process Objects
 
-6.1.  Object Description
+   This section defines the Process Objects used in this document.
+
+6.1.  Transfer Process Object
+
+   -  Name: Transfer Process Object
+   -  Identifier: transferData
+   -  Description: Represents a transfer request for a provisioned
+      object.  Creating this object initiates a transfer.  The object
+      supports approve and reject as additional operations, and delete
+      as the cancel operation.  Reading the object returns the current
+      transfer status.
+   -  Data Elements:
+      -  Transfer Direction
+         -  Identifier: transferDir
+         -  Cardinality: 0-1
+         -  Mutability: create-only
+         -  Data Type: String
+         -  Description: Indicates whether the transfer is a "pull" or
+            "push" transfer.  Per policy, servers usually support only
+            one model.  If omitted, server policy determines the
+            default.
+         -  Constraints: The value MUST be one of: "pull" (initiated by
+            the gaining client) or "push" (initiated by the sponsoring
+            client).
+      -  Gaining Client ID
+         -  Identifier: gainingClientId
+         -  Cardinality: 0-1
+         -  Mutability: create-only
+         -  Data Type: Client Identifier
+         -  Description: The identifier of the designated gaining
+            client.  This element is REQUIRED for push transfers and
+            MUST NOT be provided for pull transfers.
+         -  Constraints: (None)
+      -  Transfer Status
+         -  Identifier: trStatus
+         -  Cardinality: 1
+         -  Mutability: read-only
+         -  Data Type: String
+         -  Description: The state of the transfer request.
+         -  Constraints: The value MUST be one of: "pending",
+            "clientApproved", "clientCancelled", "clientRejected",
+            "serverApproved", "serverCancelled".
+      -  Requesting Client ID
+         -  Identifier: reqClientId
+         -  Cardinality: 1
+         -  Mutability: read-only
+         -  Data Type: Client Identifier
+         -  Description: The identifier of the client that initiated the
+            transfer request.
+         -  Constraints: (None)
+      -  Request Date
+         -  Identifier: requestDate
+         -  Cardinality: 1
+         -  Mutability: read-only
+         -  Data Type: Timestamp
+         -  Description: The date and time that the transfer was
+            requested.
+         -  Constraints: (None)
+      -  Acting Client ID
+         -  Identifier: actClientId
+         -  Cardinality: 1
+         -  Mutability: read-only
+         -  Data Type: Client Identifier
+         -  Description: For a pending pull transfer, the identifier of
+            the sponsoring client that SHOULD act upon the request.  For
+            a pending push transfer, the identifier of the designated
+            gaining client that SHOULD act upon the request.  For all
+            other statuses, the identifier of the client that took the
+            indicated action.
+         -  Constraints: (None)
+      -  Action Date
+         -  Identifier: actionDate
+         -  Cardinality: 1
+         -  Mutability: read-only
+         -  Data Type: Timestamp
+         -  Description: For a pending request, the date and time by
+            which a response is required before an automated response
+            action SHOULD be taken by the server.  For all other
+            statuses, the date and time when the request was completed.
+         -  Constraints: (None)
+
+6.1.1.  Operations
+
+6.1.1.1.  Create (Transfer Request)
+
+   -  Identifier: create
+
+   The Create operation initiates a transfer by creating a Transfer
+   Process Object associated with the provisioned object.  The transfer
+   direction and gaining client (for push transfers) are provided as
+   create-only data elements of the Transfer Process Object.
+
+   -  Authorisation:
+
+      -  Pull transfer:
+         -  The requesting client (gaining client) MUST provide valid
+            Object Authorisation.
+      -  Push transfer:
+         -  Only the sponsoring client is authorised to initiate a push
+            transfer.
+
+   -  Input:
+
+      -  Owner Data Object reference
+      -  Transfer Process Object (create-only and read-write elements)
+
+   -  Output: Transfer Process Object
+
+6.1.1.2.  Read (Transfer Query)
+
+   -  Identifier: read
+
+   The Read operation allows a client to determine the real-time status
+   of a pending or recently completed transfer request.
+
+   -  Authorisation:
+
+      -  This operation MUST be accessible to both the sponsoring client
+         and the gaining client.
+      -  Server policy determines whether other clients may query
+         transfer status and what information is returned.
+
+   -  Input: None
+
+   -  Output: Transfer Process Object
+
+6.1.1.3.  Delete (Transfer Cancel)
+
+   -  Identifier: delete
+
+   The Delete operation allows the initiating client to cancel its own
+   pending transfer request.
+
+   -  Authorisation:
+
+      -  Only the initiating client (the client that originally
+         requested the transfer).
+
+   -  Input: None
+
+   -  Output: Transfer Process Object or nothing
+
+6.1.1.4.  Approve
+
+   -  Identifier: approve
+
+   The Approve operation allows the appropriate client to accept a
+   pending transfer request.
+
+   -  Authorisation:
+
+      -  Pull transfer:
+         -  only the sponsoring client
+      -  Push transfer:
+         -  only the designated gaining client
+
+   -  Input: None
+
+   -  Output: Transfer Process Object
+
+6.1.1.5.  Reject
+
+   -  Identifier: reject
+
+   The Reject operation allows the appropriate client to decline a
+   pending transfer request.
+
+   -  Authorisation:
+      -  Pull transfer:
+         -  only the sponsoring client
+      -  Push transfer:
+         -  only the designated gaining client
+
+   The following transient data elements are defined for this operation:
+
+   -  Reason
+
+      -  Identifier: reason
+      -  Cardinality: 0-1
+      -  Data Type: String
+      -  Description: A human-readable text describing the rationale for
+         rejecting the transfer request.
+      -  Constraints: In EPP Compatibility Profile this data element
+         MUST NOT be used
+
+   -  Output: Transfer Process Object
+
+6.2.  Restore Process Object
+
+   -  Name: Restore Process Object
+   -  Identifier: restoreData
+   -  Description: Represents the current state of a restore request for
+      an object that has entered the Redemption Grace Period (RGP).
+   -  Data Elements:
+      -  Restore Status
+         -  Identifier: restoreStatus
+         -  Cardinality: 1
+         -  Mutability: read-only
+         -  Data Type: String
+         -  Description: The current state of the restore process.
+         -  Constraints: The value MUST be one of: "pendingRestore",
+            "restored", "rgpPendingDelete"
+      -  Request Date
+         -  Identifier: requestDate
+         -  Cardinality: 0-1
+         -  Mutability: read-only
+         -  Data Type: Timestamp
+         -  Description: The date and time when the restore request was
+            submitted.
+         -  Constraints: MUST NOT be present if no restore request has
+            been submitted yet.
+      -  Report Date
+         -  Identifier: reportDate
+         -  Cardinality: 0-1
+         -  Mutability: read-only
+         -  Data Type: Timestamp
+         -  Description: The date and time when the most recent restore
+            report was accepted by the server.
+         -  Constraints: MUST NOT be present if no restore report has
+            been accepted yet.
+      -  Report Due Date
+         -  Identifier: reportDueDate
+         -  Cardinality: 0-1
+         -  Mutability: read-only
+         -  Data Type: Timestamp
+         -  Description: The date and time by which a restore report
+            must be submitted before the object reverts to
+            redemptionPeriod state.  Only present when the object is in
+            pendingRestore state.
+         -  Constraints: MUST NOT be present when restoreStatus is not
+            "pendingRestore".
+
+6.2.1.  Operations
+
+6.2.1.1.  Create (Restore Request)
+
+   -  Identifier: create
+
+   The Create operation initiates the recovery of an object in the
+   redemptionPeriod state by creating a Restore Process Object.  The
+   server MUST reject this operation if the owning object is not in the
+   redemptionPeriod state.
+
+   -  Input: Restore Process Object (create-only and read-write
+      elements)
+
+   -  Output: Restore Process Object
+
+   -  Authorisation:
+
+      -  Only the sponsoring client is authorised to perform this
+         operation.
+
+   The following transient data elements are defined for this operation:
+
+   -  Restore Report
+      -  Identifier: restoreReport
+      -  Cardinality: 0-1
+      -  Data Type: Restore Report Object
+      -  Description: An OPTIONAL inline restore report.  If provided,
+         the server processes the request and the report atomically.  If
+         the server does not require a restore report, this element MUST
+         NOT be present and the restore is completed immediately.  If
+         the server requires a report and this element is absent, the
+         object transitions to pendingRestore state awaiting a
+         subsequent Report operation.
+      -  Constraints:
+         -  MUST NOT be provided if the server does not require a
+            restore report.
+         -  In EPP Compatibility Profile, corresponds to op="request"
+            (without report) or a combined op="request" followed
+            immediately by op="report" as defined in [RFC3915].
+
+6.2.1.2.  Read (Restore Query)
+
+   -  Identifier: read
+
+   The Read operation allows the sponsoring client to retrieve the
+   current state of the RGP process for an object.
+
+   -  Authorisation:
+
+      -  Only the sponsoring client is authorised to perform this
+         operation.
+
+   -  Input: Object Identifier
+
+   -  Output: Restore Process Object
+
+   In EPP Compatibility Profile this operation is not supported.
+
+6.2.1.3.  Report
+
+   -  Identifier: report
+
+   This operation is OPTIONAL, only for servers which support or require
+   submission of a restore report.
+
+   The Report operation submits the restore report required by the RGP
+   process for an object in the pendingRestore state.  A report MAY be
+   submitted more than once if corrections are required.  The server
+   MUST reject this operation if the object is not in the pendingRestore
+   state.
+
+   -  Input: Object Identifier, Restore Report Object
+
+   -  Output: Restore Process Object
+
+   -  Authorisation:
+
+      -  Only the sponsoring client is authorised to perform this
+         operation.
+
+   The following transient data elements are defined for this operation:
+
+   -  Restore Report
+      -  Identifier: restoreReport
+      -  Cardinality: 1
+      -  Data Type: Restore Report Object
+      -  Description: The restore report to be submitted as part of the
+         RGP process.
+      -  Constraints:
+         -  In EPP Compatibility Profile, corresponds to op="report" as
+            defined in [RFC3915].
+
+7.  Domain Name Data Object
+
+7.1.  Object Description
 
    -  Name: Domain Name Data Object
    -  Identifier: domainName
@@ -1812,7 +1845,7 @@ Table of Contents
       and contains the data required for its provisioning and management
       in the registry.
 
-6.2.  Data Elements
+7.2.  Data Elements
 
    The following data elements are defined for the Domain Name Data
    Object.
@@ -1958,9 +1991,9 @@ Table of Contents
          domain object.
       -  Constraints: (None)
 
-6.3.  Operations
+7.3.  Operations
 
-6.3.1.  Create Operation
+7.3.1.  Create Operation
 
    -  Identifier: create
 
@@ -1986,7 +2019,7 @@ Table of Contents
          initial expiryDate of the object.  This element is not
          persisted as part of the object's state.
 
-6.3.2.  Read Operation
+7.3.2.  Read Operation
 
    -  Identifier: read
 
@@ -1998,10 +2031,10 @@ Table of Contents
       -  Sponsoring client:
          -  Full object
       -  Other client:
-         -  Without object authorisation:
+         -  Without Object Authorisation:
             -  Limited object (non-confidential properties) or operation
                denied
-         -  With object authorisation:
+         -  With Object Authorisation:
             -  Full object, however some properties only authorised to
                the sponsoring client MAY be redacted according to server
                policy
@@ -2017,7 +2050,7 @@ Table of Contents
       -  Constraints: The value MUST be one of "all", "del" (delegated),
          "sub" (subordinate), or "none".  The default value is "all".
 
-6.3.3.  Update Operation
+7.3.3.  Update Operation
 
    The Update operation allows a client to modify the read-write data
    elements of an existing Domain Name resource.
@@ -2043,7 +2076,7 @@ Table of Contents
          -  A server that supports this parameter but cannot fulfil a
             specific urgent request MUST return an error.
 
-6.3.4.  Delete Operation
+7.3.4.  Delete Operation
 
    -  Identifier: delete
 
@@ -2060,7 +2093,7 @@ Table of Contents
    The error response SHOULD indicate the related subordinate host
    objects.
 
-6.3.5.  Renew Operation
+7.3.5.  Renew Operation
 
    -  Identifier: renew
 
@@ -2069,8 +2102,11 @@ Table of Contents
    data object identified by its name.
 
    -  Authorisation:
+
       -  Only sponsoring client is authorised to perform this operation
+
    -  Input: Domain Name
+
    -  Output: Full object (read-write and read-only properties), or a
       minimum set of properties affected by the operation (Expiry Date).
 
@@ -2096,11 +2132,11 @@ Table of Contents
          by server policy.  The number of units available MAY be subject
          to limits imposed by the server.
 
-6.3.6.  Transfer Operations
+7.3.6.  Transfer Operations
 
    The Domain Name Data Object supports the common transfer operations
-   defined in the [Transfer Operations] section.  The transfer of a
-   domain name changes the sponsoring client of the domain object.
+   defined in the Section 2.5.4.  The transfer of a domain name changes
+   the sponsoring client of the domain object.
 
    Transfer of a domain object MUST implicitly transfer all host objects
    that are subordinate to the domain object.  For example, if domain
@@ -2108,29 +2144,30 @@ Table of Contents
    exists, the host object MUST be transferred as part of the
    "example.com" transfer process.
 
-   In addition to the common transfer data elements, the following
-   object-specific transient data elements are defined for the Transfer
-   Request operation:
+   In addition to the common Transfer Process Object elements, the
+   following object-specific create-only data element is defined and can
+   be provided when creating a Transfer Process Object for a domain
+   name:
 
    -  Transfer Period
       -  Identifier: transferPeriod
       -  Cardinality: 0-1
+      -  Mutability: create-only
       -  Data Type: Period Object
       -  Description: The number of units to be added to the
          registration period of the domain object upon successful
          completion of the transfer.  The number of units available MAY
          be subject to limits imposed by the server.
-      -  Constraints: This element is only applicable to the Transfer
-         Request operation and MUST be ignored for other transfer
-         operations.
+      -  Constraints: (None)
 
-   In addition to the common Transfer Data Object elements, the
-   following object-specific data element is included in the output of
-   domain transfer operations:
+   In addition to the common Transfer Process Object elements, the
+   following object-specific read-only data element is included in the
+   output of domain transfer operations:
 
    -  Expiry Date
       -  Identifier: expiryDate
       -  Cardinality: 0-1
+      -  Mutability: read-only
       -  Data Type: Timestamp
       -  Description: The end of the domain object's registration period
          if the transfer caused or causes a change in the validity
@@ -2139,7 +2176,7 @@ Table of Contents
    Subordinate host objects MUST be transferred implicitly when the
    domain object is transferred.
 
-6.3.7.  Restore Operations
+7.3.7.  Restore Operations
 
    The Domain Name Data Object supports the restore operations defined
    in the section.  These operations are OPTIONAL and are only available
@@ -2148,9 +2185,9 @@ Table of Contents
    No domain-specific transient data elements extend the common restore
    operations beyond those defined in the Section 2.5.5.
 
-7.  Contact Data Object
+8.  Contact Data Object
 
-7.1.  Object Description
+8.1.  Object Description
 
    -  Name: Contact Data Object
    -  Identifier: contact
@@ -2158,7 +2195,7 @@ Table of Contents
       information for an individual or organisation associated with
       other objects.
 
-7.2.  Data Elements
+8.2.  Data Elements
 
    The following data elements are defined for the Domain Name Data
    Object.
@@ -2264,9 +2301,9 @@ Table of Contents
 
       |  TBC: IANA registry for statuses?
 
-7.3.  Operations
+8.3.  Operations
 
-7.3.1.  Create Operation
+8.3.1.  Create Operation
 
    The Create operation allows a client to provision a new Contact
    resource.  The operation accepts as input all create-only and read-
@@ -2288,7 +2325,7 @@ Table of Contents
    -  E-mail (email)
    -  Authorisation Information (authInfo)
 
-7.3.2.  Read Operation
+8.3.2.  Read Operation
 
    The Read operation allows a client to retrieve the data elements of a
    Contact resource.  The server's response MAY vary depending on client
@@ -2298,10 +2335,10 @@ Table of Contents
       -  Sponsoring client:
          -  Full object
       -  Other client:
-         -  Without object authorisation:
+         -  Without Object Authorisation:
             -  Limited object (non-confidential properties) or operation
                denied
-         -  With object authorisation:
+         -  With Object Authorisation:
             -  Full object, however some properties only authorised to
                the sponsoring client MAY be redacted according to server
                policy
@@ -2316,7 +2353,7 @@ Table of Contents
    for non-disclosure MUST NOT be included in responses to unauthorised
    clients.
 
-7.3.3.  Update Operation
+8.3.3.  Update Operation
 
    The Update operation allows a client to modify the attributes of an
    existing Contact resource.
@@ -2336,7 +2373,7 @@ Table of Contents
    the server (prefixed with "server").  A server MAY add, delete or
    alter status values set by a client, subject to server policy.
 
-7.3.4.  Delete Operation
+8.3.4.  Delete Operation
 
    The Delete operation allows a client to remove an existing Contact
    resource.  The operation targets a specific data object identified by
@@ -2352,25 +2389,25 @@ Table of Contents
 
    The error response SHOULD indicate the existing object associations.
 
-7.3.5.  Transfer Operations
+8.3.5.  Transfer Operations
 
    The Contact Data Object supports the common transfer operations
-   defined in the [Transfer Operations] section.  The transfer of a
-   contact changes the sponsoring client of the contact object.
+   defined in the Section 2.5.4.  The transfer of a contact changes the
+   sponsoring client of the contact object.
 
    No object-specific transient data elements are defined for contact
    transfer operations beyond the common transfer data elements.
 
-8.  Host Data Object
+9.  Host Data Object
 
-8.1.  Object Description
+9.1.  Object Description
 
    -  Name: Host Data Object
    -  Identifier: host
    -  Description: A Host Data Object represents a name server that
       provides DNS services for a domain name.
 
-8.2.  Data Elements
+9.2.  Data Elements
 
    The following data elements are defined for the Host Data Object.
 
@@ -2420,9 +2457,9 @@ Table of Contents
             limited to A and AAAA entries for IPv4 and IPv6 glue records
             respectively.
 
-8.3.  Operations
+9.3.  Operations
 
-8.3.1.  Create Operation
+9.3.1.  Create Operation
 
    The Create operation allows a client to provision a new Host Data
    Object.  The operation accepts as input all create-only and read-
@@ -2445,7 +2482,7 @@ Table of Contents
    name is external to the server's namespace, IP addresses are not
    required by the DNS and MAY be omitted.
 
-8.3.2.  Read Operation
+9.3.2.  Read Operation
 
    The Read operation allows a client to retrieve the data elements of a
    Host Data Object.
@@ -2456,7 +2493,7 @@ Table of Contents
          information and there is no distinction based on client
          identity as described in Section 3.1.2 of [RFC5732].
 
-8.3.3.  Update Operation
+9.3.3.  Update Operation
 
    The Update operation allows a client to modify the attributes of an
    existing Host Data Object.  The operation targets a specific data
@@ -2479,7 +2516,7 @@ Table of Contents
    attributes, and subsequently updating the other objects sponsored by
    the client.
 
-8.3.4.  Delete Operation
+9.3.4.  Delete Operation
 
    The Delete operation allows a client to remove an existing Host Data
    Object.  The operation targets a specific data object identified by
@@ -2498,7 +2535,7 @@ Table of Contents
 
    The error response SHOULD indicate the related associated objects.
 
-8.3.5.  Restore Operations
+9.3.5.  Restore Operations
 
    The Host Data Object supports the restore operations defined in the
    Section 2.5.5.  These operations are OPTIONAL and are only available
@@ -2507,16 +2544,16 @@ Table of Contents
    No domain-specific transient data elements extend the common restore
    operations beyond those defined in the Section 2.5.5.
 
-9.  IANA Considerations
+10.  IANA Considerations
 
-9.1.  RPP Data Object Registry
+10.1.  RPP Data Object Registry
 
    This document establishes the "RESTful Provisioning Protocol (RPP)
    Data Object Registry".  This registry serves as a catalogue of all
    data objects, component objects, data elements, and operations used
    within RPP.
 
-9.1.1.  Registration Policy
+10.1.1.  Registration Policy
 
    The policy for adding new objects, data elements, or operations to
    this registry is "Specification Required" [RFC8126].
@@ -2530,22 +2567,22 @@ Table of Contents
    Private (non-standardised) extensions are not required to register in
    this registry.
 
-9.1.2.  Registry Structure
+10.1.2.  Registry Structure
 
    The registry is organised as a collection of Object definitions.
    Each Object definition MUST include:
 
    -  A header containing the Object Identifier, Object Name, Object
-      Type (Resource or Component), a brief description, and a reference
-      to its defining specification.
+      Type (Resource, Process or Component), a brief description, and a
+      reference to its defining specification.
 
    -  A "Data Elements" table listing all persisted data elements
       associated with the object.  Each entry MUST specify the element's
       Identifier, Name, Cardinality, Mutability, Data Type, description,
       and a reference to the specification that defines it.
 
-   -  If applicable, an "Operations" section.  For each operation, the
-      registry MUST provide:
+   -  An "Operations" section (applicable only for Object Types Resource
+      or Process).  For each operation, the registry MUST provide:
 
       -  The Operation's Name, a description, and a reference to the
          specification that defines it.
@@ -2562,7 +2599,7 @@ Table of Contents
    it, allowing implementations to distinguish core protocol elements
    from extension-defined elements.
 
-9.1.3.  Initial Registrations
+10.1.3.  Initial Registrations
 
    The initial contents of the RPP Data Object Registry are defined
    below.
@@ -2872,79 +2909,162 @@ Table of Contents
 
    Object: transferData
 
-   Object Name: Transfer Data Object
+   Object Name: Transfer Process Object
 
-   Object Type: Component
+   Object Type: Process
 
-   Description: Represents the state of a transfer request for a
-   provisioned object.
+   Description: Represents a transfer request for a provisioned object.
+   Creating this object initiates the transfer.  Approve and Reject are
+   additional operations; Delete corresponds to cancel.
 
    Reference: [This-ID]
 
    Data Elements
 
-   +=============+==========+=====+==========+==========+==============+
-   | Element     |Element   |Card.|Mutability|Data Type | Description  |
-   | Identifier  |Name      |     |          |          |              |
-   +=============+==========+=====+==========+==========+==============+
-   | trStatus    |Transfer  |1    |read-only |String    | The state    |
-   |             |Status    |     |          |          | of the most  |
-   |             |          |     |          |          | recent       |
-   |             |          |     |          |          | transfer     |
-   |             |          |     |          |          | request.     |
-   +-------------+----------+-----+----------+----------+--------------+
-   | transferDir |Transfer  |1    |read-only |String    | Indicates    |
-   |             |Direction |     |          |          | the          |
-   |             |          |     |          |          | direction    |
-   |             |          |     |          |          | of the       |
-   |             |          |     |          |          | transfer     |
-   |             |          |     |          |          | (pull or     |
-   |             |          |     |          |          | push).       |
-   +-------------+----------+-----+----------+----------+--------------+
-   | reqClientId |Requesting|1    |read-only |Client    | The          |
-   |             |Client ID |     |          |Identifier| identifier   |
-   |             |          |     |          |          | of the       |
-   |             |          |     |          |          | client that  |
-   |             |          |     |          |          | initiated    |
-   |             |          |     |          |          | the          |
-   |             |          |     |          |          | transfer     |
-   |             |          |     |          |          | request.     |
-   +-------------+----------+-----+----------+----------+--------------+
-   | requestDate |Request   |1    |read-only |Timestamp | The date     |
-   |             |Date      |     |          |          | and time     |
-   |             |          |     |          |          | that the     |
-   |             |          |     |          |          | transfer     |
-   |             |          |     |          |          | was          |
-   |             |          |     |          |          | requested.   |
-   +-------------+----------+-----+----------+----------+--------------+
-   | actClientId |Acting    |1    |read-only |Client    | The          |
-   |             |Client ID |     |          |Identifier| identifier   |
-   |             |          |     |          |          | of the       |
-   |             |          |     |          |          | client that  |
-   |             |          |     |          |          | should or    |
-   |             |          |     |          |          | did act on   |
-   |             |          |     |          |          | the          |
-   |             |          |     |          |          | request.     |
-   +-------------+----------+-----+----------+----------+--------------+
-   | actionDate  |Action    |1    |read-only |Timestamp | The          |
-   |             |Date      |     |          |          | response     |
-   |             |          |     |          |          | deadline     |
-   |             |          |     |          |          | (if          |
-   |             |          |     |          |          | pending) or  |
-   |             |          |     |          |          | completion   |
-   |             |          |     |          |          | date.        |
-   +-------------+----------+-----+----------+----------+--------------+
+   +===============+==========+=====+===========+==========+===========+
+   |Element        |Element   |Card.|Mutability |Data Type |Description|
+   |Identifier     |Name      |     |           |          |           |
+   +===============+==========+=====+===========+==========+===========+
+   |transferDir    |Transfer  |0-1  |create-only|String    |The        |
+   |               |Direction |     |           |          |direction  |
+   |               |          |     |           |          |of the     |
+   |               |          |     |           |          |transfer   |
+   |               |          |     |           |          |("pull" or |
+   |               |          |     |           |          |"push").   |
+   |               |          |     |           |          |If omitted,|
+   |               |          |     |           |          |server     |
+   |               |          |     |           |          |policy     |
+   |               |          |     |           |          |determines |
+   |               |          |     |           |          |default.   |
+   +---------------+----------+-----+-----------+----------+-----------+
+   |gainingClientId|Gaining   |0-1  |create-only|Client    |The        |
+   |               |Client ID |     |           |Identifier|designated |
+   |               |          |     |           |          |gaining    |
+   |               |          |     |           |          |client.    |
+   |               |          |     |           |          |REQUIRED   |
+   |               |          |     |           |          |for push   |
+   |               |          |     |           |          |transfers; |
+   |               |          |     |           |          |MUST NOT be|
+   |               |          |     |           |          |provided   |
+   |               |          |     |           |          |for pull.  |
+   +---------------+----------+-----+-----------+----------+-----------+
+   |trStatus       |Transfer  |1    |read-only  |String    |The state  |
+   |               |Status    |     |           |          |of the     |
+   |               |          |     |           |          |transfer   |
+   |               |          |     |           |          |request.   |
+   +---------------+----------+-----+-----------+----------+-----------+
+   |reqClientId    |Requesting|1    |read-only  |Client    |The        |
+   |               |Client ID |     |           |Identifier|identifier |
+   |               |          |     |           |          |of the     |
+   |               |          |     |           |          |client that|
+   |               |          |     |           |          |initiated  |
+   |               |          |     |           |          |the        |
+   |               |          |     |           |          |transfer   |
+   |               |          |     |           |          |request.   |
+   +---------------+----------+-----+-----------+----------+-----------+
+   |requestDate    |Request   |1    |read-only  |Timestamp |The date   |
+   |               |Date      |     |           |          |and time   |
+   |               |          |     |           |          |that the   |
+   |               |          |     |           |          |transfer   |
+   |               |          |     |           |          |was        |
+   |               |          |     |           |          |requested. |
+   +---------------+----------+-----+-----------+----------+-----------+
+   |actClientId    |Acting    |1    |read-only  |Client    |The        |
+   |               |Client ID |     |           |Identifier|identifier |
+   |               |          |     |           |          |of the     |
+   |               |          |     |           |          |client that|
+   |               |          |     |           |          |should or  |
+   |               |          |     |           |          |did act on |
+   |               |          |     |           |          |the        |
+   |               |          |     |           |          |request.   |
+   +---------------+----------+-----+-----------+----------+-----------+
+   |actionDate     |Action    |1    |read-only  |Timestamp |The        |
+   |               |Date      |     |           |          |response   |
+   |               |          |     |           |          |deadline   |
+   |               |          |     |           |          |(if        |
+   |               |          |     |           |          |pending) or|
+   |               |          |     |           |          |completion |
+   |               |          |     |           |          |date.      |
+   +---------------+----------+-----+-----------+----------+-----------+
 
                                   Table 8
+
+   Operations
+
+   Operation: Create
+
+   Operation Identifier: create
+
+   Description: Initiates a transfer of a Domain Name resource by
+   creating a Transfer Process Object.  Transfer direction and gaining
+   client are provided as create-only data elements.
+
+   Parameters
+
+   +================+==========+=======+========+=====================+
+   | Identifier     | Name     | Card. | Data   | Description         |
+   |                |          |       | Type   |                     |
+   +================+==========+=======+========+=====================+
+   | transferPeriod | Transfer | 0-1   | period | The duration to add |
+   |                | Period   |       |        | to the registration |
+   |                |          |       |        | period upon         |
+   |                |          |       |        | transfer.           |
+   +----------------+----------+-------+--------+---------------------+
+
+                                 Table 9
+
+   Operation: Transfer Read
+
+   Operation Identifier: read
+
+   Description: Queries the status of a transfer of a Domain Name
+   resource.
+
+   Parameters: (None)
+
+   Operation: Transfer Delete
+
+   Operation Identifier: delete
+
+   Description: Cancels a pending transfer of a Domain Name resource.
+
+   Parameters: (None)
+
+   Operation: Transfer Approve
+
+   Operation Identifier: approve
+
+   Description: Approves a pending transfer of a Domain Name resource.
+
+   Parameters: (None)
+
+   Operation: Transfer Reject
+
+   Operation Identifier: reject (on Transfer Process Object)
+
+   Description: Rejects a pending transfer of a Domain Name resource.
+
+   Parameters
+
+    +============+========+=======+========+==========================+
+    | Identifier | Name   | Card. | Data   | Description              |
+    |            |        |       | Type   |                          |
+    +============+========+=======+========+==========================+
+    | reason     | Reason | 0-1   | String | A human-readable text    |
+    |            |        |       |        | describing the rationale |
+    |            |        |       |        | for rejection.           |
+    +------------+--------+-------+--------+--------------------------+
+
+                                  Table 10
 
       |  TODO: IANA table: Postal Address Object TODO: IANA table:
       |  Postal Info Object TODO: IANA table: Disclose Object
 
    Object: restoreData
 
-   Object Name: Restore Data Object
+   Object Name: Restore Process Object
 
-   Object Type: Component
+   Object Type: Process
 
    Description: Represents the current state of a restore request for an
    object that has entered the Redemption Grace Period (RGP).  Returned
@@ -2990,7 +3110,61 @@ Table of Contents
    |             |       |     |          |         |pendingRestore.  |
    +-------------+-------+-----+----------+---------+-----------------+
 
-                                 Table 9
+                                 Table 11
+
+   Operations
+
+   Operation: Restore Create
+
+   Operation Identifier: create
+
+   Description: Initiates recovery of a domain name in the
+   redemptionPeriod state by creating a Restore Process Object.  This
+   operation is OPTIONAL and is only available when the RGP feature is
+   supported.
+
+   Parameters
+
+   +===============+=========+=======+===============+=================+
+   | Identifier    | Name    | Card. | Data Type     | Description     |
+   +===============+=========+=======+===============+=================+
+   | restoreReport | Restore | 0-1   | Restore       | An inline       |
+   |               | Report  |       | Report Object | restore         |
+   |               |         |       |               | report.         |
+   +---------------+---------+-------+---------------+-----------------+
+
+                                  Table 12
+
+   Operation: Restore Read
+
+   Operation Identifier: read (on Restore Process Object)
+
+   Description: Retrieves the current state of the RGP restore process
+   for a domain name.  This operation is OPTIONAL and is only available
+   when the RGP feature is supported.
+
+   Parameters: (None)
+
+   Operation: Restore Report
+
+   Operation Identifier: report
+
+   Description: Submits the restore report for a domain name in the
+   pendingRestore state.  This operation is OPTIONAL and is only
+   available when the RGP feature is supported and the server requires a
+   restore report.
+
+   Parameters
+
+    +===============+=========+=======+===============+==============+
+    | Identifier    | Name    | Card. | Data Type     | Description  |
+    +===============+=========+=======+===============+==============+
+    | restoreReport | Restore | 1     | Restore       | The restore  |
+    |               | Report  |       | Report Object | report to be |
+    |               |         |       |               | submitted.   |
+    +---------------+---------+-------+---------------+--------------+
+
+                                 Table 13
 
    Object: restoreReport
 
@@ -3078,7 +3252,7 @@ Table of Contents
    |             |            |     |          |         |the client.  |
    +-------------+------------+-----+----------+---------+-------------+
 
-                                  Table 10
+                                  Table 14
 
    Object: domainName
 
@@ -3148,7 +3322,7 @@ Table of Contents
    |                |             |     |          |                   |object.      |
    +----------------+-------------+-----+----------+-------------------+-------------+
 
-                                  Table 11
+                                  Table 15
 
    Operations
 
@@ -3170,7 +3344,7 @@ Table of Contents
    |            |              |       |        | domain name.         |
    +------------+--------------+-------+--------+----------------------+
 
-                                  Table 12
+                                  Table 16
 
    Operation: Read
 
@@ -3196,7 +3370,7 @@ Table of Contents
    |               |               |       |          | data.          |
    +---------------+---------------+-------+----------+----------------+
 
-                                  Table 13
+                                  Table 17
 
    Operation: Update
 
@@ -3214,7 +3388,7 @@ Table of Contents
     |            |        |       |         | update by the server.  |
     +------------+--------+-------+---------+------------------------+
 
-                                 Table 14
+                                 Table 18
 
    Operation: Delete
 
@@ -3246,138 +3420,7 @@ Table of Contents
    |                   |         |       |           | period.        |
    +-------------------+---------+-------+-----------+----------------+
 
-                                 Table 15
-
-   Operation: Transfer Request
-
-   Operation Identifier: transferRequest
-
-   Description: Initiates a transfer of a Domain Name resource.
-
-   Parameters
-
-   +=================+===========+=======+============+================+
-   | Identifier      | Name      | Card. | Data Type  | Description    |
-   +=================+===========+=======+============+================+
-   | transferDir     | Transfer  | 0-1   | String     | Indicates      |
-   |                 | Direction |       |            | whether the    |
-   |                 |           |       |            | transfer is    |
-   |                 |           |       |            | a "pull" or    |
-   |                 |           |       |            | "push"         |
-   |                 |           |       |            | transfer.      |
-   +-----------------+-----------+-------+------------+----------------+
-   | gainingClientId | Gaining   | 0-1   | Client     | The            |
-   |                 | Client ID |       | Identifier | designated     |
-   |                 |           |       |            | gaining        |
-   |                 |           |       |            | client         |
-   |                 |           |       |            | (required      |
-   |                 |           |       |            | for push       |
-   |                 |           |       |            | transfers).    |
-   +-----------------+-----------+-------+------------+----------------+
-   | transferPeriod  | Transfer  | 0-1   | period     | The duration   |
-   |                 | Period    |       |            | to add to      |
-   |                 |           |       |            | the            |
-   |                 |           |       |            | registration   |
-   |                 |           |       |            | period upon    |
-   |                 |           |       |            | transfer.      |
-   +-----------------+-----------+-------+------------+----------------+
-
-                                  Table 16
-
-   Operation: Transfer Approve
-
-   Operation Identifier: transferApprove
-
-   Description: Approves a pending transfer of a Domain Name resource.
-
-   Parameters: (None)
-
-   Operation: Transfer Reject
-
-   Operation Identifier: transferReject
-
-   Description: Rejects a pending transfer of a Domain Name resource.
-
-   Parameters
-
-    +============+========+=======+========+==========================+
-    | Identifier | Name   | Card. | Data   | Description              |
-    |            |        |       | Type   |                          |
-    +============+========+=======+========+==========================+
-    | reason     | Reason | 0-1   | String | A human-readable text    |
-    |            |        |       |        | describing the rationale |
-    |            |        |       |        | for rejection.           |
-    +------------+--------+-------+--------+--------------------------+
-
-                                  Table 17
-
-   Operation: Transfer Cancel
-
-   Operation Identifier: transferCancel
-
-   Description: Cancels a pending transfer of a Domain Name resource.
-
-   Parameters: (None)
-
-   Operation: Transfer Query
-
-   Operation Identifier: transferQuery
-
-   Description: Queries the status of a transfer of a Domain Name
-   resource.
-
-   Parameters: (None)
-
-   Operation: Restore Request
-
-   Operation Identifier: restoreRequest
-
-   Description: Initiates recovery of a domain name in the
-   redemptionPeriod state.  This operation is OPTIONAL and is only
-   available when the RGP feature is supported.
-
-   Parameters
-
-   +===============+=========+=======+===============+=================+
-   | Identifier    | Name    | Card. | Data Type     | Description     |
-   +===============+=========+=======+===============+=================+
-   | restoreReport | Restore | 0-1   | Restore       | An inline       |
-   |               | Report  |       | Report Object | restore         |
-   |               |         |       |               | report.         |
-   +---------------+---------+-------+---------------+-----------------+
-
-                                  Table 18
-
-   Operation: Restore Report
-
-   Operation Identifier: restoreReport
-
-   Description: Submits the restore report for a domain name in the
-   pendingRestore state.  This operation is OPTIONAL and is only
-   available when the RGP feature is supported and the server requires a
-   restore report.
-
-   Parameters
-
-    +===============+=========+=======+===============+==============+
-    | Identifier    | Name    | Card. | Data Type     | Description  |
-    +===============+=========+=======+===============+==============+
-    | restoreReport | Restore | 1     | Restore       | The restore  |
-    |               | Report  |       | Report Object | report to be |
-    |               |         |       |               | submitted.   |
-    +---------------+---------+-------+---------------+--------------+
-
                                  Table 19
-
-   Operation: Restore Query
-
-   Operation Identifier: restoreQuery
-
-   Description: Retrieves the current state of the RGP restore process
-   for a domain name.  This operation is OPTIONAL and is only available
-   when the RGP feature is supported.
-
-   Parameters: (None)
 
       |  TODO: IANA table: Contact Data Object
 
@@ -3453,11 +3496,29 @@ Table of Contents
 
    Parameters: (None)
 
-10.  Security Considerations
+11.  Security Considerations
 
       |  TODO: write security considerations, if any
 
-11.  Changes History
+12.  Changes History
+
+draft-kowalik-rpp-data-objects -03 - -04
+
+   -  simplify Component Objects and Process Objects section intros, now
+      redundant with terminology definitions
+   -  rework transfer operations to resource-oriented style:
+      transferRequest→create, transferQuery→read, transferCancel→delete,
+      transferApprove→approve, transferReject→reject on Transfer Process
+      Object #61
+   -  move transferDir and gainingClientId from transient parameters to
+      create-only data elements of Transfer Process Object
+   -  move transferPeriod (domain-specific) from transient parameter to
+      create-only data element of domain Transfer Process Object
+   -  add read-only mutability to domain-specific expiryDate output
+      element in transfer
+   -  rework restore operations to resource-oriented style:
+      restoreRequest→create, restoreQuery→read, restoreReport→report on
+      Restore Process Object #61
 
 draft-kowalik-rpp-data-objects -02 - -03
 
@@ -3474,7 +3535,7 @@ draft-kowalik-rpp-data-objects -02 - -03
       accommodate extension registrations
    -  change "Aggregation/Composition Dictionary" to "Dictionary
       Aggregation/Composition" (Issue #32)
-   -  define common transfer operations and Transfer Data Object with
+   -  define common transfer operations and Transfer Process Object with
       support for pull and push transfers #23
    -  add domain-specific transfer operations with implicit renewal and
       subordinate host transfer
@@ -3502,9 +3563,9 @@ draft-kowalik-rpp-data-objects -01 - -02
    -  ontology of allowed basic datatypes #4
    -  add examples of associations #31
 
-12.  References
+13.  References
 
-12.1.  Normative References
+13.1.  Normative References
 
    [I-D.ietf-rpp-architecture]
               Kowalik, P. and M. Wullink, "RPP Architecture", Work in
@@ -3587,7 +3648,7 @@ draft-kowalik-rpp-data-objects -01 - -02
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
               May 2017, <https://www.rfc-editor.org/info/rfc8174>.
 
-12.2.  Informative References
+13.2.  Informative References
 
    [I-D.simmen-rpp-dns-data]
               Simmen, C. and P. Kowalik, "DNS data representation for
