@@ -1252,7 +1252,7 @@ A> TBC: IANA registry for statuses?
   * Identifier: registrant
   * Cardinality: 0-1
   * Mutability: read-write
-  * Data Type: Contact Object.
+  * Data Type: Contact Object
   * Description: The contact object associated with the domain as the registrant.
   * Constraints:
     * The relation MUST correspond to a valid Contact Data Object known to the server.
@@ -1307,7 +1307,7 @@ A> TBC: IANA registry for contact role label?
   * Identifier: expiryDate
   * Cardinality: 0-1
   * Mutability: read-only
-  * Data Type: Timestamp.
+  * Data Type: Timestamp
   * Description: The date and time identifying the end of the domain object's registration period.
   * Constraints: The value is set by the server and cannot be specified by the client.
 
@@ -2020,18 +2020,18 @@ Description: Represents a domain name and its associated data.
 Reference: [This-ID]
 
 Data Elements
-| Identifier       | Name                  | Card. | Mutability  | Data Type                            | Description                                                               |
-| ---------------- | --------------------- | ----- | ----------- | ------------------------------------ | ------------------------------------------------------------------------- |
-| name             | Name                  | 1     | create-only | String                               | The fully qualified name of the domain object.                            |
-| provMetadata     | Provisioning Metadata | 1     | read-only   | Provisioning Metadata Object         | Standard metadata about object lifecycle and ownership.                   |
-| status           | Status                | 0+    | read-only   | Status Object                        | The current status descriptors for the domain.                            |
-| registrant       | Registrant            | 0-1   | read-write  | Contact Object                       | The registrant contact ID.                                                |
-| contacts         | Contacts              | 0+    | read-write  | LabelledAggregation [Contact Object] | Associated contact objects.                                               |
-| nameservers      | Nameservers           | 0+    | read-write  | Aggregation [Host Data Object]       | A collection of nameservers associated with the domain.                   |
-| dns              | DNS Data              | 0-1   | read-write  | DNS Data Object                      | DNS resource records and operational controls related to the domain name. |
-| subordinateHosts | Subordinate Hosts     | 0+    | read-only   | Aggregation [Host Data Object]       | Subordinate host names.                                                   |
-| expiryDate       | Expiry Date           | 0-1   | read-only   | Timestamp                            | Expiry timestamp.                                                         |
-| authInfo         | Authorisation Info    | 0-1   | read-write  | authInfo                             | Authorisation information for the object.                                 |
+| Identifier       | Name                      | Card. | Mutability  | Data Type                            | Description                                                               |
+| ---------------- | ------------------------- | ----- | ----------- | ------------------------------------ | ------------------------------------------------------------------------- |
+| name             | Name                      | 1     | create-only | String                               | The fully qualified name of the domain object.                            |
+| provMetadata     | Provisioning Metadata     | 1     | read-only   | Provisioning Metadata Object         | Standard metadata about object lifecycle and ownership.                   |
+| status           | Status                    | 0+    | read-only   | Status Object                        | The current status descriptors for the domain.                            |
+| registrant       | Registrant                | 0-1   | read-write  | Contact Object                       | The registrant contact ID.                                                |
+| contacts         | Contacts                  | 0+    | read-write  | LabelledAggregation [Contact Object] | Associated contact objects.                                               |
+| nameservers      | Nameservers               | 0+    | read-write  | Aggregation [Host Data Object]       | A collection of nameservers associated with the domain.                   |
+| dns              | DNS Data                  | 0-1   | read-write  | DNS Data Object                      | DNS resource records and operational controls related to the domain name. |
+| subordinateHosts | Subordinate Hosts         | 0+    | read-only   | Aggregation [Host Data Object]       | Subordinate host names.                                                   |
+| expiryDate       | Expiry Date               | 0-1   | read-only   | Timestamp                            | Expiry timestamp.                                                         |
+| authInfo         | Authorisation Information | 0-1   | read-write  | Authorisation Information Object     | Authorisation information for the object.                                 |
 
 Operations
 

@@ -1900,7 +1900,7 @@ Table of Contents
       -  Identifier: registrant
       -  Cardinality: 0-1
       -  Mutability: read-write
-      -  Data Type: Contact Object.
+      -  Data Type: Contact Object
       -  Description: The contact object associated with the domain as
          the registrant.
       -  Constraints:
@@ -1980,7 +1980,7 @@ Table of Contents
       -  Identifier: expiryDate
       -  Cardinality: 0-1
       -  Mutability: read-only
-      -  Data Type: Timestamp.
+      -  Data Type: Timestamp
       -  Description: The date and time identifying the end of the
          domain object's registration period.
       -  Constraints: The value is set by the server and cannot be
@@ -3321,8 +3321,8 @@ Table of Contents
    |expiryDate      |Expiry Date  |0-1  |read-only |Timestamp          |Expiry       |
    |                |             |     |          |                   |timestamp.   |
    +----------------+-------------+-----+----------+-------------------+-------------+
-   |authInfo        |Authorisation|0-1  |read-write|authInfo           |Authorisation|
-   |                |Info         |     |          |                   |information  |
+   |authInfo        |Authorisation|0-1  |read-write|Authorisation      |Authorisation|
+   |                |Information  |     |          |Information Object |information  |
    |                |             |     |          |                   |for the      |
    |                |             |     |          |                   |object.      |
    +----------------+-------------+-----+----------+-------------------+-------------+
