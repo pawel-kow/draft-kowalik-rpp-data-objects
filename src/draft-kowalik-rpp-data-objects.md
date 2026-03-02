@@ -55,10 +55,17 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "S
 
 The following terms related to the relationship between host objects and domain objects are used as defined in [@!RFC5732, section 1.1]:
 
-* Subordinate host: A host name object that has a subordinate relationship to a superordinate domain name object. For example, host name "ns1.example.com" has a subordinate relationship to domain name "example.com".
-* Superordinate domain: A domain name object to which a host name object is subordinate.
-* Internal host: A host whose name belongs to the namespace of the repository in which the host is being used for delegation purposes.
-* External host: A host whose name does not belong to the namespace of the repository in which the host is being used for delegation purposes.
+Subordinate host
+: A host name object that has a subordinate relationship to a superordinate domain name object. For example, host name "ns1.example.com" has a subordinate relationship to domain name "example.com".
+
+Superordinate domain
+: A domain name object to which a host name object is subordinate.
+
+Internal host
+: A host whose name belongs to the namespace of the repository in which the host is being used for delegation purposes.
+
+External host
+: A host whose name does not belong to the namespace of the repository in which the host is being used for delegation purposes.
 
 The following terms are defined and used in this document
 
