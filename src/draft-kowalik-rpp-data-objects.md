@@ -10,7 +10,7 @@ date = 2026-03-02
 
 [seriesInfo]
 name = "Internet-Draft"
-value = "draft-kowalik-rpp-data-objects-02"
+value = "draft-kowalik-rpp-data-objects-03"
 stream = "IETF"
 status = "standard"
 
