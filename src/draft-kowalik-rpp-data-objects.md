@@ -72,7 +72,7 @@ Component Object
 : A reusable data structure that carries data only, with no operations of its own. Component Objects are embedded within Data Objects or other objects to avoid repetition of common data patterns.
 
 Process Object
-: An object that represents a long-running or multi-step operation initiated on a Data Object. Process Objects carry operation-related state and data, and may define their own operations to interact with the process. They have no independent existence — their lifecycle is bound to the owning Data Object.
+: An object that represents a long-running or multi-step operation initiated on a Data Object. Process Objects carry operation-related state and data, and may define their own operations to interact with the process. They have no independent existence - their lifecycle is bound to the owning Data Object.
 
 Owner Data Object
 : A Data Object which a process (represented as Process Object) was initiated upon and which owns this Process Object
