@@ -163,7 +163,7 @@ For each data object a set of possible operations is defined together with their
 ### Authorisation
 
 For each operation authorisation requirements and operation behaviour is specified.
-Wherever "object authorisation" is mentioned, it means that an operation MAY accept or require additional authorisation data related to the object beyond default client-level authorisation, or that an operation MAY have different effect or response if such authorisation is provided.
+Wherever "Object Authorisation" is mentioned, it means that an operation MAY accept or require additional authorisation data related to the object beyond default client-level authorisation, or that an operation MAY have different effect or response if such authorisation is provided.
 Typically it would be a value related to or derived from Authorisation Information Object attached to the object.
 
 ### Uniform interface
@@ -180,7 +180,13 @@ For the typical set of Create, Read, Update and Delete operations the following 
 * Input: Object identifier
 * Output: Object (read-write and read-only properties)
 
-The output Object MAY vary depending on the identity of the querying client, use of object authorisation information, and server policy towards unauthorized clients. If the querying client is the sponsoring client, all available information MUST be returned. If the querying client is not the sponsoring client but the client provides valid object authorisation information, all available information SHOULD be returned, however some optional elements MAY be reserved to the sponsoring client only. If the querying client is not the sponsoring client and the client does not provide valid object authorisation information, server policy determines which OPTIONAL elements are returned, if any, or whether the entire request is rejected.
+The output Object MAY vary depending on the identity of the querying client, use of Object Authorisation information, and server policy towards unauthorized clients.
+
+If the querying client is the sponsoring client, all available information MUST be returned.
+
+If the querying client is not the sponsoring client but the client provides valid Object Authorisation information, all available information SHOULD be returned, however some optional elements MAY be reserved to the sponsoring client only. 
+
+If the querying client is not the sponsoring client and the client does not provide valid Object Authorisation information, server policy determines which OPTIONAL elements are returned, if any, or whether the entire request is rejected.
 
 #### Update
 
@@ -202,7 +208,7 @@ Transfer operations manage the change of sponsorship of a provisioned object fro
 
 RPP supports two types of transfer:
 
-* Pull Transfer: Initiated by the gaining client. The gaining client MUST provide valid authorisation information associated with the object to initiate the request.
+* Pull Transfer: Initiated by the gaining client. The gaining client MUST provide valid Object Authorisation to initiate the request.
 * Push Transfer: Initiated by the sponsoring client, who designates a gaining client in the request.
 
 The transfer process MAY be immediate or follow a multi-step workflow depending on server policy. If the server implements immediate transfers, the approve, reject, and cancel operations need not be supported; the server completes the transfer upon receipt of the request.
@@ -221,10 +227,16 @@ A> TODO: Transfer-specific error conditions (object not eligible for transfer, o
 
 The Transfer Request operation initiates a transfer of an object.
 
+* Authorisation:
+  * Pull transfer:
+    * The requesting client (gaining client) MUST provide valid Object Authorisation.
+  * Push transfer:
+    * Only the sponsoring client is authorised to initiate a push transfer.
+
 * Input:
   * Object Identifier
-  * Object authorisation information (REQUIRED only for pull transfers)
-* Output: Transfer Data Object
+* Output:
+  * Transfer Data Object
 
 The following transient data elements are common for all transfer requests:
 
@@ -242,31 +254,33 @@ The following transient data elements are common for all transfer requests:
   * Description: The identifier of the designated gaining client. This element is REQUIRED for push transfers and MUST NOT be provided for pull transfers.
   * Constraints: (None)
 
-* Authorisation:
-  * Pull transfer:
-    * The requesting client (gaining client) MUST provide valid authorisation information associated with the object.
-  * Push transfer:
-    * Only the sponsoring client is authorised to initiate a push transfer.
-
 #### Transfer Approve Operation
 
 * Identifier: transferApprove
 
-The Transfer Approve operation allows the appropriate client to accept a pending transfer request. For a pending pull transfer, only the sponsoring client is authorised to approve. For a pending push transfer, only the designated gaining client is authorised to approve.
+The Transfer Approve operation allows the appropriate client to accept a pending transfer request. 
+
+* Authorisation:
+  * Pull transfer: 
+    * only the sponsoring client
+  * Push transfer:
+    * only the designated gaining client
 
 * Input: Object Identifier
 * Output: Transfer Data Object
 
-* Authorisation:
-  * Pull transfer: only the sponsoring client
-  * Push transfer: only the designated gaining client
-  * The server MUST reject any approval attempts not initiated by the authorised client.
 
 #### Transfer Reject Operation
 
 * Identifier: transferReject
 
-The Transfer Reject operation allows the appropriate client to reject a pending transfer request. For a pending pull transfer, only the sponsoring client is authorised to reject. For a pending push transfer, only the designated gaining client is authorised to reject.
+The Transfer Reject operation allows the appropriate client to reject a pending transfer request. 
+
+* Authorisation:
+  * Pull transfer: 
+    * only the sponsoring client
+  * Push transfer:
+    * only the designated gaining client
 
 * Input: Object Identifier
 * Output: Transfer Data Object
@@ -280,23 +294,17 @@ The following transient data elements are defined for this operation:
   * Description: A human-readable text describing the rationale for rejecting the transfer request.
   * Constraints: In EPP Compatibility Profile this data element MUST NOT be used
 
-* Authorisation:
-  * Pull transfer: only the sponsoring client
-  * Push transfer: only the designated gaining client
-  * The server MUST reject any rejection attempts not initiated by the authorised client.
-
 #### Transfer Cancel Operation
 
 * Identifier: transferCancel
 
 The Transfer Cancel operation allows the initiating client to cancel its own pending transfer request.
 
+* Authorisation:
+  * Only the initiating client (the client that originally requested the transfer).
+
 * Input: Object Identifier
 * Output: Transfer Data Object
-
-* Authorisation:
-  * Only the initiating client (the client that originally requested the transfer) is authorised to cancel.
-  * The server MUST reject any cancellation attempts not initiated by the initiating client.
 
 #### Transfer Query Operation
 
@@ -304,12 +312,12 @@ The Transfer Cancel operation allows the initiating client to cancel its own pen
 
 The Transfer Query operation allows a client to determine the real-time status of a pending or recently completed transfer request.
 
-* Input: Object Identifier
-* Output: Transfer Data Object
-
 * Authorisation:
   * This operation MUST be accessible to both the sponsoring client and the gaining client.
   * Server policy determines whether other clients may query transfer status and what information is returned.
+
+* Input: Object Identifier
+* Output: Transfer Data Object
 
 ### Restore Operations {#restore-ops}
 
@@ -426,11 +434,11 @@ The following transient data elements are defined for this operation:
 
 The Restore Query operation allows the sponsoring client to retrieve the current state of the RGP process for an object.
 
-* Input: Object Identifier
-* Output: Restore Data Object
-
 * Authorisation:
   * Only the sponsoring client is authorised to perform this operation.
+
+* Input: Object Identifier
+* Output: Restore Data Object
 
 In EPP Compatibility Profile this operation is not supported.
 
@@ -1308,17 +1316,15 @@ In addition, the following transient data element is defined for this operation:
 
 * Identifier: read
 
-The Read operation allows a client to retrieve the data elements of a
-Domain Name resource. The server's response MAY vary depending on
-client authorisation and server policy.
+The Read operation allows a client to retrieve the data elements of a Domain Name resource. The server's response MAY vary depending on client authorisation and server policy.
 
 * Authorisation:
   * Sponsoring client:
     * Full object
   * Other client:
-    * Without object authorisation:
+    * Without Object Authorisation:
       * Limited object (non-confidential properties) or operation denied
-    * With object authorisation:
+    * With Object Authorisation:
       * Full object, however some properties only authorised to the sponsoring client MAY be redacted according to server policy
 
 The following transient data elements are defined for this operation:
@@ -1370,9 +1376,9 @@ The error response SHOULD indicate the related subordinate host objects.
 
 The Renew operation allows a client to extend the validity period of an existing Domain Name resource. The operation targets a specific data object identified by its name.
 
-
 * Authorisation:
   * Only sponsoring client is authorised to perform this operation
+
 * Input: Domain Name
 * Output: Full object (read-write and read-only properties), or a minimum set of properties affected by the operation (Expiry Date).
 
@@ -1537,9 +1543,9 @@ The Read operation allows a client to retrieve the data elements of a Contact re
   * Sponsoring client:
     * Full object
   * Other client:
-    * Without object authorisation:
+    * Without Object Authorisation:
       * Limited object (non-confidential properties) or operation denied
-    * With object authorisation:
+    * With Object Authorisation:
       * Full object, however some properties only authorised to the sponsoring client MAY be redacted according to server policy
 
 Authorisation Information (`authInfo`) MUST NOT be provided in the response if the querying client is not the current sponsoring client.
