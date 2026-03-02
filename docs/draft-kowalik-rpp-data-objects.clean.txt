@@ -1287,7 +1287,7 @@ Table of Contents
 5.7.  Authorisation Information Object
 
    -  Name: Authorisation Information
-   -  Identifier: authorisation
+   -  Identifier: authInfo
    -  Description: Contains information used to authorise operations on
       a data object.  It may hold different kind of authorisation
       information.
@@ -2810,7 +2810,7 @@ Table of Contents
 
                                   Table 5
 
-   Object: domainStatus
+   Object: status
 
    Object Name: Status Object
 
