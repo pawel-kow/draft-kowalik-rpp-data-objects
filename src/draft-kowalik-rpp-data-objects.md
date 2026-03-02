@@ -2132,39 +2132,24 @@ A> TODO: write security considerations, if any
 
 {toc="exclude"}
 {numbered="false"}
-## draft-kowalik-rpp-data-objects -03 - -04
-
-* simplify Component Objects and Process Objects section intros, now redundant with terminology definitions
-* rework transfer operations to resource-oriented style: transferRequest→create, transferQuery→read, transferCancel→delete, transferApprove→approve, transferReject→reject on Transfer Process Object #61
-* move transferDir and gainingClientId from transient parameters to create-only data elements of Transfer Process Object
-* move transferPeriod (domain-specific) from transient parameter to create-only data element of domain Transfer Process Object
-* add read-only mutability to domain-specific expiryDate output element in transfer
-* rework restore operations to resource-oriented style: restoreRequest→create, restoreQuery→read, restoreReport→report on Restore Process Object #61
-
-{toc="exclude"}
-{numbered="false"}
 ## draft-kowalik-rpp-data-objects -02 - -03
 
-* removed notion of "representation" from both inputs and outputs
-* abstract common provisioning metadata into reusable component object
-* describe operations for hosts #16
-* add host/domain relationship terminology from RFC 5732
-* remove redundant Nameserver Component Object, domain nameservers use Aggregation[Host Data Object]
-* expand extensibility section with standardised/private extension mechanisms, extension points, and operation extensibility
-* update IANA registration policy and registry structure to accommodate extension registrations
+* add Object and Dictionary[Value Type] primitive data types
 * change "Aggregation/Composition Dictionary" to "Dictionary Aggregation/Composition" (Issue #32) 
+* describe operations for contacts #15
+* describe operations for hosts #16
+* add Domain Update operation with urgent transient parameter from [@RFC5910]
+* add identifiers to all operations
+* abstract common provisioning metadata into reusable component object
+* define common RGP/restore process and Restore Process Object 
 * define common transfer operations and Transfer Process Object with support for pull and push transfers #23
 * add domain-specific transfer operations with implicit renewal and subordinate host transfer
-* add contact transfer operations referencing common transfer pattern
-* add identifiers to all operations
-* restructure DNS data model aligned with draft-simmen-rpp-dns-data-01: redefine DNS Resource Record Object (name, class, type, rdata), add DNS Operational Controls Object (ttl, maxSigLifetime), add DNS Data Object (records + controls)
-* add DNSSEC support based on [@RFC5910]: DS and DNSKEY record types with structured RDATA fields, maxSigLifetime operational control
-* update Domain, Host, and Nameserver objects to use DNS Data Object
-* add Domain Update operation with urgent transient parameter from [@RFC5910]
-* add Object and Dictionary[Value Type] primitive data types
-* describe operations for contacts #15
+* add host/domain relationship terminology from RFC 5732
+* restructure DNS data model aligned with draft-simmen-rpp-dns-data-01: redefine DNS Resource Record Object, add DNS Operational Controls Object, add DNS Data Object; update Domain, Host, and Nameserver objects to use it
+* add DNSSEC support based on [@RFC5910]: DS and DNSKEY record types with structured RDATA fields
 * add NS, A, and AAAA RDATA structures and record type constraints to EPP compatibility profile for DNS Resource Record Object
-* move RDATA EPP compatibility structures into dedicated subchapter with cross-reference from field definition
+* expand extensibility section with standardised/private extension mechanisms, extension points, and operation extensibility
+* update IANA registration policy and registry structure to accommodate extension registrations
 
 {toc="exclude"}
 {numbered="false"}
