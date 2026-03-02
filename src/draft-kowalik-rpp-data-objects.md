@@ -6,7 +6,7 @@ workgroup = "Network Working Group"
 submissiontype = "IETF"
 keyword = [""]
 TocDepth = 4
-date = 2025-11-14
+date = 2026-03-02
 
 [seriesInfo]
 name = "Internet-Draft"
@@ -38,7 +38,7 @@ organization = "SIDN Labs"
 
 .# Abstract
 
-This document defines data objects for the RESTful Provisioning Protocol (RPP) and sets up IANA RPP Data Object Registry to describe and catalogue them. Specifically, it details the logical structure, constraints, and protocol operations (including their inputs and outputs) for foundational resources: domain names, contacts, and hosts. In accordance with the RPP architecture [@!I-D.kowalik-rpp-architecture], these definitions focus entirely on the semantics, remaining independent of any specific data representation or media type (e.g., JSON or XML).
+This document defines data objects for the RESTful Provisioning Protocol (RPP) and sets up IANA RPP Data Object Registry to describe and catalogue them. Specifically, it details the logical structure, constraints, and protocol operations (including their inputs, outputs and business logic) for foundational resources: domain names, contacts, and hosts. In accordance with the RPP architecture [@!I-D.kowalik-rpp-architecture], these definitions focus entirely on the semantics, remaining independent of any specific data representation or media type (e.g., JSON or XML).
 
 {mainmatter}
 
@@ -47,11 +47,35 @@ The RESTful Provisioning Protocol (RPP) defines a set of data objects used to re
 
 In accordance with the RPP architecture [@!I-D.kowalik-rpp-architecture], a core architectural principle is the clear distinction between the abstract data model and its concrete data representation. The data model defines the logical structure, relationships, and constraints of the objects, independent of formatting. The data representation defines how these abstract concepts are expressed in specific formats (e.g., JSON, XML, or YAML).
 
-This document focuses on the data model of RPP objects and operations on them, including the data model of operation inputs and outputs. This separation of concerns ensures the protocol maintains a stable semantic foundation that can be consistently implemented across different media types and easily adapted to new representation formats. For instance, the model defines a contact's name as a required string type, but it remains agnostic as to whether that string is ultimately encoded as a JSON property or an XML element.
+This document focuses on the data model of RPP objects and operations on them, including the data model of operation inputs, outputs as well as the necessary business logic of state transitions. This separation of concerns ensures the protocol maintains a stable semantic foundation that can be consistently implemented across different media types and easily adapted to new representation formats. For instance, the model defines a contact's name as a required string type, but it remains agnostic as to whether that string is ultimately encoded as a JSON property or an XML element.
 
 ## Conventions and Terminology
 
 The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in BCP 14 [@!RFC2119] [@!RFC8174] when, and only when, they appear in all capitals, as shown here.
+
+The following terms related to the relationship between host objects and domain objects are used as defined in [@!RFC5732, section 1.1]:
+
+* Subordinate host: A host name object that has a subordinate relationship to a superordinate domain name object. For example, host name "ns1.example.com" has a subordinate relationship to domain name "example.com".
+* Superordinate domain: A domain name object to which a host name object is subordinate.
+* Internal host: A host whose name belongs to the namespace of the repository in which the host is being used for delegation purposes.
+* External host: A host whose name does not belong to the namespace of the repository in which the host is being used for delegation purposes.
+
+The following terms are defined and used in this document
+
+Object Authorisation
+: Authorisation data related to the object beyond the default client-level authorisation accompanying the request, in order to authorise operations on the object. Typically it is a value related to or derived from an Authorisation Information Object provisioned with the object.
+
+Data Object
+: A top-level provisioned resource object that has an independent lifecycle and identity in the registry. Data Objects carry data elements describing the resource and define the set of operations that can be performed on them.
+
+Component Object
+: A reusable data structure that carries data only, with no operations of its own. Component Objects are embedded within Data Objects or other objects to avoid repetition of common data patterns.
+
+Process Object
+: An object that represents a long-running or multi-step operation initiated on a Data Object. Process Objects carry operation-related state and data, and may define their own operations to interact with the process. They have no independent existence — their lifecycle is bound to the owning Data Object.
+
+Owner Data Object
+: A Data Object which a process (represented as Process Object) was initiated upon and which owns this Process Object
 
 # Resource Definition Principles
 
@@ -91,6 +115,16 @@ A Uniform Resource Locator (URL) as defined in [@!RFC1738]. An example of a URL 
 
 Raw binary data, implementations MAY choose how to encode the binary data, for example as base64 or hexadecimal string. An example of binary data encoded as base64 is `"UlBQIFNheXMgSGk="`.
 
+### Dictionary
+
+Notation: Dictionary[Value Type]
+
+A Dictionary is a collection of key-value pairs where keys are unique Strings and values are of the specified primitive data type. Usages MUST define the constraints on allowed keys and values. A Dictionary differs from an Aggregation Dictionary in that it maps String keys to primitive values rather than to Component or Resource Objects.
+
+### Object
+
+An Object is a composite structure containing named properties. The set of allowed property names, their data types, and their constraints are determined by the data element definition that uses this type. Usages MUST specify the expected structure, including any required or optional properties. An Object differs from a Component Object in that it is defined inline as part of a data element rather than being a standalone reusable definition registered separately.
+
 ## Data Element Abstraction
 
 Each data object is composed of logical data elements. A data element is a logical unit of information identified by a stable name, independent of its representation in any given media type. The definition for each element specifies its logical name, purpose, cardinality, data type, and constraints.
@@ -98,7 +132,27 @@ The data type of a data element may also be a reference to another data object, 
 
 ## Extensibility
 
-The set of data elements for a given data object is extensible. New data elements, associations or operations MAY be defined and registered with IANA in order for the data object to support new features.
+The RPP data model is designed to be extensible. Extensions MAY introduce new data objects, add new data elements or associations to existing objects, and define new operations or extend the inputs and outputs of existing operations with additional transient data elements.
+
+### Standardised and Private Extensions
+
+RPP distinguishes between standardised and private extensions:
+
+* Standardised extensions MUST be registered with IANA, as described in the IANA Considerations section of this document and in [@!I-D.ietf-rpp-architecture]. Registration ensures global uniqueness of extension identifiers and promotes interoperability across implementations.
+
+* Private (non-standardised) extensions MAY be defined for use within specific implementations or organisations. Private extensions are not required to be registered with IANA, but MUST still use unique identifiers that are unlikely to conflict with standardised extensions or other private extensions. The use of reverse domain notation as a prefix (e.g., `org.example.rpp.myElement`) is RECOMMENDED for private extension identifiers to avoid naming collisions.
+
+### Extension Points
+
+The following aspects of the data model are extensible:
+
+* New data objects: Additional resource or component objects MAY be defined by extensions and registered with IANA.
+* New data elements: Extensions MAY add new data elements to existing data objects. Such elements follow the same Data Element Semantics as core data elements.
+* New associations: Extensions MAY introduce new associations between existing or new objects.
+* New operations: Extensions MAY define entirely new operations on existing or new data objects.
+* Extended operation inputs and outputs: Extensions MAY add new transient data elements to the inputs or outputs of existing operations.
+
+When an extension adds data elements or transient parameters to a core object or operation, these additions MUST NOT alter the semantics or constraints of existing core data elements.
 
 ## Data Element Semantics
 
@@ -126,8 +180,8 @@ For each data object a set of possible operations is defined together with their
 ### Authorisation
 
 For each operation authorisation requirements and operation behaviour is specified.
-Wherever "object authorisation" is mentioned, it means that an operation MAY accept or require additional authorisation data related to the object beyond default client-level authorisation, or that an operation MAY have different effect or response if such authorisation is provided.
-Typically it would be a value related to or derived from Authorisation Information Object attached to the object.
+
+Wherever "Object Authorisation" is mentioned, it means that an operation MAY accept or require additional authorisation data related to the object beyond default client-level authorisation, or that an operation MAY result in different processing or response if such authorisation is provided.
 
 ### Uniform interface
 
@@ -135,29 +189,116 @@ For the typical set of Create, Read, Update and Delete operations the following 
 
 #### Create
 
-* Input: Object representation (create-only and read-write properties)
-* Output: Object representation (read-write and read-only properties)
+* Input: Object (create-only and read-write properties)
+* Output: Object (read-write and read-only properties)
 
 #### Read
 
 * Input: Object identifier
-* Output: Object representation (read-write and read-only properties)
+* Output: Object (read-write and read-only properties)
 
-The output representation MAY vary depending on the identity of the querying client, use of object authorisation information, and server policy towards unauthorized clients. If the querying client is the sponsoring client, all available information MUST be returned. If the querying client is not the sponsoring client but the client provides valid object authorisation information, all available information SHOULD be returned, however some optional elements MAY be reserved to the sponsoring client only. If the querying client is not the sponsoring client and the client does not provide valid object authorisation information, server policy determines which OPTIONAL elements are returned, if any, or whether the entire request is rejected.
+The output Object MAY vary depending on the identity of the querying client, use of Object Authorisation information, and server policy towards unauthorised clients.
+
+If the querying client is the sponsoring client, all available information MUST be returned.
+
+If the querying client is not the sponsoring client but the client provides valid Object Authorisation information, all available information SHOULD be returned, however some optional elements MAY be reserved to the sponsoring client only. 
+
+If the querying client is not the sponsoring client and the client does not provide valid Object Authorisation information, server policy determines which OPTIONAL elements are returned, if any, or whether the entire request is rejected.
 
 #### Update
 
-* Input: Object identifier, Object changes representation (read-write properties)
-* Output: Object representation (read-write and read-only properties)
+* Input: Object identifier, Object changes (read-write properties)
+* Output: Object (read-write and read-only properties)
 
 #### Delete
 
 * Input: Object identifier
-* Output: Object representation (read-write and read-only properties) or no representation
+* Output: Object (read-write and read-only properties) or nothing
 
 ### Operations beyond uniform interface
 
-For all other operations both input and output representation have to be fully specified.
+For all other operations both input and output have to be fully specified.
+
+### Transfer Operations {#transfer-operations}
+
+Transfer operations manage the change of sponsorship of a provisioned object from one client (the sponsoring client) to another (the gaining client). They are specified once in this section as the transfer model is common across all transferable resource objects. Individual object definitions reference this section and specify any object-specific extensions to the common pattern.
+
+RPP supports two types of transfer:
+
+* Pull Transfer: Initiated by the gaining client. The gaining client MUST provide valid Object Authorisation to initiate the request.
+* Push Transfer: Initiated by the sponsoring client, who designates a gaining client in the request.
+
+The transfer process MAY be immediate or follow a multi-step workflow depending on server policy. If the server implements immediate transfers, the Approve and Reject operations need not be supported; the server completes the transfer upon receipt of the Create operation.
+
+The server MAY implement local policies to prevent transfers from stalling and implement a form of automated transfer escalation, approval or cancellation when such a stalled process is recognised.
+
+All transfer operations act on or return the Transfer Process Object and are executed in the context of Owner Data Object the operation is created upon.
+
+A> TODO: The server MUST notify the current sponsoring client of a pending transfer request. The notification mechanism is not defined in this document.
+
+A> TODO: Transfer-specific error conditions (object not eligible for transfer, object pending transfer, object not pending transfer) are not defined in this document.
+
+### Restore Operations {#restore-ops}
+
+Restore operations manage the recovery of an object that has entered the Redemption Grace Period (RGP). They are OPTIONAL and are only available when the RGP feature is supported by the server and MAY be supported only for a subset of Data Object types.
+
+The RGP process MAY involve two distinct steps:
+
+* Restore Request: (REQUIRED) Initiates the recovery of an object in the `redemptionPeriod` state, signalling to the registry the intent to restore. This corresponds to the Create operation on the Restore Process Object. On success, the object transitions to `pendingRestore`.
+* Restore Report: (OPTIONAL) Submits a report documenting the circumstances of the deletion and restoration, as required by registry policy. This corresponds to the Report operation on the Restore Process Object. On success, the object is returned to its pre-deletion status and all RGP status labels are removed.
+
+Whether a restore report is required after a restore request is a matter of server policy. If the server does not require a restore report, the object returns to its pre-deletion status immediately upon a successful Create operation, bypassing the `pendingRestore` state.
+
+The Create operation MAY include the restore report inline to complete both steps atomically in a single operation.
+
+All restore operations act on or return the Restore Process Object and are executed in the context of Owner Data Object the operation is created upon.
+
+#### Redemption Grace Period State Diagram
+
+The following state diagram describes the object lifecycle when the Redemption Grace Period (RGP) feature is supported. It adapts the diagram from [@!RFC3915, section 2] to the RPP data model, using RPP status labels and operations instead of EPP command names.
+
+In the diagram below, RPP status labels are shown in the `status` field of the object. Standard EPP-origin status labels (e.g., `ok`, `pendingDelete`) are used alongside the RGP-specific labels defined in this document. The `<create>` and `<report>` labels refer to the Create and Report operations on the Restore Process Object, replacing the EPP extended `<update>` command with `op=request` and `op=report` attributes.
+
+```ascii
+              |
+              v                     (2)
++----------------------------+   <delete>   +-------------------------------+
+| status: ok              (1)|------------->| status: pendingDelete      (3)|
+|                            |              |         redemptionPeriod      |
++----------------------------+              +-------------------------------+
+   ^   ^             restore, no report      | ^  |                |
+   |   |             and report required  (4)| |  |        No (9)  |
+   |   |                  <create>           | |  |       restore  |
+   |   |                  +------------------+ |  |       restore  |
+   |   |                  v                    |  |                v
+   |   |  +------------------+                 |  | +-----------------------+
+   |   |  | status:       (6)|                 |  | | status:           (10)|
+   |   |  |   pendingDelete  |-----------------+  | |   pendingDelete       |
+   |   |  |   pendingRestore |   report not (7)   | |   rgpPendingDelete    |
+   |   |  +------------------+   received         | +-----------------------+
+   |   |                (8) |                     |                |
+   |   |    report received |                     |     purge (11) |
+   |   |       <report>     |      restore (5)    |                v
+   |   +--------------------+      with report    | +-----------------------+
+   |                               or not req.    | |      Purged       (12)|
+   |                                  <create>    | +-----------------------+
+   +----------------------------------------------+
+```
+
+State descriptions:
+
+1. The object is in normal operation (`ok` or other status allowing a delete operation).
+2. A delete operation is received and processed.
+3. RGP begins. The object enters `pendingDelete` + `redemptionPeriod` state. The object remains here until a restore operation is requested or the redemption period elapses.
+4. A restore Create operation is submitted. The registry accepts the request. Go to step 8 if the redemption period elapses before a restore is received (4a).
+5. If the server does not require a restore report, the object returns to its pre-deletion status (1) immediately upon a successful Create operation. If the server requires a report but the client includes it inline in the Create operation, the server processes both atomically and the object transitions directly from `redemptionPeriod` to its pre-deletion status (1), bypassing the `pendingRestore` state.
+6. The object enters `pendingDelete` + `pendingRestore` state. The registry awaits a restore report from the sponsoring client.
+7. If no restore report is received within the registry-defined time, the object returns to `redemptionPeriod` state (step 3).
+8. If a restore report is received and accepted, the object returns to its pre-deletion status and all RGP status labels are removed.
+9. The redemption period elapses without a restore request being received.
+10. The object enters `pendingDelete` + `rgpPendingDelete` state and awaits final purge processing.
+11. The pending delete period elapses and the object is purged.
+12. The object is purged and available for re-registration.
 
 ## EPP Compatibility Profile
 
@@ -187,7 +328,7 @@ Telephone number syntax is derived from structures defined in [@!ITU.E164.2005].
 
 # Associations
 
-RPP allows for different types of associations (relationship) between the objects. The association may be added between 2 objects with own indpendent lifecycle (UML aggregation) or in the relation when one object's existance and lifecycle is bound to the other parent/owner object (UML composition).
+RPP allows for different types of associations (relationship) between the objects. The association may be added between 2 objects with own independent lifecycle (UML aggregation) or in the relation when one object's existence and lifecycle is bound to the other parent/owner object (UML composition).
 In both cases, especially if the relation allows for cardinality higher than one on either side, the association may be assigned additional attributes, not being part of an object on either side of relation. In many cases such relation would be attributed with a single text string label, describing a role or a type of relation. Depending on the context this value might be unique, which allows using such label as a key in a dictionary.
 
 The following generic Association Types are defined for RPP:
@@ -198,8 +339,8 @@ Notation: Aggregation[Type]
 
 A relation between two independent objects.
 
-If the cardinality of target object is more than 1, this represents an ordered array. 
-It MUST assured that the same unchanged data is always inserted in the same order in order to allow stable reference by position to data elements. In case of data insertions, deletions or updates the remaining of the data SHALL preserve its order.
+If the cardinality of target object is more than 1, this represents an ordered array.
+It MUST be assured that the same unchanged data is always inserted in the same order in order to allow stable reference by position to data elements. In case of data insertions, deletions or updates the remaining of the data SHALL preserve its order.
 
 Example aggregation having cardinality 1:
 
@@ -240,8 +381,8 @@ Notation: Composition[Type] or Type
 
 A relation between an independent parent object and 1 or more dependent child object(s).
 
-If the cardinality of target object is more than 1, this represents an ordered array. 
-It MUST assured that the same unchanged data is always inserted in the same order  in order to allow stable reference by position to data elements. In case of data insertions, deletions or updates the remaining of the data SHALL preserve its order.
+If the cardinality of target object is more than 1, this represents an ordered array.
+It MUST be assured that the same unchanged data is always inserted in the same order in order to allow stable reference by position to data elements. In case of data insertions, deletions or updates the remaining of the data SHALL preserve its order.
 
 Example composition having cardinality 1:
 
@@ -306,15 +447,15 @@ Example labelled aggregation:
 
 ```
 
-## Aggregation Dictionary
+## Dictionary Aggregation
 
-Notation: AggregationDictionary[Type]
+Notation: DictionaryAggregation[Type]
 
 A relation between two independent object with single text string attribute. Association labels MUST be unique allowing it to be used as dictionary key.
 
 A type defining such association MUST define Label Description with semantics of the label and Label Constraints with constraints related to the label.
 
-Example Aggregation Dictionary:
+Example Dictionary Aggregation:
 
 ```ascii
 +--------------------------+
@@ -365,15 +506,15 @@ Example Labelled Composition:
 +-------------------------------------+
 ```
 
-## Composition Dictionary
+## Dictionary Composition
 
-Notation: CompositionDictionary[Type]
+Notation: DictionaryComposition[Type]
 
 A relation between an independent parent object and a dependent child object with single text string attribute. Only single association with the same label is allowed allowing it to be used as dictionary key.
 
 A type defining such association MUST define Label Description with semantics of the label and Label Constraints with constraints related to the label.
 
-Example Composition Dictionary:
+Example Dictionary Composition:
 ```ascii
 +--------------------------+
 |         (root)           |
@@ -394,12 +535,12 @@ Example Composition Dictionary:
 
 # Component Objects
 
-This section defines common objects that are re-used in the definitions of top-level data objects.
-Component objects carry only data but do not define any operations.
+This section defines the Component Objects used in this document.
 
 ## Period Object
 
 * Name: Period Object
+* Identifier: period
 * Description: Represents a duration of time.
 * Data Elements:
   * Value
@@ -417,9 +558,66 @@ Component objects carry only data but do not define any operations.
     * Description: The unit of the period.
     * Constraints: The value MUST be one of: "y" (years) or "m" (months).
 
+## Provisioning Metadata Object
+
+* Name: Provisioning Metadata Object
+* Identifier: provMetadata
+* Description: Contains standard metadata about the lifecycle and ownership of a provisioned object. This metadata is common across all resource objects in the registry system.
+* Data Elements:
+  * Repository ID
+    * Identifier: repositoryId
+    * Cardinality: 0-1
+    * Mutability: read-only
+    * Data Type: Identifier
+    * Description: A server-assigned unique identifier for the object.
+    * Constraints: In EPP Compatibility Profile this data element MUST be provided.
+  * Sponsoring Client ID
+    * Identifier: spClientId
+    * Cardinality: 1
+    * Mutability: read-only
+    * Data Type: Client Identifier
+    * Description: The identifier of the client that is the current sponsor of the object.
+    * Constraints: (None)
+  * Creating Client ID
+    * Identifier: crClientId
+    * Cardinality: 0-1
+    * Mutability: read-only
+    * Data Type: Client Identifier
+    * Description: The identifier of the client that created the object.
+    * Constraints: (None)
+  * Creation Date
+    * Identifier: crDate
+    * Cardinality: 0-1
+    * Mutability: read-only
+    * Data Type: Timestamp
+    * Description: The date and time of object creation.
+    * Constraints: The value is set by the server and cannot be specified by the client.
+  * Updating Client ID
+    * Identifier: upClientId
+    * Cardinality: 0-1
+    * Mutability: read-only
+    * Data Type: Client Identifier
+    * Description: The identifier of the client that last updated the object.
+    * Constraints: This element MUST NOT be present if the object has never been modified.
+  * Update Date
+    * Identifier: upDate
+    * Cardinality: 0-1
+    * Mutability: read-only
+    * Data Type: Timestamp
+    * Description: The date and time of the most recent object modification.
+    * Constraints: This element MUST NOT be present if the object has never been modified.
+  * Transfer Date
+    * Identifier: trDate
+    * Cardinality: 0-1
+    * Mutability: read-only
+    * Data Type: Timestamp
+    * Description: The date and time of the most recent successful object transfer.
+    * Constraints: This element MUST NOT be provided if the object has never been transferred.
+
 ## Status Object
 
 * Name: Status Object
+* Identifier: status
 * Description: Represents one of the status values associated with a provisioning object
 * Data Elements:
   * Label
@@ -427,7 +625,7 @@ Component objects carry only data but do not define any operations.
     * Cardinality: 1
     * Mutability: create-only
     * Data Type: String
-    * Description: machine-readible enum label of a status
+    * Description: machine-readable enum label of a status
     * Constraints:      
       * Exact list of allowed status labels depends on the provisioning object type. This enumeration can be expanded by extensions.
       * The status labels MUST use camel case notation and use only ASCII alphabetic characters.
@@ -435,8 +633,19 @@ Component objects carry only data but do not define any operations.
         1. those explicitly set by a server. Those MUST have "server" prefix
         2. those explicitly set by a client. Those MUST have "client" prefix
         3. those indirectly controlled by provisioning object lifecycle or business logic. Those MUST NOT use either "client" or "server" prefix. They MAY use another prefix or no prefix at all
+      * The following additional status labels are defined for use with the Redemption Grace Period (RGP) feature. When the RGP feature is supported, these labels MAY be specified:
+        * `addPeriod`: The object is within the add grace period following initial registration. If the object is deleted during this period, the registry MAY provide a credit to the sponsoring client.
+        * `autoRenewPeriod`: The object is within the auto-renew grace period following automatic renewal by the registry. If the object is deleted during this period, the registry MAY provide a credit to the sponsoring client.
+        * `renewPeriod`: The object is within the renew grace period following an explicit renewal. If the object is deleted during this period, the registry MAY provide a credit to the sponsoring client.
+        * `transferPeriod`: The object is within the transfer grace period following a successful transfer. If the object is deleted by the new sponsoring client during this period, the registry MAY provide a credit.
+        * `redemptionPeriod`: A delete operation has been received and processed for the object, but the object has not yet been purged. A restore operation MAY be requested to abort the deletion. This status value MUST only appear alongside the standard `pendingDelete` status.
+        * `pendingRestore`: A restore request has been accepted and the registry is waiting for a restore report from the sponsoring client. This status value MUST only appear alongside the standard `pendingDelete` status.
+        * `rgpPendingDelete`: The redemption period has elapsed without a successful restore. The object has entered the purge processing state. This status value MUST only appear alongside the standard `pendingDelete` status. This label is used to distinguish the RGP-specific pending-delete sub-state from the broader EPP `pendingDelete` status.
+
+A> TODO: find a better home for this list (own section + IANA registry). Add standard domain statuses here as well (and solve the issue of statuses not applicable to other object types like client/serverHold).
+      
   * Reason
-    * Indentifier: reason
+    * Identifier: reason
     * Cardinality: 0-1
     * Mutability: create-only
     * Data Type: String
@@ -447,74 +656,130 @@ Component objects carry only data but do not define any operations.
     * Cardinality: 0-1
     * Mutability: read-write
     * Data Type: Timestamp
-    * Description: a timestamp, when this status is going to be removed automatically, or changed to other status. This field can be used to expresse lifecycle related information.
+    * Description: a timestamp, when this status is going to be removed automatically, or changed to other status. This field can be used to express lifecycle related information.
     * Constraints: servers MAY restrict possibility to set or update this value by the client.
 
 A> TBD: Idea - model status object as Labelled Composition using "Label"? Con: Generic Constraints for Label will be repeated.
 
-## Nameserver Object
+## DNS Resource Record Object
 
-* Name: Nameserver Object
-* Description: Represents a single nameserver.
+* Name: DNS Resource Record Object
+* Identifier: dnsRecord
+* Description: Represents a single DNS resource record. The structure follows the top-level format of a DNS resource record as described in Section 3.2.1 of [@!RFC1035], adapted for use in provisioning. The RDATA field is represented as a structured object whose fields depend on the record type, following the RDATA presentation format described by the corresponding RFC defining the record type. This approach is aligned with [@I-D.simmen-rpp-dns-data].
 * Data Elements:
-  * Host Name
-    * Identifier: hostName
+  * Name
+    * Identifier: name
     * Cardinality: 1
     * Mutability: read-write
     * Data Type: String
-    * Description: Fully qualified name of a host.
-    * Constraints: The value MUST be a syntactically valid host name.
-  * DNS Resource Records
-    * Identifier: dns
-    * Cardinality: 0+
-    * Mutability: read-write
-    * Data Type: Composition[DNS Resource Record]
-    * Description: DNS Resource Records related to the host. 
+    * Description: The owner name of the DNS entry. This MAY be the domain itself or a subordinate host name.
     * Constraints:
-      * In EPP Compatibility Profile the entries MUST be limited to A and AAAA entries for IPv4 and IPv6 glue records respectively.
-      * The labels of DNS entries MUST be subordinate to the Host Name of the Nameserver.
-
-## DNS Resource Record
-
-* Name: DNS Resource Record
-* Description: Represents a DNS Entry
-* Data Elements:
-  * Label
-    * Identifier: hostNamelabel
-    * Cardinality: 1
+      * The value MUST be a syntactically valid DNS host name.
+      * Absolute FQDNs (with trailing dot) and relative host names are allowed, as well as the "@" symbol representing the domain name itself.
+  * Class
+    * Identifier: class
+    * Cardinality: 0-1
     * Mutability: read-write
-    * Data Type: String.
-    * Description: DNS entry label.
-    * Constraints: 
-      * The value MUST be a syntactically valid DNS host name in Zone file string representation. 
-      * Absolute FQDNs and relative host names are allowed.
+    * Data Type: String
+    * Description: The DNS resource record class.
+    * Constraints:
+      * If present, the value MUST be chosen from Section 3.2.4 (CLASS values) of [@!RFC1035].
+      * A client SHOULD omit this element. The server MUST assume "IN" as the default class and MAY decline other values.
   * Type
     * Identifier: type
     * Cardinality: 1
     * Mutability: read-write
-    * Data Type: String.
-    * Description: DNS entry type.
-    * Constraints: 
-      * Each value MUST be a valid string representation of resource record type as defined in [@!RFC1035]. 
-      * Allowed values MAY be constrained by server policies. For domain provisioning typically the Type would be constrained to the allowed parent side entries.
-  * Data
-    * Identifier: data
+    * Data Type: String
+    * Description: The DNS resource record type, indicating the format of the RDATA field.
+    * Constraints:
+      * The value MUST be a valid string representation of a resource record type as defined in [@!RFC1035] or other RFC describing the record type.
+      * Allowed values MAY be constrained by server policies. For domain provisioning, the type would typically be constrained to the allowed parent-side entries.
+      * Values MUST be converted to lower case.
+      * In EPP Compatibility Profile ([@!RFC5732]), the following record types MUST be supported: `ns`, `a`, and `aaaa`.
+      * In EPP Compatibility Profile with DNSSEC Extension [@RFC5910], the following record types MUST additionally be supported: `ds` and `dnskey`.
+  * RDATA
+    * Identifier: rdata
     * Cardinality: 1
     * Mutability: read-write
-    * Data Type: String.
-    * Description: DNS entry value.
-    * Constraints: Each value MUST be a syntactically valid resource record data for a Type in zone file string representation.
+    * Data Type: Object
+    * Description: The actual payload data of the DNS record. The structure of this object depends on the record type and MUST follow the RDATA presentation format described by the corresponding RFC. Property names MUST be written in camelCase. All property values MUST be represented as Strings encoding the presentation format of the value.
+    * Constraints:
+      * The fields within RDATA MUST match the expected structure for the given record type.
+      * See (#rdata-structures) for required structures in the EPP Compatibility Profile.
+
+### RDATA Structures in EPP Profile {#rdata-structures}
+
+This section defines the RDATA field structures required for interoperability in the EPP Compatibility Profile.
+
+In EPP Compatibility Profile ([@!RFC5732]), the following RDATA structures MUST be supported:
+
+* For NS records ([@!RFC1035], Section 3.3.11): `nsdname` (the fully qualified domain name of the name server).
+* For A records ([@!RFC1035], Section 3.4.1): `address` (the IPv4 address in dotted-decimal notation).
+* For AAAA records ([@RFC3596], Section 2.2): `address` (the IPv6 address in text representation as defined in [@!RFC5952]).
+
+In EPP Compatibility Profile with DNSSEC Extension ([@RFC5910]), the following RDATA structures MUST additionally be supported:
+
+* For DS records ([@RFC4034], Section 5): `keyTag` (key tag value), `algorithm` (algorithm number), `digestType` (digest algorithm type), and `digest` (digest value).
+* For DNSKEY records ([@RFC4034], Section 2): `flags` (flags field value), `protocol` (protocol field value), `algorithm` (algorithm number), and `publicKey` (encoded public key value).
+
+A> TBC: Optional keyData inside dsData (RFC 5910 Section 4.1): In the DS Data Interface, a DS record MAY optionally contain a nested keyData element used for server-side validation of the DS hash. The draft doesn't describe this pattern - a client submitting a DS record with accompanying DNSKEY for validation.
+
+## DNS Operational Controls Object
+
+* Name: DNS Operational Controls Object
+* Identifier: dnsControls
+* Description: Contains operational control parameters that a client MAY use to influence server-side DNS behaviour for a set of DNS records. A server MAY ignore these values, e.g. for policy reasons. This structure is aligned with [@I-D.simmen-rpp-dns-data].
+* Data Elements:
   * TTL
     * Identifier: ttl
-    * Cardinality: 1
+    * Cardinality: 0-1
     * Mutability: read-write
-    * Data Type: Number.
-    * Description: TTL value of a resource record as defined in [@!RFC1035].
-    * Constraints: The allowed value range MAY be constrained by server policy.
+    * Data Type: Dictionary[Integer]
+    * Description: Controls the caching behaviour of DNS resource records. The dictionary is keyed by lower-case record type name, with values representing the TTL in seconds for that record type.
+    * Constraints:
+      * The keys MUST be valid DNS resource record type names in lower case.
+      * The values MUST be positive Integers.
+      * The allowed value ranges MAY be constrained by server policy.
+      * A server MAY ignore client-specified TTL values and apply default or policy-defined values.
+  * Maximum Signature Lifetime
+    * Identifier: maxSigLifetime
+    * Cardinality: 0-1
+    * Mutability: read-write
+    * Data Type: Dictionary[Integer]
+    * Description: Specifies a child's preference for the maximum number of seconds after signature generation when the parent's signature on signed DNS information should expire. The dictionary is keyed by lower-case record type name, with values representing the maximum signature lifetime in seconds for that record type. The value applies to the RRSIG resource record over the signed DNS RRset. See Section 3 of [@RFC4034] for information on the RRSIG resource record. This corresponds to the maxSigLife concept from [@RFC5910].
+    * Constraints:
+      * The keys MUST be valid DNS resource record type names in lower case.
+      * The values MUST be positive Integers (minimum value of 1).
+      * A server MAY ignore client-specified values and apply its own default signature expiration policy.
+
+## DNS Data Object
+
+* Name: DNS Data Object
+* Identifier: dnsData
+* Description: A container for DNS resource records and associated operational controls for a provisioned object. This structure groups DNS records together with control parameters that influence server-side DNS behaviour. The structure is aligned with [@I-D.simmen-rpp-dns-data].
+* Data Elements:
+  * Records
+    * Identifier: records
+    * Cardinality: 0+
+    * Mutability: read-write
+    * Data Type: Composition[DNS Resource Record Object]
+    * Description: An array of DNS resource records associated with the provisioned object.
+    * Constraints:
+      * Allowed record types MAY be constrained by server policy.
+      * In EPP Compatibility Profile with DNSSEC Extension [@RFC5910], records of type DS and DNSKEY MUST be supported in addition to NS, A, and AAAA.
+      * A server MUST support either DS or DNSKEY or both record types for DNSSEC provisioning. If provided with only DNSKEY, a server MUST calculate the DS record. If both record types are provided, a server MAY use the DNSKEY to validate the DS record.
+  * Controls
+    * Identifier: controls
+    * Cardinality: 0-1
+    * Mutability: read-write
+    * Data Type: DNS Operational Controls Object
+    * Description: Operational control parameters for the DNS records.
+    * Constraints: (None)
 
 ## Authorisation Information Object
 
 * Name: Authorisation Information
+* Identifier: authInfo
 * Description: Contains information used to authorise operations on a data object. It may hold different kind of authorisation information. 
 * Data Elements:
   * Method
@@ -539,6 +804,7 @@ A> TBD: Idea - model status object as Labelled Composition using "Label"? Con: G
 ## Postal Address Object
 
 * Name: Postal Address Object
+* Identifier: postalData
 * Description: Contains the components of a postal address.
 * Data Elements:
   * Street
@@ -586,6 +852,7 @@ A> TBD: Idea - model status object as Labelled Composition using "Label"? Con: G
 ## Postal Info Object
 
 * Name: Postal Info Object
+* Identifier: postalInfo
 * Description: Contains postal-address information in either internationalised or localised forms.
 * Data Elements:
 
@@ -633,6 +900,304 @@ A> TODO: Model Disclose in universal (extendible) way
 * Identifier: disclose
 * Description: TBD
 
+## Restore Report Object
+
+* Name: Restore Report Object
+* Identifier: restoreReport
+* Description: Contains the redemption grace period restore report submitted by the sponsoring client as required by the RGP process ([@!RFC3915]). A restore report documents the state of the object before and after deletion, provides the reason for restoration, and includes mandatory client statements. This object is OPTIONAL and is only required when the RGP feature is supported and a restore report is being submitted.
+* Data Elements:
+  * Pre-Delete Data
+    * Identifier: preData
+    * Cardinality: 0-1
+    * Mutability: read-write
+    * Data Type: String
+    * Description: A copy of the registration data that existed for the object prior to the object being deleted.
+    * Constraints: None.
+  * Post-Restore Data
+    * Identifier: postData
+    * Cardinality: 0-1
+    * Mutability: read-write
+    * Data Type: String
+    * Description: A copy of the registration data that exists for the object at the time the restore report is submitted.
+    * Constraints: None.
+  * Delete Time
+    * Identifier: deleteTime
+    * Cardinality: 0-1
+    * Mutability: read-write
+    * Data Type: Timestamp
+    * Description: The date and time when the object delete request was sent to the server.
+    * Constraints: None.
+  * Restore Time
+    * Identifier: restoreTime
+    * Cardinality: 0-1
+    * Mutability: read-write
+    * Data Type: Timestamp
+    * Description: The date and time when the original restore request operation was sent to the server.
+    * Constraints:
+      * This element MAY be omitted when the restore report is submitted inline within the restore request in a single-step process.
+      * In EPP Compatibility Profile this element MUST be present as defined in [@!RFC3915].
+  * Restore Reason
+    * Identifier: restoreReason
+    * Cardinality: 0-1
+    * Mutability: read-write
+    * Data Type: String
+    * Description: A brief explanation of the reason for restoring the object.
+    * Constraints: None.
+  * Statements
+    * Identifier: statements
+    * Cardinality: 0+
+    * Mutability: read-write
+    * Data Type: String
+    * Description: Client statements required by the RGP process.
+    * Constraints: At least one and at most two statements MUST be provided. In EPP Compatibility Profile exactly two statements MUST be present as defined in [@!RFC3915].
+  * Other
+    * Identifier: other
+    * Cardinality: 0-1
+    * Mutability: read-write
+    * Data Type: String
+    * Description: Any additional information needed to support the statements provided by the client.
+    * Constraints: None.
+
+# Process Objects
+
+This section defines the Process Objects used in this document.
+
+## Transfer Process Object
+
+* Name: Transfer Process Object
+* Identifier: transferProcess
+* Description: Represents a transfer request for a provisioned object. Creating this object initiates a transfer. The object supports approve and reject as additional operations, and delete as the cancel operation. Reading the object returns the current transfer status.
+* Data Elements:
+  * Transfer Direction
+    * Identifier: transferDir
+    * Cardinality: 0-1
+    * Mutability: create-only
+    * Data Type: String
+    * Description: Indicates whether the transfer is a "pull" or "push" transfer. Per policy, servers usually support only one model. If omitted, server policy determines the default.
+    * Constraints: The value MUST be one of: "pull" (initiated by the gaining client) or "push" (initiated by the sponsoring client).
+  * Gaining Client ID
+    * Identifier: gainingClientId
+    * Cardinality: 0-1
+    * Mutability: create-only
+    * Data Type: Client Identifier
+    * Description: The identifier of the designated gaining client. This element is REQUIRED for push transfers and MUST NOT be provided for pull transfers.
+    * Constraints: (None)
+  * Transfer Status
+    * Identifier: trStatus
+    * Cardinality: 1
+    * Mutability: read-only
+    * Data Type: String
+    * Description: The state of the transfer request.
+    * Constraints: The value MUST be one of: "pending", "clientApproved", "clientCancelled", "clientRejected", "serverApproved", "serverCancelled".
+  * Requesting Client ID
+    * Identifier: reqClientId
+    * Cardinality: 1
+    * Mutability: read-only
+    * Data Type: Client Identifier
+    * Description: The identifier of the client that initiated the transfer request.
+    * Constraints: (None)
+  * Request Date
+    * Identifier: requestDate
+    * Cardinality: 1
+    * Mutability: read-only
+    * Data Type: Timestamp
+    * Description: The date and time that the transfer was requested.
+    * Constraints: (None)
+  * Acting Client ID
+    * Identifier: actClientId
+    * Cardinality: 1
+    * Mutability: read-only
+    * Data Type: Client Identifier
+    * Description: For a pending pull transfer, the identifier of the sponsoring client that SHOULD act upon the request. For a pending push transfer, the identifier of the designated gaining client that SHOULD act upon the request. For all other statuses, the identifier of the client that took the indicated action.
+    * Constraints: (None)
+  * Action Date
+    * Identifier: actionDate
+    * Cardinality: 1
+    * Mutability: read-only
+    * Data Type: Timestamp
+    * Description: For a pending request, the date and time by which a response is required before an automated response action SHOULD be taken by the server. For all other statuses, the date and time when the request was completed.
+    * Constraints: (None)
+
+### Operations
+
+#### Create (Transfer Request) {#transfer-create}
+
+* Identifier: create
+
+The Create operation initiates a transfer by creating a Transfer Process Object associated with the provisioned object. The transfer direction and gaining client (for push transfers) are provided as `create-only` data elements of the Transfer Process Object.
+
+* Authorisation:
+  * Pull transfer:
+    * The requesting client (gaining client) MUST provide valid Object Authorisation.
+  * Push transfer:
+    * Only the sponsoring client is authorised to initiate a push transfer.
+
+* Input:
+  * Owner Data Object reference
+  * Transfer Process Object (create-only and read-write elements)
+* Output: Transfer Process Object
+
+#### Read (Transfer Query) {#transfer-read}
+
+* Identifier: read
+
+The Read operation allows a client to determine the real-time status of a pending or recently completed transfer request.
+
+* Authorisation:
+  * This operation MUST be accessible to both the sponsoring client and the gaining client.
+  * Server policy determines whether other clients may query transfer status and what information is returned.
+
+* Input: None
+* Output: Transfer Process Object
+
+#### Delete (Transfer Cancel) {#transfer-delete}
+
+* Identifier: delete
+
+The Delete operation allows the initiating client to cancel its own pending transfer request.
+
+* Authorisation:
+  * Only the initiating client (the client that originally requested the transfer).
+
+* Input: None
+* Output: Transfer Process Object or nothing
+
+#### Approve {#transfer-approve}
+
+* Identifier: approve
+
+The Approve operation allows the appropriate client to accept a pending transfer request.
+
+* Authorisation:
+  * Pull transfer:
+    * only the sponsoring client
+  * Push transfer:
+    * only the designated gaining client
+
+* Input: None
+* Output: Transfer Process Object
+
+#### Reject {#transfer-reject}
+
+* Identifier: reject
+
+The Reject operation allows the appropriate client to decline a pending transfer request.
+
+* Authorisation:
+  * Pull transfer:
+    * only the sponsoring client
+  * Push transfer:
+    * only the designated gaining client
+
+The following transient data elements are defined for this operation:
+
+* Reason
+  * Identifier: reason
+  * Cardinality: 0-1
+  * Data Type: String
+  * Description: A human-readable text describing the rationale for rejecting the transfer request.
+  * Constraints: In EPP Compatibility Profile this data element MUST NOT be used
+
+* Output: Transfer Process Object
+
+## Restore Process Object
+
+* Name: Restore Process Object
+* Identifier: restoreProcess
+* Description: Represents the current state of a restore request for an object that has entered the Redemption Grace Period (RGP).
+* Data Elements:
+  * Restore Status
+    * Identifier: restoreStatus
+    * Cardinality: 1
+    * Mutability: read-only
+    * Data Type: String
+    * Description: The current state of the restore process.
+    * Constraints: The value MUST be one of: `"pendingRestore"`, `"restored"`, `"rgpPendingDelete"`
+  * Request Date
+    * Identifier: requestDate
+    * Cardinality: 0-1
+    * Mutability: read-only
+    * Data Type: Timestamp
+    * Description: The date and time when the restore request was submitted.
+    * Constraints: MUST NOT be present if no restore request has been submitted yet.
+  * Report Date
+    * Identifier: reportDate
+    * Cardinality: 0-1
+    * Mutability: read-only
+    * Data Type: Timestamp
+    * Description: The date and time when the most recent restore report was accepted by the server.
+    * Constraints: MUST NOT be present if no restore report has been accepted yet.
+  * Report Due Date
+    * Identifier: reportDueDate
+    * Cardinality: 0-1
+    * Mutability: read-only
+    * Data Type: Timestamp
+    * Description: The date and time by which a restore report must be submitted before the object reverts to `redemptionPeriod` state. Only present when the object is in `pendingRestore` state.
+    * Constraints: MUST NOT be present when `restoreStatus` is not `"pendingRestore"`.
+
+### Operations
+
+#### Create (Restore Request) {#restore-create}
+
+* Identifier: create
+
+The Create operation initiates the recovery of an object in the `redemptionPeriod` state by creating a Restore Process Object. The server MUST reject this operation if the owning object is not in the `redemptionPeriod` state.
+
+* Input: Restore Process Object (create-only and read-write elements)
+* Output: Restore Process Object
+
+* Authorisation:
+  * Only the sponsoring client is authorised to perform this operation.
+
+The following transient data elements are defined for this operation:
+
+* Restore Report
+  * Identifier: restoreReport
+  * Cardinality: 0-1
+  * Data Type: Restore Report Object
+  * Description: An OPTIONAL inline restore report. If provided, the server processes the request and the report atomically. If the server does not require a restore report, this element MUST NOT be present and the restore is completed immediately. If the server requires a report and this element is absent, the object transitions to `pendingRestore` state awaiting a subsequent Report operation.
+  * Constraints:
+    * MUST NOT be provided if the server does not require a restore report.
+    * In EPP Compatibility Profile, corresponds to `op="request"` (without report) or a combined `op="request"` followed immediately by `op="report"` as defined in [@!RFC3915].
+
+#### Read (Restore Query) {#restore-read}
+
+* Identifier: read
+
+The Read operation allows the sponsoring client to retrieve the current state of the RGP process for an object.
+
+* Authorisation:
+  * Only the sponsoring client is authorised to perform this operation.
+
+* Input: Object Identifier
+* Output: Restore Process Object
+
+In EPP Compatibility Profile this operation is not supported.
+
+#### Report {#restore-report}
+
+* Identifier: report
+
+This operation is OPTIONAL, only for servers which support or require submission of a restore report.
+
+The Report operation submits the restore report required by the RGP process for an object in the `pendingRestore` state. A report MAY be submitted more than once if corrections are required. The server MUST reject this operation if the object is not in the `pendingRestore` state.
+
+* Input: Object Identifier, Restore Report Object
+* Output: Restore Process Object
+
+* Authorisation:
+  * Only the sponsoring client is authorised to perform this operation.
+
+The following transient data elements are defined for this operation:
+
+* Restore Report
+  * Identifier: restoreReport
+  * Cardinality: 1
+  * Data Type: Restore Report Object
+  * Description: The restore report to be submitted as part of the RGP process.
+  * Constraints:
+    * In EPP Compatibility Profile, corresponds to `op="report"` as defined in [@!RFC3915].
+
 
 # Domain Name Data Object
 
@@ -657,12 +1222,12 @@ The following data elements are defined for the Domain Name Data Object.
     * A server MAY restrict allowable domain names to a particular top-level domain, second-level domain, or other domain for which the server is authoritative.
     * The trailing dot required when these names are stored in a DNS zone is implicit and MUST NOT be provided when exchanging host and domain names.
 
-* Repository ID
-  * Identifier: repositoryId
-  * Cardinality: 0-1
+* Provisioning Metadata
+  * Identifier: provMetadata
+  * Cardinality: 1
   * Mutability: read-only
-  * Data Type: Identifier
-  * Description: A server-assigned unique identifier for the object. In EPP Compatibility Profile this data element MUST be provided.
+  * Data Type: Provisioning Metadata Object
+  * Description: Standard metadata about the object's lifecycle and ownership.
   * Constraints: (None)
 
 * Status
@@ -671,7 +1236,8 @@ The following data elements are defined for the Domain Name Data Object.
   * Mutability: read-only
   * Data Type:  Status Object
   * Description: The current status descriptors associated with the domain.
-  * Constraints: Possible combinations of Status Object Labels is specified in [@!RFC5731, section 2.3] and [@!RFC3915]
+  * Constraints:
+    * Possible combinations of Status Object Labels is specified in [@!RFC5731, section 2.3].
 
 A> TBC: IANA registry for statuses?
 
@@ -706,68 +1272,29 @@ A> TBC: IANA registry for contact role label?
   * Identifier: nameservers
   * Cardinality: 0+
   * Mutability: read-write
-  * Data Type: Composition[Host Data Object] or Aggregation[Host Data Object]
+  * Data Type: Aggregation[Host Data Object]
   * Description: A collection of nameservers associated with the domain.
   * Constraints: (None)
 
-* DNS
+* DNS Data
   * Identifier: dns
-  * Cardinality: 0+
+  * Cardinality: 0-1
   * Mutability: read-write
-  * Data Type: Composition[DNS Resource Record]
-  * Description: A collection of DNS entries related to the domain name.
+  * Data Type: DNS Data Object
+  * Description: DNS resource records and operational controls related to the domain name. This structure follows the unified DNS data model defined in [@I-D.simmen-rpp-dns-data], providing a single container for all DNS-related provisioning data including delegation, DNSSEC, and other record types.
   * Constraints:
-    * The Type of the entries MAY be constrained by the server policy. Typically the values would be limited to allowed parent side resource record types.
-    * In EPP Compatibility Profide with DNSSEC Extension allowed values MUST be DS and DNSKEY.
-    * The labels of DNS entries MUST be subordinate to the domain name and MUST NOT be below zone cut in case of present delegation. 
+    * The type of the record entries MAY be constrained by the server policy. Typically the values would be limited to allowed parent-side resource record types.
+    * In EPP Compatibility Profile, a server MUST support NS, A, and AAAA record types for delegation, and with DNSSEC Extension [@RFC5910] a server MUST additionally support DS and/or DNSKEY record types. 
+    * The names of DNS entries MUST be the domain name itself or subordinate to the domain name and MUST NOT be below zone cut in case of present delegation.
+    * A server MAY forbid use of NS/A/AAAA record types if the server only supports host object model through Nameserver property defining those records. 
 
 * Subordinate Hosts
   * Identifier: subordinateHosts
   * Cardinality: 0+
   * Mutability: read-only
-  * Data Type: Aggregation[Host Object]
+  * Data Type: Aggregation[Host Data Object]
   * Description: A collection of subordinate host objects that exist under this domain.
   * Constraints: (None)
-
-* Sponsoring Client ID
-  * Identifier: sponsoringClientId
-  * Cardinality: 1
-  * Mutability: read-only
-  * Data Type: Client Identifier.
-  * Description: The identifier of the client that is the current sponsor of the domain object.
-  * Constraints: (None)
-
-* Creating Client ID
-  * Identifier: creatingClientId
-  * Cardinality: 0-1
-  * Mutability: read-only
-  * Data Type: Client Identifier.
-  * Description: The identifier of the client that created the domain object.
-  * Constraints: (None)
-
-* Creation Date
-  * Identifier: creationDate
-  * Cardinality: 0-1
-  * Mutability: read-only
-  * Data Type: Timestamp.
-  * Description: The date and time of domain object creation.
-  * Constraints: The value is set by the server and cannot be specified by the client.
-
-* Updating Client ID
-  * Identifier: updatingClientId
-  * Cardinality: 0-1
-  * Mutability: read-only
-  * Data Type: Client Identifier.
-  * Description: The identifier of the client that last updated the domain object.
-  * Constraints: This element MUST NOT be present if the domain has never been modified.
-
-* Update Date
-  * Identifier: updateDate
-  * Cardinality: 0-1
-  * Mutability: read-only
-  * Data Type: Timestamp.
-  * Description: The date and time of the most recent domain object modification.
-  * Constraints: This element MUST NOT be present if the domain object has never been modified.
 
 * Expiry Date
   * Identifier: expiryDate
@@ -776,14 +1303,6 @@ A> TBC: IANA registry for contact role label?
   * Data Type: Timestamp.
   * Description: The date and time identifying the end of the domain object's registration period.
   * Constraints: The value is set by the server and cannot be specified by the client.
-
-* Transfer Date
-  * Identifier: transferDate
-  * Cardinality: 0-1
-  * Mutability: read-only
-  * Data Type: Timestamp
-  * Description: The date and time of the most recent successful domain object transfer.
-  * Constraints: This element MUST NOT be provided if the domain object has never been transferred.
 
 * Authorisation Information
   * Identifier: authInfo
@@ -796,6 +1315,8 @@ A> TBC: IANA registry for contact role label?
 ## Operations
 
 ### Create Operation
+
+* Identifier: create
 
 The Create operation allows a client to provision a new Domain Name resource. The operation accepts as input all create-only and read-write data elements defined for the Domain Name Data Object.
 
@@ -812,18 +1333,18 @@ In addition, the following transient data element is defined for this operation:
 
 ### Read Operation
 
-The Read operation allows a client to retrieve the data elements of a
-Domain Name resource. The server's response MAY vary depending on
-client authorisation and server policy.
+* Identifier: read
+
+The Read operation allows a client to retrieve the data elements of a Domain Name resource. The server's response MAY vary depending on client authorisation and server policy.
 
 * Authorisation:
   * Sponsoring client:
-    * Full object representation
+    * Full object
   * Other client:
-    * Without object authorisation:
-      * Limited (non-confidential) object representation or operation denied
-    * With object authorisation:
-      * Full object representation, however some properties only authorised to the sponsoring client MAY be redacted according to server policy
+    * Without Object Authorisation:
+      * Limited object (non-confidential properties) or operation denied
+    * With Object Authorisation:
+      * Full object, however some properties only authorised to the sponsoring client MAY be redacted according to server policy
 
 The following transient data elements are defined for this operation:
 
@@ -837,7 +1358,27 @@ the object.
 (delegated), "sub" (subordinate), or "none". The default value
 is "all".
 
+### Update Operation
+
+The Update operation allows a client to modify the read-write data elements of an existing Domain Name resource.
+
+* Authorisation:
+  * Only sponsoring client is authorised to perform this operation
+
+The following transient data elements are defined for this operation:
+
+* Urgent
+  * Identifier: urgent
+  * Cardinality: 0-1
+  * Data Type: Boolean
+  * Description: Requests that the server operator process and implement the update with high priority. "High priority" is relative to standard server operator policies determined using an out-of-band mechanism. In EPP Compatibility Profile this corresponds to the "urgent" attribute of the `<secDNS:update>` element defined in [@RFC5910]. The default value is `false`.
+  * Constraints:
+    * A server that does not support this parameter MUST return an error if it is set to `true`.
+    * A server that supports this parameter but cannot fulfil a specific urgent request MUST return an error.
+
 ### Delete Operation
+
+* Identifier: delete
 
 The Delete operation allows a client to remove an existing Domain Name resource. The operation targets a specific data object identified by its name.
 
@@ -850,13 +1391,15 @@ The error response SHOULD indicate the related subordinate host objects.
 
 ### Renew Operation
 
-The Renew operation allows a client to extend the validity period of an existing Domain Name resource. The operation targets a specific data object identified by its name.
+* Identifier: renew
 
+The Renew operation allows a client to extend the validity period of an existing Domain Name resource. The operation targets a specific data object identified by its name.
 
 * Authorisation:
   * Only sponsoring client is authorised to perform this operation
+
 * Input: Domain Name
-* Output: Full object representation (read-write and read-only properties), or a minimum representation of properties affected by the operation (Expiry Date).
+* Output: Full object (read-write and read-only properties), or a minimum set of properties affected by the operation (Expiry Date).
 
 The following transient data elements are defined for this operation:
 
@@ -872,9 +1415,38 @@ The following transient data elements are defined for this operation:
   * Data Type: Period Object
   * Description: The duration to be added to the object's registration period. This value is used by the server to calculate the new `expiryDate`. The default value MAY be defined by server policy. The number of units available MAY be subject to limits imposed by the server.
 
-### Transfer operation
+### Transfer Operations
 
-A> TODO: define transfer operation https://github.com/pawel-kow/draft-kowalik-rpp-data-objects/issues/23
+The Domain Name Data Object supports the common transfer operations defined in the (#transfer-operations). The transfer of a domain name changes the sponsoring client of the domain object.
+
+Transfer of a domain object MUST implicitly transfer all host objects that are subordinate to the domain object. For example, if domain object "example.com" is transferred and host object "ns1.example.com" exists, the host object MUST be transferred as part of the "example.com" transfer process.
+
+In addition to the common Transfer Process Object elements, the following object-specific `create-only` data element is defined and can be provided when creating a Transfer Process Object for a domain name:
+
+* Transfer Period
+  * Identifier: transferPeriod
+  * Cardinality: 0-1
+  * Mutability: create-only
+  * Data Type: Period Object
+  * Description: The number of units to be added to the registration period of the domain object upon successful completion of the transfer. The number of units available MAY be subject to limits imposed by the server.
+  * Constraints: (None)
+
+In addition to the common Transfer Process Object elements, the following object-specific `read-only` data element is included in the output of domain transfer operations:
+
+* Expiry Date
+  * Identifier: expiryDate
+  * Cardinality: 0-1
+  * Mutability: read-only
+  * Data Type: Timestamp
+  * Description: The end of the domain object's registration period if the transfer caused or causes a change in the validity period.
+
+Subordinate host objects MUST be transferred implicitly when the domain object is transferred.
+
+### Restore Operations
+
+The Domain Name Data Object supports the restore operations defined in the  section. These operations are OPTIONAL and are only available when the RGP feature is supported.
+
+No domain-specific transient data elements extend the common restore operations beyond those defined in the (#restore-ops).
 
 # Contact Data Object
 
@@ -898,19 +1470,30 @@ The following data elements are defined for the Domain Name Data Object.
     * This value MUST be supported to be provided by the client.
     * Servers MAY support server-side generation of this value.
 
-* Repository ID
-  * Identifier: repositoryId
-  * Cardinality: 0-1
+* Provisioning Metadata
+  * Identifier: provMetadata
+  * Cardinality: 1
   * Mutability: read-only
-  * Data Type: Identifier
-  * Description: A server-assigned unique identifier for the object.
-  * Constraints: In EPP Compatibility Profile this data element MUST be provided.
+  * Data Type: Provisioning Metadata Object
+  * Description: Standard metadata about the object's lifecycle and ownership.
+  * Constraints: (None)
+
+* Status
+  * Identifier: status
+  * Cardinality: 0+
+  * Mutability: read-only
+  * Data Type: Status Object
+  * Description: The current status descriptors associated with the contact.
+  * Constraints:
+    * Possible combinations of Domain Status Labels is specified in [@!RFC5733, section 2.2]
+    * The value MUST be one of the status tokens defined in the IANA registry for domain statuses.
+    * The initial value list MAY be as defined in [@!RFC5733]. In this case the values MUST have the same semantics.
 
 * Postal Information
   * Identifier: postalInfo
   * Cardinality: 1-2
   * Mutability: read-write
-  * Data Type: AggregationDictionary[Postal Info Object]
+  * Data Type: DictionaryAggregation[Postal Info Object]
     * Label Description: type of contact data localisation
     * Label Constraints: Allowed values: "int" for "internationalised" all-ASCII version of an address and "loc" for localised forms with possible non-ASCII character sets.
   * Description: Contains postal-address information.
@@ -940,68 +1523,6 @@ The following data elements are defined for the Domain Name Data Object.
   * Description: The contact's email address.
   * Constraints: Email address syntax is defined in [@!RFC5322].
 
-* Status
-  * Identifier: status
-  * Cardinality: 0+
-  * Mutability: read-only
-  * Data Type: Status Object
-  * Description: The current status descriptors associated with the contact.
-  * Constraints:
-    * Description: The current status descriptors associated with the contact.
-    * Constraints: Possible combinations of Domain Status Labels is specified in [@!RFC5733, section 2.2]
-
-
-    * The value MUST be one of the status tokens defined in the IANA registry for domain statuses.
-    * The initial value list MAY be as defined in [@!RFC5733]. In this case the values MUST have the same semantics.
-
-* Sponsoring Client ID
-  * Identifier: sponsoringClientId
-  * Cardinality: 1
-  * Mutability: read-only
-  * Data Type: Client Identifier.
-  * Description: The identifier of the client that is the current sponsor of the domain object.
-  * Constraints: (None)
-
-* Creating Client ID
-  * Identifier: creatingClientId
-  * Cardinality: 0-1
-  * Mutability: read-only
-  * Data Type: Client Identifier.
-  * Description: The identifier of the client that created the contact object.
-  * Constraints: (None)
-
-* Creation Date
-  * Identifier: creationDate
-  * Cardinality: 0-1
-  * Mutability: read-only
-  * Data Type: Timestamp.
-  * Description: The date and time of contact object creation.
-  * Constraints: The value is set by the server and cannot be specified by the client.
-
-* Updating Client ID
-  * Identifier: updatingClientId
-  * Cardinality: 0-1
-  * Mutability: read-only
-  * Data Type: Client Identifier.
-  * Description: The identifier of the client that last updated the contact object.
-  * Constraints: This element MUST NOT be present if the contact has never been modified.
-
-* Update Date
-  * Identifier: updateDate
-  * Cardinality: 0-1
-  * Mutability: read-only
-  * Data Type: Timestamp.
-  * Description: The date and time of the most recent contact object modification.
-  * Constraints: This element MUST NOT be present if the contact object has never been modified.
-
-* Transfer Date
-  * Identifier: transferDate
-  * Cardinality: 0-1
-  * Mutability: read-only
-  * Data Type: Timestamp.
-  * Description: The date and time of the most recent successful contact object transfer.
-  * Constraints: This element MUST NOT be provided if the contact object has never been transferred.
-
 * Authorisation Information
   * Identifier: authInfo
   * Cardinality: 0-1
@@ -1021,20 +1542,79 @@ A> TBC: IANA registry for statuses?
 
 ## Operations
 
-A> TODO: Describe operations for contacts https://github.com/pawel-kow/draft-kowalik-rpp-data-objects/issues/15
+### Create Operation
+
+The Create operation allows a client to provision a new Contact resource. The operation accepts as input all create-only and read-write data elements defined for the Contact Data Object.
+
+* Authorisation:
+  * Generally each client is authorised to create new contact objects becoming a sponsoring client. This can be however constrained by the server policy, e.g. by applying rate limiting or compliance locks.
+
+In EPP Compatibility Profile, the following data elements MUST be provided:
+
+* Handle ID (`id`)
+* At least one Postal Information entry (`postalInfo`) containing a Name (`name`) and an Address (`addr`) with City (`city`) and Country Code (`cc`)
+* E-mail (`email`)
+* Authorisation Information (`authInfo`)
+
+### Read Operation
+
+The Read operation allows a client to retrieve the data elements of a Contact resource. The server's response MAY vary depending on client authorisation and server policy.
+
+* Authorisation:
+  * Sponsoring client:
+    * Full object
+  * Other client:
+    * Without Object Authorisation:
+      * Limited object (non-confidential properties) or operation denied
+    * With Object Authorisation:
+      * Full object, however some properties only authorised to the sponsoring client MAY be redacted according to server policy
+
+Authorisation Information (`authInfo`) MUST NOT be provided in the response if the querying client is not the current sponsoring client.
+
+When constructing the response, the server MUST respect the disclosure policies defined by the Disclose Object (`disclose`), whether set by the server operator's default data-collection policy or by the sponsoring client for the contact. Data elements marked for non-disclosure MUST NOT be included in responses to unauthorised clients.
+
+### Update Operation
+
+The Update operation allows a client to modify the attributes of an existing Contact resource.
+
+* Authorisation:
+  * Only sponsoring client is authorised to perform this operation
+
+The following aspects of the contact object MAY be modified:
+
+* Status values that are client-manageable (prefixed with "client") MAY be added or removed.
+* Postal Information, Voice Phone Number, Fax Phone Number, E-mail, Authorisation Information, and Disclose preferences MAY be changed.
+
+A client MUST NOT add, delete or alter values for statuses managed by the server (prefixed with "server"). A server MAY add, delete or alter status values set by a client, subject to server policy.
+
+### Delete Operation
+
+The Delete operation allows a client to remove an existing Contact resource. The operation targets a specific data object identified by its Handle ID.
+
+* Authorisation:
+  * Only sponsoring client is authorised to perform this operation
+
+The server SHOULD reject a delete request if the contact object is associated with other known objects (e.g., domain names). An associated contact SHOULD NOT be deleted until associations with other known objects have been broken.
+
+The error response SHOULD indicate the existing object associations.
+
+### Transfer Operations
+
+The Contact Data Object supports the common transfer operations defined in the (#transfer-operations). The transfer of a contact changes the sponsoring client of the contact object.
+
+No object-specific transient data elements are defined for contact transfer operations beyond the common transfer data elements.
 
 # Host Data Object
 
 ## Object Description
 
-A Host Data Object represents a name server that provides DNS
-services for a a domain name.
+* Name: Host Data Object
+* Identifier: host
+* Description: A Host Data Object represents a name server that provides DNS services for a domain name.
 
 ## Data Elements
 
 The following data elements are defined for the Host Data Object.
-
-A> TBC: hostName/dns properties are identical to Nameserver Object. Shall we define something like "Extends"?
 
 * Host Name
   * Identifier: hostName
@@ -1044,85 +1624,81 @@ A> TBC: hostName/dns properties are identical to Nameserver Object. Shall we def
   * Description: Fully qualified name of a host.
   * Constraints: The value MUST be a syntactically valid host name.
 
-* DNS Resource Records
-  * Identifier: dns
-  * Cardinality: 0+
-  * Mutability: read-write
-  * Data Type: Composition[DNS Resource Record]
-  * Description: DNS Resource Records related to the host. 
-  * Constraints: 
-    * The labels of DNS entries MUST be subordinate to the Host Name of the Nameserver.
-    * In EPP Compatibility Profile the entries MUST be limited to A and AAAA entries for IPv4 and IPv6 glue records respectively.
+* Provisioning Metadata
+  * Identifier: provMetadata
+  * Cardinality: 1
+  * Mutability: read-only
+  * Data Type: Provisioning Metadata Object
+  * Description: Standard metadata about the object's lifecycle and ownership.
+  * Constraints: (None)
 
 * Status
   * Identifier: status
   * Cardinality: 0+
   * Mutability: read-only
   * Data Type:  Status Object
-  * Description: The current status descriptors associated with the domain.
-  * Constraints: Possible combinations of Domain Status Labels is specified in [@!RFC5732, section 2.3]
+  * Description: The current status descriptors associated with the host.
+  * Constraints: Possible combinations of Host Status Labels is specified in [@!RFC5732, section 2.3]
 
-A> TBD: this block repositoryId/sponsoringClientId/creationDate/updatingClientId/updateDate/transferDate is the same as for Domain Name. Shall it be abstracted to a new component object like "Provisioning Metadata"? 
-
-* Repository ID
-  * Identifier: repositoryId
+* DNS Data
+  * Identifier: dns
   * Cardinality: 0-1
-  * Mutability: read-only
-  * Data Type: Identifier
-  * Description: A server-assigned unique identifier for the object. For EPP compatibility this data element is obligatory.
-  * Constraints: (None)
-
-* Sponsoring Client ID
-  * Identifier: sponsoringClientId
-  * Cardinality: 1
-  * Mutability: read-only
-  * Data Type: Client Identifier.
-  * Description: The identifier of the client that is the current sponsor of the host object.
-  * Constraints: (None)
-
-* Creating Client ID
-  * Identifier: creatingClientId
-  * Cardinality: 0-1
-  * Mutability: read-only
-  * Data Type: Client Identifier.
-  * Description: The identifier of the client that created the host object.
-  * Constraints: (None)
-
-* Creation Date
-  * Identifier: creationDate
-  * Cardinality: 0-1
-  * Mutability: read-only
-  * Data Type: Timestamp.
-  * Description: The date and time of host object creation.
-  * Constraints: The value is set by the server and cannot be specified by the client.
-
-* Updating Client ID
-  * Identifier: updatingClientId
-  * Cardinality: 0-1
-  * Mutability: read-only
-  * Data Type: Client Identifier.
-  * Description: The identifier of the client that last updated the host object.
-  * Constraints: This element MUST NOT be present if the domain has never been modified.
-
-* Update Date
-  * Identifier: updateDate
-  * Cardinality: 0-1
-  * Mutability: read-only
-  * Data Type: Timestamp.
-  * Description: The date and time of the most recent host object modification.
-  * Constraints: This element MUST NOT be present if the host object has never been modified.
-
-* Transfer Date
-  * Identifier: transferDate
-  * Cardinality: 0-1
-  * Mutability: read-only
-  * Data Type: Timestamp
-  * Description: The date and time of the most recent successful host object transfer.
-  * Constraints: This element MUST NOT be provided if the host object has never been transferred.
+  * Mutability: read-write
+  * Data Type: DNS Data Object
+  * Description: DNS resource records and operational controls related to the host. This structure follows the unified DNS data model defined in [@I-D.simmen-rpp-dns-data].
+  * Constraints:
+    * The names of DNS entries MUST be the host name itself or subordinate to the host name.
+    * In EPP Compatibility Profile the record entries MUST be limited to A and AAAA entries for IPv4 and IPv6 glue records respectively.
 
 ## Operations
 
-A> TODO: Describe operations for hosts https://github.com/pawel-kow/draft-kowalik-rpp-data-objects/issues/16
+### Create Operation
+
+The Create operation allows a client to provision a new Host Data Object. The operation accepts as input all create-only and read-write data elements defined for the Host Data Object.
+
+* Authorisation:
+  * Generally each client is authorised to create new host objects becoming a sponsoring client. This can be however constrained by the server policy, e.g. by applying rate limiting or compliance locks.
+
+If the host name exists in a namespace for which the server is authoritative, then the superordinate domain of the host MUST be known to the server before the host object can be created.
+
+In EPP Compatibility Profile, IP addresses are REQUIRED only as needed to produce DNS glue records. If the host name exists in a namespace for which the server is authoritative and is subordinate to an existing domain, IP addresses SHOULD be provided. If the host name is external to the server's namespace, IP addresses are not required by the DNS and MAY be omitted.
+
+### Read Operation
+
+The Read operation allows a client to retrieve the data elements of a Host Data Object.
+
+* Authorisation:
+  * Any client is authorised to retrieve the full object. In EPP Compatibility Profile, host objects do not carry authorisation information and there is no distinction based on client identity as described in [@!RFC5732, section 3.1.2].
+
+### Update Operation
+
+The Update operation allows a client to modify the attributes of an existing Host Data Object. The operation targets a specific data object identified by its host name.
+
+* Authorisation:
+  * Only sponsoring client is authorised to perform this operation
+
+Host name changes MAY require the addition or removal of IP addresses to be accepted by the server. IP address association MAY be subject to server policies for provisioning hosts as name servers.
+
+Host name changes can have an impact on associated objects that refer to the host object. A Host Name change SHOULD NOT require additional updates of associated objects to preserve existing associations, with one exception: changing an external host object that has associations with objects that are sponsored by a different client. Attempts to update such hosts directly MUST fail. The change can be provisioned by creating a new external host with a new name and any needed new attributes, and subsequently updating the other objects sponsored by the client.
+
+### Delete Operation
+
+The Delete operation allows a client to remove an existing Host Data Object. The operation targets a specific data object identified by its host name.
+
+* Authorisation:
+  * Only sponsoring client is authorised to perform this operation
+
+The server SHOULD reject a delete request if the host object is associated with any other object, such as a domain name object. Deleting a host object without first breaking existing associations can cause DNS resolution failure for domain objects that refer to the deleted host object.
+
+A> TODO: consider RFC 9874 / BCP 244 for host deletions practices
+
+The error response SHOULD indicate the related associated objects.
+
+### Restore Operations
+
+The Host Data Object supports the restore operations defined in the (#restore-ops). These operations are OPTIONAL and are only available when the RGP feature for Host Data Object is supported by the server.
+
+No domain-specific transient data elements extend the common restore operations beyond those defined in the (#restore-ops).
 
 # IANA Considerations
 
@@ -1134,18 +1710,24 @@ This document establishes the "RESTful Provisioning Protocol (RPP) Data Object R
 
 The policy for adding new objects, data elements, or operations to this registry is "Specification Required" [@!RFC8126].
 
+Standardised RPP extensions that introduce new data objects, add data elements to existing objects, or define new operations or operation parameters MUST register these additions in this registry. Each such registration MUST reference the specification that defines the extension.
+
+Private (non-standardised) extensions are not required to register in this registry.
+
 ### Registry Structure
 
 The registry is organised as a collection of Object definitions. Each Object definition MUST include:
 
-* A header containing the Object Identifier, Object Name, Object Type (Resource or Component), a brief description, and a reference to its defining specification.
+* A header containing the Object Identifier, Object Name, Object Type (Resource, Process or Component), a brief description, and a reference to its defining specification.
 
-* A "Data Elements" table listing all persisted data elements associated with the object. Each entry MUST specify the element's Identifier, Name, Cardinality, Mutability, Data Type, and description.
+* A "Data Elements" table listing all persisted data elements associated with the object. Each entry MUST specify the element's Identifier, Name, Cardinality, Mutability, Data Type, description, and a reference to the specification that defines it.
 
-* If applicable, an "Operations" section. For each operation, the
+* An "Operations" section (applicable only for Object Types Resource or Process). For each operation, the
 registry MUST provide:
-  * The Operation's Name and a description.
-  * A "Parameters" table listing all data elements that are provided as input to the operation but are not persisted as part of the object's state. Each entry MUST specify the parameter's Identifier, Name, Cardinality, Data Type, and a description.
+  * The Operation's Name, a description, and a reference to the specification that defines it.
+  * A "Parameters" table listing all data elements that are provided as input to the operation but are not persisted as part of the object's state. Each entry MUST specify the parameter's Identifier, Name, Cardinality, Data Type, description, and a reference to the specification that defines it.
+
+Extensions MAY add new data elements, operations, or operation parameters to existing Object definitions in the registry. Each such addition MUST reference the extension specification that introduces it, allowing implementations to distinguish core protocol elements from extension-defined elements.
 
 ### Initial Registrations
 
@@ -1163,43 +1745,59 @@ Reference: [This-ID]
 
 Data Elements
 | Element Identifier | Element Name | Card. | Mutability | Data Type | Description                      |
-|--------------------|--------------|-------|------------|-----------|----------------------------------|
+| ------------------ | ------------ | ----- | ---------- | --------- | -------------------------------- |
 | value              | Value        | 1     | read-write | Integer   | The numeric value of the period. |
 | unit               | Unit         | 1     | read-write | String    | The unit of the period.          |
 
-Object: nameserver
+Object: dnsRecord
 
-Object Name: Nameserver Object
+Object Name: DNS Resource Record Object
 
 Object Type: Component
 
-Description: Represents a single nameserver.
+Description: Represents a single DNS resource record.
 
 Reference: [This-ID]
 
 Data Elements
-| Element Identifier | Element Name         | Card. | Mutability | Data Type                        | Description                               |
-|--------------------|----------------------|-------|------------|----------------------------------|-------------------------------------------|
-| hostName           | Host Name            | 1     | read-write | String                           | The name of the host.                     |
-| dns                | DNS Resource Records | 0+    | read-write | Composition[DNS Resource Record] | DNS Resource Records related to the host. |
+| Element Identifier | Element Name | Card. | Mutability | Data Type | Description                                                                      |
+| ------------------ | ------------ | ----- | ---------- | --------- | -------------------------------------------------------------------------------- |
+| name               | Name         | 1     | read-write | String    | The owner name of the DNS entry.                                                 |
+| class              | Class        | 0-1   | read-write | String    | The DNS resource record class.                                                   |
+| type               | Type         | 1     | read-write | String    | The DNS resource record type, indicating the format of the RDATA field.          |
+| rdata              | RDATA        | 1     | read-write | Object    | The actual payload data of the DNS record. Structure depends on the record type. |
 
-Object: dnsrr
+Object: dnsControls
 
-Object Name: DNS Resource Record
+Object Name: DNS Operational Controls Object
 
 Object Type: Component
 
-Description: Represents a DNS Entry.
+Description: Contains operational control parameters that a client MAY use to influence server-side DNS behaviour for a set of DNS records.
 
 Reference: [This-ID]
 
 Data Elements
-| Element Identifier | Element Name | Card. | Mutability | Data Type | Description                     |
-|--------------------|--------------|-------|------------|-----------|---------------------------------|
-| hostNamelabel      | Label        | 1     | read-write | String    | DNS entry label.                |
-| type               | Type         | 1     | read-write | String    | DNS entry type.                 |
-| data               | Data         | 1     | read-write | String    | DNS entry value.                |
-| ttl                | TTL          | 1     | read-write | Number    | TTL value for a reource record. |
+| Element Identifier | Element Name               | Card. | Mutability | Data Type            | Description                                                                                                                                              |
+| ------------------ | -------------------------- | ----- | ---------- | -------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| ttl                | TTL                        | 0-1   | read-write | Dictionary [Integer] | Controls the caching behaviour of DNS resource records, keyed by lower-case record type name.                                                            |
+| maxSigLifetime     | Maximum Signature Lifetime | 0-1   | read-write | Dictionary [Integer] | Maximum number of seconds after signature generation when the parent's signature on signed DNS data should expire, keyed by lower-case record type name. |
+
+Object: dnsData
+
+Object Name: DNS Data Object
+
+Object Type: Component
+
+Description: A container for DNS resource records and associated operational controls for a provisioned object.
+
+Reference: [This-ID]
+
+Data Elements
+| Element Identifier | Element Name | Card. | Mutability | Data Type                                | Description                                                              |
+| ------------------ | ------------ | ----- | ---------- | ---------------------------------------- | ------------------------------------------------------------------------ |
+| records            | Records      | 0+    | read-write | Composition [DNS Resource Record Object] | An array of DNS resource records associated with the provisioned object. |
+| controls           | Controls     | 0-1   | read-write | DNS Operational Controls Object          | Operational control parameters for the DNS records.                      |
 
 Object: authInfo
 
@@ -1213,12 +1811,12 @@ Reference: [This-ID]
 
 Data Elements
 | Element Identifier | Element Name              | Card. | Mutability  | Data Type | Description                                                                                                                                                                               |
-|--------------------|---------------------------|-------|-------------|-----------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| ------------------ | ------------------------- | ----- | ----------- | --------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | method             | Method                    | 1     | create-only | String    | The identifier of the RPP authorisation method.                                                                                                                                           |
 | authdata           | Authorisation Information | 1     | create-only | String    | The value of the authorisation information. It might be as simple as password string, but also more complex values like public key certificates or tokens encoded as string are possible. |
 
 
-Object: domainStatus
+Object: status
 
 Object Name: Status Object
 
@@ -1229,16 +1827,179 @@ Description: Represents one of the status values associated with the provisionin
 Reference: [This-ID]
 
 Data Elements
-| Element Identifier | Element Name | Card. | Mutability  | Data Type | Description                                                                                                                                                      |
-|--------------------|--------------|-------|-------------|-----------|------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| label              | Label        | 1     | create-only | String    | machine-reasible enum label of a status                                                                                                                          |
-| reason             | Reason       | 0-1   | create-only | String    | a human-readable text that describes the rationale for the status applied to the object.                                                                         |
-| due                | Due          | 0-1   | read-write  | Timestamp | a timestamp, when this status is going to be removed automatically, or changed to other status. This field can be used to expresse lifecycle related information |
+| Element Identifier | Element Name | Card. | Mutability  | Data Type | Description                                                                                                                                                     |
+| ------------------ | ------------ | ----- | ----------- | --------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| label              | Label        | 1     | create-only | String    | machine-readable enum label of a status                                                                                                                         |
+| reason             | Reason       | 0-1   | create-only | String    | a human-readable text that describes the rationale for the status applied to the object.                                                                        |
+| due                | Due          | 0-1   | read-write  | Timestamp | a timestamp, when this status is going to be removed automatically, or changed to other status. This field can be used to express lifecycle related information |
+
+
+Object: provMetadata
+
+Object Name: Provisioning Metadata Object
+
+Object Type: Component
+
+Description: Contains standard metadata about the lifecycle and ownership of a provisioned object.
+
+Reference: [This-ID]
+
+Data Elements
+| Element Identifier | Element Name         | Card. | Mutability | Data Type         | Description                                                             |
+| ------------------ | -------------------- | ----- | ---------- | ----------------- | ----------------------------------------------------------------------- |
+| repositoryId       | Repository ID        | 0-1   | read-only  | Identifier        | A server-assigned unique identifier for the object.                     |
+| spClientId         | Sponsoring Client ID | 1     | read-only  | Client Identifier | The identifier of the client that is the current sponsor of the object. |
+| crClientId         | Creating Client ID   | 0-1   | read-only  | Client Identifier | The identifier of the client that created the object.                   |
+| crDate             | Creation Date        | 0-1   | read-only  | Timestamp         | The date and time of object creation.                                   |
+| upClientId         | Updating Client ID   | 0-1   | read-only  | Client Identifier | The identifier of the client that last updated the object.              |
+| upDate             | Update Date          | 0-1   | read-only  | Timestamp         | The date and time of the most recent object modification.               |
+| trDate             | Transfer Date        | 0-1   | read-only  | Timestamp         | The date and time of the most recent successful object transfer.        |
+
+Object: transferProcess
+
+Object Name: Transfer Process Object
+
+Object Type: Process
+
+Description: Represents a transfer request for a provisioned object. Creating this object initiates the transfer. Approve and Reject are additional operations; Delete corresponds to cancel.
+
+Reference: [This-ID]
+
+Data Elements
+| Element Identifier | Element Name         | Card. | Mutability  | Data Type         | Description                                                                                     |
+| ------------------ | -------------------- | ----- | ----------- | ----------------- | ----------------------------------------------------------------------------------------------- |
+| transferDir        | Transfer Direction   | 0-1   | create-only | String            | The direction of the transfer ("pull" or "push"). If omitted, server policy determines default. |
+| gainingClientId    | Gaining Client ID    | 0-1   | create-only | Client Identifier | The designated gaining client. REQUIRED for push transfers; MUST NOT be provided for pull.      |
+| trStatus           | Transfer Status      | 1     | read-only   | String            | The state of the transfer request.                                                              |
+| reqClientId        | Requesting Client ID | 1     | read-only   | Client Identifier | The identifier of the client that initiated the transfer request.                               |
+| requestDate        | Request Date         | 1     | read-only   | Timestamp         | The date and time that the transfer was requested.                                              |
+| actClientId        | Acting Client ID     | 1     | read-only   | Client Identifier | The identifier of the client that should or did act on the request.                             |
+| actionDate         | Action Date          | 1     | read-only   | Timestamp         | The response deadline (if pending) or completion date.                                          |
+
+Operations
+
+Operation: Create
+
+Operation Identifier: create
+
+Description: Initiates a transfer of a Domain Name resource by creating a Transfer Process Object. Transfer direction and gaining client are provided as create-only data elements.
+
+Parameters
+| Identifier     | Name            | Card. | Data Type | Description                                                   |
+| -------------- | --------------- | ----- | --------- | ------------------------------------------------------------- |
+| transferPeriod | Transfer Period | 0-1   | period    | The duration to add to the registration period upon transfer. |
+
+Operation: Transfer Read
+
+Operation Identifier: read
+
+Description: Queries the status of a transfer of a Domain Name resource.
+
+Parameters: (None)
+
+Operation: Transfer Delete
+
+Operation Identifier: delete
+
+Description: Cancels a pending transfer of a Domain Name resource.
+
+Parameters: (None)
+
+Operation: Transfer Approve
+
+Operation Identifier: approve
+
+Description: Approves a pending transfer of a Domain Name resource.
+
+Parameters: (None)
+
+Operation: Transfer Reject
+
+Operation Identifier: reject (on Transfer Process Object)
+
+Description: Rejects a pending transfer of a Domain Name resource.
+
+Parameters
+| Identifier | Name   | Card. | Data Type | Description                                                   |
+| ---------- | ------ | ----- | --------- | ------------------------------------------------------------- |
+| reason     | Reason | 0-1   | String    | A human-readable text describing the rationale for rejection. |
 
 
 A> TODO: IANA table: Postal Address Object
 A> TODO: IANA table: Postal Info Object
 A> TODO: IANA table: Disclose Object
+
+Object: restoreProcess
+
+Object Name: Restore Process Object
+
+Object Type: Process
+
+Description: Represents the current state of a restore request for an object that has entered the Redemption Grace Period (RGP). Returned as output of all restore operations. This object is OPTIONAL and is only used when the RGP feature is supported.
+
+Reference: [This-ID]
+
+Data Elements
+| Element Identifier | Element Name    | Card. | Mutability | Data Type | Description                                                                                                                             |
+| ------------------ | --------------- | ----- | ---------- | --------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| restoreStatus      | Restore Status  | 1     | read-only  | String    | The current state of the restore process.                                                                                               |
+| requestDate        | Request Date    | 0-1   | read-only  | Timestamp | The date and time when the restore request was submitted. Absent if no request has been submitted.                                      |
+| reportDate         | Report Date     | 0-1   | read-only  | Timestamp | The date and time when the most recent restore report was accepted. Absent if no report has been accepted.                              |
+| reportDueDate      | Report Due Date | 0-1   | read-only  | Timestamp | The deadline for submitting a restore report before the object reverts to redemptionPeriod. Present only when status is pendingRestore. |
+
+Operations
+
+Operation: Restore Create
+
+Operation Identifier: create
+
+Description: Initiates recovery of a domain name in the redemptionPeriod state by creating a Restore Process Object. This operation is OPTIONAL and is only available when the RGP feature is supported.
+
+Parameters
+| Identifier    | Name           | Card. | Data Type             | Description               |
+| ------------- | -------------- | ----- | --------------------- | ------------------------- |
+| restoreReport | Restore Report | 0-1   | Restore Report Object | An inline restore report. |
+
+Operation: Restore Read
+
+Operation Identifier: read (on Restore Process Object)
+
+Description: Retrieves the current state of the RGP restore process for a domain name. This operation is OPTIONAL and is only available when the RGP feature is supported.
+
+Parameters: (None)
+
+Operation: Restore Report
+
+Operation Identifier: report
+
+Description: Submits the restore report for a domain name in the pendingRestore state. This operation is OPTIONAL and is only available when the RGP feature is supported and the server requires a restore report.
+
+Parameters
+| Identifier    | Name           | Card. | Data Type             | Description                         |
+| ------------- | -------------- | ----- | --------------------- | ----------------------------------- |
+| restoreReport | Restore Report | 1     | Restore Report Object | The restore report to be submitted. |
+
+
+Object: restoreReport
+
+Object Name: Restore Report Object
+
+Object Type: Component
+
+Description: Contains the redemption grace period restore report submitted by the sponsoring client as required by the RGP process. This object is OPTIONAL and is only used when the RGP feature is supported and a restore report is required by server policy.
+
+Reference: [This-ID]
+
+Data Elements
+| Element Identifier | Element Name      | Card. | Mutability | Data Type | Description                                                                                                        |
+| ------------------ | ----------------- | ----- | ---------- | --------- | ------------------------------------------------------------------------------------------------------------------ |
+| preData            | Pre-Delete Data   | 0-1   | read-write | String    | A copy of the registration data that existed for the object prior to deletion.                                     |
+| postData           | Post-Restore Data | 0-1   | read-write | String    | A copy of the registration data that exists for the object at the time the restore report is submitted.            |
+| deleteTime         | Delete Time       | 0-1   | read-write | Timestamp | The date and time when the object delete request was sent to the server.                                           |
+| restoreTime        | Restore Time      | 0-1   | read-write | Timestamp | The date and time when the original restore request operation was sent to the server.                              |
+| restoreReason      | Restore Reason    | 0-1   | read-write | String    | A brief explanation of the reason for restoring the object.                                                        |
+| statements         | Statements        | 0+    | read-write | String    | Mandatory client statements required by the RGP process. At least one and at most two statements MUST be provided. |
+| other              | Other             | 0-1   | read-write | String    | Any additional information needed to support the statements provided by the client.                                |
 
 
 Object: domainName
@@ -1252,47 +2013,56 @@ Description: Represents a domain name and its associated data.
 Reference: [This-ID]
 
 Data Elements
-| Identifier         | Name                 | Card. | Mutability  | Data Type                                                              | Description                                             |
-|--------------------|----------------------|-------|-------------|------------------------------------------------------------------------|---------------------------------------------------------|
-| name               | Name                 | 1     | create-only | String                                                                 | The fully qualified name of the domain object.          |
-| repositoryId       | Repository ID        | 0-1   | read-only   | Identifier                                                             | A server-assigned unique identifier for the object.     |
-| status             | Status               | 0+    | read-only   | Status Object                                                          | The current status descriptors for the domain.          |
-| registrant         | Registrant           | 0-1   | read-write  | Contact Object                                                         | The registrant contact ID.                              |
-| contacts           | Contacts             | 0+    | read-write  | LabelledAggregation [Contact Object]                                   | Associated contact objects.                             |
-| nameservers        | Nameservers          | 0+    | read-write  | Composition[Host Data Object] or Aggregation[Host Data Object] | A collection of nameservers associated with the domain. |
-| dns                | DNS                  | 0+    | read-write  | Composition[DNS Resource Record]                                       | A collection of DNS entries related to the domain name. |
-| subordinateHosts   | Subordinate Hosts    | 0+    | read-only   | Aggregation [Host Object]                                              | Subordinate host names.                                 |
-| sponsoringClientId | Sponsoring Client ID | 1     | read-only   | Client Identifier                                                      | The current sponsoring client ID.                       |
-| creatingClientId   | Creating Client ID   | 0-1   | read-only   | Client Identifier                                                      | The client ID that created the object.                  |
-| creationDate       | Creation Date        | 0-1   | read-only   | Timestamp                                                              | Creation timestamp.                                     |
-| updatingClientId   | Updating Client ID   | 0-1   | read-only   | Client Identifier                                                      | The client ID that last updated the object.             |
-| updateDate         | Update Date          | 0-1   | read-only   | Timestamp                                                              | The timestamp of the last update.                       |
-| expiryDate         | Expiry Date          | 0-1   | read-only   | Timestamp                                                              | Expiry timestamp.                                       |
-| transferDate       | Transfer Date        | 0-1   | read-only   | Timestamp                                                              | The timestamp of the last successful transfer.          |
-| authInfo           | Authorisation Info   | 0-1   | read-write  | authInfo                                                               | Authorisation information for the object.               |
+| Identifier       | Name                  | Card. | Mutability  | Data Type                            | Description                                                               |
+| ---------------- | --------------------- | ----- | ----------- | ------------------------------------ | ------------------------------------------------------------------------- |
+| name             | Name                  | 1     | create-only | String                               | The fully qualified name of the domain object.                            |
+| provMetadata     | Provisioning Metadata | 1     | read-only   | Provisioning Metadata Object         | Standard metadata about object lifecycle and ownership.                   |
+| status           | Status                | 0+    | read-only   | Status Object                        | The current status descriptors for the domain.                            |
+| registrant       | Registrant            | 0-1   | read-write  | Contact Object                       | The registrant contact ID.                                                |
+| contacts         | Contacts              | 0+    | read-write  | LabelledAggregation [Contact Object] | Associated contact objects.                                               |
+| nameservers      | Nameservers           | 0+    | read-write  | Aggregation [Host Data Object]       | A collection of nameservers associated with the domain.                   |
+| dns              | DNS Data              | 0-1   | read-write  | DNS Data Object                      | DNS resource records and operational controls related to the domain name. |
+| subordinateHosts | Subordinate Hosts     | 0+    | read-only   | Aggregation [Host Data Object]       | Subordinate host names.                                                   |
+| expiryDate       | Expiry Date           | 0-1   | read-only   | Timestamp                            | Expiry timestamp.                                                         |
+| authInfo         | Authorisation Info    | 0-1   | read-write  | authInfo                             | Authorisation information for the object.                                 |
 
 Operations
 
 Operation: Create
 
+Operation Identifier: create
+
 Description: Provisions a new Domain Name resource.
 
 Parameters
 | Identifier | Name                | Card. | Data Type | Description                                          |
-|------------|---------------------|-------|-----------|------------------------------------------------------|
+| ---------- | ------------------- | ----- | --------- | ---------------------------------------------------- |
 | period     | Registration Period | 0-1   | period    | The initial registration period for the domain name. |
 
 Operation: Read
+
+Operation Identifier: read
 
 Description: Retrieves the data elements of a Domain Name resource.
 
 Parameters
 | Identifier    | Name                            | Card. | Data Type | Description                                          |
-|---------------|---------------------------------|-------|-----------|------------------------------------------------------|
+| ------------- | ------------------------------- | ----- | --------- | ---------------------------------------------------- |
 | hostsFilter   | Hosts Filter                    | 0-1   | String    | Controls which host information is returned.         |
 | queryAuthInfo | Query Authorisation Information | 0-1   | authInfo  | Credentials to authorise access to full object data. |
 
+Operation: Update
+
+Description: Modifies the read-write data elements of a Domain Name resource.
+
+Parameters
+| Identifier | Name   | Card. | Data Type | Description                                                    |
+| ---------- | ------ | ----- | --------- | -------------------------------------------------------------- |
+| urgent     | Urgent | 0-1   | Boolean   | Requests high-priority processing of the update by the server. |
+
 Operation: Delete
+
+Operation Identifier: delete
 
 Description: Removes an existing Domain Name resource.
 
@@ -1300,16 +2070,62 @@ Parameters: (None)
 
 Operation: Renew
 
+Operation Identifier: renew
+
 Description: Extends the validity period of a Domain Name resource.
 
 Parameters
 | Identifier        | Name                | Card. | Data Type | Description                                       |
-|-------------------|---------------------|-------|-----------|---------------------------------------------------|
+| ----------------- | ------------------- | ----- | --------- | ------------------------------------------------- |
 | currentExpiryDate | Current Expiry Date | 1     | Timestamp | The expected current expiry date, for validation. |
 | renewalPeriod     | Renewal Period      | 0-1   | period    | The duration to add to the registration period.   |
 
+
 A> TODO: IANA table: Contact Data Object
-A> TODO: IANA table: Host Data Object
+
+Object: host
+
+Object Name: Host Data Object
+
+Object Type: Resource
+
+Description: Represents a name server that provides DNS services for a domain name.
+
+Reference: [This-ID]
+
+Data Elements
+| Identifier   | Name                  | Card. | Mutability | Data Type                    | Description                                                        |
+| ------------ | --------------------- | ----- | ---------- | ---------------------------- | ------------------------------------------------------------------ |
+| hostName     | Host Name             | 1     | read-write | String                       | Fully qualified name of a host.                                    |
+| provMetadata | Provisioning Metadata | 1     | read-only  | Provisioning Metadata Object | Standard metadata about object lifecycle and ownership.            |
+| status       | Status                | 0+    | read-only  | Status Object                | The current status descriptors for the host.                       |
+| dns          | DNS Data              | 0-1   | read-write | DNS Data Object              | DNS resource records and operational controls related to the host. |
+
+Operations
+
+Operation: Create
+
+Description: Provisions a new Host Data Object.
+
+Parameters: (None)
+
+Operation: Read
+
+Description: Retrieves the data elements of a Host Data Object.
+
+Parameters: (None)
+
+Operation: Update
+
+Description: Modifies the attributes of a Host Data Object.
+
+Parameters: (None)
+
+Operation: Delete
+
+Description: Removes an existing Host Data Object.
+
+Parameters: (None)
 
 # Security Considerations
 
@@ -1318,6 +2134,27 @@ A> TODO: write security considerations, if any
 {removeInRFC="true"}
 {toc="exclude"}
 # Changes History
+
+{toc="exclude"}
+{numbered="false"}
+## draft-kowalik-rpp-data-objects -02 - -03
+
+* add Object and Dictionary[Value Type] primitive data types
+* change "Aggregation/Composition Dictionary" to "Dictionary Aggregation/Composition" (Issue #32) 
+* describe operations for contacts #15
+* describe operations for hosts #16
+* add Domain Update operation with urgent transient parameter from [@RFC5910]
+* add identifiers to all operations
+* abstract common provisioning metadata into reusable component object
+* define common RGP/restore process and Restore Process Object 
+* define common transfer operations and Transfer Process Object with support for pull and push transfers #23
+* add domain-specific transfer operations with implicit renewal and subordinate host transfer
+* add host/domain relationship terminology from RFC 5732
+* restructure DNS data model aligned with draft-simmen-rpp-dns-data-01: redefine DNS Resource Record Object, add DNS Operational Controls Object, add DNS Data Object; update Domain, Host, and Nameserver objects to use it
+* add DNSSEC support based on [@RFC5910]: DS and DNSKEY record types with structured RDATA fields
+* add NS, A, and AAAA RDATA structures and record type constraints to EPP compatibility profile for DNS Resource Record Object
+* expand extensibility section with standardised/private extension mechanisms, extension points, and operation extensibility
+* update IANA registration policy and registry structure to accommodate extension registrations
 
 {toc="exclude"}
 {numbered="false"}
