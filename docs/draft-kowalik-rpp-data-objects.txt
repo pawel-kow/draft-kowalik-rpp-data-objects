@@ -2254,7 +2254,7 @@ Internet-Draft              RPP Data Objects                  March 2026
       -  Identifier: registrant
       -  Cardinality: 0-1
       -  Mutability: read-write
-      -  Data Type: Contact Object.
+      -  Data Type: Contact Object
       -  Description: The contact object associated with the domain as
          the registrant.
       -  Constraints:
@@ -2343,7 +2343,7 @@ Internet-Draft              RPP Data Objects                  March 2026
       -  Identifier: expiryDate
       -  Cardinality: 0-1
       -  Mutability: read-only
-      -  Data Type: Timestamp.
+      -  Data Type: Timestamp
       -  Description: The date and time identifying the end of the
          domain object's registration period.
 
@@ -3980,8 +3980,8 @@ Internet-Draft              RPP Data Objects                  March 2026
 
    |                |             |     |          |                   |timestamp.   |
    +----------------+-------------+-----+----------+-------------------+-------------+
-   |authInfo        |Authorisation|0-1  |read-write|authInfo           |Authorisation|
-   |                |Info         |     |          |                   |information  |
+   |authInfo        |Authorisation|0-1  |read-write|Authorisation      |Authorisation|
+   |                |Information  |     |          |Information Object |information  |
    |                |             |     |          |                   |for the      |
    |                |             |     |          |                   |object.      |
    +----------------+-------------+-----+----------+-------------------+-------------+

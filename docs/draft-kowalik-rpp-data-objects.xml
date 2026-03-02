@@ -1614,7 +1614,7 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 <li>Identifier: registrant</li>
 <li>Cardinality: 0-1</li>
 <li>Mutability: read-write</li>
-<li>Data Type: Contact Object.</li>
+<li>Data Type: Contact Object</li>
 <li>Description: The contact object associated with the domain as the registrant.</li>
 <li><t>Constraints:</t>
 
@@ -1702,7 +1702,7 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 <li>Identifier: expiryDate</li>
 <li>Cardinality: 0-1</li>
 <li>Mutability: read-only</li>
-<li>Data Type: Timestamp.</li>
+<li>Data Type: Timestamp</li>
 <li>Description: The date and time identifying the end of the domain object's registration period.</li>
 <li>Constraints: The value is set by the server and cannot be specified by the client.</li>
 </ul></li>
@@ -3079,10 +3079,10 @@ TODO: IANA table: Disclose Object</t>
 
 <tr>
 <td>authInfo</td>
-<td>Authorisation Info</td>
+<td>Authorisation Information</td>
 <td>0-1</td>
 <td>read-write</td>
-<td>authInfo</td>
+<td>Authorisation Information Object</td>
 <td>Authorisation information for the object.</td>
 </tr>
 </tbody>
