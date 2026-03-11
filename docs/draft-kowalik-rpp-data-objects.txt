@@ -186,7 +186,7 @@ Internet-Draft              RPP Data Objects                  March 2026
    11. Security Considerations . . . . . . . . . . . . . . . . . . .  76
    13. References  . . . . . . . . . . . . . . . . . . . . . . . . .  77
      13.1.  Normative References . . . . . . . . . . . . . . . . . .  77
-     13.2.  Informative References . . . . . . . . . . . . . . . . .  78
+     13.2.  Informative References . . . . . . . . . . . . . . . . .  79
    Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  79
 
 1.  Introduction
@@ -2655,7 +2655,7 @@ Internet-Draft              RPP Data Objects                  March 2026
       -  Identifier: postalInfo
       -  Cardinality: 1-2
       -  Mutability: read-write
-      -  Data Type: DictionaryAggregation[Postal Info Object]
+      -  Data Type: DictionaryComposition[Postal Info Object]
          -  Label Description: type of contact data localisation
          -  Label Constraints: Allowed values: "int" for
             "internationalised" all-ASCII version of an address and
@@ -4220,6 +4220,9 @@ Internet-Draft              RPP Data Objects                  March 2026
 
 draft-kowalik-rpp-data-objects -03 - -04
 
+   -  correct "postalInfo" to be DictionaryComposition not
+      DictinaryAggregation
+
 draft-kowalik-rpp-data-objects -02 - -03
 
    -  add Object and Dictionary[Value Type] primitive data types
@@ -4246,10 +4249,7 @@ draft-kowalik-rpp-data-objects -02 - -03
       with structured RDATA fields
    -  add NS, A, and AAAA RDATA structures and record type constraints
       to EPP compatibility profile for DNS Resource Record Object
-   -  expand extensibility section with standardised/private extension
-      mechanisms, extension points, and operation extensibility
-   -  update IANA registration policy and registry structure to
-      accommodate extension registrations
+
 
 
 
@@ -4257,6 +4257,11 @@ Kowalik & Wullink       Expires 3 September 2026               [Page 76]
 
 Internet-Draft              RPP Data Objects                  March 2026
 
+
+   -  expand extensibility section with standardised/private extension
+      mechanisms, extension points, and operation extensibility
+   -  update IANA registration policy and registry structure to
+      accommodate extension registrations
 
 draft-kowalik-rpp-data-objects -01 - -02
 
@@ -4299,11 +4304,6 @@ draft-kowalik-rpp-data-objects -01 - -02
               Resource Locators (URL)", RFC 1738, DOI 10.17487/RFC1738,
               December 1994, <https://www.rfc-editor.org/info/rfc1738>.
 
-   [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
-              Requirement Levels", BCP 14, RFC 2119,
-              DOI 10.17487/RFC2119, March 1997,
-              <https://www.rfc-editor.org/info/rfc2119>.
-
 
 
 
@@ -4313,6 +4313,11 @@ Kowalik & Wullink       Expires 3 September 2026               [Page 77]
 
 Internet-Draft              RPP Data Objects                  March 2026
 
+
+   [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
+              Requirement Levels", BCP 14, RFC 2119,
+              DOI 10.17487/RFC2119, March 1997,
+              <https://www.rfc-editor.org/info/rfc2119>.
 
    [RFC3339]  Klyne, G. and C. Newman, "Date and Time on the Internet:
               Timestamps", RFC 3339, DOI 10.17487/RFC3339, July 2002,
@@ -4358,17 +4363,14 @@ Internet-Draft              RPP Data Objects                  March 2026
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
               May 2017, <https://www.rfc-editor.org/info/rfc8174>.
 
-13.2.  Informative References
-
-
-
-
 
 
 Kowalik & Wullink       Expires 3 September 2026               [Page 78]
 
 Internet-Draft              RPP Data Objects                  March 2026
 
+
+13.2.  Informative References
 
    [I-D.simmen-rpp-dns-data]
               Simmen, C. and P. Kowalik, "DNS data representation for
@@ -4405,8 +4407,6 @@ Authors' Addresses
    SIDN Labs
    Email: maarten.wullink@sidn.nl
    URI:   https://sidn.nl/
-
-
 
 
 
