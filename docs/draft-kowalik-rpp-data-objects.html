@@ -1571,6 +1571,11 @@ li > p:last-of-type:only-child {
 </li>
                   <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.3.2.6">
                     <p id="section-toc.1-1.7.2.3.2.6.1"><a href="#section-7.3.6" class="auto internal xref">7.3.6</a>.  <a href="#name-transfer-operations-2" class="internal xref">Transfer Operations</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.3.2.6.2.1">
+                        <p id="section-toc.1-1.7.2.3.2.6.2.1.1"><a href="#section-7.3.6.1" class="auto internal xref">7.3.6.1</a>.  <a href="#name-transfer-create-operation" class="internal xref">Transfer Create Operation</a></p>
+</li>
+                    </ul>
 </li>
                   <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.3.2.7">
                     <p id="section-toc.1-1.7.2.3.2.7.1"><a href="#section-7.3.7" class="auto internal xref">7.3.7</a>.  <a href="#name-restore-operations-2" class="internal xref">Restore Operations</a></p>
@@ -3614,7 +3619,7 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 <a href="#section-6.1.1.1" class="section-number selfRef">6.1.1.1. </a><a href="#name-create-transfer-request" class="section-name selfRef">Create (Transfer Request)</a>
             </h5>
 <ul class="compact">
-<li class="compact" id="section-6.1.1.1-1.1">Identifier: create<a href="#section-6.1.1.1-1.1" class="pilcrow">¶</a>
+<li class="compact" id="section-6.1.1.1-1.1">Identifier: transferCreate<a href="#section-6.1.1.1-1.1" class="pilcrow">¶</a>
 </li>
             </ul>
 <p id="section-6.1.1.1-2">The Create operation initiates a transfer by creating a Transfer Process Object associated with the provisioned object. The transfer direction and gaining client (for push transfers) are provided as <code>create-only</code> data elements of the Transfer Process Object.<a href="#section-6.1.1.1-2" class="pilcrow">¶</a></p>
@@ -3659,7 +3664,7 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 <a href="#section-6.1.1.2" class="section-number selfRef">6.1.1.2. </a><a href="#name-read-transfer-query" class="section-name selfRef">Read (Transfer Query)</a>
             </h5>
 <ul class="compact">
-<li class="compact" id="section-6.1.1.2-1.1">Identifier: read<a href="#section-6.1.1.2-1.1" class="pilcrow">¶</a>
+<li class="compact" id="section-6.1.1.2-1.1">Identifier: transferRead<a href="#section-6.1.1.2-1.1" class="pilcrow">¶</a>
 </li>
             </ul>
 <p id="section-6.1.1.2-2">The Read operation allows a client to determine the real-time status of a pending or recently completed transfer request.<a href="#section-6.1.1.2-2" class="pilcrow">¶</a></p>
@@ -3688,7 +3693,7 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 <a href="#section-6.1.1.3" class="section-number selfRef">6.1.1.3. </a><a href="#name-delete-transfer-cancel" class="section-name selfRef">Delete (Transfer Cancel)</a>
             </h5>
 <ul class="compact">
-<li class="compact" id="section-6.1.1.3-1.1">Identifier: delete<a href="#section-6.1.1.3-1.1" class="pilcrow">¶</a>
+<li class="compact" id="section-6.1.1.3-1.1">Identifier: transferDelete<a href="#section-6.1.1.3-1.1" class="pilcrow">¶</a>
 </li>
             </ul>
 <p id="section-6.1.1.3-2">The Delete operation allows the initiating client to cancel its own pending transfer request.<a href="#section-6.1.1.3-2" class="pilcrow">¶</a></p>
@@ -3715,7 +3720,7 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 <a href="#section-6.1.1.4" class="section-number selfRef">6.1.1.4. </a><a href="#name-approve" class="section-name selfRef">Approve</a>
             </h5>
 <ul class="compact">
-<li class="compact" id="section-6.1.1.4-1.1">Identifier: approve<a href="#section-6.1.1.4-1.1" class="pilcrow">¶</a>
+<li class="compact" id="section-6.1.1.4-1.1">Identifier: transferApprove<a href="#section-6.1.1.4-1.1" class="pilcrow">¶</a>
 </li>
             </ul>
 <p id="section-6.1.1.4-2">The Approve operation allows the appropriate client to accept a pending transfer request.<a href="#section-6.1.1.4-2" class="pilcrow">¶</a></p>
@@ -3754,7 +3759,7 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 <a href="#section-6.1.1.5" class="section-number selfRef">6.1.1.5. </a><a href="#name-reject" class="section-name selfRef">Reject</a>
             </h5>
 <ul class="compact">
-<li class="compact" id="section-6.1.1.5-1.1">Identifier: reject<a href="#section-6.1.1.5-1.1" class="pilcrow">¶</a>
+<li class="compact" id="section-6.1.1.5-1.1">Identifier: transferReject<a href="#section-6.1.1.5-1.1" class="pilcrow">¶</a>
 </li>
             </ul>
 <p id="section-6.1.1.5-2">The Reject operation allows the appropriate client to decline a pending transfer request.<a href="#section-6.1.1.5-2" class="pilcrow">¶</a></p>
@@ -4331,7 +4336,7 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 </li>
                 <li class="compact" id="section-7.3.1-5.1.2.2">Cardinality: 0-1<a href="#section-7.3.1-5.1.2.2" class="pilcrow">¶</a>
 </li>
-                <li class="compact" id="section-7.3.1-5.1.2.3">Data Type: Period Object.<a href="#section-7.3.1-5.1.2.3" class="pilcrow">¶</a>
+                <li class="compact" id="section-7.3.1-5.1.2.3">Data Type: Period Object<a href="#section-7.3.1-5.1.2.3" class="pilcrow">¶</a>
 </li>
                 <li class="compact" id="section-7.3.1-5.1.2.4">Description: The initial registration period for the domain name. This value is used by the server to calculate the initial <code>expiryDate</code> of the object. This element is not persisted as part of the object's state.<a href="#section-7.3.1-5.1.2.4" class="pilcrow">¶</a>
 </li>
@@ -4411,35 +4416,39 @@ is "all".<a href="#section-7.3.2-5.1.2.5" class="pilcrow">¶</a>
           <h4 id="name-update-operation">
 <a href="#section-7.3.3" class="section-number selfRef">7.3.3. </a><a href="#name-update-operation" class="section-name selfRef">Update Operation</a>
           </h4>
-<p id="section-7.3.3-1">The Update operation allows a client to modify the read-write data elements of an existing Domain Name resource.<a href="#section-7.3.3-1" class="pilcrow">¶</a></p>
 <ul class="compact">
-<li class="compact" id="section-7.3.3-2.1">
-              <p id="section-7.3.3-2.1.1">Authorisation:<a href="#section-7.3.3-2.1.1" class="pilcrow">¶</a></p>
+<li class="compact" id="section-7.3.3-1.1">Identifier: update<a href="#section-7.3.3-1.1" class="pilcrow">¶</a>
+</li>
+          </ul>
+<p id="section-7.3.3-2">The Update operation allows a client to modify the read-write data elements of an existing Domain Name resource.<a href="#section-7.3.3-2" class="pilcrow">¶</a></p>
 <ul class="compact">
-<li class="compact" id="section-7.3.3-2.1.2.1">Only sponsoring client is authorised to perform this operation<a href="#section-7.3.3-2.1.2.1" class="pilcrow">¶</a>
+<li class="compact" id="section-7.3.3-3.1">
+              <p id="section-7.3.3-3.1.1">Authorisation:<a href="#section-7.3.3-3.1.1" class="pilcrow">¶</a></p>
+<ul class="compact">
+<li class="compact" id="section-7.3.3-3.1.2.1">Only sponsoring client is authorised to perform this operation<a href="#section-7.3.3-3.1.2.1" class="pilcrow">¶</a>
 </li>
               </ul>
 </li>
           </ul>
-<p id="section-7.3.3-3">The following transient data elements are defined for this operation:<a href="#section-7.3.3-3" class="pilcrow">¶</a></p>
+<p id="section-7.3.3-4">The following transient data elements are defined for this operation:<a href="#section-7.3.3-4" class="pilcrow">¶</a></p>
 <ul class="compact">
-<li class="compact" id="section-7.3.3-4.1">
-              <p id="section-7.3.3-4.1.1">Urgent<a href="#section-7.3.3-4.1.1" class="pilcrow">¶</a></p>
+<li class="compact" id="section-7.3.3-5.1">
+              <p id="section-7.3.3-5.1.1">Urgent<a href="#section-7.3.3-5.1.1" class="pilcrow">¶</a></p>
 <ul class="compact">
-<li class="compact" id="section-7.3.3-4.1.2.1">Identifier: urgent<a href="#section-7.3.3-4.1.2.1" class="pilcrow">¶</a>
+<li class="compact" id="section-7.3.3-5.1.2.1">Identifier: urgent<a href="#section-7.3.3-5.1.2.1" class="pilcrow">¶</a>
 </li>
-                <li class="compact" id="section-7.3.3-4.1.2.2">Cardinality: 0-1<a href="#section-7.3.3-4.1.2.2" class="pilcrow">¶</a>
+                <li class="compact" id="section-7.3.3-5.1.2.2">Cardinality: 0-1<a href="#section-7.3.3-5.1.2.2" class="pilcrow">¶</a>
 </li>
-                <li class="compact" id="section-7.3.3-4.1.2.3">Data Type: Boolean<a href="#section-7.3.3-4.1.2.3" class="pilcrow">¶</a>
+                <li class="compact" id="section-7.3.3-5.1.2.3">Data Type: Boolean<a href="#section-7.3.3-5.1.2.3" class="pilcrow">¶</a>
 </li>
-                <li class="compact" id="section-7.3.3-4.1.2.4">Description: Requests that the server operator process and implement the update with high priority. "High priority" is relative to standard server operator policies determined using an out-of-band mechanism. In EPP Compatibility Profile this corresponds to the "urgent" attribute of the <code>&lt;secDNS:update&gt;</code> element defined in <span>[<a href="#RFC5910" class="cite xref">RFC5910</a>]</span>. The default value is <code>false</code>.<a href="#section-7.3.3-4.1.2.4" class="pilcrow">¶</a>
+                <li class="compact" id="section-7.3.3-5.1.2.4">Description: Requests that the server operator process and implement the update with high priority. "High priority" is relative to standard server operator policies determined using an out-of-band mechanism. In EPP Compatibility Profile this corresponds to the "urgent" attribute of the <code>&lt;secDNS:update&gt;</code> element defined in <span>[<a href="#RFC5910" class="cite xref">RFC5910</a>]</span>. The default value is <code>false</code>.<a href="#section-7.3.3-5.1.2.4" class="pilcrow">¶</a>
 </li>
-                <li class="compact" id="section-7.3.3-4.1.2.5">
-                  <p id="section-7.3.3-4.1.2.5.1">Constraints:<a href="#section-7.3.3-4.1.2.5.1" class="pilcrow">¶</a></p>
+                <li class="compact" id="section-7.3.3-5.1.2.5">
+                  <p id="section-7.3.3-5.1.2.5.1">Constraints:<a href="#section-7.3.3-5.1.2.5.1" class="pilcrow">¶</a></p>
 <ul class="compact">
-<li class="compact" id="section-7.3.3-4.1.2.5.2.1">A server that does not support this parameter MUST return an error if it is set to <code>true</code>.<a href="#section-7.3.3-4.1.2.5.2.1" class="pilcrow">¶</a>
+<li class="compact" id="section-7.3.3-5.1.2.5.2.1">A server that does not support this parameter MUST return an error if it is set to <code>true</code>.<a href="#section-7.3.3-5.1.2.5.2.1" class="pilcrow">¶</a>
 </li>
-                    <li class="compact" id="section-7.3.3-4.1.2.5.2.2">A server that supports this parameter but cannot fulfil a specific urgent request MUST return an error.<a href="#section-7.3.3-4.1.2.5.2.2" class="pilcrow">¶</a>
+                    <li class="compact" id="section-7.3.3-5.1.2.5.2.2">A server that supports this parameter but cannot fulfil a specific urgent request MUST return an error.<a href="#section-7.3.3-5.1.2.5.2.2" class="pilcrow">¶</a>
 </li>
                   </ul>
 </li>
@@ -4534,45 +4543,56 @@ is "all".<a href="#section-7.3.2-5.1.2.5" class="pilcrow">¶</a>
           </h4>
 <p id="section-7.3.6-1">The Domain Name Data Object supports the common transfer operations defined in the <a href="#transfer-operations" class="auto internal xref">Section 2.5.4</a>. The transfer of a domain name changes the sponsoring client of the domain object.<a href="#section-7.3.6-1" class="pilcrow">¶</a></p>
 <p id="section-7.3.6-2">Transfer of a domain object MUST implicitly transfer all host objects that are subordinate to the domain object. For example, if domain object "example.com" is transferred and host object "ns1.example.com" exists, the host object MUST be transferred as part of the "example.com" transfer process.<a href="#section-7.3.6-2" class="pilcrow">¶</a></p>
-<p id="section-7.3.6-3">In addition to the common Transfer Process Object elements, the following object-specific <code>create-only</code> data element is defined and can be provided when creating a Transfer Process Object for a domain name:<a href="#section-7.3.6-3" class="pilcrow">¶</a></p>
+<p id="section-7.3.6-3">In addition to the common Transfer Process Object elements, the following object-specific data elements are included:<a href="#section-7.3.6-3" class="pilcrow">¶</a></p>
 <ul class="compact">
 <li class="compact" id="section-7.3.6-4.1">
-              <p id="section-7.3.6-4.1.1">Transfer Period<a href="#section-7.3.6-4.1.1" class="pilcrow">¶</a></p>
+              <p id="section-7.3.6-4.1.1">Expiry Date<a href="#section-7.3.6-4.1.1" class="pilcrow">¶</a></p>
 <ul class="compact">
-<li class="compact" id="section-7.3.6-4.1.2.1">Identifier: transferPeriod<a href="#section-7.3.6-4.1.2.1" class="pilcrow">¶</a>
+<li class="compact" id="section-7.3.6-4.1.2.1">Identifier: expiryDate<a href="#section-7.3.6-4.1.2.1" class="pilcrow">¶</a>
 </li>
                 <li class="compact" id="section-7.3.6-4.1.2.2">Cardinality: 0-1<a href="#section-7.3.6-4.1.2.2" class="pilcrow">¶</a>
 </li>
-                <li class="compact" id="section-7.3.6-4.1.2.3">Mutability: create-only<a href="#section-7.3.6-4.1.2.3" class="pilcrow">¶</a>
+                <li class="compact" id="section-7.3.6-4.1.2.3">Mutability: read-only<a href="#section-7.3.6-4.1.2.3" class="pilcrow">¶</a>
 </li>
-                <li class="compact" id="section-7.3.6-4.1.2.4">Data Type: Period Object<a href="#section-7.3.6-4.1.2.4" class="pilcrow">¶</a>
+                <li class="compact" id="section-7.3.6-4.1.2.4">Data Type: Timestamp<a href="#section-7.3.6-4.1.2.4" class="pilcrow">¶</a>
 </li>
-                <li class="compact" id="section-7.3.6-4.1.2.5">Description: The number of units to be added to the registration period of the domain object upon successful completion of the transfer. The number of units available MAY be subject to limits imposed by the server.<a href="#section-7.3.6-4.1.2.5" class="pilcrow">¶</a>
-</li>
-                <li class="compact" id="section-7.3.6-4.1.2.6">Constraints: (None)<a href="#section-7.3.6-4.1.2.6" class="pilcrow">¶</a>
+                <li class="compact" id="section-7.3.6-4.1.2.5">Description: The end of the domain object's registration period if the transfer caused or causes a change in the validity period.<a href="#section-7.3.6-4.1.2.5" class="pilcrow">¶</a>
 </li>
               </ul>
 </li>
           </ul>
-<p id="section-7.3.6-5">In addition to the common Transfer Process Object elements, the following object-specific <code>read-only</code> data element is included in the output of domain transfer operations:<a href="#section-7.3.6-5" class="pilcrow">¶</a></p>
+<p id="section-7.3.6-5">Subordinate host objects MUST be transferred implicitly when the domain object is transferred.<a href="#section-7.3.6-5" class="pilcrow">¶</a></p>
+<div id="transfer-create-operation">
+<section id="section-7.3.6.1">
+            <h5 id="name-transfer-create-operation">
+<a href="#section-7.3.6.1" class="section-number selfRef">7.3.6.1. </a><a href="#name-transfer-create-operation" class="section-name selfRef">Transfer Create Operation</a>
+            </h5>
 <ul class="compact">
-<li class="compact" id="section-7.3.6-6.1">
-              <p id="section-7.3.6-6.1.1">Expiry Date<a href="#section-7.3.6-6.1.1" class="pilcrow">¶</a></p>
+<li class="compact" id="section-7.3.6.1-1.1">Identifier: transferCreate<a href="#section-7.3.6.1-1.1" class="pilcrow">¶</a>
+</li>
+            </ul>
+<p id="section-7.3.6.1-2">In addition, the following transient data element is defined for this operation:<a href="#section-7.3.6.1-2" class="pilcrow">¶</a></p>
 <ul class="compact">
-<li class="compact" id="section-7.3.6-6.1.2.1">Identifier: expiryDate<a href="#section-7.3.6-6.1.2.1" class="pilcrow">¶</a>
+<li class="compact" id="section-7.3.6.1-3.1">
+                <p id="section-7.3.6.1-3.1.1">Transfer Period<a href="#section-7.3.6.1-3.1.1" class="pilcrow">¶</a></p>
+<ul class="compact">
+<li class="compact" id="section-7.3.6.1-3.1.2.1">Identifier: transferPeriod<a href="#section-7.3.6.1-3.1.2.1" class="pilcrow">¶</a>
 </li>
-                <li class="compact" id="section-7.3.6-6.1.2.2">Cardinality: 0-1<a href="#section-7.3.6-6.1.2.2" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.3.6.1-3.1.2.2">Cardinality: 0-1<a href="#section-7.3.6.1-3.1.2.2" class="pilcrow">¶</a>
 </li>
-                <li class="compact" id="section-7.3.6-6.1.2.3">Mutability: read-only<a href="#section-7.3.6-6.1.2.3" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.3.6.1-3.1.2.3">Mutability: create-only<a href="#section-7.3.6.1-3.1.2.3" class="pilcrow">¶</a>
 </li>
-                <li class="compact" id="section-7.3.6-6.1.2.4">Data Type: Timestamp<a href="#section-7.3.6-6.1.2.4" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.3.6.1-3.1.2.4">Data Type: Period Object<a href="#section-7.3.6.1-3.1.2.4" class="pilcrow">¶</a>
 </li>
-                <li class="compact" id="section-7.3.6-6.1.2.5">Description: The end of the domain object's registration period if the transfer caused or causes a change in the validity period.<a href="#section-7.3.6-6.1.2.5" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.3.6.1-3.1.2.5">Description: The number of units to be added to the registration period of the domain object upon successful completion of the transfer. The number of units available MAY be subject to limits imposed by the server.<a href="#section-7.3.6.1-3.1.2.5" class="pilcrow">¶</a>
 </li>
-              </ul>
+                  <li class="compact" id="section-7.3.6.1-3.1.2.6">Constraints: (None)<a href="#section-7.3.6.1-3.1.2.6" class="pilcrow">¶</a>
 </li>
-          </ul>
-<p id="section-7.3.6-7">Subordinate host objects MUST be transferred implicitly when the domain object is transferred.<a href="#section-7.3.6-7" class="pilcrow">¶</a></p>
+                </ul>
+</li>
+            </ul>
+</section>
+</div>
 </section>
 </div>
 <div id="restore-operations">
@@ -4580,7 +4600,7 @@ is "all".<a href="#section-7.3.2-5.1.2.5" class="pilcrow">¶</a>
           <h4 id="name-restore-operations-2">
 <a href="#section-7.3.7" class="section-number selfRef">7.3.7. </a><a href="#name-restore-operations-2" class="section-name selfRef">Restore Operations</a>
           </h4>
-<p id="section-7.3.7-1">The Domain Name Data Object supports the restore operations defined in the  section. These operations are OPTIONAL and are only available when the RGP feature is supported.<a href="#section-7.3.7-1" class="pilcrow">¶</a></p>
+<p id="section-7.3.7-1">The Domain Name Data Object supports the restore operations defined in the <a href="#restore-ops" class="auto internal xref">Section 2.5.5</a>. These operations are OPTIONAL and are only available when the RGP feature is supported.<a href="#section-7.3.7-1" class="pilcrow">¶</a></p>
 <p id="section-7.3.7-2">No domain-specific transient data elements extend the common restore operations beyond those defined in the <a href="#restore-ops" class="auto internal xref">Section 2.5.5</a>.<a href="#section-7.3.7-2" class="pilcrow">¶</a></p>
 </section>
 </div>
@@ -4805,25 +4825,29 @@ is "all".<a href="#section-7.3.2-5.1.2.5" class="pilcrow">¶</a>
           <h4 id="name-create-operation-2">
 <a href="#section-8.3.1" class="section-number selfRef">8.3.1. </a><a href="#name-create-operation-2" class="section-name selfRef">Create Operation</a>
           </h4>
-<p id="section-8.3.1-1">The Create operation allows a client to provision a new Contact resource. The operation accepts as input all create-only and read-write data elements defined for the Contact Data Object.<a href="#section-8.3.1-1" class="pilcrow">¶</a></p>
 <ul class="compact">
-<li class="compact" id="section-8.3.1-2.1">
-              <p id="section-8.3.1-2.1.1">Authorisation:<a href="#section-8.3.1-2.1.1" class="pilcrow">¶</a></p>
+<li class="compact" id="section-8.3.1-1.1">Identifier: create<a href="#section-8.3.1-1.1" class="pilcrow">¶</a>
+</li>
+          </ul>
+<p id="section-8.3.1-2">The Create operation allows a client to provision a new Contact resource. The operation accepts as input all create-only and read-write data elements defined for the Contact Data Object.<a href="#section-8.3.1-2" class="pilcrow">¶</a></p>
 <ul class="compact">
-<li class="compact" id="section-8.3.1-2.1.2.1">Generally each client is authorised to create new contact objects becoming a sponsoring client. This can be however constrained by the server policy, e.g. by applying rate limiting or compliance locks.<a href="#section-8.3.1-2.1.2.1" class="pilcrow">¶</a>
+<li class="compact" id="section-8.3.1-3.1">
+              <p id="section-8.3.1-3.1.1">Authorisation:<a href="#section-8.3.1-3.1.1" class="pilcrow">¶</a></p>
+<ul class="compact">
+<li class="compact" id="section-8.3.1-3.1.2.1">Generally each client is authorised to create new contact objects becoming a sponsoring client. This can be however constrained by the server policy, e.g. by applying rate limiting or compliance locks.<a href="#section-8.3.1-3.1.2.1" class="pilcrow">¶</a>
 </li>
               </ul>
 </li>
           </ul>
-<p id="section-8.3.1-3">In EPP Compatibility Profile, the following data elements MUST be provided:<a href="#section-8.3.1-3" class="pilcrow">¶</a></p>
+<p id="section-8.3.1-4">In EPP Compatibility Profile, the following data elements MUST be provided:<a href="#section-8.3.1-4" class="pilcrow">¶</a></p>
 <ul class="compact">
-<li class="compact" id="section-8.3.1-4.1">Handle ID (<code>id</code>)<a href="#section-8.3.1-4.1" class="pilcrow">¶</a>
+<li class="compact" id="section-8.3.1-5.1">Handle ID (<code>id</code>)<a href="#section-8.3.1-5.1" class="pilcrow">¶</a>
 </li>
-            <li class="compact" id="section-8.3.1-4.2">At least one Postal Information entry (<code>postalInfo</code>) containing a Name (<code>name</code>) and an Address (<code>addr</code>) with City (<code>city</code>) and Country Code (<code>cc</code>)<a href="#section-8.3.1-4.2" class="pilcrow">¶</a>
+            <li class="compact" id="section-8.3.1-5.2">At least one Postal Information entry (<code>postalInfo</code>) containing a Name (<code>name</code>) and an Address (<code>addr</code>) with City (<code>city</code>) and Country Code (<code>cc</code>)<a href="#section-8.3.1-5.2" class="pilcrow">¶</a>
 </li>
-            <li class="compact" id="section-8.3.1-4.3">E-mail (<code>email</code>)<a href="#section-8.3.1-4.3" class="pilcrow">¶</a>
+            <li class="compact" id="section-8.3.1-5.3">E-mail (<code>email</code>)<a href="#section-8.3.1-5.3" class="pilcrow">¶</a>
 </li>
-            <li class="compact" id="section-8.3.1-4.4">Authorisation Information (<code>authInfo</code>)<a href="#section-8.3.1-4.4" class="pilcrow">¶</a>
+            <li class="compact" id="section-8.3.1-5.4">Authorisation Information (<code>authInfo</code>)<a href="#section-8.3.1-5.4" class="pilcrow">¶</a>
 </li>
           </ul>
 </section>
@@ -4833,32 +4857,36 @@ is "all".<a href="#section-7.3.2-5.1.2.5" class="pilcrow">¶</a>
           <h4 id="name-read-operation-2">
 <a href="#section-8.3.2" class="section-number selfRef">8.3.2. </a><a href="#name-read-operation-2" class="section-name selfRef">Read Operation</a>
           </h4>
-<p id="section-8.3.2-1">The Read operation allows a client to retrieve the data elements of a Contact resource. The server's response MAY vary depending on client authorisation and server policy.<a href="#section-8.3.2-1" class="pilcrow">¶</a></p>
 <ul class="compact">
-<li class="compact" id="section-8.3.2-2.1">
-              <p id="section-8.3.2-2.1.1">Authorisation:<a href="#section-8.3.2-2.1.1" class="pilcrow">¶</a></p>
+<li class="compact" id="section-8.3.2-1.1">Identifier: read<a href="#section-8.3.2-1.1" class="pilcrow">¶</a>
+</li>
+          </ul>
+<p id="section-8.3.2-2">The Read operation allows a client to retrieve the data elements of a Contact resource. The server's response MAY vary depending on client authorisation and server policy.<a href="#section-8.3.2-2" class="pilcrow">¶</a></p>
 <ul class="compact">
-<li class="compact" id="section-8.3.2-2.1.2.1">
-                  <p id="section-8.3.2-2.1.2.1.1">Sponsoring client:<a href="#section-8.3.2-2.1.2.1.1" class="pilcrow">¶</a></p>
+<li class="compact" id="section-8.3.2-3.1">
+              <p id="section-8.3.2-3.1.1">Authorisation:<a href="#section-8.3.2-3.1.1" class="pilcrow">¶</a></p>
 <ul class="compact">
-<li class="compact" id="section-8.3.2-2.1.2.1.2.1">Full object<a href="#section-8.3.2-2.1.2.1.2.1" class="pilcrow">¶</a>
+<li class="compact" id="section-8.3.2-3.1.2.1">
+                  <p id="section-8.3.2-3.1.2.1.1">Sponsoring client:<a href="#section-8.3.2-3.1.2.1.1" class="pilcrow">¶</a></p>
+<ul class="compact">
+<li class="compact" id="section-8.3.2-3.1.2.1.2.1">Full object<a href="#section-8.3.2-3.1.2.1.2.1" class="pilcrow">¶</a>
 </li>
                   </ul>
 </li>
-                <li class="compact" id="section-8.3.2-2.1.2.2">
-                  <p id="section-8.3.2-2.1.2.2.1">Other client:<a href="#section-8.3.2-2.1.2.2.1" class="pilcrow">¶</a></p>
+                <li class="compact" id="section-8.3.2-3.1.2.2">
+                  <p id="section-8.3.2-3.1.2.2.1">Other client:<a href="#section-8.3.2-3.1.2.2.1" class="pilcrow">¶</a></p>
 <ul class="compact">
-<li class="compact" id="section-8.3.2-2.1.2.2.2.1">
-                      <p id="section-8.3.2-2.1.2.2.2.1.1">Without Object Authorisation:<a href="#section-8.3.2-2.1.2.2.2.1.1" class="pilcrow">¶</a></p>
+<li class="compact" id="section-8.3.2-3.1.2.2.2.1">
+                      <p id="section-8.3.2-3.1.2.2.2.1.1">Without Object Authorisation:<a href="#section-8.3.2-3.1.2.2.2.1.1" class="pilcrow">¶</a></p>
 <ul class="compact">
-<li class="compact" id="section-8.3.2-2.1.2.2.2.1.2.1">Limited object (non-confidential properties) or operation denied<a href="#section-8.3.2-2.1.2.2.2.1.2.1" class="pilcrow">¶</a>
+<li class="compact" id="section-8.3.2-3.1.2.2.2.1.2.1">Limited object (non-confidential properties) or operation denied<a href="#section-8.3.2-3.1.2.2.2.1.2.1" class="pilcrow">¶</a>
 </li>
                       </ul>
 </li>
-                    <li class="compact" id="section-8.3.2-2.1.2.2.2.2">
-                      <p id="section-8.3.2-2.1.2.2.2.2.1">With Object Authorisation:<a href="#section-8.3.2-2.1.2.2.2.2.1" class="pilcrow">¶</a></p>
+                    <li class="compact" id="section-8.3.2-3.1.2.2.2.2">
+                      <p id="section-8.3.2-3.1.2.2.2.2.1">With Object Authorisation:<a href="#section-8.3.2-3.1.2.2.2.2.1" class="pilcrow">¶</a></p>
 <ul class="compact">
-<li class="compact" id="section-8.3.2-2.1.2.2.2.2.2.1">Full object, however some properties only authorised to the sponsoring client MAY be redacted according to server policy<a href="#section-8.3.2-2.1.2.2.2.2.2.1" class="pilcrow">¶</a>
+<li class="compact" id="section-8.3.2-3.1.2.2.2.2.2.1">Full object, however some properties only authorised to the sponsoring client MAY be redacted according to server policy<a href="#section-8.3.2-3.1.2.2.2.2.2.1" class="pilcrow">¶</a>
 </li>
                       </ul>
 </li>
@@ -4867,8 +4895,8 @@ is "all".<a href="#section-7.3.2-5.1.2.5" class="pilcrow">¶</a>
               </ul>
 </li>
           </ul>
-<p id="section-8.3.2-3">Authorisation Information (<code>authInfo</code>) MUST NOT be provided in the response if the querying client is not the current sponsoring client.<a href="#section-8.3.2-3" class="pilcrow">¶</a></p>
-<p id="section-8.3.2-4">When constructing the response, the server MUST respect the disclosure policies defined by the Disclose Object (<code>disclose</code>), whether set by the server operator's default data-collection policy or by the sponsoring client for the contact. Data elements marked for non-disclosure MUST NOT be included in responses to unauthorised clients.<a href="#section-8.3.2-4" class="pilcrow">¶</a></p>
+<p id="section-8.3.2-4">Authorisation Information (<code>authInfo</code>) MUST NOT be provided in the response if the querying client is not the current sponsoring client.<a href="#section-8.3.2-4" class="pilcrow">¶</a></p>
+<p id="section-8.3.2-5">When constructing the response, the server MUST respect the disclosure policies defined by the Disclose Object (<code>disclose</code>), whether set by the server operator's default data-collection policy or by the sponsoring client for the contact. Data elements marked for non-disclosure MUST NOT be included in responses to unauthorised clients.<a href="#section-8.3.2-5" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="update-operation-1">
@@ -4876,24 +4904,28 @@ is "all".<a href="#section-7.3.2-5.1.2.5" class="pilcrow">¶</a>
           <h4 id="name-update-operation-2">
 <a href="#section-8.3.3" class="section-number selfRef">8.3.3. </a><a href="#name-update-operation-2" class="section-name selfRef">Update Operation</a>
           </h4>
-<p id="section-8.3.3-1">The Update operation allows a client to modify the attributes of an existing Contact resource.<a href="#section-8.3.3-1" class="pilcrow">¶</a></p>
 <ul class="compact">
-<li class="compact" id="section-8.3.3-2.1">
-              <p id="section-8.3.3-2.1.1">Authorisation:<a href="#section-8.3.3-2.1.1" class="pilcrow">¶</a></p>
+<li class="compact" id="section-8.3.3-1.1">Identifier: update<a href="#section-8.3.3-1.1" class="pilcrow">¶</a>
+</li>
+          </ul>
+<p id="section-8.3.3-2">The Update operation allows a client to modify the attributes of an existing Contact resource.<a href="#section-8.3.3-2" class="pilcrow">¶</a></p>
 <ul class="compact">
-<li class="compact" id="section-8.3.3-2.1.2.1">Only sponsoring client is authorised to perform this operation<a href="#section-8.3.3-2.1.2.1" class="pilcrow">¶</a>
+<li class="compact" id="section-8.3.3-3.1">
+              <p id="section-8.3.3-3.1.1">Authorisation:<a href="#section-8.3.3-3.1.1" class="pilcrow">¶</a></p>
+<ul class="compact">
+<li class="compact" id="section-8.3.3-3.1.2.1">Only sponsoring client is authorised to perform this operation<a href="#section-8.3.3-3.1.2.1" class="pilcrow">¶</a>
 </li>
               </ul>
 </li>
           </ul>
-<p id="section-8.3.3-3">The following aspects of the contact object MAY be modified:<a href="#section-8.3.3-3" class="pilcrow">¶</a></p>
+<p id="section-8.3.3-4">The following aspects of the contact object MAY be modified:<a href="#section-8.3.3-4" class="pilcrow">¶</a></p>
 <ul class="compact">
-<li class="compact" id="section-8.3.3-4.1">Status values that are client-manageable (prefixed with "client") MAY be added or removed.<a href="#section-8.3.3-4.1" class="pilcrow">¶</a>
+<li class="compact" id="section-8.3.3-5.1">Status values that are client-manageable (prefixed with "client") MAY be added or removed.<a href="#section-8.3.3-5.1" class="pilcrow">¶</a>
 </li>
-            <li class="compact" id="section-8.3.3-4.2">Postal Information, Voice Phone Number, Fax Phone Number, E-mail, Authorisation Information, and Disclose preferences MAY be changed.<a href="#section-8.3.3-4.2" class="pilcrow">¶</a>
+            <li class="compact" id="section-8.3.3-5.2">Postal Information, Voice Phone Number, Fax Phone Number, E-mail, Authorisation Information, and Disclose preferences MAY be changed.<a href="#section-8.3.3-5.2" class="pilcrow">¶</a>
 </li>
           </ul>
-<p id="section-8.3.3-5">A client MUST NOT add, delete or alter values for statuses managed by the server (prefixed with "server"). A server MAY add, delete or alter status values set by a client, subject to server policy.<a href="#section-8.3.3-5" class="pilcrow">¶</a></p>
+<p id="section-8.3.3-6">A client MUST NOT add, delete or alter values for statuses managed by the server (prefixed with "server"). A server MAY add, delete or alter status values set by a client, subject to server policy.<a href="#section-8.3.3-6" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="delete-operation-1">
@@ -4901,18 +4933,22 @@ is "all".<a href="#section-7.3.2-5.1.2.5" class="pilcrow">¶</a>
           <h4 id="name-delete-operation-2">
 <a href="#section-8.3.4" class="section-number selfRef">8.3.4. </a><a href="#name-delete-operation-2" class="section-name selfRef">Delete Operation</a>
           </h4>
-<p id="section-8.3.4-1">The Delete operation allows a client to remove an existing Contact resource. The operation targets a specific data object identified by its Handle ID.<a href="#section-8.3.4-1" class="pilcrow">¶</a></p>
 <ul class="compact">
-<li class="compact" id="section-8.3.4-2.1">
-              <p id="section-8.3.4-2.1.1">Authorisation:<a href="#section-8.3.4-2.1.1" class="pilcrow">¶</a></p>
+<li class="compact" id="section-8.3.4-1.1">Identifier: delete<a href="#section-8.3.4-1.1" class="pilcrow">¶</a>
+</li>
+          </ul>
+<p id="section-8.3.4-2">The Delete operation allows a client to remove an existing Contact resource. The operation targets a specific data object identified by its Handle ID.<a href="#section-8.3.4-2" class="pilcrow">¶</a></p>
 <ul class="compact">
-<li class="compact" id="section-8.3.4-2.1.2.1">Only sponsoring client is authorised to perform this operation<a href="#section-8.3.4-2.1.2.1" class="pilcrow">¶</a>
+<li class="compact" id="section-8.3.4-3.1">
+              <p id="section-8.3.4-3.1.1">Authorisation:<a href="#section-8.3.4-3.1.1" class="pilcrow">¶</a></p>
+<ul class="compact">
+<li class="compact" id="section-8.3.4-3.1.2.1">Only sponsoring client is authorised to perform this operation<a href="#section-8.3.4-3.1.2.1" class="pilcrow">¶</a>
 </li>
               </ul>
 </li>
           </ul>
-<p id="section-8.3.4-3">The server SHOULD reject a delete request if the contact object is associated with other known objects (e.g., domain names). An associated contact SHOULD NOT be deleted until associations with other known objects have been broken.<a href="#section-8.3.4-3" class="pilcrow">¶</a></p>
-<p id="section-8.3.4-4">The error response SHOULD indicate the existing object associations.<a href="#section-8.3.4-4" class="pilcrow">¶</a></p>
+<p id="section-8.3.4-4">The server SHOULD reject a delete request if the contact object is associated with other known objects (e.g., domain names). An associated contact SHOULD NOT be deleted until associations with other known objects have been broken.<a href="#section-8.3.4-4" class="pilcrow">¶</a></p>
+<p id="section-8.3.4-5">The error response SHOULD indicate the existing object associations.<a href="#section-8.3.4-5" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="transfer-operations-1-1">
@@ -5043,18 +5079,22 @@ is "all".<a href="#section-7.3.2-5.1.2.5" class="pilcrow">¶</a>
           <h4 id="name-create-operation-3">
 <a href="#section-9.3.1" class="section-number selfRef">9.3.1. </a><a href="#name-create-operation-3" class="section-name selfRef">Create Operation</a>
           </h4>
-<p id="section-9.3.1-1">The Create operation allows a client to provision a new Host Data Object. The operation accepts as input all create-only and read-write data elements defined for the Host Data Object.<a href="#section-9.3.1-1" class="pilcrow">¶</a></p>
 <ul class="compact">
-<li class="compact" id="section-9.3.1-2.1">
-              <p id="section-9.3.1-2.1.1">Authorisation:<a href="#section-9.3.1-2.1.1" class="pilcrow">¶</a></p>
+<li class="compact" id="section-9.3.1-1.1">Identifier: create<a href="#section-9.3.1-1.1" class="pilcrow">¶</a>
+</li>
+          </ul>
+<p id="section-9.3.1-2">The Create operation allows a client to provision a new Host Data Object. The operation accepts as input all create-only and read-write data elements defined for the Host Data Object.<a href="#section-9.3.1-2" class="pilcrow">¶</a></p>
 <ul class="compact">
-<li class="compact" id="section-9.3.1-2.1.2.1">Generally each client is authorised to create new host objects becoming a sponsoring client. This can be however constrained by the server policy, e.g. by applying rate limiting or compliance locks.<a href="#section-9.3.1-2.1.2.1" class="pilcrow">¶</a>
+<li class="compact" id="section-9.3.1-3.1">
+              <p id="section-9.3.1-3.1.1">Authorisation:<a href="#section-9.3.1-3.1.1" class="pilcrow">¶</a></p>
+<ul class="compact">
+<li class="compact" id="section-9.3.1-3.1.2.1">Generally each client is authorised to create new host objects becoming a sponsoring client. This can be however constrained by the server policy, e.g. by applying rate limiting or compliance locks.<a href="#section-9.3.1-3.1.2.1" class="pilcrow">¶</a>
 </li>
               </ul>
 </li>
           </ul>
-<p id="section-9.3.1-3">If the host name exists in a namespace for which the server is authoritative, then the superordinate domain of the host MUST be known to the server before the host object can be created.<a href="#section-9.3.1-3" class="pilcrow">¶</a></p>
-<p id="section-9.3.1-4">In EPP Compatibility Profile, IP addresses are REQUIRED only as needed to produce DNS glue records. If the host name exists in a namespace for which the server is authoritative and is subordinate to an existing domain, IP addresses SHOULD be provided. If the host name is external to the server's namespace, IP addresses are not required by the DNS and MAY be omitted.<a href="#section-9.3.1-4" class="pilcrow">¶</a></p>
+<p id="section-9.3.1-4">If the host name exists in a namespace for which the server is authoritative, then the superordinate domain of the host MUST be known to the server before the host object can be created.<a href="#section-9.3.1-4" class="pilcrow">¶</a></p>
+<p id="section-9.3.1-5">In EPP Compatibility Profile, IP addresses are REQUIRED only as needed to produce DNS glue records. If the host name exists in a namespace for which the server is authoritative and is subordinate to an existing domain, IP addresses SHOULD be provided. If the host name is external to the server's namespace, IP addresses are not required by the DNS and MAY be omitted.<a href="#section-9.3.1-5" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="read-operation-2">
@@ -5062,12 +5102,16 @@ is "all".<a href="#section-7.3.2-5.1.2.5" class="pilcrow">¶</a>
           <h4 id="name-read-operation-3">
 <a href="#section-9.3.2" class="section-number selfRef">9.3.2. </a><a href="#name-read-operation-3" class="section-name selfRef">Read Operation</a>
           </h4>
-<p id="section-9.3.2-1">The Read operation allows a client to retrieve the data elements of a Host Data Object.<a href="#section-9.3.2-1" class="pilcrow">¶</a></p>
 <ul class="compact">
-<li class="compact" id="section-9.3.2-2.1">
-              <p id="section-9.3.2-2.1.1">Authorisation:<a href="#section-9.3.2-2.1.1" class="pilcrow">¶</a></p>
+<li class="compact" id="section-9.3.2-1.1">Identifier: read<a href="#section-9.3.2-1.1" class="pilcrow">¶</a>
+</li>
+          </ul>
+<p id="section-9.3.2-2">The Read operation allows a client to retrieve the data elements of a Host Data Object.<a href="#section-9.3.2-2" class="pilcrow">¶</a></p>
 <ul class="compact">
-<li class="compact" id="section-9.3.2-2.1.2.1">Any client is authorised to retrieve the full object. In EPP Compatibility Profile, host objects do not carry authorisation information and there is no distinction based on client identity as described in <span><a href="https://rfc-editor.org/rfc/rfc5732#section-3.1.2" class="relref">Section 3.1.2</a> of [<a href="#RFC5732" class="cite xref">RFC5732</a>]</span>.<a href="#section-9.3.2-2.1.2.1" class="pilcrow">¶</a>
+<li class="compact" id="section-9.3.2-3.1">
+              <p id="section-9.3.2-3.1.1">Authorisation:<a href="#section-9.3.2-3.1.1" class="pilcrow">¶</a></p>
+<ul class="compact">
+<li class="compact" id="section-9.3.2-3.1.2.1">Any client is authorised to retrieve the full object. In EPP Compatibility Profile, host objects do not carry authorisation information and there is no distinction based on client identity as described in <span><a href="https://rfc-editor.org/rfc/rfc5732#section-3.1.2" class="relref">Section 3.1.2</a> of [<a href="#RFC5732" class="cite xref">RFC5732</a>]</span>.<a href="#section-9.3.2-3.1.2.1" class="pilcrow">¶</a>
 </li>
               </ul>
 </li>
@@ -5079,18 +5123,22 @@ is "all".<a href="#section-7.3.2-5.1.2.5" class="pilcrow">¶</a>
           <h4 id="name-update-operation-3">
 <a href="#section-9.3.3" class="section-number selfRef">9.3.3. </a><a href="#name-update-operation-3" class="section-name selfRef">Update Operation</a>
           </h4>
-<p id="section-9.3.3-1">The Update operation allows a client to modify the attributes of an existing Host Data Object. The operation targets a specific data object identified by its host name.<a href="#section-9.3.3-1" class="pilcrow">¶</a></p>
 <ul class="compact">
-<li class="compact" id="section-9.3.3-2.1">
-              <p id="section-9.3.3-2.1.1">Authorisation:<a href="#section-9.3.3-2.1.1" class="pilcrow">¶</a></p>
+<li class="compact" id="section-9.3.3-1.1">Identifier: update<a href="#section-9.3.3-1.1" class="pilcrow">¶</a>
+</li>
+          </ul>
+<p id="section-9.3.3-2">The Update operation allows a client to modify the attributes of an existing Host Data Object. The operation targets a specific data object identified by its host name.<a href="#section-9.3.3-2" class="pilcrow">¶</a></p>
 <ul class="compact">
-<li class="compact" id="section-9.3.3-2.1.2.1">Only sponsoring client is authorised to perform this operation<a href="#section-9.3.3-2.1.2.1" class="pilcrow">¶</a>
+<li class="compact" id="section-9.3.3-3.1">
+              <p id="section-9.3.3-3.1.1">Authorisation:<a href="#section-9.3.3-3.1.1" class="pilcrow">¶</a></p>
+<ul class="compact">
+<li class="compact" id="section-9.3.3-3.1.2.1">Only sponsoring client is authorised to perform this operation<a href="#section-9.3.3-3.1.2.1" class="pilcrow">¶</a>
 </li>
               </ul>
 </li>
           </ul>
-<p id="section-9.3.3-3">Host name changes MAY require the addition or removal of IP addresses to be accepted by the server. IP address association MAY be subject to server policies for provisioning hosts as name servers.<a href="#section-9.3.3-3" class="pilcrow">¶</a></p>
-<p id="section-9.3.3-4">Host name changes can have an impact on associated objects that refer to the host object. A Host Name change SHOULD NOT require additional updates of associated objects to preserve existing associations, with one exception: changing an external host object that has associations with objects that are sponsored by a different client. Attempts to update such hosts directly MUST fail. The change can be provisioned by creating a new external host with a new name and any needed new attributes, and subsequently updating the other objects sponsored by the client.<a href="#section-9.3.3-4" class="pilcrow">¶</a></p>
+<p id="section-9.3.3-4">Host name changes MAY require the addition or removal of IP addresses to be accepted by the server. IP address association MAY be subject to server policies for provisioning hosts as name servers.<a href="#section-9.3.3-4" class="pilcrow">¶</a></p>
+<p id="section-9.3.3-5">Host name changes can have an impact on associated objects that refer to the host object. A Host Name change SHOULD NOT require additional updates of associated objects to preserve existing associations, with one exception: changing an external host object that has associations with objects that are sponsored by a different client. Attempts to update such hosts directly MUST fail. The change can be provisioned by creating a new external host with a new name and any needed new attributes, and subsequently updating the other objects sponsored by the client.<a href="#section-9.3.3-5" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="delete-operation-2">
@@ -5098,21 +5146,25 @@ is "all".<a href="#section-7.3.2-5.1.2.5" class="pilcrow">¶</a>
           <h4 id="name-delete-operation-3">
 <a href="#section-9.3.4" class="section-number selfRef">9.3.4. </a><a href="#name-delete-operation-3" class="section-name selfRef">Delete Operation</a>
           </h4>
-<p id="section-9.3.4-1">The Delete operation allows a client to remove an existing Host Data Object. The operation targets a specific data object identified by its host name.<a href="#section-9.3.4-1" class="pilcrow">¶</a></p>
 <ul class="compact">
-<li class="compact" id="section-9.3.4-2.1">
-              <p id="section-9.3.4-2.1.1">Authorisation:<a href="#section-9.3.4-2.1.1" class="pilcrow">¶</a></p>
+<li class="compact" id="section-9.3.4-1.1">Identifier: delete<a href="#section-9.3.4-1.1" class="pilcrow">¶</a>
+</li>
+          </ul>
+<p id="section-9.3.4-2">The Delete operation allows a client to remove an existing Host Data Object. The operation targets a specific data object identified by its host name.<a href="#section-9.3.4-2" class="pilcrow">¶</a></p>
 <ul class="compact">
-<li class="compact" id="section-9.3.4-2.1.2.1">Only sponsoring client is authorised to perform this operation<a href="#section-9.3.4-2.1.2.1" class="pilcrow">¶</a>
+<li class="compact" id="section-9.3.4-3.1">
+              <p id="section-9.3.4-3.1.1">Authorisation:<a href="#section-9.3.4-3.1.1" class="pilcrow">¶</a></p>
+<ul class="compact">
+<li class="compact" id="section-9.3.4-3.1.2.1">Only sponsoring client is authorised to perform this operation<a href="#section-9.3.4-3.1.2.1" class="pilcrow">¶</a>
 </li>
               </ul>
 </li>
           </ul>
-<p id="section-9.3.4-3">The server SHOULD reject a delete request if the host object is associated with any other object, such as a domain name object. Deleting a host object without first breaking existing associations can cause DNS resolution failure for domain objects that refer to the deleted host object.<a href="#section-9.3.4-3" class="pilcrow">¶</a></p>
-<aside id="section-9.3.4-4">
-            <p id="section-9.3.4-4.1">TODO: consider RFC 9874 / BCP 244 for host deletions practices<a href="#section-9.3.4-4.1" class="pilcrow">¶</a></p>
+<p id="section-9.3.4-4">The server SHOULD reject a delete request if the host object is associated with any other object, such as a domain name object. Deleting a host object without first breaking existing associations can cause DNS resolution failure for domain objects that refer to the deleted host object.<a href="#section-9.3.4-4" class="pilcrow">¶</a></p>
+<aside id="section-9.3.4-5">
+            <p id="section-9.3.4-5.1">TODO: consider RFC 9874 / BCP 244 for host deletions practices<a href="#section-9.3.4-5.1" class="pilcrow">¶</a></p>
 </aside>
-<p id="section-9.3.4-5">The error response SHOULD indicate the related associated objects.<a href="#section-9.3.4-5" class="pilcrow">¶</a></p>
+<p id="section-9.3.4-6">The error response SHOULD indicate the related associated objects.<a href="#section-9.3.4-6" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="restore-operations-1">
@@ -5584,48 +5636,27 @@ registry MUST provide:<a href="#section-10.1.2-2.3.1" class="pilcrow">¶</a></p>
           </table>
 <p id="section-10.1.3-58">Operations<a href="#section-10.1.3-58" class="pilcrow">¶</a></p>
 <p id="section-10.1.3-59">Operation: Create<a href="#section-10.1.3-59" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-60">Operation Identifier: create<a href="#section-10.1.3-60" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-61">Description: Initiates a transfer of a Domain Name resource by creating a Transfer Process Object. Transfer direction and gaining client are provided as create-only data elements.<a href="#section-10.1.3-61" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-62">Parameters<a href="#section-10.1.3-62" class="pilcrow">¶</a></p>
+<p id="section-10.1.3-60">Operation Identifier: transferCreate<a href="#section-10.1.3-60" class="pilcrow">¶</a></p>
+<p id="section-10.1.3-61">Description: Initiates a transfer of a provisioned object by creating a Transfer Process Object.<a href="#section-10.1.3-61" class="pilcrow">¶</a></p>
+<p id="section-10.1.3-62">Parameters: (None)<a href="#section-10.1.3-62" class="pilcrow">¶</a></p>
+<p id="section-10.1.3-63">Operation: Transfer Read<a href="#section-10.1.3-63" class="pilcrow">¶</a></p>
+<p id="section-10.1.3-64">Operation Identifier: transferRead<a href="#section-10.1.3-64" class="pilcrow">¶</a></p>
+<p id="section-10.1.3-65">Description: Queries the status of a transfer of a provisioned object.<a href="#section-10.1.3-65" class="pilcrow">¶</a></p>
+<p id="section-10.1.3-66">Parameters: (None)<a href="#section-10.1.3-66" class="pilcrow">¶</a></p>
+<p id="section-10.1.3-67">Operation: Transfer Delete<a href="#section-10.1.3-67" class="pilcrow">¶</a></p>
+<p id="section-10.1.3-68">Operation Identifier: transferDelete<a href="#section-10.1.3-68" class="pilcrow">¶</a></p>
+<p id="section-10.1.3-69">Description: Cancels a pending transfer of a provisioned object.<a href="#section-10.1.3-69" class="pilcrow">¶</a></p>
+<p id="section-10.1.3-70">Parameters: (None)<a href="#section-10.1.3-70" class="pilcrow">¶</a></p>
+<p id="section-10.1.3-71">Operation: Transfer Approve<a href="#section-10.1.3-71" class="pilcrow">¶</a></p>
+<p id="section-10.1.3-72">Operation Identifier: transferApprove<a href="#section-10.1.3-72" class="pilcrow">¶</a></p>
+<p id="section-10.1.3-73">Description: Approves a pending transfer of a provisioned object.<a href="#section-10.1.3-73" class="pilcrow">¶</a></p>
+<p id="section-10.1.3-74">Parameters: (None)<a href="#section-10.1.3-74" class="pilcrow">¶</a></p>
+<p id="section-10.1.3-75">Operation: Transfer Reject<a href="#section-10.1.3-75" class="pilcrow">¶</a></p>
+<p id="section-10.1.3-76">Operation Identifier: transferReject (on Transfer Process Object)<a href="#section-10.1.3-76" class="pilcrow">¶</a></p>
+<p id="section-10.1.3-77">Description: Rejects a pending transfer of a provisioned object.<a href="#section-10.1.3-77" class="pilcrow">¶</a></p>
+<p id="section-10.1.3-78">Parameters<a href="#section-10.1.3-78" class="pilcrow">¶</a></p>
 <table class="center" id="table-9">
             <caption><a href="#table-9" class="selfRef">Table 9</a></caption>
-<thead>
-              <tr>
-                <th class="text-left" rowspan="1" colspan="1">Identifier</th>
-                <th class="text-left" rowspan="1" colspan="1">Name</th>
-                <th class="text-left" rowspan="1" colspan="1">Card.</th>
-                <th class="text-left" rowspan="1" colspan="1">Data Type</th>
-                <th class="text-left" rowspan="1" colspan="1">Description</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td class="text-left" rowspan="1" colspan="1">transferPeriod</td>
-                <td class="text-left" rowspan="1" colspan="1">Transfer Period</td>
-                <td class="text-left" rowspan="1" colspan="1">0-1</td>
-                <td class="text-left" rowspan="1" colspan="1">period</td>
-                <td class="text-left" rowspan="1" colspan="1">The duration to add to the registration period upon transfer.</td>
-              </tr>
-            </tbody>
-          </table>
-<p id="section-10.1.3-64">Operation: Transfer Read<a href="#section-10.1.3-64" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-65">Operation Identifier: read<a href="#section-10.1.3-65" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-66">Description: Queries the status of a transfer of a Domain Name resource.<a href="#section-10.1.3-66" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-67">Parameters: (None)<a href="#section-10.1.3-67" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-68">Operation: Transfer Delete<a href="#section-10.1.3-68" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-69">Operation Identifier: delete<a href="#section-10.1.3-69" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-70">Description: Cancels a pending transfer of a Domain Name resource.<a href="#section-10.1.3-70" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-71">Parameters: (None)<a href="#section-10.1.3-71" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-72">Operation: Transfer Approve<a href="#section-10.1.3-72" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-73">Operation Identifier: approve<a href="#section-10.1.3-73" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-74">Description: Approves a pending transfer of a Domain Name resource.<a href="#section-10.1.3-74" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-75">Parameters: (None)<a href="#section-10.1.3-75" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-76">Operation: Transfer Reject<a href="#section-10.1.3-76" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-77">Operation Identifier: reject (on Transfer Process Object)<a href="#section-10.1.3-77" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-78">Description: Rejects a pending transfer of a Domain Name resource.<a href="#section-10.1.3-78" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-79">Parameters<a href="#section-10.1.3-79" class="pilcrow">¶</a></p>
-<table class="center" id="table-10">
-            <caption><a href="#table-10" class="selfRef">Table 10</a></caption>
 <thead>
               <tr>
                 <th class="text-left" rowspan="1" colspan="1">Identifier</th>
@@ -5645,19 +5676,157 @@ registry MUST provide:<a href="#section-10.1.2-2.3.1" class="pilcrow">¶</a></p>
               </tr>
             </tbody>
           </table>
-<aside id="section-10.1.3-81">
-            <p id="section-10.1.3-81.1">TODO: IANA table: Postal Address Object
-TODO: IANA table: Postal Info Object
-TODO: IANA table: Disclose Object<a href="#section-10.1.3-81.1" class="pilcrow">¶</a></p>
-</aside>
-<p id="section-10.1.3-82">Object: restoreProcess<a href="#section-10.1.3-82" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-83">Object Name: Restore Process Object<a href="#section-10.1.3-83" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-84">Object Type: Process<a href="#section-10.1.3-84" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-85">Description: Represents the current state of a restore request for an object that has entered the Redemption Grace Period (RGP). Returned as output of all restore operations. This object is OPTIONAL and is only used when the RGP feature is supported.<a href="#section-10.1.3-85" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-86">Reference: [This-ID]<a href="#section-10.1.3-86" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-87">Data Elements<a href="#section-10.1.3-87" class="pilcrow">¶</a></p>
+<p id="section-10.1.3-80">Object: postalData<a href="#section-10.1.3-80" class="pilcrow">¶</a></p>
+<p id="section-10.1.3-81">Object Name: Postal Address Object<a href="#section-10.1.3-81" class="pilcrow">¶</a></p>
+<p id="section-10.1.3-82">Object Type: Component<a href="#section-10.1.3-82" class="pilcrow">¶</a></p>
+<p id="section-10.1.3-83">Description: Contains the components of a postal address.<a href="#section-10.1.3-83" class="pilcrow">¶</a></p>
+<p id="section-10.1.3-84">Reference: [This-ID]<a href="#section-10.1.3-84" class="pilcrow">¶</a></p>
+<p id="section-10.1.3-85">Data Elements<a href="#section-10.1.3-85" class="pilcrow">¶</a></p>
+<table class="center" id="table-10">
+            <caption><a href="#table-10" class="selfRef">Table 10</a></caption>
+<thead>
+              <tr>
+                <th class="text-left" rowspan="1" colspan="1">Element Identifier</th>
+                <th class="text-left" rowspan="1" colspan="1">Element Name</th>
+                <th class="text-left" rowspan="1" colspan="1">Card.</th>
+                <th class="text-left" rowspan="1" colspan="1">Mutability</th>
+                <th class="text-left" rowspan="1" colspan="1">Data Type</th>
+                <th class="text-left" rowspan="1" colspan="1">Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">street</td>
+                <td class="text-left" rowspan="1" colspan="1">Street</td>
+                <td class="text-left" rowspan="1" colspan="1">0+</td>
+                <td class="text-left" rowspan="1" colspan="1">read-write</td>
+                <td class="text-left" rowspan="1" colspan="1">String</td>
+                <td class="text-left" rowspan="1" colspan="1">The contact's street address.</td>
+              </tr>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">city</td>
+                <td class="text-left" rowspan="1" colspan="1">City</td>
+                <td class="text-left" rowspan="1" colspan="1">0-1</td>
+                <td class="text-left" rowspan="1" colspan="1">read-write</td>
+                <td class="text-left" rowspan="1" colspan="1">String</td>
+                <td class="text-left" rowspan="1" colspan="1">The contact's city.</td>
+              </tr>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">sp</td>
+                <td class="text-left" rowspan="1" colspan="1">State/Province</td>
+                <td class="text-left" rowspan="1" colspan="1">0-1</td>
+                <td class="text-left" rowspan="1" colspan="1">read-write</td>
+                <td class="text-left" rowspan="1" colspan="1">String</td>
+                <td class="text-left" rowspan="1" colspan="1">The contact's state or province.</td>
+              </tr>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">pc</td>
+                <td class="text-left" rowspan="1" colspan="1">Postal Code</td>
+                <td class="text-left" rowspan="1" colspan="1">0-1</td>
+                <td class="text-left" rowspan="1" colspan="1">read-write</td>
+                <td class="text-left" rowspan="1" colspan="1">String</td>
+                <td class="text-left" rowspan="1" colspan="1">The contact's postal code.</td>
+              </tr>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">cc</td>
+                <td class="text-left" rowspan="1" colspan="1">Country Code</td>
+                <td class="text-left" rowspan="1" colspan="1">0-1</td>
+                <td class="text-left" rowspan="1" colspan="1">read-write</td>
+                <td class="text-left" rowspan="1" colspan="1">String</td>
+                <td class="text-left" rowspan="1" colspan="1">The contact's country code.</td>
+              </tr>
+            </tbody>
+          </table>
+<p id="section-10.1.3-87">Object: postalInfo<a href="#section-10.1.3-87" class="pilcrow">¶</a></p>
+<p id="section-10.1.3-88">Object Name: Postal Info Object<a href="#section-10.1.3-88" class="pilcrow">¶</a></p>
+<p id="section-10.1.3-89">Object Type: Component<a href="#section-10.1.3-89" class="pilcrow">¶</a></p>
+<p id="section-10.1.3-90">Description: Contains postal-address information in either internationalised or localised forms.<a href="#section-10.1.3-90" class="pilcrow">¶</a></p>
+<p id="section-10.1.3-91">Reference: [This-ID]<a href="#section-10.1.3-91" class="pilcrow">¶</a></p>
+<p id="section-10.1.3-92">Data Elements<a href="#section-10.1.3-92" class="pilcrow">¶</a></p>
 <table class="center" id="table-11">
             <caption><a href="#table-11" class="selfRef">Table 11</a></caption>
+<thead>
+              <tr>
+                <th class="text-left" rowspan="1" colspan="1">Element Identifier</th>
+                <th class="text-left" rowspan="1" colspan="1">Element Name</th>
+                <th class="text-left" rowspan="1" colspan="1">Card.</th>
+                <th class="text-left" rowspan="1" colspan="1">Mutability</th>
+                <th class="text-left" rowspan="1" colspan="1">Data Type</th>
+                <th class="text-left" rowspan="1" colspan="1">Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">type</td>
+                <td class="text-left" rowspan="1" colspan="1">Contact Type</td>
+                <td class="text-left" rowspan="1" colspan="1">0-1</td>
+                <td class="text-left" rowspan="1" colspan="1">read-write</td>
+                <td class="text-left" rowspan="1" colspan="1">String</td>
+                <td class="text-left" rowspan="1" colspan="1">Specifies whether the contact is and individual or an organisation.</td>
+              </tr>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">name</td>
+                <td class="text-left" rowspan="1" colspan="1">Name</td>
+                <td class="text-left" rowspan="1" colspan="1">0-1</td>
+                <td class="text-left" rowspan="1" colspan="1">read-write</td>
+                <td class="text-left" rowspan="1" colspan="1">String</td>
+                <td class="text-left" rowspan="1" colspan="1">The name of the individual or role.</td>
+              </tr>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">org</td>
+                <td class="text-left" rowspan="1" colspan="1">Organisation</td>
+                <td class="text-left" rowspan="1" colspan="1">0-1</td>
+                <td class="text-left" rowspan="1" colspan="1">read-write</td>
+                <td class="text-left" rowspan="1" colspan="1">String</td>
+                <td class="text-left" rowspan="1" colspan="1">The name of the organisation.</td>
+              </tr>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">addr</td>
+                <td class="text-left" rowspan="1" colspan="1">Address</td>
+                <td class="text-left" rowspan="1" colspan="1">0-1</td>
+                <td class="text-left" rowspan="1" colspan="1">read-write</td>
+                <td class="text-left" rowspan="1" colspan="1">Postal Address Object</td>
+                <td class="text-left" rowspan="1" colspan="1">The detailed postal address.</td>
+              </tr>
+            </tbody>
+          </table>
+<p id="section-10.1.3-94">Object: disclose<a href="#section-10.1.3-94" class="pilcrow">¶</a></p>
+<p id="section-10.1.3-95">Object Name: Disclose<a href="#section-10.1.3-95" class="pilcrow">¶</a></p>
+<p id="section-10.1.3-96">Object Type: Component<a href="#section-10.1.3-96" class="pilcrow">¶</a></p>
+<p id="section-10.1.3-97">Description: TBD<a href="#section-10.1.3-97" class="pilcrow">¶</a></p>
+<p id="section-10.1.3-98">Reference: [This-ID]<a href="#section-10.1.3-98" class="pilcrow">¶</a></p>
+<p id="section-10.1.3-99">Data Elements<a href="#section-10.1.3-99" class="pilcrow">¶</a></p>
+<table class="center" id="table-12">
+            <caption><a href="#table-12" class="selfRef">Table 12</a></caption>
+<thead>
+              <tr>
+                <th class="text-left" rowspan="1" colspan="1">Element Identifier</th>
+                <th class="text-left" rowspan="1" colspan="1">Element Name</th>
+                <th class="text-left" rowspan="1" colspan="1">Card.</th>
+                <th class="text-left" rowspan="1" colspan="1">Mutability</th>
+                <th class="text-left" rowspan="1" colspan="1">Data Type</th>
+                <th class="text-left" rowspan="1" colspan="1">Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1"></td>
+                <td class="text-left" rowspan="1" colspan="1"></td>
+                <td class="text-left" rowspan="1" colspan="1"></td>
+                <td class="text-left" rowspan="1" colspan="1"></td>
+                <td class="text-left" rowspan="1" colspan="1"></td>
+                <td class="text-left" rowspan="1" colspan="1"></td>
+              </tr>
+            </tbody>
+          </table>
+<p id="section-10.1.3-101">Object: restoreProcess<a href="#section-10.1.3-101" class="pilcrow">¶</a></p>
+<p id="section-10.1.3-102">Object Name: Restore Process Object<a href="#section-10.1.3-102" class="pilcrow">¶</a></p>
+<p id="section-10.1.3-103">Object Type: Process<a href="#section-10.1.3-103" class="pilcrow">¶</a></p>
+<p id="section-10.1.3-104">Description: Represents the current state of a restore request for an object that has entered the Redemption Grace Period (RGP). Returned as output of all restore operations. This object is OPTIONAL and is only used when the RGP feature is supported.<a href="#section-10.1.3-104" class="pilcrow">¶</a></p>
+<p id="section-10.1.3-105">Reference: [This-ID]<a href="#section-10.1.3-105" class="pilcrow">¶</a></p>
+<p id="section-10.1.3-106">Data Elements<a href="#section-10.1.3-106" class="pilcrow">¶</a></p>
+<table class="center" id="table-13">
+            <caption><a href="#table-13" class="selfRef">Table 13</a></caption>
 <thead>
               <tr>
                 <th class="text-left" rowspan="1" colspan="1">Element Identifier</th>
@@ -5703,13 +5872,13 @@ TODO: IANA table: Disclose Object<a href="#section-10.1.3-81.1" class="pilcrow">
               </tr>
             </tbody>
           </table>
-<p id="section-10.1.3-89">Operations<a href="#section-10.1.3-89" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-90">Operation: Restore Create<a href="#section-10.1.3-90" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-91">Operation Identifier: create<a href="#section-10.1.3-91" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-92">Description: Initiates recovery of a domain name in the redemptionPeriod state by creating a Restore Process Object. This operation is OPTIONAL and is only available when the RGP feature is supported.<a href="#section-10.1.3-92" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-93">Parameters<a href="#section-10.1.3-93" class="pilcrow">¶</a></p>
-<table class="center" id="table-12">
-            <caption><a href="#table-12" class="selfRef">Table 12</a></caption>
+<p id="section-10.1.3-108">Operations<a href="#section-10.1.3-108" class="pilcrow">¶</a></p>
+<p id="section-10.1.3-109">Operation: Restore Create<a href="#section-10.1.3-109" class="pilcrow">¶</a></p>
+<p id="section-10.1.3-110">Operation Identifier: create<a href="#section-10.1.3-110" class="pilcrow">¶</a></p>
+<p id="section-10.1.3-111">Description: Initiates recovery of a domain name in the redemptionPeriod state by creating a Restore Process Object. This operation is OPTIONAL and is only available when the RGP feature is supported.<a href="#section-10.1.3-111" class="pilcrow">¶</a></p>
+<p id="section-10.1.3-112">Parameters<a href="#section-10.1.3-112" class="pilcrow">¶</a></p>
+<table class="center" id="table-14">
+            <caption><a href="#table-14" class="selfRef">Table 14</a></caption>
 <thead>
               <tr>
                 <th class="text-left" rowspan="1" colspan="1">Identifier</th>
@@ -5729,16 +5898,16 @@ TODO: IANA table: Disclose Object<a href="#section-10.1.3-81.1" class="pilcrow">
               </tr>
             </tbody>
           </table>
-<p id="section-10.1.3-95">Operation: Restore Read<a href="#section-10.1.3-95" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-96">Operation Identifier: read (on Restore Process Object)<a href="#section-10.1.3-96" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-97">Description: Retrieves the current state of the RGP restore process for a domain name. This operation is OPTIONAL and is only available when the RGP feature is supported.<a href="#section-10.1.3-97" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-98">Parameters: (None)<a href="#section-10.1.3-98" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-99">Operation: Restore Report<a href="#section-10.1.3-99" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-100">Operation Identifier: report<a href="#section-10.1.3-100" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-101">Description: Submits the restore report for a domain name in the pendingRestore state. This operation is OPTIONAL and is only available when the RGP feature is supported and the server requires a restore report.<a href="#section-10.1.3-101" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-102">Parameters<a href="#section-10.1.3-102" class="pilcrow">¶</a></p>
-<table class="center" id="table-13">
-            <caption><a href="#table-13" class="selfRef">Table 13</a></caption>
+<p id="section-10.1.3-114">Operation: Restore Read<a href="#section-10.1.3-114" class="pilcrow">¶</a></p>
+<p id="section-10.1.3-115">Operation Identifier: read (on Restore Process Object)<a href="#section-10.1.3-115" class="pilcrow">¶</a></p>
+<p id="section-10.1.3-116">Description: Retrieves the current state of the RGP restore process for a domain name. This operation is OPTIONAL and is only available when the RGP feature is supported.<a href="#section-10.1.3-116" class="pilcrow">¶</a></p>
+<p id="section-10.1.3-117">Parameters: (None)<a href="#section-10.1.3-117" class="pilcrow">¶</a></p>
+<p id="section-10.1.3-118">Operation: Restore Report<a href="#section-10.1.3-118" class="pilcrow">¶</a></p>
+<p id="section-10.1.3-119">Operation Identifier: report<a href="#section-10.1.3-119" class="pilcrow">¶</a></p>
+<p id="section-10.1.3-120">Description: Submits the restore report for a domain name in the pendingRestore state. This operation is OPTIONAL and is only available when the RGP feature is supported and the server requires a restore report.<a href="#section-10.1.3-120" class="pilcrow">¶</a></p>
+<p id="section-10.1.3-121">Parameters<a href="#section-10.1.3-121" class="pilcrow">¶</a></p>
+<table class="center" id="table-15">
+            <caption><a href="#table-15" class="selfRef">Table 15</a></caption>
 <thead>
               <tr>
                 <th class="text-left" rowspan="1" colspan="1">Identifier</th>
@@ -5758,14 +5927,14 @@ TODO: IANA table: Disclose Object<a href="#section-10.1.3-81.1" class="pilcrow">
               </tr>
             </tbody>
           </table>
-<p id="section-10.1.3-104">Object: restoreReport<a href="#section-10.1.3-104" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-105">Object Name: Restore Report Object<a href="#section-10.1.3-105" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-106">Object Type: Component<a href="#section-10.1.3-106" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-107">Description: Contains the redemption grace period restore report submitted by the sponsoring client as required by the RGP process. This object is OPTIONAL and is only used when the RGP feature is supported and a restore report is required by server policy.<a href="#section-10.1.3-107" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-108">Reference: [This-ID]<a href="#section-10.1.3-108" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-109">Data Elements<a href="#section-10.1.3-109" class="pilcrow">¶</a></p>
-<table class="center" id="table-14">
-            <caption><a href="#table-14" class="selfRef">Table 14</a></caption>
+<p id="section-10.1.3-123">Object: restoreReport<a href="#section-10.1.3-123" class="pilcrow">¶</a></p>
+<p id="section-10.1.3-124">Object Name: Restore Report Object<a href="#section-10.1.3-124" class="pilcrow">¶</a></p>
+<p id="section-10.1.3-125">Object Type: Component<a href="#section-10.1.3-125" class="pilcrow">¶</a></p>
+<p id="section-10.1.3-126">Description: Contains the redemption grace period restore report submitted by the sponsoring client as required by the RGP process. This object is OPTIONAL and is only used when the RGP feature is supported and a restore report is required by server policy.<a href="#section-10.1.3-126" class="pilcrow">¶</a></p>
+<p id="section-10.1.3-127">Reference: [This-ID]<a href="#section-10.1.3-127" class="pilcrow">¶</a></p>
+<p id="section-10.1.3-128">Data Elements<a href="#section-10.1.3-128" class="pilcrow">¶</a></p>
+<table class="center" id="table-16">
+            <caption><a href="#table-16" class="selfRef">Table 16</a></caption>
 <thead>
               <tr>
                 <th class="text-left" rowspan="1" colspan="1">Element Identifier</th>
@@ -5835,14 +6004,14 @@ TODO: IANA table: Disclose Object<a href="#section-10.1.3-81.1" class="pilcrow">
               </tr>
             </tbody>
           </table>
-<p id="section-10.1.3-111">Object: domainName<a href="#section-10.1.3-111" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-112">Object Name: Domain Name Data Object<a href="#section-10.1.3-112" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-113">Object Type: Resource<a href="#section-10.1.3-113" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-114">Description: Represents a domain name and its associated data.<a href="#section-10.1.3-114" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-115">Reference: [This-ID]<a href="#section-10.1.3-115" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-116">Data Elements<a href="#section-10.1.3-116" class="pilcrow">¶</a></p>
-<table class="center" id="table-15">
-            <caption><a href="#table-15" class="selfRef">Table 15</a></caption>
+<p id="section-10.1.3-130">Object: domainName<a href="#section-10.1.3-130" class="pilcrow">¶</a></p>
+<p id="section-10.1.3-131">Object Name: Domain Name Data Object<a href="#section-10.1.3-131" class="pilcrow">¶</a></p>
+<p id="section-10.1.3-132">Object Type: Resource<a href="#section-10.1.3-132" class="pilcrow">¶</a></p>
+<p id="section-10.1.3-133">Description: Represents a domain name and its associated data.<a href="#section-10.1.3-133" class="pilcrow">¶</a></p>
+<p id="section-10.1.3-134">Reference: [This-ID]<a href="#section-10.1.3-134" class="pilcrow">¶</a></p>
+<p id="section-10.1.3-135">Data Elements<a href="#section-10.1.3-135" class="pilcrow">¶</a></p>
+<table class="center" id="table-17">
+            <caption><a href="#table-17" class="selfRef">Table 17</a></caption>
 <thead>
               <tr>
                 <th class="text-left" rowspan="1" colspan="1">Identifier</th>
@@ -5936,13 +6105,13 @@ TODO: IANA table: Disclose Object<a href="#section-10.1.3-81.1" class="pilcrow">
               </tr>
             </tbody>
           </table>
-<p id="section-10.1.3-118">Operations<a href="#section-10.1.3-118" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-119">Operation: Create<a href="#section-10.1.3-119" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-120">Operation Identifier: create<a href="#section-10.1.3-120" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-121">Description: Provisions a new Domain Name resource.<a href="#section-10.1.3-121" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-122">Parameters<a href="#section-10.1.3-122" class="pilcrow">¶</a></p>
-<table class="center" id="table-16">
-            <caption><a href="#table-16" class="selfRef">Table 16</a></caption>
+<p id="section-10.1.3-137">Operations<a href="#section-10.1.3-137" class="pilcrow">¶</a></p>
+<p id="section-10.1.3-138">Operation: Create<a href="#section-10.1.3-138" class="pilcrow">¶</a></p>
+<p id="section-10.1.3-139">Operation Identifier: create<a href="#section-10.1.3-139" class="pilcrow">¶</a></p>
+<p id="section-10.1.3-140">Description: Provisions a new Domain Name resource.<a href="#section-10.1.3-140" class="pilcrow">¶</a></p>
+<p id="section-10.1.3-141">Parameters<a href="#section-10.1.3-141" class="pilcrow">¶</a></p>
+<table class="center" id="table-18">
+            <caption><a href="#table-18" class="selfRef">Table 18</a></caption>
 <thead>
               <tr>
                 <th class="text-left" rowspan="1" colspan="1">Identifier</th>
@@ -5957,17 +6126,17 @@ TODO: IANA table: Disclose Object<a href="#section-10.1.3-81.1" class="pilcrow">
                 <td class="text-left" rowspan="1" colspan="1">period</td>
                 <td class="text-left" rowspan="1" colspan="1">Registration Period</td>
                 <td class="text-left" rowspan="1" colspan="1">0-1</td>
-                <td class="text-left" rowspan="1" colspan="1">period</td>
+                <td class="text-left" rowspan="1" colspan="1">Period Object</td>
                 <td class="text-left" rowspan="1" colspan="1">The initial registration period for the domain name.</td>
               </tr>
             </tbody>
           </table>
-<p id="section-10.1.3-124">Operation: Read<a href="#section-10.1.3-124" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-125">Operation Identifier: read<a href="#section-10.1.3-125" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-126">Description: Retrieves the data elements of a Domain Name resource.<a href="#section-10.1.3-126" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-127">Parameters<a href="#section-10.1.3-127" class="pilcrow">¶</a></p>
-<table class="center" id="table-17">
-            <caption><a href="#table-17" class="selfRef">Table 17</a></caption>
+<p id="section-10.1.3-143">Operation: Read<a href="#section-10.1.3-143" class="pilcrow">¶</a></p>
+<p id="section-10.1.3-144">Operation Identifier: read<a href="#section-10.1.3-144" class="pilcrow">¶</a></p>
+<p id="section-10.1.3-145">Description: Retrieves the data elements of a Domain Name resource.<a href="#section-10.1.3-145" class="pilcrow">¶</a></p>
+<p id="section-10.1.3-146">Parameters<a href="#section-10.1.3-146" class="pilcrow">¶</a></p>
+<table class="center" id="table-19">
+            <caption><a href="#table-19" class="selfRef">Table 19</a></caption>
 <thead>
               <tr>
                 <th class="text-left" rowspan="1" colspan="1">Identifier</th>
@@ -5985,20 +6154,13 @@ TODO: IANA table: Disclose Object<a href="#section-10.1.3-81.1" class="pilcrow">
                 <td class="text-left" rowspan="1" colspan="1">String</td>
                 <td class="text-left" rowspan="1" colspan="1">Controls which host information is returned.</td>
               </tr>
-              <tr>
-                <td class="text-left" rowspan="1" colspan="1">queryAuthInfo</td>
-                <td class="text-left" rowspan="1" colspan="1">Query Authorisation Information</td>
-                <td class="text-left" rowspan="1" colspan="1">0-1</td>
-                <td class="text-left" rowspan="1" colspan="1">authInfo</td>
-                <td class="text-left" rowspan="1" colspan="1">Credentials to authorise access to full object data.</td>
-              </tr>
             </tbody>
           </table>
-<p id="section-10.1.3-129">Operation: Update<a href="#section-10.1.3-129" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-130">Description: Modifies the read-write data elements of a Domain Name resource.<a href="#section-10.1.3-130" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-131">Parameters<a href="#section-10.1.3-131" class="pilcrow">¶</a></p>
-<table class="center" id="table-18">
-            <caption><a href="#table-18" class="selfRef">Table 18</a></caption>
+<p id="section-10.1.3-148">Operation: Update<a href="#section-10.1.3-148" class="pilcrow">¶</a></p>
+<p id="section-10.1.3-149">Description: Modifies the read-write data elements of a Domain Name resource.<a href="#section-10.1.3-149" class="pilcrow">¶</a></p>
+<p id="section-10.1.3-150">Parameters<a href="#section-10.1.3-150" class="pilcrow">¶</a></p>
+<table class="center" id="table-20">
+            <caption><a href="#table-20" class="selfRef">Table 20</a></caption>
 <thead>
               <tr>
                 <th class="text-left" rowspan="1" colspan="1">Identifier</th>
@@ -6018,16 +6180,16 @@ TODO: IANA table: Disclose Object<a href="#section-10.1.3-81.1" class="pilcrow">
               </tr>
             </tbody>
           </table>
-<p id="section-10.1.3-133">Operation: Delete<a href="#section-10.1.3-133" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-134">Operation Identifier: delete<a href="#section-10.1.3-134" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-135">Description: Removes an existing Domain Name resource.<a href="#section-10.1.3-135" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-136">Parameters: (None)<a href="#section-10.1.3-136" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-137">Operation: Renew<a href="#section-10.1.3-137" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-138">Operation Identifier: renew<a href="#section-10.1.3-138" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-139">Description: Extends the validity period of a Domain Name resource.<a href="#section-10.1.3-139" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-140">Parameters<a href="#section-10.1.3-140" class="pilcrow">¶</a></p>
-<table class="center" id="table-19">
-            <caption><a href="#table-19" class="selfRef">Table 19</a></caption>
+<p id="section-10.1.3-152">Operation: Delete<a href="#section-10.1.3-152" class="pilcrow">¶</a></p>
+<p id="section-10.1.3-153">Operation Identifier: delete<a href="#section-10.1.3-153" class="pilcrow">¶</a></p>
+<p id="section-10.1.3-154">Description: Removes an existing Domain Name resource.<a href="#section-10.1.3-154" class="pilcrow">¶</a></p>
+<p id="section-10.1.3-155">Parameters: (None)<a href="#section-10.1.3-155" class="pilcrow">¶</a></p>
+<p id="section-10.1.3-156">Operation: Renew<a href="#section-10.1.3-156" class="pilcrow">¶</a></p>
+<p id="section-10.1.3-157">Operation Identifier: renew<a href="#section-10.1.3-157" class="pilcrow">¶</a></p>
+<p id="section-10.1.3-158">Description: Extends the validity period of a Domain Name resource.<a href="#section-10.1.3-158" class="pilcrow">¶</a></p>
+<p id="section-10.1.3-159">Parameters<a href="#section-10.1.3-159" class="pilcrow">¶</a></p>
+<table class="center" id="table-21">
+            <caption><a href="#table-21" class="selfRef">Table 21</a></caption>
 <thead>
               <tr>
                 <th class="text-left" rowspan="1" colspan="1">Identifier</th>
@@ -6049,22 +6211,154 @@ TODO: IANA table: Disclose Object<a href="#section-10.1.3-81.1" class="pilcrow">
                 <td class="text-left" rowspan="1" colspan="1">renewalPeriod</td>
                 <td class="text-left" rowspan="1" colspan="1">Renewal Period</td>
                 <td class="text-left" rowspan="1" colspan="1">0-1</td>
-                <td class="text-left" rowspan="1" colspan="1">period</td>
+                <td class="text-left" rowspan="1" colspan="1">Period Object</td>
                 <td class="text-left" rowspan="1" colspan="1">The duration to add to the registration period.</td>
               </tr>
             </tbody>
           </table>
-<aside id="section-10.1.3-142">
-            <p id="section-10.1.3-142.1">TODO: IANA table: Contact Data Object<a href="#section-10.1.3-142.1" class="pilcrow">¶</a></p>
-</aside>
-<p id="section-10.1.3-143">Object: host<a href="#section-10.1.3-143" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-144">Object Name: Host Data Object<a href="#section-10.1.3-144" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-145">Object Type: Resource<a href="#section-10.1.3-145" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-146">Description: Represents a name server that provides DNS services for a domain name.<a href="#section-10.1.3-146" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-147">Reference: [This-ID]<a href="#section-10.1.3-147" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-148">Data Elements<a href="#section-10.1.3-148" class="pilcrow">¶</a></p>
-<table class="center" id="table-20">
-            <caption><a href="#table-20" class="selfRef">Table 20</a></caption>
+<p id="section-10.1.3-161">Operation: Transfer Create Operation<a href="#section-10.1.3-161" class="pilcrow">¶</a></p>
+<p id="section-10.1.3-162">Operation Identifier: transferCreate<a href="#section-10.1.3-162" class="pilcrow">¶</a></p>
+<p id="section-10.1.3-163">Description:<a href="#section-10.1.3-163" class="pilcrow">¶</a></p>
+<p id="section-10.1.3-164">Parameters<a href="#section-10.1.3-164" class="pilcrow">¶</a></p>
+<table class="center" id="table-22">
+            <caption><a href="#table-22" class="selfRef">Table 22</a></caption>
+<thead>
+              <tr>
+                <th class="text-left" rowspan="1" colspan="1">Identifier</th>
+                <th class="text-left" rowspan="1" colspan="1">Name</th>
+                <th class="text-left" rowspan="1" colspan="1">Card.</th>
+                <th class="text-left" rowspan="1" colspan="1">Data Type</th>
+                <th class="text-left" rowspan="1" colspan="1">Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">transferPeriod</td>
+                <td class="text-left" rowspan="1" colspan="1">Transfer Period</td>
+                <td class="text-left" rowspan="1" colspan="1">0-1</td>
+                <td class="text-left" rowspan="1" colspan="1">Period Object</td>
+                <td class="text-left" rowspan="1" colspan="1">The duration to add to the registration period upon transfer.</td>
+              </tr>
+            </tbody>
+          </table>
+<p id="section-10.1.3-166">Object: contact<a href="#section-10.1.3-166" class="pilcrow">¶</a></p>
+<p id="section-10.1.3-167">Object Name: Contact Data Object<a href="#section-10.1.3-167" class="pilcrow">¶</a></p>
+<p id="section-10.1.3-168">Object Type: Resource<a href="#section-10.1.3-168" class="pilcrow">¶</a></p>
+<p id="section-10.1.3-169">Description: A Contact Data Object represents the social information for an individual or organisation associated with other objects.<a href="#section-10.1.3-169" class="pilcrow">¶</a></p>
+<p id="section-10.1.3-170">Reference: [This-ID]<a href="#section-10.1.3-170" class="pilcrow">¶</a></p>
+<p id="section-10.1.3-171">Data Elements<a href="#section-10.1.3-171" class="pilcrow">¶</a></p>
+<table class="center" id="table-23">
+            <caption><a href="#table-23" class="selfRef">Table 23</a></caption>
+<thead>
+              <tr>
+                <th class="text-left" rowspan="1" colspan="1">Identifier</th>
+                <th class="text-left" rowspan="1" colspan="1">Name</th>
+                <th class="text-left" rowspan="1" colspan="1">Card.</th>
+                <th class="text-left" rowspan="1" colspan="1">Mutability</th>
+                <th class="text-left" rowspan="1" colspan="1">Data Type</th>
+                <th class="text-left" rowspan="1" colspan="1">Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">id</td>
+                <td class="text-left" rowspan="1" colspan="1">Handle ID</td>
+                <td class="text-left" rowspan="1" colspan="1">1</td>
+                <td class="text-left" rowspan="1" colspan="1">create-only</td>
+                <td class="text-left" rowspan="1" colspan="1">Identifier.</td>
+                <td class="text-left" rowspan="1" colspan="1">External unique identifier of the contact object.</td>
+              </tr>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">provMetadata</td>
+                <td class="text-left" rowspan="1" colspan="1">Provisioning Metadata</td>
+                <td class="text-left" rowspan="1" colspan="1">1</td>
+                <td class="text-left" rowspan="1" colspan="1">read-only</td>
+                <td class="text-left" rowspan="1" colspan="1">Provisioning Metadata Object</td>
+                <td class="text-left" rowspan="1" colspan="1">Standard metadata about the object's lifecycle and ownership.</td>
+              </tr>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">status</td>
+                <td class="text-left" rowspan="1" colspan="1">Status</td>
+                <td class="text-left" rowspan="1" colspan="1">0+</td>
+                <td class="text-left" rowspan="1" colspan="1">read-only</td>
+                <td class="text-left" rowspan="1" colspan="1">Status Object</td>
+                <td class="text-left" rowspan="1" colspan="1">The current status descriptors associated with the contact.</td>
+              </tr>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">postalInfo</td>
+                <td class="text-left" rowspan="1" colspan="1">Postal Information</td>
+                <td class="text-left" rowspan="1" colspan="1">1-2</td>
+                <td class="text-left" rowspan="1" colspan="1">read-write</td>
+                <td class="text-left" rowspan="1" colspan="1">DictionaryAggregation [Postal Info Object]</td>
+                <td class="text-left" rowspan="1" colspan="1">Contains postal-address information.</td>
+              </tr>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">voice</td>
+                <td class="text-left" rowspan="1" colspan="1">Voice Phone Number</td>
+                <td class="text-left" rowspan="1" colspan="1">0+</td>
+                <td class="text-left" rowspan="1" colspan="1">read-write</td>
+                <td class="text-left" rowspan="1" colspan="1">Phone Number</td>
+                <td class="text-left" rowspan="1" colspan="1">Voice phone number associated with the contact</td>
+              </tr>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">fax</td>
+                <td class="text-left" rowspan="1" colspan="1">Fax Phone Number</td>
+                <td class="text-left" rowspan="1" colspan="1">0+</td>
+                <td class="text-left" rowspan="1" colspan="1">read-write</td>
+                <td class="text-left" rowspan="1" colspan="1">Phone Number</td>
+                <td class="text-left" rowspan="1" colspan="1">Fax number associated with the contact</td>
+              </tr>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">email</td>
+                <td class="text-left" rowspan="1" colspan="1">E-mail</td>
+                <td class="text-left" rowspan="1" colspan="1">0+</td>
+                <td class="text-left" rowspan="1" colspan="1">read-write</td>
+                <td class="text-left" rowspan="1" colspan="1">String.</td>
+                <td class="text-left" rowspan="1" colspan="1">The contact's email address.</td>
+              </tr>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">authInfo</td>
+                <td class="text-left" rowspan="1" colspan="1">Authorisation Information</td>
+                <td class="text-left" rowspan="1" colspan="1">0-1</td>
+                <td class="text-left" rowspan="1" colspan="1">read-write</td>
+                <td class="text-left" rowspan="1" colspan="1">Authorisation Information</td>
+                <td class="text-left" rowspan="1" colspan="1">Authorisation information associated with the contact object.</td>
+              </tr>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">disclose</td>
+                <td class="text-left" rowspan="1" colspan="1">Disclose</td>
+                <td class="text-left" rowspan="1" colspan="1">0-1</td>
+                <td class="text-left" rowspan="1" colspan="1">read-write</td>
+                <td class="text-left" rowspan="1" colspan="1">Disclose Object.</td>
+                <td class="text-left" rowspan="1" colspan="1">Identifies elements that require exceptional server-operator handling to allow or restrict disclosure to third parties.</td>
+              </tr>
+            </tbody>
+          </table>
+<p id="section-10.1.3-173">Operations<a href="#section-10.1.3-173" class="pilcrow">¶</a></p>
+<p id="section-10.1.3-174">Operation: Create Operation<a href="#section-10.1.3-174" class="pilcrow">¶</a></p>
+<p id="section-10.1.3-175">Operation Identifier: create<a href="#section-10.1.3-175" class="pilcrow">¶</a></p>
+<p id="section-10.1.3-176">Description:<a href="#section-10.1.3-176" class="pilcrow">¶</a></p>
+<p id="section-10.1.3-177">Parameters: (None)<a href="#section-10.1.3-177" class="pilcrow">¶</a></p>
+<p id="section-10.1.3-178">Operation: Read Operation<a href="#section-10.1.3-178" class="pilcrow">¶</a></p>
+<p id="section-10.1.3-179">Operation Identifier: read<a href="#section-10.1.3-179" class="pilcrow">¶</a></p>
+<p id="section-10.1.3-180">Description:<a href="#section-10.1.3-180" class="pilcrow">¶</a></p>
+<p id="section-10.1.3-181">Parameters: (None)<a href="#section-10.1.3-181" class="pilcrow">¶</a></p>
+<p id="section-10.1.3-182">Operation: Update Operation<a href="#section-10.1.3-182" class="pilcrow">¶</a></p>
+<p id="section-10.1.3-183">Operation Identifier: update<a href="#section-10.1.3-183" class="pilcrow">¶</a></p>
+<p id="section-10.1.3-184">Description:<a href="#section-10.1.3-184" class="pilcrow">¶</a></p>
+<p id="section-10.1.3-185">Parameters: (None)<a href="#section-10.1.3-185" class="pilcrow">¶</a></p>
+<p id="section-10.1.3-186">Operation: Delete Operation<a href="#section-10.1.3-186" class="pilcrow">¶</a></p>
+<p id="section-10.1.3-187">Operation Identifier: delete<a href="#section-10.1.3-187" class="pilcrow">¶</a></p>
+<p id="section-10.1.3-188">Description:<a href="#section-10.1.3-188" class="pilcrow">¶</a></p>
+<p id="section-10.1.3-189">Parameters: (None)<a href="#section-10.1.3-189" class="pilcrow">¶</a></p>
+<p id="section-10.1.3-190">Object: host<a href="#section-10.1.3-190" class="pilcrow">¶</a></p>
+<p id="section-10.1.3-191">Object Name: Host Data Object<a href="#section-10.1.3-191" class="pilcrow">¶</a></p>
+<p id="section-10.1.3-192">Object Type: Resource<a href="#section-10.1.3-192" class="pilcrow">¶</a></p>
+<p id="section-10.1.3-193">Description: Represents a name server that provides DNS services for a domain name.<a href="#section-10.1.3-193" class="pilcrow">¶</a></p>
+<p id="section-10.1.3-194">Reference: [This-ID]<a href="#section-10.1.3-194" class="pilcrow">¶</a></p>
+<p id="section-10.1.3-195">Data Elements<a href="#section-10.1.3-195" class="pilcrow">¶</a></p>
+<table class="center" id="table-24">
+            <caption><a href="#table-24" class="selfRef">Table 24</a></caption>
 <thead>
               <tr>
                 <th class="text-left" rowspan="1" colspan="1">Identifier</th>
@@ -6110,19 +6404,19 @@ TODO: IANA table: Disclose Object<a href="#section-10.1.3-81.1" class="pilcrow">
               </tr>
             </tbody>
           </table>
-<p id="section-10.1.3-150">Operations<a href="#section-10.1.3-150" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-151">Operation: Create<a href="#section-10.1.3-151" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-152">Description: Provisions a new Host Data Object.<a href="#section-10.1.3-152" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-153">Parameters: (None)<a href="#section-10.1.3-153" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-154">Operation: Read<a href="#section-10.1.3-154" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-155">Description: Retrieves the data elements of a Host Data Object.<a href="#section-10.1.3-155" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-156">Parameters: (None)<a href="#section-10.1.3-156" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-157">Operation: Update<a href="#section-10.1.3-157" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-158">Description: Modifies the attributes of a Host Data Object.<a href="#section-10.1.3-158" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-159">Parameters: (None)<a href="#section-10.1.3-159" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-160">Operation: Delete<a href="#section-10.1.3-160" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-161">Description: Removes an existing Host Data Object.<a href="#section-10.1.3-161" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-162">Parameters: (None)<a href="#section-10.1.3-162" class="pilcrow">¶</a></p>
+<p id="section-10.1.3-197">Operations<a href="#section-10.1.3-197" class="pilcrow">¶</a></p>
+<p id="section-10.1.3-198">Operation: Create<a href="#section-10.1.3-198" class="pilcrow">¶</a></p>
+<p id="section-10.1.3-199">Description: Provisions a new Host Data Object.<a href="#section-10.1.3-199" class="pilcrow">¶</a></p>
+<p id="section-10.1.3-200">Parameters: (None)<a href="#section-10.1.3-200" class="pilcrow">¶</a></p>
+<p id="section-10.1.3-201">Operation: Read<a href="#section-10.1.3-201" class="pilcrow">¶</a></p>
+<p id="section-10.1.3-202">Description: Retrieves the data elements of a Host Data Object.<a href="#section-10.1.3-202" class="pilcrow">¶</a></p>
+<p id="section-10.1.3-203">Parameters: (None)<a href="#section-10.1.3-203" class="pilcrow">¶</a></p>
+<p id="section-10.1.3-204">Operation: Update<a href="#section-10.1.3-204" class="pilcrow">¶</a></p>
+<p id="section-10.1.3-205">Description: Modifies the attributes of a Host Data Object.<a href="#section-10.1.3-205" class="pilcrow">¶</a></p>
+<p id="section-10.1.3-206">Parameters: (None)<a href="#section-10.1.3-206" class="pilcrow">¶</a></p>
+<p id="section-10.1.3-207">Operation: Delete<a href="#section-10.1.3-207" class="pilcrow">¶</a></p>
+<p id="section-10.1.3-208">Description: Removes an existing Host Data Object.<a href="#section-10.1.3-208" class="pilcrow">¶</a></p>
+<p id="section-10.1.3-209">Parameters: (None)<a href="#section-10.1.3-209" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -6148,7 +6442,11 @@ TODO: IANA table: Disclose Object<a href="#section-10.1.3-81.1" class="pilcrow">
 <section id="section-12.1">
         <h3 id="name-draft-kowalik-rpp-data-obje">
 <a href="#name-draft-kowalik-rpp-data-obje" class="section-name selfRef">draft-kowalik-rpp-data-objects -03 - -04</a>
-      </h3>
+        </h3>
+<ul class="compact">
+<li class="compact" id="section-12.1-1.1">Added missing IANA tables for Contact, Postal Address and Postal Info. Added missing Operations. Added missing operation identifiers. Fixes #17, #18, #19, #20, #21.<a href="#section-12.1-1.1" class="pilcrow">¶</a>
+</li>
+        </ul>
 </section>
 </div>
 <div id="draft-kowalik-rpp-data-objects-02-03">
