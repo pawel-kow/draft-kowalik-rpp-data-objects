@@ -1335,7 +1335,7 @@ In addition, the following transient data element is defined for this operation:
 * Registration Period
   * Identifier: period
   * Cardinality: 0-1
-  * Data Type: Period Object.
+  * Data Type: Period Object
   * Description: The initial registration period for the domain name. This value is used by the server to calculate the initial `expiryDate` of the object. This element is not persisted as part of the object's state. 
 
 ### Read Operation
@@ -2107,9 +2107,9 @@ Operation Identifier: create
 Description: Provisions a new Domain Name resource.
 
 Parameters
-| Identifier | Name                | Card. | Data Type | Description                                          |
-| ---------- | ------------------- | ----- | --------- | ---------------------------------------------------- |
-| period     | Registration Period | 0-1   | period    | The initial registration period for the domain name. |
+| Identifier | Name                | Card. | Data Type     | Description                                          |
+| ---------- | ------------------- | ----- | ------------- | ---------------------------------------------------- |
+| period     | Registration Period | 0-1   | Period Object | The initial registration period for the domain name. |
 
 Operation: Read
 
@@ -2118,10 +2118,9 @@ Operation Identifier: read
 Description: Retrieves the data elements of a Domain Name resource.
 
 Parameters
-| Identifier    | Name                            | Card. | Data Type | Description                                          |
-| ------------- | ------------------------------- | ----- | --------- | ---------------------------------------------------- |
-| hostsFilter   | Hosts Filter                    | 0-1   | String    | Controls which host information is returned.         |
-| queryAuthInfo | Query Authorisation Information | 0-1   | authInfo  | Credentials to authorise access to full object data. |
+| Identifier  | Name         | Card. | Data Type | Description                                  |
+| ----------- | ------------ | ----- | --------- | -------------------------------------------- |
+| hostsFilter | Hosts Filter | 0-1   | String    | Controls which host information is returned. |
 
 Operation: Update
 
@@ -2147,10 +2146,10 @@ Operation Identifier: renew
 Description: Extends the validity period of a Domain Name resource.
 
 Parameters
-| Identifier        | Name                | Card. | Data Type | Description                                       |
-| ----------------- | ------------------- | ----- | --------- | ------------------------------------------------- |
-| currentExpiryDate | Current Expiry Date | 1     | Timestamp | The expected current expiry date, for validation. |
-| renewalPeriod     | Renewal Period      | 0-1   | period    | The duration to add to the registration period.   |
+| Identifier        | Name                | Card. | Data Type     | Description                                       |
+| ----------------- | ------------------- | ----- | ------------- | ------------------------------------------------- |
+| currentExpiryDate | Current Expiry Date | 1     | Timestamp     | The expected current expiry date, for validation. |
+| renewalPeriod     | Renewal Period      | 0-1   | Period Object | The duration to add to the registration period.   |
 
 Operation: Transfer Create Operation
 
@@ -2159,9 +2158,9 @@ Operation Identifier: transferCreate
 Description: 
 
 Parameters
-| Identifier     | Name            | Card. | Data Type | Description                                                   |
-| -------------- | --------------- | ----- | --------- | ------------------------------------------------------------- |
-| transferPeriod | Transfer Period | 0-1   | period    | The duration to add to the registration period upon transfer. |
+| Identifier     | Name            | Card. | Data Type     | Description                                                   |
+| -------------- | --------------- | ----- | ------------- | ------------------------------------------------------------- |
+| transferPeriod | Transfer Period | 0-1   | Period Object | The duration to add to the registration period upon transfer. |
 
 Object: contact
 
@@ -2276,6 +2275,7 @@ A> TODO: write security considerations, if any
 {numbered="false"}
 ## draft-kowalik-rpp-data-objects -03 - -04
 
+* Added missing IANA tables for Contact, Postal Address and Postal Info. Added missing Operations. Added missing operation identifiers. Fixes #17, #18, #19, #20, #21.
 
 {toc="exclude"}
 {numbered="false"}
