@@ -44,6 +44,7 @@ Exit code 0 = no errors; exit code 1 = at least one consistency error.
 | `[ELEM CARD MISMATCH]` | Identifier matches, but Cardinality differs |
 | `[ELEM MUTABILITY MISMATCH]` | Identifier matches, but Mutability differs |
 | `[ELEM TYPE MISMATCH]` | Identifier matches, but Data Type differs |
+| `[ELEM DESC EMPTY]` | IANA Description cell is blank; normative has a description |
 
 ### Operation level (per matched object pair, and for unmatched objects)
 
@@ -52,6 +53,7 @@ Exit code 0 = no errors; exit code 1 = at least one consistency error.
 | `[OP MISSING IN IANA]` | Normative operation has no IANA entry |
 | `[OP MISSING IN NORMATIVE]` | IANA operation has no normative entry |
 | `[OP MISSING IDENTIFIER]` | Normative operation heading has no `* Identifier:` bullet |
+| `[OP DESC EMPTY]` | IANA operation Description field is blank; normative has a description |
 
 Note: `[OP MISSING IDENTIFIER]` is reported even when the parent object itself
 is `[MISSING IN IANA]`, so identifier gaps are always surfaced.
@@ -65,6 +67,7 @@ is `[MISSING IN IANA]`, so identifier gaps are always surfaced.
 | `[PARAM NAME MISMATCH]` | Identifier matches, but Parameter Name differs |
 | `[PARAM CARD MISMATCH]` | Identifier matches, but Cardinality differs |
 | `[PARAM TYPE MISMATCH]` | Identifier matches, but Data Type differs |
+| `[PARAM DESC EMPTY]` | IANA description cell is blank; normative has a description |
 
 ---
 
@@ -296,10 +299,11 @@ section is appended to stdout after the error list. It covers:
 A complete block ready to paste into the IANA section, including:
 - `Object:` / `Object Name:` / `Object Type:` / `Description:` / `Reference:`
   fields, each separated by a blank line
-- `Data Elements` pipe table with auto-sized columns and a `Description` column
-  (empty cells to be filled in)
+- `Data Elements` pipe table with auto-sized columns; `Description` column
+  filled from the normative `* Description:` attribute
 - `Operations` section with one `Operation:` block per normative operation,
-  including a `Parameters` table or `Parameters: (None)`
+  `Description:` filled from normative, and a `Parameters` table (or
+  `Parameters: (None)`) with descriptions filled in
 
 Column header style:
 - Resource objects: `Identifier` / `Name`
@@ -307,19 +311,40 @@ Column header style:
 
 ### Missing elements → single table row
 
-One pipe-table row per missing element, formatted as:
+One pipe-table row per missing element, with the `Description` cell filled
+from the normative `* Description:` attribute:
 ```
-| identifier | Name | Card. | Mutability | Data Type |  |
+| identifier | Name | Card. | Mutability | Data Type | Description text |
 ```
+
+### Empty element descriptions → single corrected row (`[ELEM DESC EMPTY]`)
+
+When the IANA table row exists but its Description cell is blank and the
+normative definition has a description, a corrected row is output (same
+format as for missing elements).
 
 ### Missing operations → full operation block
 
-A complete `Operation:` block with `Operation Identifier:`, empty
-`Description:`, and a `Parameters` table (or `Parameters: (None)`).
+A complete `Operation:` block with `Operation Identifier:`, `Description:`
+filled from the normative `* Description:` bullet, and a `Parameters` table
+(or `Parameters: (None)`) with descriptions filled in.
+
+### Empty operation descriptions → full corrected block (`[OP DESC EMPTY]`)
+
+When the IANA operation exists but its `Description:` field is blank and the
+normative definition has a description, the full corrected operation block is
+output (same format as for missing operations).
 
 ### Missing parameters → single table row
 
-One pipe-table row per missing parameter:
+One pipe-table row per missing parameter, with the `Description` cell filled
+from the normative `* Description:` attribute:
 ```
-| identifier | Name | Card. | Data Type |  |
+| identifier | Name | Card. | Data Type | Description text |
 ```
+
+### Empty parameter descriptions → single corrected row (`[PARAM DESC EMPTY]`)
+
+When the IANA parameter row exists but its Description cell is blank and the
+normative definition has a description, a corrected row is output (same
+format as for missing parameters).

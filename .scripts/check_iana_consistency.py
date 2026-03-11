@@ -19,11 +19,13 @@ Data-element level:
   [ELEM CARD MISMATCH]        - identifier matches, but Cardinality differs
   [ELEM MUTABILITY MISMATCH]  - identifier matches, but Mutability differs
   [ELEM TYPE MISMATCH]        - identifier matches, but Data Type differs
+  [ELEM DESC EMPTY]           - IANA description cell is blank; normative has one
 
 Operation level:
   [OP MISSING IN IANA]      - normative operation has no IANA entry
   [OP MISSING IN NORMATIVE] - IANA operation has no normative entry
   [OP NAME MISMATCH]        - same identifier, different Operation Name
+  [OP DESC EMPTY]           - IANA operation Description field is blank; normative has one
 
 Operation parameter level:
   [PARAM MISSING IN IANA]      - normative parameter absent from IANA table
@@ -31,6 +33,7 @@ Operation parameter level:
   [PARAM NAME MISMATCH]        - identifier matches, but Parameter Name differs
   [PARAM CARD MISMATCH]        - identifier matches, but Cardinality differs
   [PARAM TYPE MISMATCH]        - identifier matches, but Data Type differs
+  [PARAM DESC EMPTY]           - IANA description cell is blank; normative has one
 """
 
 import argparse
@@ -78,6 +81,7 @@ class ElementDef:
     mutability: str
     data_type: str
     line: int  # 1-based line number
+    description: str = ""
 
 
 @dataclass
@@ -88,6 +92,7 @@ class ParamDef:
     cardinality: str
     data_type: str
     line: int  # 1-based line number
+    description: str = ""
 
 
 @dataclass
@@ -95,6 +100,7 @@ class OperationDef:
     name: str          # human-readable name (e.g. "Create", "Read")
     identifier: str    # machine-readable id (e.g. "create", "read")
     line: int          # 1-based line number
+    description: str = ""
     params: list[ParamDef] = field(default_factory=list)
 
 
@@ -233,6 +239,7 @@ def _parse_normative_elements_nested(lines: list[str], body_start: int,
                 card    = attrs.get("cardinality", ("", 0))[0]
                 mutab   = attrs.get("mutability",  ("", 0))[0]
                 dtype   = attrs.get("data type",   ("", 0))[0]
+                desc    = attrs.get("description", ("", 0))[0]
                 id_line = attrs.get("identifier",  ("", elem_line))[1]
                 if elem_id:
                     elements.append(ElementDef(
@@ -242,6 +249,7 @@ def _parse_normative_elements_nested(lines: list[str], body_start: int,
                         mutability=mutab,
                         data_type=dtype,
                         line=id_line,
+                        description=desc,
                     ))
         i += 1
     return elements
@@ -276,6 +284,7 @@ def _parse_normative_elements_flat(lines: list[str], body_start: int,
             card    = attrs.get("cardinality", ("", 0))[0]
             mutab   = attrs.get("mutability",  ("", 0))[0]
             dtype   = attrs.get("data type",   ("", 0))[0]
+            desc    = attrs.get("description", ("", 0))[0]
             id_line = attrs.get("identifier",  ("", elem_line))[1]
             if elem_id:
                 elements.append(ElementDef(
@@ -285,6 +294,7 @@ def _parse_normative_elements_flat(lines: list[str], body_start: int,
                     mutability=mutab,
                     data_type=dtype,
                     line=id_line,
+                    description=desc,
                 ))
         i += 1
     return elements
@@ -329,6 +339,7 @@ def _parse_normative_params_from_bullets(lines: list[str], start: int,
             param_id = attrs.get("identifier",  ("", 0))[0]
             card     = attrs.get("cardinality", ("", 0))[0]
             dtype    = attrs.get("data type",   ("", 0))[0]
+            desc     = attrs.get("description", ("", 0))[0]
             id_line  = attrs.get("identifier",  ("", param_line))[1]
             if param_id:
                 params.append(ParamDef(
@@ -337,6 +348,7 @@ def _parse_normative_params_from_bullets(lines: list[str], start: int,
                     cardinality=card,
                     data_type=dtype,
                     line=id_line,
+                    description=desc,
                 ))
         i += 1
     return params
@@ -381,12 +393,16 @@ def _parse_normative_operations_nested(lines: list[str],
                     block_end = k
                     break
 
-        # Scan for * Identifier: within the block
+        # Scan for * Identifier: and * Description: within the block
+        op_desc = ""
         for j in range(i + 1, block_end):
             m_id = re.match(r"^\* Identifier:\s*(\S+)", lines[j])
             if m_id:
                 op_id = m_id.group(1).strip()
-                break
+                continue
+            m_desc = re.match(r"^\* Description:\s*(.+)$", lines[j])
+            if m_desc:
+                op_desc = m_desc.group(1).strip()
 
         # Find params: look for "transient data element" marker, then parse bullets
         params: list[ParamDef] = []
@@ -405,6 +421,7 @@ def _parse_normative_operations_nested(lines: list[str],
             name=op_name,
             identifier=op_id,
             line=op_line,
+            description=op_desc,
             params=params,
         ))
         i = block_end  # jump past this block to avoid re-scanning
@@ -662,6 +679,7 @@ def _parse_iana_params_table(lines: list[str], start: int,
         "name":       ["name"],
         "cardinality": ["card.", "cardinality"],
         "data type":  ["data type"],
+        "description": ["description"],
     }
     header_cols: list[str] = []
     i = start
@@ -695,6 +713,7 @@ def _parse_iana_params_table(lines: list[str], start: int,
                 cardinality=_col("cardinality"),
                 data_type=_col("data type"),
                 line=i + 1,
+                description=_col("description"),
             ))
         i += 1
     return params
@@ -739,13 +758,18 @@ def _parse_iana_operations(lines: list[str], ops_start: int,
                 block_end = k
                 break
 
-        # Scan for "Operation Identifier:" within the block
+        # Scan for "Operation Identifier:" and "Description:" within the block
+        op_desc = ""
         for j in range(i + 1, block_end):
-            m_id = re.match(r"^Operation Identifier:\s*(.+)$", lines[j].rstrip())
+            rj = lines[j].rstrip()
+            m_id = re.match(r"^Operation Identifier:\s*(.+)$", rj)
             if m_id:
                 # Take only the first token (ignore trailing parenthetical)
                 op_id = m_id.group(1).strip().split()[0]
-                break
+                continue
+            m_desc = re.match(r"^Description:\s*(.*)$", rj)
+            if m_desc:
+                op_desc = m_desc.group(1).strip()
 
         if not op_id:
             # Fall back: derive id from name (lowercase first word)
@@ -765,6 +789,7 @@ def _parse_iana_operations(lines: list[str], ops_start: int,
             name=op_name,
             identifier=op_id,
             line=op_line,
+            description=op_desc,
             params=params,
         ))
         i = block_end
@@ -822,6 +847,7 @@ def parse_iana_objects(lines: list[str], iana_start: int) -> list[ObjectDef]:
             "cardinality":        ["card.", "cardinality"],
             "mutability":         ["mutability"],
             "data type":          ["data type"],
+            "description":        ["description"],
         }
 
         ops_start_in_block = obj_end  # position of "Operations" keyword
@@ -868,6 +894,7 @@ def parse_iana_objects(lines: list[str], iana_start: int) -> list[ObjectDef]:
                 card      = _col("cardinality")
                 mutab     = _col("mutability")
                 dtype     = _col("data type")
+                desc      = _col("description")
 
                 if elem_id:
                     elements.append(ElementDef(
@@ -877,6 +904,7 @@ def parse_iana_objects(lines: list[str], iana_start: int) -> list[ObjectDef]:
                         mutability=mutab,
                         data_type=dtype,
                         line=k + 1,
+                        description=desc,
                     ))
             k += 1
 
@@ -1006,6 +1034,11 @@ def check_elements(norm_obj: ObjectDef, iana_obj: ObjectDef) -> list[str]:
                 f"    normative (line {ne.line}):  data_type='{ne.data_type}'\n"
                 f"    IANA     (line {ie.line}): data_type='{ie.data_type}'"
             )
+        if ne.description and not ie.description:
+            errors.append(
+                f"[ELEM DESC EMPTY] {prefix}, element '{ne.identifier}' "
+                f"(IANA line {ie.line}): IANA description is empty."
+            )
 
     for ie in iana_obj.elements:
         if ie.identifier not in norm_elems:
@@ -1048,6 +1081,12 @@ def check_operations(norm_obj: ObjectDef, iana_obj: ObjectDef) -> list[str]:
         # Name comparison: IANA names often differ stylistically, so only warn
         # when they differ significantly (skip for now — names are informal)
 
+        if nop.description and not iop.description:
+            errors.append(
+                f"[OP DESC EMPTY] {prefix}, operation '{nop.identifier}' "
+                f"(IANA line {iop.line}): IANA Description field is empty."
+            )
+
         # Check parameters
         iana_params = {p.identifier: p for p in iop.params}
         norm_params = {p.identifier: p for p in nop.params}
@@ -1081,6 +1120,12 @@ def check_operations(norm_obj: ObjectDef, iana_obj: ObjectDef) -> list[str]:
                     f"param '{np.identifier}':\n"
                     f"    normative (line {np.line}):  data_type='{np.data_type}'\n"
                     f"    IANA     (line {ip.line}): data_type='{ip.data_type}'"
+                )
+            if np.description and not ip.description:
+                errors.append(
+                    f"[PARAM DESC EMPTY] {prefix}, op '{nop.identifier}', "
+                    f"param '{np.identifier}' (IANA line {ip.line}): "
+                    f"IANA description cell is empty."
                 )
 
         for ip in iop.params:
@@ -1134,6 +1179,7 @@ def generate_iana_table(obj: ObjectDef) -> str:
     out.append("Data Elements")
 
     if obj.elements:
+        desc_w = max(len("Description"), max(len(e.description) for e in obj.elements))
         id_w   = max(len(id_hdr),   max(len(e.identifier)  for e in obj.elements))
         name_w = max(len(name_hdr), max(len(e.name)        for e in obj.elements))
         card_w = max(len("Card."),  max(len(e.cardinality) for e in obj.elements))
@@ -1143,17 +1189,17 @@ def generate_iana_table(obj: ObjectDef) -> str:
         def _row(id_: str, name: str, card: str, mut: str, dtype: str,
                  desc: str = "") -> str:
             return (f"| {id_:<{id_w}} | {name:<{name_w}} | {card:<{card_w}}"
-                    f" | {mut:<{mut_w}} | {dtype:<{type_w}} | {desc} |")
+                    f" | {mut:<{mut_w}} | {dtype:<{type_w}} | {desc:<{desc_w}} |")
 
         sep = (f"| {'-' * id_w} | {'-' * name_w} | {'-' * card_w}"
-               f" | {'-' * mut_w} | {'-' * type_w} | {'-' * len('Description')} |")
+               f" | {'-' * mut_w} | {'-' * type_w} | {'-' * desc_w} |")
 
         out.append(_row(id_hdr, name_hdr, "Card.", "Mutability", "Data Type",
                         "Description"))
         out.append(sep)
         for e in obj.elements:
             out.append(_row(e.identifier, e.name, e.cardinality,
-                            e.mutability, e.data_type))
+                            e.mutability, e.data_type, e.description))
     else:
         out.append(f"| {id_hdr} | {name_hdr} | Card. | Mutability | Data Type | Description |")
         out.append(f"| {'-' * len(id_hdr)} | {'-' * len(name_hdr)} | ----- | ---------- | --------- | ----------- |")
@@ -1168,9 +1214,10 @@ def generate_iana_table(obj: ObjectDef) -> str:
             out.append("")
             out.append(f"Operation Identifier: {op.identifier}")
             out.append("")
-            out.append("Description: ")
+            out.append(f"Description: {op.description}")
             out.append("")
             if op.params:
+                pdesc_w = max(len("Description"), max(len(p.description) for p in op.params))
                 pid_w  = max(len("Identifier"), max(len(p.identifier) for p in op.params))
                 pnm_w  = max(len("Name"),       max(len(p.name)       for p in op.params))
                 pcd_w  = max(len("Card."),      max(len(p.cardinality) for p in op.params))
@@ -1179,16 +1226,17 @@ def generate_iana_table(obj: ObjectDef) -> str:
                 def _prow(id_: str, name: str, card: str, dtype: str,
                           desc: str = "") -> str:
                     return (f"| {id_:<{pid_w}} | {name:<{pnm_w}} | {card:<{pcd_w}}"
-                            f" | {dtype:<{pty_w}} | {desc} |")
+                            f" | {dtype:<{pty_w}} | {desc:<{pdesc_w}} |")
 
                 psep = (f"| {'-' * pid_w} | {'-' * pnm_w} | {'-' * pcd_w}"
-                        f" | {'-' * pty_w} | {'-' * len('Description')} |")
+                        f" | {'-' * pty_w} | {'-' * pdesc_w} |")
 
                 out.append("Parameters")
                 out.append(_prow("Identifier", "Name", "Card.", "Data Type", "Description"))
                 out.append(psep)
                 for p in op.params:
-                    out.append(_prow(p.identifier, p.name, p.cardinality, p.data_type))
+                    out.append(_prow(p.identifier, p.name, p.cardinality,
+                                     p.data_type, p.description))
             else:
                 out.append("Parameters: (None)")
 
@@ -1201,7 +1249,7 @@ def generate_iana_row(elem: ElementDef) -> str:
     from an existing IANA table.
     """
     return (f"| {elem.identifier} | {elem.name} | {elem.cardinality}"
-            f" | {elem.mutability} | {elem.data_type} |  |")
+            f" | {elem.mutability} | {elem.data_type} | {elem.description} |")
 
 
 def generate_iana_op_block(op: OperationDef) -> str:
@@ -1214,9 +1262,10 @@ def generate_iana_op_block(op: OperationDef) -> str:
     out.append("")
     out.append(f"Operation Identifier: {op.identifier}")
     out.append("")
-    out.append("Description: ")
+    out.append(f"Description: {op.description}")
     out.append("")
     if op.params:
+        pdesc_w = max(len("Description"), max(len(p.description) for p in op.params))
         pid_w = max(len("Identifier"), max(len(p.identifier) for p in op.params))
         pnm_w = max(len("Name"),       max(len(p.name)       for p in op.params))
         pcd_w = max(len("Card."),      max(len(p.cardinality) for p in op.params))
@@ -1225,16 +1274,17 @@ def generate_iana_op_block(op: OperationDef) -> str:
         def _prow(id_: str, name: str, card: str, dtype: str,
                   desc: str = "") -> str:
             return (f"| {id_:<{pid_w}} | {name:<{pnm_w}} | {card:<{pcd_w}}"
-                    f" | {dtype:<{pty_w}} | {desc} |")
+                    f" | {dtype:<{pty_w}} | {desc:<{pdesc_w}} |")
 
         psep = (f"| {'-' * pid_w} | {'-' * pnm_w} | {'-' * pcd_w}"
-                f" | {'-' * pty_w} | {'-' * len('Description')} |")
+                f" | {'-' * pty_w} | {'-' * pdesc_w} |")
 
         out.append("Parameters")
         out.append(_prow("Identifier", "Name", "Card.", "Data Type", "Description"))
         out.append(psep)
         for p in op.params:
-            out.append(_prow(p.identifier, p.name, p.cardinality, p.data_type))
+            out.append(_prow(p.identifier, p.name, p.cardinality,
+                             p.data_type, p.description))
     else:
         out.append("Parameters: (None)")
     return "\n".join(out)
@@ -1245,7 +1295,7 @@ def generate_iana_param_row(param: ParamDef) -> str:
     Generate a single IANA Parameters table row for a missing parameter.
     """
     return (f"| {param.identifier} | {param.name} | {param.cardinality}"
-            f" | {param.data_type} |  |")
+            f" | {param.data_type} | {param.description} |")
 
 
 # ---------------------------------------------------------------------------
@@ -1361,6 +1411,24 @@ def main() -> int:
                     for elem in missing_elems:
                         print(generate_iana_row(elem))
 
+            # Elements with empty IANA description → corrected row
+            for norm_obj, obj_errors in elem_errors:
+                iana_obj = iana_by_id.get(norm_obj.identifier)
+                if iana_obj is None:
+                    continue
+                iana_elem_by_id = {e.identifier: e for e in iana_obj.elements}
+                empty_desc_elems = [
+                    ne for ne in norm_obj.elements
+                    if ne.description
+                    and ne.identifier in iana_elem_by_id
+                    and not iana_elem_by_id[ne.identifier].description
+                ]
+                if empty_desc_elems:
+                    print()
+                    print(f"--- [ELEM DESC EMPTY] object '{norm_obj.identifier}' ---")
+                    for elem in empty_desc_elems:
+                        print(generate_iana_row(elem))
+
             # Missing operations → full operation block
             for norm_obj, obj_errors in op_errors:
                 iana_obj = iana_by_id.get(norm_obj.identifier)
@@ -1373,6 +1441,25 @@ def main() -> int:
                     print()
                     print(f"--- [OP MISSING IN IANA] object '{norm_obj.identifier}' ---")
                     for op in missing_ops:
+                        print()
+                        print(generate_iana_op_block(op))
+
+            # Operations with empty IANA description → corrected block
+            for norm_obj, obj_errors in op_errors:
+                iana_obj = iana_by_id.get(norm_obj.identifier)
+                if iana_obj is None:
+                    continue
+                iana_op_by_id = {op.identifier: op for op in iana_obj.operations}
+                empty_desc_ops = [
+                    nop for nop in norm_obj.operations
+                    if nop.identifier and nop.description
+                    and nop.identifier in iana_op_by_id
+                    and not iana_op_by_id[nop.identifier].description
+                ]
+                if empty_desc_ops:
+                    print()
+                    print(f"--- [OP DESC EMPTY] object '{norm_obj.identifier}' ---")
+                    for op in empty_desc_ops:
                         print()
                         print(generate_iana_op_block(op))
 
@@ -1394,6 +1481,30 @@ def main() -> int:
                         print(f"--- [PARAM MISSING IN IANA] object '{norm_obj.identifier}', "
                               f"operation '{nop.identifier}' ---")
                         for param in missing_params:
+                            print(generate_iana_param_row(param))
+
+            # Parameters with empty IANA description → corrected row
+            for norm_obj, obj_errors in op_errors:
+                iana_obj = iana_by_id.get(norm_obj.identifier)
+                if iana_obj is None:
+                    continue
+                iana_op_by_id = {op.identifier: op for op in iana_obj.operations}
+                for nop in norm_obj.operations:
+                    iop = iana_op_by_id.get(nop.identifier)
+                    if iop is None:
+                        continue
+                    iana_param_by_id = {p.identifier: p for p in iop.params}
+                    empty_desc_params = [
+                        np for np in nop.params
+                        if np.description
+                        and np.identifier in iana_param_by_id
+                        and not iana_param_by_id[np.identifier].description
+                    ]
+                    if empty_desc_params:
+                        print()
+                        print(f"--- [PARAM DESC EMPTY] object '{norm_obj.identifier}', "
+                              f"operation '{nop.identifier}' ---")
+                        for param in empty_desc_params:
                             print(generate_iana_param_row(param))
 
         return 1
