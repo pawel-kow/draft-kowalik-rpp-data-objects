@@ -1029,7 +1029,7 @@ This section defines the Process Objects used in this document.
 
 #### Create (Transfer Request) {#transfer-create}
 
-* Identifier: create
+* Identifier: transferCreate
 
 The Create operation initiates a transfer by creating a Transfer Process Object associated with the provisioned object. The transfer direction and gaining client (for push transfers) are provided as `create-only` data elements of the Transfer Process Object.
 
@@ -1046,7 +1046,7 @@ The Create operation initiates a transfer by creating a Transfer Process Object 
 
 #### Read (Transfer Query) {#transfer-read}
 
-* Identifier: read
+* Identifier: transferRead
 
 The Read operation allows a client to determine the real-time status of a pending or recently completed transfer request.
 
@@ -1059,7 +1059,7 @@ The Read operation allows a client to determine the real-time status of a pendin
 
 #### Delete (Transfer Cancel) {#transfer-delete}
 
-* Identifier: delete
+* Identifier: transferDelete
 
 The Delete operation allows the initiating client to cancel its own pending transfer request.
 
@@ -1071,7 +1071,7 @@ The Delete operation allows the initiating client to cancel its own pending tran
 
 #### Approve {#transfer-approve}
 
-* Identifier: approve
+* Identifier: transferApprove
 
 The Approve operation allows the appropriate client to accept a pending transfer request.
 
@@ -1086,7 +1086,7 @@ The Approve operation allows the appropriate client to accept a pending transfer
 
 #### Reject {#transfer-reject}
 
-* Identifier: reject
+* Identifier: transferReject
 
 The Reject operation allows the appropriate client to decline a pending transfer request.
 
@@ -1367,6 +1367,8 @@ is "all".
 
 ### Update Operation
 
+* Identifier: update
+
 The Update operation allows a client to modify the read-write data elements of an existing Domain Name resource.
 
 * Authorisation:
@@ -1428,17 +1430,7 @@ The Domain Name Data Object supports the common transfer operations defined in t
 
 Transfer of a domain object MUST implicitly transfer all host objects that are subordinate to the domain object. For example, if domain object "example.com" is transferred and host object "ns1.example.com" exists, the host object MUST be transferred as part of the "example.com" transfer process.
 
-In addition to the common Transfer Process Object elements, the following object-specific `create-only` data element is defined and can be provided when creating a Transfer Process Object for a domain name:
-
-* Transfer Period
-  * Identifier: transferPeriod
-  * Cardinality: 0-1
-  * Mutability: create-only
-  * Data Type: Period Object
-  * Description: The number of units to be added to the registration period of the domain object upon successful completion of the transfer. The number of units available MAY be subject to limits imposed by the server.
-  * Constraints: (None)
-
-In addition to the common Transfer Process Object elements, the following object-specific `read-only` data element is included in the output of domain transfer operations:
+In addition to the common Transfer Process Object elements, the following object-specific data elements are included:
 
 * Expiry Date
   * Identifier: expiryDate
@@ -1449,9 +1441,23 @@ In addition to the common Transfer Process Object elements, the following object
 
 Subordinate host objects MUST be transferred implicitly when the domain object is transferred.
 
+#### Transfer Create Operation
+
+* Identifier: transferCreate
+
+In addition, the following transient data element is defined for this operation:
+
+* Transfer Period
+  * Identifier: transferPeriod
+  * Cardinality: 0-1
+  * Mutability: create-only
+  * Data Type: Period Object
+  * Description: The number of units to be added to the registration period of the domain object upon successful completion of the transfer. The number of units available MAY be subject to limits imposed by the server.
+  * Constraints: (None)
+
 ### Restore Operations
 
-The Domain Name Data Object supports the restore operations defined in the  section. These operations are OPTIONAL and are only available when the RGP feature is supported.
+The Domain Name Data Object supports the restore operations defined in the (#restore-ops). These operations are OPTIONAL and are only available when the RGP feature is supported.
 
 No domain-specific transient data elements extend the common restore operations beyond those defined in the (#restore-ops).
 
@@ -1551,6 +1557,8 @@ A> TBC: IANA registry for statuses?
 
 ### Create Operation
 
+* Identifier: create
+
 The Create operation allows a client to provision a new Contact resource. The operation accepts as input all create-only and read-write data elements defined for the Contact Data Object.
 
 * Authorisation:
@@ -1564,6 +1572,8 @@ In EPP Compatibility Profile, the following data elements MUST be provided:
 * Authorisation Information (`authInfo`)
 
 ### Read Operation
+
+* Identifier: read
 
 The Read operation allows a client to retrieve the data elements of a Contact resource. The server's response MAY vary depending on client authorisation and server policy.
 
@@ -1582,6 +1592,8 @@ When constructing the response, the server MUST respect the disclosure policies 
 
 ### Update Operation
 
+* Identifier: update
+
 The Update operation allows a client to modify the attributes of an existing Contact resource.
 
 * Authorisation:
@@ -1595,6 +1607,8 @@ The following aspects of the contact object MAY be modified:
 A client MUST NOT add, delete or alter values for statuses managed by the server (prefixed with "server"). A server MAY add, delete or alter status values set by a client, subject to server policy.
 
 ### Delete Operation
+
+* Identifier: delete
 
 The Delete operation allows a client to remove an existing Contact resource. The operation targets a specific data object identified by its Handle ID.
 
@@ -1661,6 +1675,8 @@ The following data elements are defined for the Host Data Object.
 
 ### Create Operation
 
+* Identifier: create
+
 The Create operation allows a client to provision a new Host Data Object. The operation accepts as input all create-only and read-write data elements defined for the Host Data Object.
 
 * Authorisation:
@@ -1672,12 +1688,16 @@ In EPP Compatibility Profile, IP addresses are REQUIRED only as needed to produc
 
 ### Read Operation
 
+* Identifier: read
+
 The Read operation allows a client to retrieve the data elements of a Host Data Object.
 
 * Authorisation:
   * Any client is authorised to retrieve the full object. In EPP Compatibility Profile, host objects do not carry authorisation information and there is no distinction based on client identity as described in [@!RFC5732, section 3.1.2].
 
 ### Update Operation
+
+* Identifier: update
 
 The Update operation allows a client to modify the attributes of an existing Host Data Object. The operation targets a specific data object identified by its host name.
 
@@ -1689,6 +1709,8 @@ Host name changes MAY require the addition or removal of IP addresses to be acce
 Host name changes can have an impact on associated objects that refer to the host object. A Host Name change SHOULD NOT require additional updates of associated objects to preserve existing associations, with one exception: changing an external host object that has associations with objects that are sponsored by a different client. Attempts to update such hosts directly MUST fail. The change can be provisioned by creating a new external host with a new name and any needed new attributes, and subsequently updating the other objects sponsored by the client.
 
 ### Delete Operation
+
+* Identifier: delete
 
 The Delete operation allows a client to remove an existing Host Data Object. The operation targets a specific data object identified by its host name.
 
@@ -1887,54 +1909,97 @@ Operations
 
 Operation: Create
 
-Operation Identifier: create
+Operation Identifier: transferCreate
 
-Description: Initiates a transfer of a Domain Name resource by creating a Transfer Process Object. Transfer direction and gaining client are provided as create-only data elements.
+Description: Initiates a transfer of a provisioned object by creating a Transfer Process Object. 
 
-Parameters
-| Identifier     | Name            | Card. | Data Type | Description                                                   |
-| -------------- | --------------- | ----- | --------- | ------------------------------------------------------------- |
-| transferPeriod | Transfer Period | 0-1   | period    | The duration to add to the registration period upon transfer. |
+Parameters: (None)
 
 Operation: Transfer Read
 
-Operation Identifier: read
+Operation Identifier: transferRead
 
-Description: Queries the status of a transfer of a Domain Name resource.
+Description: Queries the status of a transfer of a provisioned object.
 
 Parameters: (None)
 
 Operation: Transfer Delete
 
-Operation Identifier: delete
+Operation Identifier: transferDelete
 
-Description: Cancels a pending transfer of a Domain Name resource.
+Description: Cancels a pending transfer of a provisioned object.
 
 Parameters: (None)
 
 Operation: Transfer Approve
 
-Operation Identifier: approve
+Operation Identifier: transferApprove
 
-Description: Approves a pending transfer of a Domain Name resource.
+Description: Approves a pending transfer of a provisioned object.
 
 Parameters: (None)
 
 Operation: Transfer Reject
 
-Operation Identifier: reject (on Transfer Process Object)
+Operation Identifier: transferReject (on Transfer Process Object)
 
-Description: Rejects a pending transfer of a Domain Name resource.
+Description: Rejects a pending transfer of a provisioned object.
 
 Parameters
 | Identifier | Name   | Card. | Data Type | Description                                                   |
 | ---------- | ------ | ----- | --------- | ------------------------------------------------------------- |
 | reason     | Reason | 0-1   | String    | A human-readable text describing the rationale for rejection. |
 
+Object: postalData
 
-A> TODO: IANA table: Postal Address Object
-A> TODO: IANA table: Postal Info Object
-A> TODO: IANA table: Disclose Object
+Object Name: Postal Address Object
+
+Object Type: Component
+
+Description: Contains the components of a postal address.
+
+Reference: [This-ID]
+
+Data Elements
+| Element Identifier | Element Name   | Card. | Mutability | Data Type | Description                      |
+| ------------------ | -------------- | ----- | ---------- | --------- | -------------------------------- |
+| street             | Street         | 0+    | read-write | String    | The contact's street address.    |
+| city               | City           | 0-1   | read-write | String    | The contact's city.              |
+| sp                 | State/Province | 0-1   | read-write | String    | The contact's state or province. |
+| pc                 | Postal Code    | 0-1   | read-write | String    | The contact's postal code.       |
+| cc                 | Country Code   | 0-1   | read-write | String    | The contact's country code.      |
+
+Object: postalInfo
+
+Object Name: Postal Info Object
+
+Object Type: Component
+
+Description: Contains postal-address information in either internationalised or localised forms.
+
+Reference: [This-ID]
+
+Data Elements
+| Element Identifier | Element Name | Card. | Mutability | Data Type             | Description                                                         |
+| ------------------ | ------------ | ----- | ---------- | --------------------- | ------------------------------------------------------------------- |
+| type               | Contact Type | 0-1   | read-write | String                | Specifies whether the contact is and individual or an organisation. |
+| name               | Name         | 0-1   | read-write | String                | The name of the individual or role.                                 |
+| org                | Organisation | 0-1   | read-write | String                | The name of the organisation.                                       |
+| addr               | Address      | 0-1   | read-write | Postal Address Object | The detailed postal address.                                        |
+
+Object: disclose
+
+Object Name: Disclose
+
+Object Type: Component
+
+Description: TBD
+
+Reference: [This-ID]
+
+Data Elements
+| Element Identifier | Element Name | Card. | Mutability | Data Type | Description |
+| ------------------ | ------------ | ----- | ---------- | --------- | ----------- |
 
 Object: restoreProcess
 
@@ -2087,8 +2152,73 @@ Parameters
 | currentExpiryDate | Current Expiry Date | 1     | Timestamp | The expected current expiry date, for validation. |
 | renewalPeriod     | Renewal Period      | 0-1   | period    | The duration to add to the registration period.   |
 
+Operation: Transfer Create Operation
 
-A> TODO: IANA table: Contact Data Object
+Operation Identifier: transferCreate
+
+Description: 
+
+Parameters
+| Identifier     | Name            | Card. | Data Type | Description                                                   |
+| -------------- | --------------- | ----- | --------- | ------------------------------------------------------------- |
+| transferPeriod | Transfer Period | 0-1   | period    | The duration to add to the registration period upon transfer. |
+
+Object: contact
+
+Object Name: Contact Data Object
+
+Object Type: Resource
+
+Description: A Contact Data Object represents the social information for an individual or organisation associated with other objects.
+
+Reference: [This-ID]
+
+Data Elements
+| Identifier   | Name                      | Card. | Mutability  | Data Type                                  | Description                                                                                                             |
+| ------------ | ------------------------- | ----- | ----------- | ------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------- |
+| id           | Handle ID                 | 1     | create-only | Identifier.                                | External unique identifier of the contact object.                                                                       |
+| provMetadata | Provisioning Metadata     | 1     | read-only   | Provisioning Metadata Object               | Standard metadata about the object's lifecycle and ownership.                                                           |
+| status       | Status                    | 0+    | read-only   | Status Object                              | The current status descriptors associated with the contact.                                                             |
+| postalInfo   | Postal Information        | 1-2   | read-write  | DictionaryAggregation [Postal Info Object] | Contains postal-address information.                                                                                    |
+| voice        | Voice Phone Number        | 0+    | read-write  | Phone Number                               | Voice phone number associated with the contact                                                                          |
+| fax          | Fax Phone Number          | 0+    | read-write  | Phone Number                               | Fax number associated with the contact                                                                                  |
+| email        | E-mail                    | 0+    | read-write  | String.                                    | The contact's email address.                                                                                            |
+| authInfo     | Authorisation Information | 0-1   | read-write  | Authorisation Information                  | Authorisation information associated with the contact object.                                                           |
+| disclose     | Disclose                  | 0-1   | read-write  | Disclose Object.                           | Identifies elements that require exceptional server-operator handling to allow or restrict disclosure to third parties. |
+Operations
+
+Operation: Create Operation
+
+Operation Identifier: create
+
+Description: 
+
+Parameters: (None)
+
+Operation: Read Operation
+
+Operation Identifier: read
+
+Description: 
+
+Parameters: (None)
+
+Operation: Update Operation
+
+Operation Identifier: update
+
+Description: 
+
+Parameters: (None)
+
+Operation: Delete Operation
+
+Operation Identifier: delete
+
+Description: 
+
+Parameters: (None)
+
 
 Object: host
 
