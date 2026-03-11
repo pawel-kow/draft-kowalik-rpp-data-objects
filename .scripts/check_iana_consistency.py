@@ -420,9 +420,12 @@ def _parse_normative_operations_for_object(lines: list[str],
     Locate the Operations sub-section for an object and parse its operations.
 
     Data Objects (Resource):
-      ## Operations          ← H2
-        ### Create Operation ← H3
+      ## Operations            ← H2
+        ### Create Operation   ← H3 (singular: direct operation)
           * Identifier: create
+        ### Transfer Operations  ← H3 (plural: group container)
+          #### Transfer Create Operation  ← H4 (individual operation)
+            * Identifier: transferCreate
 
     Process Objects (nested bullet layout):
       ### Operations         ← H3
@@ -434,25 +437,85 @@ def _parse_normative_operations_for_object(lines: list[str],
     if is_nested:
         # Process objects: look for "### Operations" within H2 sub-section
         ops_heading_re = re.compile(r"^### Operations\s*$")
-        # H4 headings are individual operations; exclude plural "Operations" reference sections
+        # H4 headings are individual operations
         ops_op_re      = re.compile(r"^#### (.+?)(?:\s*\{[^}]*\})?\s*$")
+
+        for k in range(obj_start, obj_end):
+            if ops_heading_re.match(lines[k].strip()):
+                ops_section_start = k + 1
+                break
+
+        if ops_section_start >= obj_end:
+            return []
+
+        return _parse_normative_operations_nested(
+            lines, ops_section_start, obj_end, ops_op_re)
+
     else:
         # Data Objects: look for "## Operations"
         ops_heading_re = re.compile(r"^## Operations\s*$")
-        # H3 headings are individual operations; exclude plural "… Operations" reference sections
-        # e.g. "### Transfer Operations" / "### Restore Operations" are cross-references, not defs
-        ops_op_re      = re.compile(r"^### (?!.*\bOperations\s*$)(.+?)(?:\s*\{[^}]*\})?\s*$")
+        # Singular H3 headings are direct operations (e.g. "### Create Operation")
+        ops_op_re_h3   = re.compile(r"^### (?!.*\bOperations\s*$)(.+?)(?:\s*\{[^}]*\})?\s*$")
+        # Plural H3 headings are group containers (e.g. "### Transfer Operations")
+        ops_group_re   = re.compile(r"^### (.+\bOperations)\s*(?:\{[^}]*\})?\s*$")
+        # H4 headings inside a group container are individual operations
+        ops_op_re_h4   = re.compile(r"^#### (.+?)(?:\s*\{[^}]*\})?\s*$")
 
-    for k in range(obj_start, obj_end):
-        if ops_heading_re.match(lines[k].strip()):
-            ops_section_start = k + 1
-            break
+        for k in range(obj_start, obj_end):
+            if ops_heading_re.match(lines[k].strip()):
+                ops_section_start = k + 1
+                break
 
-    if ops_section_start >= obj_end:
-        return []
+        if ops_section_start >= obj_end:
+            return []
 
-    return _parse_normative_operations_nested(
-        lines, ops_section_start, obj_end, ops_op_re)
+        # Two-pass scan: collect direct H3 ops AND descend into group H3 sections for H4 ops.
+        # We drive the scan ourselves (rather than reusing _parse_normative_operations_nested)
+        # so we can intercept group headings and switch the heading regex mid-stream.
+        operations: list[OperationDef] = []
+        k = ops_section_start
+        while k < obj_end:
+            stripped = lines[k].rstrip()
+
+            # Stop at any H2 or H1 that terminates the ## Operations section
+            if re.match(r"^#{1,2} [^#]", stripped):
+                break
+
+            # Group container: "### Transfer Operations"
+            if ops_group_re.match(stripped):
+                # Find the end of this group (next H2/H3 or obj_end)
+                group_end = obj_end
+                for m in range(k + 1, obj_end):
+                    ms = lines[m].rstrip()
+                    if re.match(r"^#{2,3} [^#]", ms):
+                        group_end = m
+                        break
+                # Parse H4 operations within the group
+                group_ops = _parse_normative_operations_nested(
+                    lines, k + 1, group_end, ops_op_re_h4)
+                operations.extend(group_ops)
+                k = group_end
+                continue
+
+            # Direct operation: "### Create Operation"
+            if ops_op_re_h3.match(stripped):
+                # Delegate to _parse_normative_operations_nested for a single-op slice.
+                # Find end of this op block (next H3 or H2 or obj_end)
+                op_end = obj_end
+                for m in range(k + 1, obj_end):
+                    ms = lines[m].rstrip()
+                    if re.match(r"^#{2,3} [^#]", ms):
+                        op_end = m
+                        break
+                op_list = _parse_normative_operations_nested(
+                    lines, k, op_end, ops_op_re_h3)
+                operations.extend(op_list)
+                k = op_end
+                continue
+
+            k += 1
+
+        return operations
 
 
 # ---------------------------------------------------------------------------

@@ -144,7 +144,9 @@ Elements live in a `## Data Elements` sub-section:
   * Description: …
 ```
 
-Operations live under `## Operations` with individual operations as H3 headings:
+Operations live under `## Operations`. There are two kinds of H3 sub-section:
+
+**Direct operations** — singular H3 headings (`### Create Operation`):
 
 ```
 ## Operations
@@ -162,10 +164,33 @@ In addition, the following transient data element is defined for this operation:
   * Description: …
 ```
 
-**Cross-reference sections** — H3 headings whose name ends with `Operations`
-(plural, e.g. `### Transfer Operations`, `### Restore Operations`) are
-cross-references to common operations defined elsewhere and are **not** treated
-as operation definitions.
+**Overloaded-process group sections** — plural H3 headings whose name ends with
+`Operations` (e.g. `### Transfer Operations`, `### Restore Operations`). These
+are group containers whose individual operations are H4 headings:
+
+```
+### Transfer Operations
+
+#### Transfer Create Operation
+
+* Identifier: transferCreate
+
+In addition, the following transient data element is defined for this operation:
+
+* Transfer Period
+  * Identifier: transferPeriod
+  * Cardinality: 0-1
+  * Data Type: Period Object
+  * Description: …
+```
+
+H4 operations inside group sections are parsed identically to direct H3
+operations — they must have a `* Identifier:` bullet and may have transient
+parameters. Operations missing the identifier bullet are recorded as
+`[OP MISSING IDENTIFIER]`.
+
+`### Restore Operations` sections that contain no H4 headings (pure
+cross-reference prose) produce no operations and no errors.
 
 ### Operation identifier requirement
 
