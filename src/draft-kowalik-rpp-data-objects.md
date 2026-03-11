@@ -2146,7 +2146,7 @@ A> TODO: write security considerations, if any
 {numbered="false"}
 ## draft-kowalik-rpp-data-objects -03 - -04
 
-* correct `"postalInfo"` to be DictionaryComposition not DictinaryAggregation
+* correct `"postalInfo"` to be DictionaryComposition not DictionaryAggregation
 
 {toc="exclude"}
 {numbered="false"}
