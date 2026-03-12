@@ -3434,7 +3434,7 @@ registry MUST provide:</t>
 <td>Postal Information</td>
 <td>1-2</td>
 <td>read-write</td>
-<td>DictionaryAggregation [Postal Info Object]</td>
+<td>DictionaryComposition [Postal Info Object]</td>
 <td>Postal-address information.</td>
 </tr>
 

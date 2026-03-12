@@ -3571,7 +3571,7 @@ Table of Contents
    |            |             |     |          |                     |with the     |
    |            |             |     |          |                     |contact.     |
    +------------+-------------+-----+----------+---------------------+-------------+
-   |postalInfo  |Postal       |1-2  |read-write|DictionaryAggregation|Postal-      |
+   |postalInfo  |Postal       |1-2  |read-write|DictionaryComposition|Postal-      |
    |            |Information  |     |          |[Postal Info Object] |address      |
    |            |             |     |          |                     |information. |
    +------------+-------------+-----+----------+---------------------+-------------+
