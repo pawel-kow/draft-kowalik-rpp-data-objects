@@ -2250,7 +2250,7 @@ Table of Contents
       -  Identifier: postalInfo
       -  Cardinality: 1-2
       -  Mutability: read-write
-      -  Data Type: DictionaryAggregation[Postal Info Object]
+      -  Data Type: DictionaryComposition[Postal Info Object]
          -  Label Description: type of contact data localisation
          -  Label Constraints: Allowed values: "int" for
             "internationalised" all-ASCII version of an address and
@@ -3726,6 +3726,8 @@ Table of Contents
 
 draft-kowalik-rpp-data-objects -03 - -04
 
+   -  correct "postalInfo" to be DictionaryComposition not
+      DictionaryAggregation
    -  Added missing IANA tables for Contact, Postal Address and Postal
       Info.  Added missing Operations.  Added missing operation
       identifiers.  Fixes #17, #18, #19, #20, #21.

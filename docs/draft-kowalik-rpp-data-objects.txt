@@ -2659,7 +2659,7 @@ Internet-Draft              RPP Data Objects                  March 2026
       -  Identifier: postalInfo
       -  Cardinality: 1-2
       -  Mutability: read-write
-      -  Data Type: DictionaryAggregation[Postal Info Object]
+      -  Data Type: DictionaryComposition[Postal Info Object]
          -  Label Description: type of contact data localisation
          -  Label Constraints: Allowed values: "int" for
             "internationalised" all-ASCII version of an address and
@@ -4458,6 +4458,8 @@ Internet-Draft              RPP Data Objects                  March 2026
 
 draft-kowalik-rpp-data-objects -03 - -04
 
+   -  correct "postalInfo" to be DictionaryComposition not
+      DictionaryAggregation
    -  Added missing IANA tables for Contact, Postal Address and Postal
       Info.  Added missing Operations.  Added missing operation
       identifiers.  Fixes #17, #18, #19, #20, #21.
@@ -4472,8 +4474,6 @@ draft-kowalik-rpp-data-objects -02 - -03
    -  add Domain Update operation with urgent transient parameter from
       [RFC5910]
    -  add identifiers to all operations
-   -  abstract common provisioning metadata into reusable component
-      object
 
 
 
@@ -4482,6 +4482,8 @@ Kowalik & Wullink       Expires 3 September 2026               [Page 80]
 Internet-Draft              RPP Data Objects                  March 2026
 
 
+   -  abstract common provisioning metadata into reusable component
+      object
    -  define common RGP/restore process and Restore Process Object
    -  define common transfer operations and Transfer Process Object with
       support for pull and push transfers #23
@@ -4528,8 +4530,6 @@ draft-kowalik-rpp-data-objects -01 - -02
               the representation of names of countries and their
               subdivisions -- Part 1: Country codes", ISO Standard 3166,
               November 2000.
-
-
 
 
 

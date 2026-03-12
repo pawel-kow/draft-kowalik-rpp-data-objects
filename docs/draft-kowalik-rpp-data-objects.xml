@@ -2000,7 +2000,7 @@ is &quot;all&quot;.</li>
 <li>Identifier: postalInfo</li>
 <li>Cardinality: 1-2</li>
 <li>Mutability: read-write</li>
-<li><t>Data Type: DictionaryAggregation[Postal Info Object]</t>
+<li><t>Data Type: DictionaryComposition[Postal Info Object]</t>
 
 <ul spacing="compact">
 <li>Label Description: type of contact data localisation</li>
@@ -3583,6 +3583,7 @@ registry MUST provide:</t>
 <section anchor="draft-kowalik-rpp-data-objects-03-04" numbered="false"><name>draft-kowalik-rpp-data-objects -03 - -04</name>
 
 <ul spacing="compact">
+<li>correct <tt>&quot;postalInfo&quot;</tt> to be DictionaryComposition not DictionaryAggregation</li>
 <li>Added missing IANA tables for Contact, Postal Address and Postal Info. Added missing Operations. Added missing operation identifiers. Fixes #17, #18, #19, #20, #21.</li>
 </ul>
 </section>
