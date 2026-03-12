@@ -1989,7 +1989,7 @@ is &quot;all&quot;.</li>
 <li>Identifier: postalInfo</li>
 <li>Cardinality: 1-2</li>
 <li>Mutability: read-write</li>
-<li><t>Data Type: DictionaryAggregation[Postal Info Object]</t>
+<li><t>Data Type: DictionaryComposition[Postal Info Object]</t>
 
 <ul spacing="compact">
 <li>Label Description: type of contact data localisation</li>
@@ -3286,6 +3286,10 @@ TODO: IANA table: Disclose Object</t>
 <section anchor="changes-history" toc="exclude"><name>Changes History</name>
 
 <section anchor="draft-kowalik-rpp-data-objects-03-04" numbered="false"><name>draft-kowalik-rpp-data-objects -03 - -04</name>
+
+<ul spacing="compact">
+<li>correct <tt>&quot;postalInfo&quot;</tt> to be DictionaryComposition not DictinaryAggregation</li>
+</ul>
 </section>
 
 <section anchor="draft-kowalik-rpp-data-objects-02-03" numbered="false"><name>draft-kowalik-rpp-data-objects -02 - -03</name>

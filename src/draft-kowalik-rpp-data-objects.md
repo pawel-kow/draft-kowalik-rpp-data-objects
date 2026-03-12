@@ -1500,7 +1500,7 @@ The following data elements are defined for the Domain Name Data Object.
   * Identifier: postalInfo
   * Cardinality: 1-2
   * Mutability: read-write
-  * Data Type: DictionaryAggregation[Postal Info Object]
+  * Data Type: DictionaryComposition[Postal Info Object]
     * Label Description: type of contact data localisation
     * Label Constraints: Allowed values: "int" for "internationalised" all-ASCII version of an address and "loc" for localised forms with possible non-ASCII character sets.
   * Description: Contains postal-address information.
@@ -2146,6 +2146,7 @@ A> TODO: write security considerations, if any
 {numbered="false"}
 ## draft-kowalik-rpp-data-objects -03 - -04
 
+* correct `"postalInfo"` to be DictionaryComposition not DictionaryAggregation
 
 {toc="exclude"}
 {numbered="false"}
