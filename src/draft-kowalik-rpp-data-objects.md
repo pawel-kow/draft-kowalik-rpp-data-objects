@@ -819,14 +819,14 @@ A> TBC: Optional keyData inside dsData (RFC 5910 Section 4.1): In the DS Data In
     * Cardinality: 0+
     * Mutability: read-write
     * Data Type: String
-    * Description: The contact's street address.
+    * Description: Street address.
     * Constraints: Implementations MAY limit the maximum length of entries or character set.
   * City
     * Identifier: city
     * Cardinality: 0-1
     * Mutability: read-write
     * Data Type: String
-    * Description: The contact's city.
+    * Description: City.
     * Constraints:
       * Implementations MAY limit the maximum length of entries or character set.
       * In EPP Compatibility Profile this data element MUST be provided.
@@ -835,14 +835,14 @@ A> TBC: Optional keyData inside dsData (RFC 5910 Section 4.1): In the DS Data In
     * Cardinality: 0-1
     * Mutability: read-write
     * Data Type: String
-    * Description: The contact's state or province.
+    * Description: State or province.
     * Constraints: Implementations MAY limit the maximum length of entries or character set.
   * Postal Code
     * Identifier: pc
     * Cardinality: 0-1
     * Mutability: read-write
     * Data Type: String
-    * Description: The contact's postal code.
+    * Description: Postal code.
     * Constraints:
       * Implementation MAY limit the maximum length of entries or character set.
       * The limitations MAY differ depending on Country Code (`cc`) data element.
@@ -851,7 +851,7 @@ A> TBC: Optional keyData inside dsData (RFC 5910 Section 4.1): In the DS Data In
     * Cardinality: 0-1
     * Mutability: read-write
     * Data Type: String
-    * Description: The contact's country code.
+    * Description: Country code.
     * Constraints: 
       * The value MUST be a two-character identifier from [@!ISO3166-1].
       * In EPP Compatibility Profile this data element MUST be provided.
@@ -1467,7 +1467,7 @@ No domain-specific transient data elements extend the common restore operations 
 
 * Name: Contact Data Object
 * Identifier: contact
-* Description: A Contact Data Object represents the social information for an individual or organisation associated with other objects.
+* Description: A Contact Data Object represents the contact information for an individual or organisation associated with other objects.
 
 ## Data Elements
 
@@ -1496,7 +1496,7 @@ The following data elements are defined for the Domain Name Data Object.
   * Cardinality: 0+
   * Mutability: read-only
   * Data Type: Status Object
-  * Description: The current status descriptors associated with the contact.
+  * Description: Status descriptors associated with the contact.
   * Constraints:
     * Possible combinations of Domain Status Labels is specified in [@!RFC5733, section 2.2]
     * The value MUST be one of the status tokens defined in the IANA registry for domain statuses.
@@ -1509,7 +1509,7 @@ The following data elements are defined for the Domain Name Data Object.
   * Data Type: DictionaryAggregation[Postal Info Object]
     * Label Description: type of contact data localisation
     * Label Constraints: Allowed values: "int" for "internationalised" all-ASCII version of an address and "loc" for localised forms with possible non-ASCII character sets.
-  * Description: Contains postal-address information.
+  * Description: Postal-address information.
   * Constraints: There MUST be no more that 1 element of type "int" and one element of type "loc".
 
 * Voice Phone Number
@@ -1533,7 +1533,7 @@ The following data elements are defined for the Domain Name Data Object.
   * Cardinality: 0+
   * Mutability: read-write
   * Data Type: String.
-  * Description: The contact's email address.
+  * Description: Email address.
   * Constraints: Email address syntax is defined in [@!RFC5322].
 
 * Authorisation Information
@@ -1963,11 +1963,11 @@ Reference: [This-ID]
 Data Elements
 | Element Identifier | Element Name   | Card. | Mutability | Data Type | Description                      |
 | ------------------ | -------------- | ----- | ---------- | --------- | -------------------------------- |
-| street             | Street         | 0+    | read-write | String    | The contact's street address.    |
-| city               | City           | 0-1   | read-write | String    | The contact's city.              |
-| sp                 | State/Province | 0-1   | read-write | String    | The contact's state or province. |
-| pc                 | Postal Code    | 0-1   | read-write | String    | The contact's postal code.       |
-| cc                 | Country Code   | 0-1   | read-write | String    | The contact's country code.      |
+| street             | Street         | 0+    | read-write | String    | Street address.    |
+| city               | City           | 0-1   | read-write | String    | City.              |
+| sp                 | State/Province | 0-1   | read-write | String    | State or province. |
+| pc                 | Postal Code    | 0-1   | read-write | String    | Postal code.       |
+| cc                 | Country Code   | 0-1   | read-write | String    | Country code.      |
 
 Object: postalInfo
 
@@ -2169,7 +2169,7 @@ Object Name: Contact Data Object
 
 Object Type: Resource
 
-Description: A Contact Data Object represents the social information for an individual or organisation associated with other objects.
+Description: A Contact Data Object represents the contact information for an individual or organisation associated with other objects.
 
 Reference: [This-ID]
 
@@ -2178,11 +2178,11 @@ Data Elements
 | ------------ | ------------------------- | ----- | ----------- | ------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------- |
 | id           | Handle ID                 | 1     | create-only | Identifier.                                | External unique identifier of the contact object.                                                                       |
 | provMetadata | Provisioning Metadata     | 1     | read-only   | Provisioning Metadata Object               | Standard metadata about the object's lifecycle and ownership.                                                           |
-| status       | Status                    | 0+    | read-only   | Status Object                              | The current status descriptors associated with the contact.                                                             |
-| postalInfo   | Postal Information        | 1-2   | read-write  | DictionaryAggregation [Postal Info Object] | Contains postal-address information.                                                                                    |
+| status       | Status                    | 0+    | read-only   | Status Object                              | Status descriptors associated with the contact.                                                             |
+| postalInfo   | Postal Information        | 1-2   | read-write  | DictionaryAggregation [Postal Info Object] | Postal-address information.                                                                                    |
 | voice        | Voice Phone Number        | 0+    | read-write  | Phone Number                               | Voice phone number associated with the contact                                                                          |
 | fax          | Fax Phone Number          | 0+    | read-write  | Phone Number                               | Fax number associated with the contact                                                                                  |
-| email        | E-mail                    | 0+    | read-write  | String.                                    | The contact's email address.                                                                                            |
+| email        | E-mail                    | 0+    | read-write  | String.                                    | Email address.                                                                                            |
 | authInfo     | Authorisation Information | 0-1   | read-write  | Authorisation Information                  | Authorisation information associated with the contact object.                                                           |
 | disclose     | Disclose                  | 0-1   | read-write  | Disclose Object.                           | Identifies elements that require exceptional server-operator handling to allow or restrict disclosure to third parties. |
 Operations

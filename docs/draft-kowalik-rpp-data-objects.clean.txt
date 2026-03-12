@@ -1332,7 +1332,7 @@ Table of Contents
          -  Cardinality: 0+
          -  Mutability: read-write
          -  Data Type: String
-         -  Description: The contact's street address.
+         -  Description: Street address.
          -  Constraints: Implementations MAY limit the maximum length of
             entries or character set.
       -  City
@@ -1340,7 +1340,7 @@ Table of Contents
          -  Cardinality: 0-1
          -  Mutability: read-write
          -  Data Type: String
-         -  Description: The contact's city.
+         -  Description: City.
          -  Constraints:
             -  Implementations MAY limit the maximum length of entries
                or character set.
@@ -1351,7 +1351,7 @@ Table of Contents
          -  Cardinality: 0-1
          -  Mutability: read-write
          -  Data Type: String
-         -  Description: The contact's state or province.
+         -  Description: State or province.
          -  Constraints: Implementations MAY limit the maximum length of
             entries or character set.
       -  Postal Code
@@ -1359,7 +1359,7 @@ Table of Contents
          -  Cardinality: 0-1
          -  Mutability: read-write
          -  Data Type: String
-         -  Description: The contact's postal code.
+         -  Description: Postal code.
          -  Constraints:
             -  Implementation MAY limit the maximum length of entries or
                character set.
@@ -1370,7 +1370,7 @@ Table of Contents
          -  Cardinality: 0-1
          -  Mutability: read-write
          -  Data Type: String
-         -  Description: The contact's country code.
+         -  Description: Country code.
          -  Constraints:
             -  The value MUST be a two-character identifier from
                [ISO3166-1].
@@ -2200,7 +2200,7 @@ Table of Contents
 
    -  Name: Contact Data Object
    -  Identifier: contact
-   -  Description: A Contact Data Object represents the social
+   -  Description: A Contact Data Object represents the contact
       information for an individual or organisation associated with
       other objects.
 
@@ -2236,8 +2236,7 @@ Table of Contents
       -  Cardinality: 0+
       -  Mutability: read-only
       -  Data Type: Status Object
-      -  Description: The current status descriptors associated with the
-         contact.
+      -  Description: Status descriptors associated with the contact.
       -  Constraints:
          -  Possible combinations of Domain Status Labels is specified
             in Section 2.2 of [RFC5733]
@@ -2257,7 +2256,7 @@ Table of Contents
             "internationalised" all-ASCII version of an address and
             "loc" for localised forms with possible non-ASCII character
             sets.
-      -  Description: Contains postal-address information.
+      -  Description: Postal-address information.
       -  Constraints: There MUST be no more that 1 element of type "int"
          and one element of type "loc".
 
@@ -2285,7 +2284,7 @@ Table of Contents
       -  Cardinality: 0+
       -  Mutability: read-write
       -  Data Type: String.
-      -  Description: The contact's email address.
+      -  Description: Email address.
       -  Constraints: Email address syntax is defined in [RFC5322].
 
    -  Authorisation Information
@@ -3081,34 +3080,24 @@ Table of Contents
 
    Data Elements
 
-   +============+==========+=====+============+========+===============+
-   | Element    | Element  |Card.| Mutability | Data   | Description   |
-   | Identifier | Name     |     |            | Type   |               |
-   +============+==========+=====+============+========+===============+
-   | street     | Street   |0+   | read-write | String | The           |
-   |            |          |     |            |        | contact's     |
-   |            |          |     |            |        | street        |
-   |            |          |     |            |        | address.      |
-   +------------+----------+-----+------------+--------+---------------+
-   | city       | City     |0-1  | read-write | String | The           |
-   |            |          |     |            |        | contact's     |
-   |            |          |     |            |        | city.         |
-   +------------+----------+-----+------------+--------+---------------+
-   | sp         | State/   |0-1  | read-write | String | The           |
-   |            | Province |     |            |        | contact's     |
-   |            |          |     |            |        | state or      |
-   |            |          |     |            |        | province.     |
-   +------------+----------+-----+------------+--------+---------------+
-   | pc         | Postal   |0-1  | read-write | String | The           |
-   |            | Code     |     |            |        | contact's     |
-   |            |          |     |            |        | postal        |
-   |            |          |     |            |        | code.         |
-   +------------+----------+-----+------------+--------+---------------+
-   | cc         | Country  |0-1  | read-write | String | The           |
-   |            | Code     |     |            |        | contact's     |
-   |            |          |     |            |        | country       |
-   |            |          |     |            |        | code.         |
-   +------------+----------+-----+------------+--------+---------------+
+    +============+==========+=====+============+========+=============+
+    | Element    | Element  |Card.| Mutability | Data   | Description |
+    | Identifier | Name     |     |            | Type   |             |
+    +============+==========+=====+============+========+=============+
+    | street     | Street   |0+   | read-write | String | Street      |
+    |            |          |     |            |        | address.    |
+    +------------+----------+-----+------------+--------+-------------+
+    | city       | City     |0-1  | read-write | String | City.       |
+    +------------+----------+-----+------------+--------+-------------+
+    | sp         | State/   |0-1  | read-write | String | State or    |
+    |            | Province |     |            |        | province.   |
+    +------------+----------+-----+------------+--------+-------------+
+    | pc         | Postal   |0-1  | read-write | String | Postal      |
+    |            | Code     |     |            |        | code.       |
+    +------------+----------+-----+------------+--------+-------------+
+    | cc         | Country  |0-1  | read-write | String | Country     |
+    |            | Code     |     |            |        | code.       |
+    +------------+----------+-----+------------+--------+-------------+
 
                                   Table 10
 
@@ -3553,7 +3542,7 @@ Table of Contents
 
    Object Type: Resource
 
-   Description: A Contact Data Object represents the social information
+   Description: A Contact Data Object represents the contact information
    for an individual or organisation associated with other objects.
 
    Reference: [This-ID]
@@ -3576,16 +3565,14 @@ Table of Contents
    |            |             |     |          |                     |lifecycle and|
    |            |             |     |          |                     |ownership.   |
    +------------+-------------+-----+----------+---------------------+-------------+
-   |status      |Status       |0+   |read-only |Status Object        |The current  |
-   |            |             |     |          |                     |status       |
+   |status      |Status       |0+   |read-only |Status Object        |Status       |
    |            |             |     |          |                     |descriptors  |
    |            |             |     |          |                     |associated   |
    |            |             |     |          |                     |with the     |
    |            |             |     |          |                     |contact.     |
    +------------+-------------+-----+----------+---------------------+-------------+
-   |postalInfo  |Postal       |1-2  |read-write|DictionaryAggregation|Contains     |
-   |            |Information  |     |          |[Postal Info Object] |postal-      |
-   |            |             |     |          |                     |address      |
+   |postalInfo  |Postal       |1-2  |read-write|DictionaryAggregation|Postal-      |
+   |            |Information  |     |          |[Postal Info Object] |address      |
    |            |             |     |          |                     |information. |
    +------------+-------------+-----+----------+---------------------+-------------+
    |voice       |Voice Phone  |0+   |read-write|Phone Number         |Voice phone  |
@@ -3599,8 +3586,7 @@ Table of Contents
    |            |             |     |          |                     |with the     |
    |            |             |     |          |                     |contact      |
    +------------+-------------+-----+----------+---------------------+-------------+
-   |email       |E-mail       |0+   |read-write|String.              |The contact's|
-   |            |             |     |          |                     |email        |
+   |email       |E-mail       |0+   |read-write|String.              |Email        |
    |            |             |     |          |                     |address.     |
    +------------+-------------+-----+----------+---------------------+-------------+
    |authInfo    |Authorisation|0-1  |read-write|Authorisation        |Authorisation|

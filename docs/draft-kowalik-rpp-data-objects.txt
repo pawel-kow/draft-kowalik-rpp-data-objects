@@ -184,11 +184,11 @@ Internet-Draft              RPP Data Objects                  March 2026
        10.1.1.  Registration Policy  . . . . . . . . . . . . . . . .  55
        10.1.2.  Registry Structure . . . . . . . . . . . . . . . . .  55
        10.1.3.  Initial Registrations  . . . . . . . . . . . . . . .  56
-   11. Security Considerations . . . . . . . . . . . . . . . . . . .  81
-   13. References  . . . . . . . . . . . . . . . . . . . . . . . . .  82
-     13.1.  Normative References . . . . . . . . . . . . . . . . . .  82
-     13.2.  Informative References . . . . . . . . . . . . . . . . .  84
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  84
+   11. Security Considerations . . . . . . . . . . . . . . . . . . .  80
+   13. References  . . . . . . . . . . . . . . . . . . . . . . . . .  81
+     13.1.  Normative References . . . . . . . . . . . . . . . . . .  81
+     13.2.  Informative References . . . . . . . . . . . . . . . . .  83
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  83
 
 1.  Introduction
 
@@ -1585,7 +1585,7 @@ Internet-Draft              RPP Data Objects                  March 2026
          -  Cardinality: 0+
          -  Mutability: read-write
          -  Data Type: String
-         -  Description: The contact's street address.
+         -  Description: Street address.
          -  Constraints: Implementations MAY limit the maximum length of
             entries or character set.
       -  City
@@ -1593,7 +1593,7 @@ Internet-Draft              RPP Data Objects                  March 2026
          -  Cardinality: 0-1
          -  Mutability: read-write
          -  Data Type: String
-         -  Description: The contact's city.
+         -  Description: City.
          -  Constraints:
             -  Implementations MAY limit the maximum length of entries
                or character set.
@@ -1604,7 +1604,7 @@ Internet-Draft              RPP Data Objects                  March 2026
          -  Cardinality: 0-1
          -  Mutability: read-write
          -  Data Type: String
-         -  Description: The contact's state or province.
+         -  Description: State or province.
          -  Constraints: Implementations MAY limit the maximum length of
             entries or character set.
       -  Postal Code
@@ -1612,7 +1612,7 @@ Internet-Draft              RPP Data Objects                  March 2026
          -  Cardinality: 0-1
          -  Mutability: read-write
          -  Data Type: String
-         -  Description: The contact's postal code.
+         -  Description: Postal code.
          -  Constraints:
             -  Implementation MAY limit the maximum length of entries or
                character set.
@@ -1631,7 +1631,7 @@ Internet-Draft              RPP Data Objects                  March 2026
          -  Cardinality: 0-1
          -  Mutability: read-write
          -  Data Type: String
-         -  Description: The contact's country code.
+         -  Description: Country code.
          -  Constraints:
             -  The value MUST be a two-character identifier from
                [ISO3166-1].
@@ -2601,7 +2601,7 @@ Internet-Draft              RPP Data Objects                  March 2026
 
    -  Name: Contact Data Object
    -  Identifier: contact
-   -  Description: A Contact Data Object represents the social
+   -  Description: A Contact Data Object represents the contact
       information for an individual or organisation associated with
       other objects.
 
@@ -2645,8 +2645,7 @@ Internet-Draft              RPP Data Objects                  March 2026
       -  Cardinality: 0+
       -  Mutability: read-only
       -  Data Type: Status Object
-      -  Description: The current status descriptors associated with the
-         contact.
+      -  Description: Status descriptors associated with the contact.
       -  Constraints:
          -  Possible combinations of Domain Status Labels is specified
             in Section 2.2 of [RFC5733]
@@ -2666,7 +2665,7 @@ Internet-Draft              RPP Data Objects                  March 2026
             "internationalised" all-ASCII version of an address and
             "loc" for localised forms with possible non-ASCII character
             sets.
-      -  Description: Contains postal-address information.
+      -  Description: Postal-address information.
       -  Constraints: There MUST be no more that 1 element of type "int"
          and one element of type "loc".
 
@@ -2682,6 +2681,7 @@ Internet-Draft              RPP Data Objects                  March 2026
    -  Fax Phone Number
 
       -  Identifier: fax
+      -  Cardinality: 0+
 
 
 
@@ -2690,7 +2690,6 @@ Kowalik & Wullink       Expires 3 September 2026               [Page 48]
 Internet-Draft              RPP Data Objects                  March 2026
 
 
-      -  Cardinality: 0+
       -  Mutability: read-write
       -  Data Type: Phone Number
       -  Description: Fax number associated with the contact
@@ -2702,7 +2701,7 @@ Internet-Draft              RPP Data Objects                  March 2026
       -  Cardinality: 0+
       -  Mutability: read-write
       -  Data Type: String.
-      -  Description: The contact's email address.
+      -  Description: Email address.
       -  Constraints: Email address syntax is defined in [RFC5322].
 
    -  Authorisation Information
@@ -2738,6 +2737,7 @@ Internet-Draft              RPP Data Objects                  March 2026
    write data elements defined for the Contact Data Object.
 
    -  Authorisation:
+
 
 
 
@@ -3646,34 +3646,24 @@ Internet-Draft              RPP Data Objects                  March 2026
 
    Data Elements
 
-   +============+==========+=====+============+========+===============+
-   | Element    | Element  |Card.| Mutability | Data   | Description   |
-   | Identifier | Name     |     |            | Type   |               |
-   +============+==========+=====+============+========+===============+
-   | street     | Street   |0+   | read-write | String | The           |
-   |            |          |     |            |        | contact's     |
-   |            |          |     |            |        | street        |
-   |            |          |     |            |        | address.      |
-   +------------+----------+-----+------------+--------+---------------+
-   | city       | City     |0-1  | read-write | String | The           |
-   |            |          |     |            |        | contact's     |
-   |            |          |     |            |        | city.         |
-   +------------+----------+-----+------------+--------+---------------+
-   | sp         | State/   |0-1  | read-write | String | The           |
-   |            | Province |     |            |        | contact's     |
-   |            |          |     |            |        | state or      |
-   |            |          |     |            |        | province.     |
-   +------------+----------+-----+------------+--------+---------------+
-   | pc         | Postal   |0-1  | read-write | String | The           |
-   |            | Code     |     |            |        | contact's     |
-   |            |          |     |            |        | postal        |
-   |            |          |     |            |        | code.         |
-   +------------+----------+-----+------------+--------+---------------+
-   | cc         | Country  |0-1  | read-write | String | The           |
-   |            | Code     |     |            |        | contact's     |
-   |            |          |     |            |        | country       |
-   |            |          |     |            |        | code.         |
-   +------------+----------+-----+------------+--------+---------------+
+    +============+==========+=====+============+========+=============+
+    | Element    | Element  |Card.| Mutability | Data   | Description |
+    | Identifier | Name     |     |            | Type   |             |
+    +============+==========+=====+============+========+=============+
+    | street     | Street   |0+   | read-write | String | Street      |
+    |            |          |     |            |        | address.    |
+    +------------+----------+-----+------------+--------+-------------+
+    | city       | City     |0-1  | read-write | String | City.       |
+    +------------+----------+-----+------------+--------+-------------+
+    | sp         | State/   |0-1  | read-write | String | State or    |
+    |            | Province |     |            |        | province.   |
+    +------------+----------+-----+------------+--------+-------------+
+    | pc         | Postal   |0-1  | read-write | String | Postal      |
+    |            | Code     |     |            |        | code.       |
+    +------------+----------+-----+------------+--------+-------------+
+    | cc         | Country  |0-1  | read-write | String | Country     |
+    |            | Code     |     |            |        | code.       |
+    +------------+----------+-----+------------+--------+-------------+
 
                                   Table 10
 
@@ -3689,6 +3679,16 @@ Internet-Draft              RPP Data Objects                  March 2026
    Reference: [This-ID]
 
    Data Elements
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -4244,7 +4244,7 @@ Internet-Draft              RPP Data Objects                  March 2026
 
    Object Type: Resource
 
-   Description: A Contact Data Object represents the social information
+   Description: A Contact Data Object represents the contact information
    for an individual or organisation associated with other objects.
 
    Reference: [This-ID]
@@ -4274,16 +4274,14 @@ Internet-Draft              RPP Data Objects                  March 2026
    |            |             |     |          |                     |lifecycle and|
    |            |             |     |          |                     |ownership.   |
    +------------+-------------+-----+----------+---------------------+-------------+
-   |status      |Status       |0+   |read-only |Status Object        |The current  |
-   |            |             |     |          |                     |status       |
+   |status      |Status       |0+   |read-only |Status Object        |Status       |
    |            |             |     |          |                     |descriptors  |
    |            |             |     |          |                     |associated   |
    |            |             |     |          |                     |with the     |
    |            |             |     |          |                     |contact.     |
    +------------+-------------+-----+----------+---------------------+-------------+
-   |postalInfo  |Postal       |1-2  |read-write|DictionaryAggregation|Contains     |
-   |            |Information  |     |          |[Postal Info Object] |postal-      |
-   |            |             |     |          |                     |address      |
+   |postalInfo  |Postal       |1-2  |read-write|DictionaryAggregation|Postal-      |
+   |            |Information  |     |          |[Postal Info Object] |address      |
    |            |             |     |          |                     |information. |
    +------------+-------------+-----+----------+---------------------+-------------+
    |voice       |Voice Phone  |0+   |read-write|Phone Number         |Voice phone  |
@@ -4297,8 +4295,7 @@ Internet-Draft              RPP Data Objects                  March 2026
    |            |             |     |          |                     |with the     |
    |            |             |     |          |                     |contact      |
    +------------+-------------+-----+----------+---------------------+-------------+
-   |email       |E-mail       |0+   |read-write|String.              |The contact's|
-   |            |             |     |          |                     |email        |
+   |email       |E-mail       |0+   |read-write|String.              |Email        |
    |            |             |     |          |                     |address.     |
    +------------+-------------+-----+----------+---------------------+-------------+
    |authInfo    |Authorisation|0-1  |read-write|Authorisation        |Authorisation|
@@ -4306,6 +4303,9 @@ Internet-Draft              RPP Data Objects                  March 2026
    |            |             |     |          |                     |associated   |
    |            |             |     |          |                     |with the     |
    |            |             |     |          |                     |contact      |
+   |            |             |     |          |                     |object.      |
+   +------------+-------------+-----+----------+---------------------+-------------+
+   |disclose    |Disclose     |0-1  |read-write|Disclose Object.     |Identifies   |
 
 
 
@@ -4314,9 +4314,6 @@ Kowalik & Wullink       Expires 3 September 2026               [Page 77]
 Internet-Draft              RPP Data Objects                  March 2026
 
 
-   |            |             |     |          |                     |object.      |
-   +------------+-------------+-----+----------+---------------------+-------------+
-   |disclose    |Disclose     |0-1  |read-write|Disclose Object.     |Identifies   |
    |            |             |     |          |                     |elements that|
    |            |             |     |          |                     |require      |
    |            |             |     |          |                     |exceptional  |
@@ -4362,6 +4359,9 @@ Internet-Draft              RPP Data Objects                  March 2026
 
    Operation Identifier: delete
 
+   Description:
+
+   Parameters: (None)
 
 
 
@@ -4369,10 +4369,6 @@ Kowalik & Wullink       Expires 3 September 2026               [Page 78]
 
 Internet-Draft              RPP Data Objects                  March 2026
 
-
-   Description:
-
-   Parameters: (None)
 
    Object: host
 
@@ -4386,45 +4382,6 @@ Internet-Draft              RPP Data Objects                  March 2026
    Reference: [This-ID]
 
    Data Elements
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Kowalik & Wullink       Expires 3 September 2026               [Page 79]
-
-Internet-Draft              RPP Data Objects                  March 2026
-
 
    +============+============+=====+==========+============+===========+
    |Identifier  |Name        |Card.|Mutability|Data Type   |Description|
@@ -4461,6 +4418,14 @@ Internet-Draft              RPP Data Objects                  March 2026
 
    Operations
 
+
+
+
+Kowalik & Wullink       Expires 3 September 2026               [Page 79]
+
+Internet-Draft              RPP Data Objects                  March 2026
+
+
    Operation: Create
 
    Description: Provisions a new Host Data Object.
@@ -4474,13 +4439,6 @@ Internet-Draft              RPP Data Objects                  March 2026
    Parameters: (None)
 
    Operation: Update
-
-
-
-Kowalik & Wullink       Expires 3 September 2026               [Page 80]
-
-Internet-Draft              RPP Data Objects                  March 2026
-
 
    Description: Modifies the attributes of a Host Data Object.
 
@@ -4516,6 +4474,14 @@ draft-kowalik-rpp-data-objects -02 - -03
    -  add identifiers to all operations
    -  abstract common provisioning metadata into reusable component
       object
+
+
+
+Kowalik & Wullink       Expires 3 September 2026               [Page 80]
+
+Internet-Draft              RPP Data Objects                  March 2026
+
+
    -  define common RGP/restore process and Restore Process Object
    -  define common transfer operations and Transfer Process Object with
       support for pull and push transfers #23
@@ -4530,14 +4496,6 @@ draft-kowalik-rpp-data-objects -02 - -03
       with structured RDATA fields
    -  add NS, A, and AAAA RDATA structures and record type constraints
       to EPP compatibility profile for DNS Resource Record Object
-
-
-
-Kowalik & Wullink       Expires 3 September 2026               [Page 81]
-
-Internet-Draft              RPP Data Objects                  March 2026
-
-
    -  expand extensibility section with standardised/private extension
       mechanisms, extension points, and operation extensibility
    -  update IANA registration policy and registry structure to
@@ -4571,6 +4529,15 @@ draft-kowalik-rpp-data-objects -01 - -02
               subdivisions -- Part 1: Country codes", ISO Standard 3166,
               November 2000.
 
+
+
+
+
+Kowalik & Wullink       Expires 3 September 2026               [Page 81]
+
+Internet-Draft              RPP Data Objects                  March 2026
+
+
    [ITU.E164.2005]
               International Telecommunication Union, "The international
               public telecommunication numbering plan", ITU-T
@@ -4583,16 +4550,6 @@ draft-kowalik-rpp-data-objects -01 - -02
    [RFC1738]  Berners-Lee, T., Masinter, L., and M. McCahill, "Uniform
               Resource Locators (URL)", RFC 1738, DOI 10.17487/RFC1738,
               December 1994, <https://www.rfc-editor.org/info/rfc1738>.
-
-
-
-
-
-
-Kowalik & Wullink       Expires 3 September 2026               [Page 82]
-
-Internet-Draft              RPP Data Objects                  March 2026
-
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
@@ -4629,6 +4586,14 @@ Internet-Draft              RPP Data Objects                  March 2026
               Contact Mapping", STD 69, RFC 5733, DOI 10.17487/RFC5733,
               August 2009, <https://www.rfc-editor.org/info/rfc5733>.
 
+
+
+
+Kowalik & Wullink       Expires 3 September 2026               [Page 82]
+
+Internet-Draft              RPP Data Objects                  March 2026
+
+
    [RFC5952]  Kawamura, S. and M. Kawashima, "A Recommendation for IPv6
               Address Text Representation", RFC 5952,
               DOI 10.17487/RFC5952, August 2010,
@@ -4642,13 +4607,6 @@ Internet-Draft              RPP Data Objects                  March 2026
    [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
               May 2017, <https://www.rfc-editor.org/info/rfc8174>.
-
-
-
-Kowalik & Wullink       Expires 3 September 2026               [Page 83]
-
-Internet-Draft              RPP Data Objects                  March 2026
-
 
 13.2.  Informative References
 
@@ -4683,10 +4641,52 @@ Authors' Addresses
    URI:   https://denic.de/
 
 
+
+
+
+
+Kowalik & Wullink       Expires 3 September 2026               [Page 83]
+
+Internet-Draft              RPP Data Objects                  March 2026
+
+
    Maarten Wullink
    SIDN Labs
    Email: maarten.wullink@sidn.nl
    URI:   https://sidn.nl/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -933,7 +933,7 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 <li>Cardinality: 0+</li>
 <li>Mutability: read-write</li>
 <li>Data Type: String</li>
-<li>Description: The contact's street address.</li>
+<li>Description: Street address.</li>
 <li>Constraints: Implementations MAY limit the maximum length of entries or character set.</li>
 </ul></li>
 <li><t>City</t>
@@ -943,7 +943,7 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 <li>Cardinality: 0-1</li>
 <li>Mutability: read-write</li>
 <li>Data Type: String</li>
-<li>Description: The contact's city.</li>
+<li>Description: City.</li>
 <li><t>Constraints:</t>
 
 <ul spacing="compact">
@@ -958,7 +958,7 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 <li>Cardinality: 0-1</li>
 <li>Mutability: read-write</li>
 <li>Data Type: String</li>
-<li>Description: The contact's state or province.</li>
+<li>Description: State or province.</li>
 <li>Constraints: Implementations MAY limit the maximum length of entries or character set.</li>
 </ul></li>
 <li><t>Postal Code</t>
@@ -968,7 +968,7 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 <li>Cardinality: 0-1</li>
 <li>Mutability: read-write</li>
 <li>Data Type: String</li>
-<li>Description: The contact's postal code.</li>
+<li>Description: Postal code.</li>
 <li><t>Constraints:</t>
 
 <ul spacing="compact">
@@ -983,7 +983,7 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 <li>Cardinality: 0-1</li>
 <li>Mutability: read-write</li>
 <li>Data Type: String</li>
-<li>Description: The contact's country code.</li>
+<li>Description: Country code.</li>
 <li><t>Constraints:</t>
 
 <ul spacing="compact">
@@ -1945,7 +1945,7 @@ is &quot;all&quot;.</li>
 <ul spacing="compact">
 <li>Name: Contact Data Object</li>
 <li>Identifier: contact</li>
-<li>Description: A Contact Data Object represents the social information for an individual or organisation associated with other objects.</li>
+<li>Description: A Contact Data Object represents the contact information for an individual or organisation associated with other objects.</li>
 </ul>
 </section>
 
@@ -1985,7 +1985,7 @@ is &quot;all&quot;.</li>
 <li>Cardinality: 0+</li>
 <li>Mutability: read-only</li>
 <li>Data Type: Status Object</li>
-<li>Description: The current status descriptors associated with the contact.</li>
+<li>Description: Status descriptors associated with the contact.</li>
 <li><t>Constraints:</t>
 
 <ul spacing="compact">
@@ -2006,7 +2006,7 @@ is &quot;all&quot;.</li>
 <li>Label Description: type of contact data localisation</li>
 <li>Label Constraints: Allowed values: &quot;int&quot; for &quot;internationalised&quot; all-ASCII version of an address and &quot;loc&quot; for localised forms with possible non-ASCII character sets.</li>
 </ul></li>
-<li>Description: Contains postal-address information.</li>
+<li>Description: Postal-address information.</li>
 <li>Constraints: There MUST be no more that 1 element of type &quot;int&quot; and one element of type &quot;loc&quot;.</li>
 </ul></li>
 <li><t>Voice Phone Number</t>
@@ -2036,7 +2036,7 @@ is &quot;all&quot;.</li>
 <li>Cardinality: 0+</li>
 <li>Mutability: read-write</li>
 <li>Data Type: String.</li>
-<li>Description: The contact's email address.</li>
+<li>Description: Email address.</li>
 <li>Constraints: Email address syntax is defined in <xref target="RFC5322"></xref>.</li>
 </ul></li>
 <li><t>Authorisation Information</t>
@@ -2830,7 +2830,7 @@ registry MUST provide:</t>
 <td>0+</td>
 <td>read-write</td>
 <td>String</td>
-<td>The contact's street address.</td>
+<td>Street address.</td>
 </tr>
 
 <tr>
@@ -2839,7 +2839,7 @@ registry MUST provide:</t>
 <td>0-1</td>
 <td>read-write</td>
 <td>String</td>
-<td>The contact's city.</td>
+<td>City.</td>
 </tr>
 
 <tr>
@@ -2848,7 +2848,7 @@ registry MUST provide:</t>
 <td>0-1</td>
 <td>read-write</td>
 <td>String</td>
-<td>The contact's state or province.</td>
+<td>State or province.</td>
 </tr>
 
 <tr>
@@ -2857,7 +2857,7 @@ registry MUST provide:</t>
 <td>0-1</td>
 <td>read-write</td>
 <td>String</td>
-<td>The contact's postal code.</td>
+<td>Postal code.</td>
 </tr>
 
 <tr>
@@ -2866,7 +2866,7 @@ registry MUST provide:</t>
 <td>0-1</td>
 <td>read-write</td>
 <td>String</td>
-<td>The contact's country code.</td>
+<td>Country code.</td>
 </tr>
 </tbody>
 </table><t>Object: postalInfo</t>
@@ -3386,7 +3386,7 @@ registry MUST provide:</t>
 </table><t>Object: contact</t>
 <t>Object Name: Contact Data Object</t>
 <t>Object Type: Resource</t>
-<t>Description: A Contact Data Object represents the social information for an individual or organisation associated with other objects.</t>
+<t>Description: A Contact Data Object represents the contact information for an individual or organisation associated with other objects.</t>
 <t>Reference: [This-ID]</t>
 <t>Data Elements</t>
 <table>
@@ -3426,7 +3426,7 @@ registry MUST provide:</t>
 <td>0+</td>
 <td>read-only</td>
 <td>Status Object</td>
-<td>The current status descriptors associated with the contact.</td>
+<td>Status descriptors associated with the contact.</td>
 </tr>
 
 <tr>
@@ -3435,7 +3435,7 @@ registry MUST provide:</t>
 <td>1-2</td>
 <td>read-write</td>
 <td>DictionaryAggregation [Postal Info Object]</td>
-<td>Contains postal-address information.</td>
+<td>Postal-address information.</td>
 </tr>
 
 <tr>
@@ -3462,7 +3462,7 @@ registry MUST provide:</t>
 <td>0+</td>
 <td>read-write</td>
 <td>String.</td>
-<td>The contact's email address.</td>
+<td>Email address.</td>
 </tr>
 
 <tr>
