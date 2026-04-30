@@ -74,8 +74,14 @@ Component Object
 Process Object
 : An object that represents a long-running or multi-step operation initiated on a Data Object. Process Objects carry operation-related state and data, and may define their own operations to interact with the process. They have no independent existence - their lifecycle is bound to the owning Data Object.
 
+Sub-Resource Object
+: A reusable object that carries persistent data and defines its own standard CRUD operations, but has no independent existence outside a parent Data Object. Its lifecycle is bound to the owning Data Object. A Sub-Resource Object can be owned by different Data Object types, allowing the same object definition and operations to be reused across multiple parent contexts. The owning Data Object MUST be identified in the operational context (e.g., via the URL path).
+
 Owner Data Object
-: A Data Object which a process (represented as Process Object) was initiated upon and which owns this Process Object
+: A Data Object which a process (represented as Process Object) was initiated upon and which owns this Process Object.
+
+Owner Object
+: A Data Object or Sub-Resource Object that owns one or more Sub-Resource Objects. The lifecycle of the owned Sub-Resource Objects is bound to the Owner Object.
 
 # Resource Definition Principles
 
@@ -958,6 +964,85 @@ A> TODO: Model Disclose in universal (extendible) way
     * Description: Any additional information needed to support the statements provided by the client.
     * Constraints: None.
 
+# Sub-Resource Objects
+
+This section defines Sub-Resource Objects used in this document. Sub-Resource Objects are reusable objects that define their own CRUD operations but have no independent existence outside a parent (Owner) Object. The owning object MUST be identified in the operational context. The same Sub-Resource Object definition and its operations are reused across all parent types that link it.
+
+## User Object
+
+* Name: User Object
+* Identifier: user
+* Description: Represents a user linked to an Owner Object. Each user carries a set of RBAC roles that define the user's permissions within the context of the owning object. The lifecycle of a User Object is bound to its Owner Object. This Sub-Resource Object is reusable across different Data Object types (e.g., Registrar, Registry).
+* Data Elements:
+  * User Identifier
+    * Identifier: userId
+    * Cardinality: 1
+    * Mutability: create-only
+    * Data Type: Identifier
+    * Description: A unique identifier for the user within the owning object.
+    * Constraints: The value MUST be unique within the Owner Object.
+  * Roles
+    * Identifier: roles
+    * Cardinality: 1+
+    * Mutability: read-write
+    * Data Type: String
+    * Description: The list of RBAC roles assigned to this user.
+    * Constraints:
+      * Each role value MUST be a non-empty string.
+      * Allowed role values MAY be constrained by server policy.
+
+## Operations
+
+### Create Operation
+
+* Identifier: create
+
+The Create operation adds a new user to an existing Owner Object. The operation accepts as input all create-only and read-write data elements of the User Object.
+
+* Authorisation:
+  * Server policy determines which clients are authorised to create users in the context of a given Owner Object.
+
+* Input: Owner Object reference, User Object (create-only and read-write elements)
+* Output: User Object
+
+### Read Operation
+
+* Identifier: read
+
+The Read operation retrieves the data of a specific User Object in the context of its Owner Object.
+
+* Authorisation:
+  * Server policy determines which clients are authorised to read users in the context of a given Owner Object.
+
+* Input: Owner Object reference, User Identifier
+* Output: User Object
+
+### Update Operation
+
+* Identifier: update
+
+The Update operation modifies the read-write data elements (e.g., roles) of a specific User Object.
+
+* Authorisation:
+  * Server policy determines which clients are authorised to update users in the context of a given Owner Object.
+
+* Input: Owner Object reference, User Identifier, User Object (read-write elements)
+* Output: User Object
+
+### Delete Operation
+
+* Identifier: delete
+
+The Delete operation removes a specific User Object from its Owner Object.
+
+* Authorisation:
+  * Server policy determines which clients are authorised to delete users in the context of a given Owner Object.
+
+* Input: Owner Object reference, User Identifier
+* Output: Nothing
+
+The server MUST reject this operation if the Owner Object requires at least one user and removing the user would leave it with none. The Owner Object definition MUST specify this constraint if applicable.
+
 # Process Objects
 
 This section defines the Process Objects used in this document.
@@ -1700,6 +1785,92 @@ The Host Data Object supports the restore operations defined in the (#restore-op
 
 No domain-specific transient data elements extend the common restore operations beyond those defined in the (#restore-ops).
 
+# Registrar Data Object
+
+## Object Description
+
+* Name: Registrar Data Object
+* Identifier: registrar
+* Description: A Registrar Data Object represents a registrar that is authorised to provision and manage objects in the registry. There is exactly one Registrar Data Object per registrar. A registrar MUST have one or more linked users. Users are managed via the User Object Sub-Resource operations in the context of this object (see (#user-object)).
+
+## Data Elements
+
+The following data elements are defined for the Registrar Data Object.
+
+* Registrar Identifier
+  * Identifier: registrarId
+  * Cardinality: 1
+  * Mutability: create-only
+  * Data Type: Identifier
+  * Description: The unique identifier of the registrar.
+  * Constraints: (None)
+
+* Name
+  * Identifier: name
+  * Cardinality: 1
+  * Mutability: read-write
+  * Data Type: String
+  * Description: The full registered name of the registrar.
+  * Constraints: (None)
+
+* Users
+  * Identifier: users
+  * Cardinality: 1+
+  * Mutability: read-write
+  * Data Type: DictionaryComposition[User Object]
+    * Label Description: The unique identifier of the user within this registrar.
+    * Label Constraints: The label MUST match the `userId` of the corresponding User Object and MUST be unique within the Registrar Data Object.
+  * Description: The collection of users linked to this registrar. Each user is identified by a unique user identifier and carries a set of RBAC roles. A registrar MUST have at least one linked user.
+  * Constraints:
+    * At least one user MUST be present at all times. The User Object Delete operation MUST be rejected if it would leave this object with no linked users.
+
+## Operations
+
+The Registrar Data Object supports the standard Create, Read, Update, and Delete operations as defined in the Uniform Interface section.
+
+### Create Operation
+
+* Identifier: create
+
+The Create operation allows a client to provision a new Registrar Data Object. The operation accepts as input all create-only and read-write data elements, including at least one linked user.
+
+* Authorisation:
+  * Server policy determines which clients are authorised to create Registrar Data Objects. Typically only registry operators are authorised to perform this operation.
+
+### Read Operation
+
+* Identifier: read
+
+The Read operation allows a client to retrieve the data elements of a Registrar Data Object, including its linked users and their assigned roles.
+
+* Authorisation:
+  * Server policy determines which clients are authorised to read Registrar Data Objects.
+
+### Update Operation
+
+* Identifier: update
+
+The Update operation allows a client to modify the read-write data elements of an existing Registrar Data Object (e.g., `name`).
+
+* Authorisation:
+  * Server policy determines which clients are authorised to update Registrar Data Objects.
+
+### Delete Operation
+
+* Identifier: delete
+
+The Delete operation allows a client to remove an existing Registrar Data Object.
+
+* Authorisation:
+  * Server policy determines which clients are authorised to delete Registrar Data Objects.
+
+The server SHOULD reject a delete request if the registrar is the sponsoring client of any existing provisioned objects.
+
+### User Operations
+
+User management for a Registrar Data Object uses the common User Object Sub-Resource operations defined in (#sub-resource-objects): Create, Read, Update, and Delete. These operations are performed in the context of the Registrar Data Object as the Owner Object.
+
+
 # IANA Considerations
 
 ## RPP Data Object Registry
@@ -1718,11 +1889,11 @@ Private (non-standardised) extensions are not required to register in this regis
 
 The registry is organised as a collection of Object definitions. Each Object definition MUST include:
 
-* A header containing the Object Identifier, Object Name, Object Type (Resource, Process or Component), a brief description, and a reference to its defining specification.
+* A header containing the Object Identifier, Object Name, Object Type (Resource, Process, Sub-Resource or Component), a brief description, and a reference to its defining specification.
 
 * A "Data Elements" table listing all persisted data elements associated with the object. Each entry MUST specify the element's Identifier, Name, Cardinality, Mutability, Data Type, description, and a reference to the specification that defines it.
 
-* An "Operations" section (applicable only for Object Types Resource or Process). For each operation, the
+* An "Operations" section (applicable only for Object Types Resource, Process or Sub-Resource). For each operation, the
 registry MUST provide:
   * The Operation's Name, a description, and a reference to the specification that defines it.
   * A "Parameters" table listing all data elements that are provided as input to the operation but are not persisted as part of the object's state. Each entry MUST specify the parameter's Identifier, Name, Cardinality, Data Type, description, and a reference to the specification that defines it.
@@ -2127,6 +2298,107 @@ Description: Removes an existing Host Data Object.
 
 Parameters: (None)
 
+Object: user
+
+Object Name: User Object
+
+Object Type: Sub-Resource
+
+Description: Represents a user linked to an Owner Object, carrying a set of RBAC roles that define the user's permissions within the context of the owning object. Reusable across different Data Object types (e.g., Registrar, Registry).
+
+Reference: [This-ID]
+
+Data Elements
+| Element Identifier | Element Name    | Card. | Mutability  | Data Type  | Description                                                     |
+| ------------------ | --------------- | ----- | ----------- | ---------- | --------------------------------------------------------------- |
+| userId             | User Identifier | 1     | create-only | Identifier | A unique identifier for the user within the owning object.      |
+| roles              | Roles           | 1+    | read-write  | String     | The list of RBAC roles assigned to this user.                   |
+
+Operations
+
+Operation: Create
+
+Operation Identifier: create
+
+Description: Adds a new user to an Owner Object. Performed in the context of the Owner Object.
+
+Parameters: (None)
+
+Operation: Read
+
+Operation Identifier: read
+
+Description: Retrieves the data of a specific user in the context of its Owner Object.
+
+Parameters: (None)
+
+Operation: Update
+
+Operation Identifier: update
+
+Description: Modifies the read-write data elements (e.g., roles) of a specific user.
+
+Parameters: (None)
+
+Operation: Delete
+
+Operation Identifier: delete
+
+Description: Removes a specific user from its Owner Object. The server MUST reject this operation if the Owner Object requires at least one user and removing the user would leave it with none.
+
+Parameters: (None)
+
+Object: registrar
+
+Object Name: Registrar Data Object
+
+Object Type: Resource
+
+Description: Represents a registrar authorised to provision and manage objects in the registry. There is exactly one Registrar Data Object per registrar. A registrar MUST have at least one linked user. Users are managed via the common User Object Sub-Resource operations.
+
+Reference: [This-ID]
+
+Data Elements
+| Identifier   | Name                  | Card. | Mutability  | Data Type                             | Description                                                       |
+| ------------ | --------------------- | ----- | ----------- | ------------------------------------- | ----------------------------------------------------------------- |
+| registrarId  | Registrar Identifier  | 1     | create-only | Identifier                            | The unique identifier of the registrar.                           |
+| name         | Name                  | 1     | read-write  | String                                | The full registered name of the registrar.                        |
+| users        | Users                 | 1+    | read-write  | DictionaryComposition [User Object]   | Users linked to this registrar, keyed by user identifier.         |
+
+Operations
+
+Operation: Create
+
+Operation Identifier: create
+
+Description: Provisions a new Registrar Data Object, including at least one linked user.
+
+Parameters: (None)
+
+Operation: Read
+
+Operation Identifier: read
+
+Description: Retrieves the data elements of a Registrar Data Object.
+
+Parameters: (None)
+
+Operation: Update
+
+Operation Identifier: update
+
+Description: Modifies the read-write data elements of a Registrar Data Object.
+
+Parameters: (None)
+
+Operation: Delete
+
+Operation Identifier: delete
+
+Description: Removes an existing Registrar Data Object.
+
+Parameters: (None)
+
 # Security Considerations
 
 A> TODO: write security considerations, if any
@@ -2137,10 +2409,19 @@ A> TODO: write security considerations, if any
 
 {toc="exclude"}
 {numbered="false"}
+## draft-kowalik-rpp-data-objects -03 - -04
+
+* Add Registrar Data Object (Issue #81)
+* Add Sub-Resource Object as new taxonomy category for reusable objects with own CRUD operations bound to a parent (Issue #81)
+* Add User Object as Sub-Resource Object with CRUD operations, reusable across Registrar, Registry and other parent types (Issue #81)
+* Add Sub-Resource Object and Owner Object to terminology section (Issue #81)
+
+{toc="exclude"}
+{numbered="false"}
 ## draft-kowalik-rpp-data-objects -02 - -03
 
 * add Object and Dictionary[Value Type] primitive data types
-* change "Aggregation/Composition Dictionary" to "Dictionary Aggregation/Composition" (Issue #32) 
+* change "Aggregation/Composition Dictionary" to "Dictionary Aggregation/Composition" (Issue #32)
 * describe operations for contacts #15
 * describe operations for hosts #16
 * add Domain Update operation with urgent transient parameter from [@RFC5910]

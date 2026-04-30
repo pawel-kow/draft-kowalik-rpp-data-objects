@@ -112,31 +112,27 @@ Table of Contents
      5.9.  Postal Info Object
      5.10. Disclose Object
      5.11. Restore Report Object
-   6.  Process Objects
-     6.1.  Transfer Process Object
-       6.1.1.  Operations
-         6.1.1.1.  Create (Transfer Request)
-         6.1.1.2.  Read (Transfer Query)
-         6.1.1.3.  Delete (Transfer Cancel)
-         6.1.1.4.  Approve
-         6.1.1.5.  Reject
-     6.2.  Restore Process Object
-       6.2.1.  Operations
-         6.2.1.1.  Create (Restore Request)
-         6.2.1.2.  Read (Restore Query)
-         6.2.1.3.  Report
-   7.  Domain Name Data Object
-     7.1.  Object Description
-     7.2.  Data Elements
-     7.3.  Operations
-       7.3.1.  Create Operation
-       7.3.2.  Read Operation
-       7.3.3.  Update Operation
-       7.3.4.  Delete Operation
-       7.3.5.  Renew Operation
-       7.3.6.  Transfer Operations
-       7.3.7.  Restore Operations
-   8.  Contact Data Object
+   6.  Sub-Resource Objects
+     6.1.  User Object
+     6.2.  Operations
+       6.2.1.  Create Operation
+       6.2.2.  Read Operation
+       6.2.3.  Update Operation
+       6.2.4.  Delete Operation
+   7.  Process Objects
+     7.1.  Transfer Process Object
+       7.1.1.  Operations
+         7.1.1.1.  Create (Transfer Request)
+         7.1.1.2.  Read (Transfer Query)
+         7.1.1.3.  Delete (Transfer Cancel)
+         7.1.1.4.  Approve
+         7.1.1.5.  Reject
+     7.2.  Restore Process Object
+       7.2.1.  Operations
+         7.2.1.1.  Create (Restore Request)
+         7.2.1.2.  Read (Restore Query)
+         7.2.1.3.  Report
+   8.  Domain Name Data Object
      8.1.  Object Description
      8.2.  Data Elements
      8.3.  Operations
@@ -144,8 +140,10 @@ Table of Contents
        8.3.2.  Read Operation
        8.3.3.  Update Operation
        8.3.4.  Delete Operation
-       8.3.5.  Transfer Operations
-   9.  Host Data Object
+       8.3.5.  Renew Operation
+       8.3.6.  Transfer Operations
+       8.3.7.  Restore Operations
+   9.  Contact Data Object
      9.1.  Object Description
      9.2.  Data Elements
      9.3.  Operations
@@ -153,16 +151,34 @@ Table of Contents
        9.3.2.  Read Operation
        9.3.3.  Update Operation
        9.3.4.  Delete Operation
-       9.3.5.  Restore Operations
-   10. IANA Considerations
-     10.1.  RPP Data Object Registry
-       10.1.1.  Registration Policy
-       10.1.2.  Registry Structure
-       10.1.3.  Initial Registrations
-   11. Security Considerations
-   13. References
-     13.1.  Normative References
-     13.2.  Informative References
+       9.3.5.  Transfer Operations
+   10. Host Data Object
+     10.1.  Object Description
+     10.2.  Data Elements
+     10.3.  Operations
+       10.3.1.  Create Operation
+       10.3.2.  Read Operation
+       10.3.3.  Update Operation
+       10.3.4.  Delete Operation
+       10.3.5.  Restore Operations
+   11. Registrar Data Object
+     11.1.  Object Description
+     11.2.  Data Elements
+     11.3.  Operations
+       11.3.1.  Create Operation
+       11.3.2.  Read Operation
+       11.3.3.  Update Operation
+       11.3.4.  Delete Operation
+       11.3.5.  User Operations
+   12. IANA Considerations
+     12.1.  RPP Data Object Registry
+       12.1.1.  Registration Policy
+       12.1.2.  Registry Structure
+       12.1.3.  Initial Registrations
+   13. Security Considerations
+   15. References
+     15.1.  Normative References
+     15.2.  Informative References
    Authors' Addresses
 
 1.  Introduction
@@ -237,9 +253,20 @@ Table of Contents
       operation-related state and data, and may define their own
       operations to interact with the process.  They have no independent
       existence - their lifecycle is bound to the owning Data Object.
+   Sub-Resource Object  A reusable object that carries persistent data
+      and defines its own standard CRUD operations, but has no
+      independent existence outside a parent Data Object.  Its lifecycle
+      is bound to the owning Data Object.  A Sub-Resource Object can be
+      owned by different Data Object types, allowing the same object
+      definition and operations to be reused across multiple parent
+      contexts.  The owning Data Object MUST be identified in the
+      operational context (e.g., via the URL path).
    Owner Data Object  A Data Object which a process (represented as
       Process Object) was initiated upon and which owns this Process
-      Object
+      Object.
+   Owner Object  A Data Object or Sub-Resource Object that owns one or
+      more Sub-Resource Objects.  The lifecycle of the owned Sub-
+      Resource Objects is bound to the Owner Object.
 
 2.  Resource Definition Principles
 
@@ -1513,11 +1540,123 @@ Table of Contents
             the statements provided by the client.
          -  Constraints: None.
 
-6.  Process Objects
+6.  Sub-Resource Objects
+
+   This section defines Sub-Resource Objects used in this document.
+   Sub-Resource Objects are reusable objects that define their own CRUD
+   operations but have no independent existence outside a parent (Owner)
+   Object.  The owning object MUST be identified in the operational
+   context.  The same Sub-Resource Object definition and its operations
+   are reused across all parent types that link it.
+
+6.1.  User Object
+
+   -  Name: User Object
+   -  Identifier: user
+   -  Description: Represents a user linked to an Owner Object.  Each
+      user carries a set of RBAC roles that define the user's
+      permissions within the context of the owning object.  The
+      lifecycle of a User Object is bound to its Owner Object.  This
+      Sub-Resource Object is reusable across different Data Object types
+      (e.g., Registrar, Registry).
+   -  Data Elements:
+      -  User Identifier
+         -  Identifier: userId
+         -  Cardinality: 1
+         -  Mutability: create-only
+         -  Data Type: Identifier
+         -  Description: A unique identifier for the user within the
+            owning object.
+         -  Constraints: The value MUST be unique within the Owner
+            Object.
+      -  Roles
+         -  Identifier: roles
+         -  Cardinality: 1+
+         -  Mutability: read-write
+         -  Data Type: String
+         -  Description: The list of RBAC roles assigned to this user.
+         -  Constraints:
+            -  Each role value MUST be a non-empty string.
+            -  Allowed role values MAY be constrained by server policy.
+
+6.2.  Operations
+
+6.2.1.  Create Operation
+
+   -  Identifier: create
+
+   The Create operation adds a new user to an existing Owner Object.
+   The operation accepts as input all create-only and read-write data
+   elements of the User Object.
+
+   -  Authorisation:
+
+      -  Server policy determines which clients are authorised to create
+         users in the context of a given Owner Object.
+
+   -  Input: Owner Object reference, User Object (create-only and read-
+      write elements)
+
+   -  Output: User Object
+
+6.2.2.  Read Operation
+
+   -  Identifier: read
+
+   The Read operation retrieves the data of a specific User Object in
+   the context of its Owner Object.
+
+   -  Authorisation:
+
+      -  Server policy determines which clients are authorised to read
+         users in the context of a given Owner Object.
+
+   -  Input: Owner Object reference, User Identifier
+
+   -  Output: User Object
+
+6.2.3.  Update Operation
+
+   -  Identifier: update
+
+   The Update operation modifies the read-write data elements (e.g.,
+   roles) of a specific User Object.
+
+   -  Authorisation:
+
+      -  Server policy determines which clients are authorised to update
+         users in the context of a given Owner Object.
+
+   -  Input: Owner Object reference, User Identifier, User Object (read-
+      write elements)
+
+   -  Output: User Object
+
+6.2.4.  Delete Operation
+
+   -  Identifier: delete
+
+   The Delete operation removes a specific User Object from its Owner
+   Object.
+
+   -  Authorisation:
+
+      -  Server policy determines which clients are authorised to delete
+         users in the context of a given Owner Object.
+
+   -  Input: Owner Object reference, User Identifier
+
+   -  Output: Nothing
+
+   The server MUST reject this operation if the Owner Object requires at
+   least one user and removing the user would leave it with none.  The
+   Owner Object definition MUST specify this constraint if applicable.
+
+7.  Process Objects
 
    This section defines the Process Objects used in this document.
 
-6.1.  Transfer Process Object
+7.1.  Transfer Process Object
 
    -  Name: Transfer Process Object
    -  Identifier: transferProcess
@@ -1596,9 +1735,9 @@ Table of Contents
             statuses, the date and time when the request was completed.
          -  Constraints: (None)
 
-6.1.1.  Operations
+7.1.1.  Operations
 
-6.1.1.1.  Create (Transfer Request)
+7.1.1.1.  Create (Transfer Request)
 
    -  Identifier: create
 
@@ -1623,7 +1762,7 @@ Table of Contents
 
    -  Output: Transfer Process Object
 
-6.1.1.2.  Read (Transfer Query)
+7.1.1.2.  Read (Transfer Query)
 
    -  Identifier: read
 
@@ -1641,7 +1780,7 @@ Table of Contents
 
    -  Output: Transfer Process Object
 
-6.1.1.3.  Delete (Transfer Cancel)
+7.1.1.3.  Delete (Transfer Cancel)
 
    -  Identifier: delete
 
@@ -1657,7 +1796,7 @@ Table of Contents
 
    -  Output: Transfer Process Object or nothing
 
-6.1.1.4.  Approve
+7.1.1.4.  Approve
 
    -  Identifier: approve
 
@@ -1675,7 +1814,7 @@ Table of Contents
 
    -  Output: Transfer Process Object
 
-6.1.1.5.  Reject
+7.1.1.5.  Reject
 
    -  Identifier: reject
 
@@ -1702,7 +1841,7 @@ Table of Contents
 
    -  Output: Transfer Process Object
 
-6.2.  Restore Process Object
+7.2.  Restore Process Object
 
    -  Name: Restore Process Object
    -  Identifier: restoreProcess
@@ -1747,9 +1886,9 @@ Table of Contents
          -  Constraints: MUST NOT be present when restoreStatus is not
             "pendingRestore".
 
-6.2.1.  Operations
+7.2.1.  Operations
 
-6.2.1.1.  Create (Restore Request)
+7.2.1.1.  Create (Restore Request)
 
    -  Identifier: create
 
@@ -1788,7 +1927,7 @@ Table of Contents
             (without report) or a combined op="request" followed
             immediately by op="report" as defined in [RFC3915].
 
-6.2.1.2.  Read (Restore Query)
+7.2.1.2.  Read (Restore Query)
 
    -  Identifier: read
 
@@ -1806,7 +1945,7 @@ Table of Contents
 
    In EPP Compatibility Profile this operation is not supported.
 
-6.2.1.3.  Report
+7.2.1.3.  Report
 
    -  Identifier: report
 
@@ -1840,9 +1979,9 @@ Table of Contents
          -  In EPP Compatibility Profile, corresponds to op="report" as
             defined in [RFC3915].
 
-7.  Domain Name Data Object
+8.  Domain Name Data Object
 
-7.1.  Object Description
+8.1.  Object Description
 
    -  Name: Domain Name Data Object
    -  Identifier: domainName
@@ -1850,7 +1989,7 @@ Table of Contents
       and contains the data required for its provisioning and management
       in the registry.
 
-7.2.  Data Elements
+8.2.  Data Elements
 
    The following data elements are defined for the Domain Name Data
    Object.
@@ -1996,9 +2135,9 @@ Table of Contents
          domain object.
       -  Constraints: (None)
 
-7.3.  Operations
+8.3.  Operations
 
-7.3.1.  Create Operation
+8.3.1.  Create Operation
 
    -  Identifier: create
 
@@ -2024,7 +2163,7 @@ Table of Contents
          initial expiryDate of the object.  This element is not
          persisted as part of the object's state.
 
-7.3.2.  Read Operation
+8.3.2.  Read Operation
 
    -  Identifier: read
 
@@ -2055,7 +2194,7 @@ Table of Contents
       -  Constraints: The value MUST be one of "all", "del" (delegated),
          "sub" (subordinate), or "none".  The default value is "all".
 
-7.3.3.  Update Operation
+8.3.3.  Update Operation
 
    The Update operation allows a client to modify the read-write data
    elements of an existing Domain Name resource.
@@ -2081,7 +2220,7 @@ Table of Contents
          -  A server that supports this parameter but cannot fulfil a
             specific urgent request MUST return an error.
 
-7.3.4.  Delete Operation
+8.3.4.  Delete Operation
 
    -  Identifier: delete
 
@@ -2098,7 +2237,7 @@ Table of Contents
    The error response SHOULD indicate the related subordinate host
    objects.
 
-7.3.5.  Renew Operation
+8.3.5.  Renew Operation
 
    -  Identifier: renew
 
@@ -2137,7 +2276,7 @@ Table of Contents
          by server policy.  The number of units available MAY be subject
          to limits imposed by the server.
 
-7.3.6.  Transfer Operations
+8.3.6.  Transfer Operations
 
    The Domain Name Data Object supports the common transfer operations
    defined in the Section 2.5.4.  The transfer of a domain name changes
@@ -2181,7 +2320,7 @@ Table of Contents
    Subordinate host objects MUST be transferred implicitly when the
    domain object is transferred.
 
-7.3.7.  Restore Operations
+8.3.7.  Restore Operations
 
    The Domain Name Data Object supports the restore operations defined
    in the section.  These operations are OPTIONAL and are only available
@@ -2190,9 +2329,9 @@ Table of Contents
    No domain-specific transient data elements extend the common restore
    operations beyond those defined in the Section 2.5.5.
 
-8.  Contact Data Object
+9.  Contact Data Object
 
-8.1.  Object Description
+9.1.  Object Description
 
    -  Name: Contact Data Object
    -  Identifier: contact
@@ -2200,7 +2339,7 @@ Table of Contents
       information for an individual or organisation associated with
       other objects.
 
-8.2.  Data Elements
+9.2.  Data Elements
 
    The following data elements are defined for the Domain Name Data
    Object.
@@ -2306,9 +2445,9 @@ Table of Contents
 
       |  TBC: IANA registry for statuses?
 
-8.3.  Operations
+9.3.  Operations
 
-8.3.1.  Create Operation
+9.3.1.  Create Operation
 
    The Create operation allows a client to provision a new Contact
    resource.  The operation accepts as input all create-only and read-
@@ -2330,7 +2469,7 @@ Table of Contents
    -  E-mail (email)
    -  Authorisation Information (authInfo)
 
-8.3.2.  Read Operation
+9.3.2.  Read Operation
 
    The Read operation allows a client to retrieve the data elements of a
    Contact resource.  The server's response MAY vary depending on client
@@ -2358,7 +2497,7 @@ Table of Contents
    for non-disclosure MUST NOT be included in responses to unauthorised
    clients.
 
-8.3.3.  Update Operation
+9.3.3.  Update Operation
 
    The Update operation allows a client to modify the attributes of an
    existing Contact resource.
@@ -2378,7 +2517,7 @@ Table of Contents
    the server (prefixed with "server").  A server MAY add, delete or
    alter status values set by a client, subject to server policy.
 
-8.3.4.  Delete Operation
+9.3.4.  Delete Operation
 
    The Delete operation allows a client to remove an existing Contact
    resource.  The operation targets a specific data object identified by
@@ -2394,7 +2533,7 @@ Table of Contents
 
    The error response SHOULD indicate the existing object associations.
 
-8.3.5.  Transfer Operations
+9.3.5.  Transfer Operations
 
    The Contact Data Object supports the common transfer operations
    defined in the Section 2.5.4.  The transfer of a contact changes the
@@ -2403,16 +2542,16 @@ Table of Contents
    No object-specific transient data elements are defined for contact
    transfer operations beyond the common transfer data elements.
 
-9.  Host Data Object
+10.  Host Data Object
 
-9.1.  Object Description
+10.1.  Object Description
 
    -  Name: Host Data Object
    -  Identifier: host
    -  Description: A Host Data Object represents a name server that
       provides DNS services for a domain name.
 
-9.2.  Data Elements
+10.2.  Data Elements
 
    The following data elements are defined for the Host Data Object.
 
@@ -2462,9 +2601,9 @@ Table of Contents
             limited to A and AAAA entries for IPv4 and IPv6 glue records
             respectively.
 
-9.3.  Operations
+10.3.  Operations
 
-9.3.1.  Create Operation
+10.3.1.  Create Operation
 
    The Create operation allows a client to provision a new Host Data
    Object.  The operation accepts as input all create-only and read-
@@ -2487,7 +2626,7 @@ Table of Contents
    name is external to the server's namespace, IP addresses are not
    required by the DNS and MAY be omitted.
 
-9.3.2.  Read Operation
+10.3.2.  Read Operation
 
    The Read operation allows a client to retrieve the data elements of a
    Host Data Object.
@@ -2498,7 +2637,7 @@ Table of Contents
          information and there is no distinction based on client
          identity as described in Section 3.1.2 of [RFC5732].
 
-9.3.3.  Update Operation
+10.3.3.  Update Operation
 
    The Update operation allows a client to modify the attributes of an
    existing Host Data Object.  The operation targets a specific data
@@ -2521,7 +2660,7 @@ Table of Contents
    attributes, and subsequently updating the other objects sponsored by
    the client.
 
-9.3.4.  Delete Operation
+10.3.4.  Delete Operation
 
    The Delete operation allows a client to remove an existing Host Data
    Object.  The operation targets a specific data object identified by
@@ -2540,7 +2679,7 @@ Table of Contents
 
    The error response SHOULD indicate the related associated objects.
 
-9.3.5.  Restore Operations
+10.3.5.  Restore Operations
 
    The Host Data Object supports the restore operations defined in the
    Section 2.5.5.  These operations are OPTIONAL and are only available
@@ -2549,16 +2688,134 @@ Table of Contents
    No domain-specific transient data elements extend the common restore
    operations beyond those defined in the Section 2.5.5.
 
-10.  IANA Considerations
+11.  Registrar Data Object
 
-10.1.  RPP Data Object Registry
+11.1.  Object Description
+
+   -  Name: Registrar Data Object
+   -  Identifier: registrar
+   -  Description: A Registrar Data Object represents a registrar that
+      is authorised to provision and manage objects in the registry.
+      There is exactly one Registrar Data Object per registrar.  A
+      registrar MUST have one or more linked users.  Users are managed
+      via the User Object Sub-Resource operations in the context of this
+      object (see Section 6.1).
+
+11.2.  Data Elements
+
+   The following data elements are defined for the Registrar Data
+   Object.
+
+   -  Registrar Identifier
+
+      -  Identifier: registrarId
+      -  Cardinality: 1
+      -  Mutability: create-only
+      -  Data Type: Identifier
+      -  Description: The unique identifier of the registrar.
+      -  Constraints: (None)
+
+   -  Name
+
+      -  Identifier: name
+      -  Cardinality: 1
+      -  Mutability: read-write
+      -  Data Type: String
+      -  Description: The full registered name of the registrar.
+      -  Constraints: (None)
+
+   -  Users
+
+      -  Identifier: users
+      -  Cardinality: 1+
+      -  Mutability: read-write
+      -  Data Type: DictionaryComposition[User Object]
+         -  Label Description: The unique identifier of the user within
+            this registrar.
+         -  Label Constraints: The label MUST match the userId of the
+            corresponding User Object and MUST be unique within the
+            Registrar Data Object.
+      -  Description: The collection of users linked to this registrar.
+         Each user is identified by a unique user identifier and carries
+         a set of RBAC roles.  A registrar MUST have at least one linked
+         user.
+      -  Constraints:
+         -  At least one user MUST be present at all times.  The User
+            Object Delete operation MUST be rejected if it would leave
+            this object with no linked users.
+
+11.3.  Operations
+
+   The Registrar Data Object supports the standard Create, Read, Update,
+   and Delete operations as defined in the Uniform Interface section.
+
+11.3.1.  Create Operation
+
+   -  Identifier: create
+
+   The Create operation allows a client to provision a new Registrar
+   Data Object.  The operation accepts as input all create-only and
+   read-write data elements, including at least one linked user.
+
+   -  Authorisation:
+      -  Server policy determines which clients are authorised to create
+         Registrar Data Objects.  Typically only registry operators are
+         authorised to perform this operation.
+
+11.3.2.  Read Operation
+
+   -  Identifier: read
+
+   The Read operation allows a client to retrieve the data elements of a
+   Registrar Data Object, including its linked users and their assigned
+   roles.
+
+   -  Authorisation:
+      -  Server policy determines which clients are authorised to read
+         Registrar Data Objects.
+
+11.3.3.  Update Operation
+
+   -  Identifier: update
+
+   The Update operation allows a client to modify the read-write data
+   elements of an existing Registrar Data Object (e.g., name).
+
+   -  Authorisation:
+      -  Server policy determines which clients are authorised to update
+         Registrar Data Objects.
+
+11.3.4.  Delete Operation
+
+   -  Identifier: delete
+
+   The Delete operation allows a client to remove an existing Registrar
+   Data Object.
+
+   -  Authorisation:
+      -  Server policy determines which clients are authorised to delete
+         Registrar Data Objects.
+
+   The server SHOULD reject a delete request if the registrar is the
+   sponsoring client of any existing provisioned objects.
+
+11.3.5.  User Operations
+
+   User management for a Registrar Data Object uses the common User
+   Object Sub-Resource operations defined in Section 6: Create, Read,
+   Update, and Delete.  These operations are performed in the context of
+   the Registrar Data Object as the Owner Object.
+
+12.  IANA Considerations
+
+12.1.  RPP Data Object Registry
 
    This document establishes the "RESTful Provisioning Protocol (RPP)
    Data Object Registry".  This registry serves as a catalogue of all
    data objects, component objects, data elements, and operations used
    within RPP.
 
-10.1.1.  Registration Policy
+12.1.1.  Registration Policy
 
    The policy for adding new objects, data elements, or operations to
    this registry is "Specification Required" [RFC8126].
@@ -2572,22 +2829,23 @@ Table of Contents
    Private (non-standardised) extensions are not required to register in
    this registry.
 
-10.1.2.  Registry Structure
+12.1.2.  Registry Structure
 
    The registry is organised as a collection of Object definitions.
    Each Object definition MUST include:
 
    -  A header containing the Object Identifier, Object Name, Object
-      Type (Resource, Process or Component), a brief description, and a
-      reference to its defining specification.
+      Type (Resource, Process, Sub-Resource or Component), a brief
+      description, and a reference to its defining specification.
 
    -  A "Data Elements" table listing all persisted data elements
       associated with the object.  Each entry MUST specify the element's
       Identifier, Name, Cardinality, Mutability, Data Type, description,
       and a reference to the specification that defines it.
 
-   -  An "Operations" section (applicable only for Object Types Resource
-      or Process).  For each operation, the registry MUST provide:
+   -  An "Operations" section (applicable only for Object Types
+      Resource, Process or Sub-Resource).  For each operation, the
+      registry MUST provide:
 
       -  The Operation's Name, a description, and a reference to the
          specification that defines it.
@@ -2604,7 +2862,7 @@ Table of Contents
    it, allowing implementations to distinguish core protocol elements
    from extension-defined elements.
 
-10.1.3.  Initial Registrations
+12.1.3.  Initial Registrations
 
    The initial contents of the RPP Data Object Registry are defined
    below.
@@ -3501,11 +3759,171 @@ Table of Contents
 
    Parameters: (None)
 
-11.  Security Considerations
+   Object: user
+
+   Object Name: User Object
+
+   Object Type: Sub-Resource
+
+   Description: Represents a user linked to an Owner Object, carrying a
+   set of RBAC roles that define the user's permissions within the
+   context of the owning object.  Reusable across different Data Object
+   types (e.g., Registrar, Registry).
+
+   Reference: [This-ID]
+
+   Data Elements
+
+   +==========+==========+=====+=============+==========+=============+
+   |Element   |Element   |Card.| Mutability  |Data Type | Description |
+   |Identifier|Name      |     |             |          |             |
+   +==========+==========+=====+=============+==========+=============+
+   |userId    |User      |1    | create-only |Identifier| A unique    |
+   |          |Identifier|     |             |          | identifier  |
+   |          |          |     |             |          | for the     |
+   |          |          |     |             |          | user within |
+   |          |          |     |             |          | the owning  |
+   |          |          |     |             |          | object.     |
+   +----------+----------+-----+-------------+----------+-------------+
+   |roles     |Roles     |1+   | read-write  |String    | The list of |
+   |          |          |     |             |          | RBAC roles  |
+   |          |          |     |             |          | assigned to |
+   |          |          |     |             |          | this user.  |
+   +----------+----------+-----+-------------+----------+-------------+
+
+                                 Table 21
+
+   Operations
+
+   Operation: Create
+
+   Operation Identifier: create
+
+   Description: Adds a new user to an Owner Object.  Performed in the
+   context of the Owner Object.
+
+   Parameters: (None)
+
+   Operation: Read
+
+   Operation Identifier: read
+
+   Description: Retrieves the data of a specific user in the context of
+   its Owner Object.
+
+   Parameters: (None)
+
+   Operation: Update
+
+   Operation Identifier: update
+
+   Description: Modifies the read-write data elements (e.g., roles) of a
+   specific user.
+
+   Parameters: (None)
+
+   Operation: Delete
+
+   Operation Identifier: delete
+
+   Description: Removes a specific user from its Owner Object.  The
+   server MUST reject this operation if the Owner Object requires at
+   least one user and removing the user would leave it with none.
+
+   Parameters: (None)
+
+   Object: registrar
+
+   Object Name: Registrar Data Object
+
+   Object Type: Resource
+
+   Description: Represents a registrar authorised to provision and
+   manage objects in the registry.  There is exactly one Registrar Data
+   Object per registrar.  A registrar MUST have at least one linked
+   user.  Users are managed via the common User Object Sub-Resource
+   operations.
+
+   Reference: [This-ID]
+
+   Data Elements
+
+   +===========+==========+=====+==========+=====================+===========+
+   |Identifier |Name      |Card.|Mutability|Data Type            |Description|
+   +===========+==========+=====+==========+=====================+===========+
+   |registrarId|Registrar |1    |create-   |Identifier           |The unique |
+   |           |Identifier|     |only      |                     |identifier |
+   |           |          |     |          |                     |of the     |
+   |           |          |     |          |                     |registrar. |
+   +-----------+----------+-----+----------+---------------------+-----------+
+   |name       |Name      |1    |read-write|String               |The full   |
+   |           |          |     |          |                     |registered |
+   |           |          |     |          |                     |name of the|
+   |           |          |     |          |                     |registrar. |
+   +-----------+----------+-----+----------+---------------------+-----------+
+   |users      |Users     |1+   |read-write|DictionaryComposition|Users      |
+   |           |          |     |          |[User Object]        |linked to  |
+   |           |          |     |          |                     |this       |
+   |           |          |     |          |                     |registrar, |
+   |           |          |     |          |                     |keyed by   |
+   |           |          |     |          |                     |user       |
+   |           |          |     |          |                     |identifier.|
+   +-----------+----------+-----+----------+---------------------+-----------+
+
+                                  Table 22
+
+   Operations
+
+   Operation: Create
+
+   Operation Identifier: create
+
+   Description: Provisions a new Registrar Data Object, including at
+   least one linked user.
+
+   Parameters: (None)
+
+   Operation: Read
+
+   Operation Identifier: read
+
+   Description: Retrieves the data elements of a Registrar Data Object.
+
+   Parameters: (None)
+
+   Operation: Update
+
+   Operation Identifier: update
+
+   Description: Modifies the read-write data elements of a Registrar
+   Data Object.
+
+   Parameters: (None)
+
+   Operation: Delete
+
+   Operation Identifier: delete
+
+   Description: Removes an existing Registrar Data Object.
+
+   Parameters: (None)
+
+13.  Security Considerations
 
       |  TODO: write security considerations, if any
 
-12.  Changes History
+14.  Changes History
+
+draft-kowalik-rpp-data-objects -03 - -04
+
+   -  Add Registrar Data Object (Issue #81)
+   -  Add Sub-Resource Object as new taxonomy category for reusable
+      objects with own CRUD operations bound to a parent (Issue #81)
+   -  Add User Object as Sub-Resource Object with CRUD operations,
+      reusable across Registrar, Registry and other parent types (Issue
+      #81)
+   -  Add Sub-Resource Object and Owner Object to terminology section
+      (Issue #81)
 
 draft-kowalik-rpp-data-objects -02 - -03
 
@@ -3543,9 +3961,9 @@ draft-kowalik-rpp-data-objects -01 - -02
    -  ontology of allowed basic datatypes #4
    -  add examples of associations #31
 
-13.  References
+15.  References
 
-13.1.  Normative References
+15.1.  Normative References
 
    [I-D.ietf-rpp-architecture]
               Kowalik, P. and M. Wullink, "RPP Architecture", Work in
@@ -3628,7 +4046,7 @@ draft-kowalik-rpp-data-objects -01 - -02
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
               May 2017, <https://www.rfc-editor.org/info/rfc8174>.
 
-13.2.  Informative References
+15.2.  Informative References
 
    [I-D.simmen-rpp-dns-data]
               Simmen, C. and P. Kowalik, "DNS data representation for

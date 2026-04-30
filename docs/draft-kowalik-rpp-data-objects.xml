@@ -48,8 +48,12 @@
 <dd>A reusable data structure that carries data only, with no operations of its own. Component Objects are embedded within Data Objects or other objects to avoid repetition of common data patterns.</dd>
 <dt>Process Object</dt>
 <dd>An object that represents a long-running or multi-step operation initiated on a Data Object. Process Objects carry operation-related state and data, and may define their own operations to interact with the process. They have no independent existence - their lifecycle is bound to the owning Data Object.</dd>
+<dt>Sub-Resource Object</dt>
+<dd>A reusable object that carries persistent data and defines its own standard CRUD operations, but has no independent existence outside a parent Data Object. Its lifecycle is bound to the owning Data Object. A Sub-Resource Object can be owned by different Data Object types, allowing the same object definition and operations to be reused across multiple parent contexts. The owning Data Object MUST be identified in the operational context (e.g., via the URL path).</dd>
 <dt>Owner Data Object</dt>
-<dd>A Data Object which a process (represented as Process Object) was initiated upon and which owns this Process Object</dd>
+<dd>A Data Object which a process (represented as Process Object) was initiated upon and which owns this Process Object.</dd>
+<dt>Owner Object</dt>
+<dd>A Data Object or Sub-Resource Object that owns one or more Sub-Resource Objects. The lifecycle of the owned Sub-Resource Objects is bound to the Owner Object.</dd>
 </dl>
 </section>
 </section>
@@ -269,7 +273,8 @@ The data type of a data element may also be a reference to another data object, 
    |                               or not req.    | |      Purged       (12)|
    |                                  <create>    | +-----------------------+
    +----------------------------------------------+
-]]></sourcecode>
+]]>
+</sourcecode>
 <t>State descriptions:</t>
 
 <ol spacing="compact">
@@ -337,7 +342,8 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 |             |    ...   |
 |             +----------+
 +-------------------+
-]]></sourcecode>
+]]>
+</sourcecode>
 <t>Example aggregation having cardinality &gt;1:</t>
 
 <sourcecode type="ascii"><![CDATA[+-------------------+
@@ -354,7 +360,8 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 |             +----------+
 |         ...       |
 +-------------------+
-]]></sourcecode>
+]]>
+</sourcecode>
 </section>
 
 <section anchor="composition"><name>Composition</name>
@@ -372,7 +379,8 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 |   +--| ...   |    |
 |      +-------+    |
 +-------------------+
-]]></sourcecode>
+]]>
+</sourcecode>
 <t>Example composition having cardinality &gt;1:</t>
 
 <sourcecode type="ascii"><![CDATA[+-------------------+
@@ -387,7 +395,8 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 |   |     +-------+ |
 |   ...             |
 +-------------------+
-]]></sourcecode>
+]]>
+</sourcecode>
 </section>
 
 <section anchor="labelled-aggregation"><name>Labelled Aggregation</name>
@@ -416,7 +425,8 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 |   ...                          |
 +--------------------------------+
 
-]]></sourcecode>
+]]>
+</sourcecode>
 </section>
 
 <section anchor="dictionary-aggregation"><name>Dictionary Aggregation</name>
@@ -439,7 +449,8 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 |                   +-----------+
 |     ...                  |
 +--------------------------+
-]]></sourcecode>
+]]>
+</sourcecode>
 </section>
 
 <section anchor="labelled-composition"><name>Labelled Composition</name>
@@ -467,7 +478,8 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 |   |                    +----------+ |
 |   ...                               |
 +-------------------------------------+
-]]></sourcecode>
+]]>
+</sourcecode>
 </section>
 
 <section anchor="dictionary-composition"><name>Dictionary Composition</name>
@@ -490,7 +502,8 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 |             +---------+  |
 |     ...                  |
 +--------------------------+
-]]></sourcecode>
+]]>
+</sourcecode>
 </section>
 </section>
 
@@ -1159,6 +1172,132 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 </section>
 </section>
 
+<section anchor="sub-resource-objects"><name>Sub-Resource Objects</name>
+<t>This section defines Sub-Resource Objects used in this document. Sub-Resource Objects are reusable objects that define their own CRUD operations but have no independent existence outside a parent (Owner) Object. The owning object MUST be identified in the operational context. The same Sub-Resource Object definition and its operations are reused across all parent types that link it.</t>
+
+<section anchor="user-object"><name>User Object</name>
+
+<ul spacing="compact">
+<li>Name: User Object</li>
+<li>Identifier: user</li>
+<li>Description: Represents a user linked to an Owner Object. Each user carries a set of RBAC roles that define the user's permissions within the context of the owning object. The lifecycle of a User Object is bound to its Owner Object. This Sub-Resource Object is reusable across different Data Object types (e.g., Registrar, Registry).</li>
+<li><t>Data Elements:</t>
+
+<ul spacing="compact">
+<li><t>User Identifier</t>
+
+<ul spacing="compact">
+<li>Identifier: userId</li>
+<li>Cardinality: 1</li>
+<li>Mutability: create-only</li>
+<li>Data Type: Identifier</li>
+<li>Description: A unique identifier for the user within the owning object.</li>
+<li>Constraints: The value MUST be unique within the Owner Object.</li>
+</ul></li>
+<li><t>Roles</t>
+
+<ul spacing="compact">
+<li>Identifier: roles</li>
+<li>Cardinality: 1+</li>
+<li>Mutability: read-write</li>
+<li>Data Type: String</li>
+<li>Description: The list of RBAC roles assigned to this user.</li>
+<li><t>Constraints:</t>
+
+<ul spacing="compact">
+<li>Each role value MUST be a non-empty string.</li>
+<li>Allowed role values MAY be constrained by server policy.</li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul>
+</section>
+
+<section anchor="operations-1"><name>Operations</name>
+
+<section anchor="create-operation"><name>Create Operation</name>
+
+<ul spacing="compact">
+<li>Identifier: create</li>
+</ul>
+<t>The Create operation adds a new user to an existing Owner Object. The operation accepts as input all create-only and read-write data elements of the User Object.</t>
+
+<ul>
+<li><t>Authorisation:</t>
+
+<ul spacing="compact">
+<li>Server policy determines which clients are authorised to create users in the context of a given Owner Object.</li>
+</ul></li>
+<li><t>Input: Owner Object reference, User Object (create-only and read-write elements)</t>
+</li>
+<li><t>Output: User Object</t>
+</li>
+</ul>
+</section>
+
+<section anchor="read-operation"><name>Read Operation</name>
+
+<ul spacing="compact">
+<li>Identifier: read</li>
+</ul>
+<t>The Read operation retrieves the data of a specific User Object in the context of its Owner Object.</t>
+
+<ul>
+<li><t>Authorisation:</t>
+
+<ul spacing="compact">
+<li>Server policy determines which clients are authorised to read users in the context of a given Owner Object.</li>
+</ul></li>
+<li><t>Input: Owner Object reference, User Identifier</t>
+</li>
+<li><t>Output: User Object</t>
+</li>
+</ul>
+</section>
+
+<section anchor="update-operation"><name>Update Operation</name>
+
+<ul spacing="compact">
+<li>Identifier: update</li>
+</ul>
+<t>The Update operation modifies the read-write data elements (e.g., roles) of a specific User Object.</t>
+
+<ul>
+<li><t>Authorisation:</t>
+
+<ul spacing="compact">
+<li>Server policy determines which clients are authorised to update users in the context of a given Owner Object.</li>
+</ul></li>
+<li><t>Input: Owner Object reference, User Identifier, User Object (read-write elements)</t>
+</li>
+<li><t>Output: User Object</t>
+</li>
+</ul>
+</section>
+
+<section anchor="delete-operation"><name>Delete Operation</name>
+
+<ul spacing="compact">
+<li>Identifier: delete</li>
+</ul>
+<t>The Delete operation removes a specific User Object from its Owner Object.</t>
+
+<ul>
+<li><t>Authorisation:</t>
+
+<ul spacing="compact">
+<li>Server policy determines which clients are authorised to delete users in the context of a given Owner Object.</li>
+</ul></li>
+<li><t>Input: Owner Object reference, User Identifier</t>
+</li>
+<li><t>Output: Nothing</t>
+</li>
+</ul>
+<t>The server MUST reject this operation if the Owner Object requires at least one user and removing the user would leave it with none. The Owner Object definition MUST specify this constraint if applicable.</t>
+</section>
+</section>
+</section>
+
 <section anchor="process-objects"><name>Process Objects</name>
 <t>This section defines the Process Objects used in this document.</t>
 
@@ -1244,7 +1383,7 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 </ul></li>
 </ul>
 
-<section anchor="operations-1"><name>Operations</name>
+<section anchor="operations-2"><name>Operations</name>
 
 <section anchor="transfer-create"><name>Create (Transfer Request)</name>
 
@@ -1443,7 +1582,7 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 </ul></li>
 </ul>
 
-<section anchor="operations-2"><name>Operations</name>
+<section anchor="operations-3"><name>Operations</name>
 
 <section anchor="restore-create"><name>Create (Restore Request)</name>
 
@@ -1715,9 +1854,9 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 </ul>
 </section>
 
-<section anchor="operations-3"><name>Operations</name>
+<section anchor="operations-4"><name>Operations</name>
 
-<section anchor="create-operation"><name>Create Operation</name>
+<section anchor="create-operation-1"><name>Create Operation</name>
 
 <ul spacing="compact">
 <li>Identifier: create</li>
@@ -1745,7 +1884,7 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 </ul>
 </section>
 
-<section anchor="read-operation"><name>Read Operation</name>
+<section anchor="read-operation-1"><name>Read Operation</name>
 
 <ul spacing="compact">
 <li>Identifier: read</li>
@@ -1795,7 +1934,7 @@ is &quot;all&quot;.</li>
 </ul>
 </section>
 
-<section anchor="update-operation"><name>Update Operation</name>
+<section anchor="update-operation-1"><name>Update Operation</name>
 <t>The Update operation allows a client to modify the read-write data elements of an existing Domain Name resource.</t>
 
 <ul spacing="compact">
@@ -1825,7 +1964,7 @@ is &quot;all&quot;.</li>
 </ul>
 </section>
 
-<section anchor="delete-operation"><name>Delete Operation</name>
+<section anchor="delete-operation-1"><name>Delete Operation</name>
 
 <ul spacing="compact">
 <li>Identifier: delete</li>
@@ -2049,9 +2188,9 @@ is &quot;all&quot;.</li>
 </aside>
 </section>
 
-<section anchor="operations-4"><name>Operations</name>
+<section anchor="operations-5"><name>Operations</name>
 
-<section anchor="create-operation-1"><name>Create Operation</name>
+<section anchor="create-operation-2"><name>Create Operation</name>
 <t>The Create operation allows a client to provision a new Contact resource. The operation accepts as input all create-only and read-write data elements defined for the Contact Data Object.</t>
 
 <ul spacing="compact">
@@ -2071,7 +2210,7 @@ is &quot;all&quot;.</li>
 </ul>
 </section>
 
-<section anchor="read-operation-1"><name>Read Operation</name>
+<section anchor="read-operation-2"><name>Read Operation</name>
 <t>The Read operation allows a client to retrieve the data elements of a Contact resource. The server's response MAY vary depending on client authorisation and server policy.</t>
 
 <ul spacing="compact">
@@ -2103,7 +2242,7 @@ is &quot;all&quot;.</li>
 <t>When constructing the response, the server MUST respect the disclosure policies defined by the Disclose Object (<tt>disclose</tt>), whether set by the server operator's default data-collection policy or by the sponsoring client for the contact. Data elements marked for non-disclosure MUST NOT be included in responses to unauthorised clients.</t>
 </section>
 
-<section anchor="update-operation-1"><name>Update Operation</name>
+<section anchor="update-operation-2"><name>Update Operation</name>
 <t>The Update operation allows a client to modify the attributes of an existing Contact resource.</t>
 
 <ul spacing="compact">
@@ -2122,7 +2261,7 @@ is &quot;all&quot;.</li>
 <t>A client MUST NOT add, delete or alter values for statuses managed by the server (prefixed with &quot;server&quot;). A server MAY add, delete or alter status values set by a client, subject to server policy.</t>
 </section>
 
-<section anchor="delete-operation-1"><name>Delete Operation</name>
+<section anchor="delete-operation-2"><name>Delete Operation</name>
 <t>The Delete operation allows a client to remove an existing Contact resource. The operation targets a specific data object identified by its Handle ID.</t>
 
 <ul spacing="compact">
@@ -2206,9 +2345,9 @@ is &quot;all&quot;.</li>
 </ul>
 </section>
 
-<section anchor="operations-5"><name>Operations</name>
+<section anchor="operations-6"><name>Operations</name>
 
-<section anchor="create-operation-2"><name>Create Operation</name>
+<section anchor="create-operation-3"><name>Create Operation</name>
 <t>The Create operation allows a client to provision a new Host Data Object. The operation accepts as input all create-only and read-write data elements defined for the Host Data Object.</t>
 
 <ul spacing="compact">
@@ -2222,7 +2361,7 @@ is &quot;all&quot;.</li>
 <t>In EPP Compatibility Profile, IP addresses are REQUIRED only as needed to produce DNS glue records. If the host name exists in a namespace for which the server is authoritative and is subordinate to an existing domain, IP addresses SHOULD be provided. If the host name is external to the server's namespace, IP addresses are not required by the DNS and MAY be omitted.</t>
 </section>
 
-<section anchor="read-operation-2"><name>Read Operation</name>
+<section anchor="read-operation-3"><name>Read Operation</name>
 <t>The Read operation allows a client to retrieve the data elements of a Host Data Object.</t>
 
 <ul spacing="compact">
@@ -2234,7 +2373,7 @@ is &quot;all&quot;.</li>
 </ul>
 </section>
 
-<section anchor="update-operation-2"><name>Update Operation</name>
+<section anchor="update-operation-3"><name>Update Operation</name>
 <t>The Update operation allows a client to modify the attributes of an existing Host Data Object. The operation targets a specific data object identified by its host name.</t>
 
 <ul spacing="compact">
@@ -2248,7 +2387,7 @@ is &quot;all&quot;.</li>
 <t>Host name changes can have an impact on associated objects that refer to the host object. A Host Name change SHOULD NOT require additional updates of associated objects to preserve existing associations, with one exception: changing an external host object that has associations with objects that are sponsored by a different client. Attempts to update such hosts directly MUST fail. The change can be provisioned by creating a new external host with a new name and any needed new attributes, and subsequently updating the other objects sponsored by the client.</t>
 </section>
 
-<section anchor="delete-operation-2"><name>Delete Operation</name>
+<section anchor="delete-operation-3"><name>Delete Operation</name>
 <t>The Delete operation allows a client to remove an existing Host Data Object. The operation targets a specific data object identified by its host name.</t>
 
 <ul spacing="compact">
@@ -2272,6 +2411,137 @@ is &quot;all&quot;.</li>
 </section>
 </section>
 
+<section anchor="registrar-data-object"><name>Registrar Data Object</name>
+
+<section anchor="object-description-3"><name>Object Description</name>
+
+<ul spacing="compact">
+<li>Name: Registrar Data Object</li>
+<li>Identifier: registrar</li>
+<li>Description: A Registrar Data Object represents a registrar that is authorised to provision and manage objects in the registry. There is exactly one Registrar Data Object per registrar. A registrar MUST have one or more linked users. Users are managed via the User Object Sub-Resource operations in the context of this object (see <xref target="user-object"></xref>).</li>
+</ul>
+</section>
+
+<section anchor="data-elements-3"><name>Data Elements</name>
+<t>The following data elements are defined for the Registrar Data Object.</t>
+
+<ul>
+<li><t>Registrar Identifier</t>
+
+<ul spacing="compact">
+<li>Identifier: registrarId</li>
+<li>Cardinality: 1</li>
+<li>Mutability: create-only</li>
+<li>Data Type: Identifier</li>
+<li>Description: The unique identifier of the registrar.</li>
+<li>Constraints: (None)</li>
+</ul></li>
+<li><t>Name</t>
+
+<ul spacing="compact">
+<li>Identifier: name</li>
+<li>Cardinality: 1</li>
+<li>Mutability: read-write</li>
+<li>Data Type: String</li>
+<li>Description: The full registered name of the registrar.</li>
+<li>Constraints: (None)</li>
+</ul></li>
+<li><t>Users</t>
+
+<ul spacing="compact">
+<li>Identifier: users</li>
+<li>Cardinality: 1+</li>
+<li>Mutability: read-write</li>
+<li><t>Data Type: DictionaryComposition[User Object]</t>
+
+<ul spacing="compact">
+<li>Label Description: The unique identifier of the user within this registrar.</li>
+<li>Label Constraints: The label MUST match the <tt>userId</tt> of the corresponding User Object and MUST be unique within the Registrar Data Object.</li>
+</ul></li>
+<li>Description: The collection of users linked to this registrar. Each user is identified by a unique user identifier and carries a set of RBAC roles. A registrar MUST have at least one linked user.</li>
+<li><t>Constraints:</t>
+
+<ul spacing="compact">
+<li>At least one user MUST be present at all times. The User Object Delete operation MUST be rejected if it would leave this object with no linked users.</li>
+</ul></li>
+</ul></li>
+</ul>
+</section>
+
+<section anchor="operations-7"><name>Operations</name>
+<t>The Registrar Data Object supports the standard Create, Read, Update, and Delete operations as defined in the Uniform Interface section.</t>
+
+<section anchor="create-operation-4"><name>Create Operation</name>
+
+<ul spacing="compact">
+<li>Identifier: create</li>
+</ul>
+<t>The Create operation allows a client to provision a new Registrar Data Object. The operation accepts as input all create-only and read-write data elements, including at least one linked user.</t>
+
+<ul spacing="compact">
+<li><t>Authorisation:</t>
+
+<ul spacing="compact">
+<li>Server policy determines which clients are authorised to create Registrar Data Objects. Typically only registry operators are authorised to perform this operation.</li>
+</ul></li>
+</ul>
+</section>
+
+<section anchor="read-operation-4"><name>Read Operation</name>
+
+<ul spacing="compact">
+<li>Identifier: read</li>
+</ul>
+<t>The Read operation allows a client to retrieve the data elements of a Registrar Data Object, including its linked users and their assigned roles.</t>
+
+<ul spacing="compact">
+<li><t>Authorisation:</t>
+
+<ul spacing="compact">
+<li>Server policy determines which clients are authorised to read Registrar Data Objects.</li>
+</ul></li>
+</ul>
+</section>
+
+<section anchor="update-operation-4"><name>Update Operation</name>
+
+<ul spacing="compact">
+<li>Identifier: update</li>
+</ul>
+<t>The Update operation allows a client to modify the read-write data elements of an existing Registrar Data Object (e.g., <tt>name</tt>).</t>
+
+<ul spacing="compact">
+<li><t>Authorisation:</t>
+
+<ul spacing="compact">
+<li>Server policy determines which clients are authorised to update Registrar Data Objects.</li>
+</ul></li>
+</ul>
+</section>
+
+<section anchor="delete-operation-4"><name>Delete Operation</name>
+
+<ul spacing="compact">
+<li>Identifier: delete</li>
+</ul>
+<t>The Delete operation allows a client to remove an existing Registrar Data Object.</t>
+
+<ul spacing="compact">
+<li><t>Authorisation:</t>
+
+<ul spacing="compact">
+<li>Server policy determines which clients are authorised to delete Registrar Data Objects.</li>
+</ul></li>
+</ul>
+<t>The server SHOULD reject a delete request if the registrar is the sponsoring client of any existing provisioned objects.</t>
+</section>
+
+<section anchor="user-operations"><name>User Operations</name>
+<t>User management for a Registrar Data Object uses the common User Object Sub-Resource operations defined in <xref target="sub-resource-objects"></xref>: Create, Read, Update, and Delete. These operations are performed in the context of the Registrar Data Object as the Owner Object.</t>
+</section>
+</section>
+</section>
+
 <section anchor="iana-considerations"><name>IANA Considerations</name>
 
 <section anchor="rpp-data-object-registry"><name>RPP Data Object Registry</name>
@@ -2287,11 +2557,11 @@ is &quot;all&quot;.</li>
 <t>The registry is organised as a collection of Object definitions. Each Object definition MUST include:</t>
 
 <ul>
-<li><t>A header containing the Object Identifier, Object Name, Object Type (Resource, Process or Component), a brief description, and a reference to its defining specification.</t>
+<li><t>A header containing the Object Identifier, Object Name, Object Type (Resource, Process, Sub-Resource or Component), a brief description, and a reference to its defining specification.</t>
 </li>
 <li><t>A &quot;Data Elements&quot; table listing all persisted data elements associated with the object. Each entry MUST specify the element's Identifier, Name, Cardinality, Mutability, Data Type, description, and a reference to the specification that defines it.</t>
 </li>
-<li><t>An &quot;Operations&quot; section (applicable only for Object Types Resource or Process). For each operation, the
+<li><t>An &quot;Operations&quot; section (applicable only for Object Types Resource, Process or Sub-Resource). For each operation, the
 registry MUST provide:</t>
 
 <ul spacing="compact">
@@ -3269,6 +3539,123 @@ TODO: IANA table: Disclose Object</t>
 <t>Operation: Delete</t>
 <t>Description: Removes an existing Host Data Object.</t>
 <t>Parameters: (None)</t>
+<t>Object: user</t>
+<t>Object Name: User Object</t>
+<t>Object Type: Sub-Resource</t>
+<t>Description: Represents a user linked to an Owner Object, carrying a set of RBAC roles that define the user's permissions within the context of the owning object. Reusable across different Data Object types (e.g., Registrar, Registry).</t>
+<t>Reference: [This-ID]</t>
+<t>Data Elements</t>
+<table>
+<thead>
+<tr>
+<th>Element Identifier</th>
+<th>Element Name</th>
+<th>Card.</th>
+<th>Mutability</th>
+<th>Data Type</th>
+<th>Description</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>userId</td>
+<td>User Identifier</td>
+<td>1</td>
+<td>create-only</td>
+<td>Identifier</td>
+<td>A unique identifier for the user within the owning object.</td>
+</tr>
+
+<tr>
+<td>roles</td>
+<td>Roles</td>
+<td>1+</td>
+<td>read-write</td>
+<td>String</td>
+<td>The list of RBAC roles assigned to this user.</td>
+</tr>
+</tbody>
+</table><t>Operations</t>
+<t>Operation: Create</t>
+<t>Operation Identifier: create</t>
+<t>Description: Adds a new user to an Owner Object. Performed in the context of the Owner Object.</t>
+<t>Parameters: (None)</t>
+<t>Operation: Read</t>
+<t>Operation Identifier: read</t>
+<t>Description: Retrieves the data of a specific user in the context of its Owner Object.</t>
+<t>Parameters: (None)</t>
+<t>Operation: Update</t>
+<t>Operation Identifier: update</t>
+<t>Description: Modifies the read-write data elements (e.g., roles) of a specific user.</t>
+<t>Parameters: (None)</t>
+<t>Operation: Delete</t>
+<t>Operation Identifier: delete</t>
+<t>Description: Removes a specific user from its Owner Object. The server MUST reject this operation if the Owner Object requires at least one user and removing the user would leave it with none.</t>
+<t>Parameters: (None)</t>
+<t>Object: registrar</t>
+<t>Object Name: Registrar Data Object</t>
+<t>Object Type: Resource</t>
+<t>Description: Represents a registrar authorised to provision and manage objects in the registry. There is exactly one Registrar Data Object per registrar. A registrar MUST have at least one linked user. Users are managed via the common User Object Sub-Resource operations.</t>
+<t>Reference: [This-ID]</t>
+<t>Data Elements</t>
+<table>
+<thead>
+<tr>
+<th>Identifier</th>
+<th>Name</th>
+<th>Card.</th>
+<th>Mutability</th>
+<th>Data Type</th>
+<th>Description</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>registrarId</td>
+<td>Registrar Identifier</td>
+<td>1</td>
+<td>create-only</td>
+<td>Identifier</td>
+<td>The unique identifier of the registrar.</td>
+</tr>
+
+<tr>
+<td>name</td>
+<td>Name</td>
+<td>1</td>
+<td>read-write</td>
+<td>String</td>
+<td>The full registered name of the registrar.</td>
+</tr>
+
+<tr>
+<td>users</td>
+<td>Users</td>
+<td>1+</td>
+<td>read-write</td>
+<td>DictionaryComposition [User Object]</td>
+<td>Users linked to this registrar, keyed by user identifier.</td>
+</tr>
+</tbody>
+</table><t>Operations</t>
+<t>Operation: Create</t>
+<t>Operation Identifier: create</t>
+<t>Description: Provisions a new Registrar Data Object, including at least one linked user.</t>
+<t>Parameters: (None)</t>
+<t>Operation: Read</t>
+<t>Operation Identifier: read</t>
+<t>Description: Retrieves the data elements of a Registrar Data Object.</t>
+<t>Parameters: (None)</t>
+<t>Operation: Update</t>
+<t>Operation Identifier: update</t>
+<t>Description: Modifies the read-write data elements of a Registrar Data Object.</t>
+<t>Parameters: (None)</t>
+<t>Operation: Delete</t>
+<t>Operation Identifier: delete</t>
+<t>Description: Removes an existing Registrar Data Object.</t>
+<t>Parameters: (None)</t>
 </section>
 </section>
 </section>
@@ -3280,6 +3667,16 @@ TODO: IANA table: Disclose Object</t>
 </section>
 
 <section anchor="changes-history" toc="exclude"><name>Changes History</name>
+
+<section anchor="draft-kowalik-rpp-data-objects-03-04" numbered="false"><name>draft-kowalik-rpp-data-objects -03 - -04</name>
+
+<ul spacing="compact">
+<li>Add Registrar Data Object (Issue #81)</li>
+<li>Add Sub-Resource Object as new taxonomy category for reusable objects with own CRUD operations bound to a parent (Issue #81)</li>
+<li>Add User Object as Sub-Resource Object with CRUD operations, reusable across Registrar, Registry and other parent types (Issue #81)</li>
+<li>Add Sub-Resource Object and Owner Object to terminology section (Issue #81)</li>
+</ul>
+</section>
 
 <section anchor="draft-kowalik-rpp-data-objects-02-03" numbered="false"><name>draft-kowalik-rpp-data-objects -02 - -03</name>
 
