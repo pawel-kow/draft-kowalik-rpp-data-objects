@@ -314,6 +314,38 @@ To address this, this document defines an "EPP Compatibility Profile". This prof
 
 Throughout this document, all constraints that are part of this profile are explicitly marked with a reference to "EPP Compatibility Profile". Implementers of systems in a mixed EPP/RPP environment MUST follow these specific constraints in addition to the base RPP requirements.
 
+# External Data Types
+
+The RPP object model is designed to be extensible and interoperable with existing standards. To reduce redundancy and improve consistency, RPP data objects MAY incorporate data types and structures defined in external RFCs rather than redefining equivalent types within this specification.
+
+An external data type is any type, structure, or format that is normatively defined in a separate RFC or standards document and referenced by this specification. When an external data type is used, RPP implementations MUST conform to the semantics, constraints, and encoding rules defined in the originating specification.
+
+Unless otherwise specified, the use of an external data type in RPP is optional. RPP implementations that do not support a referenced external data type MUST provide an alternative representation that adheres to the core semantics of the data element while using only the data types defined in this document.
+
+## Referencing External Data Types
+
+When this document or a related RPP specification references an external data type, the following rules apply:
+
+1. The external type is referenced by its RFC number and the name used in the originating specification.
+2. If a server supports an external data type, it MUST advertise this capability through the RPP discovery mechanism.
+
+A> TODO: do we want rule 2 and 3?
+
+## Versioning and Compatibility
+
+External data types are versioned by the RFC that defines them. If a newer RFC obsoletes or updates the defining RFC, the RPP specification referencing the external type MUST be updated to indicate the supported version(s). Servers MAY support multiple versions of an external data type simultaneously, provided that each supported version is separately advertised in the discovery response.
+
+A> TODO:  Servers MAY support multiple versions of an external data type? makes things complicated, we probably need to discuss this further
+
+## JSContact
+
+This specification references the JSContact format defined in [@!RFC9553] as an external data type for representing contact information. RPP implementations MUST use JSContact card objects (the `Card` data type defined in [@!RFC9553]) for the representation of contact information within RPP data objects such as the Contact object defined in this specification.
+The JSContact data type MUST be used by both clients and servers when representing contact information in RPP operations, including but not limited to Create, Read, Update, and Delete operations on contact objects.
+
+When a server supports JSContact, the server MUST advertise this capability in its discovery response. Clients that wish to use JSContact MUST include the appropriate media type or capability indicator as defined by the relevant RPP JSON specification. In the absence of explicit negotiation, the default RPP contact representation as defined in this document applies.
+
+The use of JSContact as an external data type for contact objects is defined in more detail in the RPP JSON specification [@!I-D.wullink-rpp-json].
+
 # Common Data Types
 
 This section defines new shared data types and structures that are re-used across multiple data object definitions and are based on the existing Primitive Data Types.
@@ -806,97 +838,6 @@ A> TBC: Optional keyData inside dsData (RFC 5910 Section 4.1): In the DS Data In
     * Constraints: 
       * Authorisation Information object is immutable. If the information changes (for example password is updated) a new instance MUST be created.
       * Depending on the method and server policy Authorisation Information MAY not be available for read or any other operation responding with this data element.
-
-## Postal Address Object
-
-* Name: Postal Address Object
-* Identifier: postalData
-* Description: Contains the components of a postal address.
-* Data Elements:
-  * Street
-    * Identifier: street
-    * Cardinality: 0+
-    * Mutability: read-write
-    * Data Type: String
-    * Description: The contact's street address.
-    * Constraints: Implementations MAY limit the maximum length of entries or character set.
-  * City
-    * Identifier: city
-    * Cardinality: 0-1
-    * Mutability: read-write
-    * Data Type: String
-    * Description: The contact's city.
-    * Constraints:
-      * Implementations MAY limit the maximum length of entries or character set.
-      * In EPP Compatibility Profile this data element MUST be provided.
-  * State/Province
-    * Identifier: sp
-    * Cardinality: 0-1
-    * Mutability: read-write
-    * Data Type: String
-    * Description: The contact's state or province.
-    * Constraints: Implementations MAY limit the maximum length of entries or character set.
-  * Postal Code
-    * Identifier: pc
-    * Cardinality: 0-1
-    * Mutability: read-write
-    * Data Type: String
-    * Description: The contact's postal code.
-    * Constraints:
-      * Implementation MAY limit the maximum length of entries or character set.
-      * The limitations MAY differ depending on Country Code (`cc`) data element.
-  * Country Code
-    * Identifier: cc
-    * Cardinality: 0-1
-    * Mutability: read-write
-    * Data Type: String
-    * Description: The contact's country code.
-    * Constraints: 
-      * The value MUST be a two-character identifier from [@!ISO3166-1].
-      * In EPP Compatibility Profile this data element MUST be provided.
-
-## Postal Info Object
-
-* Name: Postal Info Object
-* Identifier: postalInfo
-* Description: Contains postal-address information in either internationalised or localised forms.
-* Data Elements:
-
-A> TBC: Contact Type is not localised (shall be the same for PERSON and ORG). Moving it level up would however detach it from related/dependant fields Name/Organisation
-
-  * Contact Type
-    * Identifier: type 
-    * Cardinality: 0-1
-    * Mutability: read-write
-    * Data Type: String
-    * Description: Specifies whether the contact is and individual or an organisation.
-    * Constraints: The value MUST be one of: "PERSON" (individual) or "ORG" (organisation).
-  * Name
-    * Identifier: name
-    * Cardinality: 0-1
-    * Mutability: read-write
-    * Data Type: String
-    * Description: The name of the individual or role.
-    * Constraints:
-      * Implementations MAY limit the maximum length of entries or character set.
-      * In EPP Compatibility Profile this data element MUST be provided.
-      * The implementations MAY require this field if Contact Type (`type`) is set to "PERSON".
-  * Organisation
-    * Identifier: org
-    * Cardinality: 0-1
-    * Mutability: read-write
-    * Data Type: String
-    * Description: The name of the organisation.
-    * Constraints:
-      * Implementations MAY limit the maximum length of entries or character set.
-      * The implementations MAY require this field if Contact Type (`type`) is set to "ORG".
-  * Address
-    * Identifier: addr
-    * Cardinality: 0-1
-    * Mutability: read-write
-    * Data Type: Postal Address Object
-    * Description: The detailed postal address.
-    * Constraints: In EPP Compatibility Profile this data element MUST be provided.
 
 ## Disclose Object
 
@@ -1574,39 +1515,14 @@ The following data elements are defined for the Domain Name Data Object.
     * The value MUST be one of the status tokens defined in the IANA registry for domain statuses.
     * The initial value list MAY be as defined in [@!RFC5733]. In this case the values MUST have the same semantics.
 
-* Postal Information
-  * Identifier: postalInfo
+* Contact Information
+  * Identifier: contactInfo
   * Cardinality: 1-2
   * Mutability: read-write
-  * Data Type: DictionaryAggregation[Postal Info Object]
-    * Label Description: type of contact data localisation
-    * Label Constraints: Allowed values: "int" for "internationalised" all-ASCII version of an address and "loc" for localised forms with possible non-ASCII character sets.
-  * Description: Contains postal-address information.
-  * Constraints: There MUST be no more that 1 element of type "int" and one element of type "loc".
+  * Data Type: JSContact:Card
+  * Description: Contains contact information.
+  * Constraints: There MUST be no more than 1 element of type "int" and one element of type "loc".
 
-* Voice Phone Number
-  * Identifier: voice
-  * Cardinality: 0+
-  * Mutability: read-write
-  * Data Type: Phone Number
-  * Description: Voice phone number associated with the contact
-  * Constraints: (None)
-
-* Fax Phone Number
-  * Identifier: fax
-  * Cardinality: 0+
-  * Mutability: read-write
-  * Data Type: Phone Number
-  * Description: Fax number associated with the contact
-  * Constraints: (None)
-
-* E-mail
-  * Identifier: email
-  * Cardinality: 0+
-  * Mutability: read-write
-  * Data Type: String.
-  * Description: The contact's email address.
-  * Constraints: Email address syntax is defined in [@!RFC5322].
 
 * Authorisation Information
   * Identifier: authInfo
@@ -1637,7 +1553,7 @@ The Create operation allows a client to provision a new Contact resource. The op
 In EPP Compatibility Profile, the following data elements MUST be provided:
 
 * Handle ID (`id`)
-* At least one Postal Information entry (`postalInfo`) containing a Name (`name`) and an Address (`addr`) with City (`city`) and Country Code (`cc`)
+* At least one Contact Information entry (`contactInfo`) containing a Name (`name`) and an Address (`addr`) with City (`city`) and Country Code (`cc`)
 * E-mail (`email`)
 * Authorisation Information (`authInfo`)
 
@@ -1668,7 +1584,7 @@ The Update operation allows a client to modify the attributes of an existing Con
 The following aspects of the contact object MAY be modified:
 
 * Status values that are client-manageable (prefixed with "client") MAY be added or removed.
-* Postal Information, Voice Phone Number, Fax Phone Number, E-mail, Authorisation Information, and Disclose preferences MAY be changed.
+* Contact Information, Voice Phone Number, Fax Phone Number, E-mail, Authorisation Information, and Disclose preferences MAY be changed.
 
 A client MUST NOT add, delete or alter values for statuses managed by the server (prefixed with "server"). A server MAY add, delete or alter status values set by a client, subject to server policy.
 
@@ -2096,8 +2012,8 @@ Parameters
 | reason     | Reason | 0-1   | String    | A human-readable text describing the rationale for rejection. |
 
 
-A> TODO: IANA table: Postal Address Object
-A> TODO: IANA table: Postal Info Object
+A> TODO: IANA table: Postal Address Object (not needed if we use JSContact:Card for contact information)
+A> TODO: IANA table: Postal Info Object (not needed if we use JSContact:Card for contact information)
 A> TODO: IANA table: Disclose Object
 
 Object: restoreProcess
@@ -2411,6 +2327,7 @@ A> TODO: write security considerations, if any
 {numbered="false"}
 ## draft-kowalik-rpp-data-objects -03 - -04
 
+* Add External Data Types section (Issue #83)
 * Add Registrar Data Object (Issue #81)
 * Add Sub-Resource Object as new taxonomy category for reusable objects with own CRUD operations bound to a parent (Issue #81)
 * Add User Object as Sub-Resource Object with CRUD operations, reusable across Registrar, Registry and other parent types (Issue #81)

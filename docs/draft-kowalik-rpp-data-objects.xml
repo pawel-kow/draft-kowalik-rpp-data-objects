@@ -302,6 +302,31 @@ The data type of a data element may also be a reference to another data object, 
 </section>
 </section>
 
+<section anchor="external-data-types"><name>External Data Types</name>
+<t>RPP is designed to be extensible and interoperable with existing standards. To reduce redundancy and improve consistency, RPP data objects MAY incorporate data types and structures defined in external RFCs rather than redefining equivalent types within this specification.</t>
+<t>An external data type is any type, structure, or format that is normatively defined in a separate RFC or standards document and referenced by this specification. When an external data type is used, RPP implementations MUST conform to the semantics, constraints, and encoding rules defined in the originating specification.</t>
+
+<section anchor="referencing-external-data-types"><name>Referencing External Data Types</name>
+<t>When this document or a related RPP specification references an external data type, the following rules apply:</t>
+
+<ol spacing="compact">
+<li>The external type is referenced by its RFC number and the name used in the originating specification.</li>
+<li>If a server supports an external data type, it MUST advertise this capability through the RPP discovery mechanism.</li>
+<li>A client MUST NOT use an external data type unless the server has advertised support for it.</li>
+</ol>
+</section>
+
+<section anchor="versioning-and-compatibility"><name>Versioning and Compatibility</name>
+<t>External data types are versioned by the RFC that defines them. If a newer RFC obsoletes or updates the defining RFC, the RPP specification referencing the external type MUST be updated to indicate the supported version(s). Servers MAY support multiple versions of an external data type simultaneously, provided that each supported version is separately advertised in the discovery response.</t>
+</section>
+
+<section anchor="example-jscontact-rfc-9553"><name>Example: JSContact (RFC 9553)</name>
+<t>JSContact <xref target="RFC9553"></xref> defines a JSON-based format for representing contact and address book data. RPP implementations MAY use JSContact card objects (the <tt>Card</tt> data type defined in <xref target="RFC9553"></xref>) as an alternative representation for contact information within RPP data objects such as the Contact object defined in this specification.</t>
+<t>When a server supports JSContact, the server MUST advertise this capability in its discovery response. Clients that wish to use JSContact MUST include the appropriate media type or capability indicator as defined by the relevant RPP JSON specification. In the absence of explicit negotiation, the default RPP contact representation as defined in this document applies.</t>
+<t>The use of JSContact as an external data type for contact objects is defined in more detail in the RPP JSON specification <xref target="I-D.wullink-rpp-json"></xref>.</t>
+</section>
+</section>
+
 <section anchor="common-data-types"><name>Common Data Types</name>
 <t>This section defines new shared data types and structures that are re-used across multiple data object definitions and are based on the existing Primitive Data Types.</t>
 
@@ -3671,6 +3696,7 @@ TODO: IANA table: Disclose Object</t>
 <section anchor="draft-kowalik-rpp-data-objects-03-04" numbered="false"><name>draft-kowalik-rpp-data-objects -03 - -04</name>
 
 <ul spacing="compact">
+<li>Add External Data Types section (Issue #83)</li>
 <li>Add Registrar Data Object (Issue #81)</li>
 <li>Add Sub-Resource Object as new taxonomy category for reusable objects with own CRUD operations bound to a parent (Issue #81)</li>
 <li>Add User Object as Sub-Resource Object with CRUD operations, reusable across Registrar, Registry and other parent types (Issue #81)</li>
@@ -3716,6 +3742,7 @@ TODO: IANA table: Disclose Object</t>
 <references><name>Normative References</name>
 <xi:include href="https://bib.ietf.org/public/rfc/bibxml3/reference.I-D.ietf-rpp-architecture.xml"/>
 <xi:include href="https://bib.ietf.org/public/rfc/bibxml3/reference.I-D.kowalik-rpp-architecture.xml"/>
+<xi:include href="https://bib.ietf.org/public/rfc/bibxml3/reference.I-D.wullink-rpp-json.xml"/>
 <reference anchor="ISO3166-1" target="">
   <front>
     <title>Codes for the representation of names of countries and their subdivisions -- Part 1: Country codes</title>
@@ -3749,6 +3776,7 @@ TODO: IANA table: Disclose Object</t>
 <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.5952.xml"/>
 <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8126.xml"/>
 <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8174.xml"/>
+<xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.9553.xml"/>
 </references>
 <references><name>Informative References</name>
 <xi:include href="https://bib.ietf.org/public/rfc/bibxml3/reference.I-D.simmen-rpp-dns-data.xml"/>
