@@ -1523,7 +1523,6 @@ The following data elements are defined for the Domain Name Data Object.
   * Description: Contains contact information.
   * Constraints: There MUST be no more than 1 element of type "int" and one element of type "loc".
 
-
 * Authorisation Information
   * Identifier: authInfo
   * Cardinality: 0-1
@@ -2327,11 +2326,8 @@ A> TODO: write security considerations, if any
 {numbered="false"}
 ## draft-kowalik-rpp-data-objects -03 - -04
 
-* Add External Data Types section (Issue #83)
-* Add Registrar Data Object (Issue #81)
-* Add Sub-Resource Object as new taxonomy category for reusable objects with own CRUD operations bound to a parent (Issue #81)
-* Add User Object as Sub-Resource Object with CRUD operations, reusable across Registrar, Registry and other parent types (Issue #81)
-* Add Sub-Resource Object and Owner Object to terminology section (Issue #81)
+* Add external datatype and JSContact for contact information (Issue #83)
+
 
 {toc="exclude"}
 {numbered="false"}
