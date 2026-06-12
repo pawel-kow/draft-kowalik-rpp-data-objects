@@ -6,11 +6,11 @@ workgroup = "Network Working Group"
 submissiontype = "IETF"
 keyword = [""]
 TocDepth = 4
-date = 2026-03-02
+date = 2026-06-12
 
 [seriesInfo]
 name = "Internet-Draft"
-value = "draft-kowalik-rpp-data-objects-04 (editor)"
+value = "draft-kowalik-rpp-data-objects-04"
 stream = "IETF"
 status = "standard"
 

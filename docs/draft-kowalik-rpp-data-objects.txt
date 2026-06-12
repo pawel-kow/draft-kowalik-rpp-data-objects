@@ -5,12 +5,12 @@
 Network Working Group                                         P. Kowalik
 Internet-Draft                                                     DENIC
 Intended status: Standards Track                              M. Wullink
-Expires: 3 September 2026                                      SIDN Labs
-                                                            2 March 2026
+Expires: 14 December 2026                                      SIDN Labs
+                                                            12 June 2026
 
 
             RESTful Provisioning Protocol (RPP) Data Objects
-               draft-kowalik-rpp-data-objects-04 (editor)
+                   draft-kowalik-rpp-data-objects-04
 
 Abstract
 
@@ -39,7 +39,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 3 September 2026.
+   This Internet-Draft will expire on 14 December 2026.
 
 Copyright Notice
 
@@ -53,9 +53,9 @@ Copyright Notice
 
 
 
-Kowalik & Wullink       Expires 3 September 2026                [Page 1]
+Kowalik & Wullink       Expires 14 December 2026                [Page 1]
 
-Internet-Draft              RPP Data Objects                  March 2026
+Internet-Draft              RPP Data Objects                   June 2026
 
 
    and restrictions with respect to this document.  Code Components
@@ -109,9 +109,9 @@ Table of Contents
 
 
 
-Kowalik & Wullink       Expires 3 September 2026                [Page 2]
+Kowalik & Wullink       Expires 14 December 2026                [Page 2]
 
-Internet-Draft              RPP Data Objects                  March 2026
+Internet-Draft              RPP Data Objects                   June 2026
 
 
      4.6.  Dictionary Composition  . . . . . . . . . . . . . . . . .  19
@@ -165,9 +165,9 @@ Internet-Draft              RPP Data Objects                  March 2026
 
 
 
-Kowalik & Wullink       Expires 3 September 2026                [Page 3]
+Kowalik & Wullink       Expires 14 December 2026                [Page 3]
 
-Internet-Draft              RPP Data Objects                  March 2026
+Internet-Draft              RPP Data Objects                   June 2026
 
 
    9.  Host Data Object  . . . . . . . . . . . . . . . . . . . . . .  52
@@ -221,9 +221,9 @@ Internet-Draft              RPP Data Objects                  March 2026
 
 
 
-Kowalik & Wullink       Expires 3 September 2026                [Page 4]
+Kowalik & Wullink       Expires 14 December 2026                [Page 4]
 
-Internet-Draft              RPP Data Objects                  March 2026
+Internet-Draft              RPP Data Objects                   June 2026
 
 
 1.1.  Conventions and Terminology
@@ -277,9 +277,9 @@ Internet-Draft              RPP Data Objects                  March 2026
 
 
 
-Kowalik & Wullink       Expires 3 September 2026                [Page 5]
+Kowalik & Wullink       Expires 14 December 2026                [Page 5]
 
-Internet-Draft              RPP Data Objects                  March 2026
+Internet-Draft              RPP Data Objects                   June 2026
 
 
 2.  Resource Definition Principles
@@ -333,9 +333,9 @@ Internet-Draft              RPP Data Objects                  March 2026
 
 
 
-Kowalik & Wullink       Expires 3 September 2026                [Page 6]
+Kowalik & Wullink       Expires 14 December 2026                [Page 6]
 
-Internet-Draft              RPP Data Objects                  March 2026
+Internet-Draft              RPP Data Objects                   June 2026
 
 
 2.1.6.  Timestamp
@@ -389,9 +389,9 @@ Internet-Draft              RPP Data Objects                  March 2026
 
 
 
-Kowalik & Wullink       Expires 3 September 2026                [Page 7]
+Kowalik & Wullink       Expires 14 December 2026                [Page 7]
 
-Internet-Draft              RPP Data Objects                  March 2026
+Internet-Draft              RPP Data Objects                   June 2026
 
 
 2.3.  Extensibility
@@ -445,9 +445,9 @@ Internet-Draft              RPP Data Objects                  March 2026
 
 
 
-Kowalik & Wullink       Expires 3 September 2026                [Page 8]
+Kowalik & Wullink       Expires 14 December 2026                [Page 8]
 
-Internet-Draft              RPP Data Objects                  March 2026
+Internet-Draft              RPP Data Objects                   June 2026
 
 
 2.4.  Data Element Semantics
@@ -501,9 +501,9 @@ Internet-Draft              RPP Data Objects                  March 2026
 
 
 
-Kowalik & Wullink       Expires 3 September 2026                [Page 9]
+Kowalik & Wullink       Expires 14 December 2026                [Page 9]
 
-Internet-Draft              RPP Data Objects                  March 2026
+Internet-Draft              RPP Data Objects                   June 2026
 
 
 2.5.2.  Uniform interface
@@ -557,9 +557,9 @@ Internet-Draft              RPP Data Objects                  March 2026
 
 
 
-Kowalik & Wullink       Expires 3 September 2026               [Page 10]
+Kowalik & Wullink       Expires 14 December 2026               [Page 10]
 
-Internet-Draft              RPP Data Objects                  March 2026
+Internet-Draft              RPP Data Objects                   June 2026
 
 
 2.5.4.  Transfer Operations
@@ -613,9 +613,9 @@ Internet-Draft              RPP Data Objects                  March 2026
 
 
 
-Kowalik & Wullink       Expires 3 September 2026               [Page 11]
+Kowalik & Wullink       Expires 14 December 2026               [Page 11]
 
-Internet-Draft              RPP Data Objects                  March 2026
+Internet-Draft              RPP Data Objects                   June 2026
 
 
    -  Restore Request: (REQUIRED) Initiates the recovery of an object in
@@ -669,9 +669,9 @@ Internet-Draft              RPP Data Objects                  March 2026
 
 
 
-Kowalik & Wullink       Expires 3 September 2026               [Page 12]
+Kowalik & Wullink       Expires 14 December 2026               [Page 12]
 
-Internet-Draft              RPP Data Objects                  March 2026
+Internet-Draft              RPP Data Objects                   June 2026
 
 
                  |
@@ -725,9 +725,9 @@ Internet-Draft              RPP Data Objects                  March 2026
 
 
 
-Kowalik & Wullink       Expires 3 September 2026               [Page 13]
+Kowalik & Wullink       Expires 14 December 2026               [Page 13]
 
-Internet-Draft              RPP Data Objects                  March 2026
+Internet-Draft              RPP Data Objects                   June 2026
 
 
    8.   If a restore report is received and accepted, the object returns
@@ -781,9 +781,9 @@ Internet-Draft              RPP Data Objects                  March 2026
 
 
 
-Kowalik & Wullink       Expires 3 September 2026               [Page 14]
+Kowalik & Wullink       Expires 14 December 2026               [Page 14]
 
-Internet-Draft              RPP Data Objects                  March 2026
+Internet-Draft              RPP Data Objects                   June 2026
 
 
 3.2.  Client Identifier
@@ -837,9 +837,9 @@ Internet-Draft              RPP Data Objects                  March 2026
 
 
 
-Kowalik & Wullink       Expires 3 September 2026               [Page 15]
+Kowalik & Wullink       Expires 14 December 2026               [Page 15]
 
-Internet-Draft              RPP Data Objects                  March 2026
+Internet-Draft              RPP Data Objects                   June 2026
 
 
    If the cardinality of target object is more than 1, this represents
@@ -893,9 +893,9 @@ Internet-Draft              RPP Data Objects                  March 2026
 
 
 
-Kowalik & Wullink       Expires 3 September 2026               [Page 16]
+Kowalik & Wullink       Expires 14 December 2026               [Page 16]
 
-Internet-Draft              RPP Data Objects                  March 2026
+Internet-Draft              RPP Data Objects                   June 2026
 
 
    Example composition having cardinality 1:
@@ -949,9 +949,9 @@ Internet-Draft              RPP Data Objects                  March 2026
 
 
 
-Kowalik & Wullink       Expires 3 September 2026               [Page 17]
+Kowalik & Wullink       Expires 14 December 2026               [Page 17]
 
-Internet-Draft              RPP Data Objects                  March 2026
+Internet-Draft              RPP Data Objects                   June 2026
 
 
    +--------------------------------+
@@ -1005,9 +1005,9 @@ Internet-Draft              RPP Data Objects                  March 2026
 
 
 
-Kowalik & Wullink       Expires 3 September 2026               [Page 18]
+Kowalik & Wullink       Expires 14 December 2026               [Page 18]
 
-Internet-Draft              RPP Data Objects                  March 2026
+Internet-Draft              RPP Data Objects                   June 2026
 
 
 4.5.  Labelled Composition
@@ -1061,9 +1061,9 @@ Internet-Draft              RPP Data Objects                  March 2026
 
 
 
-Kowalik & Wullink       Expires 3 September 2026               [Page 19]
+Kowalik & Wullink       Expires 14 December 2026               [Page 19]
 
-Internet-Draft              RPP Data Objects                  March 2026
+Internet-Draft              RPP Data Objects                   June 2026
 
 
    +--------------------------+
@@ -1117,9 +1117,9 @@ Internet-Draft              RPP Data Objects                  March 2026
 
 
 
-Kowalik & Wullink       Expires 3 September 2026               [Page 20]
+Kowalik & Wullink       Expires 14 December 2026               [Page 20]
 
-Internet-Draft              RPP Data Objects                  March 2026
+Internet-Draft              RPP Data Objects                   June 2026
 
 
    -  Data Elements:
@@ -1173,9 +1173,9 @@ Internet-Draft              RPP Data Objects                  March 2026
 
 
 
-Kowalik & Wullink       Expires 3 September 2026               [Page 21]
+Kowalik & Wullink       Expires 14 December 2026               [Page 21]
 
-Internet-Draft              RPP Data Objects                  March 2026
+Internet-Draft              RPP Data Objects                   June 2026
 
 
          -  Description: The date and time of the most recent object
@@ -1229,9 +1229,9 @@ Internet-Draft              RPP Data Objects                  March 2026
 
 
 
-Kowalik & Wullink       Expires 3 September 2026               [Page 22]
+Kowalik & Wullink       Expires 14 December 2026               [Page 22]
 
-Internet-Draft              RPP Data Objects                  March 2026
+Internet-Draft              RPP Data Objects                   June 2026
 
 
             -  addPeriod: The object is within the add grace period
@@ -1285,9 +1285,9 @@ Internet-Draft              RPP Data Objects                  March 2026
 
 
 
-Kowalik & Wullink       Expires 3 September 2026               [Page 23]
+Kowalik & Wullink       Expires 14 December 2026               [Page 23]
 
-Internet-Draft              RPP Data Objects                  March 2026
+Internet-Draft              RPP Data Objects                   June 2026
 
 
       -  Cardinality: 0-1
@@ -1341,9 +1341,9 @@ Internet-Draft              RPP Data Objects                  March 2026
 
 
 
-Kowalik & Wullink       Expires 3 September 2026               [Page 24]
+Kowalik & Wullink       Expires 14 December 2026               [Page 24]
 
-Internet-Draft              RPP Data Objects                  March 2026
+Internet-Draft              RPP Data Objects                   June 2026
 
 
             -  A client SHOULD omit this element.  The server MUST
@@ -1397,9 +1397,9 @@ Internet-Draft              RPP Data Objects                  March 2026
 
 
 
-Kowalik & Wullink       Expires 3 September 2026               [Page 25]
+Kowalik & Wullink       Expires 14 December 2026               [Page 25]
 
-Internet-Draft              RPP Data Objects                  March 2026
+Internet-Draft              RPP Data Objects                   June 2026
 
 
    -  For NS records ([RFC1035], Section 3.3.11): nsdname (the fully
@@ -1453,9 +1453,9 @@ Internet-Draft              RPP Data Objects                  March 2026
 
 
 
-Kowalik & Wullink       Expires 3 September 2026               [Page 26]
+Kowalik & Wullink       Expires 14 December 2026               [Page 26]
 
-Internet-Draft              RPP Data Objects                  March 2026
+Internet-Draft              RPP Data Objects                   June 2026
 
 
             -  A server MAY ignore client-specified TTL values and apply
@@ -1509,9 +1509,9 @@ Internet-Draft              RPP Data Objects                  March 2026
 
 
 
-Kowalik & Wullink       Expires 3 September 2026               [Page 27]
+Kowalik & Wullink       Expires 14 December 2026               [Page 27]
 
-Internet-Draft              RPP Data Objects                  March 2026
+Internet-Draft              RPP Data Objects                   June 2026
 
 
             -  A server MUST support either DS or DNSKEY or both record
@@ -1565,9 +1565,9 @@ Internet-Draft              RPP Data Objects                  March 2026
 
 
 
-Kowalik & Wullink       Expires 3 September 2026               [Page 28]
+Kowalik & Wullink       Expires 14 December 2026               [Page 28]
 
-Internet-Draft              RPP Data Objects                  March 2026
+Internet-Draft              RPP Data Objects                   June 2026
 
 
             -  Depending on the method and server policy Authorisation
@@ -1621,9 +1621,9 @@ Internet-Draft              RPP Data Objects                  March 2026
 
 
 
-Kowalik & Wullink       Expires 3 September 2026               [Page 29]
+Kowalik & Wullink       Expires 14 December 2026               [Page 29]
 
-Internet-Draft              RPP Data Objects                  March 2026
+Internet-Draft              RPP Data Objects                   June 2026
 
 
       -  Country Code
@@ -1677,9 +1677,9 @@ Internet-Draft              RPP Data Objects                  March 2026
 
 
 
-Kowalik & Wullink       Expires 3 September 2026               [Page 30]
+Kowalik & Wullink       Expires 14 December 2026               [Page 30]
 
-Internet-Draft              RPP Data Objects                  March 2026
+Internet-Draft              RPP Data Objects                   June 2026
 
 
       -  Cardinality: 0-1
@@ -1733,9 +1733,9 @@ Internet-Draft              RPP Data Objects                  March 2026
 
 
 
-Kowalik & Wullink       Expires 3 September 2026               [Page 31]
+Kowalik & Wullink       Expires 14 December 2026               [Page 31]
 
-Internet-Draft              RPP Data Objects                  March 2026
+Internet-Draft              RPP Data Objects                   June 2026
 
 
          -  Cardinality: 0-1
@@ -1789,9 +1789,9 @@ Internet-Draft              RPP Data Objects                  March 2026
 
 
 
-Kowalik & Wullink       Expires 3 September 2026               [Page 32]
+Kowalik & Wullink       Expires 14 December 2026               [Page 32]
 
-Internet-Draft              RPP Data Objects                  March 2026
+Internet-Draft              RPP Data Objects                   June 2026
 
 
          -  Data Type: String
@@ -1845,9 +1845,9 @@ Internet-Draft              RPP Data Objects                  March 2026
 
 
 
-Kowalik & Wullink       Expires 3 September 2026               [Page 33]
+Kowalik & Wullink       Expires 14 December 2026               [Page 33]
 
-Internet-Draft              RPP Data Objects                  March 2026
+Internet-Draft              RPP Data Objects                   June 2026
 
 
          -  Constraints: The value MUST be one of: "pending",
@@ -1901,9 +1901,9 @@ Internet-Draft              RPP Data Objects                  March 2026
 
 
 
-Kowalik & Wullink       Expires 3 September 2026               [Page 34]
+Kowalik & Wullink       Expires 14 December 2026               [Page 34]
 
-Internet-Draft              RPP Data Objects                  March 2026
+Internet-Draft              RPP Data Objects                   June 2026
 
 
    The Create operation initiates a transfer by creating a Transfer
@@ -1957,9 +1957,9 @@ Internet-Draft              RPP Data Objects                  March 2026
 
 
 
-Kowalik & Wullink       Expires 3 September 2026               [Page 35]
+Kowalik & Wullink       Expires 14 December 2026               [Page 35]
 
-Internet-Draft              RPP Data Objects                  March 2026
+Internet-Draft              RPP Data Objects                   June 2026
 
 
       -  Only the initiating client (the client that originally
@@ -2013,9 +2013,9 @@ Internet-Draft              RPP Data Objects                  March 2026
 
 
 
-Kowalik & Wullink       Expires 3 September 2026               [Page 36]
+Kowalik & Wullink       Expires 14 December 2026               [Page 36]
 
-Internet-Draft              RPP Data Objects                  March 2026
+Internet-Draft              RPP Data Objects                   June 2026
 
 
       -  Constraints: In EPP Compatibility Profile this data element
@@ -2069,9 +2069,9 @@ Internet-Draft              RPP Data Objects                  March 2026
 
 
 
-Kowalik & Wullink       Expires 3 September 2026               [Page 37]
+Kowalik & Wullink       Expires 14 December 2026               [Page 37]
 
-Internet-Draft              RPP Data Objects                  March 2026
+Internet-Draft              RPP Data Objects                   June 2026
 
 
          -  Constraints: MUST NOT be present when restoreStatus is not
@@ -2125,9 +2125,9 @@ Internet-Draft              RPP Data Objects                  March 2026
 
 
 
-Kowalik & Wullink       Expires 3 September 2026               [Page 38]
+Kowalik & Wullink       Expires 14 December 2026               [Page 38]
 
-Internet-Draft              RPP Data Objects                  March 2026
+Internet-Draft              RPP Data Objects                   June 2026
 
 
    The Read operation allows the sponsoring client to retrieve the
@@ -2181,9 +2181,9 @@ Internet-Draft              RPP Data Objects                  March 2026
 
 
 
-Kowalik & Wullink       Expires 3 September 2026               [Page 39]
+Kowalik & Wullink       Expires 14 December 2026               [Page 39]
 
-Internet-Draft              RPP Data Objects                  March 2026
+Internet-Draft              RPP Data Objects                   June 2026
 
 
 7.  Domain Name Data Object
@@ -2237,9 +2237,9 @@ Internet-Draft              RPP Data Objects                  March 2026
 
 
 
-Kowalik & Wullink       Expires 3 September 2026               [Page 40]
+Kowalik & Wullink       Expires 14 December 2026               [Page 40]
 
-Internet-Draft              RPP Data Objects                  March 2026
+Internet-Draft              RPP Data Objects                   June 2026
 
 
       -  Description: The current status descriptors associated with the
@@ -2293,9 +2293,9 @@ Internet-Draft              RPP Data Objects                  March 2026
 
 
 
-Kowalik & Wullink       Expires 3 September 2026               [Page 41]
+Kowalik & Wullink       Expires 14 December 2026               [Page 41]
 
-Internet-Draft              RPP Data Objects                  March 2026
+Internet-Draft              RPP Data Objects                   June 2026
 
 
       -  Description: A collection of nameservers associated with the
@@ -2349,9 +2349,9 @@ Internet-Draft              RPP Data Objects                  March 2026
 
 
 
-Kowalik & Wullink       Expires 3 September 2026               [Page 42]
+Kowalik & Wullink       Expires 14 December 2026               [Page 42]
 
-Internet-Draft              RPP Data Objects                  March 2026
+Internet-Draft              RPP Data Objects                   June 2026
 
 
       -  Constraints: The value is set by the server and cannot be
@@ -2405,9 +2405,9 @@ Internet-Draft              RPP Data Objects                  March 2026
 
 
 
-Kowalik & Wullink       Expires 3 September 2026               [Page 43]
+Kowalik & Wullink       Expires 14 December 2026               [Page 43]
 
-Internet-Draft              RPP Data Objects                  March 2026
+Internet-Draft              RPP Data Objects                   June 2026
 
 
    -  Authorisation:
@@ -2461,9 +2461,9 @@ Internet-Draft              RPP Data Objects                  March 2026
 
 
 
-Kowalik & Wullink       Expires 3 September 2026               [Page 44]
+Kowalik & Wullink       Expires 14 December 2026               [Page 44]
 
-Internet-Draft              RPP Data Objects                  March 2026
+Internet-Draft              RPP Data Objects                   June 2026
 
 
          -  A server that supports this parameter but cannot fulfil a
@@ -2517,9 +2517,9 @@ Internet-Draft              RPP Data Objects                  March 2026
 
 
 
-Kowalik & Wullink       Expires 3 September 2026               [Page 45]
+Kowalik & Wullink       Expires 14 December 2026               [Page 45]
 
-Internet-Draft              RPP Data Objects                  March 2026
+Internet-Draft              RPP Data Objects                   June 2026
 
 
    -  Renewal Period
@@ -2573,9 +2573,9 @@ Internet-Draft              RPP Data Objects                  March 2026
 
 
 
-Kowalik & Wullink       Expires 3 September 2026               [Page 46]
+Kowalik & Wullink       Expires 14 December 2026               [Page 46]
 
-Internet-Draft              RPP Data Objects                  March 2026
+Internet-Draft              RPP Data Objects                   June 2026
 
 
       -  Mutability: create-only
@@ -2629,9 +2629,9 @@ Internet-Draft              RPP Data Objects                  March 2026
 
 
 
-Kowalik & Wullink       Expires 3 September 2026               [Page 47]
+Kowalik & Wullink       Expires 14 December 2026               [Page 47]
 
-Internet-Draft              RPP Data Objects                  March 2026
+Internet-Draft              RPP Data Objects                   June 2026
 
 
       -  Data Type: Provisioning Metadata Object
@@ -2685,9 +2685,9 @@ Internet-Draft              RPP Data Objects                  March 2026
 
 
 
-Kowalik & Wullink       Expires 3 September 2026               [Page 48]
+Kowalik & Wullink       Expires 14 December 2026               [Page 48]
 
-Internet-Draft              RPP Data Objects                  March 2026
+Internet-Draft              RPP Data Objects                   June 2026
 
 
       -  Mutability: read-write
@@ -2741,9 +2741,9 @@ Internet-Draft              RPP Data Objects                  March 2026
 
 
 
-Kowalik & Wullink       Expires 3 September 2026               [Page 49]
+Kowalik & Wullink       Expires 14 December 2026               [Page 49]
 
-Internet-Draft              RPP Data Objects                  March 2026
+Internet-Draft              RPP Data Objects                   June 2026
 
 
       -  Generally each client is authorised to create new contact
@@ -2797,9 +2797,9 @@ Internet-Draft              RPP Data Objects                  March 2026
 
 
 
-Kowalik & Wullink       Expires 3 September 2026               [Page 50]
+Kowalik & Wullink       Expires 14 December 2026               [Page 50]
 
-Internet-Draft              RPP Data Objects                  March 2026
+Internet-Draft              RPP Data Objects                   June 2026
 
 
 8.3.3.  Update Operation
@@ -2853,9 +2853,9 @@ Internet-Draft              RPP Data Objects                  March 2026
 
 
 
-Kowalik & Wullink       Expires 3 September 2026               [Page 51]
+Kowalik & Wullink       Expires 14 December 2026               [Page 51]
 
-Internet-Draft              RPP Data Objects                  March 2026
+Internet-Draft              RPP Data Objects                   June 2026
 
 
 9.  Host Data Object
@@ -2909,9 +2909,9 @@ Internet-Draft              RPP Data Objects                  March 2026
 
 
 
-Kowalik & Wullink       Expires 3 September 2026               [Page 52]
+Kowalik & Wullink       Expires 14 December 2026               [Page 52]
 
-Internet-Draft              RPP Data Objects                  March 2026
+Internet-Draft              RPP Data Objects                   June 2026
 
 
       -  Data Type: DNS Data Object
@@ -2965,9 +2965,9 @@ Internet-Draft              RPP Data Objects                  March 2026
 
 
 
-Kowalik & Wullink       Expires 3 September 2026               [Page 53]
+Kowalik & Wullink       Expires 14 December 2026               [Page 53]
 
-Internet-Draft              RPP Data Objects                  March 2026
+Internet-Draft              RPP Data Objects                   June 2026
 
 
       -  Any client is authorised to retrieve the full object.  In EPP
@@ -3021,9 +3021,9 @@ Internet-Draft              RPP Data Objects                  March 2026
 
 
 
-Kowalik & Wullink       Expires 3 September 2026               [Page 54]
+Kowalik & Wullink       Expires 14 December 2026               [Page 54]
 
-Internet-Draft              RPP Data Objects                  March 2026
+Internet-Draft              RPP Data Objects                   June 2026
 
 
    The error response SHOULD indicate the related associated objects.
@@ -3077,9 +3077,9 @@ Internet-Draft              RPP Data Objects                  March 2026
 
 
 
-Kowalik & Wullink       Expires 3 September 2026               [Page 55]
+Kowalik & Wullink       Expires 14 December 2026               [Page 55]
 
-Internet-Draft              RPP Data Objects                  March 2026
+Internet-Draft              RPP Data Objects                   June 2026
 
 
    -  An "Operations" section (applicable only for Object Types Resource
@@ -3133,9 +3133,9 @@ Internet-Draft              RPP Data Objects                  March 2026
 
 
 
-Kowalik & Wullink       Expires 3 September 2026               [Page 56]
+Kowalik & Wullink       Expires 14 December 2026               [Page 56]
 
-Internet-Draft              RPP Data Objects                  March 2026
+Internet-Draft              RPP Data Objects                   June 2026
 
 
    Object: dnsRecord
@@ -3189,9 +3189,9 @@ Internet-Draft              RPP Data Objects                  March 2026
 
 
 
-Kowalik & Wullink       Expires 3 September 2026               [Page 57]
+Kowalik & Wullink       Expires 14 December 2026               [Page 57]
 
-Internet-Draft              RPP Data Objects                  March 2026
+Internet-Draft              RPP Data Objects                   June 2026
 
 
    Object Name: DNS Operational Controls Object
@@ -3245,9 +3245,9 @@ Internet-Draft              RPP Data Objects                  March 2026
 
 
 
-Kowalik & Wullink       Expires 3 September 2026               [Page 58]
+Kowalik & Wullink       Expires 14 December 2026               [Page 58]
 
-Internet-Draft              RPP Data Objects                  March 2026
+Internet-Draft              RPP Data Objects                   June 2026
 
 
    Object: dnsData
@@ -3301,9 +3301,9 @@ Internet-Draft              RPP Data Objects                  March 2026
 
 
 
-Kowalik & Wullink       Expires 3 September 2026               [Page 59]
+Kowalik & Wullink       Expires 14 December 2026               [Page 59]
 
-Internet-Draft              RPP Data Objects                  March 2026
+Internet-Draft              RPP Data Objects                   June 2026
 
 
    +==========+=============+=====+===========+======+=================+
@@ -3357,9 +3357,9 @@ Internet-Draft              RPP Data Objects                  March 2026
 
 
 
-Kowalik & Wullink       Expires 3 September 2026               [Page 60]
+Kowalik & Wullink       Expires 14 December 2026               [Page 60]
 
-Internet-Draft              RPP Data Objects                  March 2026
+Internet-Draft              RPP Data Objects                   June 2026
 
 
    +==========+=======+=====+===========+=========+===================+
@@ -3413,9 +3413,9 @@ Internet-Draft              RPP Data Objects                  March 2026
 
 
 
-Kowalik & Wullink       Expires 3 September 2026               [Page 61]
+Kowalik & Wullink       Expires 14 December 2026               [Page 61]
 
-Internet-Draft              RPP Data Objects                  March 2026
+Internet-Draft              RPP Data Objects                   June 2026
 
 
    +============+==========+=====+==========+==========+===============+
@@ -3469,9 +3469,9 @@ Internet-Draft              RPP Data Objects                  March 2026
 
 
 
-Kowalik & Wullink       Expires 3 September 2026               [Page 62]
+Kowalik & Wullink       Expires 14 December 2026               [Page 62]
 
-Internet-Draft              RPP Data Objects                  March 2026
+Internet-Draft              RPP Data Objects                   June 2026
 
 
    Object Name: Transfer Process Object
@@ -3525,9 +3525,9 @@ Internet-Draft              RPP Data Objects                  March 2026
 
 
 
-Kowalik & Wullink       Expires 3 September 2026               [Page 63]
+Kowalik & Wullink       Expires 14 December 2026               [Page 63]
 
-Internet-Draft              RPP Data Objects                  March 2026
+Internet-Draft              RPP Data Objects                   June 2026
 
 
    |               |          |     |           |          |initiated  |
@@ -3581,9 +3581,9 @@ Internet-Draft              RPP Data Objects                  March 2026
 
 
 
-Kowalik & Wullink       Expires 3 September 2026               [Page 64]
+Kowalik & Wullink       Expires 14 December 2026               [Page 64]
 
-Internet-Draft              RPP Data Objects                  March 2026
+Internet-Draft              RPP Data Objects                   June 2026
 
 
    Description: Queries the status of a transfer of a provisioned
@@ -3637,9 +3637,9 @@ Internet-Draft              RPP Data Objects                  March 2026
 
 
 
-Kowalik & Wullink       Expires 3 September 2026               [Page 65]
+Kowalik & Wullink       Expires 14 December 2026               [Page 65]
 
-Internet-Draft              RPP Data Objects                  March 2026
+Internet-Draft              RPP Data Objects                   June 2026
 
 
    Reference: [This-ID]
@@ -3693,9 +3693,9 @@ Internet-Draft              RPP Data Objects                  March 2026
 
 
 
-Kowalik & Wullink       Expires 3 September 2026               [Page 66]
+Kowalik & Wullink       Expires 14 December 2026               [Page 66]
 
-Internet-Draft              RPP Data Objects                  March 2026
+Internet-Draft              RPP Data Objects                   June 2026
 
 
    +==========+==============+=====+==========+=======+================+
@@ -3749,9 +3749,9 @@ Internet-Draft              RPP Data Objects                  March 2026
 
 
 
-Kowalik & Wullink       Expires 3 September 2026               [Page 67]
+Kowalik & Wullink       Expires 14 December 2026               [Page 67]
 
-Internet-Draft              RPP Data Objects                  March 2026
+Internet-Draft              RPP Data Objects                   June 2026
 
 
    Object: restoreProcess
@@ -3805,9 +3805,9 @@ Internet-Draft              RPP Data Objects                  March 2026
 
 
 
-Kowalik & Wullink       Expires 3 September 2026               [Page 68]
+Kowalik & Wullink       Expires 14 December 2026               [Page 68]
 
-Internet-Draft              RPP Data Objects                  March 2026
+Internet-Draft              RPP Data Objects                   June 2026
 
 
    +=============+=======+=====+==========+=========+=================+
@@ -3861,9 +3861,9 @@ Internet-Draft              RPP Data Objects                  March 2026
 
 
 
-Kowalik & Wullink       Expires 3 September 2026               [Page 69]
+Kowalik & Wullink       Expires 14 December 2026               [Page 69]
 
-Internet-Draft              RPP Data Objects                  March 2026
+Internet-Draft              RPP Data Objects                   June 2026
 
 
    Parameters
@@ -3917,9 +3917,9 @@ Internet-Draft              RPP Data Objects                  March 2026
 
 
 
-Kowalik & Wullink       Expires 3 September 2026               [Page 70]
+Kowalik & Wullink       Expires 14 December 2026               [Page 70]
 
-Internet-Draft              RPP Data Objects                  March 2026
+Internet-Draft              RPP Data Objects                   June 2026
 
 
    Description: Contains the redemption grace period restore report
@@ -3973,9 +3973,9 @@ Internet-Draft              RPP Data Objects                  March 2026
 
 
 
-Kowalik & Wullink       Expires 3 September 2026               [Page 71]
+Kowalik & Wullink       Expires 14 December 2026               [Page 71]
 
-Internet-Draft              RPP Data Objects                  March 2026
+Internet-Draft              RPP Data Objects                   June 2026
 
 
    |             |            |     |          |         |the server.  |
@@ -4029,9 +4029,9 @@ Internet-Draft              RPP Data Objects                  March 2026
 
 
 
-Kowalik & Wullink       Expires 3 September 2026               [Page 72]
+Kowalik & Wullink       Expires 14 December 2026               [Page 72]
 
-Internet-Draft              RPP Data Objects                  March 2026
+Internet-Draft              RPP Data Objects                   June 2026
 
 
    +================+=============+=====+==========+===================+=============+
@@ -4085,9 +4085,9 @@ Internet-Draft              RPP Data Objects                  March 2026
 
 
 
-Kowalik & Wullink       Expires 3 September 2026               [Page 73]
+Kowalik & Wullink       Expires 14 December 2026               [Page 73]
 
-Internet-Draft              RPP Data Objects                  March 2026
+Internet-Draft              RPP Data Objects                   June 2026
 
 
    |                |             |     |          |                   |timestamp.   |
@@ -4141,9 +4141,9 @@ Internet-Draft              RPP Data Objects                  March 2026
 
 
 
-Kowalik & Wullink       Expires 3 September 2026               [Page 74]
+Kowalik & Wullink       Expires 14 December 2026               [Page 74]
 
-Internet-Draft              RPP Data Objects                  March 2026
+Internet-Draft              RPP Data Objects                   June 2026
 
 
    +=============+========+=======+========+==========================+
@@ -4197,9 +4197,9 @@ Internet-Draft              RPP Data Objects                  March 2026
 
 
 
-Kowalik & Wullink       Expires 3 September 2026               [Page 75]
+Kowalik & Wullink       Expires 14 December 2026               [Page 75]
 
-Internet-Draft              RPP Data Objects                  March 2026
+Internet-Draft              RPP Data Objects                   June 2026
 
 
    +===================+=========+=======+===========+================+
@@ -4253,9 +4253,9 @@ Internet-Draft              RPP Data Objects                  March 2026
 
 
 
-Kowalik & Wullink       Expires 3 September 2026               [Page 76]
+Kowalik & Wullink       Expires 14 December 2026               [Page 76]
 
-Internet-Draft              RPP Data Objects                  March 2026
+Internet-Draft              RPP Data Objects                   June 2026
 
 
    +============+=============+=====+==========+=====================+=============+
@@ -4309,9 +4309,9 @@ Internet-Draft              RPP Data Objects                  March 2026
 
 
 
-Kowalik & Wullink       Expires 3 September 2026               [Page 77]
+Kowalik & Wullink       Expires 14 December 2026               [Page 77]
 
-Internet-Draft              RPP Data Objects                  March 2026
+Internet-Draft              RPP Data Objects                   June 2026
 
 
    |            |             |     |          |                     |elements that|
@@ -4365,9 +4365,9 @@ Internet-Draft              RPP Data Objects                  March 2026
 
 
 
-Kowalik & Wullink       Expires 3 September 2026               [Page 78]
+Kowalik & Wullink       Expires 14 December 2026               [Page 78]
 
-Internet-Draft              RPP Data Objects                  March 2026
+Internet-Draft              RPP Data Objects                   June 2026
 
 
    Object: host
@@ -4421,9 +4421,9 @@ Internet-Draft              RPP Data Objects                  March 2026
 
 
 
-Kowalik & Wullink       Expires 3 September 2026               [Page 79]
+Kowalik & Wullink       Expires 14 December 2026               [Page 79]
 
-Internet-Draft              RPP Data Objects                  March 2026
+Internet-Draft              RPP Data Objects                   June 2026
 
 
    Operation: Create
@@ -4477,9 +4477,9 @@ draft-kowalik-rpp-data-objects -02 - -03
 
 
 
-Kowalik & Wullink       Expires 3 September 2026               [Page 80]
+Kowalik & Wullink       Expires 14 December 2026               [Page 80]
 
-Internet-Draft              RPP Data Objects                  March 2026
+Internet-Draft              RPP Data Objects                   June 2026
 
 
    -  abstract common provisioning metadata into reusable component
@@ -4533,9 +4533,9 @@ draft-kowalik-rpp-data-objects -01 - -02
 
 
 
-Kowalik & Wullink       Expires 3 September 2026               [Page 81]
+Kowalik & Wullink       Expires 14 December 2026               [Page 81]
 
-Internet-Draft              RPP Data Objects                  March 2026
+Internet-Draft              RPP Data Objects                   June 2026
 
 
    [ITU.E164.2005]
@@ -4562,7 +4562,7 @@ Internet-Draft              RPP Data Objects                  March 2026
 
    [RFC3915]  Hollenbeck, S., "Domain Registry Grace Period Mapping for
               the Extensible Provisioning Protocol (EPP)", RFC 3915,
-              DOI 10.17487/RFC3915, September 2004,
+              DOI 10.17487/RFC3915, October 2004,
               <https://www.rfc-editor.org/info/rfc3915>.
 
    [RFC5322]  Resnick, P., Ed., "Internet Message Format", RFC 5322,
@@ -4589,9 +4589,9 @@ Internet-Draft              RPP Data Objects                  March 2026
 
 
 
-Kowalik & Wullink       Expires 3 September 2026               [Page 82]
+Kowalik & Wullink       Expires 14 December 2026               [Page 82]
 
-Internet-Draft              RPP Data Objects                  March 2026
+Internet-Draft              RPP Data Objects                   June 2026
 
 
    [RFC5952]  Kawamura, S. and M. Kawashima, "A Recommendation for IPv6
@@ -4645,9 +4645,9 @@ Authors' Addresses
 
 
 
-Kowalik & Wullink       Expires 3 September 2026               [Page 83]
+Kowalik & Wullink       Expires 14 December 2026               [Page 83]
 
-Internet-Draft              RPP Data Objects                  March 2026
+Internet-Draft              RPP Data Objects                   June 2026
 
 
    Maarten Wullink
@@ -4701,4 +4701,4 @@ Internet-Draft              RPP Data Objects                  March 2026
 
 
 
-Kowalik & Wullink       Expires 3 September 2026               [Page 84]
+Kowalik & Wullink       Expires 14 December 2026               [Page 84]
