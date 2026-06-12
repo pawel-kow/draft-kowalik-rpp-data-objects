@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- name="GENERATOR" content="github.com/mmarkdown/mmark Mmark Markdown Processor - mmark.miek.nl" -->
-<rfc version="3" ipr="trust200902" docName="draft-kowalik-rpp-data-objects-03" submissionType="IETF" category="std" xml:lang="en" xmlns:xi="http://www.w3.org/2001/XInclude" indexInclude="true" tocDepth="4">
+<rfc version="3" ipr="trust200902" docName="draft-kowalik-rpp-data-objects-04" submissionType="IETF" category="std" xml:lang="en" xmlns:xi="http://www.w3.org/2001/XInclude" indexInclude="true" tocDepth="4">
 
 <front>
-<title abbrev="RPP Data Objects">RESTful Provisioning Protocol (RPP) Data Objects</title><seriesInfo value="draft-kowalik-rpp-data-objects-03" stream="IETF" status="standard" name="Internet-Draft"></seriesInfo>
+<title abbrev="RPP Data Objects">RESTful Provisioning Protocol (RPP) Data Objects</title><seriesInfo value="draft-kowalik-rpp-data-objects-04" stream="IETF" status="standard" name="Internet-Draft"></seriesInfo>
 <author initials="P." surname="Kowalik" fullname="Pawel Kowalik"><organization>DENIC</organization><address><postal><street></street>
 </postal><email>pawel.kowalik@denic.de</email>
 <uri>https://denic.de/</uri>
 </address></author><author initials="M." surname="Wullink" fullname="Maarten Wullink"><organization>SIDN Labs</organization><address><postal><street></street>
 </postal><email>maarten.wullink@sidn.nl</email>
 <uri>https://sidn.nl/</uri>
-</address></author><date year="2026" month="March" day="2"></date>
+</address></author><date year="2026" month="June" day="12"></date>
 <area>Internet</area>
 <workgroup>Network Working Group</workgroup>
 
@@ -31,12 +31,16 @@
 <t>The key words &quot;MUST&quot;, &quot;MUST NOT&quot;, &quot;REQUIRED&quot;, &quot;SHALL&quot;, &quot;SHALL NOT&quot;, &quot;SHOULD&quot;, &quot;SHOULD NOT&quot;, &quot;RECOMMENDED&quot;, &quot;NOT RECOMMENDED&quot;, &quot;MAY&quot;, and &quot;OPTIONAL&quot; in this document are to be interpreted as described in BCP 14 <xref target="RFC2119"></xref> <xref target="RFC8174"></xref> when, and only when, they appear in all capitals, as shown here.</t>
 <t>The following terms related to the relationship between host objects and domain objects are used as defined in <xref target="RFC5732" sectionFormat="of" section="1.1"></xref>:</t>
 
-<ul spacing="compact">
-<li>Subordinate host: A host name object that has a subordinate relationship to a superordinate domain name object. For example, host name &quot;ns1.example.com&quot; has a subordinate relationship to domain name &quot;example.com&quot;.</li>
-<li>Superordinate domain: A domain name object to which a host name object is subordinate.</li>
-<li>Internal host: A host whose name belongs to the namespace of the repository in which the host is being used for delegation purposes.</li>
-<li>External host: A host whose name does not belong to the namespace of the repository in which the host is being used for delegation purposes.</li>
-</ul>
+<dl spacing="compact">
+<dt>Subordinate host</dt>
+<dd>A host name object that has a subordinate relationship to a superordinate domain name object. For example, host name &quot;ns1.example.com&quot; has a subordinate relationship to domain name &quot;example.com&quot;.</dd>
+<dt>Superordinate domain</dt>
+<dd>A domain name object to which a host name object is subordinate.</dd>
+<dt>Internal host</dt>
+<dd>A host whose name belongs to the namespace of the repository in which the host is being used for delegation purposes.</dd>
+<dt>External host</dt>
+<dd>A host whose name does not belong to the namespace of the repository in which the host is being used for delegation purposes.</dd>
+</dl>
 <t>The following terms are defined and used in this document</t>
 
 <dl spacing="compact">
@@ -929,7 +933,7 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 <li>Cardinality: 0+</li>
 <li>Mutability: read-write</li>
 <li>Data Type: String</li>
-<li>Description: The contact's street address.</li>
+<li>Description: Street address.</li>
 <li>Constraints: Implementations MAY limit the maximum length of entries or character set.</li>
 </ul></li>
 <li><t>City</t>
@@ -939,7 +943,7 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 <li>Cardinality: 0-1</li>
 <li>Mutability: read-write</li>
 <li>Data Type: String</li>
-<li>Description: The contact's city.</li>
+<li>Description: City.</li>
 <li><t>Constraints:</t>
 
 <ul spacing="compact">
@@ -954,7 +958,7 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 <li>Cardinality: 0-1</li>
 <li>Mutability: read-write</li>
 <li>Data Type: String</li>
-<li>Description: The contact's state or province.</li>
+<li>Description: State or province.</li>
 <li>Constraints: Implementations MAY limit the maximum length of entries or character set.</li>
 </ul></li>
 <li><t>Postal Code</t>
@@ -964,7 +968,7 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 <li>Cardinality: 0-1</li>
 <li>Mutability: read-write</li>
 <li>Data Type: String</li>
-<li>Description: The contact's postal code.</li>
+<li>Description: Postal code.</li>
 <li><t>Constraints:</t>
 
 <ul spacing="compact">
@@ -979,7 +983,7 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 <li>Cardinality: 0-1</li>
 <li>Mutability: read-write</li>
 <li>Data Type: String</li>
-<li>Description: The contact's country code.</li>
+<li>Description: Country code.</li>
 <li><t>Constraints:</t>
 
 <ul spacing="compact">
@@ -1249,7 +1253,7 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 <section anchor="transfer-create"><name>Create (Transfer Request)</name>
 
 <ul spacing="compact">
-<li>Identifier: create</li>
+<li>Identifier: transferCreate</li>
 </ul>
 <t>The Create operation initiates a transfer by creating a Transfer Process Object associated with the provisioned object. The transfer direction and gaining client (for push transfers) are provided as <tt>create-only</tt> data elements of the Transfer Process Object.</t>
 
@@ -1282,7 +1286,7 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 <section anchor="transfer-read"><name>Read (Transfer Query)</name>
 
 <ul spacing="compact">
-<li>Identifier: read</li>
+<li>Identifier: transferRead</li>
 </ul>
 <t>The Read operation allows a client to determine the real-time status of a pending or recently completed transfer request.</t>
 
@@ -1303,7 +1307,7 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 <section anchor="transfer-delete"><name>Delete (Transfer Cancel)</name>
 
 <ul spacing="compact">
-<li>Identifier: delete</li>
+<li>Identifier: transferDelete</li>
 </ul>
 <t>The Delete operation allows the initiating client to cancel its own pending transfer request.</t>
 
@@ -1323,7 +1327,7 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 <section anchor="transfer-approve"><name>Approve</name>
 
 <ul spacing="compact">
-<li>Identifier: approve</li>
+<li>Identifier: transferApprove</li>
 </ul>
 <t>The Approve operation allows the appropriate client to accept a pending transfer request.</t>
 
@@ -1352,7 +1356,7 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 <section anchor="transfer-reject"><name>Reject</name>
 
 <ul spacing="compact">
-<li>Identifier: reject</li>
+<li>Identifier: transferReject</li>
 </ul>
 <t>The Reject operation allows the appropriate client to decline a pending transfer request.</t>
 
@@ -1610,7 +1614,7 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 <li>Identifier: registrant</li>
 <li>Cardinality: 0-1</li>
 <li>Mutability: read-write</li>
-<li>Data Type: Contact Object.</li>
+<li>Data Type: Contact Object</li>
 <li>Description: The contact object associated with the domain as the registrant.</li>
 <li><t>Constraints:</t>
 
@@ -1698,7 +1702,7 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 <li>Identifier: expiryDate</li>
 <li>Cardinality: 0-1</li>
 <li>Mutability: read-only</li>
-<li>Data Type: Timestamp.</li>
+<li>Data Type: Timestamp</li>
 <li>Description: The date and time identifying the end of the domain object's registration period.</li>
 <li>Constraints: The value is set by the server and cannot be specified by the client.</li>
 </ul></li>
@@ -1739,7 +1743,7 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 <ul spacing="compact">
 <li>Identifier: period</li>
 <li>Cardinality: 0-1</li>
-<li>Data Type: Period Object.</li>
+<li>Data Type: Period Object</li>
 <li>Description: The initial registration period for the domain name. This value is used by the server to calculate the initial <tt>expiryDate</tt> of the object. This element is not persisted as part of the object's state.</li>
 </ul></li>
 </ul>
@@ -1796,6 +1800,10 @@ is &quot;all&quot;.</li>
 </section>
 
 <section anchor="update-operation"><name>Update Operation</name>
+
+<ul spacing="compact">
+<li>Identifier: update</li>
+</ul>
 <t>The Update operation allows a client to modify the read-write data elements of an existing Domain Name resource.</t>
 
 <ul spacing="compact">
@@ -1886,21 +1894,7 @@ is &quot;all&quot;.</li>
 <section anchor="transfer-operations-1"><name>Transfer Operations</name>
 <t>The Domain Name Data Object supports the common transfer operations defined in the <xref target="transfer-operations"></xref>. The transfer of a domain name changes the sponsoring client of the domain object.</t>
 <t>Transfer of a domain object MUST implicitly transfer all host objects that are subordinate to the domain object. For example, if domain object &quot;example.com&quot; is transferred and host object &quot;ns1.example.com&quot; exists, the host object MUST be transferred as part of the &quot;example.com&quot; transfer process.</t>
-<t>In addition to the common Transfer Process Object elements, the following object-specific <tt>create-only</tt> data element is defined and can be provided when creating a Transfer Process Object for a domain name:</t>
-
-<ul spacing="compact">
-<li><t>Transfer Period</t>
-
-<ul spacing="compact">
-<li>Identifier: transferPeriod</li>
-<li>Cardinality: 0-1</li>
-<li>Mutability: create-only</li>
-<li>Data Type: Period Object</li>
-<li>Description: The number of units to be added to the registration period of the domain object upon successful completion of the transfer. The number of units available MAY be subject to limits imposed by the server.</li>
-<li>Constraints: (None)</li>
-</ul></li>
-</ul>
-<t>In addition to the common Transfer Process Object elements, the following object-specific <tt>read-only</tt> data element is included in the output of domain transfer operations:</t>
+<t>In addition to the common Transfer Process Object elements, the following object-specific data elements are included:</t>
 
 <ul spacing="compact">
 <li><t>Expiry Date</t>
@@ -1914,10 +1908,31 @@ is &quot;all&quot;.</li>
 </ul></li>
 </ul>
 <t>Subordinate host objects MUST be transferred implicitly when the domain object is transferred.</t>
+
+<section anchor="transfer-create-operation"><name>Transfer Create Operation</name>
+
+<ul spacing="compact">
+<li>Identifier: transferCreate</li>
+</ul>
+<t>In addition, the following transient data element is defined for this operation:</t>
+
+<ul spacing="compact">
+<li><t>Transfer Period</t>
+
+<ul spacing="compact">
+<li>Identifier: transferPeriod</li>
+<li>Cardinality: 0-1</li>
+<li>Mutability: create-only</li>
+<li>Data Type: Period Object</li>
+<li>Description: The number of units to be added to the registration period of the domain object upon successful completion of the transfer. The number of units available MAY be subject to limits imposed by the server.</li>
+<li>Constraints: (None)</li>
+</ul></li>
+</ul>
+</section>
 </section>
 
 <section anchor="restore-operations"><name>Restore Operations</name>
-<t>The Domain Name Data Object supports the restore operations defined in the  section. These operations are OPTIONAL and are only available when the RGP feature is supported.</t>
+<t>The Domain Name Data Object supports the restore operations defined in the <xref target="restore-ops"></xref>. These operations are OPTIONAL and are only available when the RGP feature is supported.</t>
 <t>No domain-specific transient data elements extend the common restore operations beyond those defined in the <xref target="restore-ops"></xref>.</t>
 </section>
 </section>
@@ -1930,7 +1945,7 @@ is &quot;all&quot;.</li>
 <ul spacing="compact">
 <li>Name: Contact Data Object</li>
 <li>Identifier: contact</li>
-<li>Description: A Contact Data Object represents the social information for an individual or organisation associated with other objects.</li>
+<li>Description: A Contact Data Object represents the contact information for an individual or organisation associated with other objects.</li>
 </ul>
 </section>
 
@@ -1970,7 +1985,7 @@ is &quot;all&quot;.</li>
 <li>Cardinality: 0+</li>
 <li>Mutability: read-only</li>
 <li>Data Type: Status Object</li>
-<li>Description: The current status descriptors associated with the contact.</li>
+<li>Description: Status descriptors associated with the contact.</li>
 <li><t>Constraints:</t>
 
 <ul spacing="compact">
@@ -1985,13 +2000,13 @@ is &quot;all&quot;.</li>
 <li>Identifier: postalInfo</li>
 <li>Cardinality: 1-2</li>
 <li>Mutability: read-write</li>
-<li><t>Data Type: DictionaryAggregation[Postal Info Object]</t>
+<li><t>Data Type: DictionaryComposition[Postal Info Object]</t>
 
 <ul spacing="compact">
 <li>Label Description: type of contact data localisation</li>
 <li>Label Constraints: Allowed values: &quot;int&quot; for &quot;internationalised&quot; all-ASCII version of an address and &quot;loc&quot; for localised forms with possible non-ASCII character sets.</li>
 </ul></li>
-<li>Description: Contains postal-address information.</li>
+<li>Description: Postal-address information.</li>
 <li>Constraints: There MUST be no more that 1 element of type &quot;int&quot; and one element of type &quot;loc&quot;.</li>
 </ul></li>
 <li><t>Voice Phone Number</t>
@@ -2021,7 +2036,7 @@ is &quot;all&quot;.</li>
 <li>Cardinality: 0+</li>
 <li>Mutability: read-write</li>
 <li>Data Type: String.</li>
-<li>Description: The contact's email address.</li>
+<li>Description: Email address.</li>
 <li>Constraints: Email address syntax is defined in <xref target="RFC5322"></xref>.</li>
 </ul></li>
 <li><t>Authorisation Information</t>
@@ -2052,6 +2067,10 @@ is &quot;all&quot;.</li>
 <section anchor="operations-4"><name>Operations</name>
 
 <section anchor="create-operation-1"><name>Create Operation</name>
+
+<ul spacing="compact">
+<li>Identifier: create</li>
+</ul>
 <t>The Create operation allows a client to provision a new Contact resource. The operation accepts as input all create-only and read-write data elements defined for the Contact Data Object.</t>
 
 <ul spacing="compact">
@@ -2072,6 +2091,10 @@ is &quot;all&quot;.</li>
 </section>
 
 <section anchor="read-operation-1"><name>Read Operation</name>
+
+<ul spacing="compact">
+<li>Identifier: read</li>
+</ul>
 <t>The Read operation allows a client to retrieve the data elements of a Contact resource. The server's response MAY vary depending on client authorisation and server policy.</t>
 
 <ul spacing="compact">
@@ -2104,6 +2127,10 @@ is &quot;all&quot;.</li>
 </section>
 
 <section anchor="update-operation-1"><name>Update Operation</name>
+
+<ul spacing="compact">
+<li>Identifier: update</li>
+</ul>
 <t>The Update operation allows a client to modify the attributes of an existing Contact resource.</t>
 
 <ul spacing="compact">
@@ -2123,6 +2150,10 @@ is &quot;all&quot;.</li>
 </section>
 
 <section anchor="delete-operation-1"><name>Delete Operation</name>
+
+<ul spacing="compact">
+<li>Identifier: delete</li>
+</ul>
 <t>The Delete operation allows a client to remove an existing Contact resource. The operation targets a specific data object identified by its Handle ID.</t>
 
 <ul spacing="compact">
@@ -2209,6 +2240,10 @@ is &quot;all&quot;.</li>
 <section anchor="operations-5"><name>Operations</name>
 
 <section anchor="create-operation-2"><name>Create Operation</name>
+
+<ul spacing="compact">
+<li>Identifier: create</li>
+</ul>
 <t>The Create operation allows a client to provision a new Host Data Object. The operation accepts as input all create-only and read-write data elements defined for the Host Data Object.</t>
 
 <ul spacing="compact">
@@ -2223,6 +2258,10 @@ is &quot;all&quot;.</li>
 </section>
 
 <section anchor="read-operation-2"><name>Read Operation</name>
+
+<ul spacing="compact">
+<li>Identifier: read</li>
+</ul>
 <t>The Read operation allows a client to retrieve the data elements of a Host Data Object.</t>
 
 <ul spacing="compact">
@@ -2235,6 +2274,10 @@ is &quot;all&quot;.</li>
 </section>
 
 <section anchor="update-operation-2"><name>Update Operation</name>
+
+<ul spacing="compact">
+<li>Identifier: update</li>
+</ul>
 <t>The Update operation allows a client to modify the attributes of an existing Host Data Object. The operation targets a specific data object identified by its host name.</t>
 
 <ul spacing="compact">
@@ -2249,6 +2292,10 @@ is &quot;all&quot;.</li>
 </section>
 
 <section anchor="delete-operation-2"><name>Delete Operation</name>
+
+<ul spacing="compact">
+<li>Identifier: delete</li>
+</ul>
 <t>The Delete operation allows a client to remove an existing Host Data Object. The operation targets a specific data object identified by its host name.</t>
 
 <ul spacing="compact">
@@ -2719,44 +2766,24 @@ registry MUST provide:</t>
 </tbody>
 </table><t>Operations</t>
 <t>Operation: Create</t>
-<t>Operation Identifier: create</t>
-<t>Description: Initiates a transfer of a Domain Name resource by creating a Transfer Process Object. Transfer direction and gaining client are provided as create-only data elements.</t>
-<t>Parameters</t>
-<table>
-<thead>
-<tr>
-<th>Identifier</th>
-<th>Name</th>
-<th>Card.</th>
-<th>Data Type</th>
-<th>Description</th>
-</tr>
-</thead>
-
-<tbody>
-<tr>
-<td>transferPeriod</td>
-<td>Transfer Period</td>
-<td>0-1</td>
-<td>period</td>
-<td>The duration to add to the registration period upon transfer.</td>
-</tr>
-</tbody>
-</table><t>Operation: Transfer Read</t>
-<t>Operation Identifier: read</t>
-<t>Description: Queries the status of a transfer of a Domain Name resource.</t>
+<t>Operation Identifier: transferCreate</t>
+<t>Description: Initiates a transfer of a provisioned object by creating a Transfer Process Object.</t>
+<t>Parameters: (None)</t>
+<t>Operation: Transfer Read</t>
+<t>Operation Identifier: transferRead</t>
+<t>Description: Queries the status of a transfer of a provisioned object.</t>
 <t>Parameters: (None)</t>
 <t>Operation: Transfer Delete</t>
-<t>Operation Identifier: delete</t>
-<t>Description: Cancels a pending transfer of a Domain Name resource.</t>
+<t>Operation Identifier: transferDelete</t>
+<t>Description: Cancels a pending transfer of a provisioned object.</t>
 <t>Parameters: (None)</t>
 <t>Operation: Transfer Approve</t>
-<t>Operation Identifier: approve</t>
-<t>Description: Approves a pending transfer of a Domain Name resource.</t>
+<t>Operation Identifier: transferApprove</t>
+<t>Description: Approves a pending transfer of a provisioned object.</t>
 <t>Parameters: (None)</t>
 <t>Operation: Transfer Reject</t>
-<t>Operation Identifier: reject (on Transfer Process Object)</t>
-<t>Description: Rejects a pending transfer of a Domain Name resource.</t>
+<t>Operation Identifier: transferReject (on Transfer Process Object)</t>
+<t>Description: Rejects a pending transfer of a provisioned object.</t>
 <t>Parameters</t>
 <table>
 <thead>
@@ -2778,12 +2805,154 @@ registry MUST provide:</t>
 <td>A human-readable text describing the rationale for rejection.</td>
 </tr>
 </tbody>
-</table>
-<aside><t>TODO: IANA table: Postal Address Object
-TODO: IANA table: Postal Info Object
-TODO: IANA table: Disclose Object</t>
-</aside>
-<t>Object: restoreProcess</t>
+</table><t>Object: postalData</t>
+<t>Object Name: Postal Address Object</t>
+<t>Object Type: Component</t>
+<t>Description: Contains the components of a postal address.</t>
+<t>Reference: [This-ID]</t>
+<t>Data Elements</t>
+<table>
+<thead>
+<tr>
+<th>Element Identifier</th>
+<th>Element Name</th>
+<th>Card.</th>
+<th>Mutability</th>
+<th>Data Type</th>
+<th>Description</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>street</td>
+<td>Street</td>
+<td>0+</td>
+<td>read-write</td>
+<td>String</td>
+<td>Street address.</td>
+</tr>
+
+<tr>
+<td>city</td>
+<td>City</td>
+<td>0-1</td>
+<td>read-write</td>
+<td>String</td>
+<td>City.</td>
+</tr>
+
+<tr>
+<td>sp</td>
+<td>State/Province</td>
+<td>0-1</td>
+<td>read-write</td>
+<td>String</td>
+<td>State or province.</td>
+</tr>
+
+<tr>
+<td>pc</td>
+<td>Postal Code</td>
+<td>0-1</td>
+<td>read-write</td>
+<td>String</td>
+<td>Postal code.</td>
+</tr>
+
+<tr>
+<td>cc</td>
+<td>Country Code</td>
+<td>0-1</td>
+<td>read-write</td>
+<td>String</td>
+<td>Country code.</td>
+</tr>
+</tbody>
+</table><t>Object: postalInfo</t>
+<t>Object Name: Postal Info Object</t>
+<t>Object Type: Component</t>
+<t>Description: Contains postal-address information in either internationalised or localised forms.</t>
+<t>Reference: [This-ID]</t>
+<t>Data Elements</t>
+<table>
+<thead>
+<tr>
+<th>Element Identifier</th>
+<th>Element Name</th>
+<th>Card.</th>
+<th>Mutability</th>
+<th>Data Type</th>
+<th>Description</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>type</td>
+<td>Contact Type</td>
+<td>0-1</td>
+<td>read-write</td>
+<td>String</td>
+<td>Specifies whether the contact is and individual or an organisation.</td>
+</tr>
+
+<tr>
+<td>name</td>
+<td>Name</td>
+<td>0-1</td>
+<td>read-write</td>
+<td>String</td>
+<td>The name of the individual or role.</td>
+</tr>
+
+<tr>
+<td>org</td>
+<td>Organisation</td>
+<td>0-1</td>
+<td>read-write</td>
+<td>String</td>
+<td>The name of the organisation.</td>
+</tr>
+
+<tr>
+<td>addr</td>
+<td>Address</td>
+<td>0-1</td>
+<td>read-write</td>
+<td>Postal Address Object</td>
+<td>The detailed postal address.</td>
+</tr>
+</tbody>
+</table><t>Object: disclose</t>
+<t>Object Name: Disclose</t>
+<t>Object Type: Component</t>
+<t>Description: TBD</t>
+<t>Reference: [This-ID]</t>
+<t>Data Elements</t>
+<table>
+<thead>
+<tr>
+<th>Element Identifier</th>
+<th>Element Name</th>
+<th>Card.</th>
+<th>Mutability</th>
+<th>Data Type</th>
+<th>Description</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table><t>Object: restoreProcess</t>
 <t>Object Name: Restore Process Object</t>
 <t>Object Type: Process</t>
 <t>Description: Represents the current state of a restore request for an object that has entered the Redemption Grace Period (RGP). Returned as output of all restore operations. This object is OPTIONAL and is only used when the RGP feature is supported.</t>
@@ -3075,10 +3244,10 @@ TODO: IANA table: Disclose Object</t>
 
 <tr>
 <td>authInfo</td>
-<td>Authorisation Info</td>
+<td>Authorisation Information</td>
 <td>0-1</td>
 <td>read-write</td>
-<td>authInfo</td>
+<td>Authorisation Information Object</td>
 <td>Authorisation information for the object.</td>
 </tr>
 </tbody>
@@ -3103,7 +3272,7 @@ TODO: IANA table: Disclose Object</t>
 <td>period</td>
 <td>Registration Period</td>
 <td>0-1</td>
-<td>period</td>
+<td>Period Object</td>
 <td>The initial registration period for the domain name.</td>
 </tr>
 </tbody>
@@ -3129,14 +3298,6 @@ TODO: IANA table: Disclose Object</t>
 <td>0-1</td>
 <td>String</td>
 <td>Controls which host information is returned.</td>
-</tr>
-
-<tr>
-<td>queryAuthInfo</td>
-<td>Query Authorisation Information</td>
-<td>0-1</td>
-<td>authInfo</td>
-<td>Credentials to authorise access to full object data.</td>
 </tr>
 </tbody>
 </table><t>Operation: Update</t>
@@ -3194,13 +3355,151 @@ TODO: IANA table: Disclose Object</t>
 <td>renewalPeriod</td>
 <td>Renewal Period</td>
 <td>0-1</td>
-<td>period</td>
+<td>Period Object</td>
 <td>The duration to add to the registration period.</td>
 </tr>
 </tbody>
-</table>
-<aside><t>TODO: IANA table: Contact Data Object</t>
-</aside>
+</table><t>Operation: Transfer Create Operation</t>
+<t>Operation Identifier: transferCreate</t>
+<t>Description:</t>
+<t>Parameters</t>
+<table>
+<thead>
+<tr>
+<th>Identifier</th>
+<th>Name</th>
+<th>Card.</th>
+<th>Data Type</th>
+<th>Description</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>transferPeriod</td>
+<td>Transfer Period</td>
+<td>0-1</td>
+<td>Period Object</td>
+<td>The duration to add to the registration period upon transfer.</td>
+</tr>
+</tbody>
+</table><t>Object: contact</t>
+<t>Object Name: Contact Data Object</t>
+<t>Object Type: Resource</t>
+<t>Description: A Contact Data Object represents the contact information for an individual or organisation associated with other objects.</t>
+<t>Reference: [This-ID]</t>
+<t>Data Elements</t>
+<table>
+<thead>
+<tr>
+<th>Identifier</th>
+<th>Name</th>
+<th>Card.</th>
+<th>Mutability</th>
+<th>Data Type</th>
+<th>Description</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>id</td>
+<td>Handle ID</td>
+<td>1</td>
+<td>create-only</td>
+<td>Identifier.</td>
+<td>External unique identifier of the contact object.</td>
+</tr>
+
+<tr>
+<td>provMetadata</td>
+<td>Provisioning Metadata</td>
+<td>1</td>
+<td>read-only</td>
+<td>Provisioning Metadata Object</td>
+<td>Standard metadata about the object's lifecycle and ownership.</td>
+</tr>
+
+<tr>
+<td>status</td>
+<td>Status</td>
+<td>0+</td>
+<td>read-only</td>
+<td>Status Object</td>
+<td>Status descriptors associated with the contact.</td>
+</tr>
+
+<tr>
+<td>postalInfo</td>
+<td>Postal Information</td>
+<td>1-2</td>
+<td>read-write</td>
+<td>DictionaryComposition [Postal Info Object]</td>
+<td>Postal-address information.</td>
+</tr>
+
+<tr>
+<td>voice</td>
+<td>Voice Phone Number</td>
+<td>0+</td>
+<td>read-write</td>
+<td>Phone Number</td>
+<td>Voice phone number associated with the contact</td>
+</tr>
+
+<tr>
+<td>fax</td>
+<td>Fax Phone Number</td>
+<td>0+</td>
+<td>read-write</td>
+<td>Phone Number</td>
+<td>Fax number associated with the contact</td>
+</tr>
+
+<tr>
+<td>email</td>
+<td>E-mail</td>
+<td>0+</td>
+<td>read-write</td>
+<td>String.</td>
+<td>Email address.</td>
+</tr>
+
+<tr>
+<td>authInfo</td>
+<td>Authorisation Information</td>
+<td>0-1</td>
+<td>read-write</td>
+<td>Authorisation Information</td>
+<td>Authorisation information associated with the contact object.</td>
+</tr>
+
+<tr>
+<td>disclose</td>
+<td>Disclose</td>
+<td>0-1</td>
+<td>read-write</td>
+<td>Disclose Object.</td>
+<td>Identifies elements that require exceptional server-operator handling to allow or restrict disclosure to third parties.</td>
+</tr>
+</tbody>
+</table><t>Operations</t>
+<t>Operation: Create Operation</t>
+<t>Operation Identifier: create</t>
+<t>Description:</t>
+<t>Parameters: (None)</t>
+<t>Operation: Read Operation</t>
+<t>Operation Identifier: read</t>
+<t>Description:</t>
+<t>Parameters: (None)</t>
+<t>Operation: Update Operation</t>
+<t>Operation Identifier: update</t>
+<t>Description:</t>
+<t>Parameters: (None)</t>
+<t>Operation: Delete Operation</t>
+<t>Operation Identifier: delete</t>
+<t>Description:</t>
+<t>Parameters: (None)</t>
 <t>Object: host</t>
 <t>Object Name: Host Data Object</t>
 <t>Object Type: Resource</t>
@@ -3280,6 +3579,14 @@ TODO: IANA table: Disclose Object</t>
 </section>
 
 <section anchor="changes-history" toc="exclude"><name>Changes History</name>
+
+<section anchor="draft-kowalik-rpp-data-objects-03-04" numbered="false"><name>draft-kowalik-rpp-data-objects -03 - -04</name>
+
+<ul spacing="compact">
+<li>correct <tt>&quot;postalInfo&quot;</tt> to be DictionaryComposition not DictionaryAggregation</li>
+<li>Added missing IANA tables for Contact, Postal Address and Postal Info. Added missing Operations. Added missing operation identifiers. Fixes #17, #18, #19, #20, #21.</li>
+</ul>
+</section>
 
 <section anchor="draft-kowalik-rpp-data-objects-02-03" numbered="false"><name>draft-kowalik-rpp-data-objects -02 - -03</name>
 
