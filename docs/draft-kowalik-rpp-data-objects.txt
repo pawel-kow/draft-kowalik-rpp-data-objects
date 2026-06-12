@@ -10,7 +10,7 @@ Expires: 14 December 2026                                      SIDN Labs
 
 
             RESTful Provisioning Protocol (RPP) Data Objects
-                   draft-kowalik-rpp-data-objects-04
+             draft-kowalik-rpp-data-objects-05 (editorial)
 
 Abstract
 
@@ -188,7 +188,7 @@ Internet-Draft              RPP Data Objects                   June 2026
    13. References  . . . . . . . . . . . . . . . . . . . . . . . . .  81
      13.1.  Normative References . . . . . . . . . . . . . . . . . .  81
      13.2.  Informative References . . . . . . . . . . . . . . . . .  83
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  83
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  84
 
 1.  Introduction
 
@@ -4456,6 +4456,8 @@ Internet-Draft              RPP Data Objects                   June 2026
 
 12.  Changes History
 
+draft-kowalik-rpp-data-objects -04 - -05
+
 draft-kowalik-rpp-data-objects -03 - -04
 
    -  correct "postalInfo" to be DictionaryComposition not
@@ -4471,9 +4473,7 @@ draft-kowalik-rpp-data-objects -02 - -03
       Aggregation/Composition" (Issue #32)
    -  describe operations for contacts #15
    -  describe operations for hosts #16
-   -  add Domain Update operation with urgent transient parameter from
-      [RFC5910]
-   -  add identifiers to all operations
+
 
 
 
@@ -4482,6 +4482,9 @@ Kowalik & Wullink       Expires 14 December 2026               [Page 80]
 Internet-Draft              RPP Data Objects                   June 2026
 
 
+   -  add Domain Update operation with urgent transient parameter from
+      [RFC5910]
+   -  add identifiers to all operations
    -  abstract common provisioning metadata into reusable component
       object
    -  define common RGP/restore process and Restore Process Object
@@ -4525,11 +4528,8 @@ draft-kowalik-rpp-data-objects -01 - -02
               <https://datatracker.ietf.org/doc/html/draft-kowalik-rpp-
               architecture-03>.
 
-   [ISO3166-1]
-              International Organization for Standardization, "Codes for
-              the representation of names of countries and their
-              subdivisions -- Part 1: Country codes", ISO Standard 3166,
-              November 2000.
+
+
 
 
 
@@ -4537,6 +4537,12 @@ Kowalik & Wullink       Expires 14 December 2026               [Page 81]
 
 Internet-Draft              RPP Data Objects                   June 2026
 
+
+   [ISO3166-1]
+              International Organization for Standardization, "Codes for
+              the representation of names of countries and their
+              subdivisions -- Part 1: Country codes", ISO Standard 3166,
+              November 2000.
 
    [ITU.E164.2005]
               International Telecommunication Union, "The international
@@ -4578,13 +4584,7 @@ Internet-Draft              RPP Data Objects                   June 2026
               DOI 10.17487/RFC5731, August 2009,
               <https://www.rfc-editor.org/info/rfc5731>.
 
-   [RFC5732]  Hollenbeck, S., "Extensible Provisioning Protocol (EPP)
-              Host Mapping", STD 69, RFC 5732, DOI 10.17487/RFC5732,
-              August 2009, <https://www.rfc-editor.org/info/rfc5732>.
 
-   [RFC5733]  Hollenbeck, S., "Extensible Provisioning Protocol (EPP)
-              Contact Mapping", STD 69, RFC 5733, DOI 10.17487/RFC5733,
-              August 2009, <https://www.rfc-editor.org/info/rfc5733>.
 
 
 
@@ -4593,6 +4593,14 @@ Kowalik & Wullink       Expires 14 December 2026               [Page 82]
 
 Internet-Draft              RPP Data Objects                   June 2026
 
+
+   [RFC5732]  Hollenbeck, S., "Extensible Provisioning Protocol (EPP)
+              Host Mapping", STD 69, RFC 5732, DOI 10.17487/RFC5732,
+              August 2009, <https://www.rfc-editor.org/info/rfc5732>.
+
+   [RFC5733]  Hollenbeck, S., "Extensible Provisioning Protocol (EPP)
+              Contact Mapping", STD 69, RFC 5733, DOI 10.17487/RFC5733,
+              August 2009, <https://www.rfc-editor.org/info/rfc5733>.
 
    [RFC5952]  Kawamura, S. and M. Kawashima, "A Recommendation for IPv6
               Address Text Representation", RFC 5952,
@@ -4633,14 +4641,6 @@ Internet-Draft              RPP Data Objects                   June 2026
               DOI 10.17487/RFC5910, May 2010,
               <https://www.rfc-editor.org/info/rfc5910>.
 
-Authors' Addresses
-
-   Pawel Kowalik
-   DENIC
-   Email: pawel.kowalik@denic.de
-   URI:   https://denic.de/
-
-
 
 
 
@@ -4650,18 +4650,18 @@ Kowalik & Wullink       Expires 14 December 2026               [Page 83]
 Internet-Draft              RPP Data Objects                   June 2026
 
 
+Authors' Addresses
+
+   Pawel Kowalik
+   DENIC
+   Email: pawel.kowalik@denic.de
+   URI:   https://denic.de/
+
+
    Maarten Wullink
    SIDN Labs
    Email: maarten.wullink@sidn.nl
    URI:   https://sidn.nl/
-
-
-
-
-
-
-
-
 
 
 
