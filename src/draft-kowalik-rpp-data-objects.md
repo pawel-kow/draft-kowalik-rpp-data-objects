@@ -321,31 +321,18 @@ The RPP object model is designed to be extensible and interoperable with existin
 
 An external data type is any type, structure, or format that is normatively defined in a separate RFC or standards document and referenced by this specification. When an external data type is used, RPP implementations MUST conform to the semantics, constraints, and encoding rules defined in the originating specification.
 
-Unless otherwise specified, the use of an external data type in RPP is optional. RPP implementations that do not support a referenced external data type MUST provide an alternative representation that adheres to the core semantics of the data element while using only the data types defined in this document.
-
 ## Referencing External Data Types
 
-When this document or a related RPP specification references an external data type, the following rules apply:
-
-1. The external type is referenced by its RFC number and the name used in the originating specification.
-2. If a server supports an external data type, it MUST advertise this capability through the RPP discovery mechanism.
-
-A> TODO: do we want rule 2 and 3?
+When this document or a related RPP specification references an external data type, the reference MUST follow the requirements and guidelines for references described in [@!RFC2026]. The reference MUST include a clear description of the specific type or structure being used. For example, if referencing the JSContact format defined in [@!RFC9553], the reference should specify that the `Card` data type is being used.
 
 ## Versioning and Compatibility
 
-External data types are versioned by the RFC that defines them. If a newer RFC obsoletes or updates the defining RFC, the RPP specification referencing the external type MUST be updated to indicate the supported version(s). Servers MAY support multiple versions of an external data type simultaneously, provided that each supported version is separately advertised in the discovery response.
-
-A> TODO:  Servers MAY support multiple versions of an external data type? makes things complicated, we probably need to discuss this further
+External data types are versioned by the specification that defines them. The RPP specifications are pinned to a single version of an external type.
+If a newer version updates the defining specification, the RPP specification MUST be updated to indicate explicit support.
 
 ## JSContact
 
-This specification references the JSContact format defined in [@!RFC9553] as an external data type for representing contact information. RPP implementations MUST use JSContact card objects (the `Card` data type defined in [@!RFC9553]) for the representation of contact information within RPP data objects such as the Contact object defined in this specification.
-The JSContact data type MUST be used by both clients and servers when representing contact information in RPP operations, including but not limited to Create, Read, Update, and Delete operations on contact objects.
-
-When a server supports JSContact, the server MUST advertise this capability in its discovery response. Clients that wish to use JSContact MUST include the appropriate media type or capability indicator as defined by the relevant RPP JSON specification. In the absence of explicit negotiation, the default RPP contact representation as defined in this document applies.
-
-The use of JSContact as an external data type for contact objects is defined in more detail in the RPP JSON specification [@!I-D.wullink-rpp-json].
+This specification references the RPP JSContact Profile for RPP defined in [@!I-D.wullink-rpp-jscontact-profile] as an external specification for representing contact information. RPP implementations MUST use JSContact Card objects (the `Card` data type defined in [@!RFC9553]) for the representation of contact information within RPP data objects such as the Contact object defined in this specification.
 
 # Common Data Types
 
@@ -1449,7 +1436,6 @@ The following data elements are defined for the Domain Name Data Object.
   * Mutability: read-write
   * Data Type: JSContact:Card
   * Description: Contains contact information.
-  * Constraints: There MUST be no more than 1 element of type "int" and one element of type "loc".
 
 * Authorisation Information
   * Identifier: authInfo
