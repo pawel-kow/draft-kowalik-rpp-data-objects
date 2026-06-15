@@ -319,7 +319,7 @@ Throughout this document, all constraints that are part of this profile are expl
 
 The RPP object model is designed to be extensible and interoperable with existing standards. To reduce redundancy and improve consistency, RPP data objects MAY incorporate data types and structures defined in external specifications rather than redefining equivalent types within this specification.
 
-An external data type is any type, structure, or format that is normatively defined in a separate RFC or standards document and referenced by this specification. When an external data type is used, RPP implementations MUST conform to the semantics, constraints, and encoding rules defined in the originating specification.
+An external data type is any type, structure, or format that is normatively defined in a separate standards document and referenced by this specification. When an external data type is used, RPP implementations MUST conform to the semantics, constraints, and encoding rules defined in the originating specification.
 
 ## Referencing External Data Types
 
