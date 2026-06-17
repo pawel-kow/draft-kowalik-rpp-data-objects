@@ -273,7 +273,8 @@ The data type of a data element may also be a reference to another data object, 
    |                               or not req.    | |      Purged       (12)|
    |                                  <create>    | +-----------------------+
    +----------------------------------------------+
-]]></sourcecode>
+]]>
+</sourcecode>
 <t>State descriptions:</t>
 
 <ol spacing="compact">
@@ -291,6 +292,10 @@ The data type of a data element may also be a reference to another data object, 
 <li>The object is purged and available for re-registration.</li>
 </ol>
 </section>
+</section>
+
+<section anchor="renew-ops"><name>Renew Operations</name>
+<t>Renew operations manage the extension of the validity period of a provisioned object. They are specified once in this section as the renewal model is common across all renewable resource objects. Individual object definitions reference this section and specify any object-specific extensions to the common pattern.</t>
 </section>
 </section>
 
@@ -341,7 +346,8 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 |             |    ...   |
 |             +----------+
 +-------------------+
-]]></sourcecode>
+]]>
+</sourcecode>
 <t>Example aggregation having cardinality &gt;1:</t>
 
 <sourcecode type="ascii"><![CDATA[+-------------------+
@@ -358,7 +364,8 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 |             +----------+
 |         ...       |
 +-------------------+
-]]></sourcecode>
+]]>
+</sourcecode>
 </section>
 
 <section anchor="composition"><name>Composition</name>
@@ -376,7 +383,8 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 |   +--| ...   |    |
 |      +-------+    |
 +-------------------+
-]]></sourcecode>
+]]>
+</sourcecode>
 <t>Example composition having cardinality &gt;1:</t>
 
 <sourcecode type="ascii"><![CDATA[+-------------------+
@@ -391,7 +399,8 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 |   |     +-------+ |
 |   ...             |
 +-------------------+
-]]></sourcecode>
+]]>
+</sourcecode>
 </section>
 
 <section anchor="labelled-aggregation"><name>Labelled Aggregation</name>
@@ -420,7 +429,8 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 |   ...                          |
 +--------------------------------+
 
-]]></sourcecode>
+]]>
+</sourcecode>
 </section>
 
 <section anchor="dictionary-aggregation"><name>Dictionary Aggregation</name>
@@ -443,7 +453,8 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 |                   +-----------+
 |     ...                  |
 +--------------------------+
-]]></sourcecode>
+]]>
+</sourcecode>
 </section>
 
 <section anchor="labelled-composition"><name>Labelled Composition</name>
@@ -471,7 +482,8 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 |   |                    +----------+ |
 |   ...                               |
 +-------------------------------------+
-]]></sourcecode>
+]]>
+</sourcecode>
 </section>
 
 <section anchor="dictionary-composition"><name>Dictionary Composition</name>
@@ -494,7 +506,8 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 |             +---------+  |
 |     ...                  |
 +--------------------------+
-]]></sourcecode>
+]]>
+</sourcecode>
 </section>
 </section>
 
@@ -1545,6 +1558,55 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 </section>
 </section>
 </section>
+
+<section anchor="renew-process-object"><name>Renew Process Object</name>
+
+<ul spacing="compact">
+<li>Name: Renew Process Object</li>
+<li>Identifier: renewProcess</li>
+<li>Description: Represents a renew request for a provisioned object. Creating this object initiates a renewal process that extends the registration period of the object. Reading this object returns the new expiry date if the renewal has been completed.</li>
+<li><t>Data Elements:</t>
+
+<ul spacing="compact">
+<li><t>Expiry Date</t>
+
+<ul spacing="compact">
+<li>Identifier: expiryDate</li>
+<li>Cardinality: 0-1</li>
+<li>Mutability: read-only</li>
+<li>Data Type: Timestamp</li>
+<li>Description: The expiry date of the object after the renewal is completed.</li>
+</ul></li>
+</ul></li>
+</ul>
+
+<section anchor="operations-3"><name>Operations</name>
+
+<section anchor="renew-create"><name>Create (Renew Request)</name>
+
+<ul spacing="compact">
+<li>Identifier: renewCreate</li>
+</ul>
+<t>The renew operation extends the validity period of an existing object by creating a Renew Process Object.</t>
+
+<ul>
+<li><t>Input:</t>
+
+<ul spacing="compact">
+<li>Owner Data Object reference</li>
+<li>Renew Process Object (create-only and read-write elements)</li>
+</ul></li>
+<li><t>Output: Full object (read-write and read-only properties), or a minimum set of properties affected by the operation (Expiry Date).</t>
+</li>
+<li><t>Authorisation:</t>
+
+<ul spacing="compact">
+<li>Only the sponsoring client is authorised to perform this operation.</li>
+</ul></li>
+</ul>
+</section>
+</section>
+</section>
 </section>
 
 <section anchor="domain-name-data-object"><name>Domain Name Data Object</name>
@@ -1719,7 +1781,7 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 </ul>
 </section>
 
-<section anchor="operations-3"><name>Operations</name>
+<section anchor="operations-4"><name>Operations</name>
 
 <section anchor="create-operation"><name>Create Operation</name>
 
@@ -1851,23 +1913,22 @@ is &quot;all&quot;.</li>
 <t>The error response SHOULD indicate the related subordinate host objects.</t>
 </section>
 
-<section anchor="renew-operation"><name>Renew Operation</name>
+<section anchor="renew-operations"><name>Renew Operations</name>
+<t>The Domain Name Data Object supports the renew operations defined in the <xref target="renew-ops"></xref>. The renewal of a domain name changes the expiry date of the domain object.</t>
+
+<section anchor="renew-create-operation"><name>Renew Create Operation</name>
 
 <ul spacing="compact">
-<li>Identifier: renew</li>
+<li>Identifier: renewCreate</li>
 </ul>
 <t>The Renew operation allows a client to extend the validity period of an existing Domain Name resource. The operation targets a specific data object identified by its name.</t>
 
-<ul>
+<ul spacing="compact">
 <li><t>Authorisation:</t>
 
 <ul spacing="compact">
 <li>Only sponsoring client is authorised to perform this operation</li>
 </ul></li>
-<li><t>Input: Domain Name</t>
-</li>
-<li><t>Output: Full object (read-write and read-only properties), or a minimum set of properties affected by the operation (Expiry Date).</t>
-</li>
 </ul>
 <t>The following transient data elements are defined for this operation:</t>
 
@@ -1889,6 +1950,7 @@ is &quot;all&quot;.</li>
 <li>Description: The duration to be added to the object's registration period. This value is used by the server to calculate the new <tt>expiryDate</tt>. The default value MAY be defined by server policy. The number of units available MAY be subject to limits imposed by the server.</li>
 </ul></li>
 </ul>
+</section>
 </section>
 
 <section anchor="transfer-operations-1"><name>Transfer Operations</name>
@@ -2064,7 +2126,7 @@ is &quot;all&quot;.</li>
 </aside>
 </section>
 
-<section anchor="operations-4"><name>Operations</name>
+<section anchor="operations-5"><name>Operations</name>
 
 <section anchor="create-operation-1"><name>Create Operation</name>
 
@@ -2237,7 +2299,7 @@ is &quot;all&quot;.</li>
 </ul>
 </section>
 
-<section anchor="operations-5"><name>Operations</name>
+<section anchor="operations-6"><name>Operations</name>
 
 <section anchor="create-operation-2"><name>Create Operation</name>
 
@@ -2805,7 +2867,40 @@ registry MUST provide:</t>
 <td>A human-readable text describing the rationale for rejection.</td>
 </tr>
 </tbody>
-</table><t>Object: postalData</t>
+</table><t>Object: renewProcess</t>
+<t>Object Name: Renew Process Object</t>
+<t>Object Type: Process</t>
+<t>Description: Represents a renewal request for a provisioned object. Creating this object initiates the renewal</t>
+<t>Reference: [This-ID]</t>
+<t>Data Elements</t>
+<table>
+<thead>
+<tr>
+<th>Element Identifier</th>
+<th>Element Name</th>
+<th>Card.</th>
+<th>Mutability</th>
+<th>Data Type</th>
+<th>Description</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>expiryDate</td>
+<td>Expiry Date</td>
+<td>0-1</td>
+<td>read-only</td>
+<td>Timestamp</td>
+<td>The expiry date of the object after the renewal is completed.</td>
+</tr>
+</tbody>
+</table><t>Operations</t>
+<t>Operation: Create</t>
+<t>Operation Identifier: renewCreate</t>
+<t>Description: Initiates a renewal of a provisioned object by creating a Renew Process Object.</t>
+<t>Parameters: (None)</t>
+<t>Object: postalData</t>
 <t>Object Name: Postal Address Object</t>
 <t>Object Type: Component</t>
 <t>Description: Contains the components of a postal address.</t>
@@ -3581,6 +3676,10 @@ registry MUST provide:</t>
 <section anchor="changes-history" toc="exclude"><name>Changes History</name>
 
 <section anchor="draft-kowalik-rpp-data-objects-04-05" numbered="false"><name>draft-kowalik-rpp-data-objects -04 - -05</name>
+
+<ul spacing="compact">
+<li>Added Renew Process Object and operations (Issue #76)</li>
+</ul>
 </section>
 
 <section anchor="draft-kowalik-rpp-data-objects-03-04" numbered="false"><name>draft-kowalik-rpp-data-objects -03 - -04</name>

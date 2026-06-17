@@ -87,6 +87,7 @@ Table of Contents
        2.5.4.  Transfer Operations
        2.5.5.  Restore Operations
          2.5.5.1.  Redemption Grace Period State Diagram
+       2.5.6.  Renew Operations
      2.6.  EPP Compatibility Profile
    3.  Common Data Types
      3.1.  Identifier
@@ -125,6 +126,9 @@ Table of Contents
          6.2.1.1.  Create (Restore Request)
          6.2.1.2.  Read (Restore Query)
          6.2.1.3.  Report
+     6.3.  Renew Process Object
+       6.3.1.  Operations
+         6.3.1.1.  Create (Renew Request)
    7.  Domain Name Data Object
      7.1.  Object Description
      7.2.  Data Elements
@@ -133,7 +137,8 @@ Table of Contents
        7.3.2.  Read Operation
        7.3.3.  Update Operation
        7.3.4.  Delete Operation
-       7.3.5.  Renew Operation
+       7.3.5.  Renew Operations
+         7.3.5.1.  Renew Create Operation
        7.3.6.  Transfer Operations
          7.3.6.1.  Transfer Create Operation
        7.3.7.  Restore Operations
@@ -623,6 +628,14 @@ Table of Contents
         awaits final purge processing.
    11.  The pending delete period elapses and the object is purged.
    12.  The object is purged and available for re-registration.
+
+2.5.6.  Renew Operations
+
+   Renew operations manage the extension of the validity period of a
+   provisioned object.  They are specified once in this section as the
+   renewal model is common across all renewable resource objects.
+   Individual object definitions reference this section and specify any
+   object-specific extensions to the common pattern.
 
 2.6.  EPP Compatibility Profile
 
@@ -1841,6 +1854,45 @@ Table of Contents
          -  In EPP Compatibility Profile, corresponds to op="report" as
             defined in [RFC3915].
 
+6.3.  Renew Process Object
+
+   -  Name: Renew Process Object
+   -  Identifier: renewProcess
+   -  Description: Represents a renew request for a provisioned object.
+      Creating this object initiates a renewal process that extends the
+      registration period of the object.  Reading this object returns
+      the new expiry date if the renewal has been completed.
+   -  Data Elements:
+      -  Expiry Date
+         -  Identifier: expiryDate
+         -  Cardinality: 0-1
+         -  Mutability: read-only
+         -  Data Type: Timestamp
+         -  Description: The expiry date of the object after the renewal
+            is completed.
+
+6.3.1.  Operations
+
+6.3.1.1.  Create (Renew Request)
+
+   -  Identifier: renewCreate
+
+   The renew operation extends the validity period of an existing object
+   by creating a Renew Process Object.
+
+   -  Input:
+
+      -  Owner Data Object reference
+      -  Renew Process Object (create-only and read-write elements)
+
+   -  Output: Full object (read-write and read-only properties), or a
+      minimum set of properties affected by the operation (Expiry Date).
+
+   -  Authorisation:
+
+      -  Only the sponsoring client is authorised to perform this
+         operation.
+
 7.  Domain Name Data Object
 
 7.1.  Object Description
@@ -2101,22 +2153,22 @@ Table of Contents
    The error response SHOULD indicate the related subordinate host
    objects.
 
-7.3.5.  Renew Operation
+7.3.5.  Renew Operations
 
-   -  Identifier: renew
+   The Domain Name Data Object supports the renew operations defined in
+   the Section 2.5.6.  The renewal of a domain name changes the expiry
+   date of the domain object.
+
+7.3.5.1.  Renew Create Operation
+
+   -  Identifier: renewCreate
 
    The Renew operation allows a client to extend the validity period of
    an existing Domain Name resource.  The operation targets a specific
    data object identified by its name.
 
    -  Authorisation:
-
       -  Only sponsoring client is authorised to perform this operation
-
-   -  Input: Domain Name
-
-   -  Output: Full object (read-write and read-only properties), or a
-      minimum set of properties affected by the operation (Expiry Date).
 
    The following transient data elements are defined for this operation:
 
@@ -3068,6 +3120,44 @@ Table of Contents
 
                                   Table 9
 
+   Object: renewProcess
+
+   Object Name: Renew Process Object
+
+   Object Type: Process
+
+   Description: Represents a renewal request for a provisioned object.
+   Creating this object initiates the renewal
+
+   Reference: [This-ID]
+
+   Data Elements
+
+   +============+=======+=====+============+===========+===============+
+   | Element    |Element|Card.| Mutability | Data Type | Description   |
+   | Identifier |Name   |     |            |           |               |
+   +============+=======+=====+============+===========+===============+
+   | expiryDate |Expiry |0-1  | read-only  | Timestamp | The expiry    |
+   |            |Date   |     |            |           | date of the   |
+   |            |       |     |            |           | object        |
+   |            |       |     |            |           | after the     |
+   |            |       |     |            |           | renewal is    |
+   |            |       |     |            |           | completed.    |
+   +------------+-------+-----+------------+-----------+---------------+
+
+                                  Table 10
+
+   Operations
+
+   Operation: Create
+
+   Operation Identifier: renewCreate
+
+   Description: Initiates a renewal of a provisioned object by creating
+   a Renew Process Object.
+
+   Parameters: (None)
+
    Object: postalData
 
    Object Name: Postal Address Object
@@ -3099,7 +3189,7 @@ Table of Contents
     |            | Code     |     |            |        | code.       |
     +------------+----------+-----+------------+--------+-------------+
 
-                                  Table 10
+                                  Table 11
 
    Object: postalInfo
 
@@ -3140,7 +3230,7 @@ Table of Contents
    |          |              |     |          |Object | address.       |
    +----------+--------------+-----+----------+-------+----------------+
 
-                                  Table 11
+                                  Table 12
 
    Object: disclose
 
@@ -3160,7 +3250,7 @@ Table of Contents
     +============+=========+=======+============+======+=============+
     +------------+---------+-------+------------+------+-------------+
 
-                                 Table 12
+                                 Table 13
 
    Object: restoreProcess
 
@@ -3212,7 +3302,7 @@ Table of Contents
    |             |       |     |          |         |pendingRestore.  |
    +-------------+-------+-----+----------+---------+-----------------+
 
-                                 Table 13
+                                 Table 14
 
    Operations
 
@@ -3235,7 +3325,7 @@ Table of Contents
    |               |         |       |               | report.         |
    +---------------+---------+-------+---------------+-----------------+
 
-                                  Table 14
+                                  Table 15
 
    Operation: Restore Read
 
@@ -3266,7 +3356,7 @@ Table of Contents
     |               |         |       |               | submitted.   |
     +---------------+---------+-------+---------------+--------------+
 
-                                 Table 15
+                                 Table 16
 
    Object: restoreReport
 
@@ -3354,7 +3444,7 @@ Table of Contents
    |             |            |     |          |         |the client.  |
    +-------------+------------+-----+----------+---------+-------------+
 
-                                  Table 16
+                                  Table 17
 
    Object: domainName
 
@@ -3424,7 +3514,7 @@ Table of Contents
    |                |             |     |          |                   |object.      |
    +----------------+-------------+-----+----------+-------------------+-------------+
 
-                                  Table 17
+                                  Table 18
 
    Operations
 
@@ -3446,7 +3536,7 @@ Table of Contents
    |            |              |       |        | domain name.         |
    +------------+--------------+-------+--------+----------------------+
 
-                                  Table 18
+                                  Table 19
 
    Operation: Read
 
@@ -3464,7 +3554,7 @@ Table of Contents
    |             | Filter |       |        | information is returned. |
    +-------------+--------+-------+--------+--------------------------+
 
-                                 Table 19
+                                 Table 20
 
    Operation: Update
 
@@ -3482,7 +3572,7 @@ Table of Contents
     |            |        |       |         | update by the server.  |
     +------------+--------+-------+---------+------------------------+
 
-                                 Table 20
+                                 Table 21
 
    Operation: Delete
 
@@ -3514,7 +3604,7 @@ Table of Contents
    |                   |         |       |           | period.        |
    +-------------------+---------+-------+-----------+----------------+
 
-                                 Table 21
+                                 Table 22
 
    Operation: Transfer Create Operation
 
@@ -3534,7 +3624,7 @@ Table of Contents
    |                |          |       |        | transfer.           |
    +----------------+----------+-------+--------+---------------------+
 
-                                 Table 22
+                                 Table 23
 
    Object: contact
 
@@ -3610,7 +3700,7 @@ Table of Contents
    |            |             |     |          |                     |parties.     |
    +------------+-------------+-----+----------+---------------------+-------------+
 
-                                  Table 23
+                                  Table 24
 
    Operations
 
@@ -3690,7 +3780,7 @@ Table of Contents
    |            |            |     |          |            |the host.  |
    +------------+------------+-----+----------+------------+-----------+
 
-                                  Table 24
+                                  Table 25
 
    Operations
 
@@ -3725,6 +3815,8 @@ Table of Contents
 12.  Changes History
 
 draft-kowalik-rpp-data-objects -04 - -05
+
+   -  Added Renew Process Object and operations (Issue #76)
 
 draft-kowalik-rpp-data-objects -03 - -04
 
