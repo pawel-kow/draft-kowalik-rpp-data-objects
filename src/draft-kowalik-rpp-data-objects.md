@@ -1935,6 +1935,24 @@ The following data elements are defined for the User Data Object.
   * Data Type: Identifier
   * Description: A unique identifier for the user
   * Constraints: MUST be globally unique in the server scope
+* Name
+  * Identifier: name
+  * Cardinality: 1
+  * Mutability: create-only
+  * Data Type: String
+  * Description: The name of the user
+  * Constraints: -
+* Status
+  * Identifier: status
+  * Cardinality: 1
+  * Mutability: read-write
+  * Data Type: String
+    * Constraints: The value MUST be one of the status tokens defined in the IANA registry for user statuses.
+    * Constraints: Possible values include `active`, `suspended`, `deactivated`, and `pending`.
+  * Description: The status of the user
+  * Constraints: -
+
+A> TODO: what other data elements should be included for the User Data Object?
 
 ## Operations
 
@@ -2598,7 +2616,8 @@ Data Elements
 | Identifier | Name            | Card. | Mutability  | Data Type | Description                                                  |
 | ---------- | --------------- | ----- | ----------- | --------- | ------------------------------------------------------------ |
 | userId     | User Identifier | 1     | create-only | Identifier | A unique identifier for the user. MUST be globally unique in the server scope. |
-| roles      | Roles           | 1+    | read-write  | String    | One or more RBAC roles assigned to the user. Allowed values MAY be constrained by server policy. |
+| name       | Name           | 0-1   | read-write  | String    | The name of the user.                                         |
+| status     | Status         | 0+    | read-write   | string    | The status of the user. |
 
 Operations
 

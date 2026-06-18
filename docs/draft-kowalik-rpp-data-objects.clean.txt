@@ -112,6 +112,7 @@ Table of Contents
      5.9.  Postal Info Object
      5.10. Disclose Object
      5.11. Restore Report Object
+     5.12. Organisation Role Object
    6.  Process Objects
      6.1.  Transfer Process Object
        6.1.1.  Operations
@@ -155,15 +156,31 @@ Table of Contents
        9.3.3.  Update Operation
        9.3.4.  Delete Operation
        9.3.5.  Restore Operations
-   10. IANA Considerations
-     10.1.  RPP Data Object Registry
-       10.1.1.  Registration Policy
-       10.1.2.  Registry Structure
-       10.1.3.  Initial Registrations
-   11. Security Considerations
-   13. References
-     13.1.  Normative References
-     13.2.  Informative References
+   10. Organisation Data Object
+     10.1.  Object Description
+     10.2.  Data Elements
+     10.3.  Operations
+       10.3.1.  Create Operation
+       10.3.2.  Read Operation
+       10.3.3.  Update Operation
+       10.3.4.  Delete Operation
+   11. User Object
+     11.1.  Object Description
+     11.2.  Data Elements
+     11.3.  Operations
+       11.3.1.  Create Operation
+       11.3.2.  Read Operation
+       11.3.3.  Update Operation
+       11.3.4.  Delete Operation
+   12. IANA Considerations
+     12.1.  RPP Data Object Registry
+       12.1.1.  Registration Policy
+       12.1.2.  Registry Structure
+       12.1.3.  Initial Registrations
+   13. Security Considerations
+   15. References
+     15.1.  Normative References
+     15.2.  Informative References
    Authors' Addresses
 
 1.  Introduction
@@ -1514,6 +1531,59 @@ Table of Contents
             the statements provided by the client.
          -  Constraints: None.
 
+5.12.  Organisation Role Object
+
+   -  Name: Organisation Role Object
+   -  Identifier: organisationRole
+   -  Description: Represents a role that an organisation has within the
+      registry ecosystem, as defined in Section 3.2 of [RFC8543].  An
+      organisation object MUST always have at least one associated role.
+      A single organisation MAY have multiple roles with different role
+      types.
+   -  Data Elements:
+      -  Role Type
+         -  Identifier: type
+         -  Cardinality: 1
+         -  Mutability: read-write
+         -  Data Type: String
+         -  Description: The type of role the organisation fulfils.
+            Role types are registered in the IANA "EPP Organisation Role
+            Values" registry as defined in Section 7.3 of [RFC8543].
+         -  Constraints:
+            -  The value MUST be a token registered in the IANA "EPP
+               Organisation Role Values" registry.
+            -  Initial registered values are: registrar, reseller,
+               privacyproxy, and dns-operator.
+      -  Role Status
+         -  Identifier: status
+         -  Cardinality: 0+
+         -  Mutability: read-write
+         -  Data Type: String
+         -  Description: The status of this particular role.  A role
+            SHOULD have at least one associated status value.
+         -  Constraints:
+            -  Allowed values: ok, linked, clientLinkProhibited,
+               serverLinkProhibited.
+            -  ok is the normal status value for a role with no active
+               prohibitions.
+            -  linked indicates the role has at least one active
+               association with another object.  This value is not
+               explicitly set by the client.
+            -  clientLinkProhibited and serverLinkProhibited indicate
+               that requests to add new links to the role MUST be
+               rejected.
+      -  Role Identifier
+         -  Identifier: roleId
+         -  Cardinality: 0-1
+         -  Mutability: read-write
+         -  Data Type: String
+         -  Description: A third-party-assigned identifier for the role,
+            such as an IANA ID for registrars.
+         -  Constraints: (None)
+
+      |  TBC: IANA registry for role types and statuses? must be compat
+      |  with EPP
+
 6.  Process Objects
 
    This section defines the Process Objects used in this document.
@@ -2568,16 +2638,324 @@ Table of Contents
    No domain-specific transient data elements extend the common restore
    operations beyond those defined in the Section 2.5.5.
 
-10.  IANA Considerations
+10.  Organisation Data Object
 
-10.1.  RPP Data Object Registry
+10.1.  Object Description
+
+   -  Name: Organisation Data Object
+   -  Identifier: organisation
+   -  Description: An Organisation Data Object represents an entity,
+      such as a registrar or reseller that is involved in the domain
+      registration process.  This object is based on the EPP
+      Organisation Mapping defined in [RFC8543].
+
+10.2.  Data Elements
+
+   The following data elements are defined for the Organisation Data
+   Object.
+
+   -  Organisation ID
+
+      -  Identifier: id
+      -  Cardinality: 1
+      -  Mutability: create-only
+      -  Data Type: Identifier
+      -  Description: A server-unique identifier for the organisation
+         object.
+      -  Constraints:
+         -  This value MUST be supported to be provided by the client.
+         -  Servers MAY support server-side generation of this value.
+
+   -  Provisioning Metadata
+
+      -  Identifier: provMetadata
+      -  Cardinality: 1
+      -  Mutability: read-only
+      -  Data Type: Provisioning Metadata Object
+      -  Description: Standard metadata about the object's lifecycle and
+         ownership.
+      -  Constraints: (None)
+
+   -  Status
+
+      -  Identifier: status
+      -  Cardinality: 1+
+      -  Mutability: read-only
+      -  Data Type: Status Object
+      -  Description: The current operational status descriptors
+         associated with the organisation.  An organisation object MUST
+         always have at least one associated status value.
+      -  Constraints:
+         -  Status values that can be added or removed by a client are
+            prefixed with "client".  Corresponding server-managed status
+            values are prefixed with "server".
+         -  Possible values: ok, hold, terminated, linked,
+            clientLinkProhibited, serverLinkProhibited,
+            clientUpdateProhibited, serverUpdateProhibited,
+            clientDeleteProhibited, serverDeleteProhibited,
+            pendingCreate, pendingUpdate, pendingDelete.
+         -  pendingCreate, ok, hold, and terminated are mutually
+            exclusive.
+         -  ok MAY only be combined with linked.
+
+   -  Roles
+
+      -  Identifier: roles
+      -  Cardinality: 1+
+      -  Mutability: read-write
+      -  Data Type: DictionaryComposition[Organisation Role Object]
+         -  Label Description: type of role
+         -  Label Constraints: The value MUST be one of the role types
+            registered in the IANA "EPP Organisation Role Values"
+            registry as defined in Section 7.3 of [RFC8543].  Initial
+            values include registrar, reseller, privacyproxy, and dns-
+            operator.
+      -  Description: One or more roles describing the relationship the
+         organisation has within the registry ecosystem.  An
+         organisation object MUST always have at least one associated
+         role.
+      -  Constraints:
+         -  An organisation MAY have multiple roles with different role
+            types.
+         -  Role types are registered in the IA NA "EPP Organisation
+            Role Values" registry as defined in Section 7.3 of
+            [RFC8543].  Initial values include registrar, reseller,
+            privacyproxy, and dns-operator.
+
+   -  Parent Organisation ID
+
+      -  Identifier: parentId
+      -  Cardinality: 0-1
+      -  Mutability: read-write
+      -  Data Type: Identifier
+      -  Description: The identifier of the parent organisation in a
+         hierarchical organisation structure (e.g., a reseller's parent
+         registrar).
+      -  Constraints:
+         -  Loops MUST be prohibited.  If organisation A has
+            organisation B as its parent, organisation B MUST NOT have
+            organisation A as its parent, directly or transitively.
+
+   -  Contact Information
+
+      -  Identifier: contactInfo
+      -  Cardinality: 0-1
+      -  Mutability: read-write
+      -  Data Type: JSContact:Card
+      -  Description: Contact information for the organisation.
+
+   -  Contacts
+
+      -  Identifier: contacts
+      -  Cardinality: 0+
+      -  Mutability: read-write
+      -  Data Type: DictionaryComposition[JSContact:Card Object
+         Reference]
+         -  Label Description: type of contact
+         -  Label Constraints: The value MUST be one of the contact
+            types registered in the IANA "EPP Organisation Contact
+            Types" registry as defined in Section 7.4 of [RFC8543].
+            Initial values include admin, tech, billing, abuse, and
+            custom.
+      -  Description: Identifiers of contact objects associated with the
+         organisation.
+      -  Constraints:
+         -  Contact object identifiers MUST be known to the server
+            before the contact can be associated.
+
+      |  TODO: how handle the "custom" contact type?
+
+   -  Users
+      -  Identifier: users
+      -  Cardinality: 0+
+      -  Mutability: read-write
+      -  Data Type: DictionaryComposition[User Object Reference]
+         -  Label Description: RBAC role of the user
+         -  Label Constraints: The value MUST be one of the role types
+            registered in the IANA "RPP User Role Values" registry.
+      -  Description: One or more RBAC roles assigned to the user.
+      -  Constraints:
+         -  Each role value MUST be a non-empty string.
+         -  Allowed role values MAY be constrained by server policy.
+
+      |  TODO: define an IANA registry for user roles?
+
+10.3.  Operations
+
+10.3.1.  Create Operation
+
+   -  Identifier: create
+
+   The Create operation allows a client to provision a new Organisation
+   Data Object.  The operation accepts as input all create-only and
+   read-write data elements defined for the Organisation Data Object.
+
+   -  Authorisation:
+      -  Generally each client is authorised to create new organisation
+         objects, becoming the sponsoring client.  This MAY be
+         constrained by server policy.
+
+   An organisation object MUST include at least one role on creation.
+   The server MAY defer completing the action and return a pendingCreate
+   status if human or third-party review is required.
+
+10.3.2.  Read Operation
+
+   -  Identifier: read
+
+   The Read operation allows a client to retrieve the data elements of
+   an Organisation Data Object.
+
+   -  Authorisation:
+      -  Any client is authorised to retrieve organisation object
+         information.  The server MAY restrict the information returned
+         based on client identity and server policy.
+
+10.3.3.  Update Operation
+
+   -  Identifier: update
+
+   The Update operation allows a client to modify the attributes of an
+   existing Organisation Data Object.
+
+   -  Authorisation:
+      -  Only the sponsoring client is authorised to perform this
+         operation.
+
+   The following aspects of the organisation object MAY be modified:
+
+   -  Contacts MAY be added or removed.
+   -  Roles MAY be added or removed.
+   -  Status values that are client-manageable (prefixed with "client")
+      MAY be added or removed.
+   -  Parent Organisation ID and Contact Information MAY be changed.
+   -  Users MAY be added or removed.
+
+   A client MUST NOT add, delete, or alter values for statuses managed
+   by the server (prefixed with "server").  A server MAY add, delete, or
+   alter status values set by a client, subject to server policy.
+
+10.3.4.  Delete Operation
+
+   -  Identifier: delete
+
+   The Delete operation allows a client to remove an existing
+   Organisation Data Object.  The operation targets a specific data
+   object identified by its Organisation ID.
+
+   -  Authorisation:
+      -  Only the sponsoring client is authorised to perform this
+         operation.
+
+   An organisation object MUST NOT be deleted if it is associated with
+   other known objects (e.g., domain names, contacts, or child
+   organisations).  The server MUST reject such a delete request and
+   notify the client that object relationships exist.
+
+   The error response SHOULD indicate the related associated objects.
+
+11.  User Object
+
+11.1.  Object Description
+
+   -  Name: User Data Object
+   -  Identifier: user
+   -  Description: Represents a user linked to an Organisation Object.
+      Each user carries a set of RBAC roles that define the user's
+      permissions within the context of the owning Organisation Object.
+      The lifecycle of a User Object is bound to its Organisation
+      Object.
+
+11.2.  Data Elements
+
+   The following data elements are defined for the User Data Object.
+
+   -  User Identifier
+      -  Identifier: userId
+      -  Cardinality: 1
+      -  Mutability: create-only
+      -  Data Type: Identifier
+      -  Description: A unique identifier for the user
+      -  Constraints: MUST be globally unique in the server scope
+   -  Name
+      -  Identifier: name
+      -  Cardinality: 1
+      -  Mutability: create-only
+      -  Data Type: String
+      -  Description: The name of the user
+      -  Constraints: -
+   -  Status
+      -  Identifier: status
+      -  Cardinality: 1
+      -  Mutability: read-write
+      -  Data Type: String
+         -  Constraints: The value MUST be one of the status tokens
+            defined in the IANA registry for user statuses.
+         -  Constraints: Possible values include active, suspended,
+            deactivated, and pending.
+      -  Description: The status of the user
+      -  Constraints: -
+
+      |  TODO: what other data elements should be included for the User
+      |  Data Object?
+
+11.3.  Operations
+
+11.3.1.  Create Operation
+
+   -  Identifier: create
+
+   The Create operation creates a new user, which is not associated with
+   any existing Owner Object.  The operation accepts as input all
+   create-only and read-write data elements of the User Object.
+
+   -  Authorisation:
+      -  Server policy determines which clients are authorised to create
+         users in the context of a given Owner Object.
+
+11.3.2.  Read Operation
+
+   -  Identifier: read
+
+   The Read operation retrieves the data of a specific User Object.
+
+   -  Authorisation:
+      -  Server policy determines which clients are authorised to read
+         users in the context of a given Owner Object.
+
+11.3.3.  Update Operation
+
+   -  Identifier: update
+
+   The Update operation modifies the read-write data elements.
+
+   -  Authorisation:
+      -  Server policy determines which clients are authorised to update
+         users.
+
+11.3.4.  Delete Operation
+
+   -  Identifier: delete
+
+   The Delete operation removes a specific User Object
+
+   -  Authorisation:
+      -  Server policy determines which clients are authorised to delete
+         users.
+
+   The server MUST reject this operation if the User is associated with
+   an Organisation Object.
+
+12.  IANA Considerations
+
+12.1.  RPP Data Object Registry
 
    This document establishes the "RESTful Provisioning Protocol (RPP)
    Data Object Registry".  This registry serves as a catalogue of all
    data objects, component objects, data elements, and operations used
    within RPP.
 
-10.1.1.  Registration Policy
+12.1.1.  Registration Policy
 
    The policy for adding new objects, data elements, or operations to
    this registry is "Specification Required" [RFC8126].
@@ -2591,7 +2969,7 @@ Table of Contents
    Private (non-standardised) extensions are not required to register in
    this registry.
 
-10.1.2.  Registry Structure
+12.1.2.  Registry Structure
 
    The registry is organised as a collection of Object definitions.
    Each Object definition MUST include:
@@ -2623,7 +3001,7 @@ Table of Contents
    it, allowing implementations to distinguish core protocol elements
    from extension-defined elements.
 
-10.1.3.  Initial Registrations
+12.1.3.  Initial Registrations
 
    The initial contents of the RPP Data Object Registry are defined
    below.
@@ -3718,13 +4096,239 @@ Table of Contents
 
    Parameters: (None)
 
-11.  Security Considerations
+   Object: organisationRole
+
+   Object Name: Organisation Role Object
+
+   Object Type: Component
+
+   Description: Represents a role that an organisation has within the
+   registry ecosystem, as defined in Section 3.2 of [RFC8543].  An
+   organisation object MUST always have at least one associated role.
+
+   Reference: [This-ID]
+
+   Data Elements
+
+   +==========+==========+=====+==========+======+=====================+
+   |Element   |Element   |Card.|Mutability|Data  |Description          |
+   |Identifier|Name      |     |          |Type  |                     |
+   +==========+==========+=====+==========+======+=====================+
+   |type      |Role Type |1    |read-write|String|The type of role the |
+   |          |          |     |          |      |organisation fulfils.|
+   |          |          |     |          |      |Values are registered|
+   |          |          |     |          |      |in the IANA "EPP     |
+   |          |          |     |          |      |Organisation Role    |
+   |          |          |     |          |      |Values" registry as  |
+   |          |          |     |          |      |defined in [RFC8543].|
+   +----------+----------+-----+----------+------+---------------------+
+   |status    |Role      |0+   |read-write|String|The status of this   |
+   |          |Status    |     |          |      |role.  Allowed       |
+   |          |          |     |          |      |values: ok, linked,  |
+   |          |          |     |          |      |clientLinkProhibited,|
+   |          |          |     |          |      |serverLinkProhibited.|
+   +----------+----------+-----+----------+------+---------------------+
+   |roleId    |Role      |0-1  |read-write|String|A third-party-       |
+   |          |Identifier|     |          |      |assigned identifier  |
+   |          |          |     |          |      |for this role, such  |
+   |          |          |     |          |      |as an IANA registrar |
+   |          |          |     |          |      |ID.                  |
+   +----------+----------+-----+----------+------+---------------------+
+
+                                  Table 25
+
+   Object: organisation
+
+   Object Name: Organisation Data Object
+
+   Object Type: Resource
+
+   Description: Represents an entity, such as a registrar, reseller, DNS
+   service operator, or privacy proxy, involved in the domain
+   registration process.  Based on the EPP Organisation Mapping defined
+   in [RFC8543].
+
+   Reference: [This-ID]
+
+   Data Elements
+
+   +============+============+=====+==========+=====================+==============+
+   |Identifier  |Name        |Card.|Mutability|Data Type            |Description   |
+   +============+============+=====+==========+=====================+==============+
+   |id          |Organisation|1    |create-   |Identifier           |A server-     |
+   |            |ID          |     |only      |                     |unique        |
+   |            |            |     |          |                     |identifier for|
+   |            |            |     |          |                     |the           |
+   |            |            |     |          |                     |organisation  |
+   |            |            |     |          |                     |object.       |
+   +------------+------------+-----+----------+---------------------+--------------+
+   |provMetadata|Provisioning|1    |read-only |Provisioning Metadata|Standard      |
+   |            |Metadata    |     |          |Object               |metadata about|
+   |            |            |     |          |                     |the object's  |
+   |            |            |     |          |                     |lifecycle and |
+   |            |            |     |          |                     |ownership.    |
+   +------------+------------+-----+----------+---------------------+--------------+
+   |status      |Status      |1+   |read-only |Status Object        |The current   |
+   |            |            |     |          |                     |operational   |
+   |            |            |     |          |                     |status        |
+   |            |            |     |          |                     |descriptors   |
+   |            |            |     |          |                     |for the       |
+   |            |            |     |          |                     |organisation. |
+   +------------+------------+-----+----------+---------------------+--------------+
+   |roles       |Roles       |1+   |read-write|DictionaryComposition|One or more   |
+   |            |            |     |          |[Organisation Role   |roles         |
+   |            |            |     |          |Object]              |describing the|
+   |            |            |     |          |                     |organisation's|
+   |            |            |     |          |                     |relationship  |
+   |            |            |     |          |                     |within the    |
+   |            |            |     |          |                     |registry      |
+   |            |            |     |          |                     |ecosystem.    |
+   +------------+------------+-----+----------+---------------------+--------------+
+   |parentId    |Parent      |0-1  |read-write|Identifier           |The identifier|
+   |            |Organisation|     |          |                     |of the parent |
+   |            |ID          |     |          |                     |organisation  |
+   |            |            |     |          |                     |in a          |
+   |            |            |     |          |                     |hierarchical  |
+   |            |            |     |          |                     |organisation  |
+   |            |            |     |          |                     |structure.    |
+   +------------+------------+-----+----------+---------------------+--------------+
+   |contactInfo |Contact     |0-1  |read-write|DictionaryComposition|Contact       |
+   |            |Information |     |          |[Contact Data Object]|information   |
+   +------------+------------+-----+----------+---------------------+--------------+
+   |contacts    |Contacts    |0+   |read-write|DictionaryComposition|Identifiers of|
+   |            |            |     |          |[Contact Data Object |contact       |
+   |            |            |     |          |References]          |objects       |
+   |            |            |     |          |                     |associated    |
+   |            |            |     |          |                     |with the      |
+   |            |            |     |          |                     |organisation. |
+   +------------+------------+-----+----------+---------------------+--------------+
+   |users       |Users       |0+   |read-write|DictionaryComposition|Identifiers of|
+   |            |            |     |          |[User Data Object    |user objects  |
+   |            |            |     |          |References]          |associated    |
+   |            |            |     |          |                     |with the      |
+   |            |            |     |          |                     |organisation. |
+   +------------+------------+-----+----------+---------------------+--------------+
+
+                                  Table 26
+
+   Operations
+
+   Operation: Create
+
+   Operation Identifier: create
+
+   Description: Provisions a new Organisation Data Object.
+
+   Parameters: (None)
+
+   Operation: Read
+
+   Operation Identifier: read
+
+   Description: Retrieves the data elements of an Organisation Data
+   Object.
+
+   Parameters: (None)
+
+   Operation: Update
+
+   Operation Identifier: update
+
+   Description: Modifies the attributes of an existing Organisation Data
+   Object.
+
+   Parameters: (None)
+
+   Operation: Delete
+
+   Operation Identifier: delete
+
+   Description: Removes an existing Organisation Data Object.
+
+   Parameters: (None)
+
+   Object: user
+
+   Object Name: User Data Object
+
+   Object Type: Resource
+
+   Description: Represents a user linked to an Organisation Data Object.
+   Each user carries a set of RBAC roles that define the user's
+   permissions within the context of the owning organisation.  The
+   lifecycle of a User Object is bound to its Organisation Object.
+
+   Reference: [This-ID]
+
+   Data Elements
+
+   +==========+==========+=====+=============+==========+=============+
+   |Identifier|Name      |Card.| Mutability  |Data Type | Description |
+   +==========+==========+=====+=============+==========+=============+
+   |userId    |User      |1    | create-only |Identifier| A unique    |
+   |          |Identifier|     |             |          | identifier  |
+   |          |          |     |             |          | for the     |
+   |          |          |     |             |          | user.  MUST |
+   |          |          |     |             |          | be globally |
+   |          |          |     |             |          | unique in   |
+   |          |          |     |             |          | the server  |
+   |          |          |     |             |          | scope.      |
+   +----------+----------+-----+-------------+----------+-------------+
+   |name      |Name      |0-1  | read-write  |String    | The name of |
+   |          |          |     |             |          | the user.   |
+   +----------+----------+-----+-------------+----------+-------------+
+   |status    |Status    |0+   | read-write  |string    | The status  |
+   |          |          |     |             |          | of the      |
+   |          |          |     |             |          | user.       |
+   +----------+----------+-----+-------------+----------+-------------+
+
+                                 Table 27
+
+   Operations
+
+   Operation: Create
+
+   Operation Identifier: create
+
+   Description: Creates a new User Object.
+
+   Parameters: (None)
+
+   Operation: Read
+
+   Operation Identifier: read
+
+   Description: Retrieves the data elements of a specific User Object.
+
+   Parameters: (None)
+
+   Operation: Update
+
+   Operation Identifier: update
+
+   Description: Modifies the read-write data elements (e.g., roles) of a
+   specific User Object.
+
+   Parameters: (None)
+
+   Operation: Delete
+
+   Operation Identifier: delete
+
+   Description: Removes a specific User Object.
+
+   Parameters: (None)
+
+13.  Security Considerations
 
       |  TODO: write security considerations, if any
 
-12.  Changes History
+14.  Changes History
 
 draft-kowalik-rpp-data-objects -04 - -05
+
+   -  Added Organisation, Organisation Role and User Objects, based on
+      RFC8543 (Issue #25)
 
 draft-kowalik-rpp-data-objects -03 - -04
 
@@ -3770,9 +4374,9 @@ draft-kowalik-rpp-data-objects -01 - -02
    -  ontology of allowed basic datatypes #4
    -  add examples of associations #31
 
-13.  References
+15.  References
 
-13.1.  Normative References
+15.1.  Normative References
 
    [I-D.ietf-rpp-architecture]
               Kowalik, P. and M. Wullink, "RPP Architecture", Work in
@@ -3855,7 +4459,12 @@ draft-kowalik-rpp-data-objects -01 - -02
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
               May 2017, <https://www.rfc-editor.org/info/rfc8174>.
 
-13.2.  Informative References
+   [RFC8543]  Zhou, L., Kong, N., Yao, J., Gould, J., and G. Zhou,
+              "Extensible Provisioning Protocol (EPP) Organization
+              Mapping", RFC 8543, DOI 10.17487/RFC8543, March 2019,
+              <https://www.rfc-editor.org/info/rfc8543>.
+
+15.2.  Informative References
 
    [I-D.simmen-rpp-dns-data]
               Simmen, C. and P. Kowalik, "DNS data representation for

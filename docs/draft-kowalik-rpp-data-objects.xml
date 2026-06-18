@@ -273,7 +273,8 @@ The data type of a data element may also be a reference to another data object, 
    |                               or not req.    | |      Purged       (12)|
    |                                  <create>    | +-----------------------+
    +----------------------------------------------+
-]]></sourcecode>
+]]>
+</sourcecode>
 <t>State descriptions:</t>
 
 <ol spacing="compact">
@@ -341,7 +342,8 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 |             |    ...   |
 |             +----------+
 +-------------------+
-]]></sourcecode>
+]]>
+</sourcecode>
 <t>Example aggregation having cardinality &gt;1:</t>
 
 <sourcecode type="ascii"><![CDATA[+-------------------+
@@ -358,7 +360,8 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 |             +----------+
 |         ...       |
 +-------------------+
-]]></sourcecode>
+]]>
+</sourcecode>
 </section>
 
 <section anchor="composition"><name>Composition</name>
@@ -376,7 +379,8 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 |   +--| ...   |    |
 |      +-------+    |
 +-------------------+
-]]></sourcecode>
+]]>
+</sourcecode>
 <t>Example composition having cardinality &gt;1:</t>
 
 <sourcecode type="ascii"><![CDATA[+-------------------+
@@ -391,7 +395,8 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 |   |     +-------+ |
 |   ...             |
 +-------------------+
-]]></sourcecode>
+]]>
+</sourcecode>
 </section>
 
 <section anchor="labelled-aggregation"><name>Labelled Aggregation</name>
@@ -420,7 +425,8 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 |   ...                          |
 +--------------------------------+
 
-]]></sourcecode>
+]]>
+</sourcecode>
 </section>
 
 <section anchor="dictionary-aggregation"><name>Dictionary Aggregation</name>
@@ -443,7 +449,8 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 |                   +-----------+
 |     ...                  |
 +--------------------------+
-]]></sourcecode>
+]]>
+</sourcecode>
 </section>
 
 <section anchor="labelled-composition"><name>Labelled Composition</name>
@@ -471,7 +478,8 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 |   |                    +----------+ |
 |   ...                               |
 +-------------------------------------+
-]]></sourcecode>
+]]>
+</sourcecode>
 </section>
 
 <section anchor="dictionary-composition"><name>Dictionary Composition</name>
@@ -494,7 +502,8 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 |             +---------+  |
 |     ...                  |
 +--------------------------+
-]]></sourcecode>
+]]>
+</sourcecode>
 </section>
 </section>
 
@@ -1160,6 +1169,64 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 </ul></li>
 </ul></li>
 </ul>
+</section>
+
+<section anchor="organisation-role-object"><name>Organisation Role Object</name>
+
+<ul spacing="compact">
+<li>Name: Organisation Role Object</li>
+<li>Identifier: organisationRole</li>
+<li>Description: Represents a role that an organisation has within the registry ecosystem, as defined in <xref target="RFC8543" sectionFormat="of" section="3.2"></xref>. An organisation object MUST always have at least one associated role. A single organisation MAY have multiple roles with different role types.</li>
+<li><t>Data Elements:</t>
+
+<ul spacing="compact">
+<li><t>Role Type</t>
+
+<ul spacing="compact">
+<li>Identifier: type</li>
+<li>Cardinality: 1</li>
+<li>Mutability: read-write</li>
+<li>Data Type: String</li>
+<li>Description: The type of role the organisation fulfils. Role types are registered in the IANA &quot;EPP Organisation Role Values&quot; registry as defined in <xref target="RFC8543" sectionFormat="of" section="7.3"></xref>.</li>
+<li><t>Constraints:</t>
+
+<ul spacing="compact">
+<li>The value MUST be a token registered in the IANA &quot;EPP Organisation Role Values&quot; registry.</li>
+<li>Initial registered values are: <tt>registrar</tt>, <tt>reseller</tt>, <tt>privacyproxy</tt>, and <tt>dns-operator</tt>.</li>
+</ul></li>
+</ul></li>
+<li><t>Role Status</t>
+
+<ul spacing="compact">
+<li>Identifier: status</li>
+<li>Cardinality: 0+</li>
+<li>Mutability: read-write</li>
+<li>Data Type: String</li>
+<li>Description: The status of this particular role. A role SHOULD have at least one associated status value.</li>
+<li><t>Constraints:</t>
+
+<ul spacing="compact">
+<li>Allowed values: <tt>ok</tt>, <tt>linked</tt>, <tt>clientLinkProhibited</tt>, <tt>serverLinkProhibited</tt>.</li>
+<li><tt>ok</tt> is the normal status value for a role with no active prohibitions.</li>
+<li><tt>linked</tt> indicates the role has at least one active association with another object. This value is not explicitly set by the client.</li>
+<li><tt>clientLinkProhibited</tt> and <tt>serverLinkProhibited</tt> indicate that requests to add new links to the role MUST be rejected.</li>
+</ul></li>
+</ul></li>
+<li><t>Role Identifier</t>
+
+<ul spacing="compact">
+<li>Identifier: roleId</li>
+<li>Cardinality: 0-1</li>
+<li>Mutability: read-write</li>
+<li>Data Type: String</li>
+<li>Description: A third-party-assigned identifier for the role, such as an IANA ID for registrars.</li>
+<li>Constraints: (None)</li>
+</ul></li>
+</ul></li>
+</ul>
+
+<aside><t>TBC: IANA registry for role types and statuses? must be compat with EPP</t>
+</aside>
 </section>
 </section>
 
@@ -2315,6 +2382,364 @@ is &quot;all&quot;.</li>
 <section anchor="restore-operations-1"><name>Restore Operations</name>
 <t>The Host Data Object supports the restore operations defined in the <xref target="restore-ops"></xref>. These operations are OPTIONAL and are only available when the RGP feature for Host Data Object is supported by the server.</t>
 <t>No domain-specific transient data elements extend the common restore operations beyond those defined in the <xref target="restore-ops"></xref>.</t>
+</section>
+</section>
+</section>
+
+<section anchor="organisation-data-object"><name>Organisation Data Object</name>
+
+<section anchor="object-description-3"><name>Object Description</name>
+
+<ul spacing="compact">
+<li>Name: Organisation Data Object</li>
+<li>Identifier: organisation</li>
+<li>Description: An Organisation Data Object represents an entity, such as a registrar or reseller that is involved in the domain registration process. This object is based on the EPP Organisation Mapping defined in <xref target="RFC8543"></xref>.</li>
+</ul>
+</section>
+
+<section anchor="data-elements-3"><name>Data Elements</name>
+<t>The following data elements are defined for the Organisation Data Object.</t>
+
+<ul>
+<li><t>Organisation ID</t>
+
+<ul spacing="compact">
+<li>Identifier: id</li>
+<li>Cardinality: 1</li>
+<li>Mutability: create-only</li>
+<li>Data Type: Identifier</li>
+<li>Description: A server-unique identifier for the organisation object.</li>
+<li><t>Constraints:</t>
+
+<ul spacing="compact">
+<li>This value MUST be supported to be provided by the client.</li>
+<li>Servers MAY support server-side generation of this value.</li>
+</ul></li>
+</ul></li>
+<li><t>Provisioning Metadata</t>
+
+<ul spacing="compact">
+<li>Identifier: provMetadata</li>
+<li>Cardinality: 1</li>
+<li>Mutability: read-only</li>
+<li>Data Type: Provisioning Metadata Object</li>
+<li>Description: Standard metadata about the object's lifecycle and ownership.</li>
+<li>Constraints: (None)</li>
+</ul></li>
+<li><t>Status</t>
+
+<ul spacing="compact">
+<li>Identifier: status</li>
+<li>Cardinality: 1+</li>
+<li>Mutability: read-only</li>
+<li>Data Type: Status Object</li>
+<li>Description: The current operational status descriptors associated with the organisation. An organisation object MUST always have at least one associated status value.</li>
+<li><t>Constraints:</t>
+
+<ul spacing="compact">
+<li>Status values that can be added or removed by a client are prefixed with &quot;client&quot;. Corresponding server-managed status values are prefixed with &quot;server&quot;.</li>
+<li>Possible values: <tt>ok</tt>, <tt>hold</tt>, <tt>terminated</tt>, <tt>linked</tt>, <tt>clientLinkProhibited</tt>, <tt>serverLinkProhibited</tt>, <tt>clientUpdateProhibited</tt>, <tt>serverUpdateProhibited</tt>, <tt>clientDeleteProhibited</tt>, <tt>serverDeleteProhibited</tt>, <tt>pendingCreate</tt>, <tt>pendingUpdate</tt>, <tt>pendingDelete</tt>.</li>
+<li><tt>pendingCreate</tt>, <tt>ok</tt>, <tt>hold</tt>, and <tt>terminated</tt> are mutually exclusive.</li>
+<li><tt>ok</tt> MAY only be combined with <tt>linked</tt>.</li>
+</ul></li>
+</ul></li>
+<li><t>Roles</t>
+
+<ul spacing="compact">
+<li>Identifier: roles</li>
+<li>Cardinality: 1+</li>
+<li>Mutability: read-write</li>
+<li><t>Data Type: DictionaryComposition[Organisation Role Object]</t>
+
+<ul spacing="compact">
+<li>Label Description: type of role</li>
+<li>Label Constraints: The value MUST be one of the role types registered in the IANA &quot;EPP Organisation Role Values&quot; registry as defined in <xref target="RFC8543" sectionFormat="of" section="7.3"></xref>. Initial values include <tt>registrar</tt>, <tt>reseller</tt>, <tt>privacyproxy</tt>, and <tt>dns-operator</tt>.</li>
+</ul></li>
+<li>Description: One or more roles describing the relationship the organisation has within the registry ecosystem. An organisation object MUST always have at least one associated role.</li>
+<li><t>Constraints:</t>
+
+<ul spacing="compact">
+<li>An organisation MAY have multiple roles with different role types.</li>
+<li>Role types are registered in the IA NA &quot;EPP Organisation Role Values&quot; registry as defined in <xref target="RFC8543" sectionFormat="of" section="7.3"></xref>. Initial values include <tt>registrar</tt>, <tt>reseller</tt>, <tt>privacyproxy</tt>, and <tt>dns-operator</tt>.</li>
+</ul></li>
+</ul></li>
+<li><t>Parent Organisation ID</t>
+
+<ul spacing="compact">
+<li>Identifier: parentId</li>
+<li>Cardinality: 0-1</li>
+<li>Mutability: read-write</li>
+<li>Data Type: Identifier</li>
+<li>Description: The identifier of the parent organisation in a hierarchical organisation structure (e.g., a reseller's parent registrar).</li>
+<li><t>Constraints:</t>
+
+<ul spacing="compact">
+<li>Loops MUST be prohibited. If organisation A has organisation B as its parent, organisation B MUST NOT have organisation A as its parent, directly or transitively.</li>
+</ul></li>
+</ul></li>
+<li><t>Contact Information</t>
+
+<ul spacing="compact">
+<li>Identifier: contactInfo</li>
+<li>Cardinality: 0-1</li>
+<li>Mutability: read-write</li>
+<li>Data Type: JSContact:Card</li>
+<li>Description: Contact information for the organisation.</li>
+</ul></li>
+<li><t>Contacts</t>
+
+<ul spacing="compact">
+<li>Identifier: contacts</li>
+<li>Cardinality: 0+</li>
+<li>Mutability: read-write</li>
+<li><t>Data Type: DictionaryComposition[JSContact:Card Object Reference]</t>
+
+<ul spacing="compact">
+<li>Label Description: type of contact</li>
+<li>Label Constraints: The value MUST be one of the contact types registered in the IANA &quot;EPP Organisation Contact Types&quot; registry as defined in <xref target="RFC8543" sectionFormat="of" section="7.4"></xref>. Initial values include <tt>admin</tt>, <tt>tech</tt>, <tt>billing</tt>, <tt>abuse</tt>, and <tt>custom</tt>.<br />
+</li>
+</ul></li>
+<li>Description: Identifiers of contact objects associated with the organisation.</li>
+<li><t>Constraints:</t>
+
+<ul spacing="compact">
+<li>Contact object identifiers MUST be known to the server before the contact can be associated.</li>
+</ul></li>
+</ul></li>
+</ul>
+
+<aside><t>TODO: how handle the &quot;custom&quot; contact type?</t>
+</aside>
+
+<ul spacing="compact">
+<li><t>Users</t>
+
+<ul spacing="compact">
+<li>Identifier: users</li>
+<li>Cardinality: 0+</li>
+<li>Mutability: read-write</li>
+<li><t>Data Type: DictionaryComposition[User Object Reference]</t>
+
+<ul spacing="compact">
+<li>Label Description: RBAC role of the user</li>
+<li>Label Constraints: The value MUST be one of the role types registered in the IANA &quot;RPP User Role Values&quot; registry.</li>
+</ul></li>
+<li>Description: One or more RBAC roles assigned to the user.</li>
+<li><t>Constraints:</t>
+
+<ul spacing="compact">
+<li>Each role value MUST be a non-empty string.</li>
+<li>Allowed role values MAY be constrained by server policy.</li>
+</ul></li>
+</ul></li>
+</ul>
+
+<aside><t>TODO: define an IANA registry for user roles?</t>
+</aside>
+</section>
+
+<section anchor="operations-6"><name>Operations</name>
+
+<section anchor="create-operation-3"><name>Create Operation</name>
+
+<ul spacing="compact">
+<li>Identifier: create</li>
+</ul>
+<t>The Create operation allows a client to provision a new Organisation Data Object. The operation accepts as input all create-only and read-write data elements defined for the Organisation Data Object.</t>
+
+<ul spacing="compact">
+<li><t>Authorisation:</t>
+
+<ul spacing="compact">
+<li>Generally each client is authorised to create new organisation objects, becoming the sponsoring client. This MAY be constrained by server policy.</li>
+</ul></li>
+</ul>
+<t>An organisation object MUST include at least one role on creation. The server MAY defer completing the action and return a <tt>pendingCreate</tt> status if human or third-party review is required.</t>
+</section>
+
+<section anchor="read-operation-3"><name>Read Operation</name>
+
+<ul spacing="compact">
+<li>Identifier: read</li>
+</ul>
+<t>The Read operation allows a client to retrieve the data elements of an Organisation Data Object.</t>
+
+<ul spacing="compact">
+<li><t>Authorisation:</t>
+
+<ul spacing="compact">
+<li>Any client is authorised to retrieve organisation object information. The server MAY restrict the information returned based on client identity and server policy.</li>
+</ul></li>
+</ul>
+</section>
+
+<section anchor="update-operation-3"><name>Update Operation</name>
+
+<ul spacing="compact">
+<li>Identifier: update</li>
+</ul>
+<t>The Update operation allows a client to modify the attributes of an existing Organisation Data Object.</t>
+
+<ul spacing="compact">
+<li><t>Authorisation:</t>
+
+<ul spacing="compact">
+<li>Only the sponsoring client is authorised to perform this operation.</li>
+</ul></li>
+</ul>
+<t>The following aspects of the organisation object MAY be modified:</t>
+
+<ul spacing="compact">
+<li>Contacts MAY be added or removed.</li>
+<li>Roles MAY be added or removed.</li>
+<li>Status values that are client-manageable (prefixed with &quot;client&quot;) MAY be added or removed.</li>
+<li>Parent Organisation ID and Contact Information MAY be changed.</li>
+<li>Users MAY be added or removed.</li>
+</ul>
+<t>A client MUST NOT add, delete, or alter values for statuses managed by the server (prefixed with &quot;server&quot;). A server MAY add, delete, or alter status values set by a client, subject to server policy.</t>
+</section>
+
+<section anchor="delete-operation-3"><name>Delete Operation</name>
+
+<ul spacing="compact">
+<li>Identifier: delete</li>
+</ul>
+<t>The Delete operation allows a client to remove an existing Organisation Data Object. The operation targets a specific data object identified by its Organisation ID.</t>
+
+<ul spacing="compact">
+<li><t>Authorisation:</t>
+
+<ul spacing="compact">
+<li>Only the sponsoring client is authorised to perform this operation.</li>
+</ul></li>
+</ul>
+<t>An organisation object MUST NOT be deleted if it is associated with other known objects (e.g., domain names, contacts, or child organisations). The server MUST reject such a delete request and notify the client that object relationships exist.</t>
+<t>The error response SHOULD indicate the related associated objects.</t>
+</section>
+</section>
+</section>
+
+<section anchor="user-object"><name>User Object</name>
+
+<section anchor="object-description-4"><name>Object Description</name>
+
+<ul spacing="compact">
+<li>Name: User Data Object</li>
+<li>Identifier: user</li>
+<li>Description: Represents a user linked to an Organisation Object. Each user carries a set of RBAC roles that define the user's permissions within the context of the owning Organisation Object. The lifecycle of a User Object is bound to its Organisation Object.</li>
+</ul>
+</section>
+
+<section anchor="data-elements-4"><name>Data Elements</name>
+<t>The following data elements are defined for the User Data Object.</t>
+
+<ul spacing="compact">
+<li><t>User Identifier</t>
+
+<ul spacing="compact">
+<li>Identifier: userId</li>
+<li>Cardinality: 1</li>
+<li>Mutability: create-only</li>
+<li>Data Type: Identifier</li>
+<li>Description: A unique identifier for the user</li>
+<li>Constraints: MUST be globally unique in the server scope</li>
+</ul></li>
+<li><t>Name</t>
+
+<ul spacing="compact">
+<li>Identifier: name</li>
+<li>Cardinality: 1</li>
+<li>Mutability: create-only</li>
+<li>Data Type: String</li>
+<li>Description: The name of the user</li>
+<li>Constraints: -</li>
+</ul></li>
+<li><t>Status</t>
+
+<ul spacing="compact">
+<li>Identifier: status</li>
+<li>Cardinality: 1</li>
+<li>Mutability: read-write</li>
+<li><t>Data Type: String</t>
+
+<ul spacing="compact">
+<li>Constraints: The value MUST be one of the status tokens defined in the IANA registry for user statuses.</li>
+<li>Constraints: Possible values include <tt>active</tt>, <tt>suspended</tt>, <tt>deactivated</tt>, and <tt>pending</tt>.</li>
+</ul></li>
+<li>Description: The status of the user</li>
+<li>Constraints: -</li>
+</ul></li>
+</ul>
+
+<aside><t>TODO: what other data elements should be included for the User Data Object?</t>
+</aside>
+</section>
+
+<section anchor="operations-7"><name>Operations</name>
+
+<section anchor="create-operation-4"><name>Create Operation</name>
+
+<ul spacing="compact">
+<li>Identifier: create</li>
+</ul>
+<t>The Create operation creates a new user, which is not associated with any existing Owner Object. The operation accepts as input all create-only and read-write data elements of the User Object.</t>
+
+<ul spacing="compact">
+<li><t>Authorisation:</t>
+
+<ul spacing="compact">
+<li>Server policy determines which clients are authorised to create users in the context of a given Owner Object.</li>
+</ul></li>
+</ul>
+</section>
+
+<section anchor="read-operation-4"><name>Read Operation</name>
+
+<ul spacing="compact">
+<li>Identifier: read</li>
+</ul>
+<t>The Read operation retrieves the data of a specific User Object.</t>
+
+<ul spacing="compact">
+<li><t>Authorisation:</t>
+
+<ul spacing="compact">
+<li>Server policy determines which clients are authorised to read users in the context of a given Owner Object.</li>
+</ul></li>
+</ul>
+</section>
+
+<section anchor="update-operation-4"><name>Update Operation</name>
+
+<ul spacing="compact">
+<li>Identifier: update</li>
+</ul>
+<t>The Update operation modifies the read-write data elements.</t>
+
+<ul spacing="compact">
+<li><t>Authorisation:</t>
+
+<ul spacing="compact">
+<li>Server policy determines which clients are authorised to update users.</li>
+</ul></li>
+</ul>
+</section>
+
+<section anchor="delete-operation-4"><name>Delete Operation</name>
+
+<ul spacing="compact">
+<li>Identifier: delete</li>
+</ul>
+<t>The Delete operation removes a specific User Object</t>
+
+<ul spacing="compact">
+<li><t>Authorisation:</t>
+
+<ul spacing="compact">
+<li>Server policy determines which clients are authorised to delete users.</li>
+</ul></li>
+</ul>
+<t>The server MUST reject this operation if the User is associated with an Organisation Object.</t>
 </section>
 </section>
 </section>
@@ -3568,6 +3993,223 @@ registry MUST provide:</t>
 <t>Operation: Delete</t>
 <t>Description: Removes an existing Host Data Object.</t>
 <t>Parameters: (None)</t>
+<t>Object: organisationRole</t>
+<t>Object Name: Organisation Role Object</t>
+<t>Object Type: Component</t>
+<t>Description: Represents a role that an organisation has within the registry ecosystem, as defined in <xref target="RFC8543" sectionFormat="of" section="3.2"></xref>. An organisation object MUST always have at least one associated role.</t>
+<t>Reference: [This-ID]</t>
+<t>Data Elements</t>
+<table>
+<thead>
+<tr>
+<th>Element Identifier</th>
+<th>Element Name</th>
+<th>Card.</th>
+<th>Mutability</th>
+<th>Data Type</th>
+<th>Description</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>type</td>
+<td>Role Type</td>
+<td>1</td>
+<td>read-write</td>
+<td>String</td>
+<td>The type of role the organisation fulfils. Values are registered in the IANA &quot;EPP Organisation Role Values&quot; registry as defined in <xref target="RFC8543"></xref>.</td>
+</tr>
+
+<tr>
+<td>status</td>
+<td>Role Status</td>
+<td>0+</td>
+<td>read-write</td>
+<td>String</td>
+<td>The status of this role. Allowed values: <tt>ok</tt>, <tt>linked</tt>, <tt>clientLinkProhibited</tt>, <tt>serverLinkProhibited</tt>.</td>
+</tr>
+
+<tr>
+<td>roleId</td>
+<td>Role Identifier</td>
+<td>0-1</td>
+<td>read-write</td>
+<td>String</td>
+<td>A third-party-assigned identifier for this role, such as an IANA registrar ID.</td>
+</tr>
+</tbody>
+</table><t>Object: organisation</t>
+<t>Object Name: Organisation Data Object</t>
+<t>Object Type: Resource</t>
+<t>Description: Represents an entity, such as a registrar, reseller, DNS service operator, or privacy proxy, involved in the domain registration process. Based on the EPP Organisation Mapping defined in <xref target="RFC8543"></xref>.</t>
+<t>Reference: [This-ID]</t>
+<t>Data Elements</t>
+<table>
+<thead>
+<tr>
+<th>Identifier</th>
+<th>Name</th>
+<th>Card.</th>
+<th>Mutability</th>
+<th>Data Type</th>
+<th>Description</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>id</td>
+<td>Organisation ID</td>
+<td>1</td>
+<td>create-only</td>
+<td>Identifier</td>
+<td>A server-unique identifier for the organisation object.</td>
+</tr>
+
+<tr>
+<td>provMetadata</td>
+<td>Provisioning Metadata</td>
+<td>1</td>
+<td>read-only</td>
+<td>Provisioning Metadata Object</td>
+<td>Standard metadata about the object's lifecycle and ownership.</td>
+</tr>
+
+<tr>
+<td>status</td>
+<td>Status</td>
+<td>1+</td>
+<td>read-only</td>
+<td>Status Object</td>
+<td>The current operational status descriptors for the organisation.</td>
+</tr>
+
+<tr>
+<td>roles</td>
+<td>Roles</td>
+<td>1+</td>
+<td>read-write</td>
+<td>DictionaryComposition [Organisation Role Object]</td>
+<td>One or more roles describing the organisation's relationship within the registry ecosystem.</td>
+</tr>
+
+<tr>
+<td>parentId</td>
+<td>Parent Organisation ID</td>
+<td>0-1</td>
+<td>read-write</td>
+<td>Identifier</td>
+<td>The identifier of the parent organisation in a hierarchical organisation structure.</td>
+</tr>
+
+<tr>
+<td>contactInfo</td>
+<td>Contact Information</td>
+<td>0-1</td>
+<td>read-write</td>
+<td>DictionaryComposition [Contact Data Object]</td>
+<td>Contact information</td>
+</tr>
+
+<tr>
+<td>contacts</td>
+<td>Contacts</td>
+<td>0+</td>
+<td>read-write</td>
+<td>DictionaryComposition [Contact Data Object References]</td>
+<td>Identifiers of contact objects associated with the organisation.</td>
+</tr>
+
+<tr>
+<td>users</td>
+<td>Users</td>
+<td>0+</td>
+<td>read-write</td>
+<td>DictionaryComposition [User Data Object References]</td>
+<td>Identifiers of user objects associated with the organisation.</td>
+</tr>
+</tbody>
+</table><t>Operations</t>
+<t>Operation: Create</t>
+<t>Operation Identifier: create</t>
+<t>Description: Provisions a new Organisation Data Object.</t>
+<t>Parameters: (None)</t>
+<t>Operation: Read</t>
+<t>Operation Identifier: read</t>
+<t>Description: Retrieves the data elements of an Organisation Data Object.</t>
+<t>Parameters: (None)</t>
+<t>Operation: Update</t>
+<t>Operation Identifier: update</t>
+<t>Description: Modifies the attributes of an existing Organisation Data Object.</t>
+<t>Parameters: (None)</t>
+<t>Operation: Delete</t>
+<t>Operation Identifier: delete</t>
+<t>Description: Removes an existing Organisation Data Object.</t>
+<t>Parameters: (None)</t>
+<t>Object: user</t>
+<t>Object Name: User Data Object</t>
+<t>Object Type: Resource</t>
+<t>Description: Represents a user linked to an Organisation Data Object. Each user carries a set of RBAC roles that define the user's permissions within the context of the owning organisation. The lifecycle of a User Object is bound to its Organisation Object.</t>
+<t>Reference: [This-ID]</t>
+<t>Data Elements</t>
+<table>
+<thead>
+<tr>
+<th>Identifier</th>
+<th>Name</th>
+<th>Card.</th>
+<th>Mutability</th>
+<th>Data Type</th>
+<th>Description</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>userId</td>
+<td>User Identifier</td>
+<td>1</td>
+<td>create-only</td>
+<td>Identifier</td>
+<td>A unique identifier for the user. MUST be globally unique in the server scope.</td>
+</tr>
+
+<tr>
+<td>name</td>
+<td>Name</td>
+<td>0-1</td>
+<td>read-write</td>
+<td>String</td>
+<td>The name of the user.</td>
+</tr>
+
+<tr>
+<td>status</td>
+<td>Status</td>
+<td>0+</td>
+<td>read-write</td>
+<td>string</td>
+<td>The status of the user.</td>
+</tr>
+</tbody>
+</table><t>Operations</t>
+<t>Operation: Create</t>
+<t>Operation Identifier: create</t>
+<t>Description: Creates a new User Object.</t>
+<t>Parameters: (None)</t>
+<t>Operation: Read</t>
+<t>Operation Identifier: read</t>
+<t>Description: Retrieves the data elements of a specific User Object.</t>
+<t>Parameters: (None)</t>
+<t>Operation: Update</t>
+<t>Operation Identifier: update</t>
+<t>Description: Modifies the read-write data elements (e.g., roles) of a specific User Object.</t>
+<t>Parameters: (None)</t>
+<t>Operation: Delete</t>
+<t>Operation Identifier: delete</t>
+<t>Description: Removes a specific User Object.</t>
+<t>Parameters: (None)</t>
 </section>
 </section>
 </section>
@@ -3581,6 +4223,10 @@ registry MUST provide:</t>
 <section anchor="changes-history" toc="exclude"><name>Changes History</name>
 
 <section anchor="draft-kowalik-rpp-data-objects-04-05" numbered="false"><name>draft-kowalik-rpp-data-objects -04 - -05</name>
+
+<ul spacing="compact">
+<li>Added Organisation, Organisation Role and User Objects, based on RFC8543 (Issue #25)</li>
+</ul>
 </section>
 
 <section anchor="draft-kowalik-rpp-data-objects-03-04" numbered="false"><name>draft-kowalik-rpp-data-objects -03 - -04</name>
@@ -3662,6 +4308,7 @@ registry MUST provide:</t>
 <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.5952.xml"/>
 <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8126.xml"/>
 <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8174.xml"/>
+<xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8543.xml"/>
 </references>
 <references><name>Informative References</name>
 <xi:include href="https://bib.ietf.org/public/rfc/bibxml3/reference.I-D.simmen-rpp-dns-data.xml"/>

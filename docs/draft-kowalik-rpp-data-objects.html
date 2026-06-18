@@ -10,23 +10,23 @@
 <meta content="
        This document defines data objects for the RESTful Provisioning Protocol (RPP) and sets up IANA RPP Data Object Registry to describe and catalogue them. Specifically, it details the logical structure, constraints, and protocol operations (including their inputs, outputs and business logic) for foundational resources: domain names, contacts, and hosts. In accordance with the RPP architecture  , these definitions focus entirely on the semantics, remaining independent of any specific data representation or media type (e.g., JSON or XML). 
     " name="description">
-<meta content="xml2rfc 3.30.0" name="generator">
+<meta content="xml2rfc 3.34.0" name="generator">
 <meta content="draft-kowalik-rpp-data-objects-05 (editorial)" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.30.0
-    Python 3.10.12
-    ConfigArgParse 1.7.1
+  xml2rfc 3.34.0
+    Python 3.14.5
+    ConfigArgParse 1.7.5
     google-i18n-address 3.1.1
-    intervaltree 3.1.0
+    intervaltree 3.2.1
     Jinja2 3.1.6
-    lxml 6.0.0
-    platformdirs 4.3.8
-    pycountry 24.6.1
-    PyYAML 6.0.2
-    requests 2.32.4
-    setuptools 80.9.0
-    wcwidth 0.2.13
-    weasyprint 65.0
+    lxml 6.1.1
+    natsort 8.4.0
+    platformdirs 4.10.0
+    pycountry 26.2.16
+    PyYAML 6.0.3
+    requests 2.34.2
+    wcwidth 0.8.1
+    weasyprint 69.0
 -->
 <link href="draft-kowalik-rpp-data-objects.xml" rel="alternate" type="application/rfc+xml">
 <link href="#copyright" rel="license">
@@ -44,9 +44,9 @@
 */
 
 /* fonts */
-@import url('https://fonts.googleapis.com/css?family=Noto+Sans'); /* Sans-serif */
-@import url('https://fonts.googleapis.com/css?family=Noto+Serif'); /* Serif (print) */
-@import url('https://fonts.googleapis.com/css?family=Roboto+Mono'); /* Monospace */
+@import url('https://static.ietf.org/fonts/noto-sans/import.css'); /* Sans-serif */
+@import url('https://static.ietf.org/fonts/noto-serif/import.css'); /* Serif (print) */
+@import url('https://static.ietf.org/fonts/roboto-mono/import.css'); /* Monospace */
 
 :root {
   --font-sans: 'Noto Sans', Arial, Helvetica, sans-serif;
@@ -1212,7 +1212,6 @@ li > p:last-of-type:only-child {
 <link href="rfc-local.css" rel="stylesheet" type="text/css">
 </head>
 <body class="xml2rfc">
-<script src="metadata.min.js"></script>
 <table class="ears">
 <thead><tr>
 <td class="left">Internet-Draft</td>
@@ -1491,6 +1490,9 @@ li > p:last-of-type:only-child {
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.11">
                 <p id="section-toc.1-1.5.2.11.1"><a href="#section-5.11" class="auto internal xref">5.11</a>. <a href="#name-restore-report-object" class="internal xref">Restore Report Object</a></p>
 </li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.12">
+                <p id="section-toc.1-1.5.2.12.1"><a href="#section-5.12" class="auto internal xref">5.12</a>. <a href="#name-organisation-role-object" class="internal xref">Organisation Role Object</a></p>
+</li>
             </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6">
@@ -1647,40 +1649,96 @@ li > p:last-of-type:only-child {
             </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10">
-            <p id="section-toc.1-1.10.1"><a href="#section-10" class="auto internal xref">10</a>. <a href="#name-iana-considerations" class="internal xref">IANA Considerations</a></p>
+            <p id="section-toc.1-1.10.1"><a href="#section-10" class="auto internal xref">10</a>. <a href="#name-organisation-data-object" class="internal xref">Organisation Data Object</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10.2.1">
-                <p id="section-toc.1-1.10.2.1.1"><a href="#section-10.1" class="auto internal xref">10.1</a>.  <a href="#name-rpp-data-object-registry" class="internal xref">RPP Data Object Registry</a></p>
+                <p id="section-toc.1-1.10.2.1.1"><a href="#section-10.1" class="auto internal xref">10.1</a>.  <a href="#name-object-description-4" class="internal xref">Object Description</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10.2.2">
+                <p id="section-toc.1-1.10.2.2.1"><a href="#section-10.2" class="auto internal xref">10.2</a>.  <a href="#name-data-elements-4" class="internal xref">Data Elements</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10.2.3">
+                <p id="section-toc.1-1.10.2.3.1"><a href="#section-10.3" class="auto internal xref">10.3</a>.  <a href="#name-operations-7" class="internal xref">Operations</a></p>
 <ul class="compact toc ulBare ulEmpty">
-<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10.2.1.2.1">
-                    <p id="section-toc.1-1.10.2.1.2.1.1"><a href="#section-10.1.1" class="auto internal xref">10.1.1</a>.  <a href="#name-registration-policy" class="internal xref">Registration Policy</a></p>
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10.2.3.2.1">
+                    <p id="section-toc.1-1.10.2.3.2.1.1"><a href="#section-10.3.1" class="auto internal xref">10.3.1</a>.  <a href="#name-create-operation-4" class="internal xref">Create Operation</a></p>
 </li>
-                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10.2.1.2.2">
-                    <p id="section-toc.1-1.10.2.1.2.2.1"><a href="#section-10.1.2" class="auto internal xref">10.1.2</a>.  <a href="#name-registry-structure" class="internal xref">Registry Structure</a></p>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10.2.3.2.2">
+                    <p id="section-toc.1-1.10.2.3.2.2.1"><a href="#section-10.3.2" class="auto internal xref">10.3.2</a>.  <a href="#name-read-operation-4" class="internal xref">Read Operation</a></p>
 </li>
-                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10.2.1.2.3">
-                    <p id="section-toc.1-1.10.2.1.2.3.1"><a href="#section-10.1.3" class="auto internal xref">10.1.3</a>.  <a href="#name-initial-registrations" class="internal xref">Initial Registrations</a></p>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10.2.3.2.3">
+                    <p id="section-toc.1-1.10.2.3.2.3.1"><a href="#section-10.3.3" class="auto internal xref">10.3.3</a>.  <a href="#name-update-operation-4" class="internal xref">Update Operation</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10.2.3.2.4">
+                    <p id="section-toc.1-1.10.2.3.2.4.1"><a href="#section-10.3.4" class="auto internal xref">10.3.4</a>.  <a href="#name-delete-operation-4" class="internal xref">Delete Operation</a></p>
 </li>
                 </ul>
 </li>
             </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.11">
-            <p id="section-toc.1-1.11.1"><a href="#section-11" class="auto internal xref">11</a>. <a href="#name-security-considerations" class="internal xref">Security Considerations</a></p>
+            <p id="section-toc.1-1.11.1"><a href="#section-11" class="auto internal xref">11</a>. <a href="#name-user-object" class="internal xref">User Object</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.11.2.1">
+                <p id="section-toc.1-1.11.2.1.1"><a href="#section-11.1" class="auto internal xref">11.1</a>.  <a href="#name-object-description-5" class="internal xref">Object Description</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.11.2.2">
+                <p id="section-toc.1-1.11.2.2.1"><a href="#section-11.2" class="auto internal xref">11.2</a>.  <a href="#name-data-elements-5" class="internal xref">Data Elements</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.11.2.3">
+                <p id="section-toc.1-1.11.2.3.1"><a href="#section-11.3" class="auto internal xref">11.3</a>.  <a href="#name-operations-8" class="internal xref">Operations</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.11.2.3.2.1">
+                    <p id="section-toc.1-1.11.2.3.2.1.1"><a href="#section-11.3.1" class="auto internal xref">11.3.1</a>.  <a href="#name-create-operation-5" class="internal xref">Create Operation</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.11.2.3.2.2">
+                    <p id="section-toc.1-1.11.2.3.2.2.1"><a href="#section-11.3.2" class="auto internal xref">11.3.2</a>.  <a href="#name-read-operation-5" class="internal xref">Read Operation</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.11.2.3.2.3">
+                    <p id="section-toc.1-1.11.2.3.2.3.1"><a href="#section-11.3.3" class="auto internal xref">11.3.3</a>.  <a href="#name-update-operation-5" class="internal xref">Update Operation</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.11.2.3.2.4">
+                    <p id="section-toc.1-1.11.2.3.2.4.1"><a href="#section-11.3.4" class="auto internal xref">11.3.4</a>.  <a href="#name-delete-operation-5" class="internal xref">Delete Operation</a></p>
+</li>
+                </ul>
+</li>
+            </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.12">
-            <p id="section-toc.1-1.12.1"><a href="#section-13" class="auto internal xref">13</a>. <a href="#name-references" class="internal xref">References</a></p>
+            <p id="section-toc.1-1.12.1"><a href="#section-12" class="auto internal xref">12</a>. <a href="#name-iana-considerations" class="internal xref">IANA Considerations</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.12.2.1">
-                <p id="section-toc.1-1.12.2.1.1"><a href="#section-13.1" class="auto internal xref">13.1</a>.  <a href="#name-normative-references" class="internal xref">Normative References</a></p>
+                <p id="section-toc.1-1.12.2.1.1"><a href="#section-12.1" class="auto internal xref">12.1</a>.  <a href="#name-rpp-data-object-registry" class="internal xref">RPP Data Object Registry</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.12.2.1.2.1">
+                    <p id="section-toc.1-1.12.2.1.2.1.1"><a href="#section-12.1.1" class="auto internal xref">12.1.1</a>.  <a href="#name-registration-policy" class="internal xref">Registration Policy</a></p>
 </li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.12.2.2">
-                <p id="section-toc.1-1.12.2.2.1"><a href="#section-13.2" class="auto internal xref">13.2</a>.  <a href="#name-informative-references" class="internal xref">Informative References</a></p>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.12.2.1.2.2">
+                    <p id="section-toc.1-1.12.2.1.2.2.1"><a href="#section-12.1.2" class="auto internal xref">12.1.2</a>.  <a href="#name-registry-structure" class="internal xref">Registry Structure</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.12.2.1.2.3">
+                    <p id="section-toc.1-1.12.2.1.2.3.1"><a href="#section-12.1.3" class="auto internal xref">12.1.3</a>.  <a href="#name-initial-registrations" class="internal xref">Initial Registrations</a></p>
+</li>
+                </ul>
 </li>
             </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.13">
-            <p id="section-toc.1-1.13.1"><a href="#appendix-A" class="auto internal xref"></a><a href="#name-authors-addresses" class="internal xref">Authors' Addresses</a></p>
+            <p id="section-toc.1-1.13.1"><a href="#section-13" class="auto internal xref">13</a>. <a href="#name-security-considerations" class="internal xref">Security Considerations</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.14">
+            <p id="section-toc.1-1.14.1"><a href="#section-15" class="auto internal xref">15</a>. <a href="#name-references" class="internal xref">References</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.14.2.1">
+                <p id="section-toc.1-1.14.2.1.1"><a href="#section-15.1" class="auto internal xref">15.1</a>.  <a href="#name-normative-references" class="internal xref">Normative References</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.14.2.2">
+                <p id="section-toc.1-1.14.2.2.1"><a href="#section-15.2" class="auto internal xref">15.2</a>.  <a href="#name-informative-references" class="internal xref">Informative References</a></p>
+</li>
+            </ul>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.15">
+            <p id="section-toc.1-1.15.1"><a href="#appendix-A" class="auto internal xref"></a><a href="#name-authors-addresses" class="internal xref">Authors' Addresses</a></p>
 </li>
         </ul>
 </nav>
@@ -2097,6 +2155,7 @@ The data type of a data element may also be a reference to another data object, 
    |                               or not req.    | |      Purged       (12)|
    |                                  &lt;create&gt;    | +-----------------------+
    +----------------------------------------------+
+
 </pre><a href="#section-2.5.5.1-3" class="pilcrow">¶</a>
 </div>
 <p id="section-2.5.5.1-4">State descriptions:<a href="#section-2.5.5.1-4" class="pilcrow">¶</a></p>
@@ -2207,6 +2266,7 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 |             |    ...   |
 |             +----------+
 +-------------------+
+
 </pre><a href="#section-4.1-5" class="pilcrow">¶</a>
 </div>
 <p id="section-4.1-6">Example aggregation having cardinality &gt;1:<a href="#section-4.1-6" class="pilcrow">¶</a></p>
@@ -2225,6 +2285,7 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 |             +----------+
 |         ...       |
 +-------------------+
+
 </pre><a href="#section-4.1-7" class="pilcrow">¶</a>
 </div>
 </section>
@@ -2248,6 +2309,7 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 |   +--| ...   |    |
 |      +-------+    |
 +-------------------+
+
 </pre><a href="#section-4.2-5" class="pilcrow">¶</a>
 </div>
 <p id="section-4.2-6">Example composition having cardinality &gt;1:<a href="#section-4.2-6" class="pilcrow">¶</a></p>
@@ -2264,6 +2326,7 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 |   |     +-------+ |
 |   ...             |
 +-------------------+
+
 </pre><a href="#section-4.2-7" class="pilcrow">¶</a>
 </div>
 </section>
@@ -2298,6 +2361,7 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 |   ...                          |
 +--------------------------------+
 
+
 </pre><a href="#section-4.3-5" class="pilcrow">¶</a>
 </div>
 </section>
@@ -2326,6 +2390,7 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 |                   +-----------+
 |     ...                  |
 +--------------------------+
+
 </pre><a href="#section-4.4-5" class="pilcrow">¶</a>
 </div>
 </section>
@@ -2359,6 +2424,7 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 |   |                    +----------+ |
 |   ...                               |
 +-------------------------------------+
+
 </pre><a href="#section-4.5-5" class="pilcrow">¶</a>
 </div>
 </section>
@@ -2387,6 +2453,7 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 |             +---------+  |
 |     ...                  |
 +--------------------------+
+
 </pre><a href="#section-4.6-5" class="pilcrow">¶</a>
 </div>
 </section>
@@ -3461,6 +3528,101 @@ It MUST be assured that the same unchanged data is always inserted in the same o
             </ul>
 </li>
         </ul>
+</section>
+</div>
+<div id="organisation-role-object">
+<section id="section-5.12">
+        <h3 id="name-organisation-role-object">
+<a href="#section-5.12" class="section-number selfRef">5.12. </a><a href="#name-organisation-role-object" class="section-name selfRef">Organisation Role Object</a>
+        </h3>
+<ul class="compact">
+<li class="compact" id="section-5.12-1.1">Name: Organisation Role Object<a href="#section-5.12-1.1" class="pilcrow">¶</a>
+</li>
+          <li class="compact" id="section-5.12-1.2">Identifier: organisationRole<a href="#section-5.12-1.2" class="pilcrow">¶</a>
+</li>
+          <li class="compact" id="section-5.12-1.3">Description: Represents a role that an organisation has within the registry ecosystem, as defined in <span><a href="https://rfc-editor.org/rfc/rfc8543#section-3.2" class="relref">Section 3.2</a> of [<a href="#RFC8543" class="cite xref">RFC8543</a>]</span>. An organisation object MUST always have at least one associated role. A single organisation MAY have multiple roles with different role types.<a href="#section-5.12-1.3" class="pilcrow">¶</a>
+</li>
+          <li class="compact" id="section-5.12-1.4">
+            <p id="section-5.12-1.4.1">Data Elements:<a href="#section-5.12-1.4.1" class="pilcrow">¶</a></p>
+<ul class="compact">
+<li class="compact" id="section-5.12-1.4.2.1">
+                <p id="section-5.12-1.4.2.1.1">Role Type<a href="#section-5.12-1.4.2.1.1" class="pilcrow">¶</a></p>
+<ul class="compact">
+<li class="compact" id="section-5.12-1.4.2.1.2.1">Identifier: type<a href="#section-5.12-1.4.2.1.2.1" class="pilcrow">¶</a>
+</li>
+                  <li class="compact" id="section-5.12-1.4.2.1.2.2">Cardinality: 1<a href="#section-5.12-1.4.2.1.2.2" class="pilcrow">¶</a>
+</li>
+                  <li class="compact" id="section-5.12-1.4.2.1.2.3">Mutability: read-write<a href="#section-5.12-1.4.2.1.2.3" class="pilcrow">¶</a>
+</li>
+                  <li class="compact" id="section-5.12-1.4.2.1.2.4">Data Type: String<a href="#section-5.12-1.4.2.1.2.4" class="pilcrow">¶</a>
+</li>
+                  <li class="compact" id="section-5.12-1.4.2.1.2.5">Description: The type of role the organisation fulfils. Role types are registered in the IANA "EPP Organisation Role Values" registry as defined in <span><a href="https://rfc-editor.org/rfc/rfc8543#section-7.3" class="relref">Section 7.3</a> of [<a href="#RFC8543" class="cite xref">RFC8543</a>]</span>.<a href="#section-5.12-1.4.2.1.2.5" class="pilcrow">¶</a>
+</li>
+                  <li class="compact" id="section-5.12-1.4.2.1.2.6">
+                    <p id="section-5.12-1.4.2.1.2.6.1">Constraints:<a href="#section-5.12-1.4.2.1.2.6.1" class="pilcrow">¶</a></p>
+<ul class="compact">
+<li class="compact" id="section-5.12-1.4.2.1.2.6.2.1">The value MUST be a token registered in the IANA "EPP Organisation Role Values" registry.<a href="#section-5.12-1.4.2.1.2.6.2.1" class="pilcrow">¶</a>
+</li>
+                      <li class="compact" id="section-5.12-1.4.2.1.2.6.2.2">Initial registered values are: <code>registrar</code>, <code>reseller</code>, <code>privacyproxy</code>, and <code>dns-operator</code>.<a href="#section-5.12-1.4.2.1.2.6.2.2" class="pilcrow">¶</a>
+</li>
+                    </ul>
+</li>
+                </ul>
+</li>
+              <li class="compact" id="section-5.12-1.4.2.2">
+                <p id="section-5.12-1.4.2.2.1">Role Status<a href="#section-5.12-1.4.2.2.1" class="pilcrow">¶</a></p>
+<ul class="compact">
+<li class="compact" id="section-5.12-1.4.2.2.2.1">Identifier: status<a href="#section-5.12-1.4.2.2.2.1" class="pilcrow">¶</a>
+</li>
+                  <li class="compact" id="section-5.12-1.4.2.2.2.2">Cardinality: 0+<a href="#section-5.12-1.4.2.2.2.2" class="pilcrow">¶</a>
+</li>
+                  <li class="compact" id="section-5.12-1.4.2.2.2.3">Mutability: read-write<a href="#section-5.12-1.4.2.2.2.3" class="pilcrow">¶</a>
+</li>
+                  <li class="compact" id="section-5.12-1.4.2.2.2.4">Data Type: String<a href="#section-5.12-1.4.2.2.2.4" class="pilcrow">¶</a>
+</li>
+                  <li class="compact" id="section-5.12-1.4.2.2.2.5">Description: The status of this particular role. A role SHOULD have at least one associated status value.<a href="#section-5.12-1.4.2.2.2.5" class="pilcrow">¶</a>
+</li>
+                  <li class="compact" id="section-5.12-1.4.2.2.2.6">
+                    <p id="section-5.12-1.4.2.2.2.6.1">Constraints:<a href="#section-5.12-1.4.2.2.2.6.1" class="pilcrow">¶</a></p>
+<ul class="compact">
+<li class="compact" id="section-5.12-1.4.2.2.2.6.2.1">Allowed values: <code>ok</code>, <code>linked</code>, <code>clientLinkProhibited</code>, <code>serverLinkProhibited</code>.<a href="#section-5.12-1.4.2.2.2.6.2.1" class="pilcrow">¶</a>
+</li>
+                      <li class="compact" id="section-5.12-1.4.2.2.2.6.2.2">
+                        <code>ok</code> is the normal status value for a role with no active prohibitions.<a href="#section-5.12-1.4.2.2.2.6.2.2" class="pilcrow">¶</a>
+</li>
+                      <li class="compact" id="section-5.12-1.4.2.2.2.6.2.3">
+                        <code>linked</code> indicates the role has at least one active association with another object. This value is not explicitly set by the client.<a href="#section-5.12-1.4.2.2.2.6.2.3" class="pilcrow">¶</a>
+</li>
+                      <li class="compact" id="section-5.12-1.4.2.2.2.6.2.4">
+                        <code>clientLinkProhibited</code> and <code>serverLinkProhibited</code> indicate that requests to add new links to the role MUST be rejected.<a href="#section-5.12-1.4.2.2.2.6.2.4" class="pilcrow">¶</a>
+</li>
+                    </ul>
+</li>
+                </ul>
+</li>
+              <li class="compact" id="section-5.12-1.4.2.3">
+                <p id="section-5.12-1.4.2.3.1">Role Identifier<a href="#section-5.12-1.4.2.3.1" class="pilcrow">¶</a></p>
+<ul class="compact">
+<li class="compact" id="section-5.12-1.4.2.3.2.1">Identifier: roleId<a href="#section-5.12-1.4.2.3.2.1" class="pilcrow">¶</a>
+</li>
+                  <li class="compact" id="section-5.12-1.4.2.3.2.2">Cardinality: 0-1<a href="#section-5.12-1.4.2.3.2.2" class="pilcrow">¶</a>
+</li>
+                  <li class="compact" id="section-5.12-1.4.2.3.2.3">Mutability: read-write<a href="#section-5.12-1.4.2.3.2.3" class="pilcrow">¶</a>
+</li>
+                  <li class="compact" id="section-5.12-1.4.2.3.2.4">Data Type: String<a href="#section-5.12-1.4.2.3.2.4" class="pilcrow">¶</a>
+</li>
+                  <li class="compact" id="section-5.12-1.4.2.3.2.5">Description: A third-party-assigned identifier for the role, such as an IANA ID for registrars.<a href="#section-5.12-1.4.2.3.2.5" class="pilcrow">¶</a>
+</li>
+                  <li class="compact" id="section-5.12-1.4.2.3.2.6">Constraints: (None)<a href="#section-5.12-1.4.2.3.2.6" class="pilcrow">¶</a>
+</li>
+                </ul>
+</li>
+            </ul>
+</li>
+        </ul>
+<aside id="section-5.12-2">
+          <p id="section-5.12-2.1">TBC: IANA registry for role types and statuses? must be compat with EPP<a href="#section-5.12-2.1" class="pilcrow">¶</a></p>
+</aside>
 </section>
 </div>
 </section>
@@ -5180,66 +5342,598 @@ is "all".<a href="#section-7.3.2-5.1.2.5" class="pilcrow">¶</a>
 </div>
 </section>
 </div>
-<div id="iana-considerations">
+<div id="organisation-data-object">
 <section id="section-10">
-      <h2 id="name-iana-considerations">
-<a href="#section-10" class="section-number selfRef">10. </a><a href="#name-iana-considerations" class="section-name selfRef">IANA Considerations</a>
+      <h2 id="name-organisation-data-object">
+<a href="#section-10" class="section-number selfRef">10. </a><a href="#name-organisation-data-object" class="section-name selfRef">Organisation Data Object</a>
       </h2>
-<div id="rpp-data-object-registry">
+<div id="object-description-3">
 <section id="section-10.1">
-        <h3 id="name-rpp-data-object-registry">
-<a href="#section-10.1" class="section-number selfRef">10.1. </a><a href="#name-rpp-data-object-registry" class="section-name selfRef">RPP Data Object Registry</a>
+        <h3 id="name-object-description-4">
+<a href="#section-10.1" class="section-number selfRef">10.1. </a><a href="#name-object-description-4" class="section-name selfRef">Object Description</a>
         </h3>
-<p id="section-10.1-1">This document establishes the "RESTful Provisioning Protocol (RPP) Data Object Registry". This registry serves as a catalogue of all data objects, component objects, data elements, and operations used within RPP.<a href="#section-10.1-1" class="pilcrow">¶</a></p>
-<div id="registration-policy">
-<section id="section-10.1.1">
-          <h4 id="name-registration-policy">
-<a href="#section-10.1.1" class="section-number selfRef">10.1.1. </a><a href="#name-registration-policy" class="section-name selfRef">Registration Policy</a>
-          </h4>
-<p id="section-10.1.1-1">The policy for adding new objects, data elements, or operations to this registry is "Specification Required" <span>[<a href="#RFC8126" class="cite xref">RFC8126</a>]</span>.<a href="#section-10.1.1-1" class="pilcrow">¶</a></p>
-<p id="section-10.1.1-2">Standardised RPP extensions that introduce new data objects, add data elements to existing objects, or define new operations or operation parameters MUST register these additions in this registry. Each such registration MUST reference the specification that defines the extension.<a href="#section-10.1.1-2" class="pilcrow">¶</a></p>
-<p id="section-10.1.1-3">Private (non-standardised) extensions are not required to register in this registry.<a href="#section-10.1.1-3" class="pilcrow">¶</a></p>
+<ul class="compact">
+<li class="compact" id="section-10.1-1.1">Name: Organisation Data Object<a href="#section-10.1-1.1" class="pilcrow">¶</a>
+</li>
+          <li class="compact" id="section-10.1-1.2">Identifier: organisation<a href="#section-10.1-1.2" class="pilcrow">¶</a>
+</li>
+          <li class="compact" id="section-10.1-1.3">Description: An Organisation Data Object represents an entity, such as a registrar or reseller that is involved in the domain registration process. This object is based on the EPP Organisation Mapping defined in <span>[<a href="#RFC8543" class="cite xref">RFC8543</a>]</span>.<a href="#section-10.1-1.3" class="pilcrow">¶</a>
+</li>
+        </ul>
 </section>
 </div>
-<div id="registry-structure">
-<section id="section-10.1.2">
-          <h4 id="name-registry-structure">
-<a href="#section-10.1.2" class="section-number selfRef">10.1.2. </a><a href="#name-registry-structure" class="section-name selfRef">Registry Structure</a>
-          </h4>
-<p id="section-10.1.2-1">The registry is organised as a collection of Object definitions. Each Object definition MUST include:<a href="#section-10.1.2-1" class="pilcrow">¶</a></p>
+<div id="data-elements-3">
+<section id="section-10.2">
+        <h3 id="name-data-elements-4">
+<a href="#section-10.2" class="section-number selfRef">10.2. </a><a href="#name-data-elements-4" class="section-name selfRef">Data Elements</a>
+        </h3>
+<p id="section-10.2-1">The following data elements are defined for the Organisation Data Object.<a href="#section-10.2-1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-10.1.2-2.1">
-              <p id="section-10.1.2-2.1.1">A header containing the Object Identifier, Object Name, Object Type (Resource, Process or Component), a brief description, and a reference to its defining specification.<a href="#section-10.1.2-2.1.1" class="pilcrow">¶</a></p>
-</li>
-            <li class="normal" id="section-10.1.2-2.2">
-              <p id="section-10.1.2-2.2.1">A "Data Elements" table listing all persisted data elements associated with the object. Each entry MUST specify the element's Identifier, Name, Cardinality, Mutability, Data Type, description, and a reference to the specification that defines it.<a href="#section-10.1.2-2.2.1" class="pilcrow">¶</a></p>
-</li>
-            <li class="normal" id="section-10.1.2-2.3">
-              <p id="section-10.1.2-2.3.1">An "Operations" section (applicable only for Object Types Resource or Process). For each operation, the
-registry MUST provide:<a href="#section-10.1.2-2.3.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-10.2-2.1">
+            <p id="section-10.2-2.1.1">Organisation ID<a href="#section-10.2-2.1.1" class="pilcrow">¶</a></p>
 <ul class="compact normal">
-<li class="compact normal" id="section-10.1.2-2.3.2.1">The Operation's Name, a description, and a reference to the specification that defines it.<a href="#section-10.1.2-2.3.2.1" class="pilcrow">¶</a>
+<li class="compact normal" id="section-10.2-2.1.2.1">Identifier: id<a href="#section-10.2-2.1.2.1" class="pilcrow">¶</a>
 </li>
-                <li class="compact normal" id="section-10.1.2-2.3.2.2">A "Parameters" table listing all data elements that are provided as input to the operation but are not persisted as part of the object's state. Each entry MUST specify the parameter's Identifier, Name, Cardinality, Data Type, description, and a reference to the specification that defines it.<a href="#section-10.1.2-2.3.2.2" class="pilcrow">¶</a>
+              <li class="compact normal" id="section-10.2-2.1.2.2">Cardinality: 1<a href="#section-10.2-2.1.2.2" class="pilcrow">¶</a>
+</li>
+              <li class="compact normal" id="section-10.2-2.1.2.3">Mutability: create-only<a href="#section-10.2-2.1.2.3" class="pilcrow">¶</a>
+</li>
+              <li class="compact normal" id="section-10.2-2.1.2.4">Data Type: Identifier<a href="#section-10.2-2.1.2.4" class="pilcrow">¶</a>
+</li>
+              <li class="compact normal" id="section-10.2-2.1.2.5">Description: A server-unique identifier for the organisation object.<a href="#section-10.2-2.1.2.5" class="pilcrow">¶</a>
+</li>
+              <li class="compact normal" id="section-10.2-2.1.2.6">
+                <p id="section-10.2-2.1.2.6.1">Constraints:<a href="#section-10.2-2.1.2.6.1" class="pilcrow">¶</a></p>
+<ul class="compact normal">
+<li class="compact normal" id="section-10.2-2.1.2.6.2.1">This value MUST be supported to be provided by the client.<a href="#section-10.2-2.1.2.6.2.1" class="pilcrow">¶</a>
+</li>
+                  <li class="compact normal" id="section-10.2-2.1.2.6.2.2">Servers MAY support server-side generation of this value.<a href="#section-10.2-2.1.2.6.2.2" class="pilcrow">¶</a>
+</li>
+                </ul>
+</li>
+            </ul>
+</li>
+          <li class="normal" id="section-10.2-2.2">
+            <p id="section-10.2-2.2.1">Provisioning Metadata<a href="#section-10.2-2.2.1" class="pilcrow">¶</a></p>
+<ul class="compact normal">
+<li class="compact normal" id="section-10.2-2.2.2.1">Identifier: provMetadata<a href="#section-10.2-2.2.2.1" class="pilcrow">¶</a>
+</li>
+              <li class="compact normal" id="section-10.2-2.2.2.2">Cardinality: 1<a href="#section-10.2-2.2.2.2" class="pilcrow">¶</a>
+</li>
+              <li class="compact normal" id="section-10.2-2.2.2.3">Mutability: read-only<a href="#section-10.2-2.2.2.3" class="pilcrow">¶</a>
+</li>
+              <li class="compact normal" id="section-10.2-2.2.2.4">Data Type: Provisioning Metadata Object<a href="#section-10.2-2.2.2.4" class="pilcrow">¶</a>
+</li>
+              <li class="compact normal" id="section-10.2-2.2.2.5">Description: Standard metadata about the object's lifecycle and ownership.<a href="#section-10.2-2.2.2.5" class="pilcrow">¶</a>
+</li>
+              <li class="compact normal" id="section-10.2-2.2.2.6">Constraints: (None)<a href="#section-10.2-2.2.2.6" class="pilcrow">¶</a>
+</li>
+            </ul>
+</li>
+          <li class="normal" id="section-10.2-2.3">
+            <p id="section-10.2-2.3.1">Status<a href="#section-10.2-2.3.1" class="pilcrow">¶</a></p>
+<ul class="compact normal">
+<li class="compact normal" id="section-10.2-2.3.2.1">Identifier: status<a href="#section-10.2-2.3.2.1" class="pilcrow">¶</a>
+</li>
+              <li class="compact normal" id="section-10.2-2.3.2.2">Cardinality: 1+<a href="#section-10.2-2.3.2.2" class="pilcrow">¶</a>
+</li>
+              <li class="compact normal" id="section-10.2-2.3.2.3">Mutability: read-only<a href="#section-10.2-2.3.2.3" class="pilcrow">¶</a>
+</li>
+              <li class="compact normal" id="section-10.2-2.3.2.4">Data Type: Status Object<a href="#section-10.2-2.3.2.4" class="pilcrow">¶</a>
+</li>
+              <li class="compact normal" id="section-10.2-2.3.2.5">Description: The current operational status descriptors associated with the organisation. An organisation object MUST always have at least one associated status value.<a href="#section-10.2-2.3.2.5" class="pilcrow">¶</a>
+</li>
+              <li class="compact normal" id="section-10.2-2.3.2.6">
+                <p id="section-10.2-2.3.2.6.1">Constraints:<a href="#section-10.2-2.3.2.6.1" class="pilcrow">¶</a></p>
+<ul class="compact normal">
+<li class="compact normal" id="section-10.2-2.3.2.6.2.1">Status values that can be added or removed by a client are prefixed with "client". Corresponding server-managed status values are prefixed with "server".<a href="#section-10.2-2.3.2.6.2.1" class="pilcrow">¶</a>
+</li>
+                  <li class="compact normal" id="section-10.2-2.3.2.6.2.2">Possible values: <code>ok</code>, <code>hold</code>, <code>terminated</code>, <code>linked</code>, <code>clientLinkProhibited</code>, <code>serverLinkProhibited</code>, <code>clientUpdateProhibited</code>, <code>serverUpdateProhibited</code>, <code>clientDeleteProhibited</code>, <code>serverDeleteProhibited</code>, <code>pendingCreate</code>, <code>pendingUpdate</code>, <code>pendingDelete</code>.<a href="#section-10.2-2.3.2.6.2.2" class="pilcrow">¶</a>
+</li>
+                  <li class="compact normal" id="section-10.2-2.3.2.6.2.3">
+                    <code>pendingCreate</code>, <code>ok</code>, <code>hold</code>, and <code>terminated</code> are mutually exclusive.<a href="#section-10.2-2.3.2.6.2.3" class="pilcrow">¶</a>
+</li>
+                  <li class="compact normal" id="section-10.2-2.3.2.6.2.4">
+                    <code>ok</code> MAY only be combined with <code>linked</code>.<a href="#section-10.2-2.3.2.6.2.4" class="pilcrow">¶</a>
+</li>
+                </ul>
+</li>
+            </ul>
+</li>
+          <li class="normal" id="section-10.2-2.4">
+            <p id="section-10.2-2.4.1">Roles<a href="#section-10.2-2.4.1" class="pilcrow">¶</a></p>
+<ul class="compact normal">
+<li class="compact normal" id="section-10.2-2.4.2.1">Identifier: roles<a href="#section-10.2-2.4.2.1" class="pilcrow">¶</a>
+</li>
+              <li class="compact normal" id="section-10.2-2.4.2.2">Cardinality: 1+<a href="#section-10.2-2.4.2.2" class="pilcrow">¶</a>
+</li>
+              <li class="compact normal" id="section-10.2-2.4.2.3">Mutability: read-write<a href="#section-10.2-2.4.2.3" class="pilcrow">¶</a>
+</li>
+              <li class="compact normal" id="section-10.2-2.4.2.4">
+                <p id="section-10.2-2.4.2.4.1">Data Type: DictionaryComposition[Organisation Role Object]<a href="#section-10.2-2.4.2.4.1" class="pilcrow">¶</a></p>
+<ul class="compact normal">
+<li class="compact normal" id="section-10.2-2.4.2.4.2.1">Label Description: type of role<a href="#section-10.2-2.4.2.4.2.1" class="pilcrow">¶</a>
+</li>
+                  <li class="compact normal" id="section-10.2-2.4.2.4.2.2">Label Constraints: The value MUST be one of the role types registered in the IANA "EPP Organisation Role Values" registry as defined in <span><a href="https://rfc-editor.org/rfc/rfc8543#section-7.3" class="relref">Section 7.3</a> of [<a href="#RFC8543" class="cite xref">RFC8543</a>]</span>. Initial values include <code>registrar</code>, <code>reseller</code>, <code>privacyproxy</code>, and <code>dns-operator</code>.<a href="#section-10.2-2.4.2.4.2.2" class="pilcrow">¶</a>
+</li>
+                </ul>
+</li>
+              <li class="compact normal" id="section-10.2-2.4.2.5">Description: One or more roles describing the relationship the organisation has within the registry ecosystem. An organisation object MUST always have at least one associated role.<a href="#section-10.2-2.4.2.5" class="pilcrow">¶</a>
+</li>
+              <li class="compact normal" id="section-10.2-2.4.2.6">
+                <p id="section-10.2-2.4.2.6.1">Constraints:<a href="#section-10.2-2.4.2.6.1" class="pilcrow">¶</a></p>
+<ul class="compact normal">
+<li class="compact normal" id="section-10.2-2.4.2.6.2.1">An organisation MAY have multiple roles with different role types.<a href="#section-10.2-2.4.2.6.2.1" class="pilcrow">¶</a>
+</li>
+                  <li class="compact normal" id="section-10.2-2.4.2.6.2.2">Role types are registered in the IA NA "EPP Organisation Role Values" registry as defined in <span><a href="https://rfc-editor.org/rfc/rfc8543#section-7.3" class="relref">Section 7.3</a> of [<a href="#RFC8543" class="cite xref">RFC8543</a>]</span>. Initial values include <code>registrar</code>, <code>reseller</code>, <code>privacyproxy</code>, and <code>dns-operator</code>.<a href="#section-10.2-2.4.2.6.2.2" class="pilcrow">¶</a>
+</li>
+                </ul>
+</li>
+            </ul>
+</li>
+          <li class="normal" id="section-10.2-2.5">
+            <p id="section-10.2-2.5.1">Parent Organisation ID<a href="#section-10.2-2.5.1" class="pilcrow">¶</a></p>
+<ul class="compact normal">
+<li class="compact normal" id="section-10.2-2.5.2.1">Identifier: parentId<a href="#section-10.2-2.5.2.1" class="pilcrow">¶</a>
+</li>
+              <li class="compact normal" id="section-10.2-2.5.2.2">Cardinality: 0-1<a href="#section-10.2-2.5.2.2" class="pilcrow">¶</a>
+</li>
+              <li class="compact normal" id="section-10.2-2.5.2.3">Mutability: read-write<a href="#section-10.2-2.5.2.3" class="pilcrow">¶</a>
+</li>
+              <li class="compact normal" id="section-10.2-2.5.2.4">Data Type: Identifier<a href="#section-10.2-2.5.2.4" class="pilcrow">¶</a>
+</li>
+              <li class="compact normal" id="section-10.2-2.5.2.5">Description: The identifier of the parent organisation in a hierarchical organisation structure (e.g., a reseller's parent registrar).<a href="#section-10.2-2.5.2.5" class="pilcrow">¶</a>
+</li>
+              <li class="compact normal" id="section-10.2-2.5.2.6">
+                <p id="section-10.2-2.5.2.6.1">Constraints:<a href="#section-10.2-2.5.2.6.1" class="pilcrow">¶</a></p>
+<ul class="compact normal">
+<li class="compact normal" id="section-10.2-2.5.2.6.2.1">Loops MUST be prohibited. If organisation A has organisation B as its parent, organisation B MUST NOT have organisation A as its parent, directly or transitively.<a href="#section-10.2-2.5.2.6.2.1" class="pilcrow">¶</a>
+</li>
+                </ul>
+</li>
+            </ul>
+</li>
+          <li class="normal" id="section-10.2-2.6">
+            <p id="section-10.2-2.6.1">Contact Information<a href="#section-10.2-2.6.1" class="pilcrow">¶</a></p>
+<ul class="compact normal">
+<li class="compact normal" id="section-10.2-2.6.2.1">Identifier: contactInfo<a href="#section-10.2-2.6.2.1" class="pilcrow">¶</a>
+</li>
+              <li class="compact normal" id="section-10.2-2.6.2.2">Cardinality: 0-1<a href="#section-10.2-2.6.2.2" class="pilcrow">¶</a>
+</li>
+              <li class="compact normal" id="section-10.2-2.6.2.3">Mutability: read-write<a href="#section-10.2-2.6.2.3" class="pilcrow">¶</a>
+</li>
+              <li class="compact normal" id="section-10.2-2.6.2.4">Data Type: JSContact:Card<a href="#section-10.2-2.6.2.4" class="pilcrow">¶</a>
+</li>
+              <li class="compact normal" id="section-10.2-2.6.2.5">Description: Contact information for the organisation.<a href="#section-10.2-2.6.2.5" class="pilcrow">¶</a>
+</li>
+            </ul>
+</li>
+          <li class="normal" id="section-10.2-2.7">
+            <p id="section-10.2-2.7.1">Contacts<a href="#section-10.2-2.7.1" class="pilcrow">¶</a></p>
+<ul class="compact normal">
+<li class="compact normal" id="section-10.2-2.7.2.1">Identifier: contacts<a href="#section-10.2-2.7.2.1" class="pilcrow">¶</a>
+</li>
+              <li class="compact normal" id="section-10.2-2.7.2.2">Cardinality: 0+<a href="#section-10.2-2.7.2.2" class="pilcrow">¶</a>
+</li>
+              <li class="compact normal" id="section-10.2-2.7.2.3">Mutability: read-write<a href="#section-10.2-2.7.2.3" class="pilcrow">¶</a>
+</li>
+              <li class="compact normal" id="section-10.2-2.7.2.4">
+                <p id="section-10.2-2.7.2.4.1">Data Type: DictionaryComposition[JSContact:Card Object Reference]<a href="#section-10.2-2.7.2.4.1" class="pilcrow">¶</a></p>
+<ul class="compact normal">
+<li class="compact normal" id="section-10.2-2.7.2.4.2.1">Label Description: type of contact<a href="#section-10.2-2.7.2.4.2.1" class="pilcrow">¶</a>
+</li>
+                  <li class="compact normal" id="section-10.2-2.7.2.4.2.2">Label Constraints: The value MUST be one of the contact types registered in the IANA "EPP Organisation Contact Types" registry as defined in <span><a href="https://rfc-editor.org/rfc/rfc8543#section-7.4" class="relref">Section 7.4</a> of [<a href="#RFC8543" class="cite xref">RFC8543</a>]</span>. Initial values include <code>admin</code>, <code>tech</code>, <code>billing</code>, <code>abuse</code>, and <code>custom</code>.<br><a href="#section-10.2-2.7.2.4.2.2" class="pilcrow">¶</a>
+</li>
+                </ul>
+</li>
+              <li class="compact normal" id="section-10.2-2.7.2.5">Description: Identifiers of contact objects associated with the organisation.<a href="#section-10.2-2.7.2.5" class="pilcrow">¶</a>
+</li>
+              <li class="compact normal" id="section-10.2-2.7.2.6">
+                <p id="section-10.2-2.7.2.6.1">Constraints:<a href="#section-10.2-2.7.2.6.1" class="pilcrow">¶</a></p>
+<ul class="compact normal">
+<li class="compact normal" id="section-10.2-2.7.2.6.2.1">Contact object identifiers MUST be known to the server before the contact can be associated.<a href="#section-10.2-2.7.2.6.2.1" class="pilcrow">¶</a>
+</li>
+                </ul>
+</li>
+            </ul>
+</li>
+        </ul>
+<aside id="section-10.2-3">
+          <p id="section-10.2-3.1">TODO: how handle the "custom" contact type?<a href="#section-10.2-3.1" class="pilcrow">¶</a></p>
+</aside>
+<ul class="compact">
+<li class="compact" id="section-10.2-4.1">
+            <p id="section-10.2-4.1.1">Users<a href="#section-10.2-4.1.1" class="pilcrow">¶</a></p>
+<ul class="compact">
+<li class="compact" id="section-10.2-4.1.2.1">Identifier: users<a href="#section-10.2-4.1.2.1" class="pilcrow">¶</a>
+</li>
+              <li class="compact" id="section-10.2-4.1.2.2">Cardinality: 0+<a href="#section-10.2-4.1.2.2" class="pilcrow">¶</a>
+</li>
+              <li class="compact" id="section-10.2-4.1.2.3">Mutability: read-write<a href="#section-10.2-4.1.2.3" class="pilcrow">¶</a>
+</li>
+              <li class="compact" id="section-10.2-4.1.2.4">
+                <p id="section-10.2-4.1.2.4.1">Data Type: DictionaryComposition[User Object Reference]<a href="#section-10.2-4.1.2.4.1" class="pilcrow">¶</a></p>
+<ul class="compact">
+<li class="compact" id="section-10.2-4.1.2.4.2.1">Label Description: RBAC role of the user<a href="#section-10.2-4.1.2.4.2.1" class="pilcrow">¶</a>
+</li>
+                  <li class="compact" id="section-10.2-4.1.2.4.2.2">Label Constraints: The value MUST be one of the role types registered in the IANA "RPP User Role Values" registry.<a href="#section-10.2-4.1.2.4.2.2" class="pilcrow">¶</a>
+</li>
+                </ul>
+</li>
+              <li class="compact" id="section-10.2-4.1.2.5">Description: One or more RBAC roles assigned to the user.<a href="#section-10.2-4.1.2.5" class="pilcrow">¶</a>
+</li>
+              <li class="compact" id="section-10.2-4.1.2.6">
+                <p id="section-10.2-4.1.2.6.1">Constraints:<a href="#section-10.2-4.1.2.6.1" class="pilcrow">¶</a></p>
+<ul class="compact">
+<li class="compact" id="section-10.2-4.1.2.6.2.1">Each role value MUST be a non-empty string.<a href="#section-10.2-4.1.2.6.2.1" class="pilcrow">¶</a>
+</li>
+                  <li class="compact" id="section-10.2-4.1.2.6.2.2">Allowed role values MAY be constrained by server policy.<a href="#section-10.2-4.1.2.6.2.2" class="pilcrow">¶</a>
+</li>
+                </ul>
+</li>
+            </ul>
+</li>
+        </ul>
+<aside id="section-10.2-5">
+          <p id="section-10.2-5.1">TODO: define an IANA registry for user roles?<a href="#section-10.2-5.1" class="pilcrow">¶</a></p>
+</aside>
+</section>
+</div>
+<div id="operations-6">
+<section id="section-10.3">
+        <h3 id="name-operations-7">
+<a href="#section-10.3" class="section-number selfRef">10.3. </a><a href="#name-operations-7" class="section-name selfRef">Operations</a>
+        </h3>
+<div id="create-operation-3">
+<section id="section-10.3.1">
+          <h4 id="name-create-operation-4">
+<a href="#section-10.3.1" class="section-number selfRef">10.3.1. </a><a href="#name-create-operation-4" class="section-name selfRef">Create Operation</a>
+          </h4>
+<ul class="compact">
+<li class="compact" id="section-10.3.1-1.1">Identifier: create<a href="#section-10.3.1-1.1" class="pilcrow">¶</a>
+</li>
+          </ul>
+<p id="section-10.3.1-2">The Create operation allows a client to provision a new Organisation Data Object. The operation accepts as input all create-only and read-write data elements defined for the Organisation Data Object.<a href="#section-10.3.1-2" class="pilcrow">¶</a></p>
+<ul class="compact">
+<li class="compact" id="section-10.3.1-3.1">
+              <p id="section-10.3.1-3.1.1">Authorisation:<a href="#section-10.3.1-3.1.1" class="pilcrow">¶</a></p>
+<ul class="compact">
+<li class="compact" id="section-10.3.1-3.1.2.1">Generally each client is authorised to create new organisation objects, becoming the sponsoring client. This MAY be constrained by server policy.<a href="#section-10.3.1-3.1.2.1" class="pilcrow">¶</a>
 </li>
               </ul>
 </li>
           </ul>
-<p id="section-10.1.2-3">Extensions MAY add new data elements, operations, or operation parameters to existing Object definitions in the registry. Each such addition MUST reference the extension specification that introduces it, allowing implementations to distinguish core protocol elements from extension-defined elements.<a href="#section-10.1.2-3" class="pilcrow">¶</a></p>
+<p id="section-10.3.1-4">An organisation object MUST include at least one role on creation. The server MAY defer completing the action and return a <code>pendingCreate</code> status if human or third-party review is required.<a href="#section-10.3.1-4" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="read-operation-3">
+<section id="section-10.3.2">
+          <h4 id="name-read-operation-4">
+<a href="#section-10.3.2" class="section-number selfRef">10.3.2. </a><a href="#name-read-operation-4" class="section-name selfRef">Read Operation</a>
+          </h4>
+<ul class="compact">
+<li class="compact" id="section-10.3.2-1.1">Identifier: read<a href="#section-10.3.2-1.1" class="pilcrow">¶</a>
+</li>
+          </ul>
+<p id="section-10.3.2-2">The Read operation allows a client to retrieve the data elements of an Organisation Data Object.<a href="#section-10.3.2-2" class="pilcrow">¶</a></p>
+<ul class="compact">
+<li class="compact" id="section-10.3.2-3.1">
+              <p id="section-10.3.2-3.1.1">Authorisation:<a href="#section-10.3.2-3.1.1" class="pilcrow">¶</a></p>
+<ul class="compact">
+<li class="compact" id="section-10.3.2-3.1.2.1">Any client is authorised to retrieve organisation object information. The server MAY restrict the information returned based on client identity and server policy.<a href="#section-10.3.2-3.1.2.1" class="pilcrow">¶</a>
+</li>
+              </ul>
+</li>
+          </ul>
+</section>
+</div>
+<div id="update-operation-3">
+<section id="section-10.3.3">
+          <h4 id="name-update-operation-4">
+<a href="#section-10.3.3" class="section-number selfRef">10.3.3. </a><a href="#name-update-operation-4" class="section-name selfRef">Update Operation</a>
+          </h4>
+<ul class="compact">
+<li class="compact" id="section-10.3.3-1.1">Identifier: update<a href="#section-10.3.3-1.1" class="pilcrow">¶</a>
+</li>
+          </ul>
+<p id="section-10.3.3-2">The Update operation allows a client to modify the attributes of an existing Organisation Data Object.<a href="#section-10.3.3-2" class="pilcrow">¶</a></p>
+<ul class="compact">
+<li class="compact" id="section-10.3.3-3.1">
+              <p id="section-10.3.3-3.1.1">Authorisation:<a href="#section-10.3.3-3.1.1" class="pilcrow">¶</a></p>
+<ul class="compact">
+<li class="compact" id="section-10.3.3-3.1.2.1">Only the sponsoring client is authorised to perform this operation.<a href="#section-10.3.3-3.1.2.1" class="pilcrow">¶</a>
+</li>
+              </ul>
+</li>
+          </ul>
+<p id="section-10.3.3-4">The following aspects of the organisation object MAY be modified:<a href="#section-10.3.3-4" class="pilcrow">¶</a></p>
+<ul class="compact">
+<li class="compact" id="section-10.3.3-5.1">Contacts MAY be added or removed.<a href="#section-10.3.3-5.1" class="pilcrow">¶</a>
+</li>
+            <li class="compact" id="section-10.3.3-5.2">Roles MAY be added or removed.<a href="#section-10.3.3-5.2" class="pilcrow">¶</a>
+</li>
+            <li class="compact" id="section-10.3.3-5.3">Status values that are client-manageable (prefixed with "client") MAY be added or removed.<a href="#section-10.3.3-5.3" class="pilcrow">¶</a>
+</li>
+            <li class="compact" id="section-10.3.3-5.4">Parent Organisation ID and Contact Information MAY be changed.<a href="#section-10.3.3-5.4" class="pilcrow">¶</a>
+</li>
+            <li class="compact" id="section-10.3.3-5.5">Users MAY be added or removed.<a href="#section-10.3.3-5.5" class="pilcrow">¶</a>
+</li>
+          </ul>
+<p id="section-10.3.3-6">A client MUST NOT add, delete, or alter values for statuses managed by the server (prefixed with "server"). A server MAY add, delete, or alter status values set by a client, subject to server policy.<a href="#section-10.3.3-6" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="delete-operation-3">
+<section id="section-10.3.4">
+          <h4 id="name-delete-operation-4">
+<a href="#section-10.3.4" class="section-number selfRef">10.3.4. </a><a href="#name-delete-operation-4" class="section-name selfRef">Delete Operation</a>
+          </h4>
+<ul class="compact">
+<li class="compact" id="section-10.3.4-1.1">Identifier: delete<a href="#section-10.3.4-1.1" class="pilcrow">¶</a>
+</li>
+          </ul>
+<p id="section-10.3.4-2">The Delete operation allows a client to remove an existing Organisation Data Object. The operation targets a specific data object identified by its Organisation ID.<a href="#section-10.3.4-2" class="pilcrow">¶</a></p>
+<ul class="compact">
+<li class="compact" id="section-10.3.4-3.1">
+              <p id="section-10.3.4-3.1.1">Authorisation:<a href="#section-10.3.4-3.1.1" class="pilcrow">¶</a></p>
+<ul class="compact">
+<li class="compact" id="section-10.3.4-3.1.2.1">Only the sponsoring client is authorised to perform this operation.<a href="#section-10.3.4-3.1.2.1" class="pilcrow">¶</a>
+</li>
+              </ul>
+</li>
+          </ul>
+<p id="section-10.3.4-4">An organisation object MUST NOT be deleted if it is associated with other known objects (e.g., domain names, contacts, or child organisations). The server MUST reject such a delete request and notify the client that object relationships exist.<a href="#section-10.3.4-4" class="pilcrow">¶</a></p>
+<p id="section-10.3.4-5">The error response SHOULD indicate the related associated objects.<a href="#section-10.3.4-5" class="pilcrow">¶</a></p>
+</section>
+</div>
+</section>
+</div>
+</section>
+</div>
+<div id="user-object">
+<section id="section-11">
+      <h2 id="name-user-object">
+<a href="#section-11" class="section-number selfRef">11. </a><a href="#name-user-object" class="section-name selfRef">User Object</a>
+      </h2>
+<div id="object-description-4">
+<section id="section-11.1">
+        <h3 id="name-object-description-5">
+<a href="#section-11.1" class="section-number selfRef">11.1. </a><a href="#name-object-description-5" class="section-name selfRef">Object Description</a>
+        </h3>
+<ul class="compact">
+<li class="compact" id="section-11.1-1.1">Name: User Data Object<a href="#section-11.1-1.1" class="pilcrow">¶</a>
+</li>
+          <li class="compact" id="section-11.1-1.2">Identifier: user<a href="#section-11.1-1.2" class="pilcrow">¶</a>
+</li>
+          <li class="compact" id="section-11.1-1.3">Description: Represents a user linked to an Organisation Object. Each user carries a set of RBAC roles that define the user's permissions within the context of the owning Organisation Object. The lifecycle of a User Object is bound to its Organisation Object.<a href="#section-11.1-1.3" class="pilcrow">¶</a>
+</li>
+        </ul>
+</section>
+</div>
+<div id="data-elements-4">
+<section id="section-11.2">
+        <h3 id="name-data-elements-5">
+<a href="#section-11.2" class="section-number selfRef">11.2. </a><a href="#name-data-elements-5" class="section-name selfRef">Data Elements</a>
+        </h3>
+<p id="section-11.2-1">The following data elements are defined for the User Data Object.<a href="#section-11.2-1" class="pilcrow">¶</a></p>
+<ul class="compact">
+<li class="compact" id="section-11.2-2.1">
+            <p id="section-11.2-2.1.1">User Identifier<a href="#section-11.2-2.1.1" class="pilcrow">¶</a></p>
+<ul class="compact">
+<li class="compact" id="section-11.2-2.1.2.1">Identifier: userId<a href="#section-11.2-2.1.2.1" class="pilcrow">¶</a>
+</li>
+              <li class="compact" id="section-11.2-2.1.2.2">Cardinality: 1<a href="#section-11.2-2.1.2.2" class="pilcrow">¶</a>
+</li>
+              <li class="compact" id="section-11.2-2.1.2.3">Mutability: create-only<a href="#section-11.2-2.1.2.3" class="pilcrow">¶</a>
+</li>
+              <li class="compact" id="section-11.2-2.1.2.4">Data Type: Identifier<a href="#section-11.2-2.1.2.4" class="pilcrow">¶</a>
+</li>
+              <li class="compact" id="section-11.2-2.1.2.5">Description: A unique identifier for the user<a href="#section-11.2-2.1.2.5" class="pilcrow">¶</a>
+</li>
+              <li class="compact" id="section-11.2-2.1.2.6">Constraints: MUST be globally unique in the server scope<a href="#section-11.2-2.1.2.6" class="pilcrow">¶</a>
+</li>
+            </ul>
+</li>
+          <li class="compact" id="section-11.2-2.2">
+            <p id="section-11.2-2.2.1">Name<a href="#section-11.2-2.2.1" class="pilcrow">¶</a></p>
+<ul class="compact">
+<li class="compact" id="section-11.2-2.2.2.1">Identifier: name<a href="#section-11.2-2.2.2.1" class="pilcrow">¶</a>
+</li>
+              <li class="compact" id="section-11.2-2.2.2.2">Cardinality: 1<a href="#section-11.2-2.2.2.2" class="pilcrow">¶</a>
+</li>
+              <li class="compact" id="section-11.2-2.2.2.3">Mutability: create-only<a href="#section-11.2-2.2.2.3" class="pilcrow">¶</a>
+</li>
+              <li class="compact" id="section-11.2-2.2.2.4">Data Type: String<a href="#section-11.2-2.2.2.4" class="pilcrow">¶</a>
+</li>
+              <li class="compact" id="section-11.2-2.2.2.5">Description: The name of the user<a href="#section-11.2-2.2.2.5" class="pilcrow">¶</a>
+</li>
+              <li class="compact" id="section-11.2-2.2.2.6">Constraints: -<a href="#section-11.2-2.2.2.6" class="pilcrow">¶</a>
+</li>
+            </ul>
+</li>
+          <li class="compact" id="section-11.2-2.3">
+            <p id="section-11.2-2.3.1">Status<a href="#section-11.2-2.3.1" class="pilcrow">¶</a></p>
+<ul class="compact">
+<li class="compact" id="section-11.2-2.3.2.1">Identifier: status<a href="#section-11.2-2.3.2.1" class="pilcrow">¶</a>
+</li>
+              <li class="compact" id="section-11.2-2.3.2.2">Cardinality: 1<a href="#section-11.2-2.3.2.2" class="pilcrow">¶</a>
+</li>
+              <li class="compact" id="section-11.2-2.3.2.3">Mutability: read-write<a href="#section-11.2-2.3.2.3" class="pilcrow">¶</a>
+</li>
+              <li class="compact" id="section-11.2-2.3.2.4">
+                <p id="section-11.2-2.3.2.4.1">Data Type: String<a href="#section-11.2-2.3.2.4.1" class="pilcrow">¶</a></p>
+<ul class="compact">
+<li class="compact" id="section-11.2-2.3.2.4.2.1">Constraints: The value MUST be one of the status tokens defined in the IANA registry for user statuses.<a href="#section-11.2-2.3.2.4.2.1" class="pilcrow">¶</a>
+</li>
+                  <li class="compact" id="section-11.2-2.3.2.4.2.2">Constraints: Possible values include <code>active</code>, <code>suspended</code>, <code>deactivated</code>, and <code>pending</code>.<a href="#section-11.2-2.3.2.4.2.2" class="pilcrow">¶</a>
+</li>
+                </ul>
+</li>
+              <li class="compact" id="section-11.2-2.3.2.5">Description: The status of the user<a href="#section-11.2-2.3.2.5" class="pilcrow">¶</a>
+</li>
+              <li class="compact" id="section-11.2-2.3.2.6">Constraints: -<a href="#section-11.2-2.3.2.6" class="pilcrow">¶</a>
+</li>
+            </ul>
+</li>
+        </ul>
+<aside id="section-11.2-3">
+          <p id="section-11.2-3.1">TODO: what other data elements should be included for the User Data Object?<a href="#section-11.2-3.1" class="pilcrow">¶</a></p>
+</aside>
+</section>
+</div>
+<div id="operations-7">
+<section id="section-11.3">
+        <h3 id="name-operations-8">
+<a href="#section-11.3" class="section-number selfRef">11.3. </a><a href="#name-operations-8" class="section-name selfRef">Operations</a>
+        </h3>
+<div id="create-operation-4">
+<section id="section-11.3.1">
+          <h4 id="name-create-operation-5">
+<a href="#section-11.3.1" class="section-number selfRef">11.3.1. </a><a href="#name-create-operation-5" class="section-name selfRef">Create Operation</a>
+          </h4>
+<ul class="compact">
+<li class="compact" id="section-11.3.1-1.1">Identifier: create<a href="#section-11.3.1-1.1" class="pilcrow">¶</a>
+</li>
+          </ul>
+<p id="section-11.3.1-2">The Create operation creates a new user, which is not associated with any existing Owner Object. The operation accepts as input all create-only and read-write data elements of the User Object.<a href="#section-11.3.1-2" class="pilcrow">¶</a></p>
+<ul class="compact">
+<li class="compact" id="section-11.3.1-3.1">
+              <p id="section-11.3.1-3.1.1">Authorisation:<a href="#section-11.3.1-3.1.1" class="pilcrow">¶</a></p>
+<ul class="compact">
+<li class="compact" id="section-11.3.1-3.1.2.1">Server policy determines which clients are authorised to create users in the context of a given Owner Object.<a href="#section-11.3.1-3.1.2.1" class="pilcrow">¶</a>
+</li>
+              </ul>
+</li>
+          </ul>
+</section>
+</div>
+<div id="read-operation-4">
+<section id="section-11.3.2">
+          <h4 id="name-read-operation-5">
+<a href="#section-11.3.2" class="section-number selfRef">11.3.2. </a><a href="#name-read-operation-5" class="section-name selfRef">Read Operation</a>
+          </h4>
+<ul class="compact">
+<li class="compact" id="section-11.3.2-1.1">Identifier: read<a href="#section-11.3.2-1.1" class="pilcrow">¶</a>
+</li>
+          </ul>
+<p id="section-11.3.2-2">The Read operation retrieves the data of a specific User Object.<a href="#section-11.3.2-2" class="pilcrow">¶</a></p>
+<ul class="compact">
+<li class="compact" id="section-11.3.2-3.1">
+              <p id="section-11.3.2-3.1.1">Authorisation:<a href="#section-11.3.2-3.1.1" class="pilcrow">¶</a></p>
+<ul class="compact">
+<li class="compact" id="section-11.3.2-3.1.2.1">Server policy determines which clients are authorised to read users in the context of a given Owner Object.<a href="#section-11.3.2-3.1.2.1" class="pilcrow">¶</a>
+</li>
+              </ul>
+</li>
+          </ul>
+</section>
+</div>
+<div id="update-operation-4">
+<section id="section-11.3.3">
+          <h4 id="name-update-operation-5">
+<a href="#section-11.3.3" class="section-number selfRef">11.3.3. </a><a href="#name-update-operation-5" class="section-name selfRef">Update Operation</a>
+          </h4>
+<ul class="compact">
+<li class="compact" id="section-11.3.3-1.1">Identifier: update<a href="#section-11.3.3-1.1" class="pilcrow">¶</a>
+</li>
+          </ul>
+<p id="section-11.3.3-2">The Update operation modifies the read-write data elements.<a href="#section-11.3.3-2" class="pilcrow">¶</a></p>
+<ul class="compact">
+<li class="compact" id="section-11.3.3-3.1">
+              <p id="section-11.3.3-3.1.1">Authorisation:<a href="#section-11.3.3-3.1.1" class="pilcrow">¶</a></p>
+<ul class="compact">
+<li class="compact" id="section-11.3.3-3.1.2.1">Server policy determines which clients are authorised to update users.<a href="#section-11.3.3-3.1.2.1" class="pilcrow">¶</a>
+</li>
+              </ul>
+</li>
+          </ul>
+</section>
+</div>
+<div id="delete-operation-4">
+<section id="section-11.3.4">
+          <h4 id="name-delete-operation-5">
+<a href="#section-11.3.4" class="section-number selfRef">11.3.4. </a><a href="#name-delete-operation-5" class="section-name selfRef">Delete Operation</a>
+          </h4>
+<ul class="compact">
+<li class="compact" id="section-11.3.4-1.1">Identifier: delete<a href="#section-11.3.4-1.1" class="pilcrow">¶</a>
+</li>
+          </ul>
+<p id="section-11.3.4-2">The Delete operation removes a specific User Object<a href="#section-11.3.4-2" class="pilcrow">¶</a></p>
+<ul class="compact">
+<li class="compact" id="section-11.3.4-3.1">
+              <p id="section-11.3.4-3.1.1">Authorisation:<a href="#section-11.3.4-3.1.1" class="pilcrow">¶</a></p>
+<ul class="compact">
+<li class="compact" id="section-11.3.4-3.1.2.1">Server policy determines which clients are authorised to delete users.<a href="#section-11.3.4-3.1.2.1" class="pilcrow">¶</a>
+</li>
+              </ul>
+</li>
+          </ul>
+<p id="section-11.3.4-4">The server MUST reject this operation if the User is associated with an Organisation Object.<a href="#section-11.3.4-4" class="pilcrow">¶</a></p>
+</section>
+</div>
+</section>
+</div>
+</section>
+</div>
+<div id="iana-considerations">
+<section id="section-12">
+      <h2 id="name-iana-considerations">
+<a href="#section-12" class="section-number selfRef">12. </a><a href="#name-iana-considerations" class="section-name selfRef">IANA Considerations</a>
+      </h2>
+<div id="rpp-data-object-registry">
+<section id="section-12.1">
+        <h3 id="name-rpp-data-object-registry">
+<a href="#section-12.1" class="section-number selfRef">12.1. </a><a href="#name-rpp-data-object-registry" class="section-name selfRef">RPP Data Object Registry</a>
+        </h3>
+<p id="section-12.1-1">This document establishes the "RESTful Provisioning Protocol (RPP) Data Object Registry". This registry serves as a catalogue of all data objects, component objects, data elements, and operations used within RPP.<a href="#section-12.1-1" class="pilcrow">¶</a></p>
+<div id="registration-policy">
+<section id="section-12.1.1">
+          <h4 id="name-registration-policy">
+<a href="#section-12.1.1" class="section-number selfRef">12.1.1. </a><a href="#name-registration-policy" class="section-name selfRef">Registration Policy</a>
+          </h4>
+<p id="section-12.1.1-1">The policy for adding new objects, data elements, or operations to this registry is "Specification Required" <span>[<a href="#RFC8126" class="cite xref">RFC8126</a>]</span>.<a href="#section-12.1.1-1" class="pilcrow">¶</a></p>
+<p id="section-12.1.1-2">Standardised RPP extensions that introduce new data objects, add data elements to existing objects, or define new operations or operation parameters MUST register these additions in this registry. Each such registration MUST reference the specification that defines the extension.<a href="#section-12.1.1-2" class="pilcrow">¶</a></p>
+<p id="section-12.1.1-3">Private (non-standardised) extensions are not required to register in this registry.<a href="#section-12.1.1-3" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="registry-structure">
+<section id="section-12.1.2">
+          <h4 id="name-registry-structure">
+<a href="#section-12.1.2" class="section-number selfRef">12.1.2. </a><a href="#name-registry-structure" class="section-name selfRef">Registry Structure</a>
+          </h4>
+<p id="section-12.1.2-1">The registry is organised as a collection of Object definitions. Each Object definition MUST include:<a href="#section-12.1.2-1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-12.1.2-2.1">
+              <p id="section-12.1.2-2.1.1">A header containing the Object Identifier, Object Name, Object Type (Resource, Process or Component), a brief description, and a reference to its defining specification.<a href="#section-12.1.2-2.1.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-12.1.2-2.2">
+              <p id="section-12.1.2-2.2.1">A "Data Elements" table listing all persisted data elements associated with the object. Each entry MUST specify the element's Identifier, Name, Cardinality, Mutability, Data Type, description, and a reference to the specification that defines it.<a href="#section-12.1.2-2.2.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-12.1.2-2.3">
+              <p id="section-12.1.2-2.3.1">An "Operations" section (applicable only for Object Types Resource or Process). For each operation, the
+registry MUST provide:<a href="#section-12.1.2-2.3.1" class="pilcrow">¶</a></p>
+<ul class="compact normal">
+<li class="compact normal" id="section-12.1.2-2.3.2.1">The Operation's Name, a description, and a reference to the specification that defines it.<a href="#section-12.1.2-2.3.2.1" class="pilcrow">¶</a>
+</li>
+                <li class="compact normal" id="section-12.1.2-2.3.2.2">A "Parameters" table listing all data elements that are provided as input to the operation but are not persisted as part of the object's state. Each entry MUST specify the parameter's Identifier, Name, Cardinality, Data Type, description, and a reference to the specification that defines it.<a href="#section-12.1.2-2.3.2.2" class="pilcrow">¶</a>
+</li>
+              </ul>
+</li>
+          </ul>
+<p id="section-12.1.2-3">Extensions MAY add new data elements, operations, or operation parameters to existing Object definitions in the registry. Each such addition MUST reference the extension specification that introduces it, allowing implementations to distinguish core protocol elements from extension-defined elements.<a href="#section-12.1.2-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="initial-registrations">
-<section id="section-10.1.3">
+<section id="section-12.1.3">
           <h4 id="name-initial-registrations">
-<a href="#section-10.1.3" class="section-number selfRef">10.1.3. </a><a href="#name-initial-registrations" class="section-name selfRef">Initial Registrations</a>
+<a href="#section-12.1.3" class="section-number selfRef">12.1.3. </a><a href="#name-initial-registrations" class="section-name selfRef">Initial Registrations</a>
           </h4>
-<p id="section-10.1.3-1">The initial contents of the RPP Data Object Registry are defined below.<a href="#section-10.1.3-1" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-2">Object: period<a href="#section-10.1.3-2" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-3">Object Name: Period Object<a href="#section-10.1.3-3" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-4">Object Type: Component<a href="#section-10.1.3-4" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-5">Description: Represents a duration of time.<a href="#section-10.1.3-5" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-6">Reference: [This-ID]<a href="#section-10.1.3-6" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-7">Data Elements<a href="#section-10.1.3-7" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-1">The initial contents of the RPP Data Object Registry are defined below.<a href="#section-12.1.3-1" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-2">Object: period<a href="#section-12.1.3-2" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-3">Object Name: Period Object<a href="#section-12.1.3-3" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-4">Object Type: Component<a href="#section-12.1.3-4" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-5">Description: Represents a duration of time.<a href="#section-12.1.3-5" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-6">Reference: [This-ID]<a href="#section-12.1.3-6" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-7">Data Elements<a href="#section-12.1.3-7" class="pilcrow">¶</a></p>
 <table class="center" id="table-1">
             <caption><a href="#table-1" class="selfRef">Table 1</a></caption>
 <thead>
@@ -5271,12 +5965,12 @@ registry MUST provide:<a href="#section-10.1.2-2.3.1" class="pilcrow">¶</a></p>
               </tr>
             </tbody>
           </table>
-<p id="section-10.1.3-9">Object: dnsRecord<a href="#section-10.1.3-9" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-10">Object Name: DNS Resource Record Object<a href="#section-10.1.3-10" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-11">Object Type: Component<a href="#section-10.1.3-11" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-12">Description: Represents a single DNS resource record.<a href="#section-10.1.3-12" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-13">Reference: [This-ID]<a href="#section-10.1.3-13" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-14">Data Elements<a href="#section-10.1.3-14" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-9">Object: dnsRecord<a href="#section-12.1.3-9" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-10">Object Name: DNS Resource Record Object<a href="#section-12.1.3-10" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-11">Object Type: Component<a href="#section-12.1.3-11" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-12">Description: Represents a single DNS resource record.<a href="#section-12.1.3-12" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-13">Reference: [This-ID]<a href="#section-12.1.3-13" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-14">Data Elements<a href="#section-12.1.3-14" class="pilcrow">¶</a></p>
 <table class="center" id="table-2">
             <caption><a href="#table-2" class="selfRef">Table 2</a></caption>
 <thead>
@@ -5324,12 +6018,12 @@ registry MUST provide:<a href="#section-10.1.2-2.3.1" class="pilcrow">¶</a></p>
               </tr>
             </tbody>
           </table>
-<p id="section-10.1.3-16">Object: dnsControls<a href="#section-10.1.3-16" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-17">Object Name: DNS Operational Controls Object<a href="#section-10.1.3-17" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-18">Object Type: Component<a href="#section-10.1.3-18" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-19">Description: Contains operational control parameters that a client MAY use to influence server-side DNS behaviour for a set of DNS records.<a href="#section-10.1.3-19" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-20">Reference: [This-ID]<a href="#section-10.1.3-20" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-21">Data Elements<a href="#section-10.1.3-21" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-16">Object: dnsControls<a href="#section-12.1.3-16" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-17">Object Name: DNS Operational Controls Object<a href="#section-12.1.3-17" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-18">Object Type: Component<a href="#section-12.1.3-18" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-19">Description: Contains operational control parameters that a client MAY use to influence server-side DNS behaviour for a set of DNS records.<a href="#section-12.1.3-19" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-20">Reference: [This-ID]<a href="#section-12.1.3-20" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-21">Data Elements<a href="#section-12.1.3-21" class="pilcrow">¶</a></p>
 <table class="center" id="table-3">
             <caption><a href="#table-3" class="selfRef">Table 3</a></caption>
 <thead>
@@ -5361,12 +6055,12 @@ registry MUST provide:<a href="#section-10.1.2-2.3.1" class="pilcrow">¶</a></p>
               </tr>
             </tbody>
           </table>
-<p id="section-10.1.3-23">Object: dnsData<a href="#section-10.1.3-23" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-24">Object Name: DNS Data Object<a href="#section-10.1.3-24" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-25">Object Type: Component<a href="#section-10.1.3-25" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-26">Description: A container for DNS resource records and associated operational controls for a provisioned object.<a href="#section-10.1.3-26" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-27">Reference: [This-ID]<a href="#section-10.1.3-27" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-28">Data Elements<a href="#section-10.1.3-28" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-23">Object: dnsData<a href="#section-12.1.3-23" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-24">Object Name: DNS Data Object<a href="#section-12.1.3-24" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-25">Object Type: Component<a href="#section-12.1.3-25" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-26">Description: A container for DNS resource records and associated operational controls for a provisioned object.<a href="#section-12.1.3-26" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-27">Reference: [This-ID]<a href="#section-12.1.3-27" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-28">Data Elements<a href="#section-12.1.3-28" class="pilcrow">¶</a></p>
 <table class="center" id="table-4">
             <caption><a href="#table-4" class="selfRef">Table 4</a></caption>
 <thead>
@@ -5398,12 +6092,12 @@ registry MUST provide:<a href="#section-10.1.2-2.3.1" class="pilcrow">¶</a></p>
               </tr>
             </tbody>
           </table>
-<p id="section-10.1.3-30">Object: authInfo<a href="#section-10.1.3-30" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-31">Object Name: Authorisation Information<a href="#section-10.1.3-31" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-32">Object Type: Component<a href="#section-10.1.3-32" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-33">Description: Contains authorisation credentials for an operation.<a href="#section-10.1.3-33" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-34">Reference: [This-ID]<a href="#section-10.1.3-34" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-35">Data Elements<a href="#section-10.1.3-35" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-30">Object: authInfo<a href="#section-12.1.3-30" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-31">Object Name: Authorisation Information<a href="#section-12.1.3-31" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-32">Object Type: Component<a href="#section-12.1.3-32" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-33">Description: Contains authorisation credentials for an operation.<a href="#section-12.1.3-33" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-34">Reference: [This-ID]<a href="#section-12.1.3-34" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-35">Data Elements<a href="#section-12.1.3-35" class="pilcrow">¶</a></p>
 <table class="center" id="table-5">
             <caption><a href="#table-5" class="selfRef">Table 5</a></caption>
 <thead>
@@ -5435,12 +6129,12 @@ registry MUST provide:<a href="#section-10.1.2-2.3.1" class="pilcrow">¶</a></p>
               </tr>
             </tbody>
           </table>
-<p id="section-10.1.3-37">Object: status<a href="#section-10.1.3-37" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-38">Object Name: Status Object<a href="#section-10.1.3-38" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-39">Object Type: Component<a href="#section-10.1.3-39" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-40">Description: Represents one of the status values associated with the provisioning object.<a href="#section-10.1.3-40" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-41">Reference: [This-ID]<a href="#section-10.1.3-41" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-42">Data Elements<a href="#section-10.1.3-42" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-37">Object: status<a href="#section-12.1.3-37" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-38">Object Name: Status Object<a href="#section-12.1.3-38" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-39">Object Type: Component<a href="#section-12.1.3-39" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-40">Description: Represents one of the status values associated with the provisioning object.<a href="#section-12.1.3-40" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-41">Reference: [This-ID]<a href="#section-12.1.3-41" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-42">Data Elements<a href="#section-12.1.3-42" class="pilcrow">¶</a></p>
 <table class="center" id="table-6">
             <caption><a href="#table-6" class="selfRef">Table 6</a></caption>
 <thead>
@@ -5480,12 +6174,12 @@ registry MUST provide:<a href="#section-10.1.2-2.3.1" class="pilcrow">¶</a></p>
               </tr>
             </tbody>
           </table>
-<p id="section-10.1.3-44">Object: provMetadata<a href="#section-10.1.3-44" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-45">Object Name: Provisioning Metadata Object<a href="#section-10.1.3-45" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-46">Object Type: Component<a href="#section-10.1.3-46" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-47">Description: Contains standard metadata about the lifecycle and ownership of a provisioned object.<a href="#section-10.1.3-47" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-48">Reference: [This-ID]<a href="#section-10.1.3-48" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-49">Data Elements<a href="#section-10.1.3-49" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-44">Object: provMetadata<a href="#section-12.1.3-44" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-45">Object Name: Provisioning Metadata Object<a href="#section-12.1.3-45" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-46">Object Type: Component<a href="#section-12.1.3-46" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-47">Description: Contains standard metadata about the lifecycle and ownership of a provisioned object.<a href="#section-12.1.3-47" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-48">Reference: [This-ID]<a href="#section-12.1.3-48" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-49">Data Elements<a href="#section-12.1.3-49" class="pilcrow">¶</a></p>
 <table class="center" id="table-7">
             <caption><a href="#table-7" class="selfRef">Table 7</a></caption>
 <thead>
@@ -5557,12 +6251,12 @@ registry MUST provide:<a href="#section-10.1.2-2.3.1" class="pilcrow">¶</a></p>
               </tr>
             </tbody>
           </table>
-<p id="section-10.1.3-51">Object: transferProcess<a href="#section-10.1.3-51" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-52">Object Name: Transfer Process Object<a href="#section-10.1.3-52" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-53">Object Type: Process<a href="#section-10.1.3-53" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-54">Description: Represents a transfer request for a provisioned object. Creating this object initiates the transfer. Approve and Reject are additional operations; Delete corresponds to cancel.<a href="#section-10.1.3-54" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-55">Reference: [This-ID]<a href="#section-10.1.3-55" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-56">Data Elements<a href="#section-10.1.3-56" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-51">Object: transferProcess<a href="#section-12.1.3-51" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-52">Object Name: Transfer Process Object<a href="#section-12.1.3-52" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-53">Object Type: Process<a href="#section-12.1.3-53" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-54">Description: Represents a transfer request for a provisioned object. Creating this object initiates the transfer. Approve and Reject are additional operations; Delete corresponds to cancel.<a href="#section-12.1.3-54" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-55">Reference: [This-ID]<a href="#section-12.1.3-55" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-56">Data Elements<a href="#section-12.1.3-56" class="pilcrow">¶</a></p>
 <table class="center" id="table-8">
             <caption><a href="#table-8" class="selfRef">Table 8</a></caption>
 <thead>
@@ -5634,27 +6328,27 @@ registry MUST provide:<a href="#section-10.1.2-2.3.1" class="pilcrow">¶</a></p>
               </tr>
             </tbody>
           </table>
-<p id="section-10.1.3-58">Operations<a href="#section-10.1.3-58" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-59">Operation: Create<a href="#section-10.1.3-59" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-60">Operation Identifier: transferCreate<a href="#section-10.1.3-60" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-61">Description: Initiates a transfer of a provisioned object by creating a Transfer Process Object.<a href="#section-10.1.3-61" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-62">Parameters: (None)<a href="#section-10.1.3-62" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-63">Operation: Transfer Read<a href="#section-10.1.3-63" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-64">Operation Identifier: transferRead<a href="#section-10.1.3-64" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-65">Description: Queries the status of a transfer of a provisioned object.<a href="#section-10.1.3-65" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-66">Parameters: (None)<a href="#section-10.1.3-66" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-67">Operation: Transfer Delete<a href="#section-10.1.3-67" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-68">Operation Identifier: transferDelete<a href="#section-10.1.3-68" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-69">Description: Cancels a pending transfer of a provisioned object.<a href="#section-10.1.3-69" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-70">Parameters: (None)<a href="#section-10.1.3-70" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-71">Operation: Transfer Approve<a href="#section-10.1.3-71" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-72">Operation Identifier: transferApprove<a href="#section-10.1.3-72" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-73">Description: Approves a pending transfer of a provisioned object.<a href="#section-10.1.3-73" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-74">Parameters: (None)<a href="#section-10.1.3-74" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-75">Operation: Transfer Reject<a href="#section-10.1.3-75" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-76">Operation Identifier: transferReject (on Transfer Process Object)<a href="#section-10.1.3-76" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-77">Description: Rejects a pending transfer of a provisioned object.<a href="#section-10.1.3-77" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-78">Parameters<a href="#section-10.1.3-78" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-58">Operations<a href="#section-12.1.3-58" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-59">Operation: Create<a href="#section-12.1.3-59" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-60">Operation Identifier: transferCreate<a href="#section-12.1.3-60" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-61">Description: Initiates a transfer of a provisioned object by creating a Transfer Process Object.<a href="#section-12.1.3-61" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-62">Parameters: (None)<a href="#section-12.1.3-62" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-63">Operation: Transfer Read<a href="#section-12.1.3-63" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-64">Operation Identifier: transferRead<a href="#section-12.1.3-64" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-65">Description: Queries the status of a transfer of a provisioned object.<a href="#section-12.1.3-65" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-66">Parameters: (None)<a href="#section-12.1.3-66" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-67">Operation: Transfer Delete<a href="#section-12.1.3-67" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-68">Operation Identifier: transferDelete<a href="#section-12.1.3-68" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-69">Description: Cancels a pending transfer of a provisioned object.<a href="#section-12.1.3-69" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-70">Parameters: (None)<a href="#section-12.1.3-70" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-71">Operation: Transfer Approve<a href="#section-12.1.3-71" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-72">Operation Identifier: transferApprove<a href="#section-12.1.3-72" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-73">Description: Approves a pending transfer of a provisioned object.<a href="#section-12.1.3-73" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-74">Parameters: (None)<a href="#section-12.1.3-74" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-75">Operation: Transfer Reject<a href="#section-12.1.3-75" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-76">Operation Identifier: transferReject (on Transfer Process Object)<a href="#section-12.1.3-76" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-77">Description: Rejects a pending transfer of a provisioned object.<a href="#section-12.1.3-77" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-78">Parameters<a href="#section-12.1.3-78" class="pilcrow">¶</a></p>
 <table class="center" id="table-9">
             <caption><a href="#table-9" class="selfRef">Table 9</a></caption>
 <thead>
@@ -5676,12 +6370,12 @@ registry MUST provide:<a href="#section-10.1.2-2.3.1" class="pilcrow">¶</a></p>
               </tr>
             </tbody>
           </table>
-<p id="section-10.1.3-80">Object: postalData<a href="#section-10.1.3-80" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-81">Object Name: Postal Address Object<a href="#section-10.1.3-81" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-82">Object Type: Component<a href="#section-10.1.3-82" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-83">Description: Contains the components of a postal address.<a href="#section-10.1.3-83" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-84">Reference: [This-ID]<a href="#section-10.1.3-84" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-85">Data Elements<a href="#section-10.1.3-85" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-80">Object: postalData<a href="#section-12.1.3-80" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-81">Object Name: Postal Address Object<a href="#section-12.1.3-81" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-82">Object Type: Component<a href="#section-12.1.3-82" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-83">Description: Contains the components of a postal address.<a href="#section-12.1.3-83" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-84">Reference: [This-ID]<a href="#section-12.1.3-84" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-85">Data Elements<a href="#section-12.1.3-85" class="pilcrow">¶</a></p>
 <table class="center" id="table-10">
             <caption><a href="#table-10" class="selfRef">Table 10</a></caption>
 <thead>
@@ -5737,12 +6431,12 @@ registry MUST provide:<a href="#section-10.1.2-2.3.1" class="pilcrow">¶</a></p>
               </tr>
             </tbody>
           </table>
-<p id="section-10.1.3-87">Object: postalInfo<a href="#section-10.1.3-87" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-88">Object Name: Postal Info Object<a href="#section-10.1.3-88" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-89">Object Type: Component<a href="#section-10.1.3-89" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-90">Description: Contains postal-address information in either internationalised or localised forms.<a href="#section-10.1.3-90" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-91">Reference: [This-ID]<a href="#section-10.1.3-91" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-92">Data Elements<a href="#section-10.1.3-92" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-87">Object: postalInfo<a href="#section-12.1.3-87" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-88">Object Name: Postal Info Object<a href="#section-12.1.3-88" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-89">Object Type: Component<a href="#section-12.1.3-89" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-90">Description: Contains postal-address information in either internationalised or localised forms.<a href="#section-12.1.3-90" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-91">Reference: [This-ID]<a href="#section-12.1.3-91" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-92">Data Elements<a href="#section-12.1.3-92" class="pilcrow">¶</a></p>
 <table class="center" id="table-11">
             <caption><a href="#table-11" class="selfRef">Table 11</a></caption>
 <thead>
@@ -5790,12 +6484,12 @@ registry MUST provide:<a href="#section-10.1.2-2.3.1" class="pilcrow">¶</a></p>
               </tr>
             </tbody>
           </table>
-<p id="section-10.1.3-94">Object: disclose<a href="#section-10.1.3-94" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-95">Object Name: Disclose<a href="#section-10.1.3-95" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-96">Object Type: Component<a href="#section-10.1.3-96" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-97">Description: TBD<a href="#section-10.1.3-97" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-98">Reference: [This-ID]<a href="#section-10.1.3-98" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-99">Data Elements<a href="#section-10.1.3-99" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-94">Object: disclose<a href="#section-12.1.3-94" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-95">Object Name: Disclose<a href="#section-12.1.3-95" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-96">Object Type: Component<a href="#section-12.1.3-96" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-97">Description: TBD<a href="#section-12.1.3-97" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-98">Reference: [This-ID]<a href="#section-12.1.3-98" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-99">Data Elements<a href="#section-12.1.3-99" class="pilcrow">¶</a></p>
 <table class="center" id="table-12">
             <caption><a href="#table-12" class="selfRef">Table 12</a></caption>
 <thead>
@@ -5819,12 +6513,12 @@ registry MUST provide:<a href="#section-10.1.2-2.3.1" class="pilcrow">¶</a></p>
               </tr>
             </tbody>
           </table>
-<p id="section-10.1.3-101">Object: restoreProcess<a href="#section-10.1.3-101" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-102">Object Name: Restore Process Object<a href="#section-10.1.3-102" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-103">Object Type: Process<a href="#section-10.1.3-103" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-104">Description: Represents the current state of a restore request for an object that has entered the Redemption Grace Period (RGP). Returned as output of all restore operations. This object is OPTIONAL and is only used when the RGP feature is supported.<a href="#section-10.1.3-104" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-105">Reference: [This-ID]<a href="#section-10.1.3-105" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-106">Data Elements<a href="#section-10.1.3-106" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-101">Object: restoreProcess<a href="#section-12.1.3-101" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-102">Object Name: Restore Process Object<a href="#section-12.1.3-102" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-103">Object Type: Process<a href="#section-12.1.3-103" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-104">Description: Represents the current state of a restore request for an object that has entered the Redemption Grace Period (RGP). Returned as output of all restore operations. This object is OPTIONAL and is only used when the RGP feature is supported.<a href="#section-12.1.3-104" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-105">Reference: [This-ID]<a href="#section-12.1.3-105" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-106">Data Elements<a href="#section-12.1.3-106" class="pilcrow">¶</a></p>
 <table class="center" id="table-13">
             <caption><a href="#table-13" class="selfRef">Table 13</a></caption>
 <thead>
@@ -5872,11 +6566,11 @@ registry MUST provide:<a href="#section-10.1.2-2.3.1" class="pilcrow">¶</a></p>
               </tr>
             </tbody>
           </table>
-<p id="section-10.1.3-108">Operations<a href="#section-10.1.3-108" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-109">Operation: Restore Create<a href="#section-10.1.3-109" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-110">Operation Identifier: create<a href="#section-10.1.3-110" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-111">Description: Initiates recovery of a domain name in the redemptionPeriod state by creating a Restore Process Object. This operation is OPTIONAL and is only available when the RGP feature is supported.<a href="#section-10.1.3-111" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-112">Parameters<a href="#section-10.1.3-112" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-108">Operations<a href="#section-12.1.3-108" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-109">Operation: Restore Create<a href="#section-12.1.3-109" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-110">Operation Identifier: create<a href="#section-12.1.3-110" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-111">Description: Initiates recovery of a domain name in the redemptionPeriod state by creating a Restore Process Object. This operation is OPTIONAL and is only available when the RGP feature is supported.<a href="#section-12.1.3-111" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-112">Parameters<a href="#section-12.1.3-112" class="pilcrow">¶</a></p>
 <table class="center" id="table-14">
             <caption><a href="#table-14" class="selfRef">Table 14</a></caption>
 <thead>
@@ -5898,14 +6592,14 @@ registry MUST provide:<a href="#section-10.1.2-2.3.1" class="pilcrow">¶</a></p>
               </tr>
             </tbody>
           </table>
-<p id="section-10.1.3-114">Operation: Restore Read<a href="#section-10.1.3-114" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-115">Operation Identifier: read (on Restore Process Object)<a href="#section-10.1.3-115" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-116">Description: Retrieves the current state of the RGP restore process for a domain name. This operation is OPTIONAL and is only available when the RGP feature is supported.<a href="#section-10.1.3-116" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-117">Parameters: (None)<a href="#section-10.1.3-117" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-118">Operation: Restore Report<a href="#section-10.1.3-118" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-119">Operation Identifier: report<a href="#section-10.1.3-119" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-120">Description: Submits the restore report for a domain name in the pendingRestore state. This operation is OPTIONAL and is only available when the RGP feature is supported and the server requires a restore report.<a href="#section-10.1.3-120" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-121">Parameters<a href="#section-10.1.3-121" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-114">Operation: Restore Read<a href="#section-12.1.3-114" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-115">Operation Identifier: read (on Restore Process Object)<a href="#section-12.1.3-115" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-116">Description: Retrieves the current state of the RGP restore process for a domain name. This operation is OPTIONAL and is only available when the RGP feature is supported.<a href="#section-12.1.3-116" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-117">Parameters: (None)<a href="#section-12.1.3-117" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-118">Operation: Restore Report<a href="#section-12.1.3-118" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-119">Operation Identifier: report<a href="#section-12.1.3-119" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-120">Description: Submits the restore report for a domain name in the pendingRestore state. This operation is OPTIONAL and is only available when the RGP feature is supported and the server requires a restore report.<a href="#section-12.1.3-120" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-121">Parameters<a href="#section-12.1.3-121" class="pilcrow">¶</a></p>
 <table class="center" id="table-15">
             <caption><a href="#table-15" class="selfRef">Table 15</a></caption>
 <thead>
@@ -5927,12 +6621,12 @@ registry MUST provide:<a href="#section-10.1.2-2.3.1" class="pilcrow">¶</a></p>
               </tr>
             </tbody>
           </table>
-<p id="section-10.1.3-123">Object: restoreReport<a href="#section-10.1.3-123" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-124">Object Name: Restore Report Object<a href="#section-10.1.3-124" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-125">Object Type: Component<a href="#section-10.1.3-125" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-126">Description: Contains the redemption grace period restore report submitted by the sponsoring client as required by the RGP process. This object is OPTIONAL and is only used when the RGP feature is supported and a restore report is required by server policy.<a href="#section-10.1.3-126" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-127">Reference: [This-ID]<a href="#section-10.1.3-127" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-128">Data Elements<a href="#section-10.1.3-128" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-123">Object: restoreReport<a href="#section-12.1.3-123" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-124">Object Name: Restore Report Object<a href="#section-12.1.3-124" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-125">Object Type: Component<a href="#section-12.1.3-125" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-126">Description: Contains the redemption grace period restore report submitted by the sponsoring client as required by the RGP process. This object is OPTIONAL and is only used when the RGP feature is supported and a restore report is required by server policy.<a href="#section-12.1.3-126" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-127">Reference: [This-ID]<a href="#section-12.1.3-127" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-128">Data Elements<a href="#section-12.1.3-128" class="pilcrow">¶</a></p>
 <table class="center" id="table-16">
             <caption><a href="#table-16" class="selfRef">Table 16</a></caption>
 <thead>
@@ -6004,12 +6698,12 @@ registry MUST provide:<a href="#section-10.1.2-2.3.1" class="pilcrow">¶</a></p>
               </tr>
             </tbody>
           </table>
-<p id="section-10.1.3-130">Object: domainName<a href="#section-10.1.3-130" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-131">Object Name: Domain Name Data Object<a href="#section-10.1.3-131" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-132">Object Type: Resource<a href="#section-10.1.3-132" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-133">Description: Represents a domain name and its associated data.<a href="#section-10.1.3-133" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-134">Reference: [This-ID]<a href="#section-10.1.3-134" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-135">Data Elements<a href="#section-10.1.3-135" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-130">Object: domainName<a href="#section-12.1.3-130" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-131">Object Name: Domain Name Data Object<a href="#section-12.1.3-131" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-132">Object Type: Resource<a href="#section-12.1.3-132" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-133">Description: Represents a domain name and its associated data.<a href="#section-12.1.3-133" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-134">Reference: [This-ID]<a href="#section-12.1.3-134" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-135">Data Elements<a href="#section-12.1.3-135" class="pilcrow">¶</a></p>
 <table class="center" id="table-17">
             <caption><a href="#table-17" class="selfRef">Table 17</a></caption>
 <thead>
@@ -6105,11 +6799,11 @@ registry MUST provide:<a href="#section-10.1.2-2.3.1" class="pilcrow">¶</a></p>
               </tr>
             </tbody>
           </table>
-<p id="section-10.1.3-137">Operations<a href="#section-10.1.3-137" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-138">Operation: Create<a href="#section-10.1.3-138" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-139">Operation Identifier: create<a href="#section-10.1.3-139" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-140">Description: Provisions a new Domain Name resource.<a href="#section-10.1.3-140" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-141">Parameters<a href="#section-10.1.3-141" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-137">Operations<a href="#section-12.1.3-137" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-138">Operation: Create<a href="#section-12.1.3-138" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-139">Operation Identifier: create<a href="#section-12.1.3-139" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-140">Description: Provisions a new Domain Name resource.<a href="#section-12.1.3-140" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-141">Parameters<a href="#section-12.1.3-141" class="pilcrow">¶</a></p>
 <table class="center" id="table-18">
             <caption><a href="#table-18" class="selfRef">Table 18</a></caption>
 <thead>
@@ -6131,10 +6825,10 @@ registry MUST provide:<a href="#section-10.1.2-2.3.1" class="pilcrow">¶</a></p>
               </tr>
             </tbody>
           </table>
-<p id="section-10.1.3-143">Operation: Read<a href="#section-10.1.3-143" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-144">Operation Identifier: read<a href="#section-10.1.3-144" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-145">Description: Retrieves the data elements of a Domain Name resource.<a href="#section-10.1.3-145" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-146">Parameters<a href="#section-10.1.3-146" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-143">Operation: Read<a href="#section-12.1.3-143" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-144">Operation Identifier: read<a href="#section-12.1.3-144" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-145">Description: Retrieves the data elements of a Domain Name resource.<a href="#section-12.1.3-145" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-146">Parameters<a href="#section-12.1.3-146" class="pilcrow">¶</a></p>
 <table class="center" id="table-19">
             <caption><a href="#table-19" class="selfRef">Table 19</a></caption>
 <thead>
@@ -6156,9 +6850,9 @@ registry MUST provide:<a href="#section-10.1.2-2.3.1" class="pilcrow">¶</a></p>
               </tr>
             </tbody>
           </table>
-<p id="section-10.1.3-148">Operation: Update<a href="#section-10.1.3-148" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-149">Description: Modifies the read-write data elements of a Domain Name resource.<a href="#section-10.1.3-149" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-150">Parameters<a href="#section-10.1.3-150" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-148">Operation: Update<a href="#section-12.1.3-148" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-149">Description: Modifies the read-write data elements of a Domain Name resource.<a href="#section-12.1.3-149" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-150">Parameters<a href="#section-12.1.3-150" class="pilcrow">¶</a></p>
 <table class="center" id="table-20">
             <caption><a href="#table-20" class="selfRef">Table 20</a></caption>
 <thead>
@@ -6180,14 +6874,14 @@ registry MUST provide:<a href="#section-10.1.2-2.3.1" class="pilcrow">¶</a></p>
               </tr>
             </tbody>
           </table>
-<p id="section-10.1.3-152">Operation: Delete<a href="#section-10.1.3-152" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-153">Operation Identifier: delete<a href="#section-10.1.3-153" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-154">Description: Removes an existing Domain Name resource.<a href="#section-10.1.3-154" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-155">Parameters: (None)<a href="#section-10.1.3-155" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-156">Operation: Renew<a href="#section-10.1.3-156" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-157">Operation Identifier: renew<a href="#section-10.1.3-157" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-158">Description: Extends the validity period of a Domain Name resource.<a href="#section-10.1.3-158" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-159">Parameters<a href="#section-10.1.3-159" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-152">Operation: Delete<a href="#section-12.1.3-152" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-153">Operation Identifier: delete<a href="#section-12.1.3-153" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-154">Description: Removes an existing Domain Name resource.<a href="#section-12.1.3-154" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-155">Parameters: (None)<a href="#section-12.1.3-155" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-156">Operation: Renew<a href="#section-12.1.3-156" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-157">Operation Identifier: renew<a href="#section-12.1.3-157" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-158">Description: Extends the validity period of a Domain Name resource.<a href="#section-12.1.3-158" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-159">Parameters<a href="#section-12.1.3-159" class="pilcrow">¶</a></p>
 <table class="center" id="table-21">
             <caption><a href="#table-21" class="selfRef">Table 21</a></caption>
 <thead>
@@ -6216,10 +6910,10 @@ registry MUST provide:<a href="#section-10.1.2-2.3.1" class="pilcrow">¶</a></p>
               </tr>
             </tbody>
           </table>
-<p id="section-10.1.3-161">Operation: Transfer Create Operation<a href="#section-10.1.3-161" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-162">Operation Identifier: transferCreate<a href="#section-10.1.3-162" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-163">Description:<a href="#section-10.1.3-163" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-164">Parameters<a href="#section-10.1.3-164" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-161">Operation: Transfer Create Operation<a href="#section-12.1.3-161" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-162">Operation Identifier: transferCreate<a href="#section-12.1.3-162" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-163">Description:<a href="#section-12.1.3-163" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-164">Parameters<a href="#section-12.1.3-164" class="pilcrow">¶</a></p>
 <table class="center" id="table-22">
             <caption><a href="#table-22" class="selfRef">Table 22</a></caption>
 <thead>
@@ -6241,12 +6935,12 @@ registry MUST provide:<a href="#section-10.1.2-2.3.1" class="pilcrow">¶</a></p>
               </tr>
             </tbody>
           </table>
-<p id="section-10.1.3-166">Object: contact<a href="#section-10.1.3-166" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-167">Object Name: Contact Data Object<a href="#section-10.1.3-167" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-168">Object Type: Resource<a href="#section-10.1.3-168" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-169">Description: A Contact Data Object represents the contact information for an individual or organisation associated with other objects.<a href="#section-10.1.3-169" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-170">Reference: [This-ID]<a href="#section-10.1.3-170" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-171">Data Elements<a href="#section-10.1.3-171" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-166">Object: contact<a href="#section-12.1.3-166" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-167">Object Name: Contact Data Object<a href="#section-12.1.3-167" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-168">Object Type: Resource<a href="#section-12.1.3-168" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-169">Description: A Contact Data Object represents the contact information for an individual or organisation associated with other objects.<a href="#section-12.1.3-169" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-170">Reference: [This-ID]<a href="#section-12.1.3-170" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-171">Data Elements<a href="#section-12.1.3-171" class="pilcrow">¶</a></p>
 <table class="center" id="table-23">
             <caption><a href="#table-23" class="selfRef">Table 23</a></caption>
 <thead>
@@ -6334,29 +7028,29 @@ registry MUST provide:<a href="#section-10.1.2-2.3.1" class="pilcrow">¶</a></p>
               </tr>
             </tbody>
           </table>
-<p id="section-10.1.3-173">Operations<a href="#section-10.1.3-173" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-174">Operation: Create Operation<a href="#section-10.1.3-174" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-175">Operation Identifier: create<a href="#section-10.1.3-175" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-176">Description:<a href="#section-10.1.3-176" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-177">Parameters: (None)<a href="#section-10.1.3-177" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-178">Operation: Read Operation<a href="#section-10.1.3-178" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-179">Operation Identifier: read<a href="#section-10.1.3-179" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-180">Description:<a href="#section-10.1.3-180" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-181">Parameters: (None)<a href="#section-10.1.3-181" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-182">Operation: Update Operation<a href="#section-10.1.3-182" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-183">Operation Identifier: update<a href="#section-10.1.3-183" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-184">Description:<a href="#section-10.1.3-184" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-185">Parameters: (None)<a href="#section-10.1.3-185" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-186">Operation: Delete Operation<a href="#section-10.1.3-186" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-187">Operation Identifier: delete<a href="#section-10.1.3-187" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-188">Description:<a href="#section-10.1.3-188" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-189">Parameters: (None)<a href="#section-10.1.3-189" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-190">Object: host<a href="#section-10.1.3-190" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-191">Object Name: Host Data Object<a href="#section-10.1.3-191" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-192">Object Type: Resource<a href="#section-10.1.3-192" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-193">Description: Represents a name server that provides DNS services for a domain name.<a href="#section-10.1.3-193" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-194">Reference: [This-ID]<a href="#section-10.1.3-194" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-195">Data Elements<a href="#section-10.1.3-195" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-173">Operations<a href="#section-12.1.3-173" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-174">Operation: Create Operation<a href="#section-12.1.3-174" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-175">Operation Identifier: create<a href="#section-12.1.3-175" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-176">Description:<a href="#section-12.1.3-176" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-177">Parameters: (None)<a href="#section-12.1.3-177" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-178">Operation: Read Operation<a href="#section-12.1.3-178" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-179">Operation Identifier: read<a href="#section-12.1.3-179" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-180">Description:<a href="#section-12.1.3-180" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-181">Parameters: (None)<a href="#section-12.1.3-181" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-182">Operation: Update Operation<a href="#section-12.1.3-182" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-183">Operation Identifier: update<a href="#section-12.1.3-183" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-184">Description:<a href="#section-12.1.3-184" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-185">Parameters: (None)<a href="#section-12.1.3-185" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-186">Operation: Delete Operation<a href="#section-12.1.3-186" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-187">Operation Identifier: delete<a href="#section-12.1.3-187" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-188">Description:<a href="#section-12.1.3-188" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-189">Parameters: (None)<a href="#section-12.1.3-189" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-190">Object: host<a href="#section-12.1.3-190" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-191">Object Name: Host Data Object<a href="#section-12.1.3-191" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-192">Object Type: Resource<a href="#section-12.1.3-192" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-193">Description: Represents a name server that provides DNS services for a domain name.<a href="#section-12.1.3-193" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-194">Reference: [This-ID]<a href="#section-12.1.3-194" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-195">Data Elements<a href="#section-12.1.3-195" class="pilcrow">¶</a></p>
 <table class="center" id="table-24">
             <caption><a href="#table-24" class="selfRef">Table 24</a></caption>
 <thead>
@@ -6404,19 +7098,228 @@ registry MUST provide:<a href="#section-10.1.2-2.3.1" class="pilcrow">¶</a></p>
               </tr>
             </tbody>
           </table>
-<p id="section-10.1.3-197">Operations<a href="#section-10.1.3-197" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-198">Operation: Create<a href="#section-10.1.3-198" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-199">Description: Provisions a new Host Data Object.<a href="#section-10.1.3-199" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-200">Parameters: (None)<a href="#section-10.1.3-200" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-201">Operation: Read<a href="#section-10.1.3-201" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-202">Description: Retrieves the data elements of a Host Data Object.<a href="#section-10.1.3-202" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-203">Parameters: (None)<a href="#section-10.1.3-203" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-204">Operation: Update<a href="#section-10.1.3-204" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-205">Description: Modifies the attributes of a Host Data Object.<a href="#section-10.1.3-205" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-206">Parameters: (None)<a href="#section-10.1.3-206" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-207">Operation: Delete<a href="#section-10.1.3-207" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-208">Description: Removes an existing Host Data Object.<a href="#section-10.1.3-208" class="pilcrow">¶</a></p>
-<p id="section-10.1.3-209">Parameters: (None)<a href="#section-10.1.3-209" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-197">Operations<a href="#section-12.1.3-197" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-198">Operation: Create<a href="#section-12.1.3-198" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-199">Description: Provisions a new Host Data Object.<a href="#section-12.1.3-199" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-200">Parameters: (None)<a href="#section-12.1.3-200" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-201">Operation: Read<a href="#section-12.1.3-201" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-202">Description: Retrieves the data elements of a Host Data Object.<a href="#section-12.1.3-202" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-203">Parameters: (None)<a href="#section-12.1.3-203" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-204">Operation: Update<a href="#section-12.1.3-204" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-205">Description: Modifies the attributes of a Host Data Object.<a href="#section-12.1.3-205" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-206">Parameters: (None)<a href="#section-12.1.3-206" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-207">Operation: Delete<a href="#section-12.1.3-207" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-208">Description: Removes an existing Host Data Object.<a href="#section-12.1.3-208" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-209">Parameters: (None)<a href="#section-12.1.3-209" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-210">Object: organisationRole<a href="#section-12.1.3-210" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-211">Object Name: Organisation Role Object<a href="#section-12.1.3-211" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-212">Object Type: Component<a href="#section-12.1.3-212" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-213">Description: Represents a role that an organisation has within the registry ecosystem, as defined in <span><a href="https://rfc-editor.org/rfc/rfc8543#section-3.2" class="relref">Section 3.2</a> of [<a href="#RFC8543" class="cite xref">RFC8543</a>]</span>. An organisation object MUST always have at least one associated role.<a href="#section-12.1.3-213" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-214">Reference: [This-ID]<a href="#section-12.1.3-214" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-215">Data Elements<a href="#section-12.1.3-215" class="pilcrow">¶</a></p>
+<table class="center" id="table-25">
+            <caption><a href="#table-25" class="selfRef">Table 25</a></caption>
+<thead>
+              <tr>
+                <th class="text-left" rowspan="1" colspan="1">Element Identifier</th>
+                <th class="text-left" rowspan="1" colspan="1">Element Name</th>
+                <th class="text-left" rowspan="1" colspan="1">Card.</th>
+                <th class="text-left" rowspan="1" colspan="1">Mutability</th>
+                <th class="text-left" rowspan="1" colspan="1">Data Type</th>
+                <th class="text-left" rowspan="1" colspan="1">Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">type</td>
+                <td class="text-left" rowspan="1" colspan="1">Role Type</td>
+                <td class="text-left" rowspan="1" colspan="1">1</td>
+                <td class="text-left" rowspan="1" colspan="1">read-write</td>
+                <td class="text-left" rowspan="1" colspan="1">String</td>
+                <td class="text-left" rowspan="1" colspan="1">The type of role the organisation fulfils. Values are registered in the IANA "EPP Organisation Role Values" registry as defined in <span>[<a href="#RFC8543" class="cite xref">RFC8543</a>]</span>.</td>
+              </tr>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">status</td>
+                <td class="text-left" rowspan="1" colspan="1">Role Status</td>
+                <td class="text-left" rowspan="1" colspan="1">0+</td>
+                <td class="text-left" rowspan="1" colspan="1">read-write</td>
+                <td class="text-left" rowspan="1" colspan="1">String</td>
+                <td class="text-left" rowspan="1" colspan="1">The status of this role. Allowed values: <code>ok</code>, <code>linked</code>, <code>clientLinkProhibited</code>, <code>serverLinkProhibited</code>.</td>
+              </tr>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">roleId</td>
+                <td class="text-left" rowspan="1" colspan="1">Role Identifier</td>
+                <td class="text-left" rowspan="1" colspan="1">0-1</td>
+                <td class="text-left" rowspan="1" colspan="1">read-write</td>
+                <td class="text-left" rowspan="1" colspan="1">String</td>
+                <td class="text-left" rowspan="1" colspan="1">A third-party-assigned identifier for this role, such as an IANA registrar ID.</td>
+              </tr>
+            </tbody>
+          </table>
+<p id="section-12.1.3-217">Object: organisation<a href="#section-12.1.3-217" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-218">Object Name: Organisation Data Object<a href="#section-12.1.3-218" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-219">Object Type: Resource<a href="#section-12.1.3-219" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-220">Description: Represents an entity, such as a registrar, reseller, DNS service operator, or privacy proxy, involved in the domain registration process. Based on the EPP Organisation Mapping defined in <span>[<a href="#RFC8543" class="cite xref">RFC8543</a>]</span>.<a href="#section-12.1.3-220" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-221">Reference: [This-ID]<a href="#section-12.1.3-221" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-222">Data Elements<a href="#section-12.1.3-222" class="pilcrow">¶</a></p>
+<table class="center" id="table-26">
+            <caption><a href="#table-26" class="selfRef">Table 26</a></caption>
+<thead>
+              <tr>
+                <th class="text-left" rowspan="1" colspan="1">Identifier</th>
+                <th class="text-left" rowspan="1" colspan="1">Name</th>
+                <th class="text-left" rowspan="1" colspan="1">Card.</th>
+                <th class="text-left" rowspan="1" colspan="1">Mutability</th>
+                <th class="text-left" rowspan="1" colspan="1">Data Type</th>
+                <th class="text-left" rowspan="1" colspan="1">Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">id</td>
+                <td class="text-left" rowspan="1" colspan="1">Organisation ID</td>
+                <td class="text-left" rowspan="1" colspan="1">1</td>
+                <td class="text-left" rowspan="1" colspan="1">create-only</td>
+                <td class="text-left" rowspan="1" colspan="1">Identifier</td>
+                <td class="text-left" rowspan="1" colspan="1">A server-unique identifier for the organisation object.</td>
+              </tr>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">provMetadata</td>
+                <td class="text-left" rowspan="1" colspan="1">Provisioning Metadata</td>
+                <td class="text-left" rowspan="1" colspan="1">1</td>
+                <td class="text-left" rowspan="1" colspan="1">read-only</td>
+                <td class="text-left" rowspan="1" colspan="1">Provisioning Metadata Object</td>
+                <td class="text-left" rowspan="1" colspan="1">Standard metadata about the object's lifecycle and ownership.</td>
+              </tr>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">status</td>
+                <td class="text-left" rowspan="1" colspan="1">Status</td>
+                <td class="text-left" rowspan="1" colspan="1">1+</td>
+                <td class="text-left" rowspan="1" colspan="1">read-only</td>
+                <td class="text-left" rowspan="1" colspan="1">Status Object</td>
+                <td class="text-left" rowspan="1" colspan="1">The current operational status descriptors for the organisation.</td>
+              </tr>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">roles</td>
+                <td class="text-left" rowspan="1" colspan="1">Roles</td>
+                <td class="text-left" rowspan="1" colspan="1">1+</td>
+                <td class="text-left" rowspan="1" colspan="1">read-write</td>
+                <td class="text-left" rowspan="1" colspan="1">DictionaryComposition [Organisation Role Object]</td>
+                <td class="text-left" rowspan="1" colspan="1">One or more roles describing the organisation's relationship within the registry ecosystem.</td>
+              </tr>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">parentId</td>
+                <td class="text-left" rowspan="1" colspan="1">Parent Organisation ID</td>
+                <td class="text-left" rowspan="1" colspan="1">0-1</td>
+                <td class="text-left" rowspan="1" colspan="1">read-write</td>
+                <td class="text-left" rowspan="1" colspan="1">Identifier</td>
+                <td class="text-left" rowspan="1" colspan="1">The identifier of the parent organisation in a hierarchical organisation structure.</td>
+              </tr>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">contactInfo</td>
+                <td class="text-left" rowspan="1" colspan="1">Contact Information</td>
+                <td class="text-left" rowspan="1" colspan="1">0-1</td>
+                <td class="text-left" rowspan="1" colspan="1">read-write</td>
+                <td class="text-left" rowspan="1" colspan="1">DictionaryComposition [Contact Data Object]</td>
+                <td class="text-left" rowspan="1" colspan="1">Contact information</td>
+              </tr>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">contacts</td>
+                <td class="text-left" rowspan="1" colspan="1">Contacts</td>
+                <td class="text-left" rowspan="1" colspan="1">0+</td>
+                <td class="text-left" rowspan="1" colspan="1">read-write</td>
+                <td class="text-left" rowspan="1" colspan="1">DictionaryComposition [Contact Data Object References]</td>
+                <td class="text-left" rowspan="1" colspan="1">Identifiers of contact objects associated with the organisation.</td>
+              </tr>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">users</td>
+                <td class="text-left" rowspan="1" colspan="1">Users</td>
+                <td class="text-left" rowspan="1" colspan="1">0+</td>
+                <td class="text-left" rowspan="1" colspan="1">read-write</td>
+                <td class="text-left" rowspan="1" colspan="1">DictionaryComposition [User Data Object References]</td>
+                <td class="text-left" rowspan="1" colspan="1">Identifiers of user objects associated with the organisation.</td>
+              </tr>
+            </tbody>
+          </table>
+<p id="section-12.1.3-224">Operations<a href="#section-12.1.3-224" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-225">Operation: Create<a href="#section-12.1.3-225" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-226">Operation Identifier: create<a href="#section-12.1.3-226" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-227">Description: Provisions a new Organisation Data Object.<a href="#section-12.1.3-227" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-228">Parameters: (None)<a href="#section-12.1.3-228" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-229">Operation: Read<a href="#section-12.1.3-229" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-230">Operation Identifier: read<a href="#section-12.1.3-230" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-231">Description: Retrieves the data elements of an Organisation Data Object.<a href="#section-12.1.3-231" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-232">Parameters: (None)<a href="#section-12.1.3-232" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-233">Operation: Update<a href="#section-12.1.3-233" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-234">Operation Identifier: update<a href="#section-12.1.3-234" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-235">Description: Modifies the attributes of an existing Organisation Data Object.<a href="#section-12.1.3-235" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-236">Parameters: (None)<a href="#section-12.1.3-236" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-237">Operation: Delete<a href="#section-12.1.3-237" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-238">Operation Identifier: delete<a href="#section-12.1.3-238" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-239">Description: Removes an existing Organisation Data Object.<a href="#section-12.1.3-239" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-240">Parameters: (None)<a href="#section-12.1.3-240" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-241">Object: user<a href="#section-12.1.3-241" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-242">Object Name: User Data Object<a href="#section-12.1.3-242" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-243">Object Type: Resource<a href="#section-12.1.3-243" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-244">Description: Represents a user linked to an Organisation Data Object. Each user carries a set of RBAC roles that define the user's permissions within the context of the owning organisation. The lifecycle of a User Object is bound to its Organisation Object.<a href="#section-12.1.3-244" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-245">Reference: [This-ID]<a href="#section-12.1.3-245" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-246">Data Elements<a href="#section-12.1.3-246" class="pilcrow">¶</a></p>
+<table class="center" id="table-27">
+            <caption><a href="#table-27" class="selfRef">Table 27</a></caption>
+<thead>
+              <tr>
+                <th class="text-left" rowspan="1" colspan="1">Identifier</th>
+                <th class="text-left" rowspan="1" colspan="1">Name</th>
+                <th class="text-left" rowspan="1" colspan="1">Card.</th>
+                <th class="text-left" rowspan="1" colspan="1">Mutability</th>
+                <th class="text-left" rowspan="1" colspan="1">Data Type</th>
+                <th class="text-left" rowspan="1" colspan="1">Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">userId</td>
+                <td class="text-left" rowspan="1" colspan="1">User Identifier</td>
+                <td class="text-left" rowspan="1" colspan="1">1</td>
+                <td class="text-left" rowspan="1" colspan="1">create-only</td>
+                <td class="text-left" rowspan="1" colspan="1">Identifier</td>
+                <td class="text-left" rowspan="1" colspan="1">A unique identifier for the user. MUST be globally unique in the server scope.</td>
+              </tr>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">name</td>
+                <td class="text-left" rowspan="1" colspan="1">Name</td>
+                <td class="text-left" rowspan="1" colspan="1">0-1</td>
+                <td class="text-left" rowspan="1" colspan="1">read-write</td>
+                <td class="text-left" rowspan="1" colspan="1">String</td>
+                <td class="text-left" rowspan="1" colspan="1">The name of the user.</td>
+              </tr>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">status</td>
+                <td class="text-left" rowspan="1" colspan="1">Status</td>
+                <td class="text-left" rowspan="1" colspan="1">0+</td>
+                <td class="text-left" rowspan="1" colspan="1">read-write</td>
+                <td class="text-left" rowspan="1" colspan="1">string</td>
+                <td class="text-left" rowspan="1" colspan="1">The status of the user.</td>
+              </tr>
+            </tbody>
+          </table>
+<p id="section-12.1.3-248">Operations<a href="#section-12.1.3-248" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-249">Operation: Create<a href="#section-12.1.3-249" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-250">Operation Identifier: create<a href="#section-12.1.3-250" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-251">Description: Creates a new User Object.<a href="#section-12.1.3-251" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-252">Parameters: (None)<a href="#section-12.1.3-252" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-253">Operation: Read<a href="#section-12.1.3-253" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-254">Operation Identifier: read<a href="#section-12.1.3-254" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-255">Description: Retrieves the data elements of a specific User Object.<a href="#section-12.1.3-255" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-256">Parameters: (None)<a href="#section-12.1.3-256" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-257">Operation: Update<a href="#section-12.1.3-257" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-258">Operation Identifier: update<a href="#section-12.1.3-258" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-259">Description: Modifies the read-write data elements (e.g., roles) of a specific User Object.<a href="#section-12.1.3-259" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-260">Parameters: (None)<a href="#section-12.1.3-260" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-261">Operation: Delete<a href="#section-12.1.3-261" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-262">Operation Identifier: delete<a href="#section-12.1.3-262" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-263">Description: Removes a specific User Object.<a href="#section-12.1.3-263" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-264">Parameters: (None)<a href="#section-12.1.3-264" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -6424,103 +7327,107 @@ registry MUST provide:<a href="#section-10.1.2-2.3.1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="security-considerations">
-<section id="section-11">
+<section id="section-13">
       <h2 id="name-security-considerations">
-<a href="#section-11" class="section-number selfRef">11. </a><a href="#name-security-considerations" class="section-name selfRef">Security Considerations</a>
+<a href="#section-13" class="section-number selfRef">13. </a><a href="#name-security-considerations" class="section-name selfRef">Security Considerations</a>
       </h2>
-<aside id="section-11-1">
-        <p id="section-11-1.1">TODO: write security considerations, if any<a href="#section-11-1.1" class="pilcrow">¶</a></p>
+<aside id="section-13-1">
+        <p id="section-13-1.1">TODO: write security considerations, if any<a href="#section-13-1.1" class="pilcrow">¶</a></p>
 </aside>
 </section>
 </div>
 <div id="changes-history">
-<section id="section-12">
+<section id="section-14">
       <h2 id="name-changes-history">
-<a href="#section-12" class="section-number selfRef">12. </a><a href="#name-changes-history" class="section-name selfRef">Changes History</a>
+<a href="#section-14" class="section-number selfRef">14. </a><a href="#name-changes-history" class="section-name selfRef">Changes History</a>
       </h2>
 <div id="draft-kowalik-rpp-data-objects-04-05">
-<section id="section-12.1">
+<section id="section-14.1">
         <h3 id="name-draft-kowalik-rpp-data-obje">
 <a href="#name-draft-kowalik-rpp-data-obje" class="section-name selfRef">draft-kowalik-rpp-data-objects -04 - -05</a>
-      </h3>
+        </h3>
+<ul class="compact">
+<li class="compact" id="section-14.1-1.1">Added Organisation, Organisation Role and User Objects, based on RFC8543 (Issue #25)<a href="#section-14.1-1.1" class="pilcrow">¶</a>
+</li>
+        </ul>
 </section>
 </div>
 <div id="draft-kowalik-rpp-data-objects-03-04">
-<section id="section-12.2">
+<section id="section-14.2">
         <h3 id="name-draft-kowalik-rpp-data-objec">
 <a href="#name-draft-kowalik-rpp-data-objec" class="section-name selfRef">draft-kowalik-rpp-data-objects -03 - -04</a>
         </h3>
 <ul class="compact">
-<li class="compact" id="section-12.2-1.1">correct <code>"postalInfo"</code> to be DictionaryComposition not DictionaryAggregation<a href="#section-12.2-1.1" class="pilcrow">¶</a>
+<li class="compact" id="section-14.2-1.1">correct <code>"postalInfo"</code> to be DictionaryComposition not DictionaryAggregation<a href="#section-14.2-1.1" class="pilcrow">¶</a>
 </li>
-          <li class="compact" id="section-12.2-1.2">Added missing IANA tables for Contact, Postal Address and Postal Info. Added missing Operations. Added missing operation identifiers. Fixes #17, #18, #19, #20, #21.<a href="#section-12.2-1.2" class="pilcrow">¶</a>
+          <li class="compact" id="section-14.2-1.2">Added missing IANA tables for Contact, Postal Address and Postal Info. Added missing Operations. Added missing operation identifiers. Fixes #17, #18, #19, #20, #21.<a href="#section-14.2-1.2" class="pilcrow">¶</a>
 </li>
         </ul>
 </section>
 </div>
 <div id="draft-kowalik-rpp-data-objects-02-03">
-<section id="section-12.3">
+<section id="section-14.3">
         <h3 id="name-draft-kowalik-rpp-data-object">
 <a href="#name-draft-kowalik-rpp-data-object" class="section-name selfRef">draft-kowalik-rpp-data-objects -02 - -03</a>
         </h3>
 <ul class="compact">
-<li class="compact" id="section-12.3-1.1">add Object and Dictionary[Value Type] primitive data types<a href="#section-12.3-1.1" class="pilcrow">¶</a>
+<li class="compact" id="section-14.3-1.1">add Object and Dictionary[Value Type] primitive data types<a href="#section-14.3-1.1" class="pilcrow">¶</a>
 </li>
-          <li class="compact" id="section-12.3-1.2">change "Aggregation/Composition Dictionary" to "Dictionary Aggregation/Composition" (Issue #32)<a href="#section-12.3-1.2" class="pilcrow">¶</a>
+          <li class="compact" id="section-14.3-1.2">change "Aggregation/Composition Dictionary" to "Dictionary Aggregation/Composition" (Issue #32)<a href="#section-14.3-1.2" class="pilcrow">¶</a>
 </li>
-          <li class="compact" id="section-12.3-1.3">describe operations for contacts #15<a href="#section-12.3-1.3" class="pilcrow">¶</a>
+          <li class="compact" id="section-14.3-1.3">describe operations for contacts #15<a href="#section-14.3-1.3" class="pilcrow">¶</a>
 </li>
-          <li class="compact" id="section-12.3-1.4">describe operations for hosts #16<a href="#section-12.3-1.4" class="pilcrow">¶</a>
+          <li class="compact" id="section-14.3-1.4">describe operations for hosts #16<a href="#section-14.3-1.4" class="pilcrow">¶</a>
 </li>
-          <li class="compact" id="section-12.3-1.5">add Domain Update operation with urgent transient parameter from <span>[<a href="#RFC5910" class="cite xref">RFC5910</a>]</span><a href="#section-12.3-1.5" class="pilcrow">¶</a>
+          <li class="compact" id="section-14.3-1.5">add Domain Update operation with urgent transient parameter from <span>[<a href="#RFC5910" class="cite xref">RFC5910</a>]</span><a href="#section-14.3-1.5" class="pilcrow">¶</a>
 </li>
-          <li class="compact" id="section-12.3-1.6">add identifiers to all operations<a href="#section-12.3-1.6" class="pilcrow">¶</a>
+          <li class="compact" id="section-14.3-1.6">add identifiers to all operations<a href="#section-14.3-1.6" class="pilcrow">¶</a>
 </li>
-          <li class="compact" id="section-12.3-1.7">abstract common provisioning metadata into reusable component object<a href="#section-12.3-1.7" class="pilcrow">¶</a>
+          <li class="compact" id="section-14.3-1.7">abstract common provisioning metadata into reusable component object<a href="#section-14.3-1.7" class="pilcrow">¶</a>
 </li>
-          <li class="compact" id="section-12.3-1.8">define common RGP/restore process and Restore Process Object<a href="#section-12.3-1.8" class="pilcrow">¶</a>
+          <li class="compact" id="section-14.3-1.8">define common RGP/restore process and Restore Process Object<a href="#section-14.3-1.8" class="pilcrow">¶</a>
 </li>
-          <li class="compact" id="section-12.3-1.9">define common transfer operations and Transfer Process Object with support for pull and push transfers #23<a href="#section-12.3-1.9" class="pilcrow">¶</a>
+          <li class="compact" id="section-14.3-1.9">define common transfer operations and Transfer Process Object with support for pull and push transfers #23<a href="#section-14.3-1.9" class="pilcrow">¶</a>
 </li>
-          <li class="compact" id="section-12.3-1.10">add domain-specific transfer operations with implicit renewal and subordinate host transfer<a href="#section-12.3-1.10" class="pilcrow">¶</a>
+          <li class="compact" id="section-14.3-1.10">add domain-specific transfer operations with implicit renewal and subordinate host transfer<a href="#section-14.3-1.10" class="pilcrow">¶</a>
 </li>
-          <li class="compact" id="section-12.3-1.11">add host/domain relationship terminology from RFC 5732<a href="#section-12.3-1.11" class="pilcrow">¶</a>
+          <li class="compact" id="section-14.3-1.11">add host/domain relationship terminology from RFC 5732<a href="#section-14.3-1.11" class="pilcrow">¶</a>
 </li>
-          <li class="compact" id="section-12.3-1.12">restructure DNS data model aligned with draft-simmen-rpp-dns-data-01: redefine DNS Resource Record Object, add DNS Operational Controls Object, add DNS Data Object; update Domain, Host, and Nameserver objects to use it<a href="#section-12.3-1.12" class="pilcrow">¶</a>
+          <li class="compact" id="section-14.3-1.12">restructure DNS data model aligned with draft-simmen-rpp-dns-data-01: redefine DNS Resource Record Object, add DNS Operational Controls Object, add DNS Data Object; update Domain, Host, and Nameserver objects to use it<a href="#section-14.3-1.12" class="pilcrow">¶</a>
 </li>
-          <li class="compact" id="section-12.3-1.13">add DNSSEC support based on <span>[<a href="#RFC5910" class="cite xref">RFC5910</a>]</span>: DS and DNSKEY record types with structured RDATA fields<a href="#section-12.3-1.13" class="pilcrow">¶</a>
+          <li class="compact" id="section-14.3-1.13">add DNSSEC support based on <span>[<a href="#RFC5910" class="cite xref">RFC5910</a>]</span>: DS and DNSKEY record types with structured RDATA fields<a href="#section-14.3-1.13" class="pilcrow">¶</a>
 </li>
-          <li class="compact" id="section-12.3-1.14">add NS, A, and AAAA RDATA structures and record type constraints to EPP compatibility profile for DNS Resource Record Object<a href="#section-12.3-1.14" class="pilcrow">¶</a>
+          <li class="compact" id="section-14.3-1.14">add NS, A, and AAAA RDATA structures and record type constraints to EPP compatibility profile for DNS Resource Record Object<a href="#section-14.3-1.14" class="pilcrow">¶</a>
 </li>
-          <li class="compact" id="section-12.3-1.15">expand extensibility section with standardised/private extension mechanisms, extension points, and operation extensibility<a href="#section-12.3-1.15" class="pilcrow">¶</a>
+          <li class="compact" id="section-14.3-1.15">expand extensibility section with standardised/private extension mechanisms, extension points, and operation extensibility<a href="#section-14.3-1.15" class="pilcrow">¶</a>
 </li>
-          <li class="compact" id="section-12.3-1.16">update IANA registration policy and registry structure to accommodate extension registrations<a href="#section-12.3-1.16" class="pilcrow">¶</a>
+          <li class="compact" id="section-14.3-1.16">update IANA registration policy and registry structure to accommodate extension registrations<a href="#section-14.3-1.16" class="pilcrow">¶</a>
 </li>
         </ul>
 </section>
 </div>
 <div id="draft-kowalik-rpp-data-objects-01-02">
-<section id="section-12.4">
+<section id="section-14.4">
         <h3 id="name-draft-kowalik-rpp-data-objects">
 <a href="#name-draft-kowalik-rpp-data-objects" class="section-name selfRef">draft-kowalik-rpp-data-objects -01 - -02</a>
         </h3>
 <ul class="compact">
-<li class="compact" id="section-12.4-1.1">ontology of allowed basic datatypes #4<a href="#section-12.4-1.1" class="pilcrow">¶</a>
+<li class="compact" id="section-14.4-1.1">ontology of allowed basic datatypes #4<a href="#section-14.4-1.1" class="pilcrow">¶</a>
 </li>
-          <li class="compact" id="section-12.4-1.2">add examples of associations #31<a href="#section-12.4-1.2" class="pilcrow">¶</a>
+          <li class="compact" id="section-14.4-1.2">add examples of associations #31<a href="#section-14.4-1.2" class="pilcrow">¶</a>
 </li>
         </ul>
 </section>
 </div>
 </section>
 </div>
-<section id="section-13">
+<section id="section-15">
       <h2 id="name-references">
-<a href="#section-13" class="section-number selfRef">13. </a><a href="#name-references" class="section-name selfRef">References</a>
+<a href="#section-15" class="section-number selfRef">15. </a><a href="#name-references" class="section-name selfRef">References</a>
       </h2>
-<section id="section-13.1">
+<section id="section-15.1">
         <h3 id="name-normative-references">
-<a href="#section-13.1" class="section-number selfRef">13.1. </a><a href="#name-normative-references" class="section-name selfRef">Normative References</a>
+<a href="#section-15.1" class="section-number selfRef">15.1. </a><a href="#name-normative-references" class="section-name selfRef">Normative References</a>
         </h3>
 <dl class="references">
 <dt id="I-D.ietf-rpp-architecture">[I-D.ietf-rpp-architecture]</dt>
@@ -6588,14 +7495,18 @@ registry MUST provide:<a href="#section-10.1.2-2.3.1" class="pilcrow">¶</a></p>
 <span class="refAuthor">Cotton, M.</span>, <span class="refAuthor">Leiba, B.</span>, and <span class="refAuthor">T. Narten</span>, <span class="refTitle">"Guidelines for Writing an IANA Considerations Section in RFCs"</span>, <span class="seriesInfo">BCP 26</span>, <span class="seriesInfo">RFC 8126</span>, <span class="seriesInfo">DOI 10.17487/RFC8126</span>, <time datetime="2017-06" class="refDate">June 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc8126">https://www.rfc-editor.org/info/rfc8126</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC8174">[RFC8174]</dt>
-      <dd>
+        <dd>
 <span class="refAuthor">Leiba, B.</span>, <span class="refTitle">"Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 8174</span>, <span class="seriesInfo">DOI 10.17487/RFC8174</span>, <time datetime="2017-05" class="refDate">May 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc8174">https://www.rfc-editor.org/info/rfc8174</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC8543">[RFC8543]</dt>
+      <dd>
+<span class="refAuthor">Zhou, L.</span>, <span class="refAuthor">Kong, N.</span>, <span class="refAuthor">Yao, J.</span>, <span class="refAuthor">Gould, J.</span>, and <span class="refAuthor">G. Zhou</span>, <span class="refTitle">"Extensible Provisioning Protocol (EPP) Organization Mapping"</span>, <span class="seriesInfo">RFC 8543</span>, <span class="seriesInfo">DOI 10.17487/RFC8543</span>, <time datetime="2019-03" class="refDate">March 2019</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc8543">https://www.rfc-editor.org/info/rfc8543</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 </dl>
 </section>
-<section id="section-13.2">
+<section id="section-15.2">
         <h3 id="name-informative-references">
-<a href="#section-13.2" class="section-number selfRef">13.2. </a><a href="#name-informative-references" class="section-name selfRef">Informative References</a>
+<a href="#section-15.2" class="section-number selfRef">15.2. </a><a href="#name-informative-references" class="section-name selfRef">Informative References</a>
         </h3>
 <dl class="references">
 <dt id="I-D.simmen-rpp-dns-data">[I-D.simmen-rpp-dns-data]</dt>
