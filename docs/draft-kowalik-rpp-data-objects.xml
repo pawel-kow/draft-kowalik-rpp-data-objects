@@ -295,7 +295,7 @@ The data type of a data element may also be a reference to another data object, 
 </section>
 
 <section anchor="renew-ops"><name>Renew Operations</name>
-<t>Renew operations manage the extension of the validity period of a provisioned object. They are specified once in this section as the renewal model is common across all renewable resource objects. Individual object definitions reference this section and specify any object-specific extensions to the common pattern.</t>
+<t>Renew operations manage the validity period of a provisioned object. They are specified once in this section as the renewal model is common across all renewable resource objects. Individual object definitions reference this section and specify any object-specific extensions to the common pattern.</t>
 </section>
 </section>
 
@@ -1575,7 +1575,7 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 <li>Cardinality: 0-1</li>
 <li>Mutability: read-only</li>
 <li>Data Type: Timestamp</li>
-<li>Description: The expiry date of the object after the renewal is completed.</li>
+<li>Description: The current expiry date of the object. The server MUST validate this against the object's current <tt>expiryDate</tt> to prevent unintended duplicate renewals.</li>
 </ul></li>
 </ul></li>
 </ul>
@@ -1602,6 +1602,18 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 
 <ul spacing="compact">
 <li>Only the sponsoring client is authorised to perform this operation.</li>
+</ul></li>
+</ul>
+<t>In addition, the following transient data element is defined for this operation:</t>
+
+<ul spacing="compact">
+<li><t>Renewal Period</t>
+
+<ul spacing="compact">
+<li>Identifier: renewalPeriod</li>
+<li>Cardinality: 0-1</li>
+<li>Data Type: Period Object</li>
+<li>Description: The duration to be added to the object's registration period. This value is used by the server to calculate the new <tt>expiryDate</tt>. The default value MAY be defined by server policy. The number of units available MAY be subject to limits imposed by the server.</li>
 </ul></li>
 </ul>
 </section>
@@ -1928,26 +1940,6 @@ is &quot;all&quot;.</li>
 
 <ul spacing="compact">
 <li>Only sponsoring client is authorised to perform this operation</li>
-</ul></li>
-</ul>
-<t>The following transient data elements are defined for this operation:</t>
-
-<ul>
-<li><t>Current Expiry Date</t>
-
-<ul spacing="compact">
-<li>Identifier: currentExpiryDate</li>
-<li>Cardinality: 1</li>
-<li>Data Type: Timestamp</li>
-<li>Description: The current expiry date of the domain name. The server MUST validate this against the object's current <tt>expiryDate</tt> to prevent unintended duplicate renewals.</li>
-</ul></li>
-<li><t>Renewal Period</t>
-
-<ul spacing="compact">
-<li>Identifier: renewalPeriod</li>
-<li>Cardinality: 0-1</li>
-<li>Data Type: Period Object</li>
-<li>Description: The duration to be added to the object's registration period. This value is used by the server to calculate the new <tt>expiryDate</tt>. The default value MAY be defined by server policy. The number of units available MAY be subject to limits imposed by the server.</li>
 </ul></li>
 </ul>
 </section>

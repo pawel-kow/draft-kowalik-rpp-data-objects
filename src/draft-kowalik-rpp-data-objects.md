@@ -309,7 +309,7 @@ State descriptions:
 
 ### Renew Operations {#renew-ops}
 
-Renew operations manage the extension of the validity period of a provisioned object. They are specified once in this section as the renewal model is common across all renewable resource objects. Individual object definitions reference this section and specify any object-specific extensions to the common pattern.
+Renew operations manage the validity period of a provisioned object. They are specified once in this section as the renewal model is common across all renewable resource objects. Individual object definitions reference this section and specify any object-specific extensions to the common pattern.
 
 ## EPP Compatibility Profile
 
@@ -1220,7 +1220,7 @@ The following transient data elements are defined for this operation:
     * Cardinality: 0-1
     * Mutability: read-only
     * Data Type: Timestamp
-    * Description: The expiry date of the object after the renewal is completed.
+    * Description: The current expiry date of the object. The server MUST validate this against the object's current `expiryDate` to prevent unintended duplicate renewals.
 
 ### Operations
 
@@ -1237,6 +1237,15 @@ The renew operation extends the validity period of an existing object by creatin
 
 * Authorisation:
   * Only the sponsoring client is authorised to perform this operation.
+
+In addition, the following transient data element is defined for this operation:
+
+* Renewal Period
+  * Identifier: renewalPeriod
+  * Cardinality: 0-1
+  * Data Type: Period Object
+  * Description: The duration to be added to the object's registration period. This value is used by the server to calculate the new `expiryDate`. The default value MAY be defined by server policy. The number of units available MAY be subject to limits imposed by the server.
+
 
 # Domain Name Data Object
 
@@ -1442,20 +1451,6 @@ The Renew operation allows a client to extend the validity period of an existing
 
 * Authorisation:
   * Only sponsoring client is authorised to perform this operation
-
-The following transient data elements are defined for this operation:
-
-* Current Expiry Date
-  * Identifier: currentExpiryDate
-  * Cardinality: 1
-  * Data Type: Timestamp
-  * Description: The current expiry date of the domain name. The server MUST validate this against the object's current `expiryDate` to prevent unintended duplicate renewals.
-
-* Renewal Period
-  * Identifier: renewalPeriod
-  * Cardinality: 0-1
-  * Data Type: Period Object
-  * Description: The duration to be added to the object's registration period. This value is used by the server to calculate the new `expiryDate`. The default value MAY be defined by server policy. The number of units available MAY be subject to limits imposed by the server.
 
 ### Transfer Operations
 
