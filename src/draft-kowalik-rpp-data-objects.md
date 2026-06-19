@@ -1218,9 +1218,15 @@ The following transient data elements are defined for this operation:
   * Expiry Date
     * Identifier: expiryDate
     * Cardinality: 0-1
-    * Mutability: read-only
+    * Mutability: create-only
     * Data Type: Timestamp
     * Description: The current expiry date of the object. The server MUST validate this against the object's current `expiryDate` to prevent unintended duplicate renewals.
+  * Renewal Period
+    * Identifier: renewalPeriod
+    * Cardinality: 0-1
+    * Mutability: create-only
+    * Data Type: Period Object
+    * Description: The duration to be added to the object's registration period. This value is used by the server to calculate the new `expiryDate`. The default value MAY be defined by server policy. The number of units available MAY be subject to limits imposed by the server.
 
 ### Operations
 
@@ -1237,15 +1243,6 @@ The renew operation extends the validity period of an existing object by creatin
 
 * Authorisation:
   * Only the sponsoring client is authorised to perform this operation.
-
-In addition, the following transient data element is defined for this operation:
-
-* Renewal Period
-  * Identifier: renewalPeriod
-  * Cardinality: 0-1
-  * Data Type: Period Object
-  * Description: The duration to be added to the object's registration period. This value is used by the server to calculate the new `expiryDate`. The default value MAY be defined by server policy. The number of units available MAY be subject to limits imposed by the server.
-
 
 # Domain Name Data Object
 
