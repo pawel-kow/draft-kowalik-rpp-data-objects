@@ -323,7 +323,8 @@ An external data type is any type, structure, or format that is normatively defi
 
 ## Referencing External Data Types
 
-When this document or a related RPP specification references an external data type, the reference MUST follow the requirements and guidelines for references described in [@!RFC2026]. The reference MUST include a clear description of the specific type or structure being used. For example, if referencing the JSContact format defined in [@!RFC9553], the reference should specify that the `Card` data type is being used.
+When this document or any RPP specification references an external data type, the reference MUST follow the requirements and guidelines for references described in [@!RFC2026]. The reference MUST include a clear description of the specific type or structure being used. For example, if referencing the JSContact format defined in [@!RFC9553], the reference should specify that the `Card` data type is being used.
+The reference MUST use the following format: `External:<specification-identifier>:<type-name>`. For example, `External:JSContact:Card` indicates that the `Card` type from the JSContact specification is being used.
 
 ## Versioning and Compatibility
 
@@ -1434,7 +1435,7 @@ The following data elements are defined for the Domain Name Data Object.
   * Identifier: contactInfo
   * Cardinality: 1-2
   * Mutability: read-write
-  * Data Type: JSContact:Card
+  * Data Type: External:JSContact:Card
   * Description: Contains contact information.
 
 * Authorisation Information
@@ -2043,7 +2044,7 @@ Data Elements
 | id           | Handle ID                 | 1     | create-only | Identifier.                                | External unique identifier of the contact object.                                                                       |
 | provMetadata | Provisioning Metadata     | 1     | read-only   | Provisioning Metadata Object               | Standard metadata about the object's lifecycle and ownership.                                                           |
 | status       | Status                    | 0+    | read-only   | Status Object                              | Status descriptors associated with the contact.                                                             |
-| contactInfo  | Contact Information       | 1-2   | read-write  | JSContact:Card.                            | JSContact Card information.                                                                                    |
+| contactInfo  | Contact Information       | 1-2   | read-write  | External:JSContact:Card.                   | JSContact Card information.                                                                                    |
 | voice        | Voice Phone Number        | 0+    | read-write  | Phone Number                               | Voice phone number associated with the contact                                                                          |
 | fax          | Fax Phone Number          | 0+    | read-write  | Phone Number                               | Fax number associated with the contact                                                                                  |
 | email        | E-mail                    | 0+    | read-write  | String.                                    | Email address.                                                                                            |
