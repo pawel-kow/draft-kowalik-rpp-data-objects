@@ -307,6 +307,10 @@ State descriptions:
 11. The pending delete period elapses and the object is purged.
 12. The object is purged and available for re-registration.
 
+### Renew Operations {#renew-ops}
+
+Renew operations manage the validity period of a provisioned object. They are specified once in this section as the renewal model is common across all renewable resource objects. Individual object definitions reference this section and specify any object-specific extensions to the common pattern.
+
 ## EPP Compatibility Profile
 
 RPP is designed to coexist with the Extensible Provisioning Protocol (EPP), often operating in parallel against a common backend provisioning system. While RPP is not inherently constrained by all of EPP's requirements, a specific set of rules is necessary to ensure seamless interoperability in such mixed environments.
@@ -1145,6 +1149,40 @@ The following transient data elements are defined for this operation:
   * Constraints:
     * In EPP Compatibility Profile, corresponds to `op="report"` as defined in [@!RFC3915].
 
+## Renew Process Object
+
+* Name: Renew Process Object
+* Identifier: renewProcess
+* Description: Represents a renew request for a provisioned object. Creating this object initiates a renewal process that extends the registration period of the object. Reading this object returns the new expiry date if the renewal has been completed.
+* Data Elements:
+  * Expiry Date
+    * Identifier: expiryDate
+    * Cardinality: 0-1
+    * Mutability: create-only
+    * Data Type: Timestamp
+    * Description: The current expiry date of the object. The server MUST validate this against the object's current `expiryDate` to prevent unintended duplicate renewals.
+  * Renewal Period
+    * Identifier: renewalPeriod
+    * Cardinality: 0-1
+    * Mutability: create-only
+    * Data Type: Period Object
+    * Description: The duration to be added to the object's registration period. This value is used by the server to calculate the new `expiryDate`. The default value MAY be defined by server policy. The number of units available MAY be subject to limits imposed by the server.
+
+### Operations
+
+#### Create (Renew Request) {#renew-create}
+
+* Identifier: renewCreate
+
+The renew operation extends the validity period of an existing object by creating a Renew Process Object.
+
+* Input:
+  * Owner Data Object reference
+  * Renew Process Object (create-only and read-write elements)
+* Output: Full object (read-write and read-only properties), or a minimum set of properties affected by the operation (Expiry Date).
+
+* Authorisation:
+  * Only the sponsoring client is authorised to perform this operation.
 
 # Domain Name Data Object
 
@@ -1338,31 +1376,18 @@ The server SHOULD reject a delete request if subordinate host objects are associ
 
 The error response SHOULD indicate the related subordinate host objects.
 
-### Renew Operation
+### Renew Operations
 
-* Identifier: renew
+The Domain Name Data Object supports the renew operations defined in the (#renew-ops). The renewal of a domain name changes the expiry date of the domain object.
+
+#### Renew Create Operation
+
+* Identifier: renewCreate
 
 The Renew operation allows a client to extend the validity period of an existing Domain Name resource. The operation targets a specific data object identified by its name.
 
 * Authorisation:
   * Only sponsoring client is authorised to perform this operation
-
-* Input: Domain Name
-* Output: Full object (read-write and read-only properties), or a minimum set of properties affected by the operation (Expiry Date).
-
-The following transient data elements are defined for this operation:
-
-* Current Expiry Date
-  * Identifier: currentExpiryDate
-  * Cardinality: 1
-  * Data Type: Timestamp
-  * Description: The current expiry date of the domain name. The server MUST validate this against the object's current `expiryDate` to prevent unintended duplicate renewals.
-
-* Renewal Period
-  * Identifier: renewalPeriod
-  * Cardinality: 0-1
-  * Data Type: Period Object
-  * Description: The duration to be added to the object's registration period. This value is used by the server to calculate the new `expiryDate`. The default value MAY be defined by server policy. The number of units available MAY be subject to limits imposed by the server.
 
 ### Transfer Operations
 
@@ -1863,6 +1888,32 @@ Parameters
 | ---------- | ------ | ----- | --------- | ------------------------------------------------------------- |
 | reason     | Reason | 0-1   | String    | A human-readable text describing the rationale for rejection. |
 
+
+Object: renewProcess
+
+Object Name: Renew Process Object
+
+Object Type: Process
+
+Description: Represents a renewal request for a provisioned object. Creating this object initiates the renewal
+
+Reference: [This-ID]
+
+Data Elements
+| Element Identifier | Element Name         | Card. | Mutability  | Data Type         | Description                                                                                     |
+| ------------------ | -------------------- | ----- | ----------- | ----------------- | ----------------------------------------------------------------------------------------------- |
+| expiryDate        | Expiry Date          | 0-1   | read-only | Timestamp            | The expiry date of the object after the renewal is completed. |
+
+Operations
+
+Operation: Create
+
+Operation Identifier: renewCreate
+
+Description: Initiates a renewal of a provisioned object by creating a Renew Process Object. 
+
+Parameters: (None)
+
 Object: disclose
 
 Object Name: Disclose
@@ -2152,7 +2203,7 @@ A> TODO: write security considerations, if any
 {numbered="false"}
 ## draft-kowalik-rpp-data-objects -04 - -05
 
-
+* Added Renew Process Object and operations (Issue #76)
 
 {toc="exclude"}
 {numbered="false"}
