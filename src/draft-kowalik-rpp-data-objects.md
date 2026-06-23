@@ -324,7 +324,7 @@ An external data type is any type, structure, or format that is normatively defi
 ## Referencing External Data Types
 
 When this document or any RPP specification references an external data type, the reference MUST follow the requirements and guidelines for references described in [@!RFC2026]. The reference MUST include a clear description of the specific type or structure being used. For example, if referencing the JSContact format defined in [@!RFC9553], the reference should specify that the `Card` data type is being used.
-The reference MUST use the following format: `External:<specification-identifier>:<type-name>`. For example, `External:RPP-JSContact-Profile:Card` indicates that the `Card` type from the RPP JSContact Profile specification is being used. The syntax for the reference is defined using ABNF as follows:
+The reference MUST use the following format: `External:<specification-identifier>:<type-name>`. For example, `External:RPP-JSContact-Profile:Card` indicates that the `Card` type from the RPP JSContact Profile specification is being used. The syntax for the reference is defined using ABNF [@!RFC5234] as follows:
 
 ```
 identifier = "External:" TYPEID ":" TYPEID
