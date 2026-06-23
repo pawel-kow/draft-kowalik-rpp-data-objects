@@ -329,8 +329,7 @@ The reference MUST use the following format: `External:<specification-identifier
 ```
 identifier = "External:" TYPEID ":" TYPEID
 
-TYPEID = ALPHA *(ALPHA / DIGIT / SP) (ALPHA / DIGIT)
-       / ALPHA
+TYPEID = ALPHA *( ALPHA / DIGIT / "-" / "_" )
 ```
 
 ## Versioning and Compatibility
