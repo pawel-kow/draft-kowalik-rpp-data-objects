@@ -324,7 +324,14 @@ An external data type is any type, structure, or format that is normatively defi
 ## Referencing External Data Types
 
 When this document or any RPP specification references an external data type, the reference MUST follow the requirements and guidelines for references described in [@!RFC2026]. The reference MUST include a clear description of the specific type or structure being used. For example, if referencing the JSContact format defined in [@!RFC9553], the reference should specify that the `Card` data type is being used.
-The reference MUST use the following format: `External:<specification-identifier>:<type-name>`. For example, `External:JSContact:Card` indicates that the `Card` type from the JSContact specification is being used.
+The reference MUST use the following format: `External:<specification-identifier>:<type-name>`. For example, `External:RPP-JSContact-Profile:Card` indicates that the `Card` type from the RPP JSContact Profile specification is being used. The syntax for the reference is defined using ABNF as follows:
+
+```
+identifier = "External:" TYPEID ":" TYPEID
+
+TYPEID = ALPHA *(ALPHA / DIGIT / SP) (ALPHA / DIGIT)
+       / ALPHA
+```
 
 ## Versioning and Compatibility
 
@@ -333,7 +340,12 @@ If a newer version updates the defining specification, the RPP specification MUS
 
 ## JSContact
 
-This specification references the RPP JSContact Profile for RPP defined in [@!I-D.wullink-rpp-jscontact-profile] as an external specification for representing contact information. RPP implementations MUST use JSContact Card objects (the `Card` data type defined in [@!RFC9553]) for the representation of contact information within RPP data objects such as the Contact object defined in this specification.
+This specification references the RPP JSContact Profile for RPP defined in [@!I-D.wullink-rpp-jscontact-profile] as an external specification for representing contact information. The JSContact `Card` data type defined in [@!RFC9553] MUST be used for the representation of contact information. When referring to this type the following values MUST be used in the Data Type reference identifiers:
+
+specification-identifier: RPP-JSContact-Profile
+type-name: Card
+Data Type: External:RPP-JSContact-Profile:Card
+
 
 # Common Data Types
 
@@ -1435,7 +1447,7 @@ The following data elements are defined for the Domain Name Data Object.
   * Identifier: contactInfo
   * Cardinality: 1-2
   * Mutability: read-write
-  * Data Type: External:JSContact:Card
+  * Data Type: xternal:RPP-JSContact-Profile:Card
   * Description: Contains contact information.
 
 * Authorisation Information
@@ -2044,7 +2056,7 @@ Data Elements
 | id           | Handle ID                 | 1     | create-only | Identifier.                                | External unique identifier of the contact object.                                                                       |
 | provMetadata | Provisioning Metadata     | 1     | read-only   | Provisioning Metadata Object               | Standard metadata about the object's lifecycle and ownership.                                                           |
 | status       | Status                    | 0+    | read-only   | Status Object                              | Status descriptors associated with the contact.                                                             |
-| contactInfo  | Contact Information       | 1-2   | read-write  | External:JSContact:Card.                   | JSContact Card information.                                                                                    |
+| contactInfo  | Contact Information       | 1-2   | read-write  | External:RPP-JSContact-Profile:Card       | JSContact Card information.                                                                                    |
 | voice        | Voice Phone Number        | 0+    | read-write  | Phone Number                               | Voice phone number associated with the contact                                                                          |
 | fax          | Fax Phone Number          | 0+    | read-write  | Phone Number                               | Fax number associated with the contact                                                                                  |
 | email        | E-mail                    | 0+    | read-write  | String.                                    | Email address.                                                                                            |
@@ -2172,6 +2184,17 @@ A> TODO: write security considerations, if any
 * add examples of associations #31
 
 {backmatter}
+
+<reference anchor="I-D.wullink-rpp-jscontact-profile">
+  <front>
+    <title>JSContact Profile for the RESTful Provisioning Protocol (RPP)</title>
+    <author initials="M." surname="Wullink" fullname="Maarten Wullink">
+      <organization>SIDN Labs</organization>
+    </author>
+    <date year="2026"/>
+  </front>
+  <seriesInfo name="Internet-Draft" value="draft-wullink-rpp-jscontact-profile"/>
+</reference>
 
 <reference anchor="ISO3166-1">
   <front>
