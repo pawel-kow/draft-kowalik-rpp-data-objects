@@ -315,6 +315,37 @@ To address this, this document defines an "EPP Compatibility Profile". This prof
 
 Throughout this document, all constraints that are part of this profile are explicitly marked with a reference to "EPP Compatibility Profile". Implementers of systems in a mixed EPP/RPP environment MUST follow these specific constraints in addition to the base RPP requirements.
 
+# External Data Types
+
+The RPP object model is designed to be extensible and interoperable with existing standards. To reduce redundancy and improve consistency, RPP data objects MAY incorporate data types and structures defined in external specifications rather than redefining equivalent types within this specification.
+
+An external data type is any type, structure, or format that is normatively defined in a separate standards document and referenced by this specification. When an external data type is used, RPP implementations MUST conform to the semantics, constraints, and encoding rules defined in the originating specification.
+
+## Referencing External Data Types
+
+When this document or any RPP specification references an external data type, the reference MUST follow the requirements and guidelines for references described in [@!RFC2026]. The reference MUST include a clear description of the specific type or structure being used. For example, if referencing the JSContact format defined in [@!RFC9553], the reference should specify that the `Card` data type is being used.
+The reference MUST use the following format: `External:<specification-identifier>:<type-name>`. For example, `External:RPP-JSContact-Profile:Card` indicates that the `Card` type from the RPP JSContact Profile specification is being used. The syntax for the reference is defined using ABNF [@!RFC5234] as follows:
+
+```
+identifier = "External:" TYPEID ":" TYPEID
+
+TYPEID = ALPHA *( ALPHA / DIGIT / "-" / "_" )
+```
+
+## Versioning and Compatibility
+
+External data types are versioned by the specification that defines them. The RPP specifications are pinned to a single version of an external type.
+If a newer version updates the defining specification, the RPP specification MUST be updated to indicate explicit support.
+
+## JSContact
+
+This specification references the RPP JSContact Profile for RPP defined in [@!I-D.wullink-rpp-jscontact-profile] as an external specification for representing contact information. The JSContact `Card` data type defined in [@!RFC9553] MUST be used for the representation of contact information. When referring to this type the following values MUST be used in the Data Type reference identifiers:
+
+specification-identifier: RPP-JSContact-Profile
+type-name: Card
+Data Type: External:RPP-JSContact-Profile:Card
+
+
 # Common Data Types
 
 This section defines new shared data types and structures that are re-used across multiple data object definitions and are based on the existing Primitive Data Types.
@@ -807,97 +838,6 @@ A> TBC: Optional keyData inside dsData (RFC 5910 Section 4.1): In the DS Data In
     * Constraints: 
       * Authorisation Information object is immutable. If the information changes (for example password is updated) a new instance MUST be created.
       * Depending on the method and server policy Authorisation Information MAY not be available for read or any other operation responding with this data element.
-
-## Postal Address Object
-
-* Name: Postal Address Object
-* Identifier: postalData
-* Description: Contains the components of a postal address.
-* Data Elements:
-  * Street
-    * Identifier: street
-    * Cardinality: 0+
-    * Mutability: read-write
-    * Data Type: String
-    * Description: Street address.
-    * Constraints: Implementations MAY limit the maximum length of entries or character set.
-  * City
-    * Identifier: city
-    * Cardinality: 0-1
-    * Mutability: read-write
-    * Data Type: String
-    * Description: City.
-    * Constraints:
-      * Implementations MAY limit the maximum length of entries or character set.
-      * In EPP Compatibility Profile this data element MUST be provided.
-  * State/Province
-    * Identifier: sp
-    * Cardinality: 0-1
-    * Mutability: read-write
-    * Data Type: String
-    * Description: State or province.
-    * Constraints: Implementations MAY limit the maximum length of entries or character set.
-  * Postal Code
-    * Identifier: pc
-    * Cardinality: 0-1
-    * Mutability: read-write
-    * Data Type: String
-    * Description: Postal code.
-    * Constraints:
-      * Implementation MAY limit the maximum length of entries or character set.
-      * The limitations MAY differ depending on Country Code (`cc`) data element.
-  * Country Code
-    * Identifier: cc
-    * Cardinality: 0-1
-    * Mutability: read-write
-    * Data Type: String
-    * Description: Country code.
-    * Constraints: 
-      * The value MUST be a two-character identifier from [@!ISO3166-1].
-      * In EPP Compatibility Profile this data element MUST be provided.
-
-## Postal Info Object
-
-* Name: Postal Info Object
-* Identifier: postalInfo
-* Description: Contains postal-address information in either internationalised or localised forms.
-* Data Elements:
-
-A> TBC: Contact Type is not localised (shall be the same for PERSON and ORG). Moving it level up would however detach it from related/dependant fields Name/Organisation
-
-  * Contact Type
-    * Identifier: type 
-    * Cardinality: 0-1
-    * Mutability: read-write
-    * Data Type: String
-    * Description: Specifies whether the contact is and individual or an organisation.
-    * Constraints: The value MUST be one of: "PERSON" (individual) or "ORG" (organisation).
-  * Name
-    * Identifier: name
-    * Cardinality: 0-1
-    * Mutability: read-write
-    * Data Type: String
-    * Description: The name of the individual or role.
-    * Constraints:
-      * Implementations MAY limit the maximum length of entries or character set.
-      * In EPP Compatibility Profile this data element MUST be provided.
-      * The implementations MAY require this field if Contact Type (`type`) is set to "PERSON".
-  * Organisation
-    * Identifier: org
-    * Cardinality: 0-1
-    * Mutability: read-write
-    * Data Type: String
-    * Description: The name of the organisation.
-    * Constraints:
-      * Implementations MAY limit the maximum length of entries or character set.
-      * The implementations MAY require this field if Contact Type (`type`) is set to "ORG".
-  * Address
-    * Identifier: addr
-    * Cardinality: 0-1
-    * Mutability: read-write
-    * Data Type: Postal Address Object
-    * Description: The detailed postal address.
-    * Constraints: In EPP Compatibility Profile this data element MUST be provided.
 
 ## Disclose Object
 
@@ -1502,39 +1442,12 @@ The following data elements are defined for the Domain Name Data Object.
     * The value MUST be one of the status tokens defined in the IANA registry for domain statuses.
     * The initial value list MAY be as defined in [@!RFC5733]. In this case the values MUST have the same semantics.
 
-* Postal Information
-  * Identifier: postalInfo
+* Contact Information
+  * Identifier: contactInfo
   * Cardinality: 1-2
   * Mutability: read-write
-  * Data Type: DictionaryComposition[Postal Info Object]
-    * Label Description: type of contact data localisation
-    * Label Constraints: Allowed values: "int" for "internationalised" all-ASCII version of an address and "loc" for localised forms with possible non-ASCII character sets.
-  * Description: Postal-address information.
-  * Constraints: There MUST be no more that 1 element of type "int" and one element of type "loc".
-
-* Voice Phone Number
-  * Identifier: voice
-  * Cardinality: 0+
-  * Mutability: read-write
-  * Data Type: Phone Number
-  * Description: Voice phone number associated with the contact
-  * Constraints: (None)
-
-* Fax Phone Number
-  * Identifier: fax
-  * Cardinality: 0+
-  * Mutability: read-write
-  * Data Type: Phone Number
-  * Description: Fax number associated with the contact
-  * Constraints: (None)
-
-* E-mail
-  * Identifier: email
-  * Cardinality: 0+
-  * Mutability: read-write
-  * Data Type: String.
-  * Description: Email address.
-  * Constraints: Email address syntax is defined in [@!RFC5322].
+  * Data Type: External:RPP-JSContact-Profile:Card
+  * Description: Contains contact information.
 
 * Authorisation Information
   * Identifier: authInfo
@@ -1567,7 +1480,7 @@ The Create operation allows a client to provision a new Contact resource. The op
 In EPP Compatibility Profile, the following data elements MUST be provided:
 
 * Handle ID (`id`)
-* At least one Postal Information entry (`postalInfo`) containing a Name (`name`) and an Address (`addr`) with City (`city`) and Country Code (`cc`)
+* At least one Contact Information entry (`contactInfo`) containing a Name (`name`) and an Address (`addr`) with City (`city`) and Country Code (`cc`)
 * E-mail (`email`)
 * Authorisation Information (`authInfo`)
 
@@ -1602,7 +1515,7 @@ The Update operation allows a client to modify the attributes of an existing Con
 The following aspects of the contact object MAY be modified:
 
 * Status values that are client-manageable (prefixed with "client") MAY be added or removed.
-* Postal Information, Voice Phone Number, Fax Phone Number, E-mail, Authorisation Information, and Disclose preferences MAY be changed.
+* Contact Information, Voice Phone Number, Fax Phone Number, E-mail, Authorisation Information, and Disclose preferences MAY be changed.
 
 A client MUST NOT add, delete or alter values for statuses managed by the server (prefixed with "server"). A server MAY add, delete or alter status values set by a client, subject to server policy.
 
@@ -1950,43 +1863,6 @@ Parameters
 | ---------- | ------ | ----- | --------- | ------------------------------------------------------------- |
 | reason     | Reason | 0-1   | String    | A human-readable text describing the rationale for rejection. |
 
-Object: postalData
-
-Object Name: Postal Address Object
-
-Object Type: Component
-
-Description: Contains the components of a postal address.
-
-Reference: [This-ID]
-
-Data Elements
-| Element Identifier | Element Name   | Card. | Mutability | Data Type | Description                      |
-| ------------------ | -------------- | ----- | ---------- | --------- | -------------------------------- |
-| street             | Street         | 0+    | read-write | String    | Street address.    |
-| city               | City           | 0-1   | read-write | String    | City.              |
-| sp                 | State/Province | 0-1   | read-write | String    | State or province. |
-| pc                 | Postal Code    | 0-1   | read-write | String    | Postal code.       |
-| cc                 | Country Code   | 0-1   | read-write | String    | Country code.      |
-
-Object: postalInfo
-
-Object Name: Postal Info Object
-
-Object Type: Component
-
-Description: Contains postal-address information in either internationalised or localised forms.
-
-Reference: [This-ID]
-
-Data Elements
-| Element Identifier | Element Name | Card. | Mutability | Data Type             | Description                                                         |
-| ------------------ | ------------ | ----- | ---------- | --------------------- | ------------------------------------------------------------------- |
-| type               | Contact Type | 0-1   | read-write | String                | Specifies whether the contact is and individual or an organisation. |
-| name               | Name         | 0-1   | read-write | String                | The name of the individual or role.                                 |
-| org                | Organisation | 0-1   | read-write | String                | The name of the organisation.                                       |
-| addr               | Address      | 0-1   | read-write | Postal Address Object | The detailed postal address.                                        |
-
 Object: disclose
 
 Object Name: Disclose
@@ -2179,7 +2055,7 @@ Data Elements
 | id           | Handle ID                 | 1     | create-only | Identifier.                                | External unique identifier of the contact object.                                                                       |
 | provMetadata | Provisioning Metadata     | 1     | read-only   | Provisioning Metadata Object               | Standard metadata about the object's lifecycle and ownership.                                                           |
 | status       | Status                    | 0+    | read-only   | Status Object                              | Status descriptors associated with the contact.                                                             |
-| postalInfo   | Postal Information        | 1-2   | read-write  | DictionaryComposition [Postal Info Object] | Postal-address information.                                                                                    |
+| contactInfo  | Contact Information       | 1-2   | read-write  | External:RPP-JSContact-Profile:Card       | JSContact Card information.                                                                                    |
 | voice        | Voice Phone Number        | 0+    | read-write  | Phone Number                               | Voice phone number associated with the contact                                                                          |
 | fax          | Fax Phone Number          | 0+    | read-write  | Phone Number                               | Fax number associated with the contact                                                                                  |
 | email        | E-mail                    | 0+    | read-write  | String.                                    | Email address.                                                                                            |
@@ -2282,8 +2158,7 @@ A> TODO: write security considerations, if any
 {numbered="false"}
 ## draft-kowalik-rpp-data-objects -03 - -04
 
-* correct `"postalInfo"` to be DictionaryComposition not DictionaryAggregation
-* Added missing IANA tables for Contact, Postal Address and Postal Info. Added missing Operations. Added missing operation identifiers. Fixes #17, #18, #19, #20, #21.
+* Add External Data Types section and JSContact (Issue #83)
 
 {toc="exclude"}
 {numbered="false"}
@@ -2314,6 +2189,17 @@ A> TODO: write security considerations, if any
 * add examples of associations #31
 
 {backmatter}
+
+<reference anchor="I-D.wullink-rpp-jscontact-profile">
+  <front>
+    <title>JSContact Profile for the RESTful Provisioning Protocol (RPP)</title>
+    <author initials="M." surname="Wullink" fullname="Maarten Wullink">
+      <organization>SIDN Labs</organization>
+    </author>
+    <date year="2026"/>
+  </front>
+  <seriesInfo name="Internet-Draft" value="draft-wullink-rpp-jscontact-profile"/>
+</reference>
 
 <reference anchor="ISO3166-1">
   <front>
