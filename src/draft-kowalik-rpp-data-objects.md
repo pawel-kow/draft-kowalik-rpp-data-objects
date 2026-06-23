@@ -1447,7 +1447,7 @@ The following data elements are defined for the Domain Name Data Object.
   * Identifier: contactInfo
   * Cardinality: 1-2
   * Mutability: read-write
-  * Data Type: xternal:RPP-JSContact-Profile:Card
+  * Data Type: External:RPP-JSContact-Profile:Card
   * Description: Contains contact information.
 
 * Authorisation Information
