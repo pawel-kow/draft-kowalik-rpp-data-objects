@@ -1823,8 +1823,8 @@ The following data elements are defined for the Organisation Data Object.
   * Identifier: parentId
   * Cardinality: 0-1
   * Mutability: read-write
-  * Data Type: Identifier
-  * Description: The identifier of the parent organisation in a hierarchical organisation structure (e.g., a reseller's parent registrar).
+  * Data Type: Organisation Data Object Reference
+  * Description: The reference to the parent organisation in a hierarchical organisation structure (e.g., a reseller's parent registrar).
   * Constraints:
     * Loops MUST be prohibited. If organisation A has organisation B as its parent, organisation B MUST NOT have organisation A as its parent, directly or transitively.
 
@@ -1852,7 +1852,7 @@ A> TODO: how handle the "custom" contact type?
   * Identifier: users
   * Cardinality: 0+
   * Mutability: read-write
-  * Data Type: DictionaryComposition[User Object Reference]
+  * Data Type: LabelledComposition[User Object Reference]
     * Label Description: RBAC role of the user
     * Label Constraints: The value MUST be one of the role types registered in the IANA "RPP User Role Values" registry.
   * Description: One or more RBAC roles assigned to the user.
@@ -1871,7 +1871,7 @@ A> TODO: define an IANA registry for user roles?
 The Create operation allows a client to provision a new Organisation Data Object. The operation accepts as input all create-only and read-write data elements defined for the Organisation Data Object.
 
 * Authorisation:
-  * Generally each client is authorised to create new organisation objects, becoming the sponsoring client. This MAY be constrained by server policy.
+  * Generally only registry clients are authorised to create new organisation objects.
 
 An organisation object MUST include at least one role on creation. The server MAY defer completing the action and return a `pendingCreate` status if human or third-party review is required.
 
@@ -1891,7 +1891,7 @@ The Read operation allows a client to retrieve the data elements of an Organisat
 The Update operation allows a client to modify the attributes of an existing Organisation Data Object.
 
 * Authorisation:
-  * Only the sponsoring client is authorised to perform this operation.
+  * Generally only registry clients are authorised to update organisation objects.
 
 The following aspects of the organisation object MAY be modified:
 
@@ -1910,7 +1910,7 @@ A client MUST NOT add, delete, or alter values for statuses managed by the serve
 The Delete operation allows a client to remove an existing Organisation Data Object. The operation targets a specific data object identified by its Organisation ID.
 
 * Authorisation:
-  * Only the sponsoring client is authorised to perform this operation.
+  * Generally only registry clients are authorised to delete organisation objects.
 
 An organisation object MUST NOT be deleted if it is associated with other known objects (e.g., domain names, contacts, or child organisations). The server MUST reject such a delete request and notify the client that object relationships exist.
 
@@ -1951,6 +1951,13 @@ The following data elements are defined for the User Data Object.
     * Constraints: Possible values include `active`, `suspended`, `deactivated`, and `pending`.
   * Description: The status of the user
   * Constraints: -
+* Organisation ID
+  * Identifier: organisationId
+  * Cardinality: 1
+  * Mutability: read-only
+  * Data Type: Organisation Data Object Reference
+  * Description: A reference to the owner organisation object.
+  * Constraints: -
 
 A> TODO: what other data elements should be included for the User Data Object?
 
@@ -1963,7 +1970,7 @@ A> TODO: what other data elements should be included for the User Data Object?
 The Create operation creates a new user, which is not associated with any existing Owner Object. The operation accepts as input all create-only and read-write data elements of the User Object.
 
 * Authorisation:
-  * Server policy determines which clients are authorised to create users in the context of a given Owner Object.
+  * Server policy determines which clients are authorised to create users in the context of the organisation linked to the client.
 
 ### Read Operation
 
@@ -1972,7 +1979,7 @@ The Create operation creates a new user, which is not associated with any existi
 The Read operation retrieves the data of a specific User Object.
 
 * Authorisation:
-  * Server policy determines which clients are authorised to read users in the context of a given Owner Object.
+  * Server policy determines which clients are authorised to read users in the context of the organisation linked to the client.
 
 ### Update Operation
 
@@ -1981,7 +1988,7 @@ The Read operation retrieves the data of a specific User Object.
 The Update operation modifies the read-write data elements.
 
 * Authorisation:
-  * Server policy determines which clients are authorised to update users.
+  * Server policy determines which clients are authorised to update users in the context of the organisation linked to the client.
 
 ### Delete Operation
 
@@ -1990,7 +1997,7 @@ The Update operation modifies the read-write data elements.
 The Delete operation removes a specific User Object
 
 * Authorisation:
-  * Server policy determines which clients are authorised to delete users.
+  * Server policy determines which clients are authorised to delete users in the context of the organisation linked to the client.
 
 The server MUST reject this operation if the User is associated with an Organisation Object.
 
@@ -2566,7 +2573,7 @@ Data Elements
 | parentId     | Parent Organisation ID | 0-1   | read-write  | Identifier                                        | The identifier of the parent organisation in a hierarchical organisation structure.                      |
 | contactInfo   | Contact Information     | 0-1   | read-write  | DictionaryComposition [Contact Data Object]        | Contact information
 | contacts     | Contacts               | 0+    | read-write  | DictionaryComposition [Contact Data Object References]       | Identifiers of contact objects associated with the organisation.                                         |
-| users        | Users                  | 0+    | read-write  | DictionaryComposition [User Data Object References]          | Identifiers of user objects associated with the organisation.                                         |
+| users        | Users                  | 0+    | read-write  | LabelledComposition [User Data Object References]          | Identifiers of user objects associated with the organisation.                                         |
 
 Operations
 
