@@ -1811,7 +1811,7 @@ The following data elements are defined for the Organisation Data Object.
     * Role types are registered in the IANA "EPP Organisation Role Values" registry as defined in [@!RFC8543, section 7.3]. Initial values include `registrar`, `reseller`, `privacyproxy`, and `dns-operator`.
 
 * Parent Organisation ID
-  * Identifier: parentId
+  * Identifier: parent
   * Cardinality: 0-1
   * Mutability: read-write
   * Data Type: Organisation Data Object
@@ -1830,7 +1830,7 @@ The following data elements are defined for the Organisation Data Object.
   * Identifier: contacts
   * Cardinality: 0+
   * Mutability: read-write
-  * Data Type: DictionaryComposition[External:RPP-JSContact-Profile:Card Object]
+  * Data Type: LabelledAggregation[External:RPP-JSContact-Profile:Card Object]
     * Label Description: type of contact
     * Label Constraints: The value MUST be one of the contact types registered in the IANA "EPP Organisation Contact Types" registry as defined in [@!RFC8543, section 7.4]. Initial values include `admin`, `tech`, `billing`, `abuse`, and `custom`.  
   * Description: Identifiers of contact objects associated with the organisation.
@@ -1926,12 +1926,19 @@ The following data elements are defined for the User Data Object.
   * Data Type: Identifier
   * Description: A unique identifier for the user
   * Constraints: MUST be globally unique in the server scope
-* Name
-  * Identifier: name
+* Details
+  * Identifier: details
   * Cardinality: 1
-  * Mutability: create-only
+  * Mutability: read-write
+  * Data Type: External:RPP-JSContact-Profile:Card
+  * Description: The details of the user, such as name, email, and phone number
+  * Constraints: -
+* Description
+  * Identifier: description
+  * Cardinality: 0-1
+  * Mutability: read-write
   * Data Type: String
-  * Description: The name of the user
+  * Description: A description of the user
   * Constraints: -
 * Status
   * Identifier: status
