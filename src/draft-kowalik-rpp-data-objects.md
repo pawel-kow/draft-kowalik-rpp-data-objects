@@ -1843,7 +1843,7 @@ A> TODO: how handle the "custom" contact type?
   * Identifier: users
   * Cardinality: 0+
   * Mutability: read-write
-  * Data Type: LabelledComposition[User Object]
+  * Data Type: LabelledAggregation[User Object]
     * Label Description: RBAC role of the user
     * Label Constraints: The value MUST be one of the role types registered in the IANA "RPP User Role Values" registry.
   * Description: One or more RBAC roles assigned to the user.
@@ -1920,7 +1920,7 @@ The error response SHOULD indicate the related associated objects.
 The following data elements are defined for the User Data Object.
 
 * User Identifier
-  * Identifier: userId
+  * Identifier: id
   * Cardinality: 1
   * Mutability: create-only
   * Data Type: Identifier
@@ -2570,7 +2570,7 @@ Data Elements
 | parent     | Parent Organisation ID | 0-1   | read-write  | Identifier                                        | The identifier of the parent organisation in a hierarchical organisation structure.                      |
 | contactInfo   | Contact Information     | 0-1   | read-write  | External:RPP-JSContact-Profile:Card     | Contact information
 | contacts     | Contacts               | 0+    | read-write  | LabelledAggregation[Contact Object]       | Identifiers of contact objects associated with the organisation.                                         |
-| users        | Users                  | 0+    | read-write  | LabelledComposition [User Data Object]          | Identifiers of user objects associated with the organisation.                                         |
+| users        | Users                  | 0+    | read-write  | LabelledAggregation [User Data Object]          | Identifiers of user objects associated with the organisation.                                         |
 
 Operations
 
@@ -2619,8 +2619,8 @@ Reference: [This-ID]
 Data Elements
 | Identifier | Name            | Card. | Mutability  | Data Type | Description                                                  |
 | ---------- | --------------- | ----- | ----------- | --------- | ------------------------------------------------------------ |
-| userId     | User Identifier | 1     | create-only | Identifier | A unique identifier for the user. MUST be globally unique in the server scope. |
-| name       | Name           | 0-1   | read-write  | String    | The name of the user.                                         |
+| id         | User Identifier | 1     | create-only | Identifier | A unique identifier for the user. MUST be globally unique in the server scope. |
+| details    | Details         | 0-1   | read-write  | External:RPP-JSContact-Profile:Card  | The details of the user.                                         |
 | status     | Status         | 0+    | read-write   | string    | The status of the user. |
 
 Operations
