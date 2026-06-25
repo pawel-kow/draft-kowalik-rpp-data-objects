@@ -971,15 +971,6 @@ A> TODO: Model Disclose in universal (extendible) way
 * Identifier: organisationRole
 * Description: Represents a role that an organisation has within the registry ecosystem, as defined in [@!RFC8543, section 3.2]. An organisation object MUST always have at least one associated role. A single organisation MAY have multiple roles with different role types.
 * Data Elements:
-  * Role Type
-    * Identifier: type
-    * Cardinality: 1
-    * Mutability: read-write
-    * Data Type: String
-    * Description: The type of role the organisation fulfils. Role types are registered in the IANA "EPP Organisation Role Values" registry as defined in [@!RFC8543, section 7.3].
-    * Constraints:
-      * The value MUST be a token registered in the IANA "EPP Organisation Role Values" registry.
-      * Initial registered values are: `registrar`, `reseller`, `privacyproxy`, and `dns-operator`.
   * Role Status
     * Identifier: status
     * Cardinality: 0+
@@ -1798,7 +1789,7 @@ The following data elements are defined for the Organisation Data Object.
 * Status
   * Identifier: status
   * Cardinality: 1+
-  * Mutability: read-only
+  * Mutability: read-write
   * Data Type: Status Object
   * Description: The current operational status descriptors associated with the organisation. An organisation object MUST always have at least one associated status value.
   * Constraints:
@@ -1817,14 +1808,14 @@ The following data elements are defined for the Organisation Data Object.
   * Description: One or more roles describing the relationship the organisation has within the registry ecosystem. An organisation object MUST always have at least one associated role.
   * Constraints:
     * An organisation MAY have multiple roles with different role types.
-    * Role types are registered in the IA NA "EPP Organisation Role Values" registry as defined in [@!RFC8543, section 7.3]. Initial values include `registrar`, `reseller`, `privacyproxy`, and `dns-operator`.
+    * Role types are registered in the IANA "EPP Organisation Role Values" registry as defined in [@!RFC8543, section 7.3]. Initial values include `registrar`, `reseller`, `privacyproxy`, and `dns-operator`.
 
 * Parent Organisation ID
   * Identifier: parentId
   * Cardinality: 0-1
   * Mutability: read-write
-  * Data Type: Organisation Data Object Reference
-  * Description: The reference to the parent organisation in a hierarchical organisation structure (e.g., a reseller's parent registrar).
+  * Data Type: Organisation Data Object
+  * Description: The parent organisation in a hierarchical organisation structure (e.g., a reseller's parent registrar).
   * Constraints:
     * Loops MUST be prohibited. If organisation A has organisation B as its parent, organisation B MUST NOT have organisation A as its parent, directly or transitively.
 
@@ -1832,14 +1823,14 @@ The following data elements are defined for the Organisation Data Object.
   * Identifier: contactInfo
   * Cardinality: 0-1
   * Mutability: read-write
-  * Data Type: JSContact:Card
+  * Data Type: External:RPP-JSContact-Profile:Card
   * Description: Contact information for the organisation. 
 
 * Contacts
   * Identifier: contacts
   * Cardinality: 0+
   * Mutability: read-write
-  * Data Type: DictionaryComposition[JSContact:Card Object Reference]
+  * Data Type: DictionaryComposition[External:RPP-JSContact-Profile:Card Object]
     * Label Description: type of contact
     * Label Constraints: The value MUST be one of the contact types registered in the IANA "EPP Organisation Contact Types" registry as defined in [@!RFC8543, section 7.4]. Initial values include `admin`, `tech`, `billing`, `abuse`, and `custom`.  
   * Description: Identifiers of contact objects associated with the organisation.
@@ -1967,10 +1958,10 @@ A> TODO: what other data elements should be included for the User Data Object?
 
 * Identifier: create
 
-The Create operation creates a new user, which is not associated with any existing Owner Object. The operation accepts as input all create-only and read-write data elements of the User Object.
+The Create operation creates a new user, which is associated with an existing Organisation Object. The operation accepts as input all create-only and read-write data elements of the User Object.
 
 * Authorisation:
-  * Server policy determines which clients are authorised to create users in the context of the organisation linked to the client.
+  * Client can only create users in the context of the organisation linked to the client, and only if the client has the necessary permissions to create users in that organisation.
 
 ### Read Operation
 
@@ -1979,7 +1970,7 @@ The Create operation creates a new user, which is not associated with any existi
 The Read operation retrieves the data of a specific User Object.
 
 * Authorisation:
-  * Server policy determines which clients are authorised to read users in the context of the organisation linked to the client.
+  * Client can only read users in the context of the organisation linked to the client, and only if the client has the necessary permissions to read users in that organisation.
 
 ### Update Operation
 
@@ -1988,7 +1979,7 @@ The Read operation retrieves the data of a specific User Object.
 The Update operation modifies the read-write data elements.
 
 * Authorisation:
-  * Server policy determines which clients are authorised to update users in the context of the organisation linked to the client.
+  * Client can only update users in the context of the organisation linked to the client, and only if the client has the necessary permissions to update users in that organisation.
 
 ### Delete Operation
 
@@ -1997,7 +1988,7 @@ The Update operation modifies the read-write data elements.
 The Delete operation removes a specific User Object
 
 * Authorisation:
-  * Server policy determines which clients are authorised to delete users in the context of the organisation linked to the client.
+  * Client can only delete users in the context of the organisation linked to the client, and only if the client has the necessary permissions to delete users in that organisation.
 
 The server MUST reject this operation if the User is associated with an Organisation Object.
 
@@ -2549,7 +2540,6 @@ Reference: [This-ID]
 Data Elements
 | Element Identifier | Element Name    | Card. | Mutability | Data Type | Description                                                                                                                                      |
 | ------------------ | --------------- | ----- | ---------- | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
-| type               | Role Type       | 1     | read-write | String    | The type of role the organisation fulfils. Values are registered in the IANA "EPP Organisation Role Values" registry as defined in [@!RFC8543].  |
 | status             | Role Status     | 0+    | read-write | String    | The status of this role. Allowed values: `ok`, `linked`, `clientLinkProhibited`, `serverLinkProhibited`.                                         |
 | roleId             | Role Identifier | 0-1   | read-write | String    | A third-party-assigned identifier for this role, such as an IANA registrar ID.                                                                   |
 
@@ -2659,6 +2649,23 @@ Operation Identifier: delete
 Description: Removes a specific User Object.
 
 Parameters: (None)
+
+## RPP User Role Values Registry
+
+This document establishes the "RESTful Provisioning Protocol (RPP) User Role Values Registry". This registry serves as a catalogue of all user role values used within RPP.
+
+```text
+Name of the registry: RPP User Role Values
+Registry group: RESTful Provisioning Protocol (RPP)
+Registration procedure: Expert Review
+```
+
+Fields to be registered:
+
+- `name`: The name of the user role, for example "RPP example role".
+- `url`: The URL for the user role specification, for example "https://www.iana.org/assignments/rpp-user-roles/rpp-example-role-1.0".
+- `permission`: The permission level associated with the user role, for example "read-only", "read-write", or "admin".
+- `description`: A human-readable description of the user role and its intended use.
 
 # Security Considerations
 
