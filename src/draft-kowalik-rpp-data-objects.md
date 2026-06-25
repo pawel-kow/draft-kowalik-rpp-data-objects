@@ -1830,7 +1830,7 @@ The following data elements are defined for the Organisation Data Object.
   * Identifier: contacts
   * Cardinality: 0+
   * Mutability: read-write
-  * Data Type: LabelledAggregation[External:RPP-JSContact-Profile:Card Object]
+  * Data Type: LabelledAggregation[Contact Object]
     * Label Description: type of contact
     * Label Constraints: The value MUST be one of the contact types registered in the IANA "EPP Organisation Contact Types" registry as defined in [@!RFC8543, section 7.4]. Initial values include `admin`, `tech`, `billing`, `abuse`, and `custom`.  
   * Description: Identifiers of contact objects associated with the organisation.
@@ -1843,7 +1843,7 @@ A> TODO: how handle the "custom" contact type?
   * Identifier: users
   * Cardinality: 0+
   * Mutability: read-write
-  * Data Type: LabelledComposition[User Object Reference]
+  * Data Type: LabelledComposition[User Object]
     * Label Description: RBAC role of the user
     * Label Constraints: The value MUST be one of the role types registered in the IANA "RPP User Role Values" registry.
   * Description: One or more RBAC roles assigned to the user.
@@ -2567,10 +2567,10 @@ Data Elements
 | provMetadata | Provisioning Metadata  | 1     | read-only   | Provisioning Metadata Object                      | Standard metadata about the object's lifecycle and ownership.                                            |
 | status       | Status                 | 1+    | read-only   | Status Object                                     | The current operational status descriptors for the organisation.                                         |
 | roles        | Roles                  | 1+    | read-write  | DictionaryComposition [Organisation Role Object]  | One or more roles describing the organisation's relationship within the registry ecosystem.              |
-| parentId     | Parent Organisation ID | 0-1   | read-write  | Identifier                                        | The identifier of the parent organisation in a hierarchical organisation structure.                      |
-| contactInfo   | Contact Information     | 0-1   | read-write  | DictionaryComposition [Contact Data Object]        | Contact information
-| contacts     | Contacts               | 0+    | read-write  | DictionaryComposition [Contact Data Object References]       | Identifiers of contact objects associated with the organisation.                                         |
-| users        | Users                  | 0+    | read-write  | LabelledComposition [User Data Object References]          | Identifiers of user objects associated with the organisation.                                         |
+| parent     | Parent Organisation ID | 0-1   | read-write  | Identifier                                        | The identifier of the parent organisation in a hierarchical organisation structure.                      |
+| contactInfo   | Contact Information     | 0-1   | read-write  | External:RPP-JSContact-Profile:Card     | Contact information
+| contacts     | Contacts               | 0+    | read-write  | LabelledAggregation[Contact Object]       | Identifiers of contact objects associated with the organisation.                                         |
+| users        | Users                  | 0+    | read-write  | LabelledComposition [User Data Object]          | Identifiers of user objects associated with the organisation.                                         |
 
 Operations
 
