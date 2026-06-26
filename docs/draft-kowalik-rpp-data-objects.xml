@@ -306,6 +306,34 @@ The data type of a data element may also be a reference to another data object, 
 </section>
 </section>
 
+<section anchor="external-data-types"><name>External Data Types</name>
+<t>The RPP object model is designed to be extensible and interoperable with existing standards. To reduce redundancy and improve consistency, RPP data objects MAY incorporate data types and structures defined in external specifications rather than redefining equivalent types within this specification.</t>
+<t>An external data type is any type, structure, or format that is normatively defined in a separate standards document and referenced by this specification. When an external data type is used, RPP implementations MUST conform to the semantics, constraints, and encoding rules defined in the originating specification.</t>
+
+<section anchor="referencing-external-data-types"><name>Referencing External Data Types</name>
+<t>When this document or any RPP specification references an external data type, the reference MUST follow the requirements and guidelines for references described in <xref target="RFC2026"></xref>. The reference MUST include a clear description of the specific type or structure being used. For example, if referencing the JSContact format defined in <xref target="RFC9553"></xref>, the reference should specify that the <tt>Card</tt> data type is being used.
+The reference MUST use the following format: <tt>External:&lt;specification-identifier&gt;:&lt;type-name&gt;</tt>. For example, <tt>External:RPP-JSContact-Profile:Card</tt> indicates that the <tt>Card</tt> type from the RPP JSContact Profile specification is being used. The syntax for the reference is defined using ABNF <xref target="RFC5234"></xref> as follows:</t>
+
+<artwork><![CDATA[identifier = "External:" TYPEID ":" TYPEID
+
+TYPEID = ALPHA *( ALPHA / DIGIT / "-" / "_" )
+]]>
+</artwork>
+</section>
+
+<section anchor="versioning-and-compatibility"><name>Versioning and Compatibility</name>
+<t>External data types are versioned by the specification that defines them. The RPP specifications are pinned to a single version of an external type.
+If a newer version updates the defining specification, the RPP specification MUST be updated to indicate explicit support.</t>
+</section>
+
+<section anchor="jscontact"><name>JSContact</name>
+<t>This specification references the RPP JSContact Profile for RPP defined in <xref target="I-D.wullink-rpp-jscontact-profile"></xref> as an external specification for representing contact information. The JSContact <tt>Card</tt> data type defined in <xref target="RFC9553"></xref> MUST be used for the representation of contact information. When referring to this type the following values MUST be used in the Data Type reference identifiers:</t>
+<t>specification-identifier: RPP-JSContact-Profile
+type-name: Card
+Data Type: External:RPP-JSContact-Profile:Card</t>
+</section>
+</section>
+
 <section anchor="common-data-types"><name>Common Data Types</name>
 <t>This section defines new shared data types and structures that are re-used across multiple data object definitions and are based on the existing Primitive Data Types.</t>
 
@@ -930,151 +958,6 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 </ul>
 </section>
 
-<section anchor="postal-address-object"><name>Postal Address Object</name>
-
-<ul spacing="compact">
-<li>Name: Postal Address Object</li>
-<li>Identifier: postalData</li>
-<li>Description: Contains the components of a postal address.</li>
-<li><t>Data Elements:</t>
-
-<ul spacing="compact">
-<li><t>Street</t>
-
-<ul spacing="compact">
-<li>Identifier: street</li>
-<li>Cardinality: 0+</li>
-<li>Mutability: read-write</li>
-<li>Data Type: String</li>
-<li>Description: Street address.</li>
-<li>Constraints: Implementations MAY limit the maximum length of entries or character set.</li>
-</ul></li>
-<li><t>City</t>
-
-<ul spacing="compact">
-<li>Identifier: city</li>
-<li>Cardinality: 0-1</li>
-<li>Mutability: read-write</li>
-<li>Data Type: String</li>
-<li>Description: City.</li>
-<li><t>Constraints:</t>
-
-<ul spacing="compact">
-<li>Implementations MAY limit the maximum length of entries or character set.</li>
-<li>In EPP Compatibility Profile this data element MUST be provided.</li>
-</ul></li>
-</ul></li>
-<li><t>State/Province</t>
-
-<ul spacing="compact">
-<li>Identifier: sp</li>
-<li>Cardinality: 0-1</li>
-<li>Mutability: read-write</li>
-<li>Data Type: String</li>
-<li>Description: State or province.</li>
-<li>Constraints: Implementations MAY limit the maximum length of entries or character set.</li>
-</ul></li>
-<li><t>Postal Code</t>
-
-<ul spacing="compact">
-<li>Identifier: pc</li>
-<li>Cardinality: 0-1</li>
-<li>Mutability: read-write</li>
-<li>Data Type: String</li>
-<li>Description: Postal code.</li>
-<li><t>Constraints:</t>
-
-<ul spacing="compact">
-<li>Implementation MAY limit the maximum length of entries or character set.</li>
-<li>The limitations MAY differ depending on Country Code (<tt>cc</tt>) data element.</li>
-</ul></li>
-</ul></li>
-<li><t>Country Code</t>
-
-<ul spacing="compact">
-<li>Identifier: cc</li>
-<li>Cardinality: 0-1</li>
-<li>Mutability: read-write</li>
-<li>Data Type: String</li>
-<li>Description: Country code.</li>
-<li><t>Constraints:</t>
-
-<ul spacing="compact">
-<li>The value MUST be a two-character identifier from <xref target="ISO3166-1"></xref>.</li>
-<li>In EPP Compatibility Profile this data element MUST be provided.</li>
-</ul></li>
-</ul></li>
-</ul></li>
-</ul>
-</section>
-
-<section anchor="postal-info-object"><name>Postal Info Object</name>
-
-<ul spacing="compact">
-<li>Name: Postal Info Object</li>
-<li>Identifier: postalInfo</li>
-<li>Description: Contains postal-address information in either internationalised or localised forms.</li>
-<li>Data Elements:</li>
-</ul>
-
-<aside><t>TBC: Contact Type is not localised (shall be the same for PERSON and ORG). Moving it level up would however detach it from related/dependant fields Name/Organisation</t>
-</aside>
-
-<ul spacing="compact">
-<li><t>Contact Type</t>
-
-<ul spacing="compact">
-<li>Identifier: type</li>
-<li>Cardinality: 0-1</li>
-<li>Mutability: read-write</li>
-<li>Data Type: String</li>
-<li>Description: Specifies whether the contact is and individual or an organisation.</li>
-<li>Constraints: The value MUST be one of: &quot;PERSON&quot; (individual) or &quot;ORG&quot; (organisation).</li>
-</ul></li>
-<li><t>Name</t>
-
-<ul spacing="compact">
-<li>Identifier: name</li>
-<li>Cardinality: 0-1</li>
-<li>Mutability: read-write</li>
-<li>Data Type: String</li>
-<li>Description: The name of the individual or role.</li>
-<li><t>Constraints:</t>
-
-<ul spacing="compact">
-<li>Implementations MAY limit the maximum length of entries or character set.</li>
-<li>In EPP Compatibility Profile this data element MUST be provided.</li>
-<li>The implementations MAY require this field if Contact Type (<tt>type</tt>) is set to &quot;PERSON&quot;.</li>
-</ul></li>
-</ul></li>
-<li><t>Organisation</t>
-
-<ul spacing="compact">
-<li>Identifier: org</li>
-<li>Cardinality: 0-1</li>
-<li>Mutability: read-write</li>
-<li>Data Type: String</li>
-<li>Description: The name of the organisation.</li>
-<li><t>Constraints:</t>
-
-<ul spacing="compact">
-<li>Implementations MAY limit the maximum length of entries or character set.</li>
-<li>The implementations MAY require this field if Contact Type (<tt>type</tt>) is set to &quot;ORG&quot;.</li>
-</ul></li>
-</ul></li>
-<li><t>Address</t>
-
-<ul spacing="compact">
-<li>Identifier: addr</li>
-<li>Cardinality: 0-1</li>
-<li>Mutability: read-write</li>
-<li>Data Type: Postal Address Object</li>
-<li>Description: The detailed postal address.</li>
-<li>Constraints: In EPP Compatibility Profile this data element MUST be provided.</li>
-</ul></li>
-</ul>
-</section>
-
 <section anchor="disclose-object"><name>Disclose Object</name>
 
 <aside><t>TODO: Model Disclose in universal (extendible) way</t>
@@ -1173,6 +1056,49 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 </ul></li>
 </ul></li>
 </ul>
+</section>
+
+<section anchor="organisation-role-object"><name>Organisation Role Object</name>
+
+<ul spacing="compact">
+<li>Name: Organisation Role Object</li>
+<li>Identifier: organisationRole</li>
+<li>Description: Represents a role that an organisation has within the registry ecosystem, as defined in <xref target="RFC8543" sectionFormat="of" section="3.2"></xref>. An organisation object MUST always have at least one associated role. A single organisation MAY have multiple roles with different role types.</li>
+<li><t>Data Elements:</t>
+
+<ul spacing="compact">
+<li><t>Role Status</t>
+
+<ul spacing="compact">
+<li>Identifier: status</li>
+<li>Cardinality: 0+</li>
+<li>Mutability: read-write</li>
+<li>Data Type: String</li>
+<li>Description: The status of this particular role. A role SHOULD have at least one associated status value.</li>
+<li><t>Constraints:</t>
+
+<ul spacing="compact">
+<li>Allowed values: <tt>ok</tt>, <tt>linked</tt>, <tt>clientLinkProhibited</tt>, <tt>serverLinkProhibited</tt>.</li>
+<li><tt>ok</tt> is the normal status value for a role with no active prohibitions.</li>
+<li><tt>linked</tt> indicates the role has at least one active association with another object. This value is not explicitly set by the client.</li>
+<li><tt>clientLinkProhibited</tt> and <tt>serverLinkProhibited</tt> indicate that requests to add new links to the role MUST be rejected.</li>
+</ul></li>
+</ul></li>
+<li><t>Role Identifier</t>
+
+<ul spacing="compact">
+<li>Identifier: roleId</li>
+<li>Cardinality: 0-1</li>
+<li>Mutability: read-write</li>
+<li>Data Type: String</li>
+<li>Description: A third-party-assigned identifier for the role, such as an IANA ID for registrars.</li>
+<li>Constraints: (None)</li>
+</ul></li>
+</ul></li>
+</ul>
+
+<aside><t>TBC: IANA registry for role types and statuses? must be compat with EPP</t>
+</aside>
 </section>
 </section>
 
@@ -1573,9 +1499,18 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 <ul spacing="compact">
 <li>Identifier: expiryDate</li>
 <li>Cardinality: 0-1</li>
-<li>Mutability: read-only</li>
+<li>Mutability: create-only</li>
 <li>Data Type: Timestamp</li>
 <li>Description: The current expiry date of the object. The server MUST validate this against the object's current <tt>expiryDate</tt> to prevent unintended duplicate renewals.</li>
+</ul></li>
+<li><t>Renewal Period</t>
+
+<ul spacing="compact">
+<li>Identifier: renewalPeriod</li>
+<li>Cardinality: 0-1</li>
+<li>Mutability: create-only</li>
+<li>Data Type: Period Object</li>
+<li>Description: The duration to be added to the object's registration period. This value is used by the server to calculate the new <tt>expiryDate</tt>. The default value MAY be defined by server policy. The number of units available MAY be subject to limits imposed by the server.</li>
 </ul></li>
 </ul></li>
 </ul>
@@ -1602,18 +1537,6 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 
 <ul spacing="compact">
 <li>Only the sponsoring client is authorised to perform this operation.</li>
-</ul></li>
-</ul>
-<t>In addition, the following transient data element is defined for this operation:</t>
-
-<ul spacing="compact">
-<li><t>Renewal Period</t>
-
-<ul spacing="compact">
-<li>Identifier: renewalPeriod</li>
-<li>Cardinality: 0-1</li>
-<li>Data Type: Period Object</li>
-<li>Description: The duration to be added to the object's registration period. This value is used by the server to calculate the new <tt>expiryDate</tt>. The default value MAY be defined by server policy. The number of units available MAY be subject to limits imposed by the server.</li>
 </ul></li>
 </ul>
 </section>
@@ -2048,50 +1971,14 @@ is &quot;all&quot;.</li>
 <li>The initial value list MAY be as defined in <xref target="RFC5733"></xref>. In this case the values MUST have the same semantics.</li>
 </ul></li>
 </ul></li>
-<li><t>Postal Information</t>
+<li><t>Contact Information</t>
 
 <ul spacing="compact">
-<li>Identifier: postalInfo</li>
+<li>Identifier: contactInfo</li>
 <li>Cardinality: 1-2</li>
 <li>Mutability: read-write</li>
-<li><t>Data Type: DictionaryComposition[Postal Info Object]</t>
-
-<ul spacing="compact">
-<li>Label Description: type of contact data localisation</li>
-<li>Label Constraints: Allowed values: &quot;int&quot; for &quot;internationalised&quot; all-ASCII version of an address and &quot;loc&quot; for localised forms with possible non-ASCII character sets.</li>
-</ul></li>
-<li>Description: Postal-address information.</li>
-<li>Constraints: There MUST be no more that 1 element of type &quot;int&quot; and one element of type &quot;loc&quot;.</li>
-</ul></li>
-<li><t>Voice Phone Number</t>
-
-<ul spacing="compact">
-<li>Identifier: voice</li>
-<li>Cardinality: 0+</li>
-<li>Mutability: read-write</li>
-<li>Data Type: Phone Number</li>
-<li>Description: Voice phone number associated with the contact</li>
-<li>Constraints: (None)</li>
-</ul></li>
-<li><t>Fax Phone Number</t>
-
-<ul spacing="compact">
-<li>Identifier: fax</li>
-<li>Cardinality: 0+</li>
-<li>Mutability: read-write</li>
-<li>Data Type: Phone Number</li>
-<li>Description: Fax number associated with the contact</li>
-<li>Constraints: (None)</li>
-</ul></li>
-<li><t>E-mail</t>
-
-<ul spacing="compact">
-<li>Identifier: email</li>
-<li>Cardinality: 0+</li>
-<li>Mutability: read-write</li>
-<li>Data Type: String.</li>
-<li>Description: Email address.</li>
-<li>Constraints: Email address syntax is defined in <xref target="RFC5322"></xref>.</li>
+<li>Data Type: External:RPP-JSContact-Profile:Card</li>
+<li>Description: Contains contact information.</li>
 </ul></li>
 <li><t>Authorisation Information</t>
 
@@ -2138,7 +2025,7 @@ is &quot;all&quot;.</li>
 
 <ul spacing="compact">
 <li>Handle ID (<tt>id</tt>)</li>
-<li>At least one Postal Information entry (<tt>postalInfo</tt>) containing a Name (<tt>name</tt>) and an Address (<tt>addr</tt>) with City (<tt>city</tt>) and Country Code (<tt>cc</tt>)</li>
+<li>At least one Contact Information entry (<tt>contactInfo</tt>) containing a Name (<tt>name</tt>) and an Address (<tt>addr</tt>) with City (<tt>city</tt>) and Country Code (<tt>cc</tt>)</li>
 <li>E-mail (<tt>email</tt>)</li>
 <li>Authorisation Information (<tt>authInfo</tt>)</li>
 </ul>
@@ -2198,7 +2085,7 @@ is &quot;all&quot;.</li>
 
 <ul spacing="compact">
 <li>Status values that are client-manageable (prefixed with &quot;client&quot;) MAY be added or removed.</li>
-<li>Postal Information, Voice Phone Number, Fax Phone Number, E-mail, Authorisation Information, and Disclose preferences MAY be changed.</li>
+<li>Contact Information, Voice Phone Number, Fax Phone Number, E-mail, Authorisation Information, and Disclose preferences MAY be changed.</li>
 </ul>
 <t>A client MUST NOT add, delete or alter values for statuses managed by the server (prefixed with &quot;server&quot;). A server MAY add, delete or alter status values set by a client, subject to server policy.</t>
 </section>
@@ -2369,6 +2256,384 @@ is &quot;all&quot;.</li>
 <section anchor="restore-operations-1"><name>Restore Operations</name>
 <t>The Host Data Object supports the restore operations defined in the <xref target="restore-ops"></xref>. These operations are OPTIONAL and are only available when the RGP feature for Host Data Object is supported by the server.</t>
 <t>No domain-specific transient data elements extend the common restore operations beyond those defined in the <xref target="restore-ops"></xref>.</t>
+</section>
+</section>
+</section>
+
+<section anchor="organisation-data-object"><name>Organisation Data Object</name>
+
+<section anchor="object-description-3"><name>Object Description</name>
+
+<ul spacing="compact">
+<li>Name: Organisation Data Object</li>
+<li>Identifier: organisation</li>
+<li>Description: An Organisation Data Object represents an entity, such as a registrar or reseller that is involved in the domain registration process. This object is based on the EPP Organisation Mapping defined in <xref target="RFC8543"></xref>.</li>
+</ul>
+</section>
+
+<section anchor="data-elements-3"><name>Data Elements</name>
+<t>The following data elements are defined for the Organisation Data Object.</t>
+
+<ul>
+<li><t>Organisation ID</t>
+
+<ul spacing="compact">
+<li>Identifier: id</li>
+<li>Cardinality: 1</li>
+<li>Mutability: create-only</li>
+<li>Data Type: Identifier</li>
+<li>Description: A server-unique identifier for the organisation object.</li>
+<li><t>Constraints:</t>
+
+<ul spacing="compact">
+<li>This value MUST be supported to be provided by the client.</li>
+<li>Servers MAY support server-side generation of this value.</li>
+</ul></li>
+</ul></li>
+<li><t>Provisioning Metadata</t>
+
+<ul spacing="compact">
+<li>Identifier: provMetadata</li>
+<li>Cardinality: 1</li>
+<li>Mutability: read-only</li>
+<li>Data Type: Provisioning Metadata Object</li>
+<li>Description: Standard metadata about the object's lifecycle and ownership.</li>
+<li>Constraints: (None)</li>
+</ul></li>
+<li><t>Status</t>
+
+<ul spacing="compact">
+<li>Identifier: status</li>
+<li>Cardinality: 1+</li>
+<li>Mutability: read-write</li>
+<li>Data Type: Status Object</li>
+<li>Description: The current operational status descriptors associated with the organisation. An organisation object MUST always have at least one associated status value.</li>
+<li><t>Constraints:</t>
+
+<ul spacing="compact">
+<li>Status values that can be added or removed by a client are prefixed with &quot;client&quot;. Corresponding server-managed status values are prefixed with &quot;server&quot;.</li>
+<li>Possible values: <tt>ok</tt>, <tt>hold</tt>, <tt>terminated</tt>, <tt>linked</tt>, <tt>clientLinkProhibited</tt>, <tt>serverLinkProhibited</tt>, <tt>clientUpdateProhibited</tt>, <tt>serverUpdateProhibited</tt>, <tt>clientDeleteProhibited</tt>, <tt>serverDeleteProhibited</tt>, <tt>pendingCreate</tt>, <tt>pendingUpdate</tt>, <tt>pendingDelete</tt>.</li>
+<li><tt>pendingCreate</tt>, <tt>ok</tt>, <tt>hold</tt>, and <tt>terminated</tt> are mutually exclusive.</li>
+<li><tt>ok</tt> MAY only be combined with <tt>linked</tt>.</li>
+</ul></li>
+</ul></li>
+<li><t>Roles</t>
+
+<ul spacing="compact">
+<li>Identifier: roles</li>
+<li>Cardinality: 1+</li>
+<li>Mutability: read-write</li>
+<li><t>Data Type: DictionaryComposition[Organisation Role Object]</t>
+
+<ul spacing="compact">
+<li>Label Description: type of role</li>
+<li>Label Constraints: The value MUST be one of the role types registered in the IANA &quot;EPP Organisation Role Values&quot; registry as defined in <xref target="RFC8543" sectionFormat="of" section="7.3"></xref>. Initial values include <tt>registrar</tt>, <tt>reseller</tt>, <tt>privacyproxy</tt>, and <tt>dns-operator</tt>.</li>
+</ul></li>
+<li>Description: One or more roles describing the relationship the organisation has within the registry ecosystem. An organisation object MUST always have at least one associated role.</li>
+<li><t>Constraints:</t>
+
+<ul spacing="compact">
+<li>An organisation MAY have multiple roles with different role types.</li>
+<li>Role types are registered in the IANA &quot;EPP Organisation Role Values&quot; registry as defined in <xref target="RFC8543" sectionFormat="of" section="7.3"></xref>. Initial values include <tt>registrar</tt>, <tt>reseller</tt>, <tt>privacyproxy</tt>, and <tt>dns-operator</tt>.</li>
+</ul></li>
+</ul></li>
+<li><t>Parent Organisation ID</t>
+
+<ul spacing="compact">
+<li>Identifier: parent</li>
+<li>Cardinality: 0-1</li>
+<li>Mutability: read-write</li>
+<li>Data Type: Organisation Data Object</li>
+<li>Description: The parent organisation in a hierarchical organisation structure (e.g., a reseller's parent registrar).</li>
+<li><t>Constraints:</t>
+
+<ul spacing="compact">
+<li>Loops MUST be prohibited. If organisation A has organisation B as its parent, organisation B MUST NOT have organisation A as its parent, directly or transitively.</li>
+</ul></li>
+</ul></li>
+<li><t>Contact Information</t>
+
+<ul spacing="compact">
+<li>Identifier: contactInfo</li>
+<li>Cardinality: 0-1</li>
+<li>Mutability: read-write</li>
+<li>Data Type: External:RPP-JSContact-Profile:Card</li>
+<li>Description: Contact information for the organisation.</li>
+</ul></li>
+<li><t>Contacts</t>
+
+<ul spacing="compact">
+<li>Identifier: contacts</li>
+<li>Cardinality: 0+</li>
+<li>Mutability: read-write</li>
+<li><t>Data Type: LabelledAggregation[Contact Object]</t>
+
+<ul spacing="compact">
+<li>Label Description: type of contact</li>
+<li>Label Constraints: The value MUST be one of the contact types registered in the IANA &quot;EPP Organisation Contact Types&quot; registry as defined in <xref target="RFC8543" sectionFormat="of" section="7.4"></xref>. Initial values include <tt>admin</tt>, <tt>tech</tt>, <tt>billing</tt>, <tt>abuse</tt>, and <tt>custom</tt>.<br />
+</li>
+</ul></li>
+<li>Description: Identifiers of contact objects associated with the organisation.</li>
+<li><t>Constraints:</t>
+
+<ul spacing="compact">
+<li>Contact object identifiers MUST be known to the server before the contact can be associated.</li>
+</ul></li>
+</ul></li>
+</ul>
+
+<aside><t>TODO: how handle the &quot;custom&quot; contact type?</t>
+</aside>
+
+<ul spacing="compact">
+<li><t>Users</t>
+
+<ul spacing="compact">
+<li>Identifier: users</li>
+<li>Cardinality: 0+</li>
+<li>Mutability: read-write</li>
+<li><t>Data Type: LabelledAggregation[User Object]</t>
+
+<ul spacing="compact">
+<li>Label Description: RBAC role of the user</li>
+<li>Label Constraints: The value MUST be one of the role types registered in the IANA &quot;RPP User Role Values&quot; registry.</li>
+</ul></li>
+<li>Description: One or more RBAC roles assigned to the user.</li>
+<li><t>Constraints:</t>
+
+<ul spacing="compact">
+<li>Each role value MUST be a non-empty string.</li>
+<li>Allowed role values MAY be constrained by server policy.</li>
+</ul></li>
+</ul></li>
+</ul>
+
+<aside><t>TODO: define an IANA registry for user roles?</t>
+</aside>
+</section>
+
+<section anchor="operations-7"><name>Operations</name>
+
+<section anchor="create-operation-3"><name>Create Operation</name>
+
+<ul spacing="compact">
+<li>Identifier: create</li>
+</ul>
+<t>The Create operation allows a client to provision a new Organisation Data Object. The operation accepts as input all create-only and read-write data elements defined for the Organisation Data Object.</t>
+
+<ul spacing="compact">
+<li><t>Authorisation:</t>
+
+<ul spacing="compact">
+<li>Generally only registry clients are authorised to create new organisation objects.</li>
+</ul></li>
+</ul>
+<t>An organisation object MUST include at least one role on creation. The server MAY defer completing the action and return a <tt>pendingCreate</tt> status if human or third-party review is required.</t>
+</section>
+
+<section anchor="read-operation-3"><name>Read Operation</name>
+
+<ul spacing="compact">
+<li>Identifier: read</li>
+</ul>
+<t>The Read operation allows a client to retrieve the data elements of an Organisation Data Object.</t>
+
+<ul spacing="compact">
+<li><t>Authorisation:</t>
+
+<ul spacing="compact">
+<li>Any client is authorised to retrieve organisation object information. The server MAY restrict the information returned based on client identity and server policy.</li>
+</ul></li>
+</ul>
+</section>
+
+<section anchor="update-operation-3"><name>Update Operation</name>
+
+<ul spacing="compact">
+<li>Identifier: update</li>
+</ul>
+<t>The Update operation allows a client to modify the attributes of an existing Organisation Data Object.</t>
+
+<ul spacing="compact">
+<li><t>Authorisation:</t>
+
+<ul spacing="compact">
+<li>Generally only registry clients are authorised to update organisation objects.</li>
+</ul></li>
+</ul>
+<t>The following aspects of the organisation object MAY be modified:</t>
+
+<ul spacing="compact">
+<li>Contacts MAY be added or removed.</li>
+<li>Roles MAY be added or removed.</li>
+<li>Status values that are client-manageable (prefixed with &quot;client&quot;) MAY be added or removed.</li>
+<li>Parent Organisation ID and Contact Information MAY be changed.</li>
+<li>Users MAY be added or removed.</li>
+</ul>
+<t>A client MUST NOT add, delete, or alter values for statuses managed by the server (prefixed with &quot;server&quot;). A server MAY add, delete, or alter status values set by a client, subject to server policy.</t>
+</section>
+
+<section anchor="delete-operation-3"><name>Delete Operation</name>
+
+<ul spacing="compact">
+<li>Identifier: delete</li>
+</ul>
+<t>The Delete operation allows a client to remove an existing Organisation Data Object. The operation targets a specific data object identified by its Organisation ID.</t>
+
+<ul spacing="compact">
+<li><t>Authorisation:</t>
+
+<ul spacing="compact">
+<li>Generally only registry clients are authorised to delete organisation objects.</li>
+</ul></li>
+</ul>
+<t>An organisation object MUST NOT be deleted if it is associated with other known objects (e.g., domain names, contacts, or child organisations). The server MUST reject such a delete request and notify the client that object relationships exist.</t>
+<t>The error response SHOULD indicate the related associated objects.</t>
+</section>
+</section>
+</section>
+
+<section anchor="user-object"><name>User Object</name>
+
+<section anchor="object-description-4"><name>Object Description</name>
+
+<ul spacing="compact">
+<li>Name: User Data Object</li>
+<li>Identifier: user</li>
+<li>Description: Represents a user linked to an Organisation Object. Each user carries a set of RBAC roles that define the user's permissions within the context of the owning Organisation Object. The lifecycle of a User Object is bound to its Organisation Object.</li>
+</ul>
+</section>
+
+<section anchor="data-elements-4"><name>Data Elements</name>
+<t>The following data elements are defined for the User Data Object.</t>
+
+<ul spacing="compact">
+<li><t>User Identifier</t>
+
+<ul spacing="compact">
+<li>Identifier: id</li>
+<li>Cardinality: 1</li>
+<li>Mutability: create-only</li>
+<li>Data Type: Identifier</li>
+<li>Description: A unique identifier for the user</li>
+<li>Constraints: MUST be globally unique in the server scope</li>
+</ul></li>
+<li><t>Details</t>
+
+<ul spacing="compact">
+<li>Identifier: details</li>
+<li>Cardinality: 1</li>
+<li>Mutability: read-write</li>
+<li>Data Type: External:RPP-JSContact-Profile:Card</li>
+<li>Description: The details of the user, such as name, email, and phone number</li>
+<li>Constraints: -</li>
+</ul></li>
+<li><t>Description</t>
+
+<ul spacing="compact">
+<li>Identifier: description</li>
+<li>Cardinality: 0-1</li>
+<li>Mutability: read-write</li>
+<li>Data Type: String</li>
+<li>Description: A description of the user</li>
+<li>Constraints: -</li>
+</ul></li>
+<li><t>Status</t>
+
+<ul spacing="compact">
+<li>Identifier: status</li>
+<li>Cardinality: 1</li>
+<li>Mutability: read-write</li>
+<li><t>Data Type: String</t>
+
+<ul spacing="compact">
+<li>Constraints: The value MUST be one of the status tokens defined in the IANA registry for user statuses.</li>
+<li>Constraints: Possible values include <tt>active</tt>, <tt>suspended</tt>, <tt>deactivated</tt>, and <tt>pending</tt>.</li>
+</ul></li>
+<li>Description: The status of the user</li>
+<li>Constraints: -</li>
+</ul></li>
+<li><t>Organisation ID</t>
+
+<ul spacing="compact">
+<li>Identifier: organisationId</li>
+<li>Cardinality: 1</li>
+<li>Mutability: read-only</li>
+<li>Data Type: Organisation Data Object Reference</li>
+<li>Description: A reference to the owner organisation object.</li>
+<li>Constraints: -</li>
+</ul></li>
+</ul>
+
+<aside><t>TODO: what other data elements should be included for the User Data Object?</t>
+</aside>
+</section>
+
+<section anchor="operations-8"><name>Operations</name>
+
+<section anchor="create-operation-4"><name>Create Operation</name>
+
+<ul spacing="compact">
+<li>Identifier: create</li>
+</ul>
+<t>The Create operation creates a new user, which is associated with an existing Organisation Object. The operation accepts as input all create-only and read-write data elements of the User Object.</t>
+
+<ul spacing="compact">
+<li><t>Authorisation:</t>
+
+<ul spacing="compact">
+<li>Client can only create users in the context of the organisation linked to the client, and only if the client has the necessary permissions to create users in that organisation.</li>
+</ul></li>
+</ul>
+</section>
+
+<section anchor="read-operation-4"><name>Read Operation</name>
+
+<ul spacing="compact">
+<li>Identifier: read</li>
+</ul>
+<t>The Read operation retrieves the data of a specific User Object.</t>
+
+<ul spacing="compact">
+<li><t>Authorisation:</t>
+
+<ul spacing="compact">
+<li>Client can only read users in the context of the organisation linked to the client, and only if the client has the necessary permissions to read users in that organisation.</li>
+</ul></li>
+</ul>
+</section>
+
+<section anchor="update-operation-4"><name>Update Operation</name>
+
+<ul spacing="compact">
+<li>Identifier: update</li>
+</ul>
+<t>The Update operation modifies the read-write data elements.</t>
+
+<ul spacing="compact">
+<li><t>Authorisation:</t>
+
+<ul spacing="compact">
+<li>Client can only update users in the context of the organisation linked to the client, and only if the client has the necessary permissions to update users in that organisation.</li>
+</ul></li>
+</ul>
+</section>
+
+<section anchor="delete-operation-4"><name>Delete Operation</name>
+
+<ul spacing="compact">
+<li>Identifier: delete</li>
+</ul>
+<t>The Delete operation removes a specific User Object</t>
+
+<ul spacing="compact">
+<li><t>Authorisation:</t>
+
+<ul spacing="compact">
+<li>Client can only delete users in the context of the organisation linked to the client, and only if the client has the necessary permissions to delete users in that organisation.</li>
+</ul></li>
+</ul>
+<t>The server MUST reject this operation if the User is associated with an Organisation Object.</t>
 </section>
 </section>
 </section>
@@ -2892,126 +3157,7 @@ registry MUST provide:</t>
 <t>Operation Identifier: renewCreate</t>
 <t>Description: Initiates a renewal of a provisioned object by creating a Renew Process Object.</t>
 <t>Parameters: (None)</t>
-<t>Object: postalData</t>
-<t>Object Name: Postal Address Object</t>
-<t>Object Type: Component</t>
-<t>Description: Contains the components of a postal address.</t>
-<t>Reference: [This-ID]</t>
-<t>Data Elements</t>
-<table>
-<thead>
-<tr>
-<th>Element Identifier</th>
-<th>Element Name</th>
-<th>Card.</th>
-<th>Mutability</th>
-<th>Data Type</th>
-<th>Description</th>
-</tr>
-</thead>
-
-<tbody>
-<tr>
-<td>street</td>
-<td>Street</td>
-<td>0+</td>
-<td>read-write</td>
-<td>String</td>
-<td>Street address.</td>
-</tr>
-
-<tr>
-<td>city</td>
-<td>City</td>
-<td>0-1</td>
-<td>read-write</td>
-<td>String</td>
-<td>City.</td>
-</tr>
-
-<tr>
-<td>sp</td>
-<td>State/Province</td>
-<td>0-1</td>
-<td>read-write</td>
-<td>String</td>
-<td>State or province.</td>
-</tr>
-
-<tr>
-<td>pc</td>
-<td>Postal Code</td>
-<td>0-1</td>
-<td>read-write</td>
-<td>String</td>
-<td>Postal code.</td>
-</tr>
-
-<tr>
-<td>cc</td>
-<td>Country Code</td>
-<td>0-1</td>
-<td>read-write</td>
-<td>String</td>
-<td>Country code.</td>
-</tr>
-</tbody>
-</table><t>Object: postalInfo</t>
-<t>Object Name: Postal Info Object</t>
-<t>Object Type: Component</t>
-<t>Description: Contains postal-address information in either internationalised or localised forms.</t>
-<t>Reference: [This-ID]</t>
-<t>Data Elements</t>
-<table>
-<thead>
-<tr>
-<th>Element Identifier</th>
-<th>Element Name</th>
-<th>Card.</th>
-<th>Mutability</th>
-<th>Data Type</th>
-<th>Description</th>
-</tr>
-</thead>
-
-<tbody>
-<tr>
-<td>type</td>
-<td>Contact Type</td>
-<td>0-1</td>
-<td>read-write</td>
-<td>String</td>
-<td>Specifies whether the contact is and individual or an organisation.</td>
-</tr>
-
-<tr>
-<td>name</td>
-<td>Name</td>
-<td>0-1</td>
-<td>read-write</td>
-<td>String</td>
-<td>The name of the individual or role.</td>
-</tr>
-
-<tr>
-<td>org</td>
-<td>Organisation</td>
-<td>0-1</td>
-<td>read-write</td>
-<td>String</td>
-<td>The name of the organisation.</td>
-</tr>
-
-<tr>
-<td>addr</td>
-<td>Address</td>
-<td>0-1</td>
-<td>read-write</td>
-<td>Postal Address Object</td>
-<td>The detailed postal address.</td>
-</tr>
-</tbody>
-</table><t>Object: disclose</t>
+<t>Object: disclose</t>
 <t>Object Name: Disclose</t>
 <t>Object Type: Component</t>
 <t>Description: TBD</t>
@@ -3517,12 +3663,12 @@ registry MUST provide:</t>
 </tr>
 
 <tr>
-<td>postalInfo</td>
-<td>Postal Information</td>
+<td>contactInfo</td>
+<td>Contact Information</td>
 <td>1-2</td>
 <td>read-write</td>
-<td>DictionaryComposition [Postal Info Object]</td>
-<td>Postal-address information.</td>
+<td>External:RPP-JSContact-Profile:Card</td>
+<td>JSContact Card information.</td>
 </tr>
 
 <tr>
@@ -3655,7 +3801,233 @@ registry MUST provide:</t>
 <t>Operation: Delete</t>
 <t>Description: Removes an existing Host Data Object.</t>
 <t>Parameters: (None)</t>
+<t>Object: organisationRole</t>
+<t>Object Name: Organisation Role Object</t>
+<t>Object Type: Component</t>
+<t>Description: Represents a role that an organisation has within the registry ecosystem, as defined in <xref target="RFC8543" sectionFormat="of" section="3.2"></xref>. An organisation object MUST always have at least one associated role.</t>
+<t>Reference: [This-ID]</t>
+<t>Data Elements</t>
+<table>
+<thead>
+<tr>
+<th>Element Identifier</th>
+<th>Element Name</th>
+<th>Card.</th>
+<th>Mutability</th>
+<th>Data Type</th>
+<th>Description</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>status</td>
+<td>Role Status</td>
+<td>0+</td>
+<td>read-write</td>
+<td>String</td>
+<td>The status of this role. Allowed values: <tt>ok</tt>, <tt>linked</tt>, <tt>clientLinkProhibited</tt>, <tt>serverLinkProhibited</tt>.</td>
+</tr>
+
+<tr>
+<td>roleId</td>
+<td>Role Identifier</td>
+<td>0-1</td>
+<td>read-write</td>
+<td>String</td>
+<td>A third-party-assigned identifier for this role, such as an IANA registrar ID.</td>
+</tr>
+</tbody>
+</table><t>Object: organisation</t>
+<t>Object Name: Organisation Data Object</t>
+<t>Object Type: Resource</t>
+<t>Description: Represents an entity, such as a registrar, reseller, DNS service operator, or privacy proxy, involved in the domain registration process. Based on the EPP Organisation Mapping defined in <xref target="RFC8543"></xref>.</t>
+<t>Reference: [This-ID]</t>
+<t>Data Elements</t>
+<table>
+<thead>
+<tr>
+<th>Identifier</th>
+<th>Name</th>
+<th>Card.</th>
+<th>Mutability</th>
+<th>Data Type</th>
+<th>Description</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>id</td>
+<td>Organisation ID</td>
+<td>1</td>
+<td>create-only</td>
+<td>Identifier</td>
+<td>A server-unique identifier for the organisation object.</td>
+</tr>
+
+<tr>
+<td>provMetadata</td>
+<td>Provisioning Metadata</td>
+<td>1</td>
+<td>read-only</td>
+<td>Provisioning Metadata Object</td>
+<td>Standard metadata about the object's lifecycle and ownership.</td>
+</tr>
+
+<tr>
+<td>status</td>
+<td>Status</td>
+<td>1+</td>
+<td>read-only</td>
+<td>Status Object</td>
+<td>The current operational status descriptors for the organisation.</td>
+</tr>
+
+<tr>
+<td>roles</td>
+<td>Roles</td>
+<td>1+</td>
+<td>read-write</td>
+<td>DictionaryComposition [Organisation Role Object]</td>
+<td>One or more roles describing the organisation's relationship within the registry ecosystem.</td>
+</tr>
+
+<tr>
+<td>parent</td>
+<td>Parent Organisation ID</td>
+<td>0-1</td>
+<td>read-write</td>
+<td>Identifier</td>
+<td>The identifier of the parent organisation in a hierarchical organisation structure.</td>
+</tr>
+
+<tr>
+<td>contactInfo</td>
+<td>Contact Information</td>
+<td>0-1</td>
+<td>read-write</td>
+<td>External:RPP-JSContact-Profile:Card</td>
+<td>Contact information</td>
+</tr>
+
+<tr>
+<td>contacts</td>
+<td>Contacts</td>
+<td>0+</td>
+<td>read-write</td>
+<td>LabelledAggregation[Contact Object]</td>
+<td>Identifiers of contact objects associated with the organisation.</td>
+</tr>
+
+<tr>
+<td>users</td>
+<td>Users</td>
+<td>0+</td>
+<td>read-write</td>
+<td>LabelledAggregation [User Data Object]</td>
+<td>Identifiers of user objects associated with the organisation.</td>
+</tr>
+</tbody>
+</table><t>Operations</t>
+<t>Operation: Create</t>
+<t>Operation Identifier: create</t>
+<t>Description: Provisions a new Organisation Data Object.</t>
+<t>Parameters: (None)</t>
+<t>Operation: Read</t>
+<t>Operation Identifier: read</t>
+<t>Description: Retrieves the data elements of an Organisation Data Object.</t>
+<t>Parameters: (None)</t>
+<t>Operation: Update</t>
+<t>Operation Identifier: update</t>
+<t>Description: Modifies the attributes of an existing Organisation Data Object.</t>
+<t>Parameters: (None)</t>
+<t>Operation: Delete</t>
+<t>Operation Identifier: delete</t>
+<t>Description: Removes an existing Organisation Data Object.</t>
+<t>Parameters: (None)</t>
+<t>Object: user</t>
+<t>Object Name: User Data Object</t>
+<t>Object Type: Resource</t>
+<t>Description: Represents a user linked to an Organisation Data Object. Each user carries a set of RBAC roles that define the user's permissions within the context of the owning organisation. The lifecycle of a User Object is bound to its Organisation Object.</t>
+<t>Reference: [This-ID]</t>
+<t>Data Elements</t>
+<table>
+<thead>
+<tr>
+<th>Identifier</th>
+<th>Name</th>
+<th>Card.</th>
+<th>Mutability</th>
+<th>Data Type</th>
+<th>Description</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>id</td>
+<td>User Identifier</td>
+<td>1</td>
+<td>create-only</td>
+<td>Identifier</td>
+<td>A unique identifier for the user. MUST be globally unique in the server scope.</td>
+</tr>
+
+<tr>
+<td>details</td>
+<td>Details</td>
+<td>0-1</td>
+<td>read-write</td>
+<td>External:RPP-JSContact-Profile:Card</td>
+<td>The details of the user.</td>
+</tr>
+
+<tr>
+<td>status</td>
+<td>Status</td>
+<td>0+</td>
+<td>read-write</td>
+<td>string</td>
+<td>The status of the user.</td>
+</tr>
+</tbody>
+</table><t>Operations</t>
+<t>Operation: Create</t>
+<t>Operation Identifier: create</t>
+<t>Description: Creates a new User Object.</t>
+<t>Parameters: (None)</t>
+<t>Operation: Read</t>
+<t>Operation Identifier: read</t>
+<t>Description: Retrieves the data elements of a specific User Object.</t>
+<t>Parameters: (None)</t>
+<t>Operation: Update</t>
+<t>Operation Identifier: update</t>
+<t>Description: Modifies the read-write data elements (e.g., roles) of a specific User Object.</t>
+<t>Parameters: (None)</t>
+<t>Operation: Delete</t>
+<t>Operation Identifier: delete</t>
+<t>Description: Removes a specific User Object.</t>
+<t>Parameters: (None)</t>
 </section>
+</section>
+
+<section anchor="rpp-user-role-values-registry"><name>RPP User Role Values Registry</name>
+<t>This document establishes the &quot;RESTful Provisioning Protocol (RPP) User Role Values Registry&quot;. This registry serves as a catalogue of all user role values used within RPP.</t>
+
+<sourcecode type="text"><![CDATA[Name of the registry: RPP User Role Values
+Registry group: RESTful Provisioning Protocol (RPP)
+Registration procedure: Expert Review
+]]>
+</sourcecode>
+<t>Fields to be registered:</t>
+
+<ul spacing="compact">
+<li><tt>name</tt>: The name of the user role, for example &quot;RPP example role&quot;.</li>
+<li><tt>url</tt>: The URL for the user role specification, for example &quot;<eref target="https://www.iana.org/assignments/rpp-user-roles/rpp-example-role-1.0&quot;">https://www.iana.org/assignments/rpp-user-roles/rpp-example-role-1.0"</eref>.</li>
+<li><tt>permission</tt>: The permission level associated with the user role, for example &quot;read-only&quot;, &quot;read-write&quot;, or &quot;admin&quot;.</li>
+<li><tt>description</tt>: A human-readable description of the user role and its intended use.</li>
+</ul>
 </section>
 </section>
 
@@ -3670,6 +4042,7 @@ registry MUST provide:</t>
 <section anchor="draft-kowalik-rpp-data-objects-04-05" numbered="false"><name>draft-kowalik-rpp-data-objects -04 - -05</name>
 
 <ul spacing="compact">
+<li>Added Organisation, Organisation Role and User Objects, based on RFC8543 (Issue #25)</li>
 <li>Added Renew Process Object and operations (Issue #76)</li>
 </ul>
 </section>
@@ -3677,8 +4050,7 @@ registry MUST provide:</t>
 <section anchor="draft-kowalik-rpp-data-objects-03-04" numbered="false"><name>draft-kowalik-rpp-data-objects -03 - -04</name>
 
 <ul spacing="compact">
-<li>correct <tt>&quot;postalInfo&quot;</tt> to be DictionaryComposition not DictionaryAggregation</li>
-<li>Added missing IANA tables for Contact, Postal Address and Postal Info. Added missing Operations. Added missing operation identifiers. Fixes #17, #18, #19, #20, #21.</li>
+<li>Add External Data Types section and JSContact (Issue #83)</li>
 </ul>
 </section>
 
@@ -3720,15 +4092,15 @@ registry MUST provide:</t>
 <references><name>Normative References</name>
 <xi:include href="https://bib.ietf.org/public/rfc/bibxml3/reference.I-D.ietf-rpp-architecture.xml"/>
 <xi:include href="https://bib.ietf.org/public/rfc/bibxml3/reference.I-D.kowalik-rpp-architecture.xml"/>
-<reference anchor="ISO3166-1" target="">
+<reference anchor="I-D.wullink-rpp-jscontact-profile" target="">
   <front>
-    <title>Codes for the representation of names of countries and their subdivisions -- Part 1: Country codes</title>
-    <author>
-      <organization>International Organization for Standardization</organization>
+    <title>JSContact Profile for the RESTful Provisioning Protocol (RPP)</title>
+    <author fullname="Maarten Wullink" initials="M." surname="Wullink">
+      <organization>SIDN Labs</organization>
     </author>
-    <date year="2000" month="11"></date>
+    <date year="2026"></date>
   </front>
-  <seriesInfo name="ISO Standard" value="3166"></seriesInfo>
+  <seriesInfo name="Internet-Draft" value="draft-wullink-rpp-jscontact-profile"></seriesInfo>
 </reference>
 <reference anchor="ITU.E164.2005" target="">
   <front>
@@ -3742,10 +4114,11 @@ registry MUST provide:</t>
 </reference>
 <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.1035.xml"/>
 <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.1738.xml"/>
+<xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.2026.xml"/>
 <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.2119.xml"/>
 <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.3339.xml"/>
 <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.3915.xml"/>
-<xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.5322.xml"/>
+<xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.5234.xml"/>
 <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.5730.xml"/>
 <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.5731.xml"/>
 <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.5732.xml"/>
@@ -3753,6 +4126,8 @@ registry MUST provide:</t>
 <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.5952.xml"/>
 <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8126.xml"/>
 <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8174.xml"/>
+<xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8543.xml"/>
+<xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.9553.xml"/>
 </references>
 <references><name>Informative References</name>
 <xi:include href="https://bib.ietf.org/public/rfc/bibxml3/reference.I-D.simmen-rpp-dns-data.xml"/>

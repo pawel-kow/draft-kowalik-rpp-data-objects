@@ -909,6 +909,33 @@ A> TODO: Model Disclose in universal (extendible) way
     * Description: Any additional information needed to support the statements provided by the client.
     * Constraints: None.
 
+## Organisation Role Object
+
+* Name: Organisation Role Object
+* Identifier: organisationRole
+* Description: Represents a role that an organisation has within the registry ecosystem, as defined in [@!RFC8543, section 3.2]. An organisation object MUST always have at least one associated role. A single organisation MAY have multiple roles with different role types.
+* Data Elements:
+  * Role Status
+    * Identifier: status
+    * Cardinality: 0+
+    * Mutability: read-write
+    * Data Type: String
+    * Description: The status of this particular role. A role SHOULD have at least one associated status value.
+    * Constraints:
+      * Allowed values: `ok`, `linked`, `clientLinkProhibited`, `serverLinkProhibited`.
+      * `ok` is the normal status value for a role with no active prohibitions.
+      * `linked` indicates the role has at least one active association with another object. This value is not explicitly set by the client.
+      * `clientLinkProhibited` and `serverLinkProhibited` indicate that requests to add new links to the role MUST be rejected.
+  * Role Identifier
+    * Identifier: roleId
+    * Cardinality: 0-1
+    * Mutability: read-write
+    * Data Type: String
+    * Description: A third-party-assigned identifier for the role, such as an IANA ID for registrars.
+    * Constraints: (None)
+
+A> TBC: IANA registry for role types and statuses? must be compat with EPP
+
 # Process Objects
 
 This section defines the Process Objects used in this document.
@@ -1667,6 +1694,249 @@ The Host Data Object supports the restore operations defined in the (#restore-op
 
 No domain-specific transient data elements extend the common restore operations beyond those defined in the (#restore-ops).
 
+# Organisation Data Object
+
+## Object Description
+
+* Name: Organisation Data Object
+* Identifier: organisation
+* Description: An Organisation Data Object represents an entity, such as a registrar or reseller that is involved in the domain registration process. This object is based on the EPP Organisation Mapping defined in [@!RFC8543].
+
+## Data Elements
+
+The following data elements are defined for the Organisation Data Object.
+
+* Organisation ID
+  * Identifier: id
+  * Cardinality: 1
+  * Mutability: create-only
+  * Data Type: Identifier
+  * Description: A server-unique identifier for the organisation object.
+  * Constraints:
+    * This value MUST be supported to be provided by the client.
+    * Servers MAY support server-side generation of this value.
+
+* Provisioning Metadata
+  * Identifier: provMetadata
+  * Cardinality: 1
+  * Mutability: read-only
+  * Data Type: Provisioning Metadata Object
+  * Description: Standard metadata about the object's lifecycle and ownership.
+  * Constraints: (None)
+
+* Status
+  * Identifier: status
+  * Cardinality: 1+
+  * Mutability: read-write
+  * Data Type: Status Object
+  * Description: The current operational status descriptors associated with the organisation. An organisation object MUST always have at least one associated status value.
+  * Constraints:
+    * Status values that can be added or removed by a client are prefixed with "client". Corresponding server-managed status values are prefixed with "server".
+    * Possible values: `ok`, `hold`, `terminated`, `linked`, `clientLinkProhibited`, `serverLinkProhibited`, `clientUpdateProhibited`, `serverUpdateProhibited`, `clientDeleteProhibited`, `serverDeleteProhibited`, `pendingCreate`, `pendingUpdate`, `pendingDelete`.
+    * `pendingCreate`, `ok`, `hold`, and `terminated` are mutually exclusive.
+    * `ok` MAY only be combined with `linked`.
+
+* Roles
+  * Identifier: roles
+  * Cardinality: 1+
+  * Mutability: read-write
+  * Data Type: DictionaryComposition[Organisation Role Object]
+    * Label Description: type of role
+    * Label Constraints: The value MUST be one of the role types registered in the IANA "EPP Organisation Role Values" registry as defined in [@!RFC8543, section 7.3]. Initial values include `registrar`, `reseller`, `privacyproxy`, and `dns-operator`.
+  * Description: One or more roles describing the relationship the organisation has within the registry ecosystem. An organisation object MUST always have at least one associated role.
+  * Constraints:
+    * An organisation MAY have multiple roles with different role types.
+    * Role types are registered in the IANA "EPP Organisation Role Values" registry as defined in [@!RFC8543, section 7.3]. Initial values include `registrar`, `reseller`, `privacyproxy`, and `dns-operator`.
+
+* Parent Organisation ID
+  * Identifier: parent
+  * Cardinality: 0-1
+  * Mutability: read-write
+  * Data Type: Organisation Data Object
+  * Description: The parent organisation in a hierarchical organisation structure (e.g., a reseller's parent registrar).
+  * Constraints:
+    * Loops MUST be prohibited. If organisation A has organisation B as its parent, organisation B MUST NOT have organisation A as its parent, directly or transitively.
+
+* Contact Information
+  * Identifier: contactInfo
+  * Cardinality: 0-1
+  * Mutability: read-write
+  * Data Type: External:RPP-JSContact-Profile:Card
+  * Description: Contact information for the organisation. 
+
+* Contacts
+  * Identifier: contacts
+  * Cardinality: 0+
+  * Mutability: read-write
+  * Data Type: LabelledAggregation[Contact Object]
+    * Label Description: type of contact
+    * Label Constraints: The value MUST be one of the contact types registered in the IANA "EPP Organisation Contact Types" registry as defined in [@!RFC8543, section 7.4]. Initial values include `admin`, `tech`, `billing`, `abuse`, and `custom`.  
+  * Description: Identifiers of contact objects associated with the organisation.
+  * Constraints:
+    * Contact object identifiers MUST be known to the server before the contact can be associated.
+
+A> TODO: how handle the "custom" contact type?
+
+* Users
+  * Identifier: users
+  * Cardinality: 0+
+  * Mutability: read-write
+  * Data Type: LabelledAggregation[User Object]
+    * Label Description: RBAC role of the user
+    * Label Constraints: The value MUST be one of the role types registered in the IANA "RPP User Role Values" registry.
+  * Description: One or more RBAC roles assigned to the user.
+  * Constraints:
+    * Each role value MUST be a non-empty string.
+    * Allowed role values MAY be constrained by server policy.
+
+A> TODO: define an IANA registry for user roles?
+
+## Operations
+
+### Create Operation
+
+* Identifier: create
+
+The Create operation allows a client to provision a new Organisation Data Object. The operation accepts as input all create-only and read-write data elements defined for the Organisation Data Object.
+
+* Authorisation:
+  * Generally only registry clients are authorised to create new organisation objects.
+
+An organisation object MUST include at least one role on creation. The server MAY defer completing the action and return a `pendingCreate` status if human or third-party review is required.
+
+### Read Operation
+
+* Identifier: read
+
+The Read operation allows a client to retrieve the data elements of an Organisation Data Object.
+
+* Authorisation:
+  * Any client is authorised to retrieve organisation object information. The server MAY restrict the information returned based on client identity and server policy.
+
+### Update Operation
+
+* Identifier: update
+
+The Update operation allows a client to modify the attributes of an existing Organisation Data Object.
+
+* Authorisation:
+  * Generally only registry clients are authorised to update organisation objects.
+
+The following aspects of the organisation object MAY be modified:
+
+* Contacts MAY be added or removed.
+* Roles MAY be added or removed.
+* Status values that are client-manageable (prefixed with "client") MAY be added or removed.
+* Parent Organisation ID and Contact Information MAY be changed.
+* Users MAY be added or removed.
+
+A client MUST NOT add, delete, or alter values for statuses managed by the server (prefixed with "server"). A server MAY add, delete, or alter status values set by a client, subject to server policy.
+
+### Delete Operation
+
+* Identifier: delete
+
+The Delete operation allows a client to remove an existing Organisation Data Object. The operation targets a specific data object identified by its Organisation ID.
+
+* Authorisation:
+  * Generally only registry clients are authorised to delete organisation objects.
+
+An organisation object MUST NOT be deleted if it is associated with other known objects (e.g., domain names, contacts, or child organisations). The server MUST reject such a delete request and notify the client that object relationships exist.
+
+The error response SHOULD indicate the related associated objects.
+
+# User Object
+
+## Object Description
+
+* Name: User Data Object
+* Identifier: user
+* Description: Represents a user linked to an Organisation Object. Each user carries a set of RBAC roles that define the user's permissions within the context of the owning Organisation Object. The lifecycle of a User Object is bound to its Organisation Object.
+
+## Data Elements
+
+The following data elements are defined for the User Data Object.
+
+* User Identifier
+  * Identifier: id
+  * Cardinality: 1
+  * Mutability: create-only
+  * Data Type: Identifier
+  * Description: A unique identifier for the user
+  * Constraints: MUST be globally unique in the server scope
+* Details
+  * Identifier: details
+  * Cardinality: 1
+  * Mutability: read-write
+  * Data Type: External:RPP-JSContact-Profile:Card
+  * Description: The details of the user, such as name, email, and phone number
+  * Constraints: -
+* Description
+  * Identifier: description
+  * Cardinality: 0-1
+  * Mutability: read-write
+  * Data Type: String
+  * Description: A description of the user
+  * Constraints: -
+* Status
+  * Identifier: status
+  * Cardinality: 1
+  * Mutability: read-write
+  * Data Type: String
+    * Constraints: The value MUST be one of the status tokens defined in the IANA registry for user statuses.
+    * Constraints: Possible values include `active`, `suspended`, `deactivated`, and `pending`.
+  * Description: The status of the user
+  * Constraints: -
+* Organisation ID
+  * Identifier: organisationId
+  * Cardinality: 1
+  * Mutability: read-only
+  * Data Type: Organisation Data Object Reference
+  * Description: A reference to the owner organisation object.
+  * Constraints: -
+
+A> TODO: what other data elements should be included for the User Data Object?
+
+## Operations
+
+### Create Operation
+
+* Identifier: create
+
+The Create operation creates a new user, which is associated with an existing Organisation Object. The operation accepts as input all create-only and read-write data elements of the User Object.
+
+* Authorisation:
+  * Client can only create users in the context of the organisation linked to the client, and only if the client has the necessary permissions to create users in that organisation.
+
+### Read Operation
+
+* Identifier: read
+
+The Read operation retrieves the data of a specific User Object.
+
+* Authorisation:
+  * Client can only read users in the context of the organisation linked to the client, and only if the client has the necessary permissions to read users in that organisation.
+
+### Update Operation
+
+* Identifier: update
+
+The Update operation modifies the read-write data elements.
+
+* Authorisation:
+  * Client can only update users in the context of the organisation linked to the client, and only if the client has the necessary permissions to update users in that organisation.
+
+### Delete Operation
+
+* Identifier: delete
+
+The Delete operation removes a specific User Object
+
+* Authorisation:
+  * Client can only delete users in the context of the organisation linked to the client, and only if the client has the necessary permissions to delete users in that organisation.
+
+The server MUST reject this operation if the User is associated with an Organisation Object.
+
 # IANA Considerations
 
 ## RPP Data Object Registry
@@ -2191,6 +2461,146 @@ Description: Removes an existing Host Data Object.
 
 Parameters: (None)
 
+Object: organisationRole
+
+Object Name: Organisation Role Object
+
+Object Type: Component
+
+Description: Represents a role that an organisation has within the registry ecosystem, as defined in [@!RFC8543, section 3.2]. An organisation object MUST always have at least one associated role.
+
+Reference: [This-ID]
+
+Data Elements
+| Element Identifier | Element Name    | Card. | Mutability | Data Type | Description                                                                                                                                      |
+| ------------------ | --------------- | ----- | ---------- | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| status             | Role Status     | 0+    | read-write | String    | The status of this role. Allowed values: `ok`, `linked`, `clientLinkProhibited`, `serverLinkProhibited`.                                         |
+| roleId             | Role Identifier | 0-1   | read-write | String    | A third-party-assigned identifier for this role, such as an IANA registrar ID.                                                                   |
+
+Object: organisation
+
+Object Name: Organisation Data Object
+
+Object Type: Resource
+
+Description: Represents an entity, such as a registrar, reseller, DNS service operator, or privacy proxy, involved in the domain registration process. Based on the EPP Organisation Mapping defined in [@!RFC8543].
+
+Reference: [This-ID]
+
+Data Elements
+| Identifier   | Name                   | Card. | Mutability  | Data Type                                         | Description                                                                                              |
+| ------------ | ---------------------- | ----- | ----------- | ------------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
+| id           | Organisation ID        | 1     | create-only | Identifier                                        | A server-unique identifier for the organisation object.                                                  |
+| provMetadata | Provisioning Metadata  | 1     | read-only   | Provisioning Metadata Object                      | Standard metadata about the object's lifecycle and ownership.                                            |
+| status       | Status                 | 1+    | read-only   | Status Object                                     | The current operational status descriptors for the organisation.                                         |
+| roles        | Roles                  | 1+    | read-write  | DictionaryComposition [Organisation Role Object]  | One or more roles describing the organisation's relationship within the registry ecosystem.              |
+| parent     | Parent Organisation ID | 0-1   | read-write  | Identifier                                        | The identifier of the parent organisation in a hierarchical organisation structure.                      |
+| contactInfo   | Contact Information     | 0-1   | read-write  | External:RPP-JSContact-Profile:Card     | Contact information
+| contacts     | Contacts               | 0+    | read-write  | LabelledAggregation[Contact Object]       | Identifiers of contact objects associated with the organisation.                                         |
+| users        | Users                  | 0+    | read-write  | LabelledAggregation [User Data Object]          | Identifiers of user objects associated with the organisation.                                         |
+
+Operations
+
+Operation: Create
+
+Operation Identifier: create
+
+Description: Provisions a new Organisation Data Object.
+
+Parameters: (None)
+
+Operation: Read
+
+Operation Identifier: read
+
+Description: Retrieves the data elements of an Organisation Data Object.
+
+Parameters: (None)
+
+Operation: Update
+
+Operation Identifier: update
+
+Description: Modifies the attributes of an existing Organisation Data Object.
+
+Parameters: (None)
+
+Operation: Delete
+
+Operation Identifier: delete
+
+Description: Removes an existing Organisation Data Object.
+
+Parameters: (None)
+
+Object: user
+
+Object Name: User Data Object
+
+Object Type: Resource
+
+Description: Represents a user linked to an Organisation Data Object. Each user carries a set of RBAC roles that define the user's permissions within the context of the owning organisation. The lifecycle of a User Object is bound to its Organisation Object.
+
+Reference: [This-ID]
+
+Data Elements
+| Identifier | Name            | Card. | Mutability  | Data Type | Description                                                  |
+| ---------- | --------------- | ----- | ----------- | --------- | ------------------------------------------------------------ |
+| id         | User Identifier | 1     | create-only | Identifier | A unique identifier for the user. MUST be globally unique in the server scope. |
+| details    | Details         | 0-1   | read-write  | External:RPP-JSContact-Profile:Card  | The details of the user.                                         |
+| status     | Status         | 0+    | read-write   | string    | The status of the user. |
+
+Operations
+
+Operation: Create
+
+Operation Identifier: create
+
+Description: Creates a new User Object.
+
+Parameters: (None)
+
+Operation: Read
+
+Operation Identifier: read
+
+Description: Retrieves the data elements of a specific User Object.
+
+Parameters: (None)
+
+Operation: Update
+
+Operation Identifier: update
+
+Description: Modifies the read-write data elements (e.g., roles) of a specific User Object.
+
+Parameters: (None)
+
+Operation: Delete
+
+Operation Identifier: delete
+
+Description: Removes a specific User Object.
+
+Parameters: (None)
+
+## RPP User Role Values Registry
+
+This document establishes the "RESTful Provisioning Protocol (RPP) User Role Values Registry". This registry serves as a catalogue of all user role values used within RPP.
+
+```text
+Name of the registry: RPP User Role Values
+Registry group: RESTful Provisioning Protocol (RPP)
+Registration procedure: Expert Review
+```
+
+Fields to be registered:
+
+- `name`: The name of the user role, for example "RPP example role".
+- `url`: The URL for the user role specification, for example "https://www.iana.org/assignments/rpp-user-roles/rpp-example-role-1.0".
+- `permission`: The permission level associated with the user role, for example "read-only", "read-write", or "admin".
+- `description`: A human-readable description of the user role and its intended use.
+
 # Security Considerations
 
 A> TODO: write security considerations, if any
@@ -2203,6 +2613,7 @@ A> TODO: write security considerations, if any
 {numbered="false"}
 ## draft-kowalik-rpp-data-objects -04 - -05
 
+* Added Organisation, Organisation Role and User Objects, based on RFC8543 (Issue #25)
 * Added Renew Process Object and operations (Issue #76)
 
 {toc="exclude"}
