@@ -180,6 +180,12 @@ The definition of each data element within an object consists of the following a
   * read-only: The element's value is managed by the server. It cannot be set or modified directly by the client, though it may change as a result of server-side operations.
   * read-write: The element's value can be set and modified by the client.
 
+## Reserved Property Names
+
+Data object definitions MUST NOT define properties whose names begin with the `@` character. Names beginning with `@` are reserved for use by representation specifications. This prohibition applies to all data object types: resource objects, component objects, and process objects.
+
+<!-- Maybe we don't need it, if we define ABNF for identifiers, which will exclude usage of '@'-->
+
 ## Operations
 
 For each data object a set of possible operations is defined together with their respective input and output data.
@@ -1211,6 +1217,41 @@ The renew operation extends the validity period of an existing object by creatin
 * Authorisation:
   * Only the sponsoring client is authorised to perform this operation.
 
+## Create Process Object {#create-process}
+
+* Name: Create Process Object
+* Identifier: createProcess
+* Description: Represents the process initiated when a resource creation operation is performed. It carries creation-specific inputs that are consumed during the creation operation and are not stored as persistent attributes of the created resource object.
+* Data Elements:
+
+The generic Create Process Object defines no data elements. Individual object definitions extend it with object-specific creation inputs (such as the Domain Create Process Object (#domain-create-process), which adds the registration period).
+
+### Operations
+
+#### Create {#create-process-create}
+
+* Identifier: create
+
+The Create operation is invoked implicitly as a side effect of the resource object create operation and is never invoked directly. It carries the creation-specific inputs consumed during the creation of the owning resource object.
+
+* Input: Create Process Object (create-only and read-write elements)
+* Output: Create Process Object
+
+* Authorisation:
+  * Inherited from the resource object create operation that initiates this process.
+
+#### Read {#create-process-read}
+
+* Identifier: read
+
+The Read operation retrieves the result or status of the creation, if the server exposes the process resource.
+
+* Input: Object Identifier
+* Output: Create Process Object
+
+* Authorisation:
+  * Only the sponsoring client is authorised to perform this operation.
+
 # Domain Name Data Object
 
 ## Object Description
@@ -1335,13 +1376,7 @@ The Create operation allows a client to provision a new Domain Name resource. Th
 * Authorisation:
   * Generally each client is authorised to create new domain objects becoming a sponsoring client. This can be however constrained by the server policy in many ways, i.e. by applying rate limiting, billing related constraints or compliance locks.
 
-In addition, the following transient data element is defined for this operation:
-
-* Registration Period
-  * Identifier: period
-  * Cardinality: 0-1
-  * Data Type: Period Object
-  * Description: The initial registration period for the domain name. This value is used by the server to calculate the initial `expiryDate` of the object. This element is not persisted as part of the object's state. 
+The Create operation implicitly initiates the Domain Create Process Object (#domain-create-process), which carries the creation-specific inputs that are consumed during creation and not persisted as part of the domain object's state.
 
 ### Read Operation
 
@@ -1452,6 +1487,46 @@ In addition, the following transient data element is defined for this operation:
 The Domain Name Data Object supports the restore operations defined in the (#restore-ops). These operations are OPTIONAL and are only available when the RGP feature is supported.
 
 No domain-specific transient data elements extend the common restore operations beyond those defined in the (#restore-ops).
+
+## Domain Create Process Object {#domain-create-process}
+
+* Name: Domain Create Process Object
+* Identifier: domainCreateProcess
+* Description: The domain-specific Create Process Object (#create-process). It is implicitly initiated by the Domain Name Data Object create operation and carries the domain creation-specific inputs, namely the requested initial registration period, that are consumed during creation and not persisted as part of the domain object's state.
+* Data Elements:
+  * Period
+    * Identifier: period
+    * Cardinality: 0-1
+    * Mutability: create-only
+    * Data Type: Period Object
+    * Description: The initial registration period for the domain name. This value is used by the server to calculate the initial `expiryDate` of the object.
+    * Constraints: (None)
+
+### Operations
+
+#### Create {#domain-create-process-create}
+
+* Identifier: create
+
+The Create operation is invoked implicitly as a side effect of the Domain Name Data Object create operation and is never invoked directly. It carries the registration period consumed during domain creation.
+
+* Input: Domain Create Process Object (create-only and read-write elements)
+* Output: Domain Create Process Object
+
+* Authorisation:
+  * Inherited from the Domain Name Data Object create operation that initiates this process.
+
+#### Read {#domain-create-process-read}
+
+* Identifier: read
+
+The Read operation retrieves the result or status of the domain creation, if the server exposes the process resource.
+
+* Input: Object Identifier
+* Output: Domain Create Process Object
+
+* Authorisation:
+  * Only the sponsoring client is authorised to perform this operation.
 
 # Contact Data Object
 
@@ -2184,6 +2259,72 @@ Description: Initiates a renewal of a provisioned object by creating a Renew Pro
 
 Parameters: (None)
 
+Object: createProcess
+
+Object Name: Create Process Object
+
+Object Type: Process
+
+Description: Represents the process initiated when a resource creation operation is performed. Carries creation-specific inputs that are consumed during creation and not stored as persistent attributes of the created resource object.
+
+Reference: [This-ID]
+
+Data Elements
+| Element Identifier | Element Name | Card. | Mutability | Data Type | Description |
+| ------------------ | ------------ | ----- | ---------- | --------- | ----------- |
+|                    |              |       |            |           |             |
+
+Operations
+
+Operation: Create
+
+Operation Identifier: create
+
+Description: Invoked implicitly as a side effect of the resource object create operation; never invoked directly. Carries creation-specific inputs consumed during creation of the owning resource object.
+
+Parameters: (None)
+
+Operation: Read
+
+Operation Identifier: read
+
+Description: Retrieves the result or status of the creation, if the server exposes the process resource.
+
+Parameters: (None)
+
+Object: domainCreateProcess
+
+Object Name: Domain Create Process Object
+
+Object Type: Process
+
+Description: The Create Process Object specific to the Domain Name Data Object. Implicitly initiated by the domain create operation; carries the requested initial registration period consumed during creation and not persisted as part of the domain object's state.
+
+Reference: [This-ID]
+
+Data Elements
+| Element Identifier | Element Name | Card. | Mutability  | Data Type     | Description                                      |
+| ------------------ | ------------ | ----- | ----------- | ------------- | ------------------------------------------------ |
+| period             | Period       | 0-1   | create-only | Period Object | The initial registration period for the domain name. |
+
+Operations
+
+Operation: Create
+
+Operation Identifier: create
+
+Description: Invoked implicitly as a side effect of the Domain Name Data Object create operation; never invoked directly. Carries the registration period consumed during domain creation.
+
+Parameters: (None)
+
+Operation: Read
+
+Operation Identifier: read
+
+Description: Retrieves the result or status of the domain creation, if the server exposes the process resource.
+
+Parameters: (None)
+
 Object: disclose
 
 Object Name: Disclose
@@ -2304,10 +2445,7 @@ Operation Identifier: create
 
 Description: Provisions a new Domain Name resource.
 
-Parameters
-| Identifier | Name                | Card. | Data Type     | Description                                          |
-| ---------- | ------------------- | ----- | ------------- | ---------------------------------------------------- |
-| period     | Registration Period | 0-1   | Period Object | The initial registration period for the domain name. |
+Parameters: (None)
 
 Operation: Read
 
@@ -2615,6 +2753,8 @@ A> TODO: write security considerations, if any
 
 * Added Organisation, Organisation Role and User Objects, based on RFC8543 (Issue #25)
 * Added Renew Process Object and operations (Issue #76)
+* reserve property names beginning with `@` for representation specifications #89
+* add generic Create Process Object and Domain Create Process Object carrying the registration period #89
 
 {toc="exclude"}
 {numbered="false"}

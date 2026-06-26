@@ -165,6 +165,10 @@ The data type of a data element may also be a reference to another data object, 
 </ul>
 </section>
 
+<section anchor="reserved-property-names"><name>Reserved Property Names</name>
+<t>Data object definitions MUST NOT define properties whose names begin with the <tt>@</tt> character. Names beginning with <tt>@</tt> are reserved for use by representation specifications. This prohibition applies to all data object types: resource objects, component objects, and process objects.</t>
+</section>
+
 <section anchor="operations"><name>Operations</name>
 <t>For each data object a set of possible operations is defined together with their respective input and output data.</t>
 
@@ -273,8 +277,7 @@ The data type of a data element may also be a reference to another data object, 
    |                               or not req.    | |      Purged       (12)|
    |                                  <create>    | +-----------------------+
    +----------------------------------------------+
-]]>
-</sourcecode>
+]]></sourcecode>
 <t>State descriptions:</t>
 
 <ol spacing="compact">
@@ -317,8 +320,7 @@ The reference MUST use the following format: <tt>External:&lt;specification-iden
 <artwork><![CDATA[identifier = "External:" TYPEID ":" TYPEID
 
 TYPEID = ALPHA *( ALPHA / DIGIT / "-" / "_" )
-]]>
-</artwork>
+]]></artwork>
 </section>
 
 <section anchor="versioning-and-compatibility"><name>Versioning and Compatibility</name>
@@ -374,8 +376,7 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 |             |    ...   |
 |             +----------+
 +-------------------+
-]]>
-</sourcecode>
+]]></sourcecode>
 <t>Example aggregation having cardinality &gt;1:</t>
 
 <sourcecode type="ascii"><![CDATA[+-------------------+
@@ -392,8 +393,7 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 |             +----------+
 |         ...       |
 +-------------------+
-]]>
-</sourcecode>
+]]></sourcecode>
 </section>
 
 <section anchor="composition"><name>Composition</name>
@@ -411,8 +411,7 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 |   +--| ...   |    |
 |      +-------+    |
 +-------------------+
-]]>
-</sourcecode>
+]]></sourcecode>
 <t>Example composition having cardinality &gt;1:</t>
 
 <sourcecode type="ascii"><![CDATA[+-------------------+
@@ -427,8 +426,7 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 |   |     +-------+ |
 |   ...             |
 +-------------------+
-]]>
-</sourcecode>
+]]></sourcecode>
 </section>
 
 <section anchor="labelled-aggregation"><name>Labelled Aggregation</name>
@@ -457,8 +455,7 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 |   ...                          |
 +--------------------------------+
 
-]]>
-</sourcecode>
+]]></sourcecode>
 </section>
 
 <section anchor="dictionary-aggregation"><name>Dictionary Aggregation</name>
@@ -481,8 +478,7 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 |                   +-----------+
 |     ...                  |
 +--------------------------+
-]]>
-</sourcecode>
+]]></sourcecode>
 </section>
 
 <section anchor="labelled-composition"><name>Labelled Composition</name>
@@ -510,8 +506,7 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 |   |                    +----------+ |
 |   ...                               |
 +-------------------------------------+
-]]>
-</sourcecode>
+]]></sourcecode>
 </section>
 
 <section anchor="dictionary-composition"><name>Dictionary Composition</name>
@@ -534,8 +529,7 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 |             +---------+  |
 |     ...                  |
 +--------------------------+
-]]>
-</sourcecode>
+]]></sourcecode>
 </section>
 </section>
 
@@ -1542,6 +1536,58 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 </section>
 </section>
 </section>
+
+<section anchor="create-process"><name>Create Process Object</name>
+
+<ul spacing="compact">
+<li>Name: Create Process Object</li>
+<li>Identifier: createProcess</li>
+<li>Description: Represents the process initiated when a resource creation operation is performed. It carries creation-specific inputs that are consumed during the creation operation and are not stored as persistent attributes of the created resource object.</li>
+<li>Data Elements:</li>
+</ul>
+<t>The generic Create Process Object defines no data elements. Individual object definitions extend it with object-specific creation inputs (such as the Domain Create Process Object <xref target="domain-create-process"></xref>, which adds the registration period).</t>
+
+<section anchor="operations-4"><name>Operations</name>
+
+<section anchor="create-process-create"><name>Create</name>
+
+<ul spacing="compact">
+<li>Identifier: create</li>
+</ul>
+<t>The Create operation is invoked implicitly as a side effect of the resource object create operation and is never invoked directly. It carries the creation-specific inputs consumed during the creation of the owning resource object.</t>
+
+<ul>
+<li>Input: Create Process Object (create-only and read-write elements)</li>
+<li><t>Output: Create Process Object</t>
+</li>
+<li><t>Authorisation:</t>
+
+<ul spacing="compact">
+<li>Inherited from the resource object create operation that initiates this process.</li>
+</ul></li>
+</ul>
+</section>
+
+<section anchor="create-process-read"><name>Read</name>
+
+<ul spacing="compact">
+<li>Identifier: read</li>
+</ul>
+<t>The Read operation retrieves the result or status of the creation, if the server exposes the process resource.</t>
+
+<ul>
+<li>Input: Object Identifier</li>
+<li><t>Output: Create Process Object</t>
+</li>
+<li><t>Authorisation:</t>
+
+<ul spacing="compact">
+<li>Only the sponsoring client is authorised to perform this operation.</li>
+</ul></li>
+</ul>
+</section>
+</section>
+</section>
 </section>
 
 <section anchor="domain-name-data-object"><name>Domain Name Data Object</name>
@@ -1716,7 +1762,7 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 </ul>
 </section>
 
-<section anchor="operations-4"><name>Operations</name>
+<section anchor="operations-5"><name>Operations</name>
 
 <section anchor="create-operation"><name>Create Operation</name>
 
@@ -1732,18 +1778,7 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 <li>Generally each client is authorised to create new domain objects becoming a sponsoring client. This can be however constrained by the server policy in many ways, i.e. by applying rate limiting, billing related constraints or compliance locks.</li>
 </ul></li>
 </ul>
-<t>In addition, the following transient data element is defined for this operation:</t>
-
-<ul spacing="compact">
-<li><t>Registration Period</t>
-
-<ul spacing="compact">
-<li>Identifier: period</li>
-<li>Cardinality: 0-1</li>
-<li>Data Type: Period Object</li>
-<li>Description: The initial registration period for the domain name. This value is used by the server to calculate the initial <tt>expiryDate</tt> of the object. This element is not persisted as part of the object's state.</li>
-</ul></li>
-</ul>
+<t>The Create operation implicitly initiates the Domain Create Process Object <xref target="domain-create-process"></xref>, which carries the creation-specific inputs that are consumed during creation and not persisted as part of the domain object's state.</t>
 </section>
 
 <section anchor="read-operation"><name>Read Operation</name>
@@ -1913,6 +1948,70 @@ is &quot;all&quot;.</li>
 <t>No domain-specific transient data elements extend the common restore operations beyond those defined in the <xref target="restore-ops"></xref>.</t>
 </section>
 </section>
+
+<section anchor="domain-create-process"><name>Domain Create Process Object</name>
+
+<ul spacing="compact">
+<li>Name: Domain Create Process Object</li>
+<li>Identifier: domainCreateProcess</li>
+<li>Description: The domain-specific Create Process Object <xref target="create-process"></xref>. It is implicitly initiated by the Domain Name Data Object create operation and carries the domain creation-specific inputs, namely the requested initial registration period, that are consumed during creation and not persisted as part of the domain object's state.</li>
+<li><t>Data Elements:</t>
+
+<ul spacing="compact">
+<li><t>Period</t>
+
+<ul spacing="compact">
+<li>Identifier: period</li>
+<li>Cardinality: 0-1</li>
+<li>Mutability: create-only</li>
+<li>Data Type: Period Object</li>
+<li>Description: The initial registration period for the domain name. This value is used by the server to calculate the initial <tt>expiryDate</tt> of the object.</li>
+<li>Constraints: (None)</li>
+</ul></li>
+</ul></li>
+</ul>
+
+<section anchor="operations-6"><name>Operations</name>
+
+<section anchor="domain-create-process-create"><name>Create</name>
+
+<ul spacing="compact">
+<li>Identifier: create</li>
+</ul>
+<t>The Create operation is invoked implicitly as a side effect of the Domain Name Data Object create operation and is never invoked directly. It carries the registration period consumed during domain creation.</t>
+
+<ul>
+<li>Input: Domain Create Process Object (create-only and read-write elements)</li>
+<li><t>Output: Domain Create Process Object</t>
+</li>
+<li><t>Authorisation:</t>
+
+<ul spacing="compact">
+<li>Inherited from the Domain Name Data Object create operation that initiates this process.</li>
+</ul></li>
+</ul>
+</section>
+
+<section anchor="domain-create-process-read"><name>Read</name>
+
+<ul spacing="compact">
+<li>Identifier: read</li>
+</ul>
+<t>The Read operation retrieves the result or status of the domain creation, if the server exposes the process resource.</t>
+
+<ul>
+<li>Input: Object Identifier</li>
+<li><t>Output: Domain Create Process Object</t>
+</li>
+<li><t>Authorisation:</t>
+
+<ul spacing="compact">
+<li>Only the sponsoring client is authorised to perform this operation.</li>
+</ul></li>
+</ul>
+</section>
+</section>
+</section>
 </section>
 
 <section anchor="contact-data-object"><name>Contact Data Object</name>
@@ -2005,7 +2104,7 @@ is &quot;all&quot;.</li>
 </aside>
 </section>
 
-<section anchor="operations-5"><name>Operations</name>
+<section anchor="operations-7"><name>Operations</name>
 
 <section anchor="create-operation-1"><name>Create Operation</name>
 
@@ -2178,7 +2277,7 @@ is &quot;all&quot;.</li>
 </ul>
 </section>
 
-<section anchor="operations-6"><name>Operations</name>
+<section anchor="operations-8"><name>Operations</name>
 
 <section anchor="create-operation-2"><name>Create Operation</name>
 
@@ -2412,7 +2511,7 @@ is &quot;all&quot;.</li>
 </aside>
 </section>
 
-<section anchor="operations-7"><name>Operations</name>
+<section anchor="operations-9"><name>Operations</name>
 
 <section anchor="create-operation-3"><name>Create Operation</name>
 
@@ -2569,7 +2668,7 @@ is &quot;all&quot;.</li>
 </aside>
 </section>
 
-<section anchor="operations-8"><name>Operations</name>
+<section anchor="operations-10"><name>Operations</name>
 
 <section anchor="create-operation-4"><name>Create Operation</name>
 
@@ -3157,6 +3256,80 @@ registry MUST provide:</t>
 <t>Operation Identifier: renewCreate</t>
 <t>Description: Initiates a renewal of a provisioned object by creating a Renew Process Object.</t>
 <t>Parameters: (None)</t>
+<t>Object: createProcess</t>
+<t>Object Name: Create Process Object</t>
+<t>Object Type: Process</t>
+<t>Description: Represents the process initiated when a resource creation operation is performed. Carries creation-specific inputs that are consumed during creation and not stored as persistent attributes of the created resource object.</t>
+<t>Reference: [This-ID]</t>
+<t>Data Elements</t>
+<table>
+<thead>
+<tr>
+<th>Element Identifier</th>
+<th>Element Name</th>
+<th>Card.</th>
+<th>Mutability</th>
+<th>Data Type</th>
+<th>Description</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table><t>Operations</t>
+<t>Operation: Create</t>
+<t>Operation Identifier: create</t>
+<t>Description: Invoked implicitly as a side effect of the resource object create operation; never invoked directly. Carries creation-specific inputs consumed during creation of the owning resource object.</t>
+<t>Parameters: (None)</t>
+<t>Operation: Read</t>
+<t>Operation Identifier: read</t>
+<t>Description: Retrieves the result or status of the creation, if the server exposes the process resource.</t>
+<t>Parameters: (None)</t>
+<t>Object: domainCreateProcess</t>
+<t>Object Name: Domain Create Process Object</t>
+<t>Object Type: Process</t>
+<t>Description: The Create Process Object specific to the Domain Name Data Object. Implicitly initiated by the domain create operation; carries the requested initial registration period consumed during creation and not persisted as part of the domain object's state.</t>
+<t>Reference: [This-ID]</t>
+<t>Data Elements</t>
+<table>
+<thead>
+<tr>
+<th>Element Identifier</th>
+<th>Element Name</th>
+<th>Card.</th>
+<th>Mutability</th>
+<th>Data Type</th>
+<th>Description</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>period</td>
+<td>Period</td>
+<td>0-1</td>
+<td>create-only</td>
+<td>Period Object</td>
+<td>The initial registration period for the domain name.</td>
+</tr>
+</tbody>
+</table><t>Operations</t>
+<t>Operation: Create</t>
+<t>Operation Identifier: create</t>
+<t>Description: Invoked implicitly as a side effect of the Domain Name Data Object create operation; never invoked directly. Carries the registration period consumed during domain creation.</t>
+<t>Parameters: (None)</t>
+<t>Operation: Read</t>
+<t>Operation Identifier: read</t>
+<t>Description: Retrieves the result or status of the domain creation, if the server exposes the process resource.</t>
+<t>Parameters: (None)</t>
 <t>Object: disclose</t>
 <t>Object Name: Disclose</t>
 <t>Object Type: Component</t>
@@ -3488,28 +3661,8 @@ registry MUST provide:</t>
 <t>Operation: Create</t>
 <t>Operation Identifier: create</t>
 <t>Description: Provisions a new Domain Name resource.</t>
-<t>Parameters</t>
-<table>
-<thead>
-<tr>
-<th>Identifier</th>
-<th>Name</th>
-<th>Card.</th>
-<th>Data Type</th>
-<th>Description</th>
-</tr>
-</thead>
-
-<tbody>
-<tr>
-<td>period</td>
-<td>Registration Period</td>
-<td>0-1</td>
-<td>Period Object</td>
-<td>The initial registration period for the domain name.</td>
-</tr>
-</tbody>
-</table><t>Operation: Read</t>
+<t>Parameters: (None)</t>
+<t>Operation: Read</t>
 <t>Operation Identifier: read</t>
 <t>Description: Retrieves the data elements of a Domain Name resource.</t>
 <t>Parameters</t>
@@ -4018,8 +4171,7 @@ registry MUST provide:</t>
 <sourcecode type="text"><![CDATA[Name of the registry: RPP User Role Values
 Registry group: RESTful Provisioning Protocol (RPP)
 Registration procedure: Expert Review
-]]>
-</sourcecode>
+]]></sourcecode>
 <t>Fields to be registered:</t>
 
 <ul spacing="compact">
@@ -4044,6 +4196,8 @@ Registration procedure: Expert Review
 <ul spacing="compact">
 <li>Added Organisation, Organisation Role and User Objects, based on RFC8543 (Issue #25)</li>
 <li>Added Renew Process Object and operations (Issue #76)</li>
+<li>reserve property names beginning with <tt>@</tt> for representation specifications #89</li>
+<li>add generic Create Process Object and Domain Create Process Object carrying the registration period #89</li>
 </ul>
 </section>
 

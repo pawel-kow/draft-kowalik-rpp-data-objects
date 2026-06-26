@@ -76,19 +76,20 @@ Table of Contents
        2.3.1.  Standardised and Private Extensions
        2.3.2.  Extension Points
      2.4.  Data Element Semantics
-     2.5.  Operations
-       2.5.1.  Authorisation
-       2.5.2.  Uniform interface
-         2.5.2.1.  Create
-         2.5.2.2.  Read
-         2.5.2.3.  Update
-         2.5.2.4.  Delete
-       2.5.3.  Operations beyond uniform interface
-       2.5.4.  Transfer Operations
-       2.5.5.  Restore Operations
-         2.5.5.1.  Redemption Grace Period State Diagram
-       2.5.6.  Renew Operations
-     2.6.  EPP Compatibility Profile
+     2.5.  Reserved Property Names
+     2.6.  Operations
+       2.6.1.  Authorisation
+       2.6.2.  Uniform interface
+         2.6.2.1.  Create
+         2.6.2.2.  Read
+         2.6.2.3.  Update
+         2.6.2.4.  Delete
+       2.6.3.  Operations beyond uniform interface
+       2.6.4.  Transfer Operations
+       2.6.5.  Restore Operations
+         2.6.5.1.  Redemption Grace Period State Diagram
+       2.6.6.  Renew Operations
+     2.7.  EPP Compatibility Profile
    3.  External Data Types
      3.1.  Referencing External Data Types
      3.2.  Versioning and Compatibility
@@ -132,6 +133,10 @@ Table of Contents
      7.3.  Renew Process Object
        7.3.1.  Operations
          7.3.1.1.  Create (Renew Request)
+     7.4.  Create Process Object
+       7.4.1.  Operations
+         7.4.1.1.  Create
+         7.4.1.2.  Read
    8.  Domain Name Data Object
      8.1.  Object Description
      8.2.  Data Elements
@@ -145,6 +150,10 @@ Table of Contents
        8.3.6.  Transfer Operations
          8.3.6.1.  Transfer Create Operation
        8.3.7.  Restore Operations
+     8.4.  Domain Create Process Object
+       8.4.1.  Operations
+         8.4.1.1.  Create
+         8.4.1.2.  Read
    9.  Contact Data Object
      9.1.  Object Description
      9.2.  Data Elements
@@ -441,12 +450,20 @@ Table of Contents
       -  read-write: The element's value can be set and modified by the
          client.
 
-2.5.  Operations
+2.5.  Reserved Property Names
+
+   Data object definitions MUST NOT define properties whose names begin
+   with the @ character.  Names beginning with @ are reserved for use by
+   representation specifications.  This prohibition applies to all data
+   object types: resource objects, component objects, and process
+   objects.
+
+2.6.  Operations
 
    For each data object a set of possible operations is defined together
    with their respective input and output data.
 
-2.5.1.  Authorisation
+2.6.1.  Authorisation
 
    For each operation authorisation requirements and operation behaviour
    is specified.
@@ -457,19 +474,19 @@ Table of Contents
    operation MAY result in different processing or response if such
    authorisation is provided.
 
-2.5.2.  Uniform interface
+2.6.2.  Uniform interface
 
    For the typical set of Create, Read, Update and Delete operations the
    following set of input and output data model is specified on top of
    additional transient input data, unless an operation for the specific
    object tells otherwise.
 
-2.5.2.1.  Create
+2.6.2.1.  Create
 
    -  Input: Object (create-only and read-write properties)
    -  Output: Object (read-write and read-only properties)
 
-2.5.2.2.  Read
+2.6.2.2.  Read
 
    -  Input: Object identifier
    -  Output: Object (read-write and read-only properties)
@@ -491,22 +508,22 @@ Table of Contents
    policy determines which OPTIONAL elements are returned, if any, or
    whether the entire request is rejected.
 
-2.5.2.3.  Update
+2.6.2.3.  Update
 
    -  Input: Object identifier, Object changes (read-write properties)
    -  Output: Object (read-write and read-only properties)
 
-2.5.2.4.  Delete
+2.6.2.4.  Delete
 
    -  Input: Object identifier
    -  Output: Object (read-write and read-only properties) or nothing
 
-2.5.3.  Operations beyond uniform interface
+2.6.3.  Operations beyond uniform interface
 
    For all other operations both input and output have to be fully
    specified.
 
-2.5.4.  Transfer Operations
+2.6.4.  Transfer Operations
 
    Transfer operations manage the change of sponsorship of a provisioned
    object from one client (the sponsoring client) to another (the
@@ -545,7 +562,7 @@ Table of Contents
       |  for transfer, object pending transfer, object not pending
       |  transfer) are not defined in this document.
 
-2.5.5.  Restore Operations
+2.6.5.  Restore Operations
 
    Restore operations manage the recovery of an object that has entered
    the Redemption Grace Period (RGP).  They are OPTIONAL and are only
@@ -578,7 +595,7 @@ Table of Contents
    and are executed in the context of Owner Data Object the operation is
    created upon.
 
-2.5.5.1.  Redemption Grace Period State Diagram
+2.6.5.1.  Redemption Grace Period State Diagram
 
    The following state diagram describes the object lifecycle when the
    Redemption Grace Period (RGP) feature is supported.  It adapts the
@@ -649,7 +666,7 @@ Table of Contents
    11.  The pending delete period elapses and the object is purged.
    12.  The object is purged and available for re-registration.
 
-2.5.6.  Renew Operations
+2.6.6.  Renew Operations
 
    Renew operations manage the validity period of a provisioned object.
    They are specified once in this section as the renewal model is
@@ -657,7 +674,7 @@ Table of Contents
    definitions reference this section and specify any object-specific
    extensions to the common pattern.
 
-2.6.  EPP Compatibility Profile
+2.7.  EPP Compatibility Profile
 
    RPP is designed to coexist with the Extensible Provisioning Protocol
    (EPP), often operating in parallel against a common backend
@@ -1907,6 +1924,57 @@ Table of Contents
       -  Only the sponsoring client is authorised to perform this
          operation.
 
+7.4.  Create Process Object
+
+   -  Name: Create Process Object
+   -  Identifier: createProcess
+   -  Description: Represents the process initiated when a resource
+      creation operation is performed.  It carries creation-specific
+      inputs that are consumed during the creation operation and are not
+      stored as persistent attributes of the created resource object.
+   -  Data Elements:
+
+   The generic Create Process Object defines no data elements.
+   Individual object definitions extend it with object-specific creation
+   inputs (such as the Domain Create Process Object Section 8.4, which
+   adds the registration period).
+
+7.4.1.  Operations
+
+7.4.1.1.  Create
+
+   -  Identifier: create
+
+   The Create operation is invoked implicitly as a side effect of the
+   resource object create operation and is never invoked directly.  It
+   carries the creation-specific inputs consumed during the creation of
+   the owning resource object.
+
+   -  Input: Create Process Object (create-only and read-write elements)
+
+   -  Output: Create Process Object
+
+   -  Authorisation:
+
+      -  Inherited from the resource object create operation that
+         initiates this process.
+
+7.4.1.2.  Read
+
+   -  Identifier: read
+
+   The Read operation retrieves the result or status of the creation, if
+   the server exposes the process resource.
+
+   -  Input: Object Identifier
+
+   -  Output: Create Process Object
+
+   -  Authorisation:
+
+      -  Only the sponsoring client is authorised to perform this
+         operation.
+
 8.  Domain Name Data Object
 
 8.1.  Object Description
@@ -2079,17 +2147,10 @@ Table of Contents
          constrained by the server policy in many ways, i.e. by applying
          rate limiting, billing related constraints or compliance locks.
 
-   In addition, the following transient data element is defined for this
-   operation:
-
-   -  Registration Period
-      -  Identifier: period
-      -  Cardinality: 0-1
-      -  Data Type: Period Object
-      -  Description: The initial registration period for the domain
-         name.  This value is used by the server to calculate the
-         initial expiryDate of the object.  This element is not
-         persisted as part of the object's state.
+   The Create operation implicitly initiates the Domain Create Process
+   Object Section 8.4, which carries the creation-specific inputs that
+   are consumed during creation and not persisted as part of the domain
+   object's state.
 
 8.3.2.  Read Operation
 
@@ -2170,7 +2231,7 @@ Table of Contents
 8.3.5.  Renew Operations
 
    The Domain Name Data Object supports the renew operations defined in
-   the Section 2.5.6.  The renewal of a domain name changes the expiry
+   the Section 2.6.6.  The renewal of a domain name changes the expiry
    date of the domain object.
 
 8.3.5.1.  Renew Create Operation
@@ -2187,7 +2248,7 @@ Table of Contents
 8.3.6.  Transfer Operations
 
    The Domain Name Data Object supports the common transfer operations
-   defined in the Section 2.5.4.  The transfer of a domain name changes
+   defined in the Section 2.6.4.  The transfer of a domain name changes
    the sponsoring client of the domain object.
 
    Transfer of a domain object MUST implicitly transfer all host objects
@@ -2232,11 +2293,69 @@ Table of Contents
 8.3.7.  Restore Operations
 
    The Domain Name Data Object supports the restore operations defined
-   in the Section 2.5.5.  These operations are OPTIONAL and are only
+   in the Section 2.6.5.  These operations are OPTIONAL and are only
    available when the RGP feature is supported.
 
    No domain-specific transient data elements extend the common restore
-   operations beyond those defined in the Section 2.5.5.
+   operations beyond those defined in the Section 2.6.5.
+
+8.4.  Domain Create Process Object
+
+   -  Name: Domain Create Process Object
+   -  Identifier: domainCreateProcess
+   -  Description: The domain-specific Create Process Object
+      Section 7.4.  It is implicitly initiated by the Domain Name Data
+      Object create operation and carries the domain creation-specific
+      inputs, namely the requested initial registration period, that are
+      consumed during creation and not persisted as part of the domain
+      object's state.
+   -  Data Elements:
+      -  Period
+         -  Identifier: period
+         -  Cardinality: 0-1
+         -  Mutability: create-only
+         -  Data Type: Period Object
+         -  Description: The initial registration period for the domain
+            name.  This value is used by the server to calculate the
+            initial expiryDate of the object.
+         -  Constraints: (None)
+
+8.4.1.  Operations
+
+8.4.1.1.  Create
+
+   -  Identifier: create
+
+   The Create operation is invoked implicitly as a side effect of the
+   Domain Name Data Object create operation and is never invoked
+   directly.  It carries the registration period consumed during domain
+   creation.
+
+   -  Input: Domain Create Process Object (create-only and read-write
+      elements)
+
+   -  Output: Domain Create Process Object
+
+   -  Authorisation:
+
+      -  Inherited from the Domain Name Data Object create operation
+         that initiates this process.
+
+8.4.1.2.  Read
+
+   -  Identifier: read
+
+   The Read operation retrieves the result or status of the domain
+   creation, if the server exposes the process resource.
+
+   -  Input: Object Identifier
+
+   -  Output: Domain Create Process Object
+
+   -  Authorisation:
+
+      -  Only the sponsoring client is authorised to perform this
+         operation.
 
 9.  Contact Data Object
 
@@ -2418,7 +2537,7 @@ Table of Contents
 9.3.5.  Transfer Operations
 
    The Contact Data Object supports the common transfer operations
-   defined in the Section 2.5.4.  The transfer of a contact changes the
+   defined in the Section 2.6.4.  The transfer of a contact changes the
    sponsoring client of the contact object.
 
    No object-specific transient data elements are defined for contact
@@ -2572,11 +2691,11 @@ Table of Contents
 10.3.5.  Restore Operations
 
    The Host Data Object supports the restore operations defined in the
-   Section 2.5.5.  These operations are OPTIONAL and are only available
+   Section 2.6.5.  These operations are OPTIONAL and are only available
    when the RGP feature for Host Data Object is supported by the server.
 
    No domain-specific transient data elements extend the common restore
-   operations beyond those defined in the Section 2.5.5.
+   operations beyond those defined in the Section 2.6.5.
 
 11.  Organisation Data Object
 
@@ -3440,6 +3559,100 @@ Table of Contents
 
    Parameters: (None)
 
+   Object: createProcess
+
+   Object Name: Create Process Object
+
+   Object Type: Process
+
+   Description: Represents the process initiated when a resource
+   creation operation is performed.  Carries creation-specific inputs
+   that are consumed during creation and not stored as persistent
+   attributes of the created resource object.
+
+   Reference: [This-ID]
+
+   Data Elements
+
+    +============+=========+=======+============+======+=============+
+    | Element    | Element | Card. | Mutability | Data | Description |
+    | Identifier | Name    |       |            | Type |             |
+    +============+=========+=======+============+======+=============+
+    +------------+---------+-------+------------+------+-------------+
+
+                                 Table 11
+
+   Operations
+
+   Operation: Create
+
+   Operation Identifier: create
+
+   Description: Invoked implicitly as a side effect of the resource
+   object create operation; never invoked directly.  Carries creation-
+   specific inputs consumed during creation of the owning resource
+   object.
+
+   Parameters: (None)
+
+   Operation: Read
+
+   Operation Identifier: read
+
+   Description: Retrieves the result or status of the creation, if the
+   server exposes the process resource.
+
+   Parameters: (None)
+
+   Object: domainCreateProcess
+
+   Object Name: Domain Create Process Object
+
+   Object Type: Process
+
+   Description: The Create Process Object specific to the Domain Name
+   Data Object.  Implicitly initiated by the domain create operation;
+   carries the requested initial registration period consumed during
+   creation and not persisted as part of the domain object's state.
+
+   Reference: [This-ID]
+
+   Data Elements
+
+   +============+=========+=====+=============+========+==============+
+   | Element    | Element |Card.| Mutability  | Data   | Description  |
+   | Identifier | Name    |     |             | Type   |              |
+   +============+=========+=====+=============+========+==============+
+   | period     | Period  |0-1  | create-only | Period | The initial  |
+   |            |         |     |             | Object | registration |
+   |            |         |     |             |        | period for   |
+   |            |         |     |             |        | the domain   |
+   |            |         |     |             |        | name.        |
+   +------------+---------+-----+-------------+--------+--------------+
+
+                                 Table 12
+
+   Operations
+
+   Operation: Create
+
+   Operation Identifier: create
+
+   Description: Invoked implicitly as a side effect of the Domain Name
+   Data Object create operation; never invoked directly.  Carries the
+   registration period consumed during domain creation.
+
+   Parameters: (None)
+
+   Operation: Read
+
+   Operation Identifier: read
+
+   Description: Retrieves the result or status of the domain creation,
+   if the server exposes the process resource.
+
+   Parameters: (None)
+
    Object: disclose
 
    Object Name: Disclose
@@ -3458,7 +3671,7 @@ Table of Contents
     +============+=========+=======+============+======+=============+
     +------------+---------+-------+------------+------+-------------+
 
-                                 Table 11
+                                 Table 13
 
    Object: restoreProcess
 
@@ -3510,7 +3723,7 @@ Table of Contents
    |             |       |     |          |         |pendingRestore.  |
    +-------------+-------+-----+----------+---------+-----------------+
 
-                                 Table 12
+                                 Table 14
 
    Operations
 
@@ -3533,7 +3746,7 @@ Table of Contents
    |               |         |       |               | report.         |
    +---------------+---------+-------+---------------+-----------------+
 
-                                  Table 13
+                                  Table 15
 
    Operation: Restore Read
 
@@ -3564,7 +3777,7 @@ Table of Contents
     |               |         |       |               | submitted.   |
     +---------------+---------+-------+---------------+--------------+
 
-                                 Table 14
+                                 Table 16
 
    Object: restoreReport
 
@@ -3652,7 +3865,7 @@ Table of Contents
    |             |            |     |          |         |the client.  |
    +-------------+------------+-----+----------+---------+-------------+
 
-                                  Table 15
+                                  Table 17
 
    Object: domainName
 
@@ -3722,7 +3935,7 @@ Table of Contents
    |                |             |     |          |                   |object.      |
    +----------------+-------------+-----+----------+-------------------+-------------+
 
-                                  Table 16
+                                  Table 18
 
    Operations
 
@@ -3732,19 +3945,7 @@ Table of Contents
 
    Description: Provisions a new Domain Name resource.
 
-   Parameters
-
-   +============+==============+=======+========+======================+
-   | Identifier | Name         | Card. | Data   | Description          |
-   |            |              |       | Type   |                      |
-   +============+==============+=======+========+======================+
-   | period     | Registration | 0-1   | Period | The initial          |
-   |            | Period       |       | Object | registration         |
-   |            |              |       |        | period for the       |
-   |            |              |       |        | domain name.         |
-   +------------+--------------+-------+--------+----------------------+
-
-                                  Table 17
+   Parameters: (None)
 
    Operation: Read
 
@@ -3762,7 +3963,7 @@ Table of Contents
    |             | Filter |       |        | information is returned. |
    +-------------+--------+-------+--------+--------------------------+
 
-                                 Table 18
+                                 Table 19
 
    Operation: Update
 
@@ -3780,7 +3981,7 @@ Table of Contents
     |            |        |       |         | update by the server.  |
     +------------+--------+-------+---------+------------------------+
 
-                                 Table 19
+                                 Table 20
 
    Operation: Delete
 
@@ -3812,7 +4013,7 @@ Table of Contents
    |                   |         |       |           | period.        |
    +-------------------+---------+-------+-----------+----------------+
 
-                                 Table 20
+                                 Table 21
 
    Operation: Transfer Create Operation
 
@@ -3832,7 +4033,7 @@ Table of Contents
    |                |          |       |        | transfer.           |
    +----------------+----------+-------+--------+---------------------+
 
-                                 Table 21
+                                 Table 22
 
    Object: contact
 
@@ -3908,7 +4109,7 @@ Table of Contents
    |            |             |     |          |             |parties.     |
    +------------+-------------+-----+----------+-------------+-------------+
 
-                                  Table 22
+                                  Table 23
 
    Operations
 
@@ -3988,7 +4189,7 @@ Table of Contents
    |            |            |     |          |            |the host.  |
    +------------+------------+-----+----------+------------+-----------+
 
-                                  Table 23
+                                  Table 24
 
    Operations
 
@@ -4047,7 +4248,7 @@ Table of Contents
    |          |          |     |          |      |ID.                  |
    +----------+----------+-----+----------+------+---------------------+
 
-                                  Table 24
+                                  Table 25
 
    Object: organisation
 
@@ -4121,7 +4322,7 @@ Table of Contents
    |            |            |     |          |                           |organisation. |
    +------------+------------+-----+----------+---------------------------+--------------+
 
-                                  Table 25
+                                  Table 26
 
    Operations
 
@@ -4195,7 +4396,7 @@ Table of Contents
    |          |          |     |          |               |user.      |
    +----------+----------+-----+----------+---------------+-----------+
 
-                                 Table 26
+                                 Table 27
 
    Operations
 
@@ -4265,6 +4466,10 @@ draft-kowalik-rpp-data-objects -04 - -05
    -  Added Organisation, Organisation Role and User Objects, based on
       RFC8543 (Issue #25)
    -  Added Renew Process Object and operations (Issue #76)
+   -  reserve property names beginning with @ for representation
+      specifications #89
+   -  add generic Create Process Object and Domain Create Process Object
+      carrying the registration period #89
 
 draft-kowalik-rpp-data-objects -03 - -04
 
