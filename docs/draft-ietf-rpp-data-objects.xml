@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- name="GENERATOR" content="github.com/mmarkdown/mmark Mmark Markdown Processor - mmark.miek.nl" -->
-<rfc version="3" ipr="trust200902" docName="draft-kowalik-rpp-data-objects-05 (editorial)" submissionType="IETF" category="std" xml:lang="en" xmlns:xi="http://www.w3.org/2001/XInclude" indexInclude="true" tocDepth="4">
+<rfc version="3" ipr="trust200902" docName="draft-ietf-rpp-data-objects-01 (editorial)" submissionType="IETF" category="std" xml:lang="en" xmlns:xi="http://www.w3.org/2001/XInclude" indexInclude="true" tocDepth="4">
 
 <front>
-<title abbrev="RPP Data Objects">RESTful Provisioning Protocol (RPP) Data Objects</title><seriesInfo value="draft-kowalik-rpp-data-objects-05 (editorial)" stream="IETF" status="standard" name="Internet-Draft"></seriesInfo>
+<title abbrev="RPP Data Objects">RESTful Provisioning Protocol (RPP) Data Objects</title><seriesInfo value="draft-ietf-rpp-data-objects-01 (editorial)" stream="IETF" status="standard" name="Internet-Draft"></seriesInfo>
 <author initials="P." surname="Kowalik" fullname="Pawel Kowalik"><organization>DENIC</organization><address><postal><street></street>
 </postal><email>pawel.kowalik@denic.de</email>
 <uri>https://denic.de/</uri>
 </address></author><author initials="M." surname="Wullink" fullname="Maarten Wullink"><organization>SIDN Labs</organization><address><postal><street></street>
 </postal><email>maarten.wullink@sidn.nl</email>
 <uri>https://sidn.nl/</uri>
-</address></author><date year="2026" month="June" day="12"></date>
+</address></author><date year="2026" month="July" day="1"></date>
 <area>Internet</area>
 <workgroup>Network Working Group</workgroup>
 
@@ -273,8 +273,7 @@ The data type of a data element may also be a reference to another data object, 
    |                               or not req.    | |      Purged       (12)|
    |                                  <create>    | +-----------------------+
    +----------------------------------------------+
-]]>
-</sourcecode>
+]]></sourcecode>
 <t>State descriptions:</t>
 
 <ol spacing="compact">
@@ -317,8 +316,7 @@ The reference MUST use the following format: <tt>External:&lt;specification-iden
 <artwork><![CDATA[identifier = "External:" TYPEID ":" TYPEID
 
 TYPEID = ALPHA *( ALPHA / DIGIT / "-" / "_" )
-]]>
-</artwork>
+]]></artwork>
 </section>
 
 <section anchor="versioning-and-compatibility"><name>Versioning and Compatibility</name>
@@ -374,8 +372,7 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 |             |    ...   |
 |             +----------+
 +-------------------+
-]]>
-</sourcecode>
+]]></sourcecode>
 <t>Example aggregation having cardinality &gt;1:</t>
 
 <sourcecode type="ascii"><![CDATA[+-------------------+
@@ -392,8 +389,7 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 |             +----------+
 |         ...       |
 +-------------------+
-]]>
-</sourcecode>
+]]></sourcecode>
 </section>
 
 <section anchor="composition"><name>Composition</name>
@@ -411,8 +407,7 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 |   +--| ...   |    |
 |      +-------+    |
 +-------------------+
-]]>
-</sourcecode>
+]]></sourcecode>
 <t>Example composition having cardinality &gt;1:</t>
 
 <sourcecode type="ascii"><![CDATA[+-------------------+
@@ -427,8 +422,7 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 |   |     +-------+ |
 |   ...             |
 +-------------------+
-]]>
-</sourcecode>
+]]></sourcecode>
 </section>
 
 <section anchor="labelled-aggregation"><name>Labelled Aggregation</name>
@@ -457,8 +451,7 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 |   ...                          |
 +--------------------------------+
 
-]]>
-</sourcecode>
+]]></sourcecode>
 </section>
 
 <section anchor="dictionary-aggregation"><name>Dictionary Aggregation</name>
@@ -481,8 +474,7 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 |                   +-----------+
 |     ...                  |
 +--------------------------+
-]]>
-</sourcecode>
+]]></sourcecode>
 </section>
 
 <section anchor="labelled-composition"><name>Labelled Composition</name>
@@ -510,8 +502,7 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 |   |                    +----------+ |
 |   ...                               |
 +-------------------------------------+
-]]>
-</sourcecode>
+]]></sourcecode>
 </section>
 
 <section anchor="dictionary-composition"><name>Dictionary Composition</name>
@@ -534,8 +525,7 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 |             +---------+  |
 |     ...                  |
 +--------------------------+
-]]>
-</sourcecode>
+]]></sourcecode>
 </section>
 </section>
 
@@ -4018,8 +4008,7 @@ registry MUST provide:</t>
 <sourcecode type="text"><![CDATA[Name of the registry: RPP User Role Values
 Registry group: RESTful Provisioning Protocol (RPP)
 Registration procedure: Expert Review
-]]>
-</sourcecode>
+]]></sourcecode>
 <t>Fields to be registered:</t>
 
 <ul spacing="compact">
@@ -4039,11 +4028,18 @@ Registration procedure: Expert Review
 
 <section anchor="changes-history" toc="exclude"><name>Changes History</name>
 
-<section anchor="draft-kowalik-rpp-data-objects-04-05" numbered="false"><name>draft-kowalik-rpp-data-objects -04 - -05</name>
+<section anchor="draft-ietf-rpp-data-objects-00-01" numbered="false"><name>draft-ietf-rpp-data-objects -00 - -01</name>
 
 <ul spacing="compact">
 <li>Added Organisation, Organisation Role and User Objects, based on RFC8543 (Issue #25)</li>
 <li>Added Renew Process Object and operations (Issue #76)</li>
+</ul>
+</section>
+
+<section anchor="draft-kowalik-rpp-data-objects-04-draft-ietf-rpp-data-objects-00" numbered="false"><name>draft-kowalik-rpp-data-objects-04 - draft-ietf-rpp-data-objects-00</name>
+
+<ul spacing="compact">
+<li>RPP working group adoption</li>
 </ul>
 </section>
 
