@@ -2071,7 +2071,10 @@ The data type of a data element may also be a reference to another data object, 
 </li>
             </ul>
 </li>
+          <li class="compact" id="section-2.4-2.8">Direct Access: An optional flag indicating whether the associated object or objects are additionally exposed as an addressable sub-resource of the containing object. When set to <code>true</code>, the associated object or objects are exposed as a sub-resource that can be addressed independently of the containing object, in addition to their inline representation within it. When absent or set to <code>false</code>, the element is accessed only inline. The default value is <code>false</code>.<a href="#section-2.4-2.8" class="pilcrow">¶</a>
+</li>
         </ul>
+<p id="section-2.4-3">The Direct Access flag is applicable only to a data element whose Data Type is an association (Aggregation, Composition, Labelled Aggregation, Dictionary Aggregation, Labelled Composition, or Dictionary Composition) with a Data Object, Component Object, or Process Object, of any cardinality. Where a data element has the Direct Access flag set to <code>true</code>, a server MUST expose the associated object or objects as an independently addressable sub-resource. Where such a data element has a cardinality greater than <code>1</code>, the associated object type MUST define a Unique Identifier, so that an individual associated object can be addressed unambiguously among the collection.<a href="#section-2.4-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="reserved-property-names">
@@ -4699,9 +4702,11 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 </li>
               <li class="compact normal" id="section-8.2-8.6.2.4">Data Type: Processes Object<a href="#section-8.2-8.6.2.4" class="pilcrow">¶</a>
 </li>
-              <li class="compact normal" id="section-8.2-8.6.2.5">Description: The Process Objects currently or recently initiated on the domain object.<a href="#section-8.2-8.6.2.5" class="pilcrow">¶</a>
+              <li class="compact normal" id="section-8.2-8.6.2.5">Direct Access: true<a href="#section-8.2-8.6.2.5" class="pilcrow">¶</a>
 </li>
-              <li class="compact normal" id="section-8.2-8.6.2.6">Constraints: (None)<a href="#section-8.2-8.6.2.6" class="pilcrow">¶</a>
+              <li class="compact normal" id="section-8.2-8.6.2.6">Description: The Process Objects currently or recently initiated on the domain object.<a href="#section-8.2-8.6.2.6" class="pilcrow">¶</a>
+</li>
+              <li class="compact normal" id="section-8.2-8.6.2.7">Constraints: (None)<a href="#section-8.2-8.6.2.7" class="pilcrow">¶</a>
 </li>
             </ul>
 </li>
@@ -5240,9 +5245,11 @@ is "all".<a href="#section-8.3.2-5.1.2.5" class="pilcrow">¶</a>
 </li>
               <li class="compact normal" id="section-9.2-2.7.2.4">Data Type: Processes Object<a href="#section-9.2-2.7.2.4" class="pilcrow">¶</a>
 </li>
-              <li class="compact normal" id="section-9.2-2.7.2.5">Description: The Process Objects currently or recently initiated on the contact object.<a href="#section-9.2-2.7.2.5" class="pilcrow">¶</a>
+              <li class="compact normal" id="section-9.2-2.7.2.5">Direct Access: true<a href="#section-9.2-2.7.2.5" class="pilcrow">¶</a>
 </li>
-              <li class="compact normal" id="section-9.2-2.7.2.6">Constraints: (None)<a href="#section-9.2-2.7.2.6" class="pilcrow">¶</a>
+              <li class="compact normal" id="section-9.2-2.7.2.6">Description: The Process Objects currently or recently initiated on the contact object.<a href="#section-9.2-2.7.2.6" class="pilcrow">¶</a>
+</li>
+              <li class="compact normal" id="section-9.2-2.7.2.7">Constraints: (None)<a href="#section-9.2-2.7.2.7" class="pilcrow">¶</a>
 </li>
             </ul>
 </li>
@@ -5516,9 +5523,11 @@ is "all".<a href="#section-8.3.2-5.1.2.5" class="pilcrow">¶</a>
 </li>
               <li class="compact normal" id="section-10.2-2.5.2.4">Data Type: Processes Object<a href="#section-10.2-2.5.2.4" class="pilcrow">¶</a>
 </li>
-              <li class="compact normal" id="section-10.2-2.5.2.5">Description: The Process Objects currently or recently initiated on the host object.<a href="#section-10.2-2.5.2.5" class="pilcrow">¶</a>
+              <li class="compact normal" id="section-10.2-2.5.2.5">Direct Access: true<a href="#section-10.2-2.5.2.5" class="pilcrow">¶</a>
 </li>
-              <li class="compact normal" id="section-10.2-2.5.2.6">Constraints: (None)<a href="#section-10.2-2.5.2.6" class="pilcrow">¶</a>
+              <li class="compact normal" id="section-10.2-2.5.2.6">Description: The Process Objects currently or recently initiated on the host object.<a href="#section-10.2-2.5.2.6" class="pilcrow">¶</a>
+</li>
+              <li class="compact normal" id="section-10.2-2.5.2.7">Constraints: (None)<a href="#section-10.2-2.5.2.7" class="pilcrow">¶</a>
 </li>
             </ul>
 </li>
@@ -5856,14 +5865,16 @@ is "all".<a href="#section-8.3.2-5.1.2.5" class="pilcrow">¶</a>
 </li>
                 </ul>
 </li>
-              <li class="compact normal" id="section-11.2-4.1.2.5">Description: One or more RBAC roles assigned to the user.<a href="#section-11.2-4.1.2.5" class="pilcrow">¶</a>
+              <li class="compact normal" id="section-11.2-4.1.2.5">Direct Access: true<a href="#section-11.2-4.1.2.5" class="pilcrow">¶</a>
 </li>
-              <li class="compact normal" id="section-11.2-4.1.2.6">
-                <p id="section-11.2-4.1.2.6.1">Constraints:<a href="#section-11.2-4.1.2.6.1" class="pilcrow">¶</a></p>
+              <li class="compact normal" id="section-11.2-4.1.2.6">Description: One or more RBAC roles assigned to the user.<a href="#section-11.2-4.1.2.6" class="pilcrow">¶</a>
+</li>
+              <li class="compact normal" id="section-11.2-4.1.2.7">
+                <p id="section-11.2-4.1.2.7.1">Constraints:<a href="#section-11.2-4.1.2.7.1" class="pilcrow">¶</a></p>
 <ul class="compact normal">
-<li class="compact normal" id="section-11.2-4.1.2.6.2.1">Each role value MUST be a non-empty string.<a href="#section-11.2-4.1.2.6.2.1" class="pilcrow">¶</a>
+<li class="compact normal" id="section-11.2-4.1.2.7.2.1">Each role value MUST be a non-empty string.<a href="#section-11.2-4.1.2.7.2.1" class="pilcrow">¶</a>
 </li>
-                  <li class="compact normal" id="section-11.2-4.1.2.6.2.2">Allowed role values MAY be constrained by server policy.<a href="#section-11.2-4.1.2.6.2.2" class="pilcrow">¶</a>
+                  <li class="compact normal" id="section-11.2-4.1.2.7.2.2">Allowed role values MAY be constrained by server policy.<a href="#section-11.2-4.1.2.7.2.2" class="pilcrow">¶</a>
 </li>
                 </ul>
 </li>
@@ -5880,9 +5891,11 @@ is "all".<a href="#section-8.3.2-5.1.2.5" class="pilcrow">¶</a>
 </li>
               <li class="compact normal" id="section-11.2-4.2.2.4">Data Type: Processes Object<a href="#section-11.2-4.2.2.4" class="pilcrow">¶</a>
 </li>
-              <li class="compact normal" id="section-11.2-4.2.2.5">Description: The Process Objects currently or recently initiated on the organisation object.<a href="#section-11.2-4.2.2.5" class="pilcrow">¶</a>
+              <li class="compact normal" id="section-11.2-4.2.2.5">Direct Access: true<a href="#section-11.2-4.2.2.5" class="pilcrow">¶</a>
 </li>
-              <li class="compact normal" id="section-11.2-4.2.2.6">Constraints: (None)<a href="#section-11.2-4.2.2.6" class="pilcrow">¶</a>
+              <li class="compact normal" id="section-11.2-4.2.2.6">Description: The Process Objects currently or recently initiated on the organisation object.<a href="#section-11.2-4.2.2.6" class="pilcrow">¶</a>
+</li>
+              <li class="compact normal" id="section-11.2-4.2.2.7">Constraints: (None)<a href="#section-11.2-4.2.2.7" class="pilcrow">¶</a>
 </li>
             </ul>
 </li>
@@ -6134,9 +6147,11 @@ is "all".<a href="#section-8.3.2-5.1.2.5" class="pilcrow">¶</a>
 </li>
               <li class="compact normal" id="section-12.2-2.6.2.4">Data Type: Processes Object<a href="#section-12.2-2.6.2.4" class="pilcrow">¶</a>
 </li>
-              <li class="compact normal" id="section-12.2-2.6.2.5">Description: The Process Objects currently or recently initiated on the user object.<a href="#section-12.2-2.6.2.5" class="pilcrow">¶</a>
+              <li class="compact normal" id="section-12.2-2.6.2.5">Direct Access: true<a href="#section-12.2-2.6.2.5" class="pilcrow">¶</a>
 </li>
-              <li class="compact normal" id="section-12.2-2.6.2.6">Constraints: (None)<a href="#section-12.2-2.6.2.6" class="pilcrow">¶</a>
+              <li class="compact normal" id="section-12.2-2.6.2.6">Description: The Process Objects currently or recently initiated on the user object.<a href="#section-12.2-2.6.2.6" class="pilcrow">¶</a>
+</li>
+              <li class="compact normal" id="section-12.2-2.6.2.7">Constraints: (None)<a href="#section-12.2-2.6.2.7" class="pilcrow">¶</a>
 </li>
             </ul>
 </li>
@@ -7847,6 +7862,8 @@ Registration procedure: Expert Review
           <li class="compact" id="section-15.1-1.6">add extensible Processes Object component and processes element to all Data Objects #89<a href="#section-15.1-1.6" class="pilcrow">¶</a>
 </li>
           <li class="compact" id="section-15.1-1.7">declare the unique identifier element explicitly in every object preamble #89<a href="#section-15.1-1.7" class="pilcrow">¶</a>
+</li>
+          <li class="compact" id="section-15.1-1.8">add "Direct Access" flag exposing association data elements as addressable sub-resources #89<a href="#section-15.1-1.8" class="pilcrow">¶</a>
 </li>
         </ul>
 </section>

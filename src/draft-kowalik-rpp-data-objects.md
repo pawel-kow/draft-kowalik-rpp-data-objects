@@ -182,6 +182,9 @@ The definition of each data element within an object consists of the following a
   * create-only: The element's value is provided during the object's creation and cannot be modified thereafter.
   * read-only: The element's value is managed by the server. It cannot be set or modified directly by the client, though it may change as a result of server-side operations.
   * read-write: The element's value can be set and modified by the client.
+* Direct Access: An optional flag indicating whether the associated object or objects are additionally exposed as an addressable sub-resource of the containing object. When set to `true`, the associated object or objects are exposed as a sub-resource that can be addressed independently of the containing object, in addition to their inline representation within it. When absent or set to `false`, the element is accessed only inline. The default value is `false`.
+
+The Direct Access flag is applicable only to a data element whose Data Type is an association (Aggregation, Composition, Labelled Aggregation, Dictionary Aggregation, Labelled Composition, or Dictionary Composition) with a Data Object, Component Object, or Process Object, of any cardinality. Where a data element has the Direct Access flag set to `true`, a server MUST expose the associated object or objects as an independently addressable sub-resource. Where such a data element has a cardinality greater than `1`, the associated object type MUST define a Unique Identifier, so that an individual associated object can be addressed unambiguously among the collection.
 
 ## Reserved Property Names
 
@@ -1451,6 +1454,7 @@ A> TBC: IANA registry for contact role label?
   * Cardinality: 0-1
   * Mutability: read-only
   * Data Type: Processes Object
+  * Direct Access: true
   * Description: The Process Objects currently or recently initiated on the domain object.
   * Constraints: (None)
 
@@ -1694,6 +1698,7 @@ The following data elements are defined for the Domain Name Data Object.
   * Cardinality: 0-1
   * Mutability: read-only
   * Data Type: Processes Object
+  * Direct Access: true
   * Description: The Process Objects currently or recently initiated on the contact object.
   * Constraints: (None)
 
@@ -1823,6 +1828,7 @@ The following data elements are defined for the Host Data Object.
   * Cardinality: 0-1
   * Mutability: read-only
   * Data Type: Processes Object
+  * Direct Access: true
   * Description: The Process Objects currently or recently initiated on the host object.
   * Constraints: (None)
 
@@ -1975,6 +1981,7 @@ A> TODO: how handle the "custom" contact type?
   * Data Type: LabelledAggregation[User Object]
     * Label Description: RBAC role of the user
     * Label Constraints: The value MUST be one of the role types registered in the IANA "RPP User Role Values" registry.
+  * Direct Access: true
   * Description: One or more RBAC roles assigned to the user.
   * Constraints:
     * Each role value MUST be a non-empty string.
@@ -1985,6 +1992,7 @@ A> TODO: how handle the "custom" contact type?
   * Cardinality: 0-1
   * Mutability: read-only
   * Data Type: Processes Object
+  * Direct Access: true
   * Description: The Process Objects currently or recently initiated on the organisation object.
   * Constraints: (None)
 
@@ -2100,6 +2108,7 @@ The following data elements are defined for the User Data Object.
   * Cardinality: 0-1
   * Mutability: read-only
   * Data Type: Processes Object
+  * Direct Access: true
   * Description: The Process Objects currently or recently initiated on the user object.
   * Constraints: (None)
 
@@ -2918,6 +2927,7 @@ A> TODO: write security considerations, if any
 * add optional processId to all Process Objects #89
 * add extensible Processes Object component and processes element to all Data Objects #89
 * declare the unique identifier element explicitly in every object preamble #89
+* add "Direct Access" flag exposing association data elements as addressable sub-resources #89
 
 {toc="exclude"}
 {numbered="false"}
