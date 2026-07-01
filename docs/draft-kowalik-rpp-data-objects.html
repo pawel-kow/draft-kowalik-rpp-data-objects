@@ -1869,6 +1869,10 @@ li > p:last-of-type:only-child {
 <dt id="section-1.1-5.9">Owner Data Object</dt>
           <dd style="margin-left: 1.5em" id="section-1.1-5.10">A Data Object which a process (represented as Process Object) was initiated upon and which owns this Process Object<a href="#section-1.1-5.10" class="pilcrow">¶</a>
 </dd>
+          <dd class="break"></dd>
+<dt id="section-1.1-5.11">Unique Identifier</dt>
+          <dd style="margin-left: 1.5em" id="section-1.1-5.12">The data element of an object whose value uniquely identifies an instance of that object within its applicable scope. The scope is defined by the object: for a Data Object it is typically the server, whereas for a Process Object it is the Owner Data Object. An object definition names its Unique Identifier explicitly in the object preamble. Objects that have no independent identity, such as component objects embedded within another object, have no Unique Identifier.<a href="#section-1.1-5.12" class="pilcrow">¶</a>
+</dd>
         <dd class="break"></dd>
 </dl>
 </section>
@@ -3617,144 +3621,146 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 </li>
           <li class="compact" id="section-7.1-1.2">Identifier: transferProcess<a href="#section-7.1-1.2" class="pilcrow">¶</a>
 </li>
-          <li class="compact" id="section-7.1-1.3">Description: Represents a transfer request for a provisioned object. Creating this object initiates a transfer. The object supports approve and reject as additional operations, and delete as the cancel operation. Reading the object returns the current transfer status.<a href="#section-7.1-1.3" class="pilcrow">¶</a>
+          <li class="compact" id="section-7.1-1.3">Unique Identifier: processId<a href="#section-7.1-1.3" class="pilcrow">¶</a>
 </li>
-          <li class="compact" id="section-7.1-1.4">
-            <p id="section-7.1-1.4.1">Data Elements:<a href="#section-7.1-1.4.1" class="pilcrow">¶</a></p>
+          <li class="compact" id="section-7.1-1.4">Description: Represents a transfer request for a provisioned object. Creating this object initiates a transfer. The object supports approve and reject as additional operations, and delete as the cancel operation. Reading the object returns the current transfer status.<a href="#section-7.1-1.4" class="pilcrow">¶</a>
+</li>
+          <li class="compact" id="section-7.1-1.5">
+            <p id="section-7.1-1.5.1">Data Elements:<a href="#section-7.1-1.5.1" class="pilcrow">¶</a></p>
 <ul class="compact">
-<li class="compact" id="section-7.1-1.4.2.1">
-                <p id="section-7.1-1.4.2.1.1">Process ID<a href="#section-7.1-1.4.2.1.1" class="pilcrow">¶</a></p>
+<li class="compact" id="section-7.1-1.5.2.1">
+                <p id="section-7.1-1.5.2.1.1">Process ID<a href="#section-7.1-1.5.2.1.1" class="pilcrow">¶</a></p>
 <ul class="compact">
-<li class="compact" id="section-7.1-1.4.2.1.2.1">Identifier: processId<a href="#section-7.1-1.4.2.1.2.1" class="pilcrow">¶</a>
+<li class="compact" id="section-7.1-1.5.2.1.2.1">Identifier: processId<a href="#section-7.1-1.5.2.1.2.1" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-7.1-1.4.2.1.2.2">Cardinality: 0-1<a href="#section-7.1-1.4.2.1.2.2" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.1-1.5.2.1.2.2">Cardinality: 0-1<a href="#section-7.1-1.5.2.1.2.2" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-7.1-1.4.2.1.2.3">Mutability: read-only<a href="#section-7.1-1.4.2.1.2.3" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.1-1.5.2.1.2.3">Mutability: read-only<a href="#section-7.1-1.5.2.1.2.3" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-7.1-1.4.2.1.2.4">Data Type: String<a href="#section-7.1-1.4.2.1.2.4" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.1-1.5.2.1.2.4">Data Type: String<a href="#section-7.1-1.5.2.1.2.4" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-7.1-1.4.2.1.2.5">Description: A server-assigned identifier of the process instance, unique within the scope of the Owner Data Object.<a href="#section-7.1-1.4.2.1.2.5" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.1-1.5.2.1.2.5">Description: A server-assigned identifier of the process instance, unique within the scope of the Owner Data Object.<a href="#section-7.1-1.5.2.1.2.5" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-7.1-1.4.2.1.2.6">Constraints: The value is set by the server and cannot be specified by the client.<a href="#section-7.1-1.4.2.1.2.6" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.1-1.5.2.1.2.6">Constraints: The value is set by the server and cannot be specified by the client.<a href="#section-7.1-1.5.2.1.2.6" class="pilcrow">¶</a>
 </li>
                 </ul>
 </li>
-              <li class="compact" id="section-7.1-1.4.2.2">
-                <p id="section-7.1-1.4.2.2.1">Transfer Direction<a href="#section-7.1-1.4.2.2.1" class="pilcrow">¶</a></p>
+              <li class="compact" id="section-7.1-1.5.2.2">
+                <p id="section-7.1-1.5.2.2.1">Transfer Direction<a href="#section-7.1-1.5.2.2.1" class="pilcrow">¶</a></p>
 <ul class="compact">
-<li class="compact" id="section-7.1-1.4.2.2.2.1">Identifier: transferDir<a href="#section-7.1-1.4.2.2.2.1" class="pilcrow">¶</a>
+<li class="compact" id="section-7.1-1.5.2.2.2.1">Identifier: transferDir<a href="#section-7.1-1.5.2.2.2.1" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-7.1-1.4.2.2.2.2">Cardinality: 0-1<a href="#section-7.1-1.4.2.2.2.2" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.1-1.5.2.2.2.2">Cardinality: 0-1<a href="#section-7.1-1.5.2.2.2.2" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-7.1-1.4.2.2.2.3">Mutability: create-only<a href="#section-7.1-1.4.2.2.2.3" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.1-1.5.2.2.2.3">Mutability: create-only<a href="#section-7.1-1.5.2.2.2.3" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-7.1-1.4.2.2.2.4">Data Type: String<a href="#section-7.1-1.4.2.2.2.4" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.1-1.5.2.2.2.4">Data Type: String<a href="#section-7.1-1.5.2.2.2.4" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-7.1-1.4.2.2.2.5">Description: Indicates whether the transfer is a "pull" or "push" transfer. Per policy, servers usually support only one model. If omitted, server policy determines the default.<a href="#section-7.1-1.4.2.2.2.5" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.1-1.5.2.2.2.5">Description: Indicates whether the transfer is a "pull" or "push" transfer. Per policy, servers usually support only one model. If omitted, server policy determines the default.<a href="#section-7.1-1.5.2.2.2.5" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-7.1-1.4.2.2.2.6">Constraints: The value MUST be one of: "pull" (initiated by the gaining client) or "push" (initiated by the sponsoring client).<a href="#section-7.1-1.4.2.2.2.6" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.1-1.5.2.2.2.6">Constraints: The value MUST be one of: "pull" (initiated by the gaining client) or "push" (initiated by the sponsoring client).<a href="#section-7.1-1.5.2.2.2.6" class="pilcrow">¶</a>
 </li>
                 </ul>
 </li>
-              <li class="compact" id="section-7.1-1.4.2.3">
-                <p id="section-7.1-1.4.2.3.1">Gaining Client ID<a href="#section-7.1-1.4.2.3.1" class="pilcrow">¶</a></p>
+              <li class="compact" id="section-7.1-1.5.2.3">
+                <p id="section-7.1-1.5.2.3.1">Gaining Client ID<a href="#section-7.1-1.5.2.3.1" class="pilcrow">¶</a></p>
 <ul class="compact">
-<li class="compact" id="section-7.1-1.4.2.3.2.1">Identifier: gainingClientId<a href="#section-7.1-1.4.2.3.2.1" class="pilcrow">¶</a>
+<li class="compact" id="section-7.1-1.5.2.3.2.1">Identifier: gainingClientId<a href="#section-7.1-1.5.2.3.2.1" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-7.1-1.4.2.3.2.2">Cardinality: 0-1<a href="#section-7.1-1.4.2.3.2.2" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.1-1.5.2.3.2.2">Cardinality: 0-1<a href="#section-7.1-1.5.2.3.2.2" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-7.1-1.4.2.3.2.3">Mutability: create-only<a href="#section-7.1-1.4.2.3.2.3" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.1-1.5.2.3.2.3">Mutability: create-only<a href="#section-7.1-1.5.2.3.2.3" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-7.1-1.4.2.3.2.4">Data Type: Client Identifier<a href="#section-7.1-1.4.2.3.2.4" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.1-1.5.2.3.2.4">Data Type: Client Identifier<a href="#section-7.1-1.5.2.3.2.4" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-7.1-1.4.2.3.2.5">Description: The identifier of the designated gaining client. This element is REQUIRED for push transfers and MUST NOT be provided for pull transfers.<a href="#section-7.1-1.4.2.3.2.5" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.1-1.5.2.3.2.5">Description: The identifier of the designated gaining client. This element is REQUIRED for push transfers and MUST NOT be provided for pull transfers.<a href="#section-7.1-1.5.2.3.2.5" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-7.1-1.4.2.3.2.6">Constraints: (None)<a href="#section-7.1-1.4.2.3.2.6" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.1-1.5.2.3.2.6">Constraints: (None)<a href="#section-7.1-1.5.2.3.2.6" class="pilcrow">¶</a>
 </li>
                 </ul>
 </li>
-              <li class="compact" id="section-7.1-1.4.2.4">
-                <p id="section-7.1-1.4.2.4.1">Transfer Status<a href="#section-7.1-1.4.2.4.1" class="pilcrow">¶</a></p>
+              <li class="compact" id="section-7.1-1.5.2.4">
+                <p id="section-7.1-1.5.2.4.1">Transfer Status<a href="#section-7.1-1.5.2.4.1" class="pilcrow">¶</a></p>
 <ul class="compact">
-<li class="compact" id="section-7.1-1.4.2.4.2.1">Identifier: trStatus<a href="#section-7.1-1.4.2.4.2.1" class="pilcrow">¶</a>
+<li class="compact" id="section-7.1-1.5.2.4.2.1">Identifier: trStatus<a href="#section-7.1-1.5.2.4.2.1" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-7.1-1.4.2.4.2.2">Cardinality: 1<a href="#section-7.1-1.4.2.4.2.2" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.1-1.5.2.4.2.2">Cardinality: 1<a href="#section-7.1-1.5.2.4.2.2" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-7.1-1.4.2.4.2.3">Mutability: read-only<a href="#section-7.1-1.4.2.4.2.3" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.1-1.5.2.4.2.3">Mutability: read-only<a href="#section-7.1-1.5.2.4.2.3" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-7.1-1.4.2.4.2.4">Data Type: String<a href="#section-7.1-1.4.2.4.2.4" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.1-1.5.2.4.2.4">Data Type: String<a href="#section-7.1-1.5.2.4.2.4" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-7.1-1.4.2.4.2.5">Description: The state of the transfer request.<a href="#section-7.1-1.4.2.4.2.5" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.1-1.5.2.4.2.5">Description: The state of the transfer request.<a href="#section-7.1-1.5.2.4.2.5" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-7.1-1.4.2.4.2.6">Constraints: The value MUST be one of: "pending", "clientApproved", "clientCancelled", "clientRejected", "serverApproved", "serverCancelled".<a href="#section-7.1-1.4.2.4.2.6" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.1-1.5.2.4.2.6">Constraints: The value MUST be one of: "pending", "clientApproved", "clientCancelled", "clientRejected", "serverApproved", "serverCancelled".<a href="#section-7.1-1.5.2.4.2.6" class="pilcrow">¶</a>
 </li>
                 </ul>
 </li>
-              <li class="compact" id="section-7.1-1.4.2.5">
-                <p id="section-7.1-1.4.2.5.1">Requesting Client ID<a href="#section-7.1-1.4.2.5.1" class="pilcrow">¶</a></p>
+              <li class="compact" id="section-7.1-1.5.2.5">
+                <p id="section-7.1-1.5.2.5.1">Requesting Client ID<a href="#section-7.1-1.5.2.5.1" class="pilcrow">¶</a></p>
 <ul class="compact">
-<li class="compact" id="section-7.1-1.4.2.5.2.1">Identifier: reqClientId<a href="#section-7.1-1.4.2.5.2.1" class="pilcrow">¶</a>
+<li class="compact" id="section-7.1-1.5.2.5.2.1">Identifier: reqClientId<a href="#section-7.1-1.5.2.5.2.1" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-7.1-1.4.2.5.2.2">Cardinality: 1<a href="#section-7.1-1.4.2.5.2.2" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.1-1.5.2.5.2.2">Cardinality: 1<a href="#section-7.1-1.5.2.5.2.2" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-7.1-1.4.2.5.2.3">Mutability: read-only<a href="#section-7.1-1.4.2.5.2.3" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.1-1.5.2.5.2.3">Mutability: read-only<a href="#section-7.1-1.5.2.5.2.3" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-7.1-1.4.2.5.2.4">Data Type: Client Identifier<a href="#section-7.1-1.4.2.5.2.4" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.1-1.5.2.5.2.4">Data Type: Client Identifier<a href="#section-7.1-1.5.2.5.2.4" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-7.1-1.4.2.5.2.5">Description: The identifier of the client that initiated the transfer request.<a href="#section-7.1-1.4.2.5.2.5" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.1-1.5.2.5.2.5">Description: The identifier of the client that initiated the transfer request.<a href="#section-7.1-1.5.2.5.2.5" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-7.1-1.4.2.5.2.6">Constraints: (None)<a href="#section-7.1-1.4.2.5.2.6" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.1-1.5.2.5.2.6">Constraints: (None)<a href="#section-7.1-1.5.2.5.2.6" class="pilcrow">¶</a>
 </li>
                 </ul>
 </li>
-              <li class="compact" id="section-7.1-1.4.2.6">
-                <p id="section-7.1-1.4.2.6.1">Request Date<a href="#section-7.1-1.4.2.6.1" class="pilcrow">¶</a></p>
+              <li class="compact" id="section-7.1-1.5.2.6">
+                <p id="section-7.1-1.5.2.6.1">Request Date<a href="#section-7.1-1.5.2.6.1" class="pilcrow">¶</a></p>
 <ul class="compact">
-<li class="compact" id="section-7.1-1.4.2.6.2.1">Identifier: requestDate<a href="#section-7.1-1.4.2.6.2.1" class="pilcrow">¶</a>
+<li class="compact" id="section-7.1-1.5.2.6.2.1">Identifier: requestDate<a href="#section-7.1-1.5.2.6.2.1" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-7.1-1.4.2.6.2.2">Cardinality: 1<a href="#section-7.1-1.4.2.6.2.2" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.1-1.5.2.6.2.2">Cardinality: 1<a href="#section-7.1-1.5.2.6.2.2" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-7.1-1.4.2.6.2.3">Mutability: read-only<a href="#section-7.1-1.4.2.6.2.3" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.1-1.5.2.6.2.3">Mutability: read-only<a href="#section-7.1-1.5.2.6.2.3" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-7.1-1.4.2.6.2.4">Data Type: Timestamp<a href="#section-7.1-1.4.2.6.2.4" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.1-1.5.2.6.2.4">Data Type: Timestamp<a href="#section-7.1-1.5.2.6.2.4" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-7.1-1.4.2.6.2.5">Description: The date and time that the transfer was requested.<a href="#section-7.1-1.4.2.6.2.5" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.1-1.5.2.6.2.5">Description: The date and time that the transfer was requested.<a href="#section-7.1-1.5.2.6.2.5" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-7.1-1.4.2.6.2.6">Constraints: (None)<a href="#section-7.1-1.4.2.6.2.6" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.1-1.5.2.6.2.6">Constraints: (None)<a href="#section-7.1-1.5.2.6.2.6" class="pilcrow">¶</a>
 </li>
                 </ul>
 </li>
-              <li class="compact" id="section-7.1-1.4.2.7">
-                <p id="section-7.1-1.4.2.7.1">Acting Client ID<a href="#section-7.1-1.4.2.7.1" class="pilcrow">¶</a></p>
+              <li class="compact" id="section-7.1-1.5.2.7">
+                <p id="section-7.1-1.5.2.7.1">Acting Client ID<a href="#section-7.1-1.5.2.7.1" class="pilcrow">¶</a></p>
 <ul class="compact">
-<li class="compact" id="section-7.1-1.4.2.7.2.1">Identifier: actClientId<a href="#section-7.1-1.4.2.7.2.1" class="pilcrow">¶</a>
+<li class="compact" id="section-7.1-1.5.2.7.2.1">Identifier: actClientId<a href="#section-7.1-1.5.2.7.2.1" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-7.1-1.4.2.7.2.2">Cardinality: 1<a href="#section-7.1-1.4.2.7.2.2" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.1-1.5.2.7.2.2">Cardinality: 1<a href="#section-7.1-1.5.2.7.2.2" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-7.1-1.4.2.7.2.3">Mutability: read-only<a href="#section-7.1-1.4.2.7.2.3" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.1-1.5.2.7.2.3">Mutability: read-only<a href="#section-7.1-1.5.2.7.2.3" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-7.1-1.4.2.7.2.4">Data Type: Client Identifier<a href="#section-7.1-1.4.2.7.2.4" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.1-1.5.2.7.2.4">Data Type: Client Identifier<a href="#section-7.1-1.5.2.7.2.4" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-7.1-1.4.2.7.2.5">Description: For a pending pull transfer, the identifier of the sponsoring client that SHOULD act upon the request. For a pending push transfer, the identifier of the designated gaining client that SHOULD act upon the request. For all other statuses, the identifier of the client that took the indicated action.<a href="#section-7.1-1.4.2.7.2.5" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.1-1.5.2.7.2.5">Description: For a pending pull transfer, the identifier of the sponsoring client that SHOULD act upon the request. For a pending push transfer, the identifier of the designated gaining client that SHOULD act upon the request. For all other statuses, the identifier of the client that took the indicated action.<a href="#section-7.1-1.5.2.7.2.5" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-7.1-1.4.2.7.2.6">Constraints: (None)<a href="#section-7.1-1.4.2.7.2.6" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.1-1.5.2.7.2.6">Constraints: (None)<a href="#section-7.1-1.5.2.7.2.6" class="pilcrow">¶</a>
 </li>
                 </ul>
 </li>
-              <li class="compact" id="section-7.1-1.4.2.8">
-                <p id="section-7.1-1.4.2.8.1">Action Date<a href="#section-7.1-1.4.2.8.1" class="pilcrow">¶</a></p>
+              <li class="compact" id="section-7.1-1.5.2.8">
+                <p id="section-7.1-1.5.2.8.1">Action Date<a href="#section-7.1-1.5.2.8.1" class="pilcrow">¶</a></p>
 <ul class="compact">
-<li class="compact" id="section-7.1-1.4.2.8.2.1">Identifier: actionDate<a href="#section-7.1-1.4.2.8.2.1" class="pilcrow">¶</a>
+<li class="compact" id="section-7.1-1.5.2.8.2.1">Identifier: actionDate<a href="#section-7.1-1.5.2.8.2.1" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-7.1-1.4.2.8.2.2">Cardinality: 1<a href="#section-7.1-1.4.2.8.2.2" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.1-1.5.2.8.2.2">Cardinality: 1<a href="#section-7.1-1.5.2.8.2.2" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-7.1-1.4.2.8.2.3">Mutability: read-only<a href="#section-7.1-1.4.2.8.2.3" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.1-1.5.2.8.2.3">Mutability: read-only<a href="#section-7.1-1.5.2.8.2.3" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-7.1-1.4.2.8.2.4">Data Type: Timestamp<a href="#section-7.1-1.4.2.8.2.4" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.1-1.5.2.8.2.4">Data Type: Timestamp<a href="#section-7.1-1.5.2.8.2.4" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-7.1-1.4.2.8.2.5">Description: For a pending request, the date and time by which a response is required before an automated response action SHOULD be taken by the server. For all other statuses, the date and time when the request was completed.<a href="#section-7.1-1.4.2.8.2.5" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.1-1.5.2.8.2.5">Description: For a pending request, the date and time by which a response is required before an automated response action SHOULD be taken by the server. For all other statuses, the date and time when the request was completed.<a href="#section-7.1-1.5.2.8.2.5" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-7.1-1.4.2.8.2.6">Constraints: (None)<a href="#section-7.1-1.4.2.8.2.6" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.1-1.5.2.8.2.6">Constraints: (None)<a href="#section-7.1-1.5.2.8.2.6" class="pilcrow">¶</a>
 </li>
                 </ul>
 </li>
@@ -3974,93 +3980,95 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 </li>
           <li class="compact" id="section-7.2-1.2">Identifier: restoreProcess<a href="#section-7.2-1.2" class="pilcrow">¶</a>
 </li>
-          <li class="compact" id="section-7.2-1.3">Description: Represents the current state of a restore request for an object that has entered the Redemption Grace Period (RGP).<a href="#section-7.2-1.3" class="pilcrow">¶</a>
+          <li class="compact" id="section-7.2-1.3">Unique Identifier: processId<a href="#section-7.2-1.3" class="pilcrow">¶</a>
 </li>
-          <li class="compact" id="section-7.2-1.4">
-            <p id="section-7.2-1.4.1">Data Elements:<a href="#section-7.2-1.4.1" class="pilcrow">¶</a></p>
+          <li class="compact" id="section-7.2-1.4">Description: Represents the current state of a restore request for an object that has entered the Redemption Grace Period (RGP).<a href="#section-7.2-1.4" class="pilcrow">¶</a>
+</li>
+          <li class="compact" id="section-7.2-1.5">
+            <p id="section-7.2-1.5.1">Data Elements:<a href="#section-7.2-1.5.1" class="pilcrow">¶</a></p>
 <ul class="compact">
-<li class="compact" id="section-7.2-1.4.2.1">
-                <p id="section-7.2-1.4.2.1.1">Process ID<a href="#section-7.2-1.4.2.1.1" class="pilcrow">¶</a></p>
+<li class="compact" id="section-7.2-1.5.2.1">
+                <p id="section-7.2-1.5.2.1.1">Process ID<a href="#section-7.2-1.5.2.1.1" class="pilcrow">¶</a></p>
 <ul class="compact">
-<li class="compact" id="section-7.2-1.4.2.1.2.1">Identifier: processId<a href="#section-7.2-1.4.2.1.2.1" class="pilcrow">¶</a>
+<li class="compact" id="section-7.2-1.5.2.1.2.1">Identifier: processId<a href="#section-7.2-1.5.2.1.2.1" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-7.2-1.4.2.1.2.2">Cardinality: 0-1<a href="#section-7.2-1.4.2.1.2.2" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.2-1.5.2.1.2.2">Cardinality: 0-1<a href="#section-7.2-1.5.2.1.2.2" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-7.2-1.4.2.1.2.3">Mutability: read-only<a href="#section-7.2-1.4.2.1.2.3" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.2-1.5.2.1.2.3">Mutability: read-only<a href="#section-7.2-1.5.2.1.2.3" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-7.2-1.4.2.1.2.4">Data Type: String<a href="#section-7.2-1.4.2.1.2.4" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.2-1.5.2.1.2.4">Data Type: String<a href="#section-7.2-1.5.2.1.2.4" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-7.2-1.4.2.1.2.5">Description: A server-assigned identifier of the process instance, unique within the scope of the Owner Data Object.<a href="#section-7.2-1.4.2.1.2.5" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.2-1.5.2.1.2.5">Description: A server-assigned identifier of the process instance, unique within the scope of the Owner Data Object.<a href="#section-7.2-1.5.2.1.2.5" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-7.2-1.4.2.1.2.6">Constraints: The value is set by the server and cannot be specified by the client.<a href="#section-7.2-1.4.2.1.2.6" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.2-1.5.2.1.2.6">Constraints: The value is set by the server and cannot be specified by the client.<a href="#section-7.2-1.5.2.1.2.6" class="pilcrow">¶</a>
 </li>
                 </ul>
 </li>
-              <li class="compact" id="section-7.2-1.4.2.2">
-                <p id="section-7.2-1.4.2.2.1">Restore Status<a href="#section-7.2-1.4.2.2.1" class="pilcrow">¶</a></p>
+              <li class="compact" id="section-7.2-1.5.2.2">
+                <p id="section-7.2-1.5.2.2.1">Restore Status<a href="#section-7.2-1.5.2.2.1" class="pilcrow">¶</a></p>
 <ul class="compact">
-<li class="compact" id="section-7.2-1.4.2.2.2.1">Identifier: restoreStatus<a href="#section-7.2-1.4.2.2.2.1" class="pilcrow">¶</a>
+<li class="compact" id="section-7.2-1.5.2.2.2.1">Identifier: restoreStatus<a href="#section-7.2-1.5.2.2.2.1" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-7.2-1.4.2.2.2.2">Cardinality: 1<a href="#section-7.2-1.4.2.2.2.2" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.2-1.5.2.2.2.2">Cardinality: 1<a href="#section-7.2-1.5.2.2.2.2" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-7.2-1.4.2.2.2.3">Mutability: read-only<a href="#section-7.2-1.4.2.2.2.3" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.2-1.5.2.2.2.3">Mutability: read-only<a href="#section-7.2-1.5.2.2.2.3" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-7.2-1.4.2.2.2.4">Data Type: String<a href="#section-7.2-1.4.2.2.2.4" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.2-1.5.2.2.2.4">Data Type: String<a href="#section-7.2-1.5.2.2.2.4" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-7.2-1.4.2.2.2.5">Description: The current state of the restore process.<a href="#section-7.2-1.4.2.2.2.5" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.2-1.5.2.2.2.5">Description: The current state of the restore process.<a href="#section-7.2-1.5.2.2.2.5" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-7.2-1.4.2.2.2.6">Constraints: The value MUST be one of: <code>"pendingRestore"</code>, <code>"restored"</code>, <code>"rgpPendingDelete"</code><a href="#section-7.2-1.4.2.2.2.6" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.2-1.5.2.2.2.6">Constraints: The value MUST be one of: <code>"pendingRestore"</code>, <code>"restored"</code>, <code>"rgpPendingDelete"</code><a href="#section-7.2-1.5.2.2.2.6" class="pilcrow">¶</a>
 </li>
                 </ul>
 </li>
-              <li class="compact" id="section-7.2-1.4.2.3">
-                <p id="section-7.2-1.4.2.3.1">Request Date<a href="#section-7.2-1.4.2.3.1" class="pilcrow">¶</a></p>
+              <li class="compact" id="section-7.2-1.5.2.3">
+                <p id="section-7.2-1.5.2.3.1">Request Date<a href="#section-7.2-1.5.2.3.1" class="pilcrow">¶</a></p>
 <ul class="compact">
-<li class="compact" id="section-7.2-1.4.2.3.2.1">Identifier: requestDate<a href="#section-7.2-1.4.2.3.2.1" class="pilcrow">¶</a>
+<li class="compact" id="section-7.2-1.5.2.3.2.1">Identifier: requestDate<a href="#section-7.2-1.5.2.3.2.1" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-7.2-1.4.2.3.2.2">Cardinality: 0-1<a href="#section-7.2-1.4.2.3.2.2" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.2-1.5.2.3.2.2">Cardinality: 0-1<a href="#section-7.2-1.5.2.3.2.2" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-7.2-1.4.2.3.2.3">Mutability: read-only<a href="#section-7.2-1.4.2.3.2.3" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.2-1.5.2.3.2.3">Mutability: read-only<a href="#section-7.2-1.5.2.3.2.3" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-7.2-1.4.2.3.2.4">Data Type: Timestamp<a href="#section-7.2-1.4.2.3.2.4" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.2-1.5.2.3.2.4">Data Type: Timestamp<a href="#section-7.2-1.5.2.3.2.4" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-7.2-1.4.2.3.2.5">Description: The date and time when the restore request was submitted.<a href="#section-7.2-1.4.2.3.2.5" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.2-1.5.2.3.2.5">Description: The date and time when the restore request was submitted.<a href="#section-7.2-1.5.2.3.2.5" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-7.2-1.4.2.3.2.6">Constraints: MUST NOT be present if no restore request has been submitted yet.<a href="#section-7.2-1.4.2.3.2.6" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.2-1.5.2.3.2.6">Constraints: MUST NOT be present if no restore request has been submitted yet.<a href="#section-7.2-1.5.2.3.2.6" class="pilcrow">¶</a>
 </li>
                 </ul>
 </li>
-              <li class="compact" id="section-7.2-1.4.2.4">
-                <p id="section-7.2-1.4.2.4.1">Report Date<a href="#section-7.2-1.4.2.4.1" class="pilcrow">¶</a></p>
+              <li class="compact" id="section-7.2-1.5.2.4">
+                <p id="section-7.2-1.5.2.4.1">Report Date<a href="#section-7.2-1.5.2.4.1" class="pilcrow">¶</a></p>
 <ul class="compact">
-<li class="compact" id="section-7.2-1.4.2.4.2.1">Identifier: reportDate<a href="#section-7.2-1.4.2.4.2.1" class="pilcrow">¶</a>
+<li class="compact" id="section-7.2-1.5.2.4.2.1">Identifier: reportDate<a href="#section-7.2-1.5.2.4.2.1" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-7.2-1.4.2.4.2.2">Cardinality: 0-1<a href="#section-7.2-1.4.2.4.2.2" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.2-1.5.2.4.2.2">Cardinality: 0-1<a href="#section-7.2-1.5.2.4.2.2" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-7.2-1.4.2.4.2.3">Mutability: read-only<a href="#section-7.2-1.4.2.4.2.3" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.2-1.5.2.4.2.3">Mutability: read-only<a href="#section-7.2-1.5.2.4.2.3" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-7.2-1.4.2.4.2.4">Data Type: Timestamp<a href="#section-7.2-1.4.2.4.2.4" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.2-1.5.2.4.2.4">Data Type: Timestamp<a href="#section-7.2-1.5.2.4.2.4" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-7.2-1.4.2.4.2.5">Description: The date and time when the most recent restore report was accepted by the server.<a href="#section-7.2-1.4.2.4.2.5" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.2-1.5.2.4.2.5">Description: The date and time when the most recent restore report was accepted by the server.<a href="#section-7.2-1.5.2.4.2.5" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-7.2-1.4.2.4.2.6">Constraints: MUST NOT be present if no restore report has been accepted yet.<a href="#section-7.2-1.4.2.4.2.6" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.2-1.5.2.4.2.6">Constraints: MUST NOT be present if no restore report has been accepted yet.<a href="#section-7.2-1.5.2.4.2.6" class="pilcrow">¶</a>
 </li>
                 </ul>
 </li>
-              <li class="compact" id="section-7.2-1.4.2.5">
-                <p id="section-7.2-1.4.2.5.1">Report Due Date<a href="#section-7.2-1.4.2.5.1" class="pilcrow">¶</a></p>
+              <li class="compact" id="section-7.2-1.5.2.5">
+                <p id="section-7.2-1.5.2.5.1">Report Due Date<a href="#section-7.2-1.5.2.5.1" class="pilcrow">¶</a></p>
 <ul class="compact">
-<li class="compact" id="section-7.2-1.4.2.5.2.1">Identifier: reportDueDate<a href="#section-7.2-1.4.2.5.2.1" class="pilcrow">¶</a>
+<li class="compact" id="section-7.2-1.5.2.5.2.1">Identifier: reportDueDate<a href="#section-7.2-1.5.2.5.2.1" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-7.2-1.4.2.5.2.2">Cardinality: 0-1<a href="#section-7.2-1.4.2.5.2.2" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.2-1.5.2.5.2.2">Cardinality: 0-1<a href="#section-7.2-1.5.2.5.2.2" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-7.2-1.4.2.5.2.3">Mutability: read-only<a href="#section-7.2-1.4.2.5.2.3" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.2-1.5.2.5.2.3">Mutability: read-only<a href="#section-7.2-1.5.2.5.2.3" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-7.2-1.4.2.5.2.4">Data Type: Timestamp<a href="#section-7.2-1.4.2.5.2.4" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.2-1.5.2.5.2.4">Data Type: Timestamp<a href="#section-7.2-1.5.2.5.2.4" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-7.2-1.4.2.5.2.5">Description: The date and time by which a restore report must be submitted before the object reverts to <code>redemptionPeriod</code> state. Only present when the object is in <code>pendingRestore</code> state.<a href="#section-7.2-1.4.2.5.2.5" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.2-1.5.2.5.2.5">Description: The date and time by which a restore report must be submitted before the object reverts to <code>redemptionPeriod</code> state. Only present when the object is in <code>pendingRestore</code> state.<a href="#section-7.2-1.5.2.5.2.5" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-7.2-1.4.2.5.2.6">Constraints: MUST NOT be present when <code>restoreStatus</code> is not <code>"pendingRestore"</code>.<a href="#section-7.2-1.4.2.5.2.6" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.2-1.5.2.5.2.6">Constraints: MUST NOT be present when <code>restoreStatus</code> is not <code>"pendingRestore"</code>.<a href="#section-7.2-1.5.2.5.2.6" class="pilcrow">¶</a>
 </li>
                 </ul>
 </li>
@@ -4215,55 +4223,57 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 </li>
           <li class="compact" id="section-7.3-1.2">Identifier: renewProcess<a href="#section-7.3-1.2" class="pilcrow">¶</a>
 </li>
-          <li class="compact" id="section-7.3-1.3">Description: Represents a renew request for a provisioned object. Creating this object initiates a renewal process that extends the registration period of the object. Reading this object returns the new expiry date if the renewal has been completed.<a href="#section-7.3-1.3" class="pilcrow">¶</a>
+          <li class="compact" id="section-7.3-1.3">Unique Identifier: processId<a href="#section-7.3-1.3" class="pilcrow">¶</a>
 </li>
-          <li class="compact" id="section-7.3-1.4">
-            <p id="section-7.3-1.4.1">Data Elements:<a href="#section-7.3-1.4.1" class="pilcrow">¶</a></p>
+          <li class="compact" id="section-7.3-1.4">Description: Represents a renew request for a provisioned object. Creating this object initiates a renewal process that extends the registration period of the object. Reading this object returns the new expiry date if the renewal has been completed.<a href="#section-7.3-1.4" class="pilcrow">¶</a>
+</li>
+          <li class="compact" id="section-7.3-1.5">
+            <p id="section-7.3-1.5.1">Data Elements:<a href="#section-7.3-1.5.1" class="pilcrow">¶</a></p>
 <ul class="compact">
-<li class="compact" id="section-7.3-1.4.2.1">
-                <p id="section-7.3-1.4.2.1.1">Process ID<a href="#section-7.3-1.4.2.1.1" class="pilcrow">¶</a></p>
+<li class="compact" id="section-7.3-1.5.2.1">
+                <p id="section-7.3-1.5.2.1.1">Process ID<a href="#section-7.3-1.5.2.1.1" class="pilcrow">¶</a></p>
 <ul class="compact">
-<li class="compact" id="section-7.3-1.4.2.1.2.1">Identifier: processId<a href="#section-7.3-1.4.2.1.2.1" class="pilcrow">¶</a>
+<li class="compact" id="section-7.3-1.5.2.1.2.1">Identifier: processId<a href="#section-7.3-1.5.2.1.2.1" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-7.3-1.4.2.1.2.2">Cardinality: 0-1<a href="#section-7.3-1.4.2.1.2.2" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.3-1.5.2.1.2.2">Cardinality: 0-1<a href="#section-7.3-1.5.2.1.2.2" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-7.3-1.4.2.1.2.3">Mutability: read-only<a href="#section-7.3-1.4.2.1.2.3" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.3-1.5.2.1.2.3">Mutability: read-only<a href="#section-7.3-1.5.2.1.2.3" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-7.3-1.4.2.1.2.4">Data Type: String<a href="#section-7.3-1.4.2.1.2.4" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.3-1.5.2.1.2.4">Data Type: String<a href="#section-7.3-1.5.2.1.2.4" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-7.3-1.4.2.1.2.5">Description: A server-assigned identifier of the process instance, unique within the scope of the Owner Data Object.<a href="#section-7.3-1.4.2.1.2.5" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.3-1.5.2.1.2.5">Description: A server-assigned identifier of the process instance, unique within the scope of the Owner Data Object.<a href="#section-7.3-1.5.2.1.2.5" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-7.3-1.4.2.1.2.6">Constraints: The value is set by the server and cannot be specified by the client.<a href="#section-7.3-1.4.2.1.2.6" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.3-1.5.2.1.2.6">Constraints: The value is set by the server and cannot be specified by the client.<a href="#section-7.3-1.5.2.1.2.6" class="pilcrow">¶</a>
 </li>
                 </ul>
 </li>
-              <li class="compact" id="section-7.3-1.4.2.2">
-                <p id="section-7.3-1.4.2.2.1">Expiry Date<a href="#section-7.3-1.4.2.2.1" class="pilcrow">¶</a></p>
+              <li class="compact" id="section-7.3-1.5.2.2">
+                <p id="section-7.3-1.5.2.2.1">Expiry Date<a href="#section-7.3-1.5.2.2.1" class="pilcrow">¶</a></p>
 <ul class="compact">
-<li class="compact" id="section-7.3-1.4.2.2.2.1">Identifier: expiryDate<a href="#section-7.3-1.4.2.2.2.1" class="pilcrow">¶</a>
+<li class="compact" id="section-7.3-1.5.2.2.2.1">Identifier: expiryDate<a href="#section-7.3-1.5.2.2.2.1" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-7.3-1.4.2.2.2.2">Cardinality: 0-1<a href="#section-7.3-1.4.2.2.2.2" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.3-1.5.2.2.2.2">Cardinality: 0-1<a href="#section-7.3-1.5.2.2.2.2" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-7.3-1.4.2.2.2.3">Mutability: create-only<a href="#section-7.3-1.4.2.2.2.3" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.3-1.5.2.2.2.3">Mutability: create-only<a href="#section-7.3-1.5.2.2.2.3" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-7.3-1.4.2.2.2.4">Data Type: Timestamp<a href="#section-7.3-1.4.2.2.2.4" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.3-1.5.2.2.2.4">Data Type: Timestamp<a href="#section-7.3-1.5.2.2.2.4" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-7.3-1.4.2.2.2.5">Description: The current expiry date of the object. The server MUST validate this against the object's current <code>expiryDate</code> to prevent unintended duplicate renewals.<a href="#section-7.3-1.4.2.2.2.5" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.3-1.5.2.2.2.5">Description: The current expiry date of the object. The server MUST validate this against the object's current <code>expiryDate</code> to prevent unintended duplicate renewals.<a href="#section-7.3-1.5.2.2.2.5" class="pilcrow">¶</a>
 </li>
                 </ul>
 </li>
-              <li class="compact" id="section-7.3-1.4.2.3">
-                <p id="section-7.3-1.4.2.3.1">Renewal Period<a href="#section-7.3-1.4.2.3.1" class="pilcrow">¶</a></p>
+              <li class="compact" id="section-7.3-1.5.2.3">
+                <p id="section-7.3-1.5.2.3.1">Renewal Period<a href="#section-7.3-1.5.2.3.1" class="pilcrow">¶</a></p>
 <ul class="compact">
-<li class="compact" id="section-7.3-1.4.2.3.2.1">Identifier: renewalPeriod<a href="#section-7.3-1.4.2.3.2.1" class="pilcrow">¶</a>
+<li class="compact" id="section-7.3-1.5.2.3.2.1">Identifier: renewalPeriod<a href="#section-7.3-1.5.2.3.2.1" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-7.3-1.4.2.3.2.2">Cardinality: 0-1<a href="#section-7.3-1.4.2.3.2.2" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.3-1.5.2.3.2.2">Cardinality: 0-1<a href="#section-7.3-1.5.2.3.2.2" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-7.3-1.4.2.3.2.3">Mutability: create-only<a href="#section-7.3-1.4.2.3.2.3" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.3-1.5.2.3.2.3">Mutability: create-only<a href="#section-7.3-1.5.2.3.2.3" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-7.3-1.4.2.3.2.4">Data Type: Period Object<a href="#section-7.3-1.4.2.3.2.4" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.3-1.5.2.3.2.4">Data Type: Period Object<a href="#section-7.3-1.5.2.3.2.4" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-7.3-1.4.2.3.2.5">Description: The duration to be added to the object's registration period. This value is used by the server to calculate the new <code>expiryDate</code>. The default value MAY be defined by server policy. The number of units available MAY be subject to limits imposed by the server.<a href="#section-7.3-1.4.2.3.2.5" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.3-1.5.2.3.2.5">Description: The duration to be added to the object's registration period. This value is used by the server to calculate the new <code>expiryDate</code>. The default value MAY be defined by server policy. The number of units available MAY be subject to limits imposed by the server.<a href="#section-7.3-1.5.2.3.2.5" class="pilcrow">¶</a>
 </li>
                 </ul>
 </li>
@@ -4322,25 +4332,27 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 </li>
           <li class="compact" id="section-7.4-1.2">Identifier: createProcess<a href="#section-7.4-1.2" class="pilcrow">¶</a>
 </li>
-          <li class="compact" id="section-7.4-1.3">Description: Represents the process initiated when a resource creation operation is performed. It carries creation-specific inputs that are consumed during the creation operation and are not stored as persistent attributes of the created resource object.<a href="#section-7.4-1.3" class="pilcrow">¶</a>
+          <li class="compact" id="section-7.4-1.3">Unique Identifier: processId<a href="#section-7.4-1.3" class="pilcrow">¶</a>
 </li>
-          <li class="compact" id="section-7.4-1.4">
-            <p id="section-7.4-1.4.1">Data Elements:<a href="#section-7.4-1.4.1" class="pilcrow">¶</a></p>
+          <li class="compact" id="section-7.4-1.4">Description: Represents the process initiated when a resource creation operation is performed. It carries creation-specific inputs that are consumed during the creation operation and are not stored as persistent attributes of the created resource object.<a href="#section-7.4-1.4" class="pilcrow">¶</a>
+</li>
+          <li class="compact" id="section-7.4-1.5">
+            <p id="section-7.4-1.5.1">Data Elements:<a href="#section-7.4-1.5.1" class="pilcrow">¶</a></p>
 <ul class="compact">
-<li class="compact" id="section-7.4-1.4.2.1">
-                <p id="section-7.4-1.4.2.1.1">Process ID<a href="#section-7.4-1.4.2.1.1" class="pilcrow">¶</a></p>
+<li class="compact" id="section-7.4-1.5.2.1">
+                <p id="section-7.4-1.5.2.1.1">Process ID<a href="#section-7.4-1.5.2.1.1" class="pilcrow">¶</a></p>
 <ul class="compact">
-<li class="compact" id="section-7.4-1.4.2.1.2.1">Identifier: processId<a href="#section-7.4-1.4.2.1.2.1" class="pilcrow">¶</a>
+<li class="compact" id="section-7.4-1.5.2.1.2.1">Identifier: processId<a href="#section-7.4-1.5.2.1.2.1" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-7.4-1.4.2.1.2.2">Cardinality: 0-1<a href="#section-7.4-1.4.2.1.2.2" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.4-1.5.2.1.2.2">Cardinality: 0-1<a href="#section-7.4-1.5.2.1.2.2" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-7.4-1.4.2.1.2.3">Mutability: read-only<a href="#section-7.4-1.4.2.1.2.3" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.4-1.5.2.1.2.3">Mutability: read-only<a href="#section-7.4-1.5.2.1.2.3" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-7.4-1.4.2.1.2.4">Data Type: String<a href="#section-7.4-1.4.2.1.2.4" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.4-1.5.2.1.2.4">Data Type: String<a href="#section-7.4-1.5.2.1.2.4" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-7.4-1.4.2.1.2.5">Description: A server-assigned identifier of the process instance, unique within the scope of the Owner Data Object.<a href="#section-7.4-1.4.2.1.2.5" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.4-1.5.2.1.2.5">Description: A server-assigned identifier of the process instance, unique within the scope of the Owner Data Object.<a href="#section-7.4-1.5.2.1.2.5" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-7.4-1.4.2.1.2.6">Constraints: The value is set by the server and cannot be specified by the client.<a href="#section-7.4-1.4.2.1.2.6" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.4-1.5.2.1.2.6">Constraints: The value is set by the server and cannot be specified by the client.<a href="#section-7.4-1.5.2.1.2.6" class="pilcrow">¶</a>
 </li>
                 </ul>
 </li>
@@ -4426,7 +4438,9 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 </li>
           <li class="compact" id="section-8.1-1.2">Identifier: domainName<a href="#section-8.1-1.2" class="pilcrow">¶</a>
 </li>
-          <li class="compact" id="section-8.1-1.3">Description: A Domain Name data object represents a domain name and contains the data required for its provisioning and management in the registry.<a href="#section-8.1-1.3" class="pilcrow">¶</a>
+          <li class="compact" id="section-8.1-1.3">Unique Identifier: name<a href="#section-8.1-1.3" class="pilcrow">¶</a>
+</li>
+          <li class="compact" id="section-8.1-1.4">Description: A Domain Name data object represents a domain name and contains the data required for its provisioning and management in the registry.<a href="#section-8.1-1.4" class="pilcrow">¶</a>
 </li>
         </ul>
 </section>
@@ -4965,42 +4979,44 @@ is "all".<a href="#section-8.3.2-5.1.2.5" class="pilcrow">¶</a>
 </li>
           <li class="compact" id="section-8.4-1.2">Identifier: domainCreateProcess<a href="#section-8.4-1.2" class="pilcrow">¶</a>
 </li>
-          <li class="compact" id="section-8.4-1.3">Description: The domain-specific Create Process Object <a href="#create-process" class="auto internal xref">Section 7.4</a>. It is implicitly initiated by the Domain Name Data Object create operation and carries the domain creation-specific inputs, namely the requested initial registration period, that are consumed during creation and not persisted as part of the domain object's state.<a href="#section-8.4-1.3" class="pilcrow">¶</a>
+          <li class="compact" id="section-8.4-1.3">Unique Identifier: processId<a href="#section-8.4-1.3" class="pilcrow">¶</a>
 </li>
-          <li class="compact" id="section-8.4-1.4">
-            <p id="section-8.4-1.4.1">Data Elements:<a href="#section-8.4-1.4.1" class="pilcrow">¶</a></p>
+          <li class="compact" id="section-8.4-1.4">Description: The domain-specific Create Process Object <a href="#create-process" class="auto internal xref">Section 7.4</a>. It is implicitly initiated by the Domain Name Data Object create operation and carries the domain creation-specific inputs, namely the requested initial registration period, that are consumed during creation and not persisted as part of the domain object's state.<a href="#section-8.4-1.4" class="pilcrow">¶</a>
+</li>
+          <li class="compact" id="section-8.4-1.5">
+            <p id="section-8.4-1.5.1">Data Elements:<a href="#section-8.4-1.5.1" class="pilcrow">¶</a></p>
 <ul class="compact">
-<li class="compact" id="section-8.4-1.4.2.1">
-                <p id="section-8.4-1.4.2.1.1">Process ID<a href="#section-8.4-1.4.2.1.1" class="pilcrow">¶</a></p>
+<li class="compact" id="section-8.4-1.5.2.1">
+                <p id="section-8.4-1.5.2.1.1">Process ID<a href="#section-8.4-1.5.2.1.1" class="pilcrow">¶</a></p>
 <ul class="compact">
-<li class="compact" id="section-8.4-1.4.2.1.2.1">Identifier: processId<a href="#section-8.4-1.4.2.1.2.1" class="pilcrow">¶</a>
+<li class="compact" id="section-8.4-1.5.2.1.2.1">Identifier: processId<a href="#section-8.4-1.5.2.1.2.1" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-8.4-1.4.2.1.2.2">Cardinality: 0-1<a href="#section-8.4-1.4.2.1.2.2" class="pilcrow">¶</a>
+                  <li class="compact" id="section-8.4-1.5.2.1.2.2">Cardinality: 0-1<a href="#section-8.4-1.5.2.1.2.2" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-8.4-1.4.2.1.2.3">Mutability: read-only<a href="#section-8.4-1.4.2.1.2.3" class="pilcrow">¶</a>
+                  <li class="compact" id="section-8.4-1.5.2.1.2.3">Mutability: read-only<a href="#section-8.4-1.5.2.1.2.3" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-8.4-1.4.2.1.2.4">Data Type: String<a href="#section-8.4-1.4.2.1.2.4" class="pilcrow">¶</a>
+                  <li class="compact" id="section-8.4-1.5.2.1.2.4">Data Type: String<a href="#section-8.4-1.5.2.1.2.4" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-8.4-1.4.2.1.2.5">Description: A server-assigned identifier of the process instance, unique within the scope of the Owner Data Object.<a href="#section-8.4-1.4.2.1.2.5" class="pilcrow">¶</a>
+                  <li class="compact" id="section-8.4-1.5.2.1.2.5">Description: A server-assigned identifier of the process instance, unique within the scope of the Owner Data Object.<a href="#section-8.4-1.5.2.1.2.5" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-8.4-1.4.2.1.2.6">Constraints: The value is set by the server and cannot be specified by the client.<a href="#section-8.4-1.4.2.1.2.6" class="pilcrow">¶</a>
+                  <li class="compact" id="section-8.4-1.5.2.1.2.6">Constraints: The value is set by the server and cannot be specified by the client.<a href="#section-8.4-1.5.2.1.2.6" class="pilcrow">¶</a>
 </li>
                 </ul>
 </li>
-              <li class="compact" id="section-8.4-1.4.2.2">
-                <p id="section-8.4-1.4.2.2.1">Period<a href="#section-8.4-1.4.2.2.1" class="pilcrow">¶</a></p>
+              <li class="compact" id="section-8.4-1.5.2.2">
+                <p id="section-8.4-1.5.2.2.1">Period<a href="#section-8.4-1.5.2.2.1" class="pilcrow">¶</a></p>
 <ul class="compact">
-<li class="compact" id="section-8.4-1.4.2.2.2.1">Identifier: period<a href="#section-8.4-1.4.2.2.2.1" class="pilcrow">¶</a>
+<li class="compact" id="section-8.4-1.5.2.2.2.1">Identifier: period<a href="#section-8.4-1.5.2.2.2.1" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-8.4-1.4.2.2.2.2">Cardinality: 0-1<a href="#section-8.4-1.4.2.2.2.2" class="pilcrow">¶</a>
+                  <li class="compact" id="section-8.4-1.5.2.2.2.2">Cardinality: 0-1<a href="#section-8.4-1.5.2.2.2.2" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-8.4-1.4.2.2.2.3">Mutability: create-only<a href="#section-8.4-1.4.2.2.2.3" class="pilcrow">¶</a>
+                  <li class="compact" id="section-8.4-1.5.2.2.2.3">Mutability: create-only<a href="#section-8.4-1.5.2.2.2.3" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-8.4-1.4.2.2.2.4">Data Type: Period Object<a href="#section-8.4-1.4.2.2.2.4" class="pilcrow">¶</a>
+                  <li class="compact" id="section-8.4-1.5.2.2.2.4">Data Type: Period Object<a href="#section-8.4-1.5.2.2.2.4" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-8.4-1.4.2.2.2.5">Description: The initial registration period for the domain name. This value is used by the server to calculate the initial <code>expiryDate</code> of the object.<a href="#section-8.4-1.4.2.2.2.5" class="pilcrow">¶</a>
+                  <li class="compact" id="section-8.4-1.5.2.2.2.5">Description: The initial registration period for the domain name. This value is used by the server to calculate the initial <code>expiryDate</code> of the object.<a href="#section-8.4-1.5.2.2.2.5" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-8.4-1.4.2.2.2.6">Constraints: (None)<a href="#section-8.4-1.4.2.2.2.6" class="pilcrow">¶</a>
+                  <li class="compact" id="section-8.4-1.5.2.2.2.6">Constraints: (None)<a href="#section-8.4-1.5.2.2.2.6" class="pilcrow">¶</a>
 </li>
                 </ul>
 </li>
@@ -5085,7 +5101,9 @@ is "all".<a href="#section-8.3.2-5.1.2.5" class="pilcrow">¶</a>
 </li>
           <li class="compact" id="section-9.1-1.2">Identifier: contact<a href="#section-9.1-1.2" class="pilcrow">¶</a>
 </li>
-          <li class="compact" id="section-9.1-1.3">Description: A Contact Data Object represents the contact information for an individual or organisation associated with other objects.<a href="#section-9.1-1.3" class="pilcrow">¶</a>
+          <li class="compact" id="section-9.1-1.3">Unique Identifier: id<a href="#section-9.1-1.3" class="pilcrow">¶</a>
+</li>
+          <li class="compact" id="section-9.1-1.4">Description: A Contact Data Object represents the contact information for an individual or organisation associated with other objects.<a href="#section-9.1-1.4" class="pilcrow">¶</a>
 </li>
         </ul>
 </section>
@@ -5398,7 +5416,9 @@ is "all".<a href="#section-8.3.2-5.1.2.5" class="pilcrow">¶</a>
 </li>
           <li class="compact" id="section-10.1-1.2">Identifier: host<a href="#section-10.1-1.2" class="pilcrow">¶</a>
 </li>
-          <li class="compact" id="section-10.1-1.3">Description: A Host Data Object represents a name server that provides DNS services for a domain name.<a href="#section-10.1-1.3" class="pilcrow">¶</a>
+          <li class="compact" id="section-10.1-1.3">Unique Identifier: hostName<a href="#section-10.1-1.3" class="pilcrow">¶</a>
+</li>
+          <li class="compact" id="section-10.1-1.4">Description: A Host Data Object represents a name server that provides DNS services for a domain name.<a href="#section-10.1-1.4" class="pilcrow">¶</a>
 </li>
         </ul>
 </section>
@@ -5631,7 +5651,9 @@ is "all".<a href="#section-8.3.2-5.1.2.5" class="pilcrow">¶</a>
 </li>
           <li class="compact" id="section-11.1-1.2">Identifier: organisation<a href="#section-11.1-1.2" class="pilcrow">¶</a>
 </li>
-          <li class="compact" id="section-11.1-1.3">Description: An Organisation Data Object represents an entity, such as a registrar or reseller that is involved in the domain registration process. This object is based on the EPP Organisation Mapping defined in <span>[<a href="#RFC8543" class="cite xref">RFC8543</a>]</span>.<a href="#section-11.1-1.3" class="pilcrow">¶</a>
+          <li class="compact" id="section-11.1-1.3">Unique Identifier: id<a href="#section-11.1-1.3" class="pilcrow">¶</a>
+</li>
+          <li class="compact" id="section-11.1-1.4">Description: An Organisation Data Object represents an entity, such as a registrar or reseller that is involved in the domain registration process. This object is based on the EPP Organisation Mapping defined in <span>[<a href="#RFC8543" class="cite xref">RFC8543</a>]</span>.<a href="#section-11.1-1.4" class="pilcrow">¶</a>
 </li>
         </ul>
 </section>
@@ -5995,7 +6017,9 @@ is "all".<a href="#section-8.3.2-5.1.2.5" class="pilcrow">¶</a>
 </li>
           <li class="compact" id="section-12.1-1.2">Identifier: user<a href="#section-12.1-1.2" class="pilcrow">¶</a>
 </li>
-          <li class="compact" id="section-12.1-1.3">Description: Represents a user linked to an Organisation Object. Each user carries a set of RBAC roles that define the user's permissions within the context of the owning Organisation Object. The lifecycle of a User Object is bound to its Organisation Object.<a href="#section-12.1-1.3" class="pilcrow">¶</a>
+          <li class="compact" id="section-12.1-1.3">Unique Identifier: id<a href="#section-12.1-1.3" class="pilcrow">¶</a>
+</li>
+          <li class="compact" id="section-12.1-1.4">Description: Represents a user linked to an Organisation Object. Each user carries a set of RBAC roles that define the user's permissions within the context of the owning Organisation Object. The lifecycle of a User Object is bound to its Organisation Object.<a href="#section-12.1-1.4" class="pilcrow">¶</a>
 </li>
         </ul>
 </section>
@@ -7821,6 +7845,8 @@ Registration procedure: Expert Review
           <li class="compact" id="section-15.1-1.5">add optional processId to all Process Objects #89<a href="#section-15.1-1.5" class="pilcrow">¶</a>
 </li>
           <li class="compact" id="section-15.1-1.6">add extensible Processes Object component and processes element to all Data Objects #89<a href="#section-15.1-1.6" class="pilcrow">¶</a>
+</li>
+          <li class="compact" id="section-15.1-1.7">declare the unique identifier element explicitly in every object preamble #89<a href="#section-15.1-1.7" class="pilcrow">¶</a>
 </li>
         </ul>
 </section>

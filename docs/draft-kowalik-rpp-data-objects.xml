@@ -54,6 +54,8 @@
 <dd>An object that represents a long-running or multi-step operation initiated on a Data Object. Process Objects carry operation-related state and data, and may define their own operations to interact with the process. They have no independent existence - their lifecycle is bound to the owning Data Object.</dd>
 <dt>Owner Data Object</dt>
 <dd>A Data Object which a process (represented as Process Object) was initiated upon and which owns this Process Object</dd>
+<dt>Unique Identifier</dt>
+<dd>The data element of an object whose value uniquely identifies an instance of that object within its applicable scope. The scope is defined by the object: for a Data Object it is typically the server, whereas for a Process Object it is the Owner Data Object. An object definition names its Unique Identifier explicitly in the object preamble. Objects that have no independent identity, such as component objects embedded within another object, have no Unique Identifier.</dd>
 </dl>
 </section>
 </section>
@@ -1171,6 +1173,7 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 <ul spacing="compact">
 <li>Name: Transfer Process Object</li>
 <li>Identifier: transferProcess</li>
+<li>Unique Identifier: processId</li>
 <li>Description: Represents a transfer request for a provisioned object. Creating this object initiates a transfer. The object supports approve and reject as additional operations, and delete as the cancel operation. Reading the object returns the current transfer status.</li>
 <li><t>Data Elements:</t>
 
@@ -1410,6 +1413,7 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 <ul spacing="compact">
 <li>Name: Restore Process Object</li>
 <li>Identifier: restoreProcess</li>
+<li>Unique Identifier: processId</li>
 <li>Description: Represents the current state of a restore request for an object that has entered the Redemption Grace Period (RGP).</li>
 <li><t>Data Elements:</t>
 
@@ -1571,6 +1575,7 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 <ul spacing="compact">
 <li>Name: Renew Process Object</li>
 <li>Identifier: renewProcess</li>
+<li>Unique Identifier: processId</li>
 <li>Description: Represents a renew request for a provisioned object. Creating this object initiates a renewal process that extends the registration period of the object. Reading this object returns the new expiry date if the renewal has been completed.</li>
 <li><t>Data Elements:</t>
 
@@ -1639,6 +1644,7 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 <ul spacing="compact">
 <li>Name: Create Process Object</li>
 <li>Identifier: createProcess</li>
+<li>Unique Identifier: processId</li>
 <li>Description: Represents the process initiated when a resource creation operation is performed. It carries creation-specific inputs that are consumed during the creation operation and are not stored as persistent attributes of the created resource object.</li>
 <li><t>Data Elements:</t>
 
@@ -1707,6 +1713,7 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 <ul spacing="compact">
 <li>Name: Domain Name Data Object</li>
 <li>Identifier: domainName</li>
+<li>Unique Identifier: name</li>
 <li>Description: A Domain Name data object represents a domain name and contains the data required for its provisioning and management in the registry.</li>
 </ul>
 </section>
@@ -2074,6 +2081,7 @@ is &quot;all&quot;.</li>
 <ul spacing="compact">
 <li>Name: Domain Create Process Object</li>
 <li>Identifier: domainCreateProcess</li>
+<li>Unique Identifier: processId</li>
 <li>Description: The domain-specific Create Process Object <xref target="create-process"></xref>. It is implicitly initiated by the Domain Name Data Object create operation and carries the domain creation-specific inputs, namely the requested initial registration period, that are consumed during creation and not persisted as part of the domain object's state.</li>
 <li><t>Data Elements:</t>
 
@@ -2151,6 +2159,7 @@ is &quot;all&quot;.</li>
 <ul spacing="compact">
 <li>Name: Contact Data Object</li>
 <li>Identifier: contact</li>
+<li>Unique Identifier: id</li>
 <li>Description: A Contact Data Object represents the contact information for an individual or organisation associated with other objects.</li>
 </ul>
 </section>
@@ -2361,6 +2370,7 @@ is &quot;all&quot;.</li>
 <ul spacing="compact">
 <li>Name: Host Data Object</li>
 <li>Identifier: host</li>
+<li>Unique Identifier: hostName</li>
 <li>Description: A Host Data Object represents a name server that provides DNS services for a domain name.</li>
 </ul>
 </section>
@@ -2516,6 +2526,7 @@ is &quot;all&quot;.</li>
 <ul spacing="compact">
 <li>Name: Organisation Data Object</li>
 <li>Identifier: organisation</li>
+<li>Unique Identifier: id</li>
 <li>Description: An Organisation Data Object represents an entity, such as a registrar or reseller that is involved in the domain registration process. This object is based on the EPP Organisation Mapping defined in <xref target="RFC8543"></xref>.</li>
 </ul>
 </section>
@@ -2759,6 +2770,7 @@ is &quot;all&quot;.</li>
 <ul spacing="compact">
 <li>Name: User Data Object</li>
 <li>Identifier: user</li>
+<li>Unique Identifier: id</li>
 <li>Description: Represents a user linked to an Organisation Object. Each user carries a set of RBAC roles that define the user's permissions within the context of the owning Organisation Object. The lifecycle of a User Object is bound to its Organisation Object.</li>
 </ul>
 </section>
@@ -4506,6 +4518,7 @@ Registration procedure: Expert Review
 <li>add generic Create Process Object and Domain Create Process Object carrying the registration period #89</li>
 <li>add optional processId to all Process Objects #89</li>
 <li>add extensible Processes Object component and processes element to all Data Objects #89</li>
+<li>declare the unique identifier element explicitly in every object preamble #89</li>
 </ul>
 </section>
 
