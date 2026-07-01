@@ -3724,6 +3724,10 @@ Table of Contents
 
 12.  Changes History
 
+draft-kowalik-rpp-data-objects-04 - draft-ietf-rpp-data-objects-00
+
+   -  RPP working group adoption
+
 draft-kowalik-rpp-data-objects -03 - -04
 
    -  correct "postalInfo" to be DictionaryComposition not

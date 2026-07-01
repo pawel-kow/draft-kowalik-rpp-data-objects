@@ -2274,6 +2274,12 @@ A> TODO: write security considerations, if any
 
 {toc="exclude"}
 {numbered="false"}
+## draft-kowalik-rpp-data-objects-04 - draft-ietf-rpp-data-objects-00
+
+* RPP working group adoption
+
+{toc="exclude"}
+{numbered="false"}
 ## draft-kowalik-rpp-data-objects -03 - -04
 
 * correct `"postalInfo"` to be DictionaryComposition not DictionaryAggregation
