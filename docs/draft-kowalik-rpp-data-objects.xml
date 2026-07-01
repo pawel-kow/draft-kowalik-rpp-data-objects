@@ -1094,10 +1094,77 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 <aside><t>TBC: IANA registry for role types and statuses? must be compat with EPP</t>
 </aside>
 </section>
+
+<section anchor="processes-object"><name>Processes Object</name>
+
+<ul spacing="compact">
+<li>Name: Processes Object</li>
+<li>Identifier: processes</li>
+<li>Description: A container grouping the Process Objects <xref target="process-objects"></xref> currently or recently initiated on a Data Object. Each data element MUST be named after the identifier of a Process Object and MUST be of type Aggregation of that Process Object. The data elements below are the process types defined in this document.</li>
+<li><t>Data Elements:</t>
+
+<ul spacing="compact">
+<li><t>Transfer Processes</t>
+
+<ul spacing="compact">
+<li>Identifier: transferProcess</li>
+<li>Cardinality: 0+</li>
+<li>Mutability: read-only</li>
+<li>Data Type: Aggregation[Transfer Process Object]</li>
+<li>Description: The transfer processes initiated on the owning Data Object.</li>
+<li>Constraints: (None)</li>
+</ul></li>
+<li><t>Renew Processes</t>
+
+<ul spacing="compact">
+<li>Identifier: renewProcess</li>
+<li>Cardinality: 0+</li>
+<li>Mutability: read-only</li>
+<li>Data Type: Aggregation[Renew Process Object]</li>
+<li>Description: The renew processes initiated on the owning Data Object.</li>
+<li>Constraints: (None)</li>
+</ul></li>
+<li><t>Restore Processes</t>
+
+<ul spacing="compact">
+<li>Identifier: restoreProcess</li>
+<li>Cardinality: 0+</li>
+<li>Mutability: read-only</li>
+<li>Data Type: Aggregation[Restore Process Object]</li>
+<li>Description: The restore processes initiated on the owning Data Object.</li>
+<li>Constraints: (None)</li>
+</ul></li>
+<li><t>Create Processes</t>
+
+<ul spacing="compact">
+<li>Identifier: createProcess</li>
+<li>Cardinality: 0+</li>
+<li>Mutability: read-only</li>
+<li>Data Type: Aggregation[Create Process Object]</li>
+<li>Description: The create processes initiated on the owning Data Object.</li>
+<li>Constraints: (None)</li>
+</ul></li>
+</ul></li>
+</ul>
+</section>
 </section>
 
 <section anchor="process-objects"><name>Process Objects</name>
 <t>This section defines the Process Objects used in this document.</t>
+<t>Each Process Object carries an OPTIONAL Process ID data element, defined as follows:</t>
+
+<ul spacing="compact">
+<li><t>Process ID</t>
+
+<ul spacing="compact">
+<li>Identifier: processId</li>
+<li>Cardinality: 0-1</li>
+<li>Mutability: read-only</li>
+<li>Data Type: String</li>
+<li>Description: A server-assigned identifier of the process instance, unique within the scope of the Owner Data Object.</li>
+<li>Constraints: The value is set by the server and cannot be specified by the client.</li>
+</ul></li>
+</ul>
 
 <section anchor="transfer-process-object"><name>Transfer Process Object</name>
 
@@ -1108,6 +1175,16 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 <li><t>Data Elements:</t>
 
 <ul spacing="compact">
+<li><t>Process ID</t>
+
+<ul spacing="compact">
+<li>Identifier: processId</li>
+<li>Cardinality: 0-1</li>
+<li>Mutability: read-only</li>
+<li>Data Type: String</li>
+<li>Description: A server-assigned identifier of the process instance, unique within the scope of the Owner Data Object.</li>
+<li>Constraints: The value is set by the server and cannot be specified by the client.</li>
+</ul></li>
 <li><t>Transfer Direction</t>
 
 <ul spacing="compact">
@@ -1337,6 +1414,16 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 <li><t>Data Elements:</t>
 
 <ul spacing="compact">
+<li><t>Process ID</t>
+
+<ul spacing="compact">
+<li>Identifier: processId</li>
+<li>Cardinality: 0-1</li>
+<li>Mutability: read-only</li>
+<li>Data Type: String</li>
+<li>Description: A server-assigned identifier of the process instance, unique within the scope of the Owner Data Object.</li>
+<li>Constraints: The value is set by the server and cannot be specified by the client.</li>
+</ul></li>
 <li><t>Restore Status</t>
 
 <ul spacing="compact">
@@ -1488,6 +1575,16 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 <li><t>Data Elements:</t>
 
 <ul spacing="compact">
+<li><t>Process ID</t>
+
+<ul spacing="compact">
+<li>Identifier: processId</li>
+<li>Cardinality: 0-1</li>
+<li>Mutability: read-only</li>
+<li>Data Type: String</li>
+<li>Description: A server-assigned identifier of the process instance, unique within the scope of the Owner Data Object.</li>
+<li>Constraints: The value is set by the server and cannot be specified by the client.</li>
+</ul></li>
 <li><t>Expiry Date</t>
 
 <ul spacing="compact">
@@ -1543,9 +1640,22 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 <li>Name: Create Process Object</li>
 <li>Identifier: createProcess</li>
 <li>Description: Represents the process initiated when a resource creation operation is performed. It carries creation-specific inputs that are consumed during the creation operation and are not stored as persistent attributes of the created resource object.</li>
-<li>Data Elements:</li>
+<li><t>Data Elements:</t>
+
+<ul spacing="compact">
+<li><t>Process ID</t>
+
+<ul spacing="compact">
+<li>Identifier: processId</li>
+<li>Cardinality: 0-1</li>
+<li>Mutability: read-only</li>
+<li>Data Type: String</li>
+<li>Description: A server-assigned identifier of the process instance, unique within the scope of the Owner Data Object.</li>
+<li>Constraints: The value is set by the server and cannot be specified by the client.</li>
+</ul></li>
+</ul></li>
 </ul>
-<t>The generic Create Process Object defines no data elements. Individual object definitions extend it with object-specific creation inputs (such as the Domain Create Process Object <xref target="domain-create-process"></xref>, which adds the registration period).</t>
+<t>Beyond the Process ID, the generic Create Process Object defines no additional data elements. Individual object definitions extend it with object-specific creation inputs (such as the Domain Create Process Object <xref target="domain-create-process"></xref>, which adds the registration period).</t>
 
 <section anchor="operations-4"><name>Operations</name>
 
@@ -1759,6 +1869,16 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 <li>Description: Authorisation information associated with the domain object.</li>
 <li>Constraints: (None)</li>
 </ul></li>
+<li><t>Processes</t>
+
+<ul spacing="compact">
+<li>Identifier: processes</li>
+<li>Cardinality: 0-1</li>
+<li>Mutability: read-only</li>
+<li>Data Type: Processes Object</li>
+<li>Description: The Process Objects currently or recently initiated on the domain object.</li>
+<li>Constraints: (None)</li>
+</ul></li>
 </ul>
 </section>
 
@@ -1958,6 +2078,16 @@ is &quot;all&quot;.</li>
 <li><t>Data Elements:</t>
 
 <ul spacing="compact">
+<li><t>Process ID</t>
+
+<ul spacing="compact">
+<li>Identifier: processId</li>
+<li>Cardinality: 0-1</li>
+<li>Mutability: read-only</li>
+<li>Data Type: String</li>
+<li>Description: A server-assigned identifier of the process instance, unique within the scope of the Owner Data Object.</li>
+<li>Constraints: The value is set by the server and cannot be specified by the client.</li>
+</ul></li>
 <li><t>Period</t>
 
 <ul spacing="compact">
@@ -2097,6 +2227,16 @@ is &quot;all&quot;.</li>
 <li>Mutability: read-write</li>
 <li>Data Type: Disclose Object.</li>
 <li>Description: Identifies elements that require exceptional server-operator handling to allow or restrict disclosure to third parties.</li>
+</ul></li>
+<li><t>Processes</t>
+
+<ul spacing="compact">
+<li>Identifier: processes</li>
+<li>Cardinality: 0-1</li>
+<li>Mutability: read-only</li>
+<li>Data Type: Processes Object</li>
+<li>Description: The Process Objects currently or recently initiated on the contact object.</li>
+<li>Constraints: (None)</li>
 </ul></li>
 </ul>
 
@@ -2273,6 +2413,16 @@ is &quot;all&quot;.</li>
 <li>The names of DNS entries MUST be the host name itself or subordinate to the host name.</li>
 <li>In EPP Compatibility Profile the record entries MUST be limited to A and AAAA entries for IPv4 and IPv6 glue records respectively.</li>
 </ul></li>
+</ul></li>
+<li><t>Processes</t>
+
+<ul spacing="compact">
+<li>Identifier: processes</li>
+<li>Cardinality: 0-1</li>
+<li>Mutability: read-only</li>
+<li>Data Type: Processes Object</li>
+<li>Description: The Process Objects currently or recently initiated on the host object.</li>
+<li>Constraints: (None)</li>
 </ul></li>
 </ul>
 </section>
@@ -2484,7 +2634,7 @@ is &quot;all&quot;.</li>
 <aside><t>TODO: how handle the &quot;custom&quot; contact type?</t>
 </aside>
 
-<ul spacing="compact">
+<ul>
 <li><t>Users</t>
 
 <ul spacing="compact">
@@ -2504,6 +2654,16 @@ is &quot;all&quot;.</li>
 <li>Each role value MUST be a non-empty string.</li>
 <li>Allowed role values MAY be constrained by server policy.</li>
 </ul></li>
+</ul></li>
+<li><t>Processes</t>
+
+<ul spacing="compact">
+<li>Identifier: processes</li>
+<li>Cardinality: 0-1</li>
+<li>Mutability: read-only</li>
+<li>Data Type: Processes Object</li>
+<li>Description: The Process Objects currently or recently initiated on the organisation object.</li>
+<li>Constraints: (None)</li>
 </ul></li>
 </ul>
 
@@ -2606,7 +2766,7 @@ is &quot;all&quot;.</li>
 <section anchor="data-elements-4"><name>Data Elements</name>
 <t>The following data elements are defined for the User Data Object.</t>
 
-<ul spacing="compact">
+<ul>
 <li><t>User Identifier</t>
 
 <ul spacing="compact">
@@ -2661,6 +2821,16 @@ is &quot;all&quot;.</li>
 <li>Data Type: Organisation Data Object Reference</li>
 <li>Description: A reference to the owner organisation object.</li>
 <li>Constraints: -</li>
+</ul></li>
+<li><t>Processes</t>
+
+<ul spacing="compact">
+<li>Identifier: processes</li>
+<li>Cardinality: 0-1</li>
+<li>Mutability: read-only</li>
+<li>Data Type: Processes Object</li>
+<li>Description: The Process Objects currently or recently initiated on the user object.</li>
+<li>Constraints: (None)</li>
 </ul></li>
 </ul>
 
@@ -3100,6 +3270,61 @@ registry MUST provide:</t>
 <td>The date and time of the most recent successful object transfer.</td>
 </tr>
 </tbody>
+</table><t>Object: processes</t>
+<t>Object Name: Processes Object</t>
+<t>Object Type: Component</t>
+<t>Description: A container grouping the Process Objects currently or recently initiated on a Data Object, structured as a dictionary keyed by process type where each element holds an ordered array of Process Objects of that type. The set of process-type data elements is extensible; extensions MAY register additional process-type elements.</t>
+<t>Reference: [This-ID]</t>
+<t>Data Elements</t>
+<table>
+<thead>
+<tr>
+<th>Element Identifier</th>
+<th>Element Name</th>
+<th>Card.</th>
+<th>Mutability</th>
+<th>Data Type</th>
+<th>Description</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>transferProcess</td>
+<td>Transfer Processes</td>
+<td>0+</td>
+<td>read-only</td>
+<td>Aggregation [Transfer Process Object]</td>
+<td>The transfer processes initiated on the owning Data Object.</td>
+</tr>
+
+<tr>
+<td>renewProcess</td>
+<td>Renew Processes</td>
+<td>0+</td>
+<td>read-only</td>
+<td>Aggregation [Renew Process Object]</td>
+<td>The renew processes initiated on the owning Data Object.</td>
+</tr>
+
+<tr>
+<td>restoreProcess</td>
+<td>Restore Processes</td>
+<td>0+</td>
+<td>read-only</td>
+<td>Aggregation [Restore Process Object]</td>
+<td>The restore processes initiated on the owning Data Object.</td>
+</tr>
+
+<tr>
+<td>createProcess</td>
+<td>Create Processes</td>
+<td>0+</td>
+<td>read-only</td>
+<td>Aggregation [Create Process Object]</td>
+<td>The create processes initiated on the owning Data Object.</td>
+</tr>
+</tbody>
 </table><t>Object: transferProcess</t>
 <t>Object Name: Transfer Process Object</t>
 <t>Object Type: Process</t>
@@ -3119,6 +3344,15 @@ registry MUST provide:</t>
 </thead>
 
 <tbody>
+<tr>
+<td>processId</td>
+<td>Process ID</td>
+<td>0-1</td>
+<td>read-only</td>
+<td>String</td>
+<td>A server-assigned identifier of the process instance, unique within the Owner Data Object.</td>
+</tr>
+
 <tr>
 <td>transferDir</td>
 <td>Transfer Direction</td>
@@ -3243,6 +3477,15 @@ registry MUST provide:</t>
 
 <tbody>
 <tr>
+<td>processId</td>
+<td>Process ID</td>
+<td>0-1</td>
+<td>read-only</td>
+<td>String</td>
+<td>A server-assigned identifier of the process instance, unique within the Owner Data Object.</td>
+</tr>
+
+<tr>
 <td>expiryDate</td>
 <td>Expiry Date</td>
 <td>0-1</td>
@@ -3276,12 +3519,12 @@ registry MUST provide:</t>
 
 <tbody>
 <tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
+<td>processId</td>
+<td>Process ID</td>
+<td>0-1</td>
+<td>read-only</td>
+<td>String</td>
+<td>A server-assigned identifier of the process instance, unique within the Owner Data Object.</td>
 </tr>
 </tbody>
 </table><t>Operations</t>
@@ -3312,6 +3555,15 @@ registry MUST provide:</t>
 </thead>
 
 <tbody>
+<tr>
+<td>processId</td>
+<td>Process ID</td>
+<td>0-1</td>
+<td>read-only</td>
+<td>String</td>
+<td>A server-assigned identifier of the process instance, unique within the Owner Data Object.</td>
+</tr>
+
 <tr>
 <td>period</td>
 <td>Period</td>
@@ -3377,6 +3629,15 @@ registry MUST provide:</t>
 </thead>
 
 <tbody>
+<tr>
+<td>processId</td>
+<td>Process ID</td>
+<td>0-1</td>
+<td>read-only</td>
+<td>String</td>
+<td>A server-assigned identifier of the process instance, unique within the Owner Data Object.</td>
+</tr>
+
 <tr>
 <td>restoreStatus</td>
 <td>Restore Status</td>
@@ -3656,6 +3917,15 @@ registry MUST provide:</t>
 <td>Authorisation Information Object</td>
 <td>Authorisation information for the object.</td>
 </tr>
+
+<tr>
+<td>processes</td>
+<td>Processes</td>
+<td>0-1</td>
+<td>read-only</td>
+<td>Processes Object</td>
+<td>Process Objects initiated on the domain object.</td>
+</tr>
 </tbody>
 </table><t>Operations</t>
 <t>Operation: Create</t>
@@ -3868,6 +4138,15 @@ registry MUST provide:</t>
 <td>Disclose Object.</td>
 <td>Identifies elements that require exceptional server-operator handling to allow or restrict disclosure to third parties.</td>
 </tr>
+
+<tr>
+<td>processes</td>
+<td>Processes</td>
+<td>0-1</td>
+<td>read-only</td>
+<td>Processes Object</td>
+<td>Process Objects initiated on the contact object.</td>
+</tr>
 </tbody>
 </table><t>Operations</t>
 <t>Operation: Create Operation</t>
@@ -3939,6 +4218,15 @@ registry MUST provide:</t>
 <td>read-write</td>
 <td>DNS Data Object</td>
 <td>DNS resource records and operational controls related to the host.</td>
+</tr>
+
+<tr>
+<td>processes</td>
+<td>Processes</td>
+<td>0-1</td>
+<td>read-only</td>
+<td>Processes Object</td>
+<td>Process Objects initiated on the host object.</td>
 </tr>
 </tbody>
 </table><t>Operations</t>
@@ -4081,6 +4369,15 @@ registry MUST provide:</t>
 <td>LabelledAggregation [User Data Object]</td>
 <td>Identifiers of user objects associated with the organisation.</td>
 </tr>
+
+<tr>
+<td>processes</td>
+<td>Processes</td>
+<td>0-1</td>
+<td>read-only</td>
+<td>Processes Object</td>
+<td>Process Objects initiated on the organisation object.</td>
+</tr>
 </tbody>
 </table><t>Operations</t>
 <t>Operation: Create</t>
@@ -4144,6 +4441,15 @@ registry MUST provide:</t>
 <td>string</td>
 <td>The status of the user.</td>
 </tr>
+
+<tr>
+<td>processes</td>
+<td>Processes</td>
+<td>0-1</td>
+<td>read-only</td>
+<td>Processes Object</td>
+<td>Process Objects initiated on the user object.</td>
+</tr>
 </tbody>
 </table><t>Operations</t>
 <t>Operation: Create</t>
@@ -4198,6 +4504,8 @@ Registration procedure: Expert Review
 <li>Added Renew Process Object and operations (Issue #76)</li>
 <li>reserve property names beginning with <tt>@</tt> for representation specifications #89</li>
 <li>add generic Create Process Object and Domain Create Process Object carrying the registration period #89</li>
+<li>add optional processId to all Process Objects #89</li>
+<li>add extensible Processes Object component and processes element to all Data Objects #89</li>
 </ul>
 </section>
 

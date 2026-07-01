@@ -1508,6 +1508,9 @@ li > p:last-of-type:only-child {
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.10">
                 <p id="section-toc.1-1.6.2.10.1"><a href="#section-6.10" class="auto internal xref">6.10</a>. <a href="#name-organisation-role-object" class="internal xref">Organisation Role Object</a></p>
 </li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.11">
+                <p id="section-toc.1-1.6.2.11.1"><a href="#section-6.11" class="auto internal xref">6.11</a>. <a href="#name-processes-object" class="internal xref">Processes Object</a></p>
+</li>
             </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7">
@@ -3488,6 +3491,94 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 </aside>
 </section>
 </div>
+<div id="processes-object">
+<section id="section-6.11">
+        <h3 id="name-processes-object">
+<a href="#section-6.11" class="section-number selfRef">6.11. </a><a href="#name-processes-object" class="section-name selfRef">Processes Object</a>
+        </h3>
+<ul class="compact">
+<li class="compact" id="section-6.11-1.1">Name: Processes Object<a href="#section-6.11-1.1" class="pilcrow">¶</a>
+</li>
+          <li class="compact" id="section-6.11-1.2">Identifier: processes<a href="#section-6.11-1.2" class="pilcrow">¶</a>
+</li>
+          <li class="compact" id="section-6.11-1.3">Description: A container grouping the Process Objects <a href="#process-objects" class="auto internal xref">Section 7</a> currently or recently initiated on a Data Object. Each data element MUST be named after the identifier of a Process Object and MUST be of type Aggregation of that Process Object. The data elements below are the process types defined in this document.<a href="#section-6.11-1.3" class="pilcrow">¶</a>
+</li>
+          <li class="compact" id="section-6.11-1.4">
+            <p id="section-6.11-1.4.1">Data Elements:<a href="#section-6.11-1.4.1" class="pilcrow">¶</a></p>
+<ul class="compact">
+<li class="compact" id="section-6.11-1.4.2.1">
+                <p id="section-6.11-1.4.2.1.1">Transfer Processes<a href="#section-6.11-1.4.2.1.1" class="pilcrow">¶</a></p>
+<ul class="compact">
+<li class="compact" id="section-6.11-1.4.2.1.2.1">Identifier: transferProcess<a href="#section-6.11-1.4.2.1.2.1" class="pilcrow">¶</a>
+</li>
+                  <li class="compact" id="section-6.11-1.4.2.1.2.2">Cardinality: 0+<a href="#section-6.11-1.4.2.1.2.2" class="pilcrow">¶</a>
+</li>
+                  <li class="compact" id="section-6.11-1.4.2.1.2.3">Mutability: read-only<a href="#section-6.11-1.4.2.1.2.3" class="pilcrow">¶</a>
+</li>
+                  <li class="compact" id="section-6.11-1.4.2.1.2.4">Data Type: Aggregation[Transfer Process Object]<a href="#section-6.11-1.4.2.1.2.4" class="pilcrow">¶</a>
+</li>
+                  <li class="compact" id="section-6.11-1.4.2.1.2.5">Description: The transfer processes initiated on the owning Data Object.<a href="#section-6.11-1.4.2.1.2.5" class="pilcrow">¶</a>
+</li>
+                  <li class="compact" id="section-6.11-1.4.2.1.2.6">Constraints: (None)<a href="#section-6.11-1.4.2.1.2.6" class="pilcrow">¶</a>
+</li>
+                </ul>
+</li>
+              <li class="compact" id="section-6.11-1.4.2.2">
+                <p id="section-6.11-1.4.2.2.1">Renew Processes<a href="#section-6.11-1.4.2.2.1" class="pilcrow">¶</a></p>
+<ul class="compact">
+<li class="compact" id="section-6.11-1.4.2.2.2.1">Identifier: renewProcess<a href="#section-6.11-1.4.2.2.2.1" class="pilcrow">¶</a>
+</li>
+                  <li class="compact" id="section-6.11-1.4.2.2.2.2">Cardinality: 0+<a href="#section-6.11-1.4.2.2.2.2" class="pilcrow">¶</a>
+</li>
+                  <li class="compact" id="section-6.11-1.4.2.2.2.3">Mutability: read-only<a href="#section-6.11-1.4.2.2.2.3" class="pilcrow">¶</a>
+</li>
+                  <li class="compact" id="section-6.11-1.4.2.2.2.4">Data Type: Aggregation[Renew Process Object]<a href="#section-6.11-1.4.2.2.2.4" class="pilcrow">¶</a>
+</li>
+                  <li class="compact" id="section-6.11-1.4.2.2.2.5">Description: The renew processes initiated on the owning Data Object.<a href="#section-6.11-1.4.2.2.2.5" class="pilcrow">¶</a>
+</li>
+                  <li class="compact" id="section-6.11-1.4.2.2.2.6">Constraints: (None)<a href="#section-6.11-1.4.2.2.2.6" class="pilcrow">¶</a>
+</li>
+                </ul>
+</li>
+              <li class="compact" id="section-6.11-1.4.2.3">
+                <p id="section-6.11-1.4.2.3.1">Restore Processes<a href="#section-6.11-1.4.2.3.1" class="pilcrow">¶</a></p>
+<ul class="compact">
+<li class="compact" id="section-6.11-1.4.2.3.2.1">Identifier: restoreProcess<a href="#section-6.11-1.4.2.3.2.1" class="pilcrow">¶</a>
+</li>
+                  <li class="compact" id="section-6.11-1.4.2.3.2.2">Cardinality: 0+<a href="#section-6.11-1.4.2.3.2.2" class="pilcrow">¶</a>
+</li>
+                  <li class="compact" id="section-6.11-1.4.2.3.2.3">Mutability: read-only<a href="#section-6.11-1.4.2.3.2.3" class="pilcrow">¶</a>
+</li>
+                  <li class="compact" id="section-6.11-1.4.2.3.2.4">Data Type: Aggregation[Restore Process Object]<a href="#section-6.11-1.4.2.3.2.4" class="pilcrow">¶</a>
+</li>
+                  <li class="compact" id="section-6.11-1.4.2.3.2.5">Description: The restore processes initiated on the owning Data Object.<a href="#section-6.11-1.4.2.3.2.5" class="pilcrow">¶</a>
+</li>
+                  <li class="compact" id="section-6.11-1.4.2.3.2.6">Constraints: (None)<a href="#section-6.11-1.4.2.3.2.6" class="pilcrow">¶</a>
+</li>
+                </ul>
+</li>
+              <li class="compact" id="section-6.11-1.4.2.4">
+                <p id="section-6.11-1.4.2.4.1">Create Processes<a href="#section-6.11-1.4.2.4.1" class="pilcrow">¶</a></p>
+<ul class="compact">
+<li class="compact" id="section-6.11-1.4.2.4.2.1">Identifier: createProcess<a href="#section-6.11-1.4.2.4.2.1" class="pilcrow">¶</a>
+</li>
+                  <li class="compact" id="section-6.11-1.4.2.4.2.2">Cardinality: 0+<a href="#section-6.11-1.4.2.4.2.2" class="pilcrow">¶</a>
+</li>
+                  <li class="compact" id="section-6.11-1.4.2.4.2.3">Mutability: read-only<a href="#section-6.11-1.4.2.4.2.3" class="pilcrow">¶</a>
+</li>
+                  <li class="compact" id="section-6.11-1.4.2.4.2.4">Data Type: Aggregation[Create Process Object]<a href="#section-6.11-1.4.2.4.2.4" class="pilcrow">¶</a>
+</li>
+                  <li class="compact" id="section-6.11-1.4.2.4.2.5">Description: The create processes initiated on the owning Data Object.<a href="#section-6.11-1.4.2.4.2.5" class="pilcrow">¶</a>
+</li>
+                  <li class="compact" id="section-6.11-1.4.2.4.2.6">Constraints: (None)<a href="#section-6.11-1.4.2.4.2.6" class="pilcrow">¶</a>
+</li>
+                </ul>
+</li>
+            </ul>
+</li>
+        </ul>
+</section>
+</div>
 </section>
 </div>
 <div id="process-objects">
@@ -3496,6 +3587,26 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 <a href="#section-7" class="section-number selfRef">7. </a><a href="#name-process-objects" class="section-name selfRef">Process Objects</a>
       </h2>
 <p id="section-7-1">This section defines the Process Objects used in this document.<a href="#section-7-1" class="pilcrow">¶</a></p>
+<p id="section-7-2">Each Process Object carries an OPTIONAL Process ID data element, defined as follows:<a href="#section-7-2" class="pilcrow">¶</a></p>
+<ul class="compact">
+<li class="compact" id="section-7-3.1">
+          <p id="section-7-3.1.1">Process ID<a href="#section-7-3.1.1" class="pilcrow">¶</a></p>
+<ul class="compact">
+<li class="compact" id="section-7-3.1.2.1">Identifier: processId<a href="#section-7-3.1.2.1" class="pilcrow">¶</a>
+</li>
+            <li class="compact" id="section-7-3.1.2.2">Cardinality: 0-1<a href="#section-7-3.1.2.2" class="pilcrow">¶</a>
+</li>
+            <li class="compact" id="section-7-3.1.2.3">Mutability: read-only<a href="#section-7-3.1.2.3" class="pilcrow">¶</a>
+</li>
+            <li class="compact" id="section-7-3.1.2.4">Data Type: String<a href="#section-7-3.1.2.4" class="pilcrow">¶</a>
+</li>
+            <li class="compact" id="section-7-3.1.2.5">Description: A server-assigned identifier of the process instance, unique within the scope of the Owner Data Object.<a href="#section-7-3.1.2.5" class="pilcrow">¶</a>
+</li>
+            <li class="compact" id="section-7-3.1.2.6">Constraints: The value is set by the server and cannot be specified by the client.<a href="#section-7-3.1.2.6" class="pilcrow">¶</a>
+</li>
+          </ul>
+</li>
+      </ul>
 <div id="transfer-process-object">
 <section id="section-7.1">
         <h3 id="name-transfer-process-object">
@@ -3512,121 +3623,138 @@ It MUST be assured that the same unchanged data is always inserted in the same o
             <p id="section-7.1-1.4.1">Data Elements:<a href="#section-7.1-1.4.1" class="pilcrow">¶</a></p>
 <ul class="compact">
 <li class="compact" id="section-7.1-1.4.2.1">
-                <p id="section-7.1-1.4.2.1.1">Transfer Direction<a href="#section-7.1-1.4.2.1.1" class="pilcrow">¶</a></p>
+                <p id="section-7.1-1.4.2.1.1">Process ID<a href="#section-7.1-1.4.2.1.1" class="pilcrow">¶</a></p>
 <ul class="compact">
-<li class="compact" id="section-7.1-1.4.2.1.2.1">Identifier: transferDir<a href="#section-7.1-1.4.2.1.2.1" class="pilcrow">¶</a>
+<li class="compact" id="section-7.1-1.4.2.1.2.1">Identifier: processId<a href="#section-7.1-1.4.2.1.2.1" class="pilcrow">¶</a>
 </li>
                   <li class="compact" id="section-7.1-1.4.2.1.2.2">Cardinality: 0-1<a href="#section-7.1-1.4.2.1.2.2" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-7.1-1.4.2.1.2.3">Mutability: create-only<a href="#section-7.1-1.4.2.1.2.3" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.1-1.4.2.1.2.3">Mutability: read-only<a href="#section-7.1-1.4.2.1.2.3" class="pilcrow">¶</a>
 </li>
                   <li class="compact" id="section-7.1-1.4.2.1.2.4">Data Type: String<a href="#section-7.1-1.4.2.1.2.4" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-7.1-1.4.2.1.2.5">Description: Indicates whether the transfer is a "pull" or "push" transfer. Per policy, servers usually support only one model. If omitted, server policy determines the default.<a href="#section-7.1-1.4.2.1.2.5" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.1-1.4.2.1.2.5">Description: A server-assigned identifier of the process instance, unique within the scope of the Owner Data Object.<a href="#section-7.1-1.4.2.1.2.5" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-7.1-1.4.2.1.2.6">Constraints: The value MUST be one of: "pull" (initiated by the gaining client) or "push" (initiated by the sponsoring client).<a href="#section-7.1-1.4.2.1.2.6" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.1-1.4.2.1.2.6">Constraints: The value is set by the server and cannot be specified by the client.<a href="#section-7.1-1.4.2.1.2.6" class="pilcrow">¶</a>
 </li>
                 </ul>
 </li>
               <li class="compact" id="section-7.1-1.4.2.2">
-                <p id="section-7.1-1.4.2.2.1">Gaining Client ID<a href="#section-7.1-1.4.2.2.1" class="pilcrow">¶</a></p>
+                <p id="section-7.1-1.4.2.2.1">Transfer Direction<a href="#section-7.1-1.4.2.2.1" class="pilcrow">¶</a></p>
 <ul class="compact">
-<li class="compact" id="section-7.1-1.4.2.2.2.1">Identifier: gainingClientId<a href="#section-7.1-1.4.2.2.2.1" class="pilcrow">¶</a>
+<li class="compact" id="section-7.1-1.4.2.2.2.1">Identifier: transferDir<a href="#section-7.1-1.4.2.2.2.1" class="pilcrow">¶</a>
 </li>
                   <li class="compact" id="section-7.1-1.4.2.2.2.2">Cardinality: 0-1<a href="#section-7.1-1.4.2.2.2.2" class="pilcrow">¶</a>
 </li>
                   <li class="compact" id="section-7.1-1.4.2.2.2.3">Mutability: create-only<a href="#section-7.1-1.4.2.2.2.3" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-7.1-1.4.2.2.2.4">Data Type: Client Identifier<a href="#section-7.1-1.4.2.2.2.4" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.1-1.4.2.2.2.4">Data Type: String<a href="#section-7.1-1.4.2.2.2.4" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-7.1-1.4.2.2.2.5">Description: The identifier of the designated gaining client. This element is REQUIRED for push transfers and MUST NOT be provided for pull transfers.<a href="#section-7.1-1.4.2.2.2.5" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.1-1.4.2.2.2.5">Description: Indicates whether the transfer is a "pull" or "push" transfer. Per policy, servers usually support only one model. If omitted, server policy determines the default.<a href="#section-7.1-1.4.2.2.2.5" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-7.1-1.4.2.2.2.6">Constraints: (None)<a href="#section-7.1-1.4.2.2.2.6" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.1-1.4.2.2.2.6">Constraints: The value MUST be one of: "pull" (initiated by the gaining client) or "push" (initiated by the sponsoring client).<a href="#section-7.1-1.4.2.2.2.6" class="pilcrow">¶</a>
 </li>
                 </ul>
 </li>
               <li class="compact" id="section-7.1-1.4.2.3">
-                <p id="section-7.1-1.4.2.3.1">Transfer Status<a href="#section-7.1-1.4.2.3.1" class="pilcrow">¶</a></p>
+                <p id="section-7.1-1.4.2.3.1">Gaining Client ID<a href="#section-7.1-1.4.2.3.1" class="pilcrow">¶</a></p>
 <ul class="compact">
-<li class="compact" id="section-7.1-1.4.2.3.2.1">Identifier: trStatus<a href="#section-7.1-1.4.2.3.2.1" class="pilcrow">¶</a>
+<li class="compact" id="section-7.1-1.4.2.3.2.1">Identifier: gainingClientId<a href="#section-7.1-1.4.2.3.2.1" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-7.1-1.4.2.3.2.2">Cardinality: 1<a href="#section-7.1-1.4.2.3.2.2" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.1-1.4.2.3.2.2">Cardinality: 0-1<a href="#section-7.1-1.4.2.3.2.2" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-7.1-1.4.2.3.2.3">Mutability: read-only<a href="#section-7.1-1.4.2.3.2.3" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.1-1.4.2.3.2.3">Mutability: create-only<a href="#section-7.1-1.4.2.3.2.3" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-7.1-1.4.2.3.2.4">Data Type: String<a href="#section-7.1-1.4.2.3.2.4" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.1-1.4.2.3.2.4">Data Type: Client Identifier<a href="#section-7.1-1.4.2.3.2.4" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-7.1-1.4.2.3.2.5">Description: The state of the transfer request.<a href="#section-7.1-1.4.2.3.2.5" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.1-1.4.2.3.2.5">Description: The identifier of the designated gaining client. This element is REQUIRED for push transfers and MUST NOT be provided for pull transfers.<a href="#section-7.1-1.4.2.3.2.5" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-7.1-1.4.2.3.2.6">Constraints: The value MUST be one of: "pending", "clientApproved", "clientCancelled", "clientRejected", "serverApproved", "serverCancelled".<a href="#section-7.1-1.4.2.3.2.6" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.1-1.4.2.3.2.6">Constraints: (None)<a href="#section-7.1-1.4.2.3.2.6" class="pilcrow">¶</a>
 </li>
                 </ul>
 </li>
               <li class="compact" id="section-7.1-1.4.2.4">
-                <p id="section-7.1-1.4.2.4.1">Requesting Client ID<a href="#section-7.1-1.4.2.4.1" class="pilcrow">¶</a></p>
+                <p id="section-7.1-1.4.2.4.1">Transfer Status<a href="#section-7.1-1.4.2.4.1" class="pilcrow">¶</a></p>
 <ul class="compact">
-<li class="compact" id="section-7.1-1.4.2.4.2.1">Identifier: reqClientId<a href="#section-7.1-1.4.2.4.2.1" class="pilcrow">¶</a>
+<li class="compact" id="section-7.1-1.4.2.4.2.1">Identifier: trStatus<a href="#section-7.1-1.4.2.4.2.1" class="pilcrow">¶</a>
 </li>
                   <li class="compact" id="section-7.1-1.4.2.4.2.2">Cardinality: 1<a href="#section-7.1-1.4.2.4.2.2" class="pilcrow">¶</a>
 </li>
                   <li class="compact" id="section-7.1-1.4.2.4.2.3">Mutability: read-only<a href="#section-7.1-1.4.2.4.2.3" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-7.1-1.4.2.4.2.4">Data Type: Client Identifier<a href="#section-7.1-1.4.2.4.2.4" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.1-1.4.2.4.2.4">Data Type: String<a href="#section-7.1-1.4.2.4.2.4" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-7.1-1.4.2.4.2.5">Description: The identifier of the client that initiated the transfer request.<a href="#section-7.1-1.4.2.4.2.5" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.1-1.4.2.4.2.5">Description: The state of the transfer request.<a href="#section-7.1-1.4.2.4.2.5" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-7.1-1.4.2.4.2.6">Constraints: (None)<a href="#section-7.1-1.4.2.4.2.6" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.1-1.4.2.4.2.6">Constraints: The value MUST be one of: "pending", "clientApproved", "clientCancelled", "clientRejected", "serverApproved", "serverCancelled".<a href="#section-7.1-1.4.2.4.2.6" class="pilcrow">¶</a>
 </li>
                 </ul>
 </li>
               <li class="compact" id="section-7.1-1.4.2.5">
-                <p id="section-7.1-1.4.2.5.1">Request Date<a href="#section-7.1-1.4.2.5.1" class="pilcrow">¶</a></p>
+                <p id="section-7.1-1.4.2.5.1">Requesting Client ID<a href="#section-7.1-1.4.2.5.1" class="pilcrow">¶</a></p>
 <ul class="compact">
-<li class="compact" id="section-7.1-1.4.2.5.2.1">Identifier: requestDate<a href="#section-7.1-1.4.2.5.2.1" class="pilcrow">¶</a>
+<li class="compact" id="section-7.1-1.4.2.5.2.1">Identifier: reqClientId<a href="#section-7.1-1.4.2.5.2.1" class="pilcrow">¶</a>
 </li>
                   <li class="compact" id="section-7.1-1.4.2.5.2.2">Cardinality: 1<a href="#section-7.1-1.4.2.5.2.2" class="pilcrow">¶</a>
 </li>
                   <li class="compact" id="section-7.1-1.4.2.5.2.3">Mutability: read-only<a href="#section-7.1-1.4.2.5.2.3" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-7.1-1.4.2.5.2.4">Data Type: Timestamp<a href="#section-7.1-1.4.2.5.2.4" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.1-1.4.2.5.2.4">Data Type: Client Identifier<a href="#section-7.1-1.4.2.5.2.4" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-7.1-1.4.2.5.2.5">Description: The date and time that the transfer was requested.<a href="#section-7.1-1.4.2.5.2.5" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.1-1.4.2.5.2.5">Description: The identifier of the client that initiated the transfer request.<a href="#section-7.1-1.4.2.5.2.5" class="pilcrow">¶</a>
 </li>
                   <li class="compact" id="section-7.1-1.4.2.5.2.6">Constraints: (None)<a href="#section-7.1-1.4.2.5.2.6" class="pilcrow">¶</a>
 </li>
                 </ul>
 </li>
               <li class="compact" id="section-7.1-1.4.2.6">
-                <p id="section-7.1-1.4.2.6.1">Acting Client ID<a href="#section-7.1-1.4.2.6.1" class="pilcrow">¶</a></p>
+                <p id="section-7.1-1.4.2.6.1">Request Date<a href="#section-7.1-1.4.2.6.1" class="pilcrow">¶</a></p>
 <ul class="compact">
-<li class="compact" id="section-7.1-1.4.2.6.2.1">Identifier: actClientId<a href="#section-7.1-1.4.2.6.2.1" class="pilcrow">¶</a>
+<li class="compact" id="section-7.1-1.4.2.6.2.1">Identifier: requestDate<a href="#section-7.1-1.4.2.6.2.1" class="pilcrow">¶</a>
 </li>
                   <li class="compact" id="section-7.1-1.4.2.6.2.2">Cardinality: 1<a href="#section-7.1-1.4.2.6.2.2" class="pilcrow">¶</a>
 </li>
                   <li class="compact" id="section-7.1-1.4.2.6.2.3">Mutability: read-only<a href="#section-7.1-1.4.2.6.2.3" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-7.1-1.4.2.6.2.4">Data Type: Client Identifier<a href="#section-7.1-1.4.2.6.2.4" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.1-1.4.2.6.2.4">Data Type: Timestamp<a href="#section-7.1-1.4.2.6.2.4" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-7.1-1.4.2.6.2.5">Description: For a pending pull transfer, the identifier of the sponsoring client that SHOULD act upon the request. For a pending push transfer, the identifier of the designated gaining client that SHOULD act upon the request. For all other statuses, the identifier of the client that took the indicated action.<a href="#section-7.1-1.4.2.6.2.5" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.1-1.4.2.6.2.5">Description: The date and time that the transfer was requested.<a href="#section-7.1-1.4.2.6.2.5" class="pilcrow">¶</a>
 </li>
                   <li class="compact" id="section-7.1-1.4.2.6.2.6">Constraints: (None)<a href="#section-7.1-1.4.2.6.2.6" class="pilcrow">¶</a>
 </li>
                 </ul>
 </li>
               <li class="compact" id="section-7.1-1.4.2.7">
-                <p id="section-7.1-1.4.2.7.1">Action Date<a href="#section-7.1-1.4.2.7.1" class="pilcrow">¶</a></p>
+                <p id="section-7.1-1.4.2.7.1">Acting Client ID<a href="#section-7.1-1.4.2.7.1" class="pilcrow">¶</a></p>
 <ul class="compact">
-<li class="compact" id="section-7.1-1.4.2.7.2.1">Identifier: actionDate<a href="#section-7.1-1.4.2.7.2.1" class="pilcrow">¶</a>
+<li class="compact" id="section-7.1-1.4.2.7.2.1">Identifier: actClientId<a href="#section-7.1-1.4.2.7.2.1" class="pilcrow">¶</a>
 </li>
                   <li class="compact" id="section-7.1-1.4.2.7.2.2">Cardinality: 1<a href="#section-7.1-1.4.2.7.2.2" class="pilcrow">¶</a>
 </li>
                   <li class="compact" id="section-7.1-1.4.2.7.2.3">Mutability: read-only<a href="#section-7.1-1.4.2.7.2.3" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-7.1-1.4.2.7.2.4">Data Type: Timestamp<a href="#section-7.1-1.4.2.7.2.4" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.1-1.4.2.7.2.4">Data Type: Client Identifier<a href="#section-7.1-1.4.2.7.2.4" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-7.1-1.4.2.7.2.5">Description: For a pending request, the date and time by which a response is required before an automated response action SHOULD be taken by the server. For all other statuses, the date and time when the request was completed.<a href="#section-7.1-1.4.2.7.2.5" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.1-1.4.2.7.2.5">Description: For a pending pull transfer, the identifier of the sponsoring client that SHOULD act upon the request. For a pending push transfer, the identifier of the designated gaining client that SHOULD act upon the request. For all other statuses, the identifier of the client that took the indicated action.<a href="#section-7.1-1.4.2.7.2.5" class="pilcrow">¶</a>
 </li>
                   <li class="compact" id="section-7.1-1.4.2.7.2.6">Constraints: (None)<a href="#section-7.1-1.4.2.7.2.6" class="pilcrow">¶</a>
+</li>
+                </ul>
+</li>
+              <li class="compact" id="section-7.1-1.4.2.8">
+                <p id="section-7.1-1.4.2.8.1">Action Date<a href="#section-7.1-1.4.2.8.1" class="pilcrow">¶</a></p>
+<ul class="compact">
+<li class="compact" id="section-7.1-1.4.2.8.2.1">Identifier: actionDate<a href="#section-7.1-1.4.2.8.2.1" class="pilcrow">¶</a>
+</li>
+                  <li class="compact" id="section-7.1-1.4.2.8.2.2">Cardinality: 1<a href="#section-7.1-1.4.2.8.2.2" class="pilcrow">¶</a>
+</li>
+                  <li class="compact" id="section-7.1-1.4.2.8.2.3">Mutability: read-only<a href="#section-7.1-1.4.2.8.2.3" class="pilcrow">¶</a>
+</li>
+                  <li class="compact" id="section-7.1-1.4.2.8.2.4">Data Type: Timestamp<a href="#section-7.1-1.4.2.8.2.4" class="pilcrow">¶</a>
+</li>
+                  <li class="compact" id="section-7.1-1.4.2.8.2.5">Description: For a pending request, the date and time by which a response is required before an automated response action SHOULD be taken by the server. For all other statuses, the date and time when the request was completed.<a href="#section-7.1-1.4.2.8.2.5" class="pilcrow">¶</a>
+</li>
+                  <li class="compact" id="section-7.1-1.4.2.8.2.6">Constraints: (None)<a href="#section-7.1-1.4.2.8.2.6" class="pilcrow">¶</a>
 </li>
                 </ul>
 </li>
@@ -3852,43 +3980,43 @@ It MUST be assured that the same unchanged data is always inserted in the same o
             <p id="section-7.2-1.4.1">Data Elements:<a href="#section-7.2-1.4.1" class="pilcrow">¶</a></p>
 <ul class="compact">
 <li class="compact" id="section-7.2-1.4.2.1">
-                <p id="section-7.2-1.4.2.1.1">Restore Status<a href="#section-7.2-1.4.2.1.1" class="pilcrow">¶</a></p>
+                <p id="section-7.2-1.4.2.1.1">Process ID<a href="#section-7.2-1.4.2.1.1" class="pilcrow">¶</a></p>
 <ul class="compact">
-<li class="compact" id="section-7.2-1.4.2.1.2.1">Identifier: restoreStatus<a href="#section-7.2-1.4.2.1.2.1" class="pilcrow">¶</a>
+<li class="compact" id="section-7.2-1.4.2.1.2.1">Identifier: processId<a href="#section-7.2-1.4.2.1.2.1" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-7.2-1.4.2.1.2.2">Cardinality: 1<a href="#section-7.2-1.4.2.1.2.2" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.2-1.4.2.1.2.2">Cardinality: 0-1<a href="#section-7.2-1.4.2.1.2.2" class="pilcrow">¶</a>
 </li>
                   <li class="compact" id="section-7.2-1.4.2.1.2.3">Mutability: read-only<a href="#section-7.2-1.4.2.1.2.3" class="pilcrow">¶</a>
 </li>
                   <li class="compact" id="section-7.2-1.4.2.1.2.4">Data Type: String<a href="#section-7.2-1.4.2.1.2.4" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-7.2-1.4.2.1.2.5">Description: The current state of the restore process.<a href="#section-7.2-1.4.2.1.2.5" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.2-1.4.2.1.2.5">Description: A server-assigned identifier of the process instance, unique within the scope of the Owner Data Object.<a href="#section-7.2-1.4.2.1.2.5" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-7.2-1.4.2.1.2.6">Constraints: The value MUST be one of: <code>"pendingRestore"</code>, <code>"restored"</code>, <code>"rgpPendingDelete"</code><a href="#section-7.2-1.4.2.1.2.6" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.2-1.4.2.1.2.6">Constraints: The value is set by the server and cannot be specified by the client.<a href="#section-7.2-1.4.2.1.2.6" class="pilcrow">¶</a>
 </li>
                 </ul>
 </li>
               <li class="compact" id="section-7.2-1.4.2.2">
-                <p id="section-7.2-1.4.2.2.1">Request Date<a href="#section-7.2-1.4.2.2.1" class="pilcrow">¶</a></p>
+                <p id="section-7.2-1.4.2.2.1">Restore Status<a href="#section-7.2-1.4.2.2.1" class="pilcrow">¶</a></p>
 <ul class="compact">
-<li class="compact" id="section-7.2-1.4.2.2.2.1">Identifier: requestDate<a href="#section-7.2-1.4.2.2.2.1" class="pilcrow">¶</a>
+<li class="compact" id="section-7.2-1.4.2.2.2.1">Identifier: restoreStatus<a href="#section-7.2-1.4.2.2.2.1" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-7.2-1.4.2.2.2.2">Cardinality: 0-1<a href="#section-7.2-1.4.2.2.2.2" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.2-1.4.2.2.2.2">Cardinality: 1<a href="#section-7.2-1.4.2.2.2.2" class="pilcrow">¶</a>
 </li>
                   <li class="compact" id="section-7.2-1.4.2.2.2.3">Mutability: read-only<a href="#section-7.2-1.4.2.2.2.3" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-7.2-1.4.2.2.2.4">Data Type: Timestamp<a href="#section-7.2-1.4.2.2.2.4" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.2-1.4.2.2.2.4">Data Type: String<a href="#section-7.2-1.4.2.2.2.4" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-7.2-1.4.2.2.2.5">Description: The date and time when the restore request was submitted.<a href="#section-7.2-1.4.2.2.2.5" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.2-1.4.2.2.2.5">Description: The current state of the restore process.<a href="#section-7.2-1.4.2.2.2.5" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-7.2-1.4.2.2.2.6">Constraints: MUST NOT be present if no restore request has been submitted yet.<a href="#section-7.2-1.4.2.2.2.6" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.2-1.4.2.2.2.6">Constraints: The value MUST be one of: <code>"pendingRestore"</code>, <code>"restored"</code>, <code>"rgpPendingDelete"</code><a href="#section-7.2-1.4.2.2.2.6" class="pilcrow">¶</a>
 </li>
                 </ul>
 </li>
               <li class="compact" id="section-7.2-1.4.2.3">
-                <p id="section-7.2-1.4.2.3.1">Report Date<a href="#section-7.2-1.4.2.3.1" class="pilcrow">¶</a></p>
+                <p id="section-7.2-1.4.2.3.1">Request Date<a href="#section-7.2-1.4.2.3.1" class="pilcrow">¶</a></p>
 <ul class="compact">
-<li class="compact" id="section-7.2-1.4.2.3.2.1">Identifier: reportDate<a href="#section-7.2-1.4.2.3.2.1" class="pilcrow">¶</a>
+<li class="compact" id="section-7.2-1.4.2.3.2.1">Identifier: requestDate<a href="#section-7.2-1.4.2.3.2.1" class="pilcrow">¶</a>
 </li>
                   <li class="compact" id="section-7.2-1.4.2.3.2.2">Cardinality: 0-1<a href="#section-7.2-1.4.2.3.2.2" class="pilcrow">¶</a>
 </li>
@@ -3896,16 +4024,16 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 </li>
                   <li class="compact" id="section-7.2-1.4.2.3.2.4">Data Type: Timestamp<a href="#section-7.2-1.4.2.3.2.4" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-7.2-1.4.2.3.2.5">Description: The date and time when the most recent restore report was accepted by the server.<a href="#section-7.2-1.4.2.3.2.5" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.2-1.4.2.3.2.5">Description: The date and time when the restore request was submitted.<a href="#section-7.2-1.4.2.3.2.5" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-7.2-1.4.2.3.2.6">Constraints: MUST NOT be present if no restore report has been accepted yet.<a href="#section-7.2-1.4.2.3.2.6" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.2-1.4.2.3.2.6">Constraints: MUST NOT be present if no restore request has been submitted yet.<a href="#section-7.2-1.4.2.3.2.6" class="pilcrow">¶</a>
 </li>
                 </ul>
 </li>
               <li class="compact" id="section-7.2-1.4.2.4">
-                <p id="section-7.2-1.4.2.4.1">Report Due Date<a href="#section-7.2-1.4.2.4.1" class="pilcrow">¶</a></p>
+                <p id="section-7.2-1.4.2.4.1">Report Date<a href="#section-7.2-1.4.2.4.1" class="pilcrow">¶</a></p>
 <ul class="compact">
-<li class="compact" id="section-7.2-1.4.2.4.2.1">Identifier: reportDueDate<a href="#section-7.2-1.4.2.4.2.1" class="pilcrow">¶</a>
+<li class="compact" id="section-7.2-1.4.2.4.2.1">Identifier: reportDate<a href="#section-7.2-1.4.2.4.2.1" class="pilcrow">¶</a>
 </li>
                   <li class="compact" id="section-7.2-1.4.2.4.2.2">Cardinality: 0-1<a href="#section-7.2-1.4.2.4.2.2" class="pilcrow">¶</a>
 </li>
@@ -3913,9 +4041,26 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 </li>
                   <li class="compact" id="section-7.2-1.4.2.4.2.4">Data Type: Timestamp<a href="#section-7.2-1.4.2.4.2.4" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-7.2-1.4.2.4.2.5">Description: The date and time by which a restore report must be submitted before the object reverts to <code>redemptionPeriod</code> state. Only present when the object is in <code>pendingRestore</code> state.<a href="#section-7.2-1.4.2.4.2.5" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.2-1.4.2.4.2.5">Description: The date and time when the most recent restore report was accepted by the server.<a href="#section-7.2-1.4.2.4.2.5" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-7.2-1.4.2.4.2.6">Constraints: MUST NOT be present when <code>restoreStatus</code> is not <code>"pendingRestore"</code>.<a href="#section-7.2-1.4.2.4.2.6" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.2-1.4.2.4.2.6">Constraints: MUST NOT be present if no restore report has been accepted yet.<a href="#section-7.2-1.4.2.4.2.6" class="pilcrow">¶</a>
+</li>
+                </ul>
+</li>
+              <li class="compact" id="section-7.2-1.4.2.5">
+                <p id="section-7.2-1.4.2.5.1">Report Due Date<a href="#section-7.2-1.4.2.5.1" class="pilcrow">¶</a></p>
+<ul class="compact">
+<li class="compact" id="section-7.2-1.4.2.5.2.1">Identifier: reportDueDate<a href="#section-7.2-1.4.2.5.2.1" class="pilcrow">¶</a>
+</li>
+                  <li class="compact" id="section-7.2-1.4.2.5.2.2">Cardinality: 0-1<a href="#section-7.2-1.4.2.5.2.2" class="pilcrow">¶</a>
+</li>
+                  <li class="compact" id="section-7.2-1.4.2.5.2.3">Mutability: read-only<a href="#section-7.2-1.4.2.5.2.3" class="pilcrow">¶</a>
+</li>
+                  <li class="compact" id="section-7.2-1.4.2.5.2.4">Data Type: Timestamp<a href="#section-7.2-1.4.2.5.2.4" class="pilcrow">¶</a>
+</li>
+                  <li class="compact" id="section-7.2-1.4.2.5.2.5">Description: The date and time by which a restore report must be submitted before the object reverts to <code>redemptionPeriod</code> state. Only present when the object is in <code>pendingRestore</code> state.<a href="#section-7.2-1.4.2.5.2.5" class="pilcrow">¶</a>
+</li>
+                  <li class="compact" id="section-7.2-1.4.2.5.2.6">Constraints: MUST NOT be present when <code>restoreStatus</code> is not <code>"pendingRestore"</code>.<a href="#section-7.2-1.4.2.5.2.6" class="pilcrow">¶</a>
 </li>
                 </ul>
 </li>
@@ -4076,32 +4221,49 @@ It MUST be assured that the same unchanged data is always inserted in the same o
             <p id="section-7.3-1.4.1">Data Elements:<a href="#section-7.3-1.4.1" class="pilcrow">¶</a></p>
 <ul class="compact">
 <li class="compact" id="section-7.3-1.4.2.1">
-                <p id="section-7.3-1.4.2.1.1">Expiry Date<a href="#section-7.3-1.4.2.1.1" class="pilcrow">¶</a></p>
+                <p id="section-7.3-1.4.2.1.1">Process ID<a href="#section-7.3-1.4.2.1.1" class="pilcrow">¶</a></p>
 <ul class="compact">
-<li class="compact" id="section-7.3-1.4.2.1.2.1">Identifier: expiryDate<a href="#section-7.3-1.4.2.1.2.1" class="pilcrow">¶</a>
+<li class="compact" id="section-7.3-1.4.2.1.2.1">Identifier: processId<a href="#section-7.3-1.4.2.1.2.1" class="pilcrow">¶</a>
 </li>
                   <li class="compact" id="section-7.3-1.4.2.1.2.2">Cardinality: 0-1<a href="#section-7.3-1.4.2.1.2.2" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-7.3-1.4.2.1.2.3">Mutability: create-only<a href="#section-7.3-1.4.2.1.2.3" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.3-1.4.2.1.2.3">Mutability: read-only<a href="#section-7.3-1.4.2.1.2.3" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-7.3-1.4.2.1.2.4">Data Type: Timestamp<a href="#section-7.3-1.4.2.1.2.4" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.3-1.4.2.1.2.4">Data Type: String<a href="#section-7.3-1.4.2.1.2.4" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-7.3-1.4.2.1.2.5">Description: The current expiry date of the object. The server MUST validate this against the object's current <code>expiryDate</code> to prevent unintended duplicate renewals.<a href="#section-7.3-1.4.2.1.2.5" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.3-1.4.2.1.2.5">Description: A server-assigned identifier of the process instance, unique within the scope of the Owner Data Object.<a href="#section-7.3-1.4.2.1.2.5" class="pilcrow">¶</a>
+</li>
+                  <li class="compact" id="section-7.3-1.4.2.1.2.6">Constraints: The value is set by the server and cannot be specified by the client.<a href="#section-7.3-1.4.2.1.2.6" class="pilcrow">¶</a>
 </li>
                 </ul>
 </li>
               <li class="compact" id="section-7.3-1.4.2.2">
-                <p id="section-7.3-1.4.2.2.1">Renewal Period<a href="#section-7.3-1.4.2.2.1" class="pilcrow">¶</a></p>
+                <p id="section-7.3-1.4.2.2.1">Expiry Date<a href="#section-7.3-1.4.2.2.1" class="pilcrow">¶</a></p>
 <ul class="compact">
-<li class="compact" id="section-7.3-1.4.2.2.2.1">Identifier: renewalPeriod<a href="#section-7.3-1.4.2.2.2.1" class="pilcrow">¶</a>
+<li class="compact" id="section-7.3-1.4.2.2.2.1">Identifier: expiryDate<a href="#section-7.3-1.4.2.2.2.1" class="pilcrow">¶</a>
 </li>
                   <li class="compact" id="section-7.3-1.4.2.2.2.2">Cardinality: 0-1<a href="#section-7.3-1.4.2.2.2.2" class="pilcrow">¶</a>
 </li>
                   <li class="compact" id="section-7.3-1.4.2.2.2.3">Mutability: create-only<a href="#section-7.3-1.4.2.2.2.3" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-7.3-1.4.2.2.2.4">Data Type: Period Object<a href="#section-7.3-1.4.2.2.2.4" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.3-1.4.2.2.2.4">Data Type: Timestamp<a href="#section-7.3-1.4.2.2.2.4" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-7.3-1.4.2.2.2.5">Description: The duration to be added to the object's registration period. This value is used by the server to calculate the new <code>expiryDate</code>. The default value MAY be defined by server policy. The number of units available MAY be subject to limits imposed by the server.<a href="#section-7.3-1.4.2.2.2.5" class="pilcrow">¶</a>
+                  <li class="compact" id="section-7.3-1.4.2.2.2.5">Description: The current expiry date of the object. The server MUST validate this against the object's current <code>expiryDate</code> to prevent unintended duplicate renewals.<a href="#section-7.3-1.4.2.2.2.5" class="pilcrow">¶</a>
+</li>
+                </ul>
+</li>
+              <li class="compact" id="section-7.3-1.4.2.3">
+                <p id="section-7.3-1.4.2.3.1">Renewal Period<a href="#section-7.3-1.4.2.3.1" class="pilcrow">¶</a></p>
+<ul class="compact">
+<li class="compact" id="section-7.3-1.4.2.3.2.1">Identifier: renewalPeriod<a href="#section-7.3-1.4.2.3.2.1" class="pilcrow">¶</a>
+</li>
+                  <li class="compact" id="section-7.3-1.4.2.3.2.2">Cardinality: 0-1<a href="#section-7.3-1.4.2.3.2.2" class="pilcrow">¶</a>
+</li>
+                  <li class="compact" id="section-7.3-1.4.2.3.2.3">Mutability: create-only<a href="#section-7.3-1.4.2.3.2.3" class="pilcrow">¶</a>
+</li>
+                  <li class="compact" id="section-7.3-1.4.2.3.2.4">Data Type: Period Object<a href="#section-7.3-1.4.2.3.2.4" class="pilcrow">¶</a>
+</li>
+                  <li class="compact" id="section-7.3-1.4.2.3.2.5">Description: The duration to be added to the object's registration period. This value is used by the server to calculate the new <code>expiryDate</code>. The default value MAY be defined by server policy. The number of units available MAY be subject to limits imposed by the server.<a href="#section-7.3-1.4.2.3.2.5" class="pilcrow">¶</a>
 </li>
                 </ul>
 </li>
@@ -4162,10 +4324,30 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 </li>
           <li class="compact" id="section-7.4-1.3">Description: Represents the process initiated when a resource creation operation is performed. It carries creation-specific inputs that are consumed during the creation operation and are not stored as persistent attributes of the created resource object.<a href="#section-7.4-1.3" class="pilcrow">¶</a>
 </li>
-          <li class="compact" id="section-7.4-1.4">Data Elements:<a href="#section-7.4-1.4" class="pilcrow">¶</a>
+          <li class="compact" id="section-7.4-1.4">
+            <p id="section-7.4-1.4.1">Data Elements:<a href="#section-7.4-1.4.1" class="pilcrow">¶</a></p>
+<ul class="compact">
+<li class="compact" id="section-7.4-1.4.2.1">
+                <p id="section-7.4-1.4.2.1.1">Process ID<a href="#section-7.4-1.4.2.1.1" class="pilcrow">¶</a></p>
+<ul class="compact">
+<li class="compact" id="section-7.4-1.4.2.1.2.1">Identifier: processId<a href="#section-7.4-1.4.2.1.2.1" class="pilcrow">¶</a>
+</li>
+                  <li class="compact" id="section-7.4-1.4.2.1.2.2">Cardinality: 0-1<a href="#section-7.4-1.4.2.1.2.2" class="pilcrow">¶</a>
+</li>
+                  <li class="compact" id="section-7.4-1.4.2.1.2.3">Mutability: read-only<a href="#section-7.4-1.4.2.1.2.3" class="pilcrow">¶</a>
+</li>
+                  <li class="compact" id="section-7.4-1.4.2.1.2.4">Data Type: String<a href="#section-7.4-1.4.2.1.2.4" class="pilcrow">¶</a>
+</li>
+                  <li class="compact" id="section-7.4-1.4.2.1.2.5">Description: A server-assigned identifier of the process instance, unique within the scope of the Owner Data Object.<a href="#section-7.4-1.4.2.1.2.5" class="pilcrow">¶</a>
+</li>
+                  <li class="compact" id="section-7.4-1.4.2.1.2.6">Constraints: The value is set by the server and cannot be specified by the client.<a href="#section-7.4-1.4.2.1.2.6" class="pilcrow">¶</a>
+</li>
+                </ul>
+</li>
+            </ul>
 </li>
         </ul>
-<p id="section-7.4-2">The generic Create Process Object defines no data elements. Individual object definitions extend it with object-specific creation inputs (such as the Domain Create Process Object <a href="#domain-create-process" class="auto internal xref">Section 8.4</a>, which adds the registration period).<a href="#section-7.4-2" class="pilcrow">¶</a></p>
+<p id="section-7.4-2">Beyond the Process ID, the generic Create Process Object defines no additional data elements. Individual object definitions extend it with object-specific creation inputs (such as the Domain Create Process Object <a href="#domain-create-process" class="auto internal xref">Section 8.4</a>, which adds the registration period).<a href="#section-7.4-2" class="pilcrow">¶</a></p>
 <div id="operations-4">
 <section id="section-7.4.1">
           <h4 id="name-operations-5">
@@ -4492,6 +4674,23 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 </li>
             </ul>
 </li>
+          <li class="normal" id="section-8.2-8.6">
+            <p id="section-8.2-8.6.1">Processes<a href="#section-8.2-8.6.1" class="pilcrow">¶</a></p>
+<ul class="compact normal">
+<li class="compact normal" id="section-8.2-8.6.2.1">Identifier: processes<a href="#section-8.2-8.6.2.1" class="pilcrow">¶</a>
+</li>
+              <li class="compact normal" id="section-8.2-8.6.2.2">Cardinality: 0-1<a href="#section-8.2-8.6.2.2" class="pilcrow">¶</a>
+</li>
+              <li class="compact normal" id="section-8.2-8.6.2.3">Mutability: read-only<a href="#section-8.2-8.6.2.3" class="pilcrow">¶</a>
+</li>
+              <li class="compact normal" id="section-8.2-8.6.2.4">Data Type: Processes Object<a href="#section-8.2-8.6.2.4" class="pilcrow">¶</a>
+</li>
+              <li class="compact normal" id="section-8.2-8.6.2.5">Description: The Process Objects currently or recently initiated on the domain object.<a href="#section-8.2-8.6.2.5" class="pilcrow">¶</a>
+</li>
+              <li class="compact normal" id="section-8.2-8.6.2.6">Constraints: (None)<a href="#section-8.2-8.6.2.6" class="pilcrow">¶</a>
+</li>
+            </ul>
+</li>
         </ul>
 </section>
 </div>
@@ -4772,19 +4971,36 @@ is "all".<a href="#section-8.3.2-5.1.2.5" class="pilcrow">¶</a>
             <p id="section-8.4-1.4.1">Data Elements:<a href="#section-8.4-1.4.1" class="pilcrow">¶</a></p>
 <ul class="compact">
 <li class="compact" id="section-8.4-1.4.2.1">
-                <p id="section-8.4-1.4.2.1.1">Period<a href="#section-8.4-1.4.2.1.1" class="pilcrow">¶</a></p>
+                <p id="section-8.4-1.4.2.1.1">Process ID<a href="#section-8.4-1.4.2.1.1" class="pilcrow">¶</a></p>
 <ul class="compact">
-<li class="compact" id="section-8.4-1.4.2.1.2.1">Identifier: period<a href="#section-8.4-1.4.2.1.2.1" class="pilcrow">¶</a>
+<li class="compact" id="section-8.4-1.4.2.1.2.1">Identifier: processId<a href="#section-8.4-1.4.2.1.2.1" class="pilcrow">¶</a>
 </li>
                   <li class="compact" id="section-8.4-1.4.2.1.2.2">Cardinality: 0-1<a href="#section-8.4-1.4.2.1.2.2" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-8.4-1.4.2.1.2.3">Mutability: create-only<a href="#section-8.4-1.4.2.1.2.3" class="pilcrow">¶</a>
+                  <li class="compact" id="section-8.4-1.4.2.1.2.3">Mutability: read-only<a href="#section-8.4-1.4.2.1.2.3" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-8.4-1.4.2.1.2.4">Data Type: Period Object<a href="#section-8.4-1.4.2.1.2.4" class="pilcrow">¶</a>
+                  <li class="compact" id="section-8.4-1.4.2.1.2.4">Data Type: String<a href="#section-8.4-1.4.2.1.2.4" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-8.4-1.4.2.1.2.5">Description: The initial registration period for the domain name. This value is used by the server to calculate the initial <code>expiryDate</code> of the object.<a href="#section-8.4-1.4.2.1.2.5" class="pilcrow">¶</a>
+                  <li class="compact" id="section-8.4-1.4.2.1.2.5">Description: A server-assigned identifier of the process instance, unique within the scope of the Owner Data Object.<a href="#section-8.4-1.4.2.1.2.5" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-8.4-1.4.2.1.2.6">Constraints: (None)<a href="#section-8.4-1.4.2.1.2.6" class="pilcrow">¶</a>
+                  <li class="compact" id="section-8.4-1.4.2.1.2.6">Constraints: The value is set by the server and cannot be specified by the client.<a href="#section-8.4-1.4.2.1.2.6" class="pilcrow">¶</a>
+</li>
+                </ul>
+</li>
+              <li class="compact" id="section-8.4-1.4.2.2">
+                <p id="section-8.4-1.4.2.2.1">Period<a href="#section-8.4-1.4.2.2.1" class="pilcrow">¶</a></p>
+<ul class="compact">
+<li class="compact" id="section-8.4-1.4.2.2.2.1">Identifier: period<a href="#section-8.4-1.4.2.2.2.1" class="pilcrow">¶</a>
+</li>
+                  <li class="compact" id="section-8.4-1.4.2.2.2.2">Cardinality: 0-1<a href="#section-8.4-1.4.2.2.2.2" class="pilcrow">¶</a>
+</li>
+                  <li class="compact" id="section-8.4-1.4.2.2.2.3">Mutability: create-only<a href="#section-8.4-1.4.2.2.2.3" class="pilcrow">¶</a>
+</li>
+                  <li class="compact" id="section-8.4-1.4.2.2.2.4">Data Type: Period Object<a href="#section-8.4-1.4.2.2.2.4" class="pilcrow">¶</a>
+</li>
+                  <li class="compact" id="section-8.4-1.4.2.2.2.5">Description: The initial registration period for the domain name. This value is used by the server to calculate the initial <code>expiryDate</code> of the object.<a href="#section-8.4-1.4.2.2.2.5" class="pilcrow">¶</a>
+</li>
+                  <li class="compact" id="section-8.4-1.4.2.2.2.6">Constraints: (None)<a href="#section-8.4-1.4.2.2.2.6" class="pilcrow">¶</a>
 </li>
                 </ul>
 </li>
@@ -4992,6 +5208,23 @@ is "all".<a href="#section-8.3.2-5.1.2.5" class="pilcrow">¶</a>
               <li class="compact normal" id="section-9.2-2.6.2.4">Data Type: Disclose Object.<a href="#section-9.2-2.6.2.4" class="pilcrow">¶</a>
 </li>
               <li class="compact normal" id="section-9.2-2.6.2.5">Description: Identifies elements that require exceptional server-operator handling to allow or restrict disclosure to third parties.<a href="#section-9.2-2.6.2.5" class="pilcrow">¶</a>
+</li>
+            </ul>
+</li>
+          <li class="normal" id="section-9.2-2.7">
+            <p id="section-9.2-2.7.1">Processes<a href="#section-9.2-2.7.1" class="pilcrow">¶</a></p>
+<ul class="compact normal">
+<li class="compact normal" id="section-9.2-2.7.2.1">Identifier: processes<a href="#section-9.2-2.7.2.1" class="pilcrow">¶</a>
+</li>
+              <li class="compact normal" id="section-9.2-2.7.2.2">Cardinality: 0-1<a href="#section-9.2-2.7.2.2" class="pilcrow">¶</a>
+</li>
+              <li class="compact normal" id="section-9.2-2.7.2.3">Mutability: read-only<a href="#section-9.2-2.7.2.3" class="pilcrow">¶</a>
+</li>
+              <li class="compact normal" id="section-9.2-2.7.2.4">Data Type: Processes Object<a href="#section-9.2-2.7.2.4" class="pilcrow">¶</a>
+</li>
+              <li class="compact normal" id="section-9.2-2.7.2.5">Description: The Process Objects currently or recently initiated on the contact object.<a href="#section-9.2-2.7.2.5" class="pilcrow">¶</a>
+</li>
+              <li class="compact normal" id="section-9.2-2.7.2.6">Constraints: (None)<a href="#section-9.2-2.7.2.6" class="pilcrow">¶</a>
 </li>
             </ul>
 </li>
@@ -5249,6 +5482,23 @@ is "all".<a href="#section-8.3.2-5.1.2.5" class="pilcrow">¶</a>
                   <li class="compact normal" id="section-10.2-2.4.2.6.2.2">In EPP Compatibility Profile the record entries MUST be limited to A and AAAA entries for IPv4 and IPv6 glue records respectively.<a href="#section-10.2-2.4.2.6.2.2" class="pilcrow">¶</a>
 </li>
                 </ul>
+</li>
+            </ul>
+</li>
+          <li class="normal" id="section-10.2-2.5">
+            <p id="section-10.2-2.5.1">Processes<a href="#section-10.2-2.5.1" class="pilcrow">¶</a></p>
+<ul class="compact normal">
+<li class="compact normal" id="section-10.2-2.5.2.1">Identifier: processes<a href="#section-10.2-2.5.2.1" class="pilcrow">¶</a>
+</li>
+              <li class="compact normal" id="section-10.2-2.5.2.2">Cardinality: 0-1<a href="#section-10.2-2.5.2.2" class="pilcrow">¶</a>
+</li>
+              <li class="compact normal" id="section-10.2-2.5.2.3">Mutability: read-only<a href="#section-10.2-2.5.2.3" class="pilcrow">¶</a>
+</li>
+              <li class="compact normal" id="section-10.2-2.5.2.4">Data Type: Processes Object<a href="#section-10.2-2.5.2.4" class="pilcrow">¶</a>
+</li>
+              <li class="compact normal" id="section-10.2-2.5.2.5">Description: The Process Objects currently or recently initiated on the host object.<a href="#section-10.2-2.5.2.5" class="pilcrow">¶</a>
+</li>
+              <li class="compact normal" id="section-10.2-2.5.2.6">Constraints: (None)<a href="#section-10.2-2.5.2.6" class="pilcrow">¶</a>
 </li>
             </ul>
 </li>
@@ -5565,35 +5815,52 @@ is "all".<a href="#section-8.3.2-5.1.2.5" class="pilcrow">¶</a>
 <aside id="section-11.2-3">
           <p id="section-11.2-3.1">TODO: how handle the "custom" contact type?<a href="#section-11.2-3.1" class="pilcrow">¶</a></p>
 </aside>
-<ul class="compact">
-<li class="compact" id="section-11.2-4.1">
+<ul class="normal">
+<li class="normal" id="section-11.2-4.1">
             <p id="section-11.2-4.1.1">Users<a href="#section-11.2-4.1.1" class="pilcrow">¶</a></p>
-<ul class="compact">
-<li class="compact" id="section-11.2-4.1.2.1">Identifier: users<a href="#section-11.2-4.1.2.1" class="pilcrow">¶</a>
+<ul class="compact normal">
+<li class="compact normal" id="section-11.2-4.1.2.1">Identifier: users<a href="#section-11.2-4.1.2.1" class="pilcrow">¶</a>
 </li>
-              <li class="compact" id="section-11.2-4.1.2.2">Cardinality: 0+<a href="#section-11.2-4.1.2.2" class="pilcrow">¶</a>
+              <li class="compact normal" id="section-11.2-4.1.2.2">Cardinality: 0+<a href="#section-11.2-4.1.2.2" class="pilcrow">¶</a>
 </li>
-              <li class="compact" id="section-11.2-4.1.2.3">Mutability: read-write<a href="#section-11.2-4.1.2.3" class="pilcrow">¶</a>
+              <li class="compact normal" id="section-11.2-4.1.2.3">Mutability: read-write<a href="#section-11.2-4.1.2.3" class="pilcrow">¶</a>
 </li>
-              <li class="compact" id="section-11.2-4.1.2.4">
+              <li class="compact normal" id="section-11.2-4.1.2.4">
                 <p id="section-11.2-4.1.2.4.1">Data Type: LabelledAggregation[User Object]<a href="#section-11.2-4.1.2.4.1" class="pilcrow">¶</a></p>
-<ul class="compact">
-<li class="compact" id="section-11.2-4.1.2.4.2.1">Label Description: RBAC role of the user<a href="#section-11.2-4.1.2.4.2.1" class="pilcrow">¶</a>
+<ul class="compact normal">
+<li class="compact normal" id="section-11.2-4.1.2.4.2.1">Label Description: RBAC role of the user<a href="#section-11.2-4.1.2.4.2.1" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-11.2-4.1.2.4.2.2">Label Constraints: The value MUST be one of the role types registered in the IANA "RPP User Role Values" registry.<a href="#section-11.2-4.1.2.4.2.2" class="pilcrow">¶</a>
+                  <li class="compact normal" id="section-11.2-4.1.2.4.2.2">Label Constraints: The value MUST be one of the role types registered in the IANA "RPP User Role Values" registry.<a href="#section-11.2-4.1.2.4.2.2" class="pilcrow">¶</a>
 </li>
                 </ul>
 </li>
-              <li class="compact" id="section-11.2-4.1.2.5">Description: One or more RBAC roles assigned to the user.<a href="#section-11.2-4.1.2.5" class="pilcrow">¶</a>
+              <li class="compact normal" id="section-11.2-4.1.2.5">Description: One or more RBAC roles assigned to the user.<a href="#section-11.2-4.1.2.5" class="pilcrow">¶</a>
 </li>
-              <li class="compact" id="section-11.2-4.1.2.6">
+              <li class="compact normal" id="section-11.2-4.1.2.6">
                 <p id="section-11.2-4.1.2.6.1">Constraints:<a href="#section-11.2-4.1.2.6.1" class="pilcrow">¶</a></p>
-<ul class="compact">
-<li class="compact" id="section-11.2-4.1.2.6.2.1">Each role value MUST be a non-empty string.<a href="#section-11.2-4.1.2.6.2.1" class="pilcrow">¶</a>
+<ul class="compact normal">
+<li class="compact normal" id="section-11.2-4.1.2.6.2.1">Each role value MUST be a non-empty string.<a href="#section-11.2-4.1.2.6.2.1" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-11.2-4.1.2.6.2.2">Allowed role values MAY be constrained by server policy.<a href="#section-11.2-4.1.2.6.2.2" class="pilcrow">¶</a>
+                  <li class="compact normal" id="section-11.2-4.1.2.6.2.2">Allowed role values MAY be constrained by server policy.<a href="#section-11.2-4.1.2.6.2.2" class="pilcrow">¶</a>
 </li>
                 </ul>
+</li>
+            </ul>
+</li>
+          <li class="normal" id="section-11.2-4.2">
+            <p id="section-11.2-4.2.1">Processes<a href="#section-11.2-4.2.1" class="pilcrow">¶</a></p>
+<ul class="compact normal">
+<li class="compact normal" id="section-11.2-4.2.2.1">Identifier: processes<a href="#section-11.2-4.2.2.1" class="pilcrow">¶</a>
+</li>
+              <li class="compact normal" id="section-11.2-4.2.2.2">Cardinality: 0-1<a href="#section-11.2-4.2.2.2" class="pilcrow">¶</a>
+</li>
+              <li class="compact normal" id="section-11.2-4.2.2.3">Mutability: read-only<a href="#section-11.2-4.2.2.3" class="pilcrow">¶</a>
+</li>
+              <li class="compact normal" id="section-11.2-4.2.2.4">Data Type: Processes Object<a href="#section-11.2-4.2.2.4" class="pilcrow">¶</a>
+</li>
+              <li class="compact normal" id="section-11.2-4.2.2.5">Description: The Process Objects currently or recently initiated on the organisation object.<a href="#section-11.2-4.2.2.5" class="pilcrow">¶</a>
+</li>
+              <li class="compact normal" id="section-11.2-4.2.2.6">Constraints: (None)<a href="#section-11.2-4.2.2.6" class="pilcrow">¶</a>
 </li>
             </ul>
 </li>
@@ -5739,96 +6006,113 @@ is "all".<a href="#section-8.3.2-5.1.2.5" class="pilcrow">¶</a>
 <a href="#section-12.2" class="section-number selfRef">12.2. </a><a href="#name-data-elements-5" class="section-name selfRef">Data Elements</a>
         </h3>
 <p id="section-12.2-1">The following data elements are defined for the User Data Object.<a href="#section-12.2-1" class="pilcrow">¶</a></p>
-<ul class="compact">
-<li class="compact" id="section-12.2-2.1">
+<ul class="normal">
+<li class="normal" id="section-12.2-2.1">
             <p id="section-12.2-2.1.1">User Identifier<a href="#section-12.2-2.1.1" class="pilcrow">¶</a></p>
-<ul class="compact">
-<li class="compact" id="section-12.2-2.1.2.1">Identifier: id<a href="#section-12.2-2.1.2.1" class="pilcrow">¶</a>
+<ul class="compact normal">
+<li class="compact normal" id="section-12.2-2.1.2.1">Identifier: id<a href="#section-12.2-2.1.2.1" class="pilcrow">¶</a>
 </li>
-              <li class="compact" id="section-12.2-2.1.2.2">Cardinality: 1<a href="#section-12.2-2.1.2.2" class="pilcrow">¶</a>
+              <li class="compact normal" id="section-12.2-2.1.2.2">Cardinality: 1<a href="#section-12.2-2.1.2.2" class="pilcrow">¶</a>
 </li>
-              <li class="compact" id="section-12.2-2.1.2.3">Mutability: create-only<a href="#section-12.2-2.1.2.3" class="pilcrow">¶</a>
+              <li class="compact normal" id="section-12.2-2.1.2.3">Mutability: create-only<a href="#section-12.2-2.1.2.3" class="pilcrow">¶</a>
 </li>
-              <li class="compact" id="section-12.2-2.1.2.4">Data Type: Identifier<a href="#section-12.2-2.1.2.4" class="pilcrow">¶</a>
+              <li class="compact normal" id="section-12.2-2.1.2.4">Data Type: Identifier<a href="#section-12.2-2.1.2.4" class="pilcrow">¶</a>
 </li>
-              <li class="compact" id="section-12.2-2.1.2.5">Description: A unique identifier for the user<a href="#section-12.2-2.1.2.5" class="pilcrow">¶</a>
+              <li class="compact normal" id="section-12.2-2.1.2.5">Description: A unique identifier for the user<a href="#section-12.2-2.1.2.5" class="pilcrow">¶</a>
 </li>
-              <li class="compact" id="section-12.2-2.1.2.6">Constraints: MUST be globally unique in the server scope<a href="#section-12.2-2.1.2.6" class="pilcrow">¶</a>
+              <li class="compact normal" id="section-12.2-2.1.2.6">Constraints: MUST be globally unique in the server scope<a href="#section-12.2-2.1.2.6" class="pilcrow">¶</a>
 </li>
             </ul>
 </li>
-          <li class="compact" id="section-12.2-2.2">
+          <li class="normal" id="section-12.2-2.2">
             <p id="section-12.2-2.2.1">Details<a href="#section-12.2-2.2.1" class="pilcrow">¶</a></p>
-<ul class="compact">
-<li class="compact" id="section-12.2-2.2.2.1">Identifier: details<a href="#section-12.2-2.2.2.1" class="pilcrow">¶</a>
+<ul class="compact normal">
+<li class="compact normal" id="section-12.2-2.2.2.1">Identifier: details<a href="#section-12.2-2.2.2.1" class="pilcrow">¶</a>
 </li>
-              <li class="compact" id="section-12.2-2.2.2.2">Cardinality: 1<a href="#section-12.2-2.2.2.2" class="pilcrow">¶</a>
+              <li class="compact normal" id="section-12.2-2.2.2.2">Cardinality: 1<a href="#section-12.2-2.2.2.2" class="pilcrow">¶</a>
 </li>
-              <li class="compact" id="section-12.2-2.2.2.3">Mutability: read-write<a href="#section-12.2-2.2.2.3" class="pilcrow">¶</a>
+              <li class="compact normal" id="section-12.2-2.2.2.3">Mutability: read-write<a href="#section-12.2-2.2.2.3" class="pilcrow">¶</a>
 </li>
-              <li class="compact" id="section-12.2-2.2.2.4">Data Type: External:RPP-JSContact-Profile:Card<a href="#section-12.2-2.2.2.4" class="pilcrow">¶</a>
+              <li class="compact normal" id="section-12.2-2.2.2.4">Data Type: External:RPP-JSContact-Profile:Card<a href="#section-12.2-2.2.2.4" class="pilcrow">¶</a>
 </li>
-              <li class="compact" id="section-12.2-2.2.2.5">Description: The details of the user, such as name, email, and phone number<a href="#section-12.2-2.2.2.5" class="pilcrow">¶</a>
+              <li class="compact normal" id="section-12.2-2.2.2.5">Description: The details of the user, such as name, email, and phone number<a href="#section-12.2-2.2.2.5" class="pilcrow">¶</a>
 </li>
-              <li class="compact" id="section-12.2-2.2.2.6">Constraints: -<a href="#section-12.2-2.2.2.6" class="pilcrow">¶</a>
+              <li class="compact normal" id="section-12.2-2.2.2.6">Constraints: -<a href="#section-12.2-2.2.2.6" class="pilcrow">¶</a>
 </li>
             </ul>
 </li>
-          <li class="compact" id="section-12.2-2.3">
+          <li class="normal" id="section-12.2-2.3">
             <p id="section-12.2-2.3.1">Description<a href="#section-12.2-2.3.1" class="pilcrow">¶</a></p>
-<ul class="compact">
-<li class="compact" id="section-12.2-2.3.2.1">Identifier: description<a href="#section-12.2-2.3.2.1" class="pilcrow">¶</a>
+<ul class="compact normal">
+<li class="compact normal" id="section-12.2-2.3.2.1">Identifier: description<a href="#section-12.2-2.3.2.1" class="pilcrow">¶</a>
 </li>
-              <li class="compact" id="section-12.2-2.3.2.2">Cardinality: 0-1<a href="#section-12.2-2.3.2.2" class="pilcrow">¶</a>
+              <li class="compact normal" id="section-12.2-2.3.2.2">Cardinality: 0-1<a href="#section-12.2-2.3.2.2" class="pilcrow">¶</a>
 </li>
-              <li class="compact" id="section-12.2-2.3.2.3">Mutability: read-write<a href="#section-12.2-2.3.2.3" class="pilcrow">¶</a>
+              <li class="compact normal" id="section-12.2-2.3.2.3">Mutability: read-write<a href="#section-12.2-2.3.2.3" class="pilcrow">¶</a>
 </li>
-              <li class="compact" id="section-12.2-2.3.2.4">Data Type: String<a href="#section-12.2-2.3.2.4" class="pilcrow">¶</a>
+              <li class="compact normal" id="section-12.2-2.3.2.4">Data Type: String<a href="#section-12.2-2.3.2.4" class="pilcrow">¶</a>
 </li>
-              <li class="compact" id="section-12.2-2.3.2.5">Description: A description of the user<a href="#section-12.2-2.3.2.5" class="pilcrow">¶</a>
+              <li class="compact normal" id="section-12.2-2.3.2.5">Description: A description of the user<a href="#section-12.2-2.3.2.5" class="pilcrow">¶</a>
 </li>
-              <li class="compact" id="section-12.2-2.3.2.6">Constraints: -<a href="#section-12.2-2.3.2.6" class="pilcrow">¶</a>
+              <li class="compact normal" id="section-12.2-2.3.2.6">Constraints: -<a href="#section-12.2-2.3.2.6" class="pilcrow">¶</a>
 </li>
             </ul>
 </li>
-          <li class="compact" id="section-12.2-2.4">
+          <li class="normal" id="section-12.2-2.4">
             <p id="section-12.2-2.4.1">Status<a href="#section-12.2-2.4.1" class="pilcrow">¶</a></p>
-<ul class="compact">
-<li class="compact" id="section-12.2-2.4.2.1">Identifier: status<a href="#section-12.2-2.4.2.1" class="pilcrow">¶</a>
+<ul class="compact normal">
+<li class="compact normal" id="section-12.2-2.4.2.1">Identifier: status<a href="#section-12.2-2.4.2.1" class="pilcrow">¶</a>
 </li>
-              <li class="compact" id="section-12.2-2.4.2.2">Cardinality: 1<a href="#section-12.2-2.4.2.2" class="pilcrow">¶</a>
+              <li class="compact normal" id="section-12.2-2.4.2.2">Cardinality: 1<a href="#section-12.2-2.4.2.2" class="pilcrow">¶</a>
 </li>
-              <li class="compact" id="section-12.2-2.4.2.3">Mutability: read-write<a href="#section-12.2-2.4.2.3" class="pilcrow">¶</a>
+              <li class="compact normal" id="section-12.2-2.4.2.3">Mutability: read-write<a href="#section-12.2-2.4.2.3" class="pilcrow">¶</a>
 </li>
-              <li class="compact" id="section-12.2-2.4.2.4">
+              <li class="compact normal" id="section-12.2-2.4.2.4">
                 <p id="section-12.2-2.4.2.4.1">Data Type: String<a href="#section-12.2-2.4.2.4.1" class="pilcrow">¶</a></p>
-<ul class="compact">
-<li class="compact" id="section-12.2-2.4.2.4.2.1">Constraints: The value MUST be one of the status tokens defined in the IANA registry for user statuses.<a href="#section-12.2-2.4.2.4.2.1" class="pilcrow">¶</a>
+<ul class="compact normal">
+<li class="compact normal" id="section-12.2-2.4.2.4.2.1">Constraints: The value MUST be one of the status tokens defined in the IANA registry for user statuses.<a href="#section-12.2-2.4.2.4.2.1" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-12.2-2.4.2.4.2.2">Constraints: Possible values include <code>active</code>, <code>suspended</code>, <code>deactivated</code>, and <code>pending</code>.<a href="#section-12.2-2.4.2.4.2.2" class="pilcrow">¶</a>
+                  <li class="compact normal" id="section-12.2-2.4.2.4.2.2">Constraints: Possible values include <code>active</code>, <code>suspended</code>, <code>deactivated</code>, and <code>pending</code>.<a href="#section-12.2-2.4.2.4.2.2" class="pilcrow">¶</a>
 </li>
                 </ul>
 </li>
-              <li class="compact" id="section-12.2-2.4.2.5">Description: The status of the user<a href="#section-12.2-2.4.2.5" class="pilcrow">¶</a>
+              <li class="compact normal" id="section-12.2-2.4.2.5">Description: The status of the user<a href="#section-12.2-2.4.2.5" class="pilcrow">¶</a>
 </li>
-              <li class="compact" id="section-12.2-2.4.2.6">Constraints: -<a href="#section-12.2-2.4.2.6" class="pilcrow">¶</a>
+              <li class="compact normal" id="section-12.2-2.4.2.6">Constraints: -<a href="#section-12.2-2.4.2.6" class="pilcrow">¶</a>
 </li>
             </ul>
 </li>
-          <li class="compact" id="section-12.2-2.5">
+          <li class="normal" id="section-12.2-2.5">
             <p id="section-12.2-2.5.1">Organisation ID<a href="#section-12.2-2.5.1" class="pilcrow">¶</a></p>
-<ul class="compact">
-<li class="compact" id="section-12.2-2.5.2.1">Identifier: organisationId<a href="#section-12.2-2.5.2.1" class="pilcrow">¶</a>
+<ul class="compact normal">
+<li class="compact normal" id="section-12.2-2.5.2.1">Identifier: organisationId<a href="#section-12.2-2.5.2.1" class="pilcrow">¶</a>
 </li>
-              <li class="compact" id="section-12.2-2.5.2.2">Cardinality: 1<a href="#section-12.2-2.5.2.2" class="pilcrow">¶</a>
+              <li class="compact normal" id="section-12.2-2.5.2.2">Cardinality: 1<a href="#section-12.2-2.5.2.2" class="pilcrow">¶</a>
 </li>
-              <li class="compact" id="section-12.2-2.5.2.3">Mutability: read-only<a href="#section-12.2-2.5.2.3" class="pilcrow">¶</a>
+              <li class="compact normal" id="section-12.2-2.5.2.3">Mutability: read-only<a href="#section-12.2-2.5.2.3" class="pilcrow">¶</a>
 </li>
-              <li class="compact" id="section-12.2-2.5.2.4">Data Type: Organisation Data Object Reference<a href="#section-12.2-2.5.2.4" class="pilcrow">¶</a>
+              <li class="compact normal" id="section-12.2-2.5.2.4">Data Type: Organisation Data Object Reference<a href="#section-12.2-2.5.2.4" class="pilcrow">¶</a>
 </li>
-              <li class="compact" id="section-12.2-2.5.2.5">Description: A reference to the owner organisation object.<a href="#section-12.2-2.5.2.5" class="pilcrow">¶</a>
+              <li class="compact normal" id="section-12.2-2.5.2.5">Description: A reference to the owner organisation object.<a href="#section-12.2-2.5.2.5" class="pilcrow">¶</a>
 </li>
-              <li class="compact" id="section-12.2-2.5.2.6">Constraints: -<a href="#section-12.2-2.5.2.6" class="pilcrow">¶</a>
+              <li class="compact normal" id="section-12.2-2.5.2.6">Constraints: -<a href="#section-12.2-2.5.2.6" class="pilcrow">¶</a>
+</li>
+            </ul>
+</li>
+          <li class="normal" id="section-12.2-2.6">
+            <p id="section-12.2-2.6.1">Processes<a href="#section-12.2-2.6.1" class="pilcrow">¶</a></p>
+<ul class="compact normal">
+<li class="compact normal" id="section-12.2-2.6.2.1">Identifier: processes<a href="#section-12.2-2.6.2.1" class="pilcrow">¶</a>
+</li>
+              <li class="compact normal" id="section-12.2-2.6.2.2">Cardinality: 0-1<a href="#section-12.2-2.6.2.2" class="pilcrow">¶</a>
+</li>
+              <li class="compact normal" id="section-12.2-2.6.2.3">Mutability: read-only<a href="#section-12.2-2.6.2.3" class="pilcrow">¶</a>
+</li>
+              <li class="compact normal" id="section-12.2-2.6.2.4">Data Type: Processes Object<a href="#section-12.2-2.6.2.4" class="pilcrow">¶</a>
+</li>
+              <li class="compact normal" id="section-12.2-2.6.2.5">Description: The Process Objects currently or recently initiated on the user object.<a href="#section-12.2-2.6.2.5" class="pilcrow">¶</a>
+</li>
+              <li class="compact normal" id="section-12.2-2.6.2.6">Constraints: (None)<a href="#section-12.2-2.6.2.6" class="pilcrow">¶</a>
 </li>
             </ul>
 </li>
@@ -6309,10 +6593,10 @@ registry MUST provide:<a href="#section-13.1.2-2.3.1" class="pilcrow">¶</a></p>
               </tr>
             </tbody>
           </table>
-<p id="section-13.1.3-51">Object: transferProcess<a href="#section-13.1.3-51" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-52">Object Name: Transfer Process Object<a href="#section-13.1.3-52" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-53">Object Type: Process<a href="#section-13.1.3-53" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-54">Description: Represents a transfer request for a provisioned object. Creating this object initiates the transfer. Approve and Reject are additional operations; Delete corresponds to cancel.<a href="#section-13.1.3-54" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-51">Object: processes<a href="#section-13.1.3-51" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-52">Object Name: Processes Object<a href="#section-13.1.3-52" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-53">Object Type: Component<a href="#section-13.1.3-53" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-54">Description: A container grouping the Process Objects currently or recently initiated on a Data Object, structured as a dictionary keyed by process type where each element holds an ordered array of Process Objects of that type. The set of process-type data elements is extensible; extensions MAY register additional process-type elements.<a href="#section-13.1.3-54" class="pilcrow">¶</a></p>
 <p id="section-13.1.3-55">Reference: [This-ID]<a href="#section-13.1.3-55" class="pilcrow">¶</a></p>
 <p id="section-13.1.3-56">Data Elements<a href="#section-13.1.3-56" class="pilcrow">¶</a></p>
 <table class="center" id="table-8">
@@ -6328,6 +6612,67 @@ registry MUST provide:<a href="#section-13.1.2-2.3.1" class="pilcrow">¶</a></p>
               </tr>
             </thead>
             <tbody>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">transferProcess</td>
+                <td class="text-left" rowspan="1" colspan="1">Transfer Processes</td>
+                <td class="text-left" rowspan="1" colspan="1">0+</td>
+                <td class="text-left" rowspan="1" colspan="1">read-only</td>
+                <td class="text-left" rowspan="1" colspan="1">Aggregation [Transfer Process Object]</td>
+                <td class="text-left" rowspan="1" colspan="1">The transfer processes initiated on the owning Data Object.</td>
+              </tr>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">renewProcess</td>
+                <td class="text-left" rowspan="1" colspan="1">Renew Processes</td>
+                <td class="text-left" rowspan="1" colspan="1">0+</td>
+                <td class="text-left" rowspan="1" colspan="1">read-only</td>
+                <td class="text-left" rowspan="1" colspan="1">Aggregation [Renew Process Object]</td>
+                <td class="text-left" rowspan="1" colspan="1">The renew processes initiated on the owning Data Object.</td>
+              </tr>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">restoreProcess</td>
+                <td class="text-left" rowspan="1" colspan="1">Restore Processes</td>
+                <td class="text-left" rowspan="1" colspan="1">0+</td>
+                <td class="text-left" rowspan="1" colspan="1">read-only</td>
+                <td class="text-left" rowspan="1" colspan="1">Aggregation [Restore Process Object]</td>
+                <td class="text-left" rowspan="1" colspan="1">The restore processes initiated on the owning Data Object.</td>
+              </tr>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">createProcess</td>
+                <td class="text-left" rowspan="1" colspan="1">Create Processes</td>
+                <td class="text-left" rowspan="1" colspan="1">0+</td>
+                <td class="text-left" rowspan="1" colspan="1">read-only</td>
+                <td class="text-left" rowspan="1" colspan="1">Aggregation [Create Process Object]</td>
+                <td class="text-left" rowspan="1" colspan="1">The create processes initiated on the owning Data Object.</td>
+              </tr>
+            </tbody>
+          </table>
+<p id="section-13.1.3-58">Object: transferProcess<a href="#section-13.1.3-58" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-59">Object Name: Transfer Process Object<a href="#section-13.1.3-59" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-60">Object Type: Process<a href="#section-13.1.3-60" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-61">Description: Represents a transfer request for a provisioned object. Creating this object initiates the transfer. Approve and Reject are additional operations; Delete corresponds to cancel.<a href="#section-13.1.3-61" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-62">Reference: [This-ID]<a href="#section-13.1.3-62" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-63">Data Elements<a href="#section-13.1.3-63" class="pilcrow">¶</a></p>
+<table class="center" id="table-9">
+            <caption><a href="#table-9" class="selfRef">Table 9</a></caption>
+<thead>
+              <tr>
+                <th class="text-left" rowspan="1" colspan="1">Element Identifier</th>
+                <th class="text-left" rowspan="1" colspan="1">Element Name</th>
+                <th class="text-left" rowspan="1" colspan="1">Card.</th>
+                <th class="text-left" rowspan="1" colspan="1">Mutability</th>
+                <th class="text-left" rowspan="1" colspan="1">Data Type</th>
+                <th class="text-left" rowspan="1" colspan="1">Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">processId</td>
+                <td class="text-left" rowspan="1" colspan="1">Process ID</td>
+                <td class="text-left" rowspan="1" colspan="1">0-1</td>
+                <td class="text-left" rowspan="1" colspan="1">read-only</td>
+                <td class="text-left" rowspan="1" colspan="1">String</td>
+                <td class="text-left" rowspan="1" colspan="1">A server-assigned identifier of the process instance, unique within the Owner Data Object.</td>
+              </tr>
               <tr>
                 <td class="text-left" rowspan="1" colspan="1">transferDir</td>
                 <td class="text-left" rowspan="1" colspan="1">Transfer Direction</td>
@@ -6386,29 +6731,29 @@ registry MUST provide:<a href="#section-13.1.2-2.3.1" class="pilcrow">¶</a></p>
               </tr>
             </tbody>
           </table>
-<p id="section-13.1.3-58">Operations<a href="#section-13.1.3-58" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-59">Operation: Create<a href="#section-13.1.3-59" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-60">Operation Identifier: transferCreate<a href="#section-13.1.3-60" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-61">Description: Initiates a transfer of a provisioned object by creating a Transfer Process Object.<a href="#section-13.1.3-61" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-62">Parameters: (None)<a href="#section-13.1.3-62" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-63">Operation: Transfer Read<a href="#section-13.1.3-63" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-64">Operation Identifier: transferRead<a href="#section-13.1.3-64" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-65">Description: Queries the status of a transfer of a provisioned object.<a href="#section-13.1.3-65" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-66">Parameters: (None)<a href="#section-13.1.3-66" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-67">Operation: Transfer Delete<a href="#section-13.1.3-67" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-68">Operation Identifier: transferDelete<a href="#section-13.1.3-68" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-69">Description: Cancels a pending transfer of a provisioned object.<a href="#section-13.1.3-69" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-70">Parameters: (None)<a href="#section-13.1.3-70" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-71">Operation: Transfer Approve<a href="#section-13.1.3-71" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-72">Operation Identifier: transferApprove<a href="#section-13.1.3-72" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-73">Description: Approves a pending transfer of a provisioned object.<a href="#section-13.1.3-73" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-74">Parameters: (None)<a href="#section-13.1.3-74" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-75">Operation: Transfer Reject<a href="#section-13.1.3-75" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-76">Operation Identifier: transferReject (on Transfer Process Object)<a href="#section-13.1.3-76" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-77">Description: Rejects a pending transfer of a provisioned object.<a href="#section-13.1.3-77" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-78">Parameters<a href="#section-13.1.3-78" class="pilcrow">¶</a></p>
-<table class="center" id="table-9">
-            <caption><a href="#table-9" class="selfRef">Table 9</a></caption>
+<p id="section-13.1.3-65">Operations<a href="#section-13.1.3-65" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-66">Operation: Create<a href="#section-13.1.3-66" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-67">Operation Identifier: transferCreate<a href="#section-13.1.3-67" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-68">Description: Initiates a transfer of a provisioned object by creating a Transfer Process Object.<a href="#section-13.1.3-68" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-69">Parameters: (None)<a href="#section-13.1.3-69" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-70">Operation: Transfer Read<a href="#section-13.1.3-70" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-71">Operation Identifier: transferRead<a href="#section-13.1.3-71" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-72">Description: Queries the status of a transfer of a provisioned object.<a href="#section-13.1.3-72" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-73">Parameters: (None)<a href="#section-13.1.3-73" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-74">Operation: Transfer Delete<a href="#section-13.1.3-74" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-75">Operation Identifier: transferDelete<a href="#section-13.1.3-75" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-76">Description: Cancels a pending transfer of a provisioned object.<a href="#section-13.1.3-76" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-77">Parameters: (None)<a href="#section-13.1.3-77" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-78">Operation: Transfer Approve<a href="#section-13.1.3-78" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-79">Operation Identifier: transferApprove<a href="#section-13.1.3-79" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-80">Description: Approves a pending transfer of a provisioned object.<a href="#section-13.1.3-80" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-81">Parameters: (None)<a href="#section-13.1.3-81" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-82">Operation: Transfer Reject<a href="#section-13.1.3-82" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-83">Operation Identifier: transferReject (on Transfer Process Object)<a href="#section-13.1.3-83" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-84">Description: Rejects a pending transfer of a provisioned object.<a href="#section-13.1.3-84" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-85">Parameters<a href="#section-13.1.3-85" class="pilcrow">¶</a></p>
+<table class="center" id="table-10">
+            <caption><a href="#table-10" class="selfRef">Table 10</a></caption>
 <thead>
               <tr>
                 <th class="text-left" rowspan="1" colspan="1">Identifier</th>
@@ -6428,46 +6773,12 @@ registry MUST provide:<a href="#section-13.1.2-2.3.1" class="pilcrow">¶</a></p>
               </tr>
             </tbody>
           </table>
-<p id="section-13.1.3-80">Object: renewProcess<a href="#section-13.1.3-80" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-81">Object Name: Renew Process Object<a href="#section-13.1.3-81" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-82">Object Type: Process<a href="#section-13.1.3-82" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-83">Description: Represents a renewal request for a provisioned object. Creating this object initiates the renewal<a href="#section-13.1.3-83" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-84">Reference: [This-ID]<a href="#section-13.1.3-84" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-85">Data Elements<a href="#section-13.1.3-85" class="pilcrow">¶</a></p>
-<table class="center" id="table-10">
-            <caption><a href="#table-10" class="selfRef">Table 10</a></caption>
-<thead>
-              <tr>
-                <th class="text-left" rowspan="1" colspan="1">Element Identifier</th>
-                <th class="text-left" rowspan="1" colspan="1">Element Name</th>
-                <th class="text-left" rowspan="1" colspan="1">Card.</th>
-                <th class="text-left" rowspan="1" colspan="1">Mutability</th>
-                <th class="text-left" rowspan="1" colspan="1">Data Type</th>
-                <th class="text-left" rowspan="1" colspan="1">Description</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td class="text-left" rowspan="1" colspan="1">expiryDate</td>
-                <td class="text-left" rowspan="1" colspan="1">Expiry Date</td>
-                <td class="text-left" rowspan="1" colspan="1">0-1</td>
-                <td class="text-left" rowspan="1" colspan="1">read-only</td>
-                <td class="text-left" rowspan="1" colspan="1">Timestamp</td>
-                <td class="text-left" rowspan="1" colspan="1">The expiry date of the object after the renewal is completed.</td>
-              </tr>
-            </tbody>
-          </table>
-<p id="section-13.1.3-87">Operations<a href="#section-13.1.3-87" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-88">Operation: Create<a href="#section-13.1.3-88" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-89">Operation Identifier: renewCreate<a href="#section-13.1.3-89" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-90">Description: Initiates a renewal of a provisioned object by creating a Renew Process Object.<a href="#section-13.1.3-90" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-91">Parameters: (None)<a href="#section-13.1.3-91" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-92">Object: createProcess<a href="#section-13.1.3-92" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-93">Object Name: Create Process Object<a href="#section-13.1.3-93" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-94">Object Type: Process<a href="#section-13.1.3-94" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-95">Description: Represents the process initiated when a resource creation operation is performed. Carries creation-specific inputs that are consumed during creation and not stored as persistent attributes of the created resource object.<a href="#section-13.1.3-95" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-96">Reference: [This-ID]<a href="#section-13.1.3-96" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-97">Data Elements<a href="#section-13.1.3-97" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-87">Object: renewProcess<a href="#section-13.1.3-87" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-88">Object Name: Renew Process Object<a href="#section-13.1.3-88" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-89">Object Type: Process<a href="#section-13.1.3-89" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-90">Description: Represents a renewal request for a provisioned object. Creating this object initiates the renewal<a href="#section-13.1.3-90" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-91">Reference: [This-ID]<a href="#section-13.1.3-91" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-92">Data Elements<a href="#section-13.1.3-92" class="pilcrow">¶</a></p>
 <table class="center" id="table-11">
             <caption><a href="#table-11" class="selfRef">Table 11</a></caption>
 <thead>
@@ -6482,30 +6793,34 @@ registry MUST provide:<a href="#section-13.1.2-2.3.1" class="pilcrow">¶</a></p>
             </thead>
             <tbody>
               <tr>
-                <td class="text-left" rowspan="1" colspan="1"></td>
-                <td class="text-left" rowspan="1" colspan="1"></td>
-                <td class="text-left" rowspan="1" colspan="1"></td>
-                <td class="text-left" rowspan="1" colspan="1"></td>
-                <td class="text-left" rowspan="1" colspan="1"></td>
-                <td class="text-left" rowspan="1" colspan="1"></td>
+                <td class="text-left" rowspan="1" colspan="1">processId</td>
+                <td class="text-left" rowspan="1" colspan="1">Process ID</td>
+                <td class="text-left" rowspan="1" colspan="1">0-1</td>
+                <td class="text-left" rowspan="1" colspan="1">read-only</td>
+                <td class="text-left" rowspan="1" colspan="1">String</td>
+                <td class="text-left" rowspan="1" colspan="1">A server-assigned identifier of the process instance, unique within the Owner Data Object.</td>
+              </tr>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">expiryDate</td>
+                <td class="text-left" rowspan="1" colspan="1">Expiry Date</td>
+                <td class="text-left" rowspan="1" colspan="1">0-1</td>
+                <td class="text-left" rowspan="1" colspan="1">read-only</td>
+                <td class="text-left" rowspan="1" colspan="1">Timestamp</td>
+                <td class="text-left" rowspan="1" colspan="1">The expiry date of the object after the renewal is completed.</td>
               </tr>
             </tbody>
           </table>
-<p id="section-13.1.3-99">Operations<a href="#section-13.1.3-99" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-100">Operation: Create<a href="#section-13.1.3-100" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-101">Operation Identifier: create<a href="#section-13.1.3-101" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-102">Description: Invoked implicitly as a side effect of the resource object create operation; never invoked directly. Carries creation-specific inputs consumed during creation of the owning resource object.<a href="#section-13.1.3-102" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-103">Parameters: (None)<a href="#section-13.1.3-103" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-104">Operation: Read<a href="#section-13.1.3-104" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-105">Operation Identifier: read<a href="#section-13.1.3-105" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-106">Description: Retrieves the result or status of the creation, if the server exposes the process resource.<a href="#section-13.1.3-106" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-107">Parameters: (None)<a href="#section-13.1.3-107" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-108">Object: domainCreateProcess<a href="#section-13.1.3-108" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-109">Object Name: Domain Create Process Object<a href="#section-13.1.3-109" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-110">Object Type: Process<a href="#section-13.1.3-110" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-111">Description: The Create Process Object specific to the Domain Name Data Object. Implicitly initiated by the domain create operation; carries the requested initial registration period consumed during creation and not persisted as part of the domain object's state.<a href="#section-13.1.3-111" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-112">Reference: [This-ID]<a href="#section-13.1.3-112" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-113">Data Elements<a href="#section-13.1.3-113" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-94">Operations<a href="#section-13.1.3-94" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-95">Operation: Create<a href="#section-13.1.3-95" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-96">Operation Identifier: renewCreate<a href="#section-13.1.3-96" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-97">Description: Initiates a renewal of a provisioned object by creating a Renew Process Object.<a href="#section-13.1.3-97" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-98">Parameters: (None)<a href="#section-13.1.3-98" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-99">Object: createProcess<a href="#section-13.1.3-99" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-100">Object Name: Create Process Object<a href="#section-13.1.3-100" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-101">Object Type: Process<a href="#section-13.1.3-101" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-102">Description: Represents the process initiated when a resource creation operation is performed. Carries creation-specific inputs that are consumed during creation and not stored as persistent attributes of the created resource object.<a href="#section-13.1.3-102" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-103">Reference: [This-ID]<a href="#section-13.1.3-103" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-104">Data Elements<a href="#section-13.1.3-104" class="pilcrow">¶</a></p>
 <table class="center" id="table-12">
             <caption><a href="#table-12" class="selfRef">Table 12</a></caption>
 <thead>
@@ -6520,30 +6835,30 @@ registry MUST provide:<a href="#section-13.1.2-2.3.1" class="pilcrow">¶</a></p>
             </thead>
             <tbody>
               <tr>
-                <td class="text-left" rowspan="1" colspan="1">period</td>
-                <td class="text-left" rowspan="1" colspan="1">Period</td>
+                <td class="text-left" rowspan="1" colspan="1">processId</td>
+                <td class="text-left" rowspan="1" colspan="1">Process ID</td>
                 <td class="text-left" rowspan="1" colspan="1">0-1</td>
-                <td class="text-left" rowspan="1" colspan="1">create-only</td>
-                <td class="text-left" rowspan="1" colspan="1">Period Object</td>
-                <td class="text-left" rowspan="1" colspan="1">The initial registration period for the domain name.</td>
+                <td class="text-left" rowspan="1" colspan="1">read-only</td>
+                <td class="text-left" rowspan="1" colspan="1">String</td>
+                <td class="text-left" rowspan="1" colspan="1">A server-assigned identifier of the process instance, unique within the Owner Data Object.</td>
               </tr>
             </tbody>
           </table>
-<p id="section-13.1.3-115">Operations<a href="#section-13.1.3-115" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-116">Operation: Create<a href="#section-13.1.3-116" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-117">Operation Identifier: create<a href="#section-13.1.3-117" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-118">Description: Invoked implicitly as a side effect of the Domain Name Data Object create operation; never invoked directly. Carries the registration period consumed during domain creation.<a href="#section-13.1.3-118" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-119">Parameters: (None)<a href="#section-13.1.3-119" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-120">Operation: Read<a href="#section-13.1.3-120" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-121">Operation Identifier: read<a href="#section-13.1.3-121" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-122">Description: Retrieves the result or status of the domain creation, if the server exposes the process resource.<a href="#section-13.1.3-122" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-123">Parameters: (None)<a href="#section-13.1.3-123" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-124">Object: disclose<a href="#section-13.1.3-124" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-125">Object Name: Disclose<a href="#section-13.1.3-125" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-126">Object Type: Component<a href="#section-13.1.3-126" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-127">Description: TBD<a href="#section-13.1.3-127" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-128">Reference: [This-ID]<a href="#section-13.1.3-128" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-129">Data Elements<a href="#section-13.1.3-129" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-106">Operations<a href="#section-13.1.3-106" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-107">Operation: Create<a href="#section-13.1.3-107" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-108">Operation Identifier: create<a href="#section-13.1.3-108" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-109">Description: Invoked implicitly as a side effect of the resource object create operation; never invoked directly. Carries creation-specific inputs consumed during creation of the owning resource object.<a href="#section-13.1.3-109" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-110">Parameters: (None)<a href="#section-13.1.3-110" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-111">Operation: Read<a href="#section-13.1.3-111" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-112">Operation Identifier: read<a href="#section-13.1.3-112" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-113">Description: Retrieves the result or status of the creation, if the server exposes the process resource.<a href="#section-13.1.3-113" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-114">Parameters: (None)<a href="#section-13.1.3-114" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-115">Object: domainCreateProcess<a href="#section-13.1.3-115" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-116">Object Name: Domain Create Process Object<a href="#section-13.1.3-116" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-117">Object Type: Process<a href="#section-13.1.3-117" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-118">Description: The Create Process Object specific to the Domain Name Data Object. Implicitly initiated by the domain create operation; carries the requested initial registration period consumed during creation and not persisted as part of the domain object's state.<a href="#section-13.1.3-118" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-119">Reference: [This-ID]<a href="#section-13.1.3-119" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-120">Data Elements<a href="#section-13.1.3-120" class="pilcrow">¶</a></p>
 <table class="center" id="table-13">
             <caption><a href="#table-13" class="selfRef">Table 13</a></caption>
 <thead>
@@ -6558,19 +6873,36 @@ registry MUST provide:<a href="#section-13.1.2-2.3.1" class="pilcrow">¶</a></p>
             </thead>
             <tbody>
               <tr>
-                <td class="text-left" rowspan="1" colspan="1"></td>
-                <td class="text-left" rowspan="1" colspan="1"></td>
-                <td class="text-left" rowspan="1" colspan="1"></td>
-                <td class="text-left" rowspan="1" colspan="1"></td>
-                <td class="text-left" rowspan="1" colspan="1"></td>
-                <td class="text-left" rowspan="1" colspan="1"></td>
+                <td class="text-left" rowspan="1" colspan="1">processId</td>
+                <td class="text-left" rowspan="1" colspan="1">Process ID</td>
+                <td class="text-left" rowspan="1" colspan="1">0-1</td>
+                <td class="text-left" rowspan="1" colspan="1">read-only</td>
+                <td class="text-left" rowspan="1" colspan="1">String</td>
+                <td class="text-left" rowspan="1" colspan="1">A server-assigned identifier of the process instance, unique within the Owner Data Object.</td>
+              </tr>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">period</td>
+                <td class="text-left" rowspan="1" colspan="1">Period</td>
+                <td class="text-left" rowspan="1" colspan="1">0-1</td>
+                <td class="text-left" rowspan="1" colspan="1">create-only</td>
+                <td class="text-left" rowspan="1" colspan="1">Period Object</td>
+                <td class="text-left" rowspan="1" colspan="1">The initial registration period for the domain name.</td>
               </tr>
             </tbody>
           </table>
-<p id="section-13.1.3-131">Object: restoreProcess<a href="#section-13.1.3-131" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-132">Object Name: Restore Process Object<a href="#section-13.1.3-132" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-133">Object Type: Process<a href="#section-13.1.3-133" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-134">Description: Represents the current state of a restore request for an object that has entered the Redemption Grace Period (RGP). Returned as output of all restore operations. This object is OPTIONAL and is only used when the RGP feature is supported.<a href="#section-13.1.3-134" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-122">Operations<a href="#section-13.1.3-122" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-123">Operation: Create<a href="#section-13.1.3-123" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-124">Operation Identifier: create<a href="#section-13.1.3-124" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-125">Description: Invoked implicitly as a side effect of the Domain Name Data Object create operation; never invoked directly. Carries the registration period consumed during domain creation.<a href="#section-13.1.3-125" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-126">Parameters: (None)<a href="#section-13.1.3-126" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-127">Operation: Read<a href="#section-13.1.3-127" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-128">Operation Identifier: read<a href="#section-13.1.3-128" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-129">Description: Retrieves the result or status of the domain creation, if the server exposes the process resource.<a href="#section-13.1.3-129" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-130">Parameters: (None)<a href="#section-13.1.3-130" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-131">Object: disclose<a href="#section-13.1.3-131" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-132">Object Name: Disclose<a href="#section-13.1.3-132" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-133">Object Type: Component<a href="#section-13.1.3-133" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-134">Description: TBD<a href="#section-13.1.3-134" class="pilcrow">¶</a></p>
 <p id="section-13.1.3-135">Reference: [This-ID]<a href="#section-13.1.3-135" class="pilcrow">¶</a></p>
 <p id="section-13.1.3-136">Data Elements<a href="#section-13.1.3-136" class="pilcrow">¶</a></p>
 <table class="center" id="table-14">
@@ -6586,6 +6918,43 @@ registry MUST provide:<a href="#section-13.1.2-2.3.1" class="pilcrow">¶</a></p>
               </tr>
             </thead>
             <tbody>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1"></td>
+                <td class="text-left" rowspan="1" colspan="1"></td>
+                <td class="text-left" rowspan="1" colspan="1"></td>
+                <td class="text-left" rowspan="1" colspan="1"></td>
+                <td class="text-left" rowspan="1" colspan="1"></td>
+                <td class="text-left" rowspan="1" colspan="1"></td>
+              </tr>
+            </tbody>
+          </table>
+<p id="section-13.1.3-138">Object: restoreProcess<a href="#section-13.1.3-138" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-139">Object Name: Restore Process Object<a href="#section-13.1.3-139" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-140">Object Type: Process<a href="#section-13.1.3-140" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-141">Description: Represents the current state of a restore request for an object that has entered the Redemption Grace Period (RGP). Returned as output of all restore operations. This object is OPTIONAL and is only used when the RGP feature is supported.<a href="#section-13.1.3-141" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-142">Reference: [This-ID]<a href="#section-13.1.3-142" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-143">Data Elements<a href="#section-13.1.3-143" class="pilcrow">¶</a></p>
+<table class="center" id="table-15">
+            <caption><a href="#table-15" class="selfRef">Table 15</a></caption>
+<thead>
+              <tr>
+                <th class="text-left" rowspan="1" colspan="1">Element Identifier</th>
+                <th class="text-left" rowspan="1" colspan="1">Element Name</th>
+                <th class="text-left" rowspan="1" colspan="1">Card.</th>
+                <th class="text-left" rowspan="1" colspan="1">Mutability</th>
+                <th class="text-left" rowspan="1" colspan="1">Data Type</th>
+                <th class="text-left" rowspan="1" colspan="1">Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">processId</td>
+                <td class="text-left" rowspan="1" colspan="1">Process ID</td>
+                <td class="text-left" rowspan="1" colspan="1">0-1</td>
+                <td class="text-left" rowspan="1" colspan="1">read-only</td>
+                <td class="text-left" rowspan="1" colspan="1">String</td>
+                <td class="text-left" rowspan="1" colspan="1">A server-assigned identifier of the process instance, unique within the Owner Data Object.</td>
+              </tr>
               <tr>
                 <td class="text-left" rowspan="1" colspan="1">restoreStatus</td>
                 <td class="text-left" rowspan="1" colspan="1">Restore Status</td>
@@ -6620,13 +6989,13 @@ registry MUST provide:<a href="#section-13.1.2-2.3.1" class="pilcrow">¶</a></p>
               </tr>
             </tbody>
           </table>
-<p id="section-13.1.3-138">Operations<a href="#section-13.1.3-138" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-139">Operation: Restore Create<a href="#section-13.1.3-139" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-140">Operation Identifier: create<a href="#section-13.1.3-140" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-141">Description: Initiates recovery of a domain name in the redemptionPeriod state by creating a Restore Process Object. This operation is OPTIONAL and is only available when the RGP feature is supported.<a href="#section-13.1.3-141" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-142">Parameters<a href="#section-13.1.3-142" class="pilcrow">¶</a></p>
-<table class="center" id="table-15">
-            <caption><a href="#table-15" class="selfRef">Table 15</a></caption>
+<p id="section-13.1.3-145">Operations<a href="#section-13.1.3-145" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-146">Operation: Restore Create<a href="#section-13.1.3-146" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-147">Operation Identifier: create<a href="#section-13.1.3-147" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-148">Description: Initiates recovery of a domain name in the redemptionPeriod state by creating a Restore Process Object. This operation is OPTIONAL and is only available when the RGP feature is supported.<a href="#section-13.1.3-148" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-149">Parameters<a href="#section-13.1.3-149" class="pilcrow">¶</a></p>
+<table class="center" id="table-16">
+            <caption><a href="#table-16" class="selfRef">Table 16</a></caption>
 <thead>
               <tr>
                 <th class="text-left" rowspan="1" colspan="1">Identifier</th>
@@ -6646,16 +7015,16 @@ registry MUST provide:<a href="#section-13.1.2-2.3.1" class="pilcrow">¶</a></p>
               </tr>
             </tbody>
           </table>
-<p id="section-13.1.3-144">Operation: Restore Read<a href="#section-13.1.3-144" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-145">Operation Identifier: read (on Restore Process Object)<a href="#section-13.1.3-145" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-146">Description: Retrieves the current state of the RGP restore process for a domain name. This operation is OPTIONAL and is only available when the RGP feature is supported.<a href="#section-13.1.3-146" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-147">Parameters: (None)<a href="#section-13.1.3-147" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-148">Operation: Restore Report<a href="#section-13.1.3-148" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-149">Operation Identifier: report<a href="#section-13.1.3-149" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-150">Description: Submits the restore report for a domain name in the pendingRestore state. This operation is OPTIONAL and is only available when the RGP feature is supported and the server requires a restore report.<a href="#section-13.1.3-150" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-151">Parameters<a href="#section-13.1.3-151" class="pilcrow">¶</a></p>
-<table class="center" id="table-16">
-            <caption><a href="#table-16" class="selfRef">Table 16</a></caption>
+<p id="section-13.1.3-151">Operation: Restore Read<a href="#section-13.1.3-151" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-152">Operation Identifier: read (on Restore Process Object)<a href="#section-13.1.3-152" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-153">Description: Retrieves the current state of the RGP restore process for a domain name. This operation is OPTIONAL and is only available when the RGP feature is supported.<a href="#section-13.1.3-153" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-154">Parameters: (None)<a href="#section-13.1.3-154" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-155">Operation: Restore Report<a href="#section-13.1.3-155" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-156">Operation Identifier: report<a href="#section-13.1.3-156" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-157">Description: Submits the restore report for a domain name in the pendingRestore state. This operation is OPTIONAL and is only available when the RGP feature is supported and the server requires a restore report.<a href="#section-13.1.3-157" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-158">Parameters<a href="#section-13.1.3-158" class="pilcrow">¶</a></p>
+<table class="center" id="table-17">
+            <caption><a href="#table-17" class="selfRef">Table 17</a></caption>
 <thead>
               <tr>
                 <th class="text-left" rowspan="1" colspan="1">Identifier</th>
@@ -6675,14 +7044,14 @@ registry MUST provide:<a href="#section-13.1.2-2.3.1" class="pilcrow">¶</a></p>
               </tr>
             </tbody>
           </table>
-<p id="section-13.1.3-153">Object: restoreReport<a href="#section-13.1.3-153" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-154">Object Name: Restore Report Object<a href="#section-13.1.3-154" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-155">Object Type: Component<a href="#section-13.1.3-155" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-156">Description: Contains the redemption grace period restore report submitted by the sponsoring client as required by the RGP process. This object is OPTIONAL and is only used when the RGP feature is supported and a restore report is required by server policy.<a href="#section-13.1.3-156" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-157">Reference: [This-ID]<a href="#section-13.1.3-157" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-158">Data Elements<a href="#section-13.1.3-158" class="pilcrow">¶</a></p>
-<table class="center" id="table-17">
-            <caption><a href="#table-17" class="selfRef">Table 17</a></caption>
+<p id="section-13.1.3-160">Object: restoreReport<a href="#section-13.1.3-160" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-161">Object Name: Restore Report Object<a href="#section-13.1.3-161" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-162">Object Type: Component<a href="#section-13.1.3-162" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-163">Description: Contains the redemption grace period restore report submitted by the sponsoring client as required by the RGP process. This object is OPTIONAL and is only used when the RGP feature is supported and a restore report is required by server policy.<a href="#section-13.1.3-163" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-164">Reference: [This-ID]<a href="#section-13.1.3-164" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-165">Data Elements<a href="#section-13.1.3-165" class="pilcrow">¶</a></p>
+<table class="center" id="table-18">
+            <caption><a href="#table-18" class="selfRef">Table 18</a></caption>
 <thead>
               <tr>
                 <th class="text-left" rowspan="1" colspan="1">Element Identifier</th>
@@ -6752,14 +7121,14 @@ registry MUST provide:<a href="#section-13.1.2-2.3.1" class="pilcrow">¶</a></p>
               </tr>
             </tbody>
           </table>
-<p id="section-13.1.3-160">Object: domainName<a href="#section-13.1.3-160" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-161">Object Name: Domain Name Data Object<a href="#section-13.1.3-161" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-162">Object Type: Resource<a href="#section-13.1.3-162" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-163">Description: Represents a domain name and its associated data.<a href="#section-13.1.3-163" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-164">Reference: [This-ID]<a href="#section-13.1.3-164" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-165">Data Elements<a href="#section-13.1.3-165" class="pilcrow">¶</a></p>
-<table class="center" id="table-18">
-            <caption><a href="#table-18" class="selfRef">Table 18</a></caption>
+<p id="section-13.1.3-167">Object: domainName<a href="#section-13.1.3-167" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-168">Object Name: Domain Name Data Object<a href="#section-13.1.3-168" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-169">Object Type: Resource<a href="#section-13.1.3-169" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-170">Description: Represents a domain name and its associated data.<a href="#section-13.1.3-170" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-171">Reference: [This-ID]<a href="#section-13.1.3-171" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-172">Data Elements<a href="#section-13.1.3-172" class="pilcrow">¶</a></p>
+<table class="center" id="table-19">
+            <caption><a href="#table-19" class="selfRef">Table 19</a></caption>
 <thead>
               <tr>
                 <th class="text-left" rowspan="1" colspan="1">Identifier</th>
@@ -6851,19 +7220,27 @@ registry MUST provide:<a href="#section-13.1.2-2.3.1" class="pilcrow">¶</a></p>
                 <td class="text-left" rowspan="1" colspan="1">Authorisation Information Object</td>
                 <td class="text-left" rowspan="1" colspan="1">Authorisation information for the object.</td>
               </tr>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">processes</td>
+                <td class="text-left" rowspan="1" colspan="1">Processes</td>
+                <td class="text-left" rowspan="1" colspan="1">0-1</td>
+                <td class="text-left" rowspan="1" colspan="1">read-only</td>
+                <td class="text-left" rowspan="1" colspan="1">Processes Object</td>
+                <td class="text-left" rowspan="1" colspan="1">Process Objects initiated on the domain object.</td>
+              </tr>
             </tbody>
           </table>
-<p id="section-13.1.3-167">Operations<a href="#section-13.1.3-167" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-168">Operation: Create<a href="#section-13.1.3-168" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-169">Operation Identifier: create<a href="#section-13.1.3-169" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-170">Description: Provisions a new Domain Name resource.<a href="#section-13.1.3-170" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-171">Parameters: (None)<a href="#section-13.1.3-171" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-172">Operation: Read<a href="#section-13.1.3-172" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-173">Operation Identifier: read<a href="#section-13.1.3-173" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-174">Description: Retrieves the data elements of a Domain Name resource.<a href="#section-13.1.3-174" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-175">Parameters<a href="#section-13.1.3-175" class="pilcrow">¶</a></p>
-<table class="center" id="table-19">
-            <caption><a href="#table-19" class="selfRef">Table 19</a></caption>
+<p id="section-13.1.3-174">Operations<a href="#section-13.1.3-174" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-175">Operation: Create<a href="#section-13.1.3-175" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-176">Operation Identifier: create<a href="#section-13.1.3-176" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-177">Description: Provisions a new Domain Name resource.<a href="#section-13.1.3-177" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-178">Parameters: (None)<a href="#section-13.1.3-178" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-179">Operation: Read<a href="#section-13.1.3-179" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-180">Operation Identifier: read<a href="#section-13.1.3-180" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-181">Description: Retrieves the data elements of a Domain Name resource.<a href="#section-13.1.3-181" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-182">Parameters<a href="#section-13.1.3-182" class="pilcrow">¶</a></p>
+<table class="center" id="table-20">
+            <caption><a href="#table-20" class="selfRef">Table 20</a></caption>
 <thead>
               <tr>
                 <th class="text-left" rowspan="1" colspan="1">Identifier</th>
@@ -6883,11 +7260,11 @@ registry MUST provide:<a href="#section-13.1.2-2.3.1" class="pilcrow">¶</a></p>
               </tr>
             </tbody>
           </table>
-<p id="section-13.1.3-177">Operation: Update<a href="#section-13.1.3-177" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-178">Description: Modifies the read-write data elements of a Domain Name resource.<a href="#section-13.1.3-178" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-179">Parameters<a href="#section-13.1.3-179" class="pilcrow">¶</a></p>
-<table class="center" id="table-20">
-            <caption><a href="#table-20" class="selfRef">Table 20</a></caption>
+<p id="section-13.1.3-184">Operation: Update<a href="#section-13.1.3-184" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-185">Description: Modifies the read-write data elements of a Domain Name resource.<a href="#section-13.1.3-185" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-186">Parameters<a href="#section-13.1.3-186" class="pilcrow">¶</a></p>
+<table class="center" id="table-21">
+            <caption><a href="#table-21" class="selfRef">Table 21</a></caption>
 <thead>
               <tr>
                 <th class="text-left" rowspan="1" colspan="1">Identifier</th>
@@ -6907,16 +7284,16 @@ registry MUST provide:<a href="#section-13.1.2-2.3.1" class="pilcrow">¶</a></p>
               </tr>
             </tbody>
           </table>
-<p id="section-13.1.3-181">Operation: Delete<a href="#section-13.1.3-181" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-182">Operation Identifier: delete<a href="#section-13.1.3-182" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-183">Description: Removes an existing Domain Name resource.<a href="#section-13.1.3-183" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-184">Parameters: (None)<a href="#section-13.1.3-184" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-185">Operation: Renew<a href="#section-13.1.3-185" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-186">Operation Identifier: renew<a href="#section-13.1.3-186" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-187">Description: Extends the validity period of a Domain Name resource.<a href="#section-13.1.3-187" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-188">Parameters<a href="#section-13.1.3-188" class="pilcrow">¶</a></p>
-<table class="center" id="table-21">
-            <caption><a href="#table-21" class="selfRef">Table 21</a></caption>
+<p id="section-13.1.3-188">Operation: Delete<a href="#section-13.1.3-188" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-189">Operation Identifier: delete<a href="#section-13.1.3-189" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-190">Description: Removes an existing Domain Name resource.<a href="#section-13.1.3-190" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-191">Parameters: (None)<a href="#section-13.1.3-191" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-192">Operation: Renew<a href="#section-13.1.3-192" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-193">Operation Identifier: renew<a href="#section-13.1.3-193" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-194">Description: Extends the validity period of a Domain Name resource.<a href="#section-13.1.3-194" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-195">Parameters<a href="#section-13.1.3-195" class="pilcrow">¶</a></p>
+<table class="center" id="table-22">
+            <caption><a href="#table-22" class="selfRef">Table 22</a></caption>
 <thead>
               <tr>
                 <th class="text-left" rowspan="1" colspan="1">Identifier</th>
@@ -6943,12 +7320,12 @@ registry MUST provide:<a href="#section-13.1.2-2.3.1" class="pilcrow">¶</a></p>
               </tr>
             </tbody>
           </table>
-<p id="section-13.1.3-190">Operation: Transfer Create Operation<a href="#section-13.1.3-190" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-191">Operation Identifier: transferCreate<a href="#section-13.1.3-191" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-192">Description:<a href="#section-13.1.3-192" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-193">Parameters<a href="#section-13.1.3-193" class="pilcrow">¶</a></p>
-<table class="center" id="table-22">
-            <caption><a href="#table-22" class="selfRef">Table 22</a></caption>
+<p id="section-13.1.3-197">Operation: Transfer Create Operation<a href="#section-13.1.3-197" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-198">Operation Identifier: transferCreate<a href="#section-13.1.3-198" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-199">Description:<a href="#section-13.1.3-199" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-200">Parameters<a href="#section-13.1.3-200" class="pilcrow">¶</a></p>
+<table class="center" id="table-23">
+            <caption><a href="#table-23" class="selfRef">Table 23</a></caption>
 <thead>
               <tr>
                 <th class="text-left" rowspan="1" colspan="1">Identifier</th>
@@ -6968,14 +7345,14 @@ registry MUST provide:<a href="#section-13.1.2-2.3.1" class="pilcrow">¶</a></p>
               </tr>
             </tbody>
           </table>
-<p id="section-13.1.3-195">Object: contact<a href="#section-13.1.3-195" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-196">Object Name: Contact Data Object<a href="#section-13.1.3-196" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-197">Object Type: Resource<a href="#section-13.1.3-197" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-198">Description: A Contact Data Object represents the contact information for an individual or organisation associated with other objects.<a href="#section-13.1.3-198" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-199">Reference: [This-ID]<a href="#section-13.1.3-199" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-200">Data Elements<a href="#section-13.1.3-200" class="pilcrow">¶</a></p>
-<table class="center" id="table-23">
-            <caption><a href="#table-23" class="selfRef">Table 23</a></caption>
+<p id="section-13.1.3-202">Object: contact<a href="#section-13.1.3-202" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-203">Object Name: Contact Data Object<a href="#section-13.1.3-203" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-204">Object Type: Resource<a href="#section-13.1.3-204" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-205">Description: A Contact Data Object represents the contact information for an individual or organisation associated with other objects.<a href="#section-13.1.3-205" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-206">Reference: [This-ID]<a href="#section-13.1.3-206" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-207">Data Elements<a href="#section-13.1.3-207" class="pilcrow">¶</a></p>
+<table class="center" id="table-24">
+            <caption><a href="#table-24" class="selfRef">Table 24</a></caption>
 <thead>
               <tr>
                 <th class="text-left" rowspan="1" colspan="1">Identifier</th>
@@ -7059,33 +7436,41 @@ registry MUST provide:<a href="#section-13.1.2-2.3.1" class="pilcrow">¶</a></p>
                 <td class="text-left" rowspan="1" colspan="1">Disclose Object.</td>
                 <td class="text-left" rowspan="1" colspan="1">Identifies elements that require exceptional server-operator handling to allow or restrict disclosure to third parties.</td>
               </tr>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">processes</td>
+                <td class="text-left" rowspan="1" colspan="1">Processes</td>
+                <td class="text-left" rowspan="1" colspan="1">0-1</td>
+                <td class="text-left" rowspan="1" colspan="1">read-only</td>
+                <td class="text-left" rowspan="1" colspan="1">Processes Object</td>
+                <td class="text-left" rowspan="1" colspan="1">Process Objects initiated on the contact object.</td>
+              </tr>
             </tbody>
           </table>
-<p id="section-13.1.3-202">Operations<a href="#section-13.1.3-202" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-203">Operation: Create Operation<a href="#section-13.1.3-203" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-204">Operation Identifier: create<a href="#section-13.1.3-204" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-205">Description:<a href="#section-13.1.3-205" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-206">Parameters: (None)<a href="#section-13.1.3-206" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-207">Operation: Read Operation<a href="#section-13.1.3-207" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-208">Operation Identifier: read<a href="#section-13.1.3-208" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-209">Description:<a href="#section-13.1.3-209" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-210">Parameters: (None)<a href="#section-13.1.3-210" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-211">Operation: Update Operation<a href="#section-13.1.3-211" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-212">Operation Identifier: update<a href="#section-13.1.3-212" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-213">Description:<a href="#section-13.1.3-213" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-214">Parameters: (None)<a href="#section-13.1.3-214" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-215">Operation: Delete Operation<a href="#section-13.1.3-215" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-216">Operation Identifier: delete<a href="#section-13.1.3-216" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-217">Description:<a href="#section-13.1.3-217" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-218">Parameters: (None)<a href="#section-13.1.3-218" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-219">Object: host<a href="#section-13.1.3-219" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-220">Object Name: Host Data Object<a href="#section-13.1.3-220" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-221">Object Type: Resource<a href="#section-13.1.3-221" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-222">Description: Represents a name server that provides DNS services for a domain name.<a href="#section-13.1.3-222" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-223">Reference: [This-ID]<a href="#section-13.1.3-223" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-224">Data Elements<a href="#section-13.1.3-224" class="pilcrow">¶</a></p>
-<table class="center" id="table-24">
-            <caption><a href="#table-24" class="selfRef">Table 24</a></caption>
+<p id="section-13.1.3-209">Operations<a href="#section-13.1.3-209" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-210">Operation: Create Operation<a href="#section-13.1.3-210" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-211">Operation Identifier: create<a href="#section-13.1.3-211" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-212">Description:<a href="#section-13.1.3-212" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-213">Parameters: (None)<a href="#section-13.1.3-213" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-214">Operation: Read Operation<a href="#section-13.1.3-214" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-215">Operation Identifier: read<a href="#section-13.1.3-215" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-216">Description:<a href="#section-13.1.3-216" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-217">Parameters: (None)<a href="#section-13.1.3-217" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-218">Operation: Update Operation<a href="#section-13.1.3-218" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-219">Operation Identifier: update<a href="#section-13.1.3-219" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-220">Description:<a href="#section-13.1.3-220" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-221">Parameters: (None)<a href="#section-13.1.3-221" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-222">Operation: Delete Operation<a href="#section-13.1.3-222" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-223">Operation Identifier: delete<a href="#section-13.1.3-223" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-224">Description:<a href="#section-13.1.3-224" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-225">Parameters: (None)<a href="#section-13.1.3-225" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-226">Object: host<a href="#section-13.1.3-226" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-227">Object Name: Host Data Object<a href="#section-13.1.3-227" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-228">Object Type: Resource<a href="#section-13.1.3-228" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-229">Description: Represents a name server that provides DNS services for a domain name.<a href="#section-13.1.3-229" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-230">Reference: [This-ID]<a href="#section-13.1.3-230" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-231">Data Elements<a href="#section-13.1.3-231" class="pilcrow">¶</a></p>
+<table class="center" id="table-25">
+            <caption><a href="#table-25" class="selfRef">Table 25</a></caption>
 <thead>
               <tr>
                 <th class="text-left" rowspan="1" colspan="1">Identifier</th>
@@ -7129,29 +7514,37 @@ registry MUST provide:<a href="#section-13.1.2-2.3.1" class="pilcrow">¶</a></p>
                 <td class="text-left" rowspan="1" colspan="1">DNS Data Object</td>
                 <td class="text-left" rowspan="1" colspan="1">DNS resource records and operational controls related to the host.</td>
               </tr>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">processes</td>
+                <td class="text-left" rowspan="1" colspan="1">Processes</td>
+                <td class="text-left" rowspan="1" colspan="1">0-1</td>
+                <td class="text-left" rowspan="1" colspan="1">read-only</td>
+                <td class="text-left" rowspan="1" colspan="1">Processes Object</td>
+                <td class="text-left" rowspan="1" colspan="1">Process Objects initiated on the host object.</td>
+              </tr>
             </tbody>
           </table>
-<p id="section-13.1.3-226">Operations<a href="#section-13.1.3-226" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-227">Operation: Create<a href="#section-13.1.3-227" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-228">Description: Provisions a new Host Data Object.<a href="#section-13.1.3-228" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-229">Parameters: (None)<a href="#section-13.1.3-229" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-230">Operation: Read<a href="#section-13.1.3-230" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-231">Description: Retrieves the data elements of a Host Data Object.<a href="#section-13.1.3-231" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-232">Parameters: (None)<a href="#section-13.1.3-232" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-233">Operation: Update<a href="#section-13.1.3-233" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-234">Description: Modifies the attributes of a Host Data Object.<a href="#section-13.1.3-234" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-235">Parameters: (None)<a href="#section-13.1.3-235" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-236">Operation: Delete<a href="#section-13.1.3-236" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-237">Description: Removes an existing Host Data Object.<a href="#section-13.1.3-237" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-238">Parameters: (None)<a href="#section-13.1.3-238" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-239">Object: organisationRole<a href="#section-13.1.3-239" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-240">Object Name: Organisation Role Object<a href="#section-13.1.3-240" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-241">Object Type: Component<a href="#section-13.1.3-241" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-242">Description: Represents a role that an organisation has within the registry ecosystem, as defined in <span><a href="https://rfc-editor.org/rfc/rfc8543#section-3.2" class="relref">Section 3.2</a> of [<a href="#RFC8543" class="cite xref">RFC8543</a>]</span>. An organisation object MUST always have at least one associated role.<a href="#section-13.1.3-242" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-243">Reference: [This-ID]<a href="#section-13.1.3-243" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-244">Data Elements<a href="#section-13.1.3-244" class="pilcrow">¶</a></p>
-<table class="center" id="table-25">
-            <caption><a href="#table-25" class="selfRef">Table 25</a></caption>
+<p id="section-13.1.3-233">Operations<a href="#section-13.1.3-233" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-234">Operation: Create<a href="#section-13.1.3-234" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-235">Description: Provisions a new Host Data Object.<a href="#section-13.1.3-235" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-236">Parameters: (None)<a href="#section-13.1.3-236" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-237">Operation: Read<a href="#section-13.1.3-237" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-238">Description: Retrieves the data elements of a Host Data Object.<a href="#section-13.1.3-238" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-239">Parameters: (None)<a href="#section-13.1.3-239" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-240">Operation: Update<a href="#section-13.1.3-240" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-241">Description: Modifies the attributes of a Host Data Object.<a href="#section-13.1.3-241" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-242">Parameters: (None)<a href="#section-13.1.3-242" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-243">Operation: Delete<a href="#section-13.1.3-243" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-244">Description: Removes an existing Host Data Object.<a href="#section-13.1.3-244" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-245">Parameters: (None)<a href="#section-13.1.3-245" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-246">Object: organisationRole<a href="#section-13.1.3-246" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-247">Object Name: Organisation Role Object<a href="#section-13.1.3-247" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-248">Object Type: Component<a href="#section-13.1.3-248" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-249">Description: Represents a role that an organisation has within the registry ecosystem, as defined in <span><a href="https://rfc-editor.org/rfc/rfc8543#section-3.2" class="relref">Section 3.2</a> of [<a href="#RFC8543" class="cite xref">RFC8543</a>]</span>. An organisation object MUST always have at least one associated role.<a href="#section-13.1.3-249" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-250">Reference: [This-ID]<a href="#section-13.1.3-250" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-251">Data Elements<a href="#section-13.1.3-251" class="pilcrow">¶</a></p>
+<table class="center" id="table-26">
+            <caption><a href="#table-26" class="selfRef">Table 26</a></caption>
 <thead>
               <tr>
                 <th class="text-left" rowspan="1" colspan="1">Element Identifier</th>
@@ -7181,14 +7574,14 @@ registry MUST provide:<a href="#section-13.1.2-2.3.1" class="pilcrow">¶</a></p>
               </tr>
             </tbody>
           </table>
-<p id="section-13.1.3-246">Object: organisation<a href="#section-13.1.3-246" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-247">Object Name: Organisation Data Object<a href="#section-13.1.3-247" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-248">Object Type: Resource<a href="#section-13.1.3-248" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-249">Description: Represents an entity, such as a registrar, reseller, DNS service operator, or privacy proxy, involved in the domain registration process. Based on the EPP Organisation Mapping defined in <span>[<a href="#RFC8543" class="cite xref">RFC8543</a>]</span>.<a href="#section-13.1.3-249" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-250">Reference: [This-ID]<a href="#section-13.1.3-250" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-251">Data Elements<a href="#section-13.1.3-251" class="pilcrow">¶</a></p>
-<table class="center" id="table-26">
-            <caption><a href="#table-26" class="selfRef">Table 26</a></caption>
+<p id="section-13.1.3-253">Object: organisation<a href="#section-13.1.3-253" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-254">Object Name: Organisation Data Object<a href="#section-13.1.3-254" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-255">Object Type: Resource<a href="#section-13.1.3-255" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-256">Description: Represents an entity, such as a registrar, reseller, DNS service operator, or privacy proxy, involved in the domain registration process. Based on the EPP Organisation Mapping defined in <span>[<a href="#RFC8543" class="cite xref">RFC8543</a>]</span>.<a href="#section-13.1.3-256" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-257">Reference: [This-ID]<a href="#section-13.1.3-257" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-258">Data Elements<a href="#section-13.1.3-258" class="pilcrow">¶</a></p>
+<table class="center" id="table-27">
+            <caption><a href="#table-27" class="selfRef">Table 27</a></caption>
 <thead>
               <tr>
                 <th class="text-left" rowspan="1" colspan="1">Identifier</th>
@@ -7264,33 +7657,41 @@ registry MUST provide:<a href="#section-13.1.2-2.3.1" class="pilcrow">¶</a></p>
                 <td class="text-left" rowspan="1" colspan="1">LabelledAggregation [User Data Object]</td>
                 <td class="text-left" rowspan="1" colspan="1">Identifiers of user objects associated with the organisation.</td>
               </tr>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">processes</td>
+                <td class="text-left" rowspan="1" colspan="1">Processes</td>
+                <td class="text-left" rowspan="1" colspan="1">0-1</td>
+                <td class="text-left" rowspan="1" colspan="1">read-only</td>
+                <td class="text-left" rowspan="1" colspan="1">Processes Object</td>
+                <td class="text-left" rowspan="1" colspan="1">Process Objects initiated on the organisation object.</td>
+              </tr>
             </tbody>
           </table>
-<p id="section-13.1.3-253">Operations<a href="#section-13.1.3-253" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-254">Operation: Create<a href="#section-13.1.3-254" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-255">Operation Identifier: create<a href="#section-13.1.3-255" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-256">Description: Provisions a new Organisation Data Object.<a href="#section-13.1.3-256" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-257">Parameters: (None)<a href="#section-13.1.3-257" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-258">Operation: Read<a href="#section-13.1.3-258" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-259">Operation Identifier: read<a href="#section-13.1.3-259" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-260">Description: Retrieves the data elements of an Organisation Data Object.<a href="#section-13.1.3-260" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-261">Parameters: (None)<a href="#section-13.1.3-261" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-262">Operation: Update<a href="#section-13.1.3-262" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-263">Operation Identifier: update<a href="#section-13.1.3-263" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-264">Description: Modifies the attributes of an existing Organisation Data Object.<a href="#section-13.1.3-264" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-265">Parameters: (None)<a href="#section-13.1.3-265" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-266">Operation: Delete<a href="#section-13.1.3-266" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-267">Operation Identifier: delete<a href="#section-13.1.3-267" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-268">Description: Removes an existing Organisation Data Object.<a href="#section-13.1.3-268" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-269">Parameters: (None)<a href="#section-13.1.3-269" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-270">Object: user<a href="#section-13.1.3-270" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-271">Object Name: User Data Object<a href="#section-13.1.3-271" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-272">Object Type: Resource<a href="#section-13.1.3-272" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-273">Description: Represents a user linked to an Organisation Data Object. Each user carries a set of RBAC roles that define the user's permissions within the context of the owning organisation. The lifecycle of a User Object is bound to its Organisation Object.<a href="#section-13.1.3-273" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-274">Reference: [This-ID]<a href="#section-13.1.3-274" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-275">Data Elements<a href="#section-13.1.3-275" class="pilcrow">¶</a></p>
-<table class="center" id="table-27">
-            <caption><a href="#table-27" class="selfRef">Table 27</a></caption>
+<p id="section-13.1.3-260">Operations<a href="#section-13.1.3-260" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-261">Operation: Create<a href="#section-13.1.3-261" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-262">Operation Identifier: create<a href="#section-13.1.3-262" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-263">Description: Provisions a new Organisation Data Object.<a href="#section-13.1.3-263" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-264">Parameters: (None)<a href="#section-13.1.3-264" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-265">Operation: Read<a href="#section-13.1.3-265" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-266">Operation Identifier: read<a href="#section-13.1.3-266" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-267">Description: Retrieves the data elements of an Organisation Data Object.<a href="#section-13.1.3-267" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-268">Parameters: (None)<a href="#section-13.1.3-268" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-269">Operation: Update<a href="#section-13.1.3-269" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-270">Operation Identifier: update<a href="#section-13.1.3-270" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-271">Description: Modifies the attributes of an existing Organisation Data Object.<a href="#section-13.1.3-271" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-272">Parameters: (None)<a href="#section-13.1.3-272" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-273">Operation: Delete<a href="#section-13.1.3-273" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-274">Operation Identifier: delete<a href="#section-13.1.3-274" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-275">Description: Removes an existing Organisation Data Object.<a href="#section-13.1.3-275" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-276">Parameters: (None)<a href="#section-13.1.3-276" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-277">Object: user<a href="#section-13.1.3-277" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-278">Object Name: User Data Object<a href="#section-13.1.3-278" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-279">Object Type: Resource<a href="#section-13.1.3-279" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-280">Description: Represents a user linked to an Organisation Data Object. Each user carries a set of RBAC roles that define the user's permissions within the context of the owning organisation. The lifecycle of a User Object is bound to its Organisation Object.<a href="#section-13.1.3-280" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-281">Reference: [This-ID]<a href="#section-13.1.3-281" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-282">Data Elements<a href="#section-13.1.3-282" class="pilcrow">¶</a></p>
+<table class="center" id="table-28">
+            <caption><a href="#table-28" class="selfRef">Table 28</a></caption>
 <thead>
               <tr>
                 <th class="text-left" rowspan="1" colspan="1">Identifier</th>
@@ -7326,25 +7727,33 @@ registry MUST provide:<a href="#section-13.1.2-2.3.1" class="pilcrow">¶</a></p>
                 <td class="text-left" rowspan="1" colspan="1">string</td>
                 <td class="text-left" rowspan="1" colspan="1">The status of the user.</td>
               </tr>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">processes</td>
+                <td class="text-left" rowspan="1" colspan="1">Processes</td>
+                <td class="text-left" rowspan="1" colspan="1">0-1</td>
+                <td class="text-left" rowspan="1" colspan="1">read-only</td>
+                <td class="text-left" rowspan="1" colspan="1">Processes Object</td>
+                <td class="text-left" rowspan="1" colspan="1">Process Objects initiated on the user object.</td>
+              </tr>
             </tbody>
           </table>
-<p id="section-13.1.3-277">Operations<a href="#section-13.1.3-277" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-278">Operation: Create<a href="#section-13.1.3-278" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-279">Operation Identifier: create<a href="#section-13.1.3-279" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-280">Description: Creates a new User Object.<a href="#section-13.1.3-280" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-281">Parameters: (None)<a href="#section-13.1.3-281" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-282">Operation: Read<a href="#section-13.1.3-282" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-283">Operation Identifier: read<a href="#section-13.1.3-283" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-284">Description: Retrieves the data elements of a specific User Object.<a href="#section-13.1.3-284" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-285">Parameters: (None)<a href="#section-13.1.3-285" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-286">Operation: Update<a href="#section-13.1.3-286" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-287">Operation Identifier: update<a href="#section-13.1.3-287" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-288">Description: Modifies the read-write data elements (e.g., roles) of a specific User Object.<a href="#section-13.1.3-288" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-289">Parameters: (None)<a href="#section-13.1.3-289" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-290">Operation: Delete<a href="#section-13.1.3-290" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-291">Operation Identifier: delete<a href="#section-13.1.3-291" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-292">Description: Removes a specific User Object.<a href="#section-13.1.3-292" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-293">Parameters: (None)<a href="#section-13.1.3-293" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-284">Operations<a href="#section-13.1.3-284" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-285">Operation: Create<a href="#section-13.1.3-285" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-286">Operation Identifier: create<a href="#section-13.1.3-286" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-287">Description: Creates a new User Object.<a href="#section-13.1.3-287" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-288">Parameters: (None)<a href="#section-13.1.3-288" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-289">Operation: Read<a href="#section-13.1.3-289" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-290">Operation Identifier: read<a href="#section-13.1.3-290" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-291">Description: Retrieves the data elements of a specific User Object.<a href="#section-13.1.3-291" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-292">Parameters: (None)<a href="#section-13.1.3-292" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-293">Operation: Update<a href="#section-13.1.3-293" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-294">Operation Identifier: update<a href="#section-13.1.3-294" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-295">Description: Modifies the read-write data elements (e.g., roles) of a specific User Object.<a href="#section-13.1.3-295" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-296">Parameters: (None)<a href="#section-13.1.3-296" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-297">Operation: Delete<a href="#section-13.1.3-297" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-298">Operation Identifier: delete<a href="#section-13.1.3-298" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-299">Description: Removes a specific User Object.<a href="#section-13.1.3-299" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-300">Parameters: (None)<a href="#section-13.1.3-300" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -7408,6 +7817,10 @@ Registration procedure: Expert Review
           <li class="compact" id="section-15.1-1.3">reserve property names beginning with <code>@</code> for representation specifications #89<a href="#section-15.1-1.3" class="pilcrow">¶</a>
 </li>
           <li class="compact" id="section-15.1-1.4">add generic Create Process Object and Domain Create Process Object carrying the registration period #89<a href="#section-15.1-1.4" class="pilcrow">¶</a>
+</li>
+          <li class="compact" id="section-15.1-1.5">add optional processId to all Process Objects #89<a href="#section-15.1-1.5" class="pilcrow">¶</a>
+</li>
+          <li class="compact" id="section-15.1-1.6">add extensible Processes Object component and processes element to all Data Objects #89<a href="#section-15.1-1.6" class="pilcrow">¶</a>
 </li>
         </ul>
 </section>
