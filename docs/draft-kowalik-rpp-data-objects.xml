@@ -166,7 +166,7 @@ The data type of a data element may also be a reference to another data object, 
 </ul></li>
 <li>Direct Access: An optional flag indicating whether the associated object or objects are additionally exposed as an addressable sub-resource of the containing object. When set to <tt>true</tt>, the associated object or objects are exposed as a sub-resource that can be addressed independently of the containing object, in addition to their inline representation within it. When absent or set to <tt>false</tt>, the element is accessed only inline. The default value is <tt>false</tt>.</li>
 </ul>
-<t>The Direct Access flag is applicable only to a data element whose Data Type is an association (Aggregation, Composition, Labelled Aggregation, Dictionary Aggregation, Labelled Composition, or Dictionary Composition) with a Data Object, Component Object, or Process Object, of any cardinality. Where a data element has the Direct Access flag set to <tt>true</tt>, a server MUST expose the associated object or objects as an independently addressable sub-resource. Where such a data element has a cardinality greater than <tt>1</tt>, the associated object type MUST define a Unique Identifier, so that an individual associated object can be addressed unambiguously among the collection.</t>
+<t>The Direct Access flag is applicable only to a data element whose Data Type is an association (Aggregation, Composition, Labelled Aggregation, Dictionary Aggregation, Labelled Composition, or Dictionary Composition) with a Data Object, Component Object, or Process Object, of any cardinality. Where a data element has the Direct Access flag set to <tt>true</tt>, a server MAY expose the associated object or objects as an independently addressable sub-resource. Where such a data element has a cardinality greater than <tt>1</tt>, the associated object type MUST define a Unique Identifier, so that an individual associated object can be addressed unambiguously among the collection.</t>
 </section>
 
 <section anchor="reserved-property-names"><name>Reserved Property Names</name>
@@ -1115,6 +1115,7 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 <li>Cardinality: 0+</li>
 <li>Mutability: read-only</li>
 <li>Data Type: Aggregation[Transfer Process Object]</li>
+<li>Direct Access: true</li>
 <li>Description: The transfer processes initiated on the owning Data Object.</li>
 <li>Constraints: (None)</li>
 </ul></li>
@@ -1125,6 +1126,7 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 <li>Cardinality: 0+</li>
 <li>Mutability: read-only</li>
 <li>Data Type: Aggregation[Renew Process Object]</li>
+<li>Direct Access: true</li>
 <li>Description: The renew processes initiated on the owning Data Object.</li>
 <li>Constraints: (None)</li>
 </ul></li>
@@ -1135,6 +1137,7 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 <li>Cardinality: 0+</li>
 <li>Mutability: read-only</li>
 <li>Data Type: Aggregation[Restore Process Object]</li>
+<li>Direct Access: true</li>
 <li>Description: The restore processes initiated on the owning Data Object.</li>
 <li>Constraints: (None)</li>
 </ul></li>
@@ -1145,6 +1148,7 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 <li>Cardinality: 0+</li>
 <li>Mutability: read-only</li>
 <li>Data Type: Aggregation[Create Process Object]</li>
+<li>Direct Access: true</li>
 <li>Description: The create processes initiated on the owning Data Object.</li>
 <li>Constraints: (None)</li>
 </ul></li>

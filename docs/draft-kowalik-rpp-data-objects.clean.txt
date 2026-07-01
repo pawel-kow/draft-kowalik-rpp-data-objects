@@ -472,7 +472,7 @@ Table of Contents
    Aggregation, Dictionary Aggregation, Labelled Composition, or
    Dictionary Composition) with a Data Object, Component Object, or
    Process Object, of any cardinality.  Where a data element has the
-   Direct Access flag set to true, a server MUST expose the associated
+   Direct Access flag set to true, a server MAY expose the associated
    object or objects as an independently addressable sub-resource.
    Where such a data element has a cardinality greater than 1, the
    associated object type MUST define a Unique Identifier, so that an
@@ -1591,6 +1591,7 @@ Table of Contents
          -  Cardinality: 0+
          -  Mutability: read-only
          -  Data Type: Aggregation[Transfer Process Object]
+         -  Direct Access: true
          -  Description: The transfer processes initiated on the owning
             Data Object.
          -  Constraints: (None)
@@ -1599,6 +1600,7 @@ Table of Contents
          -  Cardinality: 0+
          -  Mutability: read-only
          -  Data Type: Aggregation[Renew Process Object]
+         -  Direct Access: true
          -  Description: The renew processes initiated on the owning
             Data Object.
          -  Constraints: (None)
@@ -1607,6 +1609,7 @@ Table of Contents
          -  Cardinality: 0+
          -  Mutability: read-only
          -  Data Type: Aggregation[Restore Process Object]
+         -  Direct Access: true
          -  Description: The restore processes initiated on the owning
             Data Object.
          -  Constraints: (None)
@@ -1615,6 +1618,7 @@ Table of Contents
          -  Cardinality: 0+
          -  Mutability: read-only
          -  Data Type: Aggregation[Create Process Object]
+         -  Direct Access: true
          -  Description: The create processes initiated on the owning
             Data Object.
          -  Constraints: (None)

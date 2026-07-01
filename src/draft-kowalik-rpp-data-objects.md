@@ -184,7 +184,7 @@ The definition of each data element within an object consists of the following a
   * read-write: The element's value can be set and modified by the client.
 * Direct Access: An optional flag indicating whether the associated object or objects are additionally exposed as an addressable sub-resource of the containing object. When set to `true`, the associated object or objects are exposed as a sub-resource that can be addressed independently of the containing object, in addition to their inline representation within it. When absent or set to `false`, the element is accessed only inline. The default value is `false`.
 
-The Direct Access flag is applicable only to a data element whose Data Type is an association (Aggregation, Composition, Labelled Aggregation, Dictionary Aggregation, Labelled Composition, or Dictionary Composition) with a Data Object, Component Object, or Process Object, of any cardinality. Where a data element has the Direct Access flag set to `true`, a server MUST expose the associated object or objects as an independently addressable sub-resource. Where such a data element has a cardinality greater than `1`, the associated object type MUST define a Unique Identifier, so that an individual associated object can be addressed unambiguously among the collection.
+The Direct Access flag is applicable only to a data element whose Data Type is an association (Aggregation, Composition, Labelled Aggregation, Dictionary Aggregation, Labelled Composition, or Dictionary Composition) with a Data Object, Component Object, or Process Object, of any cardinality. Where a data element has the Direct Access flag set to `true`, a server MAY expose the associated object or objects as an independently addressable sub-resource. Where such a data element has a cardinality greater than `1`, the associated object type MUST define a Unique Identifier, so that an individual associated object can be addressed unambiguously among the collection.
 
 ## Reserved Property Names
 
@@ -959,6 +959,7 @@ A> TBC: IANA registry for role types and statuses? must be compat with EPP
     * Cardinality: 0+
     * Mutability: read-only
     * Data Type: Aggregation[Transfer Process Object]
+    * Direct Access: true
     * Description: The transfer processes initiated on the owning Data Object.
     * Constraints: (None)
   * Renew Processes
@@ -966,6 +967,7 @@ A> TBC: IANA registry for role types and statuses? must be compat with EPP
     * Cardinality: 0+
     * Mutability: read-only
     * Data Type: Aggregation[Renew Process Object]
+    * Direct Access: true
     * Description: The renew processes initiated on the owning Data Object.
     * Constraints: (None)
   * Restore Processes
@@ -973,6 +975,7 @@ A> TBC: IANA registry for role types and statuses? must be compat with EPP
     * Cardinality: 0+
     * Mutability: read-only
     * Data Type: Aggregation[Restore Process Object]
+    * Direct Access: true
     * Description: The restore processes initiated on the owning Data Object.
     * Constraints: (None)
   * Create Processes
@@ -980,6 +983,7 @@ A> TBC: IANA registry for role types and statuses? must be compat with EPP
     * Cardinality: 0+
     * Mutability: read-only
     * Data Type: Aggregation[Create Process Object]
+    * Direct Access: true
     * Description: The create processes initiated on the owning Data Object.
     * Constraints: (None)
 
