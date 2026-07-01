@@ -6,11 +6,11 @@ workgroup = "Network Working Group"
 submissiontype = "IETF"
 keyword = [""]
 TocDepth = 4
-date = 2026-06-12
+date = 2026-07-01
 
 [seriesInfo]
 name = "Internet-Draft"
-value = "draft-kowalik-rpp-data-objects-05 (editorial)"
+value = "draft-ietf-rpp-data-objects-01 (editorial)"
 stream = "IETF"
 status = "standard"
 
@@ -2922,7 +2922,7 @@ A> TODO: write security considerations, if any
 
 {toc="exclude"}
 {numbered="false"}
-## draft-kowalik-rpp-data-objects -04 - -05
+## draft-ietf-rpp-data-objects -00 - -01
 
 * Added Organisation, Organisation Role and User Objects, based on RFC8543 (Issue #25)
 * Added Renew Process Object and operations (Issue #76)
@@ -2932,6 +2932,12 @@ A> TODO: write security considerations, if any
 * add extensible Processes Object component and processes element to all Data Objects #89
 * declare the unique identifier element explicitly in every object preamble #89
 * add "Direct Access" flag exposing association data elements as addressable sub-resources #89
+
+{toc="exclude"}
+{numbered="false"}
+## draft-kowalik-rpp-data-objects-04 - draft-ietf-rpp-data-objects-00
+
+* RPP working group adoption
 
 {toc="exclude"}
 {numbered="false"}
