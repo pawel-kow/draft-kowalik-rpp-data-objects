@@ -6,11 +6,11 @@ workgroup = "Network Working Group"
 submissiontype = "IETF"
 keyword = [""]
 TocDepth = 4
-date = 2026-06-12
+date = 2026-07-01
 
 [seriesInfo]
 name = "Internet-Draft"
-value = "draft-kowalik-rpp-data-objects-04"
+value = "draft-ietf-rpp-data-objects-00"
 stream = "IETF"
 status = "standard"
 
@@ -2271,6 +2271,12 @@ A> TODO: write security considerations, if any
 {removeInRFC="true"}
 {toc="exclude"}
 # Changes History
+
+{toc="exclude"}
+{numbered="false"}
+## draft-kowalik-rpp-data-objects-04 - draft-ietf-rpp-data-objects-00
+
+* RPP working group adoption
 
 {toc="exclude"}
 {numbered="false"}
