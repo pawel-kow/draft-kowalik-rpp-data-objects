@@ -15,7 +15,7 @@
 <workgroup>Network Working Group</workgroup>
 
 <abstract>
-<t>This document defines data objects for the RESTful Provisioning Protocol (RPP) and sets up IANA RPP Data Object Registry to describe and catalogue them. Specifically, it details the logical structure, constraints, and protocol operations (including their inputs, outputs and business logic) for foundational resources: domain names, contacts, and hosts. In accordance with the RPP architecture <xref target="I-D.kowalik-rpp-architecture"></xref>, these definitions focus entirely on the semantics, remaining independent of any specific data representation or media type (e.g., JSON or XML).</t>
+<t>This document defines data objects for the RESTful Provisioning Protocol (RPP) and sets up the IANA RPP Data Object Registry to describe and catalogue them. Specifically, it details the logical structure, constraints, and protocol operations (including their inputs, outputs, and business logic) for foundational resources: domain names, contacts, and hosts. In accordance with the RPP architecture <xref target="I-D.kowalik-rpp-architecture"></xref>, these definitions focus entirely on the semantics, remaining independent of any specific data representation or media type (e.g., JSON or XML).</t>
 </abstract>
 
 </front>
@@ -41,7 +41,7 @@
 <dt>External host</dt>
 <dd>A host whose name does not belong to the namespace of the repository in which the host is being used for delegation purposes.</dd>
 </dl>
-<t>The following terms are defined and used in this document</t>
+<t>The following terms are defined and used in this document:</t>
 
 <dl spacing="compact">
 <dt>Object Authorisation</dt>
@@ -53,7 +53,7 @@
 <dt>Process Object</dt>
 <dd>An object that represents a long-running or multi-step operation initiated on a Data Object. Process Objects carry operation-related state and data, and may define their own operations to interact with the process. They have no independent existence - their lifecycle is bound to the owning Data Object.</dd>
 <dt>Owner Data Object</dt>
-<dd>A Data Object which a process (represented as Process Object) was initiated upon and which owns this Process Object</dd>
+<dd>A Data Object which a process (represented as Process Object) was initiated upon and which owns this Process Object.</dd>
 <dt>Unique Identifier</dt>
 <dd>The data element of an object whose value uniquely identifies an instance of that object within its applicable scope. The scope is defined by the object: for a Data Object it is typically the server, whereas for a Process Object it is the Owner Data Object. An object definition names its Unique Identifier explicitly in the object preamble. Objects that have no independent identity, such as component objects embedded within another object, have no Unique Identifier.</dd>
 </dl>
@@ -78,7 +78,7 @@
 </section>
 
 <section anchor="decimal"><name>Decimal</name>
-<t>Decimal is a number providing an exact, base-10 representation of fractional values within a defined precision. Usage of this type MUST impose additional constraints on decimal values, such as precision or range, based on specific data element definitions. An example of a decimal is 3.14159.</t>
+<t>A Decimal is a number providing an exact, base-10 representation of fractional values within a defined precision. Usage of this type MUST impose additional constraints on decimal values, such as precision or range, based on specific data element definitions. An example of a decimal is 3.14159.</t>
 </section>
 
 <section anchor="date"><name>Date</name>
@@ -86,7 +86,7 @@
 </section>
 
 <section anchor="timestamp"><name>Timestamp</name>
-<t>Timestamp (Date and time attribute) values MUST be represented in Universal Coordinated Time (UTC) using the Gregorian calendar using date-time form as defined in <xref target="RFC3339"></xref>. In EPP Compatibility Profile upper case &quot;T&quot; and &quot;Z&quot; characters MUST be used. An example of a timestamp is <tt>2025-10-27T09:42:51Z</tt>.</t>
+<t>Timestamp (Date and time attribute) values MUST be represented in Universal Coordinated Time (UTC) using the Gregorian calendar in date-time form as defined in <xref target="RFC3339"></xref>. In EPP Compatibility Profile upper case &quot;T&quot; and &quot;Z&quot; characters MUST be used. An example of a timestamp is <tt>2025-10-27T09:42:51Z</tt>.</t>
 </section>
 
 <section anchor="url"><name>URL</name>
@@ -235,7 +235,7 @@ The data type of a data element may also be a reference to another data object, 
 </ul>
 <t>The transfer process MAY be immediate or follow a multi-step workflow depending on server policy. If the server implements immediate transfers, the Approve and Reject operations need not be supported; the server completes the transfer upon receipt of the Create operation.</t>
 <t>The server MAY implement local policies to prevent transfers from stalling and implement a form of automated transfer escalation, approval or cancellation when such a stalled process is recognised.</t>
-<t>All transfer operations act on or return the Transfer Process Object and are executed in the context of Owner Data Object the operation is created upon.</t>
+<t>All transfer operations act on or return the Transfer Process Object and are executed in the context of the Owner Data Object the operation is created upon.</t>
 
 <aside><t>TODO: The server MUST notify the current sponsoring client of a pending transfer request. The notification mechanism is not defined in this document.</t>
 <t>TODO: Transfer-specific error conditions (object not eligible for transfer, object pending transfer, object not pending transfer) are not defined in this document.</t>
@@ -252,7 +252,7 @@ The data type of a data element may also be a reference to another data object, 
 </ul>
 <t>Whether a restore report is required after a restore request is a matter of server policy. If the server does not require a restore report, the object returns to its pre-deletion status immediately upon a successful Create operation, bypassing the <tt>pendingRestore</tt> state.</t>
 <t>The Create operation MAY include the restore report inline to complete both steps atomically in a single operation.</t>
-<t>All restore operations act on or return the Restore Process Object and are executed in the context of Owner Data Object the operation is created upon.</t>
+<t>All restore operations act on or return the Restore Process Object and are executed in the context of the Owner Data Object the operation is created upon.</t>
 
 <section anchor="redemption-grace-period-state-diagram"><name>Redemption Grace Period State Diagram</name>
 <t>The following state diagram describes the object lifecycle when the Redemption Grace Period (RGP) feature is supported. It adapts the diagram from <xref target="RFC3915" sectionFormat="of" section="2"></xref> to the RPP data model, using RPP status labels and operations instead of EPP command names.</t>
@@ -323,7 +323,7 @@ The reference MUST use the following format: <tt>External:&lt;specification-iden
 
 <artwork><![CDATA[identifier = "External:" TYPEID ":" TYPEID
 
-TYPEID = ALPHA *( ALPHA / DIGIT / "-" / "_" )
+TYPEID = ALPHA *( ALPHA / DIGIT / "-" / "_" ) ( ALPHA / DIGIT )
 ]]></artwork>
 </section>
 
@@ -334,9 +334,15 @@ If a newer version updates the defining specification, the RPP specification MUS
 
 <section anchor="jscontact"><name>JSContact</name>
 <t>This specification references the RPP JSContact Profile for RPP defined in <xref target="I-D.wullink-rpp-jscontact-profile"></xref> as an external specification for representing contact information. The JSContact <tt>Card</tt> data type defined in <xref target="RFC9553"></xref> MUST be used for the representation of contact information. When referring to this type the following values MUST be used in the Data Type reference identifiers:</t>
-<t>specification-identifier: RPP-JSContact-Profile
-type-name: Card
-Data Type: External:RPP-JSContact-Profile:Card</t>
+
+<dl spacing="compact">
+<dt>specification-identifier:</dt>
+<dd>RPP-JSContact-Profile</dd>
+<dt>type-name:</dt>
+<dd>Card</dd>
+<dt>Data Type:</dt>
+<dd>External:RPP-JSContact-Profile:Card</dd>
+</dl>
 </section>
 </section>
 
@@ -348,9 +354,9 @@ Data Type: External:RPP-JSContact-Profile:Card</t>
 </section>
 
 <section anchor="client-identifier"><name>Client Identifier</name>
-<t>Client identifiers are character strings with a specified minimum length, a specified maximum length, and a specified format. Contact identifiers use the &quot;clIDType&quot; client identifier syntax described in <xref target="RFC5730"></xref>.</t>
+<t>Client identifiers are character strings with a specified minimum length, a specified maximum length, and a specified format. Client identifiers use the &quot;clIDType&quot; client identifier syntax described in <xref target="RFC5730"></xref>.</t>
 
-<aside><t>TBC: do we need this or is it a relation with an entity/RFC8543 organisation? If registrars modeled are as first class objects (organisations), then clID is nothing else but a reference to this organisation, so maybe no need to define syntax separately on identifier level (or in other words it would be defined on this object). R8.1 in the form of -02 RPP requirements includes RFC8543.</t>
+<aside><t>TBC: do we need this or is it a relation with an entity/RFC8543 organisation? If registrars are modelled as first class objects (organisations), then clID is nothing else but a reference to this organisation, so maybe no need to define syntax separately on identifier level (or in other words it would be defined on this object). R8.1 in the form of -02 RPP requirements includes RFC8543.</t>
 </aside>
 </section>
 
@@ -360,15 +366,15 @@ Data Type: External:RPP-JSContact-Profile:Card</t>
 </section>
 
 <section anchor="associations"><name>Associations</name>
-<t>RPP allows for different types of associations (relationship) between the objects. The association may be added between 2 objects with own independent lifecycle (UML aggregation) or in the relation when one object's existence and lifecycle is bound to the other parent/owner object (UML composition).
+<t>RPP allows for different types of associations (relationships) between the objects. The association may be added between 2 objects with own independent lifecycle (UML aggregation) or in the relation when one object's existence and lifecycle is bound to the other parent/owner object (UML composition).
 In both cases, especially if the relation allows for cardinality higher than one on either side, the association may be assigned additional attributes, not being part of an object on either side of relation. In many cases such relation would be attributed with a single text string label, describing a role or a type of relation. Depending on the context this value might be unique, which allows using such label as a key in a dictionary.</t>
 <t>The following generic Association Types are defined for RPP:</t>
 
 <section anchor="aggregation"><name>Aggregation</name>
 <t>Notation: Aggregation[Type]</t>
 <t>A relation between two independent objects.</t>
-<t>If the cardinality of target object is more than 1, this represents an ordered array.
-It MUST be assured that the same unchanged data is always inserted in the same order in order to allow stable reference by position to data elements. In case of data insertions, deletions or updates the remaining of the data SHALL preserve its order.</t>
+<t>If the cardinality of the target object is more than 1, this represents an ordered array.
+It MUST be assured that the same unchanged data is always inserted in the same order in order to allow stable reference by position to data elements. In case of data insertions, deletions, or updates the remainder of the data SHALL preserve its order.</t>
 <t>Example aggregation having cardinality 1:</t>
 
 <sourcecode type="ascii"><![CDATA[+-------------------+
@@ -403,8 +409,8 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 <section anchor="composition"><name>Composition</name>
 <t>Notation: Composition[Type] or Type</t>
 <t>A relation between an independent parent object and 1 or more dependent child object(s).</t>
-<t>If the cardinality of target object is more than 1, this represents an ordered array.
-It MUST be assured that the same unchanged data is always inserted in the same order in order to allow stable reference by position to data elements. In case of data insertions, deletions or updates the remaining of the data SHALL preserve its order.</t>
+<t>If the cardinality of the target object is more than 1, this represents an ordered array.
+It MUST be assured that the same unchanged data is always inserted in the same order in order to allow stable reference by position to data elements. In case of data insertions, deletions, or updates the remainder of the data SHALL preserve its order.</t>
 <t>Example composition having cardinality 1:</t>
 
 <sourcecode type="ascii"><![CDATA[+-------------------+
@@ -435,7 +441,7 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 
 <section anchor="labelled-aggregation"><name>Labelled Aggregation</name>
 <t>Notation: LabelledAggregation[Type]</t>
-<t>A relation between two independent object with single text string attribute. Multiple associations with the same label are allowed and represent an unordered array.</t>
+<t>A relation between two independent objects with a single text string attribute. Multiple associations with the same label are allowed and represent an unordered array.</t>
 <t>A type defining such association MUST define Label Description with semantics of the label and Label Constraints with constraints related to the label.</t>
 <t>Example labelled aggregation:</t>
 
@@ -464,7 +470,7 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 
 <section anchor="dictionary-aggregation"><name>Dictionary Aggregation</name>
 <t>Notation: DictionaryAggregation[Type]</t>
-<t>A relation between two independent object with single text string attribute. Association labels MUST be unique allowing it to be used as dictionary key.</t>
+<t>A relation between two independent objects with a single text string attribute. Association labels MUST be unique, allowing them to be used as dictionary keys.</t>
 <t>A type defining such association MUST define Label Description with semantics of the label and Label Constraints with constraints related to the label.</t>
 <t>Example Dictionary Aggregation:</t>
 
@@ -487,7 +493,7 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 
 <section anchor="labelled-composition"><name>Labelled Composition</name>
 <t>Notation: LabelledComposition[Type]</t>
-<t>A relation between an independent parent object and a dependent child object with single text string attribute. Multiple associations with the same label are allowed.</t>
+<t>A relation between an independent parent object and a dependent child object with a single text string attribute. Multiple associations with the same label are allowed.</t>
 <t>A type defining such association MUST define Label Description with semantics of the label and Label Constraints with constraints related to the label.</t>
 <t>Example Labelled Composition:</t>
 
@@ -515,7 +521,7 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 
 <section anchor="dictionary-composition"><name>Dictionary Composition</name>
 <t>Notation: DictionaryComposition[Type]</t>
-<t>A relation between an independent parent object and a dependent child object with single text string attribute. Only single association with the same label is allowed allowing it to be used as dictionary key.</t>
+<t>A relation between an independent parent object and a dependent child object with a single text string attribute. Only a single association with the same label is allowed, allowing it to be used as a dictionary key.</t>
 <t>A type defining such association MUST define Label Description with semantics of the label and Label Constraints with constraints related to the label.</t>
 <t>Example Dictionary Composition:</t>
 
@@ -918,7 +924,7 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 <ul spacing="compact">
 <li>Name: Authorisation Information</li>
 <li>Identifier: authInfo</li>
-<li>Description: Contains information used to authorise operations on a data object. It may hold different kind of authorisation information.</li>
+<li>Description: Contains information used to authorise operations on a data object. It may hold different kinds of authorisation information.</li>
 <li><t>Data Elements:</t>
 
 <ul spacing="compact">
@@ -934,7 +940,7 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 
 <ul spacing="compact">
 <li>The value MUST be one of the values registered at IANA as defined in [I-D.draft-wullink-rpp-core].</li>
-<li>In EPP Compatibility Profile this value MUST be set to <tt>authinfo</tt> if standard password base authorisation is used</li>
+<li>In EPP Compatibility Profile this value MUST be set to <tt>authinfo</tt> if standard password-based authorisation is used</li>
 </ul></li>
 </ul></li>
 <li><t>Authorisation Information</t>
@@ -944,7 +950,7 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 <li>Cardinality: 1</li>
 <li>Mutability: create-only</li>
 <li>Data Type: String</li>
-<li>Description: The value of the authorisation information. It might be as simple as password string, but also more complex values like public key certificates or tokens encoded as string are possible.</li>
+<li>Description: The value of the authorisation information. It might be as simple as a password string, but also more complex values like public key certificates or tokens encoded as string are possible.</li>
 <li><t>Constraints:</t>
 
 <ul spacing="compact">
@@ -1765,7 +1771,7 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 <li><t>Constraints:</t>
 
 <ul spacing="compact">
-<li>Possible combinations of Status Object Labels is specified in <xref target="RFC5731" sectionFormat="of" section="2.3"></xref>.</li>
+<li>Possible combinations of Status Object Labels are specified in <xref target="RFC5731" sectionFormat="of" section="2.3"></xref>.</li>
 </ul></li>
 </ul></li>
 </ul>
@@ -2018,7 +2024,7 @@ is &quot;all&quot;.</li>
 </section>
 
 <section anchor="renew-operations"><name>Renew Operations</name>
-<t>The Domain Name Data Object supports the renew operations defined in the <xref target="renew-ops"></xref>. The renewal of a domain name changes the expiry date of the domain object.</t>
+<t>The Domain Name Data Object supports the renew operations defined in <xref target="renew-ops"></xref>. The renewal of a domain name changes the expiry date of the domain object.</t>
 
 <section anchor="renew-create-operation"><name>Renew Create Operation</name>
 
@@ -2038,7 +2044,7 @@ is &quot;all&quot;.</li>
 </section>
 
 <section anchor="transfer-operations-1"><name>Transfer Operations</name>
-<t>The Domain Name Data Object supports the common transfer operations defined in the <xref target="transfer-operations"></xref>. The transfer of a domain name changes the sponsoring client of the domain object.</t>
+<t>The Domain Name Data Object supports the common transfer operations defined in <xref target="transfer-operations"></xref>. The transfer of a domain name changes the sponsoring client of the domain object.</t>
 <t>Transfer of a domain object MUST implicitly transfer all host objects that are subordinate to the domain object. For example, if domain object &quot;example.com&quot; is transferred and host object &quot;ns1.example.com&quot; exists, the host object MUST be transferred as part of the &quot;example.com&quot; transfer process.</t>
 <t>In addition to the common Transfer Process Object elements, the following object-specific data elements are included:</t>
 
@@ -2078,8 +2084,8 @@ is &quot;all&quot;.</li>
 </section>
 
 <section anchor="restore-operations"><name>Restore Operations</name>
-<t>The Domain Name Data Object supports the restore operations defined in the <xref target="restore-ops"></xref>. These operations are OPTIONAL and are only available when the RGP feature is supported.</t>
-<t>No domain-specific transient data elements extend the common restore operations beyond those defined in the <xref target="restore-ops"></xref>.</t>
+<t>The Domain Name Data Object supports the restore operations defined in <xref target="restore-ops"></xref>. These operations are OPTIONAL and are only available when the RGP feature is supported.</t>
+<t>No domain-specific transient data elements extend the common restore operations beyond those defined in <xref target="restore-ops"></xref>.</t>
 </section>
 </section>
 
@@ -2172,7 +2178,7 @@ is &quot;all&quot;.</li>
 </section>
 
 <section anchor="data-elements-1"><name>Data Elements</name>
-<t>The following data elements are defined for the Domain Name Data Object.</t>
+<t>The following data elements are defined for the Contact Data Object.</t>
 
 <ul>
 <li><t>Handle ID</t>
@@ -2211,8 +2217,8 @@ is &quot;all&quot;.</li>
 <li><t>Constraints:</t>
 
 <ul spacing="compact">
-<li>Possible combinations of Domain Status Labels is specified in <xref target="RFC5733" sectionFormat="of" section="2.2"></xref></li>
-<li>The value MUST be one of the status tokens defined in the IANA registry for domain statuses.</li>
+<li>Possible combinations of Contact Status Labels are specified in <xref target="RFC5733" sectionFormat="of" section="2.2"></xref></li>
+<li>The value MUST be one of the status tokens defined in the IANA registry for contact statuses.</li>
 <li>The initial value list MAY be as defined in <xref target="RFC5733"></xref>. In this case the values MUST have the same semantics.</li>
 </ul></li>
 </ul></li>
@@ -2365,7 +2371,7 @@ is &quot;all&quot;.</li>
 </section>
 
 <section anchor="transfer-operations-1-1"><name>Transfer Operations</name>
-<t>The Contact Data Object supports the common transfer operations defined in the <xref target="transfer-operations"></xref>. The transfer of a contact changes the sponsoring client of the contact object.</t>
+<t>The Contact Data Object supports the common transfer operations defined in <xref target="transfer-operations"></xref>. The transfer of a contact changes the sponsoring client of the contact object.</t>
 <t>No object-specific transient data elements are defined for contact transfer operations beyond the common transfer data elements.</t>
 </section>
 </section>
@@ -2415,7 +2421,7 @@ is &quot;all&quot;.</li>
 <li>Mutability: read-only</li>
 <li>Data Type:  Status Object</li>
 <li>Description: The current status descriptors associated with the host.</li>
-<li>Constraints: Possible combinations of Host Status Labels is specified in <xref target="RFC5732" sectionFormat="of" section="2.3"></xref></li>
+<li>Constraints: Possible combinations of Host Status Labels are specified in <xref target="RFC5732" sectionFormat="of" section="2.3"></xref></li>
 </ul></li>
 <li><t>DNS Data</t>
 
@@ -2522,8 +2528,8 @@ is &quot;all&quot;.</li>
 </section>
 
 <section anchor="restore-operations-1"><name>Restore Operations</name>
-<t>The Host Data Object supports the restore operations defined in the <xref target="restore-ops"></xref>. These operations are OPTIONAL and are only available when the RGP feature for Host Data Object is supported by the server.</t>
-<t>No domain-specific transient data elements extend the common restore operations beyond those defined in the <xref target="restore-ops"></xref>.</t>
+<t>The Host Data Object supports the restore operations defined in <xref target="restore-ops"></xref>. These operations are OPTIONAL and are only available when the RGP feature for Host Data Object is supported by the server.</t>
+<t>No host-specific transient data elements extend the common restore operations beyond those defined in <xref target="restore-ops"></xref>.</t>
 </section>
 </section>
 </section>
@@ -2917,7 +2923,7 @@ is &quot;all&quot;.</li>
 <ul spacing="compact">
 <li>Identifier: delete</li>
 </ul>
-<t>The Delete operation removes a specific User Object</t>
+<t>The Delete operation removes a specific User Object.</t>
 
 <ul spacing="compact">
 <li><t>Authorisation:</t>
@@ -3163,7 +3169,7 @@ registry MUST provide:</t>
 <td>1</td>
 <td>create-only</td>
 <td>String</td>
-<td>The value of the authorisation information. It might be as simple as password string, but also more complex values like public key certificates or tokens encoded as string are possible.</td>
+<td>The value of the authorisation information. It might be as simple as a password string, but also more complex values like public key certificates or tokens encoded as string are possible.</td>
 </tr>
 </tbody>
 </table><t>Object: status</t>
@@ -3484,7 +3490,7 @@ registry MUST provide:</t>
 </table><t>Object: renewProcess</t>
 <t>Object Name: Renew Process Object</t>
 <t>Object Type: Process</t>
-<t>Description: Represents a renewal request for a provisioned object. Creating this object initiates the renewal</t>
+<t>Description: Represents a renewal request for a provisioned object. Creating this object initiates the renewal.</t>
 <t>Reference: [This-ID]</t>
 <t>Data Elements</t>
 <table>
@@ -4373,7 +4379,7 @@ registry MUST provide:</t>
 <td>0-1</td>
 <td>read-write</td>
 <td>External:RPP-JSContact-Profile:Card</td>
-<td>Contact information</td>
+<td>Contact information.</td>
 </tr>
 
 <tr>
@@ -4532,6 +4538,7 @@ Registration procedure: Expert Review
 <li>add extensible Processes Object component and processes element to all Data Objects #89</li>
 <li>declare the unique identifier element explicitly in every object preamble #89</li>
 <li>add &quot;Direct Access&quot; flag exposing association data elements as addressable sub-resources #89</li>
+<li>editorial pass: fix spelling, grammar, subject-verb agreement, missing articles, cross-reference wording, and copy-paste object names</li>
 </ul>
 </section>
 

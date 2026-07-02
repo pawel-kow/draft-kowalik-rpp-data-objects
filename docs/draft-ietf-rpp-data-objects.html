@@ -8,7 +8,7 @@
 <meta content="Pawel Kowalik" name="author">
 <meta content="Maarten Wullink" name="author">
 <meta content="
-       This document defines data objects for the RESTful Provisioning Protocol (RPP) and sets up IANA RPP Data Object Registry to describe and catalogue them. Specifically, it details the logical structure, constraints, and protocol operations (including their inputs, outputs and business logic) for foundational resources: domain names, contacts, and hosts. In accordance with the RPP architecture  , these definitions focus entirely on the semantics, remaining independent of any specific data representation or media type (e.g., JSON or XML). 
+       This document defines data objects for the RESTful Provisioning Protocol (RPP) and sets up the IANA RPP Data Object Registry to describe and catalogue them. Specifically, it details the logical structure, constraints, and protocol operations (including their inputs, outputs, and business logic) for foundational resources: domain names, contacts, and hosts. In accordance with the RPP architecture  , these definitions focus entirely on the semantics, remaining independent of any specific data representation or media type (e.g., JSON or XML). 
     " name="description">
 <meta content="xml2rfc 3.30.0" name="generator">
 <meta content="draft-ietf-rpp-data-objects-01 (editorial)" name="ietf.draft">
@@ -1256,7 +1256,7 @@ li > p:last-of-type:only-child {
 <h1 id="title">RESTful Provisioning Protocol (RPP) Data Objects</h1>
 <section id="section-abstract">
       <h2 id="abstract"><a href="#abstract" class="selfRef">Abstract</a></h2>
-<p id="section-abstract-1">This document defines data objects for the RESTful Provisioning Protocol (RPP) and sets up IANA RPP Data Object Registry to describe and catalogue them. Specifically, it details the logical structure, constraints, and protocol operations (including their inputs, outputs and business logic) for foundational resources: domain names, contacts, and hosts. In accordance with the RPP architecture <span>[<a href="#I-D.kowalik-rpp-architecture" class="cite xref">I-D.kowalik-rpp-architecture</a>]</span>, these definitions focus entirely on the semantics, remaining independent of any specific data representation or media type (e.g., JSON or XML).<a href="#section-abstract-1" class="pilcrow">¶</a></p>
+<p id="section-abstract-1">This document defines data objects for the RESTful Provisioning Protocol (RPP) and sets up the IANA RPP Data Object Registry to describe and catalogue them. Specifically, it details the logical structure, constraints, and protocol operations (including their inputs, outputs, and business logic) for foundational resources: domain names, contacts, and hosts. In accordance with the RPP architecture <span>[<a href="#I-D.kowalik-rpp-architecture" class="cite xref">I-D.kowalik-rpp-architecture</a>]</span>, these definitions focus entirely on the semantics, remaining independent of any specific data representation or media type (e.g., JSON or XML).<a href="#section-abstract-1" class="pilcrow">¶</a></p>
 </section>
 <div id="status-of-memo">
 <section id="section-boilerplate.1">
@@ -1848,7 +1848,7 @@ li > p:last-of-type:only-child {
 </dd>
         <dd class="break"></dd>
 </dl>
-<p id="section-1.1-4">The following terms are defined and used in this document<a href="#section-1.1-4" class="pilcrow">¶</a></p>
+<p id="section-1.1-4">The following terms are defined and used in this document:<a href="#section-1.1-4" class="pilcrow">¶</a></p>
 <span class="break"></span><dl class="dlCompact dlParallel" id="section-1.1-5">
           <dt id="section-1.1-5.1">Object Authorisation</dt>
           <dd style="margin-left: 1.5em" id="section-1.1-5.2">Authorisation data related to the object beyond the default client-level authorisation accompanying the request, in order to authorise operations on the object. Typically it is a value related to or derived from an Authorisation Information Object provisioned with the object.<a href="#section-1.1-5.2" class="pilcrow">¶</a>
@@ -1867,7 +1867,7 @@ li > p:last-of-type:only-child {
 </dd>
           <dd class="break"></dd>
 <dt id="section-1.1-5.9">Owner Data Object</dt>
-          <dd style="margin-left: 1.5em" id="section-1.1-5.10">A Data Object which a process (represented as Process Object) was initiated upon and which owns this Process Object<a href="#section-1.1-5.10" class="pilcrow">¶</a>
+          <dd style="margin-left: 1.5em" id="section-1.1-5.10">A Data Object which a process (represented as Process Object) was initiated upon and which owns this Process Object.<a href="#section-1.1-5.10" class="pilcrow">¶</a>
 </dd>
           <dd class="break"></dd>
 <dt id="section-1.1-5.11">Unique Identifier</dt>
@@ -1919,7 +1919,7 @@ li > p:last-of-type:only-child {
           <h4 id="name-decimal">
 <a href="#section-2.1.4" class="section-number selfRef">2.1.4. </a><a href="#name-decimal" class="section-name selfRef">Decimal</a>
           </h4>
-<p id="section-2.1.4-1">Decimal is a number providing an exact, base-10 representation of fractional values within a defined precision. Usage of this type MUST impose additional constraints on decimal values, such as precision or range, based on specific data element definitions. An example of a decimal is 3.14159.<a href="#section-2.1.4-1" class="pilcrow">¶</a></p>
+<p id="section-2.1.4-1">A Decimal is a number providing an exact, base-10 representation of fractional values within a defined precision. Usage of this type MUST impose additional constraints on decimal values, such as precision or range, based on specific data element definitions. An example of a decimal is 3.14159.<a href="#section-2.1.4-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="date">
@@ -1935,7 +1935,7 @@ li > p:last-of-type:only-child {
           <h4 id="name-timestamp">
 <a href="#section-2.1.6" class="section-number selfRef">2.1.6. </a><a href="#name-timestamp" class="section-name selfRef">Timestamp</a>
           </h4>
-<p id="section-2.1.6-1">Timestamp (Date and time attribute) values MUST be represented in Universal Coordinated Time (UTC) using the Gregorian calendar using date-time form as defined in <span>[<a href="#RFC3339" class="cite xref">RFC3339</a>]</span>. In EPP Compatibility Profile upper case "T" and "Z" characters MUST be used. An example of a timestamp is <code>2025-10-27T09:42:51Z</code>.<a href="#section-2.1.6-1" class="pilcrow">¶</a></p>
+<p id="section-2.1.6-1">Timestamp (Date and time attribute) values MUST be represented in Universal Coordinated Time (UTC) using the Gregorian calendar in date-time form as defined in <span>[<a href="#RFC3339" class="cite xref">RFC3339</a>]</span>. In EPP Compatibility Profile upper case "T" and "Z" characters MUST be used. An example of a timestamp is <code>2025-10-27T09:42:51Z</code>.<a href="#section-2.1.6-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="url">
@@ -2187,7 +2187,7 @@ The data type of a data element may also be a reference to another data object, 
           </ul>
 <p id="section-2.6.4-4">The transfer process MAY be immediate or follow a multi-step workflow depending on server policy. If the server implements immediate transfers, the Approve and Reject operations need not be supported; the server completes the transfer upon receipt of the Create operation.<a href="#section-2.6.4-4" class="pilcrow">¶</a></p>
 <p id="section-2.6.4-5">The server MAY implement local policies to prevent transfers from stalling and implement a form of automated transfer escalation, approval or cancellation when such a stalled process is recognised.<a href="#section-2.6.4-5" class="pilcrow">¶</a></p>
-<p id="section-2.6.4-6">All transfer operations act on or return the Transfer Process Object and are executed in the context of Owner Data Object the operation is created upon.<a href="#section-2.6.4-6" class="pilcrow">¶</a></p>
+<p id="section-2.6.4-6">All transfer operations act on or return the Transfer Process Object and are executed in the context of the Owner Data Object the operation is created upon.<a href="#section-2.6.4-6" class="pilcrow">¶</a></p>
 <aside id="section-2.6.4-7">
             <p id="section-2.6.4-7.1">TODO: The server MUST notify the current sponsoring client of a pending transfer request. The notification mechanism is not defined in this document.<a href="#section-2.6.4-7.1" class="pilcrow">¶</a></p>
 <p id="section-2.6.4-7.2">TODO: Transfer-specific error conditions (object not eligible for transfer, object pending transfer, object not pending transfer) are not defined in this document.<a href="#section-2.6.4-7.2" class="pilcrow">¶</a></p>
@@ -2209,7 +2209,7 @@ The data type of a data element may also be a reference to another data object, 
           </ul>
 <p id="section-2.6.5-4">Whether a restore report is required after a restore request is a matter of server policy. If the server does not require a restore report, the object returns to its pre-deletion status immediately upon a successful Create operation, bypassing the <code>pendingRestore</code> state.<a href="#section-2.6.5-4" class="pilcrow">¶</a></p>
 <p id="section-2.6.5-5">The Create operation MAY include the restore report inline to complete both steps atomically in a single operation.<a href="#section-2.6.5-5" class="pilcrow">¶</a></p>
-<p id="section-2.6.5-6">All restore operations act on or return the Restore Process Object and are executed in the context of Owner Data Object the operation is created upon.<a href="#section-2.6.5-6" class="pilcrow">¶</a></p>
+<p id="section-2.6.5-6">All restore operations act on or return the Restore Process Object and are executed in the context of the Owner Data Object the operation is created upon.<a href="#section-2.6.5-6" class="pilcrow">¶</a></p>
 <div id="redemption-grace-period-state-diagram">
 <section id="section-2.6.5.1">
             <h5 id="name-redemption-grace-period-sta">
@@ -2313,7 +2313,7 @@ The reference MUST use the following format: <code>External:&lt;specification-id
 <div class="alignLeft art-text artwork" id="section-3.1-2">
 <pre>identifier = "External:" TYPEID ":" TYPEID
 
-TYPEID = ALPHA *( ALPHA / DIGIT / "-" / "_" )
+TYPEID = ALPHA *( ALPHA / DIGIT / "-" / "_" ) ( ALPHA / DIGIT )
 </pre><a href="#section-3.1-2" class="pilcrow">¶</a>
 </div>
 </section>
@@ -2333,9 +2333,20 @@ If a newer version updates the defining specification, the RPP specification MUS
 <a href="#section-3.3" class="section-number selfRef">3.3. </a><a href="#name-jscontact" class="section-name selfRef">JSContact</a>
         </h3>
 <p id="section-3.3-1">This specification references the RPP JSContact Profile for RPP defined in <span>[<a href="#I-D.wullink-rpp-jscontact-profile" class="cite xref">I-D.wullink-rpp-jscontact-profile</a>]</span> as an external specification for representing contact information. The JSContact <code>Card</code> data type defined in <span>[<a href="#RFC9553" class="cite xref">RFC9553</a>]</span> MUST be used for the representation of contact information. When referring to this type the following values MUST be used in the Data Type reference identifiers:<a href="#section-3.3-1" class="pilcrow">¶</a></p>
-<p id="section-3.3-2">specification-identifier: RPP-JSContact-Profile
-type-name: Card
-Data Type: External:RPP-JSContact-Profile:Card<a href="#section-3.3-2" class="pilcrow">¶</a></p>
+<span class="break"></span><dl class="dlCompact dlParallel" id="section-3.3-2">
+          <dt id="section-3.3-2.1">specification-identifier:</dt>
+          <dd style="margin-left: 1.5em" id="section-3.3-2.2">RPP-JSContact-Profile<a href="#section-3.3-2.2" class="pilcrow">¶</a>
+</dd>
+          <dd class="break"></dd>
+<dt id="section-3.3-2.3">type-name:</dt>
+          <dd style="margin-left: 1.5em" id="section-3.3-2.4">Card<a href="#section-3.3-2.4" class="pilcrow">¶</a>
+</dd>
+          <dd class="break"></dd>
+<dt id="section-3.3-2.5">Data Type:</dt>
+          <dd style="margin-left: 1.5em" id="section-3.3-2.6">External:RPP-JSContact-Profile:Card<a href="#section-3.3-2.6" class="pilcrow">¶</a>
+</dd>
+        <dd class="break"></dd>
+</dl>
 </section>
 </div>
 </section>
@@ -2359,9 +2370,9 @@ Data Type: External:RPP-JSContact-Profile:Card<a href="#section-3.3-2" class="pi
         <h3 id="name-client-identifier">
 <a href="#section-4.2" class="section-number selfRef">4.2. </a><a href="#name-client-identifier" class="section-name selfRef">Client Identifier</a>
         </h3>
-<p id="section-4.2-1">Client identifiers are character strings with a specified minimum length, a specified maximum length, and a specified format. Contact identifiers use the "clIDType" client identifier syntax described in <span>[<a href="#RFC5730" class="cite xref">RFC5730</a>]</span>.<a href="#section-4.2-1" class="pilcrow">¶</a></p>
+<p id="section-4.2-1">Client identifiers are character strings with a specified minimum length, a specified maximum length, and a specified format. Client identifiers use the "clIDType" client identifier syntax described in <span>[<a href="#RFC5730" class="cite xref">RFC5730</a>]</span>.<a href="#section-4.2-1" class="pilcrow">¶</a></p>
 <aside id="section-4.2-2">
-          <p id="section-4.2-2.1">TBC: do we need this or is it a relation with an entity/RFC8543 organisation? If registrars modeled are as first class objects (organisations), then clID is nothing else but a reference to this organisation, so maybe no need to define syntax separately on identifier level (or in other words it would be defined on this object). R8.1 in the form of -02 RPP requirements includes RFC8543.<a href="#section-4.2-2.1" class="pilcrow">¶</a></p>
+          <p id="section-4.2-2.1">TBC: do we need this or is it a relation with an entity/RFC8543 organisation? If registrars are modelled as first class objects (organisations), then clID is nothing else but a reference to this organisation, so maybe no need to define syntax separately on identifier level (or in other words it would be defined on this object). R8.1 in the form of -02 RPP requirements includes RFC8543.<a href="#section-4.2-2.1" class="pilcrow">¶</a></p>
 </aside>
 </section>
 </div>
@@ -2380,7 +2391,7 @@ Data Type: External:RPP-JSContact-Profile:Card<a href="#section-3.3-2" class="pi
       <h2 id="name-associations">
 <a href="#section-5" class="section-number selfRef">5. </a><a href="#name-associations" class="section-name selfRef">Associations</a>
       </h2>
-<p id="section-5-1">RPP allows for different types of associations (relationship) between the objects. The association may be added between 2 objects with own independent lifecycle (UML aggregation) or in the relation when one object's existence and lifecycle is bound to the other parent/owner object (UML composition).
+<p id="section-5-1">RPP allows for different types of associations (relationships) between the objects. The association may be added between 2 objects with own independent lifecycle (UML aggregation) or in the relation when one object's existence and lifecycle is bound to the other parent/owner object (UML composition).
 In both cases, especially if the relation allows for cardinality higher than one on either side, the association may be assigned additional attributes, not being part of an object on either side of relation. In many cases such relation would be attributed with a single text string label, describing a role or a type of relation. Depending on the context this value might be unique, which allows using such label as a key in a dictionary.<a href="#section-5-1" class="pilcrow">¶</a></p>
 <p id="section-5-2">The following generic Association Types are defined for RPP:<a href="#section-5-2" class="pilcrow">¶</a></p>
 <div id="aggregation">
@@ -2390,8 +2401,8 @@ In both cases, especially if the relation allows for cardinality higher than one
         </h3>
 <p id="section-5.1-1">Notation: Aggregation[Type]<a href="#section-5.1-1" class="pilcrow">¶</a></p>
 <p id="section-5.1-2">A relation between two independent objects.<a href="#section-5.1-2" class="pilcrow">¶</a></p>
-<p id="section-5.1-3">If the cardinality of target object is more than 1, this represents an ordered array.
-It MUST be assured that the same unchanged data is always inserted in the same order in order to allow stable reference by position to data elements. In case of data insertions, deletions or updates the remaining of the data SHALL preserve its order.<a href="#section-5.1-3" class="pilcrow">¶</a></p>
+<p id="section-5.1-3">If the cardinality of the target object is more than 1, this represents an ordered array.
+It MUST be assured that the same unchanged data is always inserted in the same order in order to allow stable reference by position to data elements. In case of data insertions, deletions, or updates the remainder of the data SHALL preserve its order.<a href="#section-5.1-3" class="pilcrow">¶</a></p>
 <p id="section-5.1-4">Example aggregation having cardinality 1:<a href="#section-5.1-4" class="pilcrow">¶</a></p>
 <div class="lang-ascii sourcecode" id="section-5.1-5">
 <pre>+-------------------+
@@ -2432,8 +2443,8 @@ It MUST be assured that the same unchanged data is always inserted in the same o
         </h3>
 <p id="section-5.2-1">Notation: Composition[Type] or Type<a href="#section-5.2-1" class="pilcrow">¶</a></p>
 <p id="section-5.2-2">A relation between an independent parent object and 1 or more dependent child object(s).<a href="#section-5.2-2" class="pilcrow">¶</a></p>
-<p id="section-5.2-3">If the cardinality of target object is more than 1, this represents an ordered array.
-It MUST be assured that the same unchanged data is always inserted in the same order in order to allow stable reference by position to data elements. In case of data insertions, deletions or updates the remaining of the data SHALL preserve its order.<a href="#section-5.2-3" class="pilcrow">¶</a></p>
+<p id="section-5.2-3">If the cardinality of the target object is more than 1, this represents an ordered array.
+It MUST be assured that the same unchanged data is always inserted in the same order in order to allow stable reference by position to data elements. In case of data insertions, deletions, or updates the remainder of the data SHALL preserve its order.<a href="#section-5.2-3" class="pilcrow">¶</a></p>
 <p id="section-5.2-4">Example composition having cardinality 1:<a href="#section-5.2-4" class="pilcrow">¶</a></p>
 <div class="lang-ascii sourcecode" id="section-5.2-5">
 <pre>+-------------------+
@@ -2470,7 +2481,7 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 <a href="#section-5.3" class="section-number selfRef">5.3. </a><a href="#name-labelled-aggregation" class="section-name selfRef">Labelled Aggregation</a>
         </h3>
 <p id="section-5.3-1">Notation: LabelledAggregation[Type]<a href="#section-5.3-1" class="pilcrow">¶</a></p>
-<p id="section-5.3-2">A relation between two independent object with single text string attribute. Multiple associations with the same label are allowed and represent an unordered array.<a href="#section-5.3-2" class="pilcrow">¶</a></p>
+<p id="section-5.3-2">A relation between two independent objects with a single text string attribute. Multiple associations with the same label are allowed and represent an unordered array.<a href="#section-5.3-2" class="pilcrow">¶</a></p>
 <p id="section-5.3-3">A type defining such association MUST define Label Description with semantics of the label and Label Constraints with constraints related to the label.<a href="#section-5.3-3" class="pilcrow">¶</a></p>
 <p id="section-5.3-4">Example labelled aggregation:<a href="#section-5.3-4" class="pilcrow">¶</a></p>
 <div class="lang-ascii sourcecode" id="section-5.3-5">
@@ -2504,7 +2515,7 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 <a href="#section-5.4" class="section-number selfRef">5.4. </a><a href="#name-dictionary-aggregation" class="section-name selfRef">Dictionary Aggregation</a>
         </h3>
 <p id="section-5.4-1">Notation: DictionaryAggregation[Type]<a href="#section-5.4-1" class="pilcrow">¶</a></p>
-<p id="section-5.4-2">A relation between two independent object with single text string attribute. Association labels MUST be unique allowing it to be used as dictionary key.<a href="#section-5.4-2" class="pilcrow">¶</a></p>
+<p id="section-5.4-2">A relation between two independent objects with a single text string attribute. Association labels MUST be unique, allowing them to be used as dictionary keys.<a href="#section-5.4-2" class="pilcrow">¶</a></p>
 <p id="section-5.4-3">A type defining such association MUST define Label Description with semantics of the label and Label Constraints with constraints related to the label.<a href="#section-5.4-3" class="pilcrow">¶</a></p>
 <p id="section-5.4-4">Example Dictionary Aggregation:<a href="#section-5.4-4" class="pilcrow">¶</a></p>
 <div class="lang-ascii sourcecode" id="section-5.4-5">
@@ -2532,7 +2543,7 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 <a href="#section-5.5" class="section-number selfRef">5.5. </a><a href="#name-labelled-composition" class="section-name selfRef">Labelled Composition</a>
         </h3>
 <p id="section-5.5-1">Notation: LabelledComposition[Type]<a href="#section-5.5-1" class="pilcrow">¶</a></p>
-<p id="section-5.5-2">A relation between an independent parent object and a dependent child object with single text string attribute. Multiple associations with the same label are allowed.<a href="#section-5.5-2" class="pilcrow">¶</a></p>
+<p id="section-5.5-2">A relation between an independent parent object and a dependent child object with a single text string attribute. Multiple associations with the same label are allowed.<a href="#section-5.5-2" class="pilcrow">¶</a></p>
 <p id="section-5.5-3">A type defining such association MUST define Label Description with semantics of the label and Label Constraints with constraints related to the label.<a href="#section-5.5-3" class="pilcrow">¶</a></p>
 <p id="section-5.5-4">Example Labelled Composition:<a href="#section-5.5-4" class="pilcrow">¶</a></p>
 <div class="lang-ascii sourcecode" id="section-5.5-5">
@@ -2565,7 +2576,7 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 <a href="#section-5.6" class="section-number selfRef">5.6. </a><a href="#name-dictionary-composition" class="section-name selfRef">Dictionary Composition</a>
         </h3>
 <p id="section-5.6-1">Notation: DictionaryComposition[Type]<a href="#section-5.6-1" class="pilcrow">¶</a></p>
-<p id="section-5.6-2">A relation between an independent parent object and a dependent child object with single text string attribute. Only single association with the same label is allowed allowing it to be used as dictionary key.<a href="#section-5.6-2" class="pilcrow">¶</a></p>
+<p id="section-5.6-2">A relation between an independent parent object and a dependent child object with a single text string attribute. Only a single association with the same label is allowed, allowing it to be used as a dictionary key.<a href="#section-5.6-2" class="pilcrow">¶</a></p>
 <p id="section-5.6-3">A type defining such association MUST define Label Description with semantics of the label and Label Constraints with constraints related to the label.<a href="#section-5.6-3" class="pilcrow">¶</a></p>
 <p id="section-5.6-4">Example Dictionary Composition:<a href="#section-5.6-4" class="pilcrow">¶</a></p>
 <div class="lang-ascii sourcecode" id="section-5.6-5">
@@ -3205,7 +3216,7 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 </li>
           <li class="compact" id="section-6.7-1.2">Identifier: authInfo<a href="#section-6.7-1.2" class="pilcrow">¶</a>
 </li>
-          <li class="compact" id="section-6.7-1.3">Description: Contains information used to authorise operations on a data object. It may hold different kind of authorisation information.<a href="#section-6.7-1.3" class="pilcrow">¶</a>
+          <li class="compact" id="section-6.7-1.3">Description: Contains information used to authorise operations on a data object. It may hold different kinds of authorisation information.<a href="#section-6.7-1.3" class="pilcrow">¶</a>
 </li>
           <li class="compact" id="section-6.7-1.4">
             <p id="section-6.7-1.4.1">Data Elements:<a href="#section-6.7-1.4.1" class="pilcrow">¶</a></p>
@@ -3228,7 +3239,7 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 <ul class="compact">
 <li class="compact" id="section-6.7-1.4.2.1.2.6.2.1">The value MUST be one of the values registered at IANA as defined in [I-D.draft-wullink-rpp-core].<a href="#section-6.7-1.4.2.1.2.6.2.1" class="pilcrow">¶</a>
 </li>
-                      <li class="compact" id="section-6.7-1.4.2.1.2.6.2.2">In EPP Compatibility Profile this value MUST be set to <code>authinfo</code> if standard password base authorisation is used<a href="#section-6.7-1.4.2.1.2.6.2.2" class="pilcrow">¶</a>
+                      <li class="compact" id="section-6.7-1.4.2.1.2.6.2.2">In EPP Compatibility Profile this value MUST be set to <code>authinfo</code> if standard password-based authorisation is used<a href="#section-6.7-1.4.2.1.2.6.2.2" class="pilcrow">¶</a>
 </li>
                     </ul>
 </li>
@@ -3245,7 +3256,7 @@ It MUST be assured that the same unchanged data is always inserted in the same o
 </li>
                   <li class="compact" id="section-6.7-1.4.2.2.2.4">Data Type: String<a href="#section-6.7-1.4.2.2.2.4" class="pilcrow">¶</a>
 </li>
-                  <li class="compact" id="section-6.7-1.4.2.2.2.5">Description: The value of the authorisation information. It might be as simple as password string, but also more complex values like public key certificates or tokens encoded as string are possible.<a href="#section-6.7-1.4.2.2.2.5" class="pilcrow">¶</a>
+                  <li class="compact" id="section-6.7-1.4.2.2.2.5">Description: The value of the authorisation information. It might be as simple as a password string, but also more complex values like public key certificates or tokens encoded as string are possible.<a href="#section-6.7-1.4.2.2.2.5" class="pilcrow">¶</a>
 </li>
                   <li class="compact" id="section-6.7-1.4.2.2.2.6">
                     <p id="section-6.7-1.4.2.2.2.6.1">Constraints:<a href="#section-6.7-1.4.2.2.2.6.1" class="pilcrow">¶</a></p>
@@ -4522,7 +4533,7 @@ It MUST be assured that the same unchanged data is always inserted in the same o
               <li class="compact normal" id="section-8.2-2.3.2.6">
                 <p id="section-8.2-2.3.2.6.1">Constraints:<a href="#section-8.2-2.3.2.6.1" class="pilcrow">¶</a></p>
 <ul class="compact normal">
-<li class="compact normal" id="section-8.2-2.3.2.6.2.1">Possible combinations of Status Object Labels is specified in <span><a href="https://rfc-editor.org/rfc/rfc5731#section-2.3" class="relref">Section 2.3</a> of [<a href="#RFC5731" class="cite xref">RFC5731</a>]</span>.<a href="#section-8.2-2.3.2.6.2.1" class="pilcrow">¶</a>
+<li class="compact normal" id="section-8.2-2.3.2.6.2.1">Possible combinations of Status Object Labels are specified in <span><a href="https://rfc-editor.org/rfc/rfc5731#section-2.3" class="relref">Section 2.3</a> of [<a href="#RFC5731" class="cite xref">RFC5731</a>]</span>.<a href="#section-8.2-2.3.2.6.2.1" class="pilcrow">¶</a>
 </li>
                 </ul>
 </li>
@@ -4888,7 +4899,7 @@ is "all".<a href="#section-8.3.2-5.1.2.5" class="pilcrow">¶</a>
           <h4 id="name-renew-operations-2">
 <a href="#section-8.3.5" class="section-number selfRef">8.3.5. </a><a href="#name-renew-operations-2" class="section-name selfRef">Renew Operations</a>
           </h4>
-<p id="section-8.3.5-1">The Domain Name Data Object supports the renew operations defined in the <a href="#renew-ops" class="auto internal xref">Section 2.6.6</a>. The renewal of a domain name changes the expiry date of the domain object.<a href="#section-8.3.5-1" class="pilcrow">¶</a></p>
+<p id="section-8.3.5-1">The Domain Name Data Object supports the renew operations defined in <a href="#renew-ops" class="auto internal xref">Section 2.6.6</a>. The renewal of a domain name changes the expiry date of the domain object.<a href="#section-8.3.5-1" class="pilcrow">¶</a></p>
 <div id="renew-create-operation">
 <section id="section-8.3.5.1">
             <h5 id="name-renew-create-operation">
@@ -4917,7 +4928,7 @@ is "all".<a href="#section-8.3.2-5.1.2.5" class="pilcrow">¶</a>
           <h4 id="name-transfer-operations-2">
 <a href="#section-8.3.6" class="section-number selfRef">8.3.6. </a><a href="#name-transfer-operations-2" class="section-name selfRef">Transfer Operations</a>
           </h4>
-<p id="section-8.3.6-1">The Domain Name Data Object supports the common transfer operations defined in the <a href="#transfer-operations" class="auto internal xref">Section 2.6.4</a>. The transfer of a domain name changes the sponsoring client of the domain object.<a href="#section-8.3.6-1" class="pilcrow">¶</a></p>
+<p id="section-8.3.6-1">The Domain Name Data Object supports the common transfer operations defined in <a href="#transfer-operations" class="auto internal xref">Section 2.6.4</a>. The transfer of a domain name changes the sponsoring client of the domain object.<a href="#section-8.3.6-1" class="pilcrow">¶</a></p>
 <p id="section-8.3.6-2">Transfer of a domain object MUST implicitly transfer all host objects that are subordinate to the domain object. For example, if domain object "example.com" is transferred and host object "ns1.example.com" exists, the host object MUST be transferred as part of the "example.com" transfer process.<a href="#section-8.3.6-2" class="pilcrow">¶</a></p>
 <p id="section-8.3.6-3">In addition to the common Transfer Process Object elements, the following object-specific data elements are included:<a href="#section-8.3.6-3" class="pilcrow">¶</a></p>
 <ul class="compact">
@@ -4976,8 +4987,8 @@ is "all".<a href="#section-8.3.2-5.1.2.5" class="pilcrow">¶</a>
           <h4 id="name-restore-operations-2">
 <a href="#section-8.3.7" class="section-number selfRef">8.3.7. </a><a href="#name-restore-operations-2" class="section-name selfRef">Restore Operations</a>
           </h4>
-<p id="section-8.3.7-1">The Domain Name Data Object supports the restore operations defined in the <a href="#restore-ops" class="auto internal xref">Section 2.6.5</a>. These operations are OPTIONAL and are only available when the RGP feature is supported.<a href="#section-8.3.7-1" class="pilcrow">¶</a></p>
-<p id="section-8.3.7-2">No domain-specific transient data elements extend the common restore operations beyond those defined in the <a href="#restore-ops" class="auto internal xref">Section 2.6.5</a>.<a href="#section-8.3.7-2" class="pilcrow">¶</a></p>
+<p id="section-8.3.7-1">The Domain Name Data Object supports the restore operations defined in <a href="#restore-ops" class="auto internal xref">Section 2.6.5</a>. These operations are OPTIONAL and are only available when the RGP feature is supported.<a href="#section-8.3.7-1" class="pilcrow">¶</a></p>
+<p id="section-8.3.7-2">No domain-specific transient data elements extend the common restore operations beyond those defined in <a href="#restore-ops" class="auto internal xref">Section 2.6.5</a>.<a href="#section-8.3.7-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -5126,7 +5137,7 @@ is "all".<a href="#section-8.3.2-5.1.2.5" class="pilcrow">¶</a>
         <h3 id="name-data-elements-2">
 <a href="#section-9.2" class="section-number selfRef">9.2. </a><a href="#name-data-elements-2" class="section-name selfRef">Data Elements</a>
         </h3>
-<p id="section-9.2-1">The following data elements are defined for the Domain Name Data Object.<a href="#section-9.2-1" class="pilcrow">¶</a></p>
+<p id="section-9.2-1">The following data elements are defined for the Contact Data Object.<a href="#section-9.2-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-9.2-2.1">
             <p id="section-9.2-2.1.1">Handle ID<a href="#section-9.2-2.1.1" class="pilcrow">¶</a></p>
@@ -5185,9 +5196,9 @@ is "all".<a href="#section-8.3.2-5.1.2.5" class="pilcrow">¶</a>
               <li class="compact normal" id="section-9.2-2.3.2.6">
                 <p id="section-9.2-2.3.2.6.1">Constraints:<a href="#section-9.2-2.3.2.6.1" class="pilcrow">¶</a></p>
 <ul class="compact normal">
-<li class="compact normal" id="section-9.2-2.3.2.6.2.1">Possible combinations of Domain Status Labels is specified in <span><a href="https://rfc-editor.org/rfc/rfc5733#section-2.2" class="relref">Section 2.2</a> of [<a href="#RFC5733" class="cite xref">RFC5733</a>]</span><a href="#section-9.2-2.3.2.6.2.1" class="pilcrow">¶</a>
+<li class="compact normal" id="section-9.2-2.3.2.6.2.1">Possible combinations of Contact Status Labels are specified in <span><a href="https://rfc-editor.org/rfc/rfc5733#section-2.2" class="relref">Section 2.2</a> of [<a href="#RFC5733" class="cite xref">RFC5733</a>]</span><a href="#section-9.2-2.3.2.6.2.1" class="pilcrow">¶</a>
 </li>
-                  <li class="compact normal" id="section-9.2-2.3.2.6.2.2">The value MUST be one of the status tokens defined in the IANA registry for domain statuses.<a href="#section-9.2-2.3.2.6.2.2" class="pilcrow">¶</a>
+                  <li class="compact normal" id="section-9.2-2.3.2.6.2.2">The value MUST be one of the status tokens defined in the IANA registry for contact statuses.<a href="#section-9.2-2.3.2.6.2.2" class="pilcrow">¶</a>
 </li>
                   <li class="compact normal" id="section-9.2-2.3.2.6.2.3">The initial value list MAY be as defined in <span>[<a href="#RFC5733" class="cite xref">RFC5733</a>]</span>. In this case the values MUST have the same semantics.<a href="#section-9.2-2.3.2.6.2.3" class="pilcrow">¶</a>
 </li>
@@ -5408,7 +5419,7 @@ is "all".<a href="#section-8.3.2-5.1.2.5" class="pilcrow">¶</a>
           <h4 id="name-transfer-operations-3">
 <a href="#section-9.3.5" class="section-number selfRef">9.3.5. </a><a href="#name-transfer-operations-3" class="section-name selfRef">Transfer Operations</a>
           </h4>
-<p id="section-9.3.5-1">The Contact Data Object supports the common transfer operations defined in the <a href="#transfer-operations" class="auto internal xref">Section 2.6.4</a>. The transfer of a contact changes the sponsoring client of the contact object.<a href="#section-9.3.5-1" class="pilcrow">¶</a></p>
+<p id="section-9.3.5-1">The Contact Data Object supports the common transfer operations defined in <a href="#transfer-operations" class="auto internal xref">Section 2.6.4</a>. The transfer of a contact changes the sponsoring client of the contact object.<a href="#section-9.3.5-1" class="pilcrow">¶</a></p>
 <p id="section-9.3.5-2">No object-specific transient data elements are defined for contact transfer operations beyond the common transfer data elements.<a href="#section-9.3.5-2" class="pilcrow">¶</a></p>
 </section>
 </div>
@@ -5492,7 +5503,7 @@ is "all".<a href="#section-8.3.2-5.1.2.5" class="pilcrow">¶</a>
 </li>
               <li class="compact normal" id="section-10.2-2.3.2.5">Description: The current status descriptors associated with the host.<a href="#section-10.2-2.3.2.5" class="pilcrow">¶</a>
 </li>
-              <li class="compact normal" id="section-10.2-2.3.2.6">Constraints: Possible combinations of Host Status Labels is specified in <span><a href="https://rfc-editor.org/rfc/rfc5732#section-2.3" class="relref">Section 2.3</a> of [<a href="#RFC5732" class="cite xref">RFC5732</a>]</span><a href="#section-10.2-2.3.2.6" class="pilcrow">¶</a>
+              <li class="compact normal" id="section-10.2-2.3.2.6">Constraints: Possible combinations of Host Status Labels are specified in <span><a href="https://rfc-editor.org/rfc/rfc5732#section-2.3" class="relref">Section 2.3</a> of [<a href="#RFC5732" class="cite xref">RFC5732</a>]</span><a href="#section-10.2-2.3.2.6" class="pilcrow">¶</a>
 </li>
             </ul>
 </li>
@@ -5645,8 +5656,8 @@ is "all".<a href="#section-8.3.2-5.1.2.5" class="pilcrow">¶</a>
           <h4 id="name-restore-operations-3">
 <a href="#section-10.3.5" class="section-number selfRef">10.3.5. </a><a href="#name-restore-operations-3" class="section-name selfRef">Restore Operations</a>
           </h4>
-<p id="section-10.3.5-1">The Host Data Object supports the restore operations defined in the <a href="#restore-ops" class="auto internal xref">Section 2.6.5</a>. These operations are OPTIONAL and are only available when the RGP feature for Host Data Object is supported by the server.<a href="#section-10.3.5-1" class="pilcrow">¶</a></p>
-<p id="section-10.3.5-2">No domain-specific transient data elements extend the common restore operations beyond those defined in the <a href="#restore-ops" class="auto internal xref">Section 2.6.5</a>.<a href="#section-10.3.5-2" class="pilcrow">¶</a></p>
+<p id="section-10.3.5-1">The Host Data Object supports the restore operations defined in <a href="#restore-ops" class="auto internal xref">Section 2.6.5</a>. These operations are OPTIONAL and are only available when the RGP feature for Host Data Object is supported by the server.<a href="#section-10.3.5-1" class="pilcrow">¶</a></p>
+<p id="section-10.3.5-2">No host-specific transient data elements extend the common restore operations beyond those defined in <a href="#restore-ops" class="auto internal xref">Section 2.6.5</a>.<a href="#section-10.3.5-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -6246,7 +6257,7 @@ is "all".<a href="#section-8.3.2-5.1.2.5" class="pilcrow">¶</a>
 <li class="compact" id="section-12.3.4-1.1">Identifier: delete<a href="#section-12.3.4-1.1" class="pilcrow">¶</a>
 </li>
           </ul>
-<p id="section-12.3.4-2">The Delete operation removes a specific User Object<a href="#section-12.3.4-2" class="pilcrow">¶</a></p>
+<p id="section-12.3.4-2">The Delete operation removes a specific User Object.<a href="#section-12.3.4-2" class="pilcrow">¶</a></p>
 <ul class="compact">
 <li class="compact" id="section-12.3.4-3.1">
               <p id="section-12.3.4-3.1.1">Authorisation:<a href="#section-12.3.4-3.1.1" class="pilcrow">¶</a></p>
@@ -6514,7 +6525,7 @@ registry MUST provide:<a href="#section-13.1.2-2.3.1" class="pilcrow">¶</a></p>
                 <td class="text-left" rowspan="1" colspan="1">1</td>
                 <td class="text-left" rowspan="1" colspan="1">create-only</td>
                 <td class="text-left" rowspan="1" colspan="1">String</td>
-                <td class="text-left" rowspan="1" colspan="1">The value of the authorisation information. It might be as simple as password string, but also more complex values like public key certificates or tokens encoded as string are possible.</td>
+                <td class="text-left" rowspan="1" colspan="1">The value of the authorisation information. It might be as simple as a password string, but also more complex values like public key certificates or tokens encoded as string are possible.</td>
               </tr>
             </tbody>
           </table>
@@ -6823,7 +6834,7 @@ registry MUST provide:<a href="#section-13.1.2-2.3.1" class="pilcrow">¶</a></p>
 <p id="section-13.1.3-87">Object: renewProcess<a href="#section-13.1.3-87" class="pilcrow">¶</a></p>
 <p id="section-13.1.3-88">Object Name: Renew Process Object<a href="#section-13.1.3-88" class="pilcrow">¶</a></p>
 <p id="section-13.1.3-89">Object Type: Process<a href="#section-13.1.3-89" class="pilcrow">¶</a></p>
-<p id="section-13.1.3-90">Description: Represents a renewal request for a provisioned object. Creating this object initiates the renewal<a href="#section-13.1.3-90" class="pilcrow">¶</a></p>
+<p id="section-13.1.3-90">Description: Represents a renewal request for a provisioned object. Creating this object initiates the renewal.<a href="#section-13.1.3-90" class="pilcrow">¶</a></p>
 <p id="section-13.1.3-91">Reference: [This-ID]<a href="#section-13.1.3-91" class="pilcrow">¶</a></p>
 <p id="section-13.1.3-92">Data Elements<a href="#section-13.1.3-92" class="pilcrow">¶</a></p>
 <table class="center" id="table-11">
@@ -7686,7 +7697,7 @@ registry MUST provide:<a href="#section-13.1.2-2.3.1" class="pilcrow">¶</a></p>
                 <td class="text-left" rowspan="1" colspan="1">0-1</td>
                 <td class="text-left" rowspan="1" colspan="1">read-write</td>
                 <td class="text-left" rowspan="1" colspan="1">External:RPP-JSContact-Profile:Card</td>
-                <td class="text-left" rowspan="1" colspan="1">Contact information</td>
+                <td class="text-left" rowspan="1" colspan="1">Contact information.</td>
               </tr>
               <tr>
                 <td class="text-left" rowspan="1" colspan="1">contacts</td>
@@ -7872,6 +7883,8 @@ Registration procedure: Expert Review
           <li class="compact" id="section-15.1-1.7">declare the unique identifier element explicitly in every object preamble #89<a href="#section-15.1-1.7" class="pilcrow">¶</a>
 </li>
           <li class="compact" id="section-15.1-1.8">add "Direct Access" flag exposing association data elements as addressable sub-resources #89<a href="#section-15.1-1.8" class="pilcrow">¶</a>
+</li>
+          <li class="compact" id="section-15.1-1.9">editorial pass: fix spelling, grammar, subject-verb agreement, missing articles, cross-reference wording, and copy-paste object names<a href="#section-15.1-1.9" class="pilcrow">¶</a>
 </li>
         </ul>
 </section>
