@@ -84,6 +84,9 @@ Process Object
 Owner Data Object
 : A Data Object which a process (represented as Process Object) was initiated upon and which owns this Process Object
 
+Unique Identifier
+: The data element of an object whose value uniquely identifies an instance of that object within its applicable scope. The scope is defined by the object: for a Data Object it is typically the server, whereas for a Process Object it is the Owner Data Object. An object definition names its Unique Identifier explicitly in the object preamble. Objects that have no independent identity, such as component objects embedded within another object, have no Unique Identifier.
+
 # Resource Definition Principles
 
 ## Primitive Data Types
@@ -179,6 +182,15 @@ The definition of each data element within an object consists of the following a
   * create-only: The element's value is provided during the object's creation and cannot be modified thereafter.
   * read-only: The element's value is managed by the server. It cannot be set or modified directly by the client, though it may change as a result of server-side operations.
   * read-write: The element's value can be set and modified by the client.
+* Direct Access: An optional flag indicating whether the associated object or objects are additionally exposed as an addressable sub-resource of the containing object. When set to `true`, the associated object or objects are exposed as a sub-resource that can be addressed independently of the containing object, in addition to their inline representation within it. When absent or set to `false`, the element is accessed only inline. The default value is `false`.
+
+The Direct Access flag is applicable only to a data element whose Data Type is an association (Aggregation, Composition, Labelled Aggregation, Dictionary Aggregation, Labelled Composition, or Dictionary Composition) with a Data Object, Component Object, or Process Object, of any cardinality. Where such a data element has a cardinality greater than `1`, the associated object type MUST define a Unique Identifier, so that an individual associated object can be addressed unambiguously among the collection.
+
+## Reserved Property Names
+
+Data object definitions MUST NOT define properties whose names begin with the `@` character. Names beginning with `@` are reserved for use by representation specifications. This prohibition applies to all data object types: resource objects, component objects, and process objects.
+
+<!-- Maybe we don't need it, if we define ABNF for identifiers, which will exclude usage of '@'-->
 
 ## Operations
 
@@ -936,16 +948,73 @@ A> TODO: Model Disclose in universal (extendible) way
 
 A> TBC: IANA registry for role types and statuses? must be compat with EPP
 
-# Process Objects
+## Processes Object
+
+* Name: Processes Object
+* Identifier: processes
+* Description: A container grouping the Process Objects (#process-objects) currently or recently initiated on a Data Object. Each data element MUST be named after the identifier of a Process Object and MUST be of type Aggregation of that Process Object. The data elements below are the process types defined in this document.
+* Data Elements:
+  * Transfer Processes
+    * Identifier: transferProcess
+    * Cardinality: 0+
+    * Mutability: read-only
+    * Data Type: Aggregation[Transfer Process Object]
+    * Direct Access: true
+    * Description: The transfer processes initiated on the owning Data Object.
+    * Constraints: (None)
+  * Renew Processes
+    * Identifier: renewProcess
+    * Cardinality: 0+
+    * Mutability: read-only
+    * Data Type: Aggregation[Renew Process Object]
+    * Direct Access: true
+    * Description: The renew processes initiated on the owning Data Object.
+    * Constraints: (None)
+  * Restore Processes
+    * Identifier: restoreProcess
+    * Cardinality: 0+
+    * Mutability: read-only
+    * Data Type: Aggregation[Restore Process Object]
+    * Direct Access: true
+    * Description: The restore processes initiated on the owning Data Object.
+    * Constraints: (None)
+  * Create Processes
+    * Identifier: createProcess
+    * Cardinality: 0+
+    * Mutability: read-only
+    * Data Type: Aggregation[Create Process Object]
+    * Direct Access: true
+    * Description: The create processes initiated on the owning Data Object.
+    * Constraints: (None)
+
+# Process Objects {#process-objects}
 
 This section defines the Process Objects used in this document.
+
+Each Process Object carries an OPTIONAL Process ID data element, defined as follows:
+
+* Process ID
+  * Identifier: processId
+  * Cardinality: 0-1
+  * Mutability: read-only
+  * Data Type: String
+  * Description: A server-assigned identifier of the process instance, unique within the scope of the Owner Data Object.
+  * Constraints: The value is set by the server and cannot be specified by the client.
 
 ## Transfer Process Object
 
 * Name: Transfer Process Object
 * Identifier: transferProcess
+* Unique Identifier: processId
 * Description: Represents a transfer request for a provisioned object. Creating this object initiates a transfer. The object supports approve and reject as additional operations, and delete as the cancel operation. Reading the object returns the current transfer status.
 * Data Elements:
+  * Process ID
+    * Identifier: processId
+    * Cardinality: 0-1
+    * Mutability: read-only
+    * Data Type: String
+    * Description: A server-assigned identifier of the process instance, unique within the scope of the Owner Data Object.
+    * Constraints: The value is set by the server and cannot be specified by the client.
   * Transfer Direction
     * Identifier: transferDir
     * Cardinality: 0-1
@@ -1082,8 +1151,16 @@ The following transient data elements are defined for this operation:
 
 * Name: Restore Process Object
 * Identifier: restoreProcess
+* Unique Identifier: processId
 * Description: Represents the current state of a restore request for an object that has entered the Redemption Grace Period (RGP).
 * Data Elements:
+  * Process ID
+    * Identifier: processId
+    * Cardinality: 0-1
+    * Mutability: read-only
+    * Data Type: String
+    * Description: A server-assigned identifier of the process instance, unique within the scope of the Owner Data Object.
+    * Constraints: The value is set by the server and cannot be specified by the client.
   * Restore Status
     * Identifier: restoreStatus
     * Cardinality: 1
@@ -1180,8 +1257,16 @@ The following transient data elements are defined for this operation:
 
 * Name: Renew Process Object
 * Identifier: renewProcess
+* Unique Identifier: processId
 * Description: Represents a renew request for a provisioned object. Creating this object initiates a renewal process that extends the registration period of the object. Reading this object returns the new expiry date if the renewal has been completed.
 * Data Elements:
+  * Process ID
+    * Identifier: processId
+    * Cardinality: 0-1
+    * Mutability: read-only
+    * Data Type: String
+    * Description: A server-assigned identifier of the process instance, unique within the scope of the Owner Data Object.
+    * Constraints: The value is set by the server and cannot be specified by the client.
   * Expiry Date
     * Identifier: expiryDate
     * Cardinality: 0-1
@@ -1211,12 +1296,56 @@ The renew operation extends the validity period of an existing object by creatin
 * Authorisation:
   * Only the sponsoring client is authorised to perform this operation.
 
+## Create Process Object {#create-process}
+
+* Name: Create Process Object
+* Identifier: createProcess
+* Unique Identifier: processId
+* Description: Represents the process initiated when a resource creation operation is performed. It carries creation-specific inputs that are consumed during the creation operation and are not stored as persistent attributes of the created resource object.
+* Data Elements:
+  * Process ID
+    * Identifier: processId
+    * Cardinality: 0-1
+    * Mutability: read-only
+    * Data Type: String
+    * Description: A server-assigned identifier of the process instance, unique within the scope of the Owner Data Object.
+    * Constraints: The value is set by the server and cannot be specified by the client.
+
+Beyond the Process ID, the generic Create Process Object defines no additional data elements. Individual object definitions extend it with object-specific creation inputs (such as the Domain Create Process Object (#domain-create-process), which adds the registration period).
+
+### Operations
+
+#### Create {#create-process-create}
+
+* Identifier: create
+
+The Create operation is invoked implicitly as a side effect of the resource object create operation and is never invoked directly. It carries the creation-specific inputs consumed during the creation of the owning resource object.
+
+* Input: Create Process Object (create-only and read-write elements)
+* Output: Create Process Object
+
+* Authorisation:
+  * Inherited from the resource object create operation that initiates this process.
+
+#### Read {#create-process-read}
+
+* Identifier: read
+
+The Read operation retrieves the result or status of the creation, if the server exposes the process resource.
+
+* Input: Object Identifier
+* Output: Create Process Object
+
+* Authorisation:
+  * Only the sponsoring client is authorised to perform this operation.
+
 # Domain Name Data Object
 
 ## Object Description
 
 * Name: Domain Name Data Object
 * Identifier: domainName
+* Unique Identifier: name
 * Description: A Domain Name data object represents a domain name and contains the data required for its provisioning and management in the registry.
 
 ## Data Elements
@@ -1324,6 +1453,15 @@ A> TBC: IANA registry for contact role label?
   * Description: Authorisation information associated with the domain object.
   * Constraints: (None)
 
+* Processes
+  * Identifier: processes
+  * Cardinality: 0-1
+  * Mutability: read-only
+  * Data Type: Processes Object
+  * Direct Access: true
+  * Description: The Process Objects currently or recently initiated on the domain object.
+  * Constraints: (None)
+
 ## Operations
 
 ### Create Operation
@@ -1335,13 +1473,7 @@ The Create operation allows a client to provision a new Domain Name resource. Th
 * Authorisation:
   * Generally each client is authorised to create new domain objects becoming a sponsoring client. This can be however constrained by the server policy in many ways, i.e. by applying rate limiting, billing related constraints or compliance locks.
 
-In addition, the following transient data element is defined for this operation:
-
-* Registration Period
-  * Identifier: period
-  * Cardinality: 0-1
-  * Data Type: Period Object
-  * Description: The initial registration period for the domain name. This value is used by the server to calculate the initial `expiryDate` of the object. This element is not persisted as part of the object's state. 
+The Create operation implicitly initiates the Domain Create Process Object (#domain-create-process), which carries the creation-specific inputs that are consumed during creation and not persisted as part of the domain object's state.
 
 ### Read Operation
 
@@ -1453,12 +1585,61 @@ The Domain Name Data Object supports the restore operations defined in the (#res
 
 No domain-specific transient data elements extend the common restore operations beyond those defined in the (#restore-ops).
 
+## Domain Create Process Object {#domain-create-process}
+
+* Name: Domain Create Process Object
+* Identifier: domainCreateProcess
+* Unique Identifier: processId
+* Description: The domain-specific Create Process Object (#create-process). It is implicitly initiated by the Domain Name Data Object create operation and carries the domain creation-specific inputs, namely the requested initial registration period, that are consumed during creation and not persisted as part of the domain object's state.
+* Data Elements:
+  * Process ID
+    * Identifier: processId
+    * Cardinality: 0-1
+    * Mutability: read-only
+    * Data Type: String
+    * Description: A server-assigned identifier of the process instance, unique within the scope of the Owner Data Object.
+    * Constraints: The value is set by the server and cannot be specified by the client.
+  * Period
+    * Identifier: period
+    * Cardinality: 0-1
+    * Mutability: create-only
+    * Data Type: Period Object
+    * Description: The initial registration period for the domain name. This value is used by the server to calculate the initial `expiryDate` of the object.
+    * Constraints: (None)
+
+### Operations
+
+#### Create {#domain-create-process-create}
+
+* Identifier: create
+
+The Create operation is invoked implicitly as a side effect of the Domain Name Data Object create operation and is never invoked directly. It carries the registration period consumed during domain creation.
+
+* Input: Domain Create Process Object (create-only and read-write elements)
+* Output: Domain Create Process Object
+
+* Authorisation:
+  * Inherited from the Domain Name Data Object create operation that initiates this process.
+
+#### Read {#domain-create-process-read}
+
+* Identifier: read
+
+The Read operation retrieves the result or status of the domain creation, if the server exposes the process resource.
+
+* Input: Object Identifier
+* Output: Domain Create Process Object
+
+* Authorisation:
+  * Only the sponsoring client is authorised to perform this operation.
+
 # Contact Data Object
 
 ## Object Description
 
 * Name: Contact Data Object
 * Identifier: contact
+* Unique Identifier: id
 * Description: A Contact Data Object represents the contact information for an individual or organisation associated with other objects.
 
 ## Data Elements
@@ -1515,6 +1696,15 @@ The following data elements are defined for the Domain Name Data Object.
   * Mutability: read-write
   * Data Type: Disclose Object.
   * Description: Identifies elements that require exceptional server-operator handling to allow or restrict disclosure to third parties.
+
+* Processes
+  * Identifier: processes
+  * Cardinality: 0-1
+  * Mutability: read-only
+  * Data Type: Processes Object
+  * Direct Access: true
+  * Description: The Process Objects currently or recently initiated on the contact object.
+  * Constraints: (None)
 
 A> TBC: IANA registry for statuses?
 
@@ -1596,6 +1786,7 @@ No object-specific transient data elements are defined for contact transfer oper
 
 * Name: Host Data Object
 * Identifier: host
+* Unique Identifier: hostName
 * Description: A Host Data Object represents a name server that provides DNS services for a domain name.
 
 ## Data Elements
@@ -1635,6 +1826,15 @@ The following data elements are defined for the Host Data Object.
   * Constraints:
     * The names of DNS entries MUST be the host name itself or subordinate to the host name.
     * In EPP Compatibility Profile the record entries MUST be limited to A and AAAA entries for IPv4 and IPv6 glue records respectively.
+
+* Processes
+  * Identifier: processes
+  * Cardinality: 0-1
+  * Mutability: read-only
+  * Data Type: Processes Object
+  * Direct Access: true
+  * Description: The Process Objects currently or recently initiated on the host object.
+  * Constraints: (None)
 
 ## Operations
 
@@ -1700,6 +1900,7 @@ No domain-specific transient data elements extend the common restore operations 
 
 * Name: Organisation Data Object
 * Identifier: organisation
+* Unique Identifier: id
 * Description: An Organisation Data Object represents an entity, such as a registrar or reseller that is involved in the domain registration process. This object is based on the EPP Organisation Mapping defined in [@!RFC8543].
 
 ## Data Elements
@@ -1784,10 +1985,20 @@ A> TODO: how handle the "custom" contact type?
   * Data Type: LabelledAggregation[User Object]
     * Label Description: RBAC role of the user
     * Label Constraints: The value MUST be one of the role types registered in the IANA "RPP User Role Values" registry.
+  * Direct Access: true
   * Description: One or more RBAC roles assigned to the user.
   * Constraints:
     * Each role value MUST be a non-empty string.
     * Allowed role values MAY be constrained by server policy.
+
+* Processes
+  * Identifier: processes
+  * Cardinality: 0-1
+  * Mutability: read-only
+  * Data Type: Processes Object
+  * Direct Access: true
+  * Description: The Process Objects currently or recently initiated on the organisation object.
+  * Constraints: (None)
 
 A> TODO: define an IANA registry for user roles?
 
@@ -1851,6 +2062,7 @@ The error response SHOULD indicate the related associated objects.
 
 * Name: User Data Object
 * Identifier: user
+* Unique Identifier: id
 * Description: Represents a user linked to an Organisation Object. Each user carries a set of RBAC roles that define the user's permissions within the context of the owning Organisation Object. The lifecycle of a User Object is bound to its Organisation Object.
 
 ## Data Elements
@@ -1894,6 +2106,15 @@ The following data elements are defined for the User Data Object.
   * Data Type: Organisation Data Object Reference
   * Description: A reference to the owner organisation object.
   * Constraints: -
+
+* Processes
+  * Identifier: processes
+  * Cardinality: 0-1
+  * Mutability: read-only
+  * Data Type: Processes Object
+  * Direct Access: true
+  * Description: The Process Objects currently or recently initiated on the user object.
+  * Constraints: (None)
 
 A> TODO: what other data elements should be included for the User Data Object?
 
@@ -2092,6 +2313,24 @@ Data Elements
 | upDate             | Update Date          | 0-1   | read-only  | Timestamp         | The date and time of the most recent object modification.               |
 | trDate             | Transfer Date        | 0-1   | read-only  | Timestamp         | The date and time of the most recent successful object transfer.        |
 
+Object: processes
+
+Object Name: Processes Object
+
+Object Type: Component
+
+Description: A container grouping the Process Objects currently or recently initiated on a Data Object, structured as a dictionary keyed by process type where each element holds an ordered array of Process Objects of that type. The set of process-type data elements is extensible; extensions MAY register additional process-type elements.
+
+Reference: [This-ID]
+
+Data Elements
+| Element Identifier | Element Name      | Card. | Mutability | Data Type                             | Description                                                 |
+| ------------------ | ----------------- | ----- | ---------- | ------------------------------------- | ----------------------------------------------------------- |
+| transferProcess    | Transfer Processes | 0+   | read-only  | Aggregation [Transfer Process Object] | The transfer processes initiated on the owning Data Object. |
+| renewProcess       | Renew Processes   | 0+    | read-only  | Aggregation [Renew Process Object]    | The renew processes initiated on the owning Data Object.    |
+| restoreProcess     | Restore Processes | 0+    | read-only  | Aggregation [Restore Process Object]  | The restore processes initiated on the owning Data Object.  |
+| createProcess      | Create Processes  | 0+    | read-only  | Aggregation [Create Process Object]   | The create processes initiated on the owning Data Object.   |
+
 Object: transferProcess
 
 Object Name: Transfer Process Object
@@ -2105,6 +2344,7 @@ Reference: [This-ID]
 Data Elements
 | Element Identifier | Element Name         | Card. | Mutability  | Data Type         | Description                                                                                     |
 | ------------------ | -------------------- | ----- | ----------- | ----------------- | ----------------------------------------------------------------------------------------------- |
+| processId          | Process ID           | 0-1   | read-only   | String            | A server-assigned identifier of the process instance, unique within the Owner Data Object.      |
 | transferDir        | Transfer Direction   | 0-1   | create-only | String            | The direction of the transfer ("pull" or "push"). If omitted, server policy determines default. |
 | gainingClientId    | Gaining Client ID    | 0-1   | create-only | Client Identifier | The designated gaining client. REQUIRED for push transfers; MUST NOT be provided for pull.      |
 | trStatus           | Transfer Status      | 1     | read-only   | String            | The state of the transfer request.                                                              |
@@ -2172,6 +2412,7 @@ Reference: [This-ID]
 Data Elements
 | Element Identifier | Element Name         | Card. | Mutability  | Data Type         | Description                                                                                     |
 | ------------------ | -------------------- | ----- | ----------- | ----------------- | ----------------------------------------------------------------------------------------------- |
+| processId          | Process ID           | 0-1   | read-only   | String            | A server-assigned identifier of the process instance, unique within the Owner Data Object.      |
 | expiryDate        | Expiry Date          | 0-1   | read-only | Timestamp            | The expiry date of the object after the renewal is completed. |
 
 Operations
@@ -2181,6 +2422,73 @@ Operation: Create
 Operation Identifier: renewCreate
 
 Description: Initiates a renewal of a provisioned object by creating a Renew Process Object. 
+
+Parameters: (None)
+
+Object: createProcess
+
+Object Name: Create Process Object
+
+Object Type: Process
+
+Description: Represents the process initiated when a resource creation operation is performed. Carries creation-specific inputs that are consumed during creation and not stored as persistent attributes of the created resource object.
+
+Reference: [This-ID]
+
+Data Elements
+| Element Identifier | Element Name | Card. | Mutability | Data Type | Description                                                                       |
+| ------------------ | ------------ | ----- | ---------- | --------- | --------------------------------------------------------------------------------- |
+| processId          | Process ID   | 0-1   | read-only  | String    | A server-assigned identifier of the process instance, unique within the Owner Data Object. |
+
+Operations
+
+Operation: Create
+
+Operation Identifier: create
+
+Description: Invoked implicitly as a side effect of the resource object create operation; never invoked directly. Carries creation-specific inputs consumed during creation of the owning resource object.
+
+Parameters: (None)
+
+Operation: Read
+
+Operation Identifier: read
+
+Description: Retrieves the result or status of the creation, if the server exposes the process resource.
+
+Parameters: (None)
+
+Object: domainCreateProcess
+
+Object Name: Domain Create Process Object
+
+Object Type: Process
+
+Description: The Create Process Object specific to the Domain Name Data Object. Implicitly initiated by the domain create operation; carries the requested initial registration period consumed during creation and not persisted as part of the domain object's state.
+
+Reference: [This-ID]
+
+Data Elements
+| Element Identifier | Element Name | Card. | Mutability  | Data Type     | Description                                      |
+| ------------------ | ------------ | ----- | ----------- | ------------- | ------------------------------------------------ |
+| processId          | Process ID   | 0-1   | read-only   | String        | A server-assigned identifier of the process instance, unique within the Owner Data Object. |
+| period             | Period       | 0-1   | create-only | Period Object | The initial registration period for the domain name. |
+
+Operations
+
+Operation: Create
+
+Operation Identifier: create
+
+Description: Invoked implicitly as a side effect of the Domain Name Data Object create operation; never invoked directly. Carries the registration period consumed during domain creation.
+
+Parameters: (None)
+
+Operation: Read
+
+Operation Identifier: read
+
+Description: Retrieves the result or status of the domain creation, if the server exposes the process resource.
 
 Parameters: (None)
 
@@ -2212,6 +2520,7 @@ Reference: [This-ID]
 Data Elements
 | Element Identifier | Element Name    | Card. | Mutability | Data Type | Description                                                                                                                             |
 | ------------------ | --------------- | ----- | ---------- | --------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| processId          | Process ID      | 0-1   | read-only  | String    | A server-assigned identifier of the process instance, unique within the Owner Data Object.                                              |
 | restoreStatus      | Restore Status  | 1     | read-only  | String    | The current state of the restore process.                                                                                               |
 | requestDate        | Request Date    | 0-1   | read-only  | Timestamp | The date and time when the restore request was submitted. Absent if no request has been submitted.                                      |
 | reportDate         | Report Date     | 0-1   | read-only  | Timestamp | The date and time when the most recent restore report was accepted. Absent if no report has been accepted.                              |
@@ -2295,6 +2604,7 @@ Data Elements
 | subordinateHosts | Subordinate Hosts         | 0+    | read-only   | Aggregation [Host Data Object]       | Subordinate host names.                                                   |
 | expiryDate       | Expiry Date               | 0-1   | read-only   | Timestamp                            | Expiry timestamp.                                                         |
 | authInfo         | Authorisation Information | 0-1   | read-write  | Authorisation Information Object     | Authorisation information for the object.                                 |
+| processes        | Processes                 | 0-1   | read-only   | Processes Object                     | Process Objects initiated on the domain object.  |
 
 Operations
 
@@ -2304,10 +2614,7 @@ Operation Identifier: create
 
 Description: Provisions a new Domain Name resource.
 
-Parameters
-| Identifier | Name                | Card. | Data Type     | Description                                          |
-| ---------- | ------------------- | ----- | ------------- | ---------------------------------------------------- |
-| period     | Registration Period | 0-1   | Period Object | The initial registration period for the domain name. |
+Parameters: (None)
 
 Operation: Read
 
@@ -2382,6 +2689,7 @@ Data Elements
 | email        | E-mail                    | 0+    | read-write  | String.                                    | Email address.                                                                                            |
 | authInfo     | Authorisation Information | 0-1   | read-write  | Authorisation Information                  | Authorisation information associated with the contact object.                                                           |
 | disclose     | Disclose                  | 0-1   | read-write  | Disclose Object.                           | Identifies elements that require exceptional server-operator handling to allow or restrict disclosure to third parties. |
+| processes    | Processes                 | 0-1   | read-only   | Processes Object                           | Process Objects initiated on the contact object. |
 Operations
 
 Operation: Create Operation
@@ -2434,6 +2742,7 @@ Data Elements
 | provMetadata | Provisioning Metadata | 1     | read-only  | Provisioning Metadata Object | Standard metadata about object lifecycle and ownership.            |
 | status       | Status                | 0+    | read-only  | Status Object                | The current status descriptors for the host.                       |
 | dns          | DNS Data              | 0-1   | read-write | DNS Data Object              | DNS resource records and operational controls related to the host. |
+| processes    | Processes             | 0-1   | read-only  | Processes Object             | Process Objects initiated on the host object. |
 
 Operations
 
@@ -2498,6 +2807,7 @@ Data Elements
 | contactInfo   | Contact Information     | 0-1   | read-write  | External:RPP-JSContact-Profile:Card     | Contact information
 | contacts     | Contacts               | 0+    | read-write  | LabelledAggregation[Contact Object]       | Identifiers of contact objects associated with the organisation.                                         |
 | users        | Users                  | 0+    | read-write  | LabelledAggregation [User Data Object]          | Identifiers of user objects associated with the organisation.                                         |
+| processes    | Processes              | 0-1   | read-only   | Processes Object                                | Process Objects initiated on the organisation object.                        |
 
 Operations
 
@@ -2549,6 +2859,7 @@ Data Elements
 | id         | User Identifier | 1     | create-only | Identifier | A unique identifier for the user. MUST be globally unique in the server scope. |
 | details    | Details         | 0-1   | read-write  | External:RPP-JSContact-Profile:Card  | The details of the user.                                         |
 | status     | Status         | 0+    | read-write   | string    | The status of the user. |
+| processes  | Processes      | 0-1   | read-only    | Processes Object             | Process Objects initiated on the user object. |
 
 Operations
 
@@ -2615,6 +2926,12 @@ A> TODO: write security considerations, if any
 
 * Added Organisation, Organisation Role and User Objects, based on RFC8543 (Issue #25)
 * Added Renew Process Object and operations (Issue #76)
+* reserve property names beginning with `@` for representation specifications #89
+* add generic Create Process Object and Domain Create Process Object carrying the registration period #89
+* add optional processId to all Process Objects #89
+* add extensible Processes Object component and processes element to all Data Objects #89
+* declare the unique identifier element explicitly in every object preamble #89
+* add "Direct Access" flag exposing association data elements as addressable sub-resources #89
 
 {toc="exclude"}
 {numbered="false"}
