@@ -471,13 +471,10 @@ Table of Contents
    Data Type is an association (Aggregation, Composition, Labelled
    Aggregation, Dictionary Aggregation, Labelled Composition, or
    Dictionary Composition) with a Data Object, Component Object, or
-   Process Object, of any cardinality.  Where a data element has the
-   Direct Access flag set to true, a server MAY expose the associated
-   object or objects as an independently addressable sub-resource.
-   Where such a data element has a cardinality greater than 1, the
-   associated object type MUST define a Unique Identifier, so that an
-   individual associated object can be addressed unambiguously among the
-   collection.
+   Process Object, of any cardinality.  Where such a data element has a
+   cardinality greater than 1, the associated object type MUST define a
+   Unique Identifier, so that an individual associated object can be
+   addressed unambiguously among the collection.
 
 2.5.  Reserved Property Names
 
