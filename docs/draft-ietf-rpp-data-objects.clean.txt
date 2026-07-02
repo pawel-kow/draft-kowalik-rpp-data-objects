@@ -5,12 +5,12 @@
 Network Working Group                                         P. Kowalik
 Internet-Draft                                                     DENIC
 Intended status: Standards Track                              M. Wullink
-Expires: 2 January 2027                                        SIDN Labs
-                                                             1 July 2026
+Expires: 3 January 2027                                        SIDN Labs
+                                                             2 July 2026
 
 
             RESTful Provisioning Protocol (RPP) Data Objects
-               draft-ietf-rpp-data-objects-01 (editorial)
+                     draft-ietf-rpp-data-objects-01
 
 Abstract
 
@@ -39,7 +39,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 2 January 2027.
+   This Internet-Draft will expire on 3 January 2027.
 
 Copyright Notice
 
