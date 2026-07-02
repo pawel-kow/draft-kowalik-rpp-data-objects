@@ -4,9 +4,9 @@ This document defines data objects for the [RESTful Provisioning Protocol](https
 
 Contributions in the form of a Pull Request are welcome.
 
-[Plaintext](https://pawel-kow.github.io/draft-kowalik-rpp-data-objects/draft-kowalik-rpp-data-objects.txt)  
-[HTML](https://pawel-kow.github.io/draft-kowalik-rpp-data-objects/draft-kowalik-rpp-data-objects.html)  
-[PDF](https://pawel-kow.github.io/draft-kowalik-rpp-data-objects/draft-kowalik-rpp-data-objects.pdf)  
+[Plaintext](https://pawel-kow.github.io/draft-kowalik-rpp-data-objects/draft-ietf-rpp-data-objects.txt)  
+[HTML](https://pawel-kow.github.io/draft-kowalik-rpp-data-objects/draft-ietf-rpp-data-objects.html)  
+[PDF](https://pawel-kow.github.io/draft-kowalik-rpp-data-objects/draft-ietf-rpp-data-objects.pdf)  
 
 ## Contributing
 

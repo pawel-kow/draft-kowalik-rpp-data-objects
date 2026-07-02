@@ -15,13 +15,13 @@ Expires: 3 January 2027                                        SIDN Labs
 Abstract
 
    This document defines data objects for the RESTful Provisioning
-   Protocol (RPP) and sets up IANA RPP Data Object Registry to describe
-   and catalogue them.  Specifically, it details the logical structure,
-   constraints, and protocol operations (including their inputs, outputs
-   and business logic) for foundational resources: domain names,
-   contacts, and hosts.  In accordance with the RPP architecture
-   [I-D.kowalik-rpp-architecture], these definitions focus entirely on
-   the semantics, remaining independent of any specific data
+   Protocol (RPP) and sets up the IANA RPP Data Object Registry to
+   describe and catalogue them.  Specifically, it details the logical
+   structure, constraints, and protocol operations (including their
+   inputs, outputs, and business logic) for foundational resources:
+   domain names, contacts, and hosts.  In accordance with the RPP
+   architecture [I-D.kowalik-rpp-architecture], these definitions focus
+   entirely on the semantics, remaining independent of any specific data
    representation or media type (e.g., JSON or XML).
 
 Status of This Memo
@@ -253,7 +253,7 @@ Table of Contents
       the repository in which the host is being used for delegation
       purposes.
 
-   The following terms are defined and used in this document
+   The following terms are defined and used in this document:
 
    Object Authorisation  Authorisation data related to the object beyond
       the default client-level authorisation accompanying the request,
@@ -275,7 +275,7 @@ Table of Contents
       existence - their lifecycle is bound to the owning Data Object.
    Owner Data Object  A Data Object which a process (represented as
       Process Object) was initiated upon and which owns this Process
-      Object
+      Object.
    Unique Identifier  The data element of an object whose value uniquely
       identifies an instance of that object within its applicable scope.
       The scope is defined by the object: for a Data Object it is
@@ -320,7 +320,7 @@ Table of Contents
 
 2.1.4.  Decimal
 
-   Decimal is a number providing an exact, base-10 representation of
+   A Decimal is a number providing an exact, base-10 representation of
    fractional values within a defined precision.  Usage of this type
    MUST impose additional constraints on decimal values, such as
    precision or range, based on specific data element definitions.  An
@@ -334,7 +334,7 @@ Table of Contents
 2.1.6.  Timestamp
 
    Timestamp (Date and time attribute) values MUST be represented in
-   Universal Coordinated Time (UTC) using the Gregorian calendar using
+   Universal Coordinated Time (UTC) using the Gregorian calendar in
    date-time form as defined in [RFC3339].  In EPP Compatibility Profile
    upper case "T" and "Z" characters MUST be used.  An example of a
    timestamp is 2025-10-27T09:42:51Z.
@@ -577,8 +577,8 @@ Table of Contents
    approval or cancellation when such a stalled process is recognised.
 
    All transfer operations act on or return the Transfer Process Object
-   and are executed in the context of Owner Data Object the operation is
-   created upon.
+   and are executed in the context of the Owner Data Object the
+   operation is created upon.
 
       |  TODO: The server MUST notify the current sponsoring client of a
       |  pending transfer request.  The notification mechanism is not
@@ -618,8 +618,8 @@ Table of Contents
    complete both steps atomically in a single operation.
 
    All restore operations act on or return the Restore Process Object
-   and are executed in the context of Owner Data Object the operation is
-   created upon.
+   and are executed in the context of the Owner Data Object the
+   operation is created upon.
 
 2.6.5.1.  Redemption Grace Period State Diagram
 
@@ -749,7 +749,7 @@ Table of Contents
 
    identifier = "External:" TYPEID ":" TYPEID
 
-   TYPEID = ALPHA *( ALPHA / DIGIT / "-" / "_" )
+   TYPEID = ALPHA *( ALPHA / DIGIT / "-" / "_" ) ( ALPHA / DIGIT )
 
 3.2.  Versioning and Compatibility
 
@@ -769,8 +769,9 @@ Table of Contents
    the following values MUST be used in the Data Type reference
    identifiers:
 
-   specification-identifier: RPP-JSContact-Profile type-name: Card Data
-   Type: External:RPP-JSContact-Profile:Card
+   specification-identifier:  RPP-JSContact-Profile
+   type-name:  Card
+   Data Type:  External:RPP-JSContact-Profile:Card
 
 4.  Common Data Types
 
@@ -789,17 +790,17 @@ Table of Contents
 4.2.  Client Identifier
 
    Client identifiers are character strings with a specified minimum
-   length, a specified maximum length, and a specified format.  Contact
+   length, a specified maximum length, and a specified format.  Client
    identifiers use the "clIDType" client identifier syntax described in
    [RFC5730].
 
       |  TBC: do we need this or is it a relation with an entity/RFC8543
-      |  organisation?  If registrars modeled are as first class objects
-      |  (organisations), then clID is nothing else but a reference to
-      |  this organisation, so maybe no need to define syntax separately
-      |  on identifier level (or in other words it would be defined on
-      |  this object).  R8.1 in the form of -02 RPP requirements
-      |  includes RFC8543.
+      |  organisation?  If registrars are modelled as first class
+      |  objects (organisations), then clID is nothing else but a
+      |  reference to this organisation, so maybe no need to define
+      |  syntax separately on identifier level (or in other words it
+      |  would be defined on this object).  R8.1 in the form of -02 RPP
+      |  requirements includes RFC8543.
 
 4.3.  Phone Number
 
@@ -814,14 +815,14 @@ Table of Contents
 
 5.  Associations
 
-   RPP allows for different types of associations (relationship) between
-   the objects.  The association may be added between 2 objects with own
-   independent lifecycle (UML aggregation) or in the relation when one
-   object's existence and lifecycle is bound to the other parent/owner
-   object (UML composition).  In both cases, especially if the relation
-   allows for cardinality higher than one on either side, the
-   association may be assigned additional attributes, not being part of
-   an object on either side of relation.  In many cases such relation
+   RPP allows for different types of associations (relationships)
+   between the objects.  The association may be added between 2 objects
+   with own independent lifecycle (UML aggregation) or in the relation
+   when one object's existence and lifecycle is bound to the other
+   parent/owner object (UML composition).  In both cases, especially if
+   the relation allows for cardinality higher than one on either side,
+   the association may be assigned additional attributes, not being part
+   of an object on either side of relation.  In many cases such relation
    would be attributed with a single text string label, describing a
    role or a type of relation.  Depending on the context this value
    might be unique, which allows using such label as a key in a
@@ -835,11 +836,12 @@ Table of Contents
 
    A relation between two independent objects.
 
-   If the cardinality of target object is more than 1, this represents
-   an ordered array.  It MUST be assured that the same unchanged data is
-   always inserted in the same order in order to allow stable reference
-   by position to data elements.  In case of data insertions, deletions
-   or updates the remaining of the data SHALL preserve its order.
+   If the cardinality of the target object is more than 1, this
+   represents an ordered array.  It MUST be assured that the same
+   unchanged data is always inserted in the same order in order to allow
+   stable reference by position to data elements.  In case of data
+   insertions, deletions, or updates the remainder of the data SHALL
+   preserve its order.
 
    Example aggregation having cardinality 1:
 
@@ -877,11 +879,12 @@ Table of Contents
    A relation between an independent parent object and 1 or more
    dependent child object(s).
 
-   If the cardinality of target object is more than 1, this represents
-   an ordered array.  It MUST be assured that the same unchanged data is
-   always inserted in the same order in order to allow stable reference
-   by position to data elements.  In case of data insertions, deletions
-   or updates the remaining of the data SHALL preserve its order.
+   If the cardinality of the target object is more than 1, this
+   represents an ordered array.  It MUST be assured that the same
+   unchanged data is always inserted in the same order in order to allow
+   stable reference by position to data elements.  In case of data
+   insertions, deletions, or updates the remainder of the data SHALL
+   preserve its order.
 
    Example composition having cardinality 1:
 
@@ -913,7 +916,7 @@ Table of Contents
 
    Notation: LabelledAggregation[Type]
 
-   A relation between two independent object with single text string
+   A relation between two independent objects with a single text string
    attribute.  Multiple associations with the same label are allowed and
    represent an unordered array.
 
@@ -947,9 +950,9 @@ Table of Contents
 
    Notation: DictionaryAggregation[Type]
 
-   A relation between two independent object with single text string
-   attribute.  Association labels MUST be unique allowing it to be used
-   as dictionary key.
+   A relation between two independent objects with a single text string
+   attribute.  Association labels MUST be unique, allowing them to be
+   used as dictionary keys.
 
    A type defining such association MUST define Label Description with
    semantics of the label and Label Constraints with constraints related
@@ -977,8 +980,8 @@ Table of Contents
    Notation: LabelledComposition[Type]
 
    A relation between an independent parent object and a dependent child
-   object with single text string attribute.  Multiple associations with
-   the same label are allowed.
+   object with a single text string attribute.  Multiple associations
+   with the same label are allowed.
 
    A type defining such association MUST define Label Description with
    semantics of the label and Label Constraints with constraints related
@@ -1011,9 +1014,9 @@ Table of Contents
    Notation: DictionaryComposition[Type]
 
    A relation between an independent parent object and a dependent child
-   object with single text string attribute.  Only single association
-   with the same label is allowed allowing it to be used as dictionary
-   key.
+   object with a single text string attribute.  Only a single
+   association with the same label is allowed, allowing it to be used as
+   a dictionary key.
 
    A type defining such association MUST define Label Description with
    semantics of the label and Label Constraints with constraints related
@@ -1419,7 +1422,7 @@ Table of Contents
    -  Name: Authorisation Information
    -  Identifier: authInfo
    -  Description: Contains information used to authorise operations on
-      a data object.  It may hold different kind of authorisation
+      a data object.  It may hold different kinds of authorisation
       information.
    -  Data Elements:
       -  Method
@@ -1432,16 +1435,16 @@ Table of Contents
             -  The value MUST be one of the values registered at IANA as
                defined in [I-D.draft-wullink-rpp-core].
             -  In EPP Compatibility Profile this value MUST be set to
-               authinfo if standard password base authorisation is used
+               authinfo if standard password-based authorisation is used
       -  Authorisation Information
          -  Identifier: authdata
          -  Cardinality: 1
          -  Mutability: create-only
          -  Data Type: String
          -  Description: The value of the authorisation information.  It
-            might be as simple as password string, but also more complex
-            values like public key certificates or tokens encoded as
-            string are possible.
+            might be as simple as a password string, but also more
+            complex values like public key certificates or tokens
+            encoded as string are possible.
          -  Constraints:
             -  Authorisation Information object is immutable.  If the
                information changes (for example password is updated) a
@@ -2153,7 +2156,7 @@ Table of Contents
       -  Description: The current status descriptors associated with the
          domain.
       -  Constraints:
-         -  Possible combinations of Status Object Labels is specified
+         -  Possible combinations of Status Object Labels are specified
             in Section 2.3 of [RFC5731].
 
       |  TBC: IANA registry for statuses?
@@ -2369,8 +2372,8 @@ Table of Contents
 8.3.5.  Renew Operations
 
    The Domain Name Data Object supports the renew operations defined in
-   the Section 2.6.6.  The renewal of a domain name changes the expiry
-   date of the domain object.
+   Section 2.6.6.  The renewal of a domain name changes the expiry date
+   of the domain object.
 
 8.3.5.1.  Renew Create Operation
 
@@ -2386,8 +2389,8 @@ Table of Contents
 8.3.6.  Transfer Operations
 
    The Domain Name Data Object supports the common transfer operations
-   defined in the Section 2.6.4.  The transfer of a domain name changes
-   the sponsoring client of the domain object.
+   defined in Section 2.6.4.  The transfer of a domain name changes the
+   sponsoring client of the domain object.
 
    Transfer of a domain object MUST implicitly transfer all host objects
    that are subordinate to the domain object.  For example, if domain
@@ -2431,11 +2434,11 @@ Table of Contents
 8.3.7.  Restore Operations
 
    The Domain Name Data Object supports the restore operations defined
-   in the Section 2.6.5.  These operations are OPTIONAL and are only
+   in Section 2.6.5.  These operations are OPTIONAL and are only
    available when the RGP feature is supported.
 
    No domain-specific transient data elements extend the common restore
-   operations beyond those defined in the Section 2.6.5.
+   operations beyond those defined in Section 2.6.5.
 
 8.4.  Domain Create Process Object
 
@@ -2518,8 +2521,7 @@ Table of Contents
 
 9.2.  Data Elements
 
-   The following data elements are defined for the Domain Name Data
-   Object.
+   The following data elements are defined for the Contact Data Object.
 
    -  Handle ID
 
@@ -2550,10 +2552,10 @@ Table of Contents
       -  Data Type: Status Object
       -  Description: Status descriptors associated with the contact.
       -  Constraints:
-         -  Possible combinations of Domain Status Labels is specified
+         -  Possible combinations of Contact Status Labels are specified
             in Section 2.2 of [RFC5733]
          -  The value MUST be one of the status tokens defined in the
-            IANA registry for domain statuses.
+            IANA registry for contact statuses.
          -  The initial value list MAY be as defined in [RFC5733].  In
             this case the values MUST have the same semantics.
 
@@ -2697,7 +2699,7 @@ Table of Contents
 9.3.5.  Transfer Operations
 
    The Contact Data Object supports the common transfer operations
-   defined in the Section 2.6.4.  The transfer of a contact changes the
+   defined in Section 2.6.4.  The transfer of a contact changes the
    sponsoring client of the contact object.
 
    No object-specific transient data elements are defined for contact
@@ -2744,7 +2746,7 @@ Table of Contents
       -  Data Type: Status Object
       -  Description: The current status descriptors associated with the
          host.
-      -  Constraints: Possible combinations of Host Status Labels is
+      -  Constraints: Possible combinations of Host Status Labels are
          specified in Section 2.3 of [RFC5732]
 
    -  DNS Data
@@ -2862,12 +2864,12 @@ Table of Contents
 
 10.3.5.  Restore Operations
 
-   The Host Data Object supports the restore operations defined in the
+   The Host Data Object supports the restore operations defined in
    Section 2.6.5.  These operations are OPTIONAL and are only available
    when the RGP feature for Host Data Object is supported by the server.
 
-   No domain-specific transient data elements extend the common restore
-   operations beyond those defined in the Section 2.6.5.
+   No host-specific transient data elements extend the common restore
+   operations beyond those defined in Section 2.6.5.
 
 11.  Organisation Data Object
 
@@ -3218,7 +3220,7 @@ Table of Contents
 
    -  Identifier: delete
 
-   The Delete operation removes a specific User Object
+   The Delete operation removes a specific User Object.
 
    -  Authorisation:
       -  Client can only delete users in the context of the organisation
@@ -3474,7 +3476,7 @@ Table of Contents
    |          |             |     |           |      | information.    |
    |          |             |     |           |      | It might be     |
    |          |             |     |           |      | as simple as    |
-   |          |             |     |           |      | password        |
+   |          |             |     |           |      | a password      |
    |          |             |     |           |      | string, but     |
    |          |             |     |           |      | also more       |
    |          |             |     |           |      | complex         |
@@ -3798,7 +3800,7 @@ Table of Contents
    Object Type: Process
 
    Description: Represents a renewal request for a provisioned object.
-   Creating this object initiates the renewal
+   Creating this object initiates the renewal.
 
    Reference: [This-ID]
 
@@ -4623,7 +4625,7 @@ Table of Contents
    |            |            |     |          |                           |structure.    |
    +------------+------------+-----+----------+---------------------------+--------------+
    |contactInfo |Contact     |0-1  |read-write|External:RPP-JSContact-    |Contact       |
-   |            |Information |     |          |Profile:Card               |information   |
+   |            |Information |     |          |Profile:Card               |information.  |
    +------------+------------+-----+----------+---------------------------+--------------+
    |contacts    |Contacts    |0+   |read-write|LabelledAggregation[Contact|Identifiers of|
    |            |            |     |          |Object]                    |contact       |
@@ -4807,6 +4809,9 @@ draft-ietf-rpp-data-objects -00 - -01
       preamble #89
    -  add "Direct Access" flag exposing association data elements as
       addressable sub-resources #89
+   -  editorial pass: fix spelling, grammar, subject-verb agreement,
+      missing articles, cross-reference wording, and copy-paste object
+      names
 
 draft-kowalik-rpp-data-objects-04 - draft-ietf-rpp-data-objects-00
 

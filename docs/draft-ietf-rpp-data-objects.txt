@@ -15,13 +15,13 @@ Expires: 3 January 2027                                        SIDN Labs
 Abstract
 
    This document defines data objects for the RESTful Provisioning
-   Protocol (RPP) and sets up IANA RPP Data Object Registry to describe
-   and catalogue them.  Specifically, it details the logical structure,
-   constraints, and protocol operations (including their inputs, outputs
-   and business logic) for foundational resources: domain names,
-   contacts, and hosts.  In accordance with the RPP architecture
-   [I-D.kowalik-rpp-architecture], these definitions focus entirely on
-   the semantics, remaining independent of any specific data
+   Protocol (RPP) and sets up the IANA RPP Data Object Registry to
+   describe and catalogue them.  Specifically, it details the logical
+   structure, constraints, and protocol operations (including their
+   inputs, outputs, and business logic) for foundational resources:
+   domain names, contacts, and hosts.  In accordance with the RPP
+   architecture [I-D.kowalik-rpp-architecture], these definitions focus
+   entirely on the semantics, remaining independent of any specific data
    representation or media type (e.g., JSON or XML).
 
 Status of This Memo
@@ -192,7 +192,7 @@ Internet-Draft              RPP Data Objects                   July 2026
      10.1.  Object Description . . . . . . . . . . . . . . . . . . .  58
      10.2.  Data Elements  . . . . . . . . . . . . . . . . . . . . .  58
      10.3.  Operations . . . . . . . . . . . . . . . . . . . . . . .  59
-       10.3.1.  Create Operation . . . . . . . . . . . . . . . . . .  60
+       10.3.1.  Create Operation . . . . . . . . . . . . . . . . . .  59
        10.3.2.  Read Operation . . . . . . . . . . . . . . . . . . .  60
        10.3.3.  Update Operation . . . . . . . . . . . . . . . . . .  60
        10.3.4.  Delete Operation . . . . . . . . . . . . . . . . . .  61
@@ -294,7 +294,7 @@ Internet-Draft              RPP Data Objects                   July 2026
       the repository in which the host is being used for delegation
       purposes.
 
-   The following terms are defined and used in this document
+   The following terms are defined and used in this document:
 
    Object Authorisation  Authorisation data related to the object beyond
       the default client-level authorisation accompanying the request,
@@ -316,7 +316,7 @@ Internet-Draft              RPP Data Objects                   July 2026
       existence - their lifecycle is bound to the owning Data Object.
    Owner Data Object  A Data Object which a process (represented as
       Process Object) was initiated upon and which owns this Process
-      Object
+      Object.
    Unique Identifier  The data element of an object whose value uniquely
       identifies an instance of that object within its applicable scope.
       The scope is defined by the object: for a Data Object it is
@@ -371,7 +371,7 @@ Internet-Draft              RPP Data Objects                   July 2026
 
 2.1.4.  Decimal
 
-   Decimal is a number providing an exact, base-10 representation of
+   A Decimal is a number providing an exact, base-10 representation of
    fractional values within a defined precision.  Usage of this type
    MUST impose additional constraints on decimal values, such as
    precision or range, based on specific data element definitions.  An
@@ -397,7 +397,7 @@ Internet-Draft              RPP Data Objects                   July 2026
 2.1.6.  Timestamp
 
    Timestamp (Date and time attribute) values MUST be represented in
-   Universal Coordinated Time (UTC) using the Gregorian calendar using
+   Universal Coordinated Time (UTC) using the Gregorian calendar in
    date-time form as defined in [RFC3339].  In EPP Compatibility Profile
    upper case "T" and "Z" characters MUST be used.  An example of a
    timestamp is 2025-10-27T09:42:51Z.
@@ -679,8 +679,8 @@ Internet-Draft              RPP Data Objects                   July 2026
    approval or cancellation when such a stalled process is recognised.
 
    All transfer operations act on or return the Transfer Process Object
-   and are executed in the context of Owner Data Object the operation is
-   created upon.
+   and are executed in the context of the Owner Data Object the
+   operation is created upon.
 
       |  TODO: The server MUST notify the current sponsoring client of a
       |  pending transfer request.  The notification mechanism is not
@@ -720,8 +720,8 @@ Internet-Draft              RPP Data Objects                   July 2026
    complete both steps atomically in a single operation.
 
    All restore operations act on or return the Restore Process Object
-   and are executed in the context of Owner Data Object the operation is
-   created upon.
+   and are executed in the context of the Owner Data Object the
+   operation is created upon.
 
 
 
@@ -878,7 +878,7 @@ Internet-Draft              RPP Data Objects                   July 2026
 
    identifier = "External:" TYPEID ":" TYPEID
 
-   TYPEID = ALPHA *( ALPHA / DIGIT / "-" / "_" )
+   TYPEID = ALPHA *( ALPHA / DIGIT / "-" / "_" ) ( ALPHA / DIGIT )
 
 3.2.  Versioning and Compatibility
 
@@ -908,8 +908,9 @@ Internet-Draft              RPP Data Objects                   July 2026
    the following values MUST be used in the Data Type reference
    identifiers:
 
-   specification-identifier: RPP-JSContact-Profile type-name: Card Data
-   Type: External:RPP-JSContact-Profile:Card
+   specification-identifier:  RPP-JSContact-Profile
+   type-name:  Card
+   Data Type:  External:RPP-JSContact-Profile:Card
 
 4.  Common Data Types
 
@@ -928,18 +929,17 @@ Internet-Draft              RPP Data Objects                   July 2026
 4.2.  Client Identifier
 
    Client identifiers are character strings with a specified minimum
-   length, a specified maximum length, and a specified format.  Contact
+   length, a specified maximum length, and a specified format.  Client
    identifiers use the "clIDType" client identifier syntax described in
    [RFC5730].
 
       |  TBC: do we need this or is it a relation with an entity/RFC8543
-      |  organisation?  If registrars modeled are as first class objects
-      |  (organisations), then clID is nothing else but a reference to
-      |  this organisation, so maybe no need to define syntax separately
-      |  on identifier level (or in other words it would be defined on
-      |  this object).  R8.1 in the form of -02 RPP requirements
-      |  includes RFC8543.
-
+      |  organisation?  If registrars are modelled as first class
+      |  objects (organisations), then clID is nothing else but a
+      |  reference to this organisation, so maybe no need to define
+      |  syntax separately on identifier level (or in other words it
+      |  would be defined on this object).  R8.1 in the form of -02 RPP
+      |  requirements includes RFC8543.
 
 
 
@@ -967,14 +967,14 @@ Internet-Draft              RPP Data Objects                   July 2026
 
 5.  Associations
 
-   RPP allows for different types of associations (relationship) between
-   the objects.  The association may be added between 2 objects with own
-   independent lifecycle (UML aggregation) or in the relation when one
-   object's existence and lifecycle is bound to the other parent/owner
-   object (UML composition).  In both cases, especially if the relation
-   allows for cardinality higher than one on either side, the
-   association may be assigned additional attributes, not being part of
-   an object on either side of relation.  In many cases such relation
+   RPP allows for different types of associations (relationships)
+   between the objects.  The association may be added between 2 objects
+   with own independent lifecycle (UML aggregation) or in the relation
+   when one object's existence and lifecycle is bound to the other
+   parent/owner object (UML composition).  In both cases, especially if
+   the relation allows for cardinality higher than one on either side,
+   the association may be assigned additional attributes, not being part
+   of an object on either side of relation.  In many cases such relation
    would be attributed with a single text string label, describing a
    role or a type of relation.  Depending on the context this value
    might be unique, which allows using such label as a key in a
@@ -988,14 +988,14 @@ Internet-Draft              RPP Data Objects                   July 2026
 
    A relation between two independent objects.
 
-   If the cardinality of target object is more than 1, this represents
-   an ordered array.  It MUST be assured that the same unchanged data is
-   always inserted in the same order in order to allow stable reference
-   by position to data elements.  In case of data insertions, deletions
-   or updates the remaining of the data SHALL preserve its order.
+   If the cardinality of the target object is more than 1, this
+   represents an ordered array.  It MUST be assured that the same
+   unchanged data is always inserted in the same order in order to allow
+   stable reference by position to data elements.  In case of data
+   insertions, deletions, or updates the remainder of the data SHALL
+   preserve its order.
 
    Example aggregation having cardinality 1:
-
 
 
 
@@ -1044,14 +1044,14 @@ Internet-Draft              RPP Data Objects                   July 2026
    A relation between an independent parent object and 1 or more
    dependent child object(s).
 
-   If the cardinality of target object is more than 1, this represents
-   an ordered array.  It MUST be assured that the same unchanged data is
-   always inserted in the same order in order to allow stable reference
-   by position to data elements.  In case of data insertions, deletions
-   or updates the remaining of the data SHALL preserve its order.
+   If the cardinality of the target object is more than 1, this
+   represents an ordered array.  It MUST be assured that the same
+   unchanged data is always inserted in the same order in order to allow
+   stable reference by position to data elements.  In case of data
+   insertions, deletions, or updates the remainder of the data SHALL
+   preserve its order.
 
    Example composition having cardinality 1:
-
 
 
 
@@ -1094,7 +1094,7 @@ Internet-Draft              RPP Data Objects                   July 2026
 
    Notation: LabelledAggregation[Type]
 
-   A relation between two independent object with single text string
+   A relation between two independent objects with a single text string
    attribute.  Multiple associations with the same label are allowed and
    represent an unordered array.
 
@@ -1146,9 +1146,9 @@ Internet-Draft              RPP Data Objects                   July 2026
 
    Notation: DictionaryAggregation[Type]
 
-   A relation between two independent object with single text string
-   attribute.  Association labels MUST be unique allowing it to be used
-   as dictionary key.
+   A relation between two independent objects with a single text string
+   attribute.  Association labels MUST be unique, allowing them to be
+   used as dictionary keys.
 
    A type defining such association MUST define Label Description with
    semantics of the label and Label Constraints with constraints related
@@ -1183,8 +1183,8 @@ Internet-Draft              RPP Data Objects                   July 2026
    Notation: LabelledComposition[Type]
 
    A relation between an independent parent object and a dependent child
-   object with single text string attribute.  Multiple associations with
-   the same label are allowed.
+   object with a single text string attribute.  Multiple associations
+   with the same label are allowed.
 
    A type defining such association MUST define Label Description with
    semantics of the label and Label Constraints with constraints related
@@ -1217,9 +1217,9 @@ Internet-Draft              RPP Data Objects                   July 2026
    Notation: DictionaryComposition[Type]
 
    A relation between an independent parent object and a dependent child
-   object with single text string attribute.  Only single association
-   with the same label is allowed allowing it to be used as dictionary
-   key.
+   object with a single text string attribute.  Only a single
+   association with the same label is allowed, allowing it to be used as
+   a dictionary key.
 
    A type defining such association MUST define Label Description with
    semantics of the label and Label Constraints with constraints related
@@ -1701,7 +1701,7 @@ Internet-Draft              RPP Data Objects                   July 2026
    -  Name: Authorisation Information
    -  Identifier: authInfo
    -  Description: Contains information used to authorise operations on
-      a data object.  It may hold different kind of authorisation
+      a data object.  It may hold different kinds of authorisation
       information.
    -  Data Elements:
       -  Method
@@ -1714,16 +1714,16 @@ Internet-Draft              RPP Data Objects                   July 2026
             -  The value MUST be one of the values registered at IANA as
                defined in [I-D.draft-wullink-rpp-core].
             -  In EPP Compatibility Profile this value MUST be set to
-               authinfo if standard password base authorisation is used
+               authinfo if standard password-based authorisation is used
       -  Authorisation Information
          -  Identifier: authdata
          -  Cardinality: 1
          -  Mutability: create-only
          -  Data Type: String
          -  Description: The value of the authorisation information.  It
-            might be as simple as password string, but also more complex
-            values like public key certificates or tokens encoded as
-            string are possible.
+            might be as simple as a password string, but also more
+            complex values like public key certificates or tokens
+            encoded as string are possible.
          -  Constraints:
             -  Authorisation Information object is immutable.  If the
                information changes (for example password is updated) a
@@ -2563,7 +2563,7 @@ Internet-Draft              RPP Data Objects                   July 2026
       -  Description: The current status descriptors associated with the
          domain.
       -  Constraints:
-         -  Possible combinations of Status Object Labels is specified
+         -  Possible combinations of Status Object Labels are specified
             in Section 2.3 of [RFC5731].
 
       |  TBC: IANA registry for statuses?
@@ -2822,8 +2822,8 @@ Internet-Draft              RPP Data Objects                   July 2026
 8.3.5.  Renew Operations
 
    The Domain Name Data Object supports the renew operations defined in
-   the Section 2.6.6.  The renewal of a domain name changes the expiry
-   date of the domain object.
+   Section 2.6.6.  The renewal of a domain name changes the expiry date
+   of the domain object.
 
 8.3.5.1.  Renew Create Operation
 
@@ -2839,8 +2839,8 @@ Internet-Draft              RPP Data Objects                   July 2026
 8.3.6.  Transfer Operations
 
    The Domain Name Data Object supports the common transfer operations
-   defined in the Section 2.6.4.  The transfer of a domain name changes
-   the sponsoring client of the domain object.
+   defined in Section 2.6.4.  The transfer of a domain name changes the
+   sponsoring client of the domain object.
 
    Transfer of a domain object MUST implicitly transfer all host objects
    that are subordinate to the domain object.  For example, if domain
@@ -2891,11 +2891,11 @@ Internet-Draft              RPP Data Objects                   July 2026
 8.3.7.  Restore Operations
 
    The Domain Name Data Object supports the restore operations defined
-   in the Section 2.6.5.  These operations are OPTIONAL and are only
+   in Section 2.6.5.  These operations are OPTIONAL and are only
    available when the RGP feature is supported.
 
    No domain-specific transient data elements extend the common restore
-   operations beyond those defined in the Section 2.6.5.
+   operations beyond those defined in Section 2.6.5.
 
 8.4.  Domain Create Process Object
 
@@ -2999,8 +2999,7 @@ Internet-Draft              RPP Data Objects                   July 2026
 
 9.2.  Data Elements
 
-   The following data elements are defined for the Domain Name Data
-   Object.
+   The following data elements are defined for the Contact Data Object.
 
    -  Handle ID
 
@@ -3018,6 +3017,7 @@ Internet-Draft              RPP Data Objects                   July 2026
       -  Identifier: provMetadata
       -  Cardinality: 1
       -  Mutability: read-only
+      -  Data Type: Provisioning Metadata Object
 
 
 
@@ -3026,7 +3026,6 @@ Kowalik & Wullink        Expires 3 January 2027                [Page 54]
 Internet-Draft              RPP Data Objects                   July 2026
 
 
-      -  Data Type: Provisioning Metadata Object
       -  Description: Standard metadata about the object's lifecycle and
          ownership.
       -  Constraints: (None)
@@ -3039,10 +3038,10 @@ Internet-Draft              RPP Data Objects                   July 2026
       -  Data Type: Status Object
       -  Description: Status descriptors associated with the contact.
       -  Constraints:
-         -  Possible combinations of Domain Status Labels is specified
+         -  Possible combinations of Contact Status Labels are specified
             in Section 2.2 of [RFC5733]
          -  The value MUST be one of the status tokens defined in the
-            IANA registry for domain statuses.
+            IANA registry for contact statuses.
          -  The initial value list MAY be as defined in [RFC5733].  In
             this case the values MUST have the same semantics.
 
@@ -3074,6 +3073,7 @@ Internet-Draft              RPP Data Objects                   July 2026
          server-operator handling to allow or restrict disclosure to
          third parties.
 
+   -  Processes
 
 
 
@@ -3081,8 +3081,6 @@ Kowalik & Wullink        Expires 3 January 2027                [Page 55]
 
 Internet-Draft              RPP Data Objects                   July 2026
 
-
-   -  Processes
 
       -  Identifier: processes
       -  Cardinality: 0-1
@@ -3130,6 +3128,8 @@ Internet-Draft              RPP Data Objects                   July 2026
    authorisation and server policy.
 
    -  Authorisation:
+      -  Sponsoring client:
+         -  Full object
 
 
 
@@ -3138,8 +3138,6 @@ Kowalik & Wullink        Expires 3 January 2027                [Page 56]
 Internet-Draft              RPP Data Objects                   July 2026
 
 
-      -  Sponsoring client:
-         -  Full object
       -  Other client:
          -  Without Object Authorisation:
             -  Limited object (non-confidential properties) or operation
@@ -3185,7 +3183,9 @@ Internet-Draft              RPP Data Objects                   July 2026
 
    -  Identifier: delete
 
-
+   The Delete operation allows a client to remove an existing Contact
+   resource.  The operation targets a specific data object identified by
+   its Handle ID.
 
 
 
@@ -3193,10 +3193,6 @@ Kowalik & Wullink        Expires 3 January 2027                [Page 57]
 
 Internet-Draft              RPP Data Objects                   July 2026
 
-
-   The Delete operation allows a client to remove an existing Contact
-   resource.  The operation targets a specific data object identified by
-   its Handle ID.
 
    -  Authorisation:
       -  Only sponsoring client is authorised to perform this operation
@@ -3211,7 +3207,7 @@ Internet-Draft              RPP Data Objects                   July 2026
 9.3.5.  Transfer Operations
 
    The Contact Data Object supports the common transfer operations
-   defined in the Section 2.6.4.  The transfer of a contact changes the
+   defined in Section 2.6.4.  The transfer of a contact changes the
    sponsoring client of the contact object.
 
    No object-specific transient data elements are defined for contact
@@ -3242,6 +3238,10 @@ Internet-Draft              RPP Data Objects                   July 2026
 
    -  Provisioning Metadata
 
+      -  Identifier: provMetadata
+      -  Cardinality: 1
+      -  Mutability: read-only
+      -  Data Type: Provisioning Metadata Object
 
 
 
@@ -3250,10 +3250,6 @@ Kowalik & Wullink        Expires 3 January 2027                [Page 58]
 Internet-Draft              RPP Data Objects                   July 2026
 
 
-      -  Identifier: provMetadata
-      -  Cardinality: 1
-      -  Mutability: read-only
-      -  Data Type: Provisioning Metadata Object
       -  Description: Standard metadata about the object's lifecycle and
          ownership.
       -  Constraints: (None)
@@ -3266,7 +3262,7 @@ Internet-Draft              RPP Data Objects                   July 2026
       -  Data Type: Status Object
       -  Description: The current status descriptors associated with the
          host.
-      -  Constraints: Possible combinations of Host Status Labels is
+      -  Constraints: Possible combinations of Host Status Labels are
          specified in Section 2.3 of [RFC5732]
 
    -  DNS Data
@@ -3298,6 +3294,10 @@ Internet-Draft              RPP Data Objects                   July 2026
 
 10.3.  Operations
 
+10.3.1.  Create Operation
+
+   -  Identifier: create
+
 
 
 
@@ -3305,10 +3305,6 @@ Kowalik & Wullink        Expires 3 January 2027                [Page 59]
 
 Internet-Draft              RPP Data Objects                   July 2026
 
-
-10.3.1.  Create Operation
-
-   -  Identifier: create
 
    The Create operation allows a client to provision a new Host Data
    Object.  The operation accepts as input all create-only and read-
@@ -3355,16 +3351,16 @@ Internet-Draft              RPP Data Objects                   July 2026
    -  Authorisation:
       -  Only sponsoring client is authorised to perform this operation
 
+   Host name changes MAY require the addition or removal of IP addresses
+   to be accepted by the server.  IP address association MAY be subject
+   to server policies for provisioning hosts as name servers.
+
 
 
 Kowalik & Wullink        Expires 3 January 2027                [Page 60]
 
 Internet-Draft              RPP Data Objects                   July 2026
 
-
-   Host name changes MAY require the addition or removal of IP addresses
-   to be accepted by the server.  IP address association MAY be subject
-   to server policies for provisioning hosts as name servers.
 
    Host name changes can have an impact on associated objects that refer
    to the host object.  A Host Name change SHOULD NOT require additional
@@ -3399,16 +3395,20 @@ Internet-Draft              RPP Data Objects                   July 2026
 
 10.3.5.  Restore Operations
 
-   The Host Data Object supports the restore operations defined in the
+   The Host Data Object supports the restore operations defined in
    Section 2.6.5.  These operations are OPTIONAL and are only available
    when the RGP feature for Host Data Object is supported by the server.
 
-   No domain-specific transient data elements extend the common restore
-   operations beyond those defined in the Section 2.6.5.
+   No host-specific transient data elements extend the common restore
+   operations beyond those defined in Section 2.6.5.
 
 11.  Organisation Data Object
 
 11.1.  Object Description
+
+   -  Name: Organisation Data Object
+   -  Identifier: organisation
+   -  Unique Identifier: id
 
 
 
@@ -3418,9 +3418,6 @@ Kowalik & Wullink        Expires 3 January 2027                [Page 61]
 Internet-Draft              RPP Data Objects                   July 2026
 
 
-   -  Name: Organisation Data Object
-   -  Identifier: organisation
-   -  Unique Identifier: id
    -  Description: An Organisation Data Object represents an entity,
       such as a registrar or reseller that is involved in the domain
       registration process.  This object is based on the EPP
@@ -3466,6 +3463,9 @@ Internet-Draft              RPP Data Objects                   July 2026
          -  Status values that can be added or removed by a client are
             prefixed with "client".  Corresponding server-managed status
             values are prefixed with "server".
+
+
+
 
 
 
@@ -3818,7 +3818,7 @@ Internet-Draft              RPP Data Objects                   July 2026
 
    -  Identifier: delete
 
-   The Delete operation removes a specific User Object
+   The Delete operation removes a specific User Object.
 
    -  Authorisation:
       -  Client can only delete users in the context of the organisation
@@ -4162,7 +4162,7 @@ Internet-Draft              RPP Data Objects                   July 2026
    |          |             |     |           |      | information.    |
    |          |             |     |           |      | It might be     |
    |          |             |     |           |      | as simple as    |
-   |          |             |     |           |      | password        |
+   |          |             |     |           |      | a password      |
    |          |             |     |           |      | string, but     |
    |          |             |     |           |      | also more       |
    |          |             |     |           |      | complex         |
@@ -4585,7 +4585,7 @@ Internet-Draft              RPP Data Objects                   July 2026
    Object Type: Process
 
    Description: Represents a renewal request for a provisioned object.
-   Creating this object initiates the renewal
+   Creating this object initiates the renewal.
 
 
 
@@ -5610,7 +5610,7 @@ Internet-Draft              RPP Data Objects                   July 2026
    |            |            |     |          |                           |structure.    |
    +------------+------------+-----+----------+---------------------------+--------------+
    |contactInfo |Contact     |0-1  |read-write|External:RPP-JSContact-    |Contact       |
-   |            |Information |     |          |Profile:Card               |information   |
+   |            |Information |     |          |Profile:Card               |information.  |
    +------------+------------+-----+----------+---------------------------+--------------+
    |contacts    |Contacts    |0+   |read-write|LabelledAggregation[Contact|Identifiers of|
    |            |            |     |          |Object]                    |contact       |
@@ -5837,6 +5837,9 @@ Internet-Draft              RPP Data Objects                   July 2026
       preamble #89
    -  add "Direct Access" flag exposing association data elements as
       addressable sub-resources #89
+   -  editorial pass: fix spelling, grammar, subject-verb agreement,
+      missing articles, cross-reference wording, and copy-paste object
+      names
 
 draft-kowalik-rpp-data-objects-04 - draft-ietf-rpp-data-objects-00
 
@@ -5870,10 +5873,7 @@ draft-kowalik-rpp-data-objects -02 - -03
       Nameserver objects to use it
    -  add DNSSEC support based on [RFC5910]: DS and DNSKEY record types
       with structured RDATA fields
-   -  add NS, A, and AAAA RDATA structures and record type constraints
-      to EPP compatibility profile for DNS Resource Record Object
-   -  expand extensibility section with standardised/private extension
-      mechanisms, extension points, and operation extensibility
+
 
 
 
@@ -5882,6 +5882,10 @@ Kowalik & Wullink        Expires 3 January 2027               [Page 105]
 Internet-Draft              RPP Data Objects                   July 2026
 
 
+   -  add NS, A, and AAAA RDATA structures and record type constraints
+      to EPP compatibility profile for DNS Resource Record Object
+   -  expand extensibility section with standardised/private extension
+      mechanisms, extension points, and operation extensibility
    -  update IANA registration policy and registry structure to
       accommodate extension registrations
 
@@ -5927,16 +5931,16 @@ draft-kowalik-rpp-data-objects -01 - -02
               Resource Locators (URL)", RFC 1738, DOI 10.17487/RFC1738,
               December 1994, <https://www.rfc-editor.org/info/rfc1738>.
 
-   [RFC2026]  Bradner, S., "The Internet Standards Process -- Revision
-              3", BCP 9, RFC 2026, DOI 10.17487/RFC2026, October 1996,
-              <https://www.rfc-editor.org/info/rfc2026>.
-
 
 
 Kowalik & Wullink        Expires 3 January 2027               [Page 106]
 
 Internet-Draft              RPP Data Objects                   July 2026
 
+
+   [RFC2026]  Bradner, S., "The Internet Standards Process -- Revision
+              3", BCP 9, RFC 2026, DOI 10.17487/RFC2026, October 1996,
+              <https://www.rfc-editor.org/info/rfc2026>.
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
@@ -5979,10 +5983,6 @@ Internet-Draft              RPP Data Objects                   July 2026
               DOI 10.17487/RFC5952, August 2010,
               <https://www.rfc-editor.org/info/rfc5952>.
 
-   [RFC8126]  Cotton, M., Leiba, B., and T. Narten, "Guidelines for
-              Writing an IANA Considerations Section in RFCs", BCP 26,
-              RFC 8126, DOI 10.17487/RFC8126, June 2017,
-              <https://www.rfc-editor.org/info/rfc8126>.
 
 
 
@@ -5993,6 +5993,11 @@ Kowalik & Wullink        Expires 3 January 2027               [Page 107]
 
 Internet-Draft              RPP Data Objects                   July 2026
 
+
+   [RFC8126]  Cotton, M., Leiba, B., and T. Narten, "Guidelines for
+              Writing an IANA Considerations Section in RFCs", BCP 26,
+              RFC 8126, DOI 10.17487/RFC8126, June 2017,
+              <https://www.rfc-editor.org/info/rfc8126>.
 
    [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
@@ -6037,11 +6042,6 @@ Authors' Addresses
 
    Pawel Kowalik
    DENIC
-   Email: pawel.kowalik@denic.de
-   URI:   https://denic.de/
-
-
-
 
 
 
@@ -6050,14 +6050,14 @@ Kowalik & Wullink        Expires 3 January 2027               [Page 108]
 Internet-Draft              RPP Data Objects                   July 2026
 
 
+   Email: pawel.kowalik@denic.de
+   URI:   https://denic.de/
+
+
    Maarten Wullink
    SIDN Labs
    Email: maarten.wullink@sidn.nl
    URI:   https://sidn.nl/
-
-
-
-
 
 
 
