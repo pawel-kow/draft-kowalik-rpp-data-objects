@@ -276,6 +276,14 @@ Table of Contents
    Owner Data Object  A Data Object which a process (represented as
       Process Object) was initiated upon and which owns this Process
       Object
+   Unique Identifier  The data element of an object whose value uniquely
+      identifies an instance of that object within its applicable scope.
+      The scope is defined by the object: for a Data Object it is
+      typically the server, whereas for a Process Object it is the Owner
+      Data Object.  An object definition names its Unique Identifier
+      explicitly in the object preamble.  Objects that have no
+      independent identity, such as component objects embedded within
+      another object, have no Unique Identifier.
 
 2.  Resource Definition Principles
 
@@ -450,6 +458,23 @@ Table of Contents
          change as a result of server-side operations.
       -  read-write: The element's value can be set and modified by the
          client.
+   -  Direct Access: An optional flag indicating whether the associated
+      object or objects are additionally exposed as an addressable sub-
+      resource of the containing object.  When set to true, the
+      associated object or objects are exposed as a sub-resource that
+      can be addressed independently of the containing object, in
+      addition to their inline representation within it.  When absent or
+      set to false, the element is accessed only inline.  The default
+      value is false.
+
+   The Direct Access flag is applicable only to a data element whose
+   Data Type is an association (Aggregation, Composition, Labelled
+   Aggregation, Dictionary Aggregation, Labelled Composition, or
+   Dictionary Composition) with a Data Object, Component Object, or
+   Process Object, of any cardinality.  Where such a data element has a
+   cardinality greater than 1, the associated object type MUST define a
+   Unique Identifier, so that an individual associated object can be
+   addressed unambiguously among the collection.
 
 2.5.  Reserved Property Names
 
@@ -1563,6 +1588,7 @@ Table of Contents
          -  Cardinality: 0+
          -  Mutability: read-only
          -  Data Type: Aggregation[Transfer Process Object]
+         -  Direct Access: true
          -  Description: The transfer processes initiated on the owning
             Data Object.
          -  Constraints: (None)
@@ -1571,6 +1597,7 @@ Table of Contents
          -  Cardinality: 0+
          -  Mutability: read-only
          -  Data Type: Aggregation[Renew Process Object]
+         -  Direct Access: true
          -  Description: The renew processes initiated on the owning
             Data Object.
          -  Constraints: (None)
@@ -1579,6 +1606,7 @@ Table of Contents
          -  Cardinality: 0+
          -  Mutability: read-only
          -  Data Type: Aggregation[Restore Process Object]
+         -  Direct Access: true
          -  Description: The restore processes initiated on the owning
             Data Object.
          -  Constraints: (None)
@@ -1587,6 +1615,7 @@ Table of Contents
          -  Cardinality: 0+
          -  Mutability: read-only
          -  Data Type: Aggregation[Create Process Object]
+         -  Direct Access: true
          -  Description: The create processes initiated on the owning
             Data Object.
          -  Constraints: (None)
@@ -1612,6 +1641,7 @@ Table of Contents
 
    -  Name: Transfer Process Object
    -  Identifier: transferProcess
+   -  Unique Identifier: processId
    -  Description: Represents a transfer request for a provisioned
       object.  Creating this object initiates a transfer.  The object
       supports approve and reject as additional operations, and delete
@@ -1806,6 +1836,7 @@ Table of Contents
 
    -  Name: Restore Process Object
    -  Identifier: restoreProcess
+   -  Unique Identifier: processId
    -  Description: Represents the current state of a restore request for
       an object that has entered the Redemption Grace Period (RGP).
    -  Data Elements:
@@ -1953,6 +1984,7 @@ Table of Contents
 
    -  Name: Renew Process Object
    -  Identifier: renewProcess
+   -  Unique Identifier: processId
    -  Description: Represents a renew request for a provisioned object.
       Creating this object initiates a renewal process that extends the
       registration period of the object.  Reading this object returns
@@ -2012,6 +2044,7 @@ Table of Contents
 
    -  Name: Create Process Object
    -  Identifier: createProcess
+   -  Unique Identifier: processId
    -  Description: Represents the process initiated when a resource
       creation operation is performed.  It carries creation-specific
       inputs that are consumed during the creation operation and are not
@@ -2074,6 +2107,7 @@ Table of Contents
 
    -  Name: Domain Name Data Object
    -  Identifier: domainName
+   -  Unique Identifier: name
    -  Description: A Domain Name data object represents a domain name
       and contains the data required for its provisioning and management
       in the registry.
@@ -2230,6 +2264,7 @@ Table of Contents
       -  Cardinality: 0-1
       -  Mutability: read-only
       -  Data Type: Processes Object
+      -  Direct Access: true
       -  Description: The Process Objects currently or recently
          initiated on the domain object.
       -  Constraints: (None)
@@ -2406,6 +2441,7 @@ Table of Contents
 
    -  Name: Domain Create Process Object
    -  Identifier: domainCreateProcess
+   -  Unique Identifier: processId
    -  Description: The domain-specific Create Process Object
       Section 7.4.  It is implicitly initiated by the Domain Name Data
       Object create operation and carries the domain creation-specific
@@ -2475,6 +2511,7 @@ Table of Contents
 
    -  Name: Contact Data Object
    -  Identifier: contact
+   -  Unique Identifier: id
    -  Description: A Contact Data Object represents the contact
       information for an individual or organisation associated with
       other objects.
@@ -2554,6 +2591,7 @@ Table of Contents
       -  Cardinality: 0-1
       -  Mutability: read-only
       -  Data Type: Processes Object
+      -  Direct Access: true
       -  Description: The Process Objects currently or recently
          initiated on the contact object.
       -  Constraints: (None)
@@ -2671,6 +2709,7 @@ Table of Contents
 
    -  Name: Host Data Object
    -  Identifier: host
+   -  Unique Identifier: hostName
    -  Description: A Host Data Object represents a name server that
       provides DNS services for a domain name.
 
@@ -2730,6 +2769,7 @@ Table of Contents
       -  Cardinality: 0-1
       -  Mutability: read-only
       -  Data Type: Processes Object
+      -  Direct Access: true
       -  Description: The Process Objects currently or recently
          initiated on the host object.
       -  Constraints: (None)
@@ -2835,6 +2875,7 @@ Table of Contents
 
    -  Name: Organisation Data Object
    -  Identifier: organisation
+   -  Unique Identifier: id
    -  Description: An Organisation Data Object represents an entity,
       such as a registrar or reseller that is involved in the domain
       registration process.  This object is based on the EPP
@@ -2963,6 +3004,7 @@ Table of Contents
          -  Label Description: RBAC role of the user
          -  Label Constraints: The value MUST be one of the role types
             registered in the IANA "RPP User Role Values" registry.
+      -  Direct Access: true
       -  Description: One or more RBAC roles assigned to the user.
       -  Constraints:
          -  Each role value MUST be a non-empty string.
@@ -2974,6 +3016,7 @@ Table of Contents
       -  Cardinality: 0-1
       -  Mutability: read-only
       -  Data Type: Processes Object
+      -  Direct Access: true
       -  Description: The Process Objects currently or recently
          initiated on the organisation object.
       -  Constraints: (None)
@@ -3059,6 +3102,7 @@ Table of Contents
 
    -  Name: User Data Object
    -  Identifier: user
+   -  Unique Identifier: id
    -  Description: Represents a user linked to an Organisation Object.
       Each user carries a set of RBAC roles that define the user's
       permissions within the context of the owning Organisation Object.
@@ -3125,6 +3169,7 @@ Table of Contents
       -  Cardinality: 0-1
       -  Mutability: read-only
       -  Data Type: Processes Object
+      -  Direct Access: true
       -  Description: The Process Objects currently or recently
          initiated on the user object.
       -  Constraints: (None)
@@ -4758,6 +4803,10 @@ draft-ietf-rpp-data-objects -00 - -01
    -  add optional processId to all Process Objects #89
    -  add extensible Processes Object component and processes element to
       all Data Objects #89
+   -  declare the unique identifier element explicitly in every object
+      preamble #89
+   -  add "Direct Access" flag exposing association data elements as
+      addressable sub-resources #89
 
 draft-kowalik-rpp-data-objects-04 - draft-ietf-rpp-data-objects-00
 
