@@ -10,7 +10,7 @@ date = 2026-07-02
 
 [seriesInfo]
 name = "Internet-Draft"
-value = "draft-ietf-rpp-data-objects-01"
+value = "draft-ietf-rpp-data-objects-02 (editorial)"
 stream = "IETF"
 status = "standard"
 
