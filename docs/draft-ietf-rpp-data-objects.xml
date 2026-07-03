@@ -4602,6 +4602,9 @@ Registration procedure: Expert Review
     <author fullname="Maarten Wullink" initials="M." surname="Wullink">
       <organization>SIDN Labs</organization>
     </author>
+    <author fullname="Pawel Kowalik" initials="P." surname="Kowalik">
+      <organization>DENIC eG</organization>
+    </author>
     <date year="2026"></date>
   </front>
   <seriesInfo name="Internet-Draft" value="draft-wullink-rpp-jscontact-profile"></seriesInfo>

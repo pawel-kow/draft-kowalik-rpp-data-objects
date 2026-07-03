@@ -4880,9 +4880,9 @@ draft-kowalik-rpp-data-objects -01 - -02
               architecture-03>.
 
    [I-D.wullink-rpp-jscontact-profile]
-              Wullink, M., "JSContact Profile for the RESTful
-              Provisioning Protocol (RPP)", Work in Progress, Internet-
-              Draft, draft-wullink-rpp-jscontact-profile, 2026,
+              Wullink, M. and P. Kowalik, "JSContact Profile for the
+              RESTful Provisioning Protocol (RPP)", Work in Progress,
+              Internet-Draft, draft-wullink-rpp-jscontact-profile, 2026,
               <https://datatracker.ietf.org/doc/html/draft-wullink-rpp-
               jscontact-profile>.
 

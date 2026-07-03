@@ -2990,6 +2990,9 @@ A> TODO: write security considerations, if any
     <author initials="M." surname="Wullink" fullname="Maarten Wullink">
       <organization>SIDN Labs</organization>
     </author>
+    <author initials="P." surname="Kowalik" fullname="Pawel Kowalik">
+      <organization>DENIC eG</organization>
+    </author>
     <date year="2026"/>
   </front>
   <seriesInfo name="Internet-Draft" value="draft-wullink-rpp-jscontact-profile"/>
