@@ -4539,6 +4539,7 @@ Registration procedure: Expert Review
 <li>declare the unique identifier element explicitly in every object preamble #89</li>
 <li>add &quot;Direct Access&quot; flag exposing association data elements as addressable sub-resources #89</li>
 <li>editorial pass: fix spelling, grammar, subject-verb agreement, missing articles, cross-reference wording, and copy-paste object names</li>
+<li>Add External Data Types section and JSContact (Issue #83)</li>
 </ul>
 </section>
 
@@ -4552,7 +4553,8 @@ Registration procedure: Expert Review
 <section anchor="draft-kowalik-rpp-data-objects-03-04" numbered="false"><name>draft-kowalik-rpp-data-objects -03 - -04</name>
 
 <ul spacing="compact">
-<li>Add External Data Types section and JSContact (Issue #83)</li>
+<li>correct <tt>&quot;postalInfo&quot;</tt> to be DictionaryComposition not DictionaryAggregation</li>
+<li>Added missing IANA tables for Contact, Postal Address and Postal Info. Added missing Operations. Added missing operation identifiers. Fixes #17, #18, #19, #20, #21.</li>
 </ul>
 </section>
 

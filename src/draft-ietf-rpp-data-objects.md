@@ -2938,6 +2938,8 @@ A> TODO: write security considerations, if any
 * declare the unique identifier element explicitly in every object preamble #89
 * add "Direct Access" flag exposing association data elements as addressable sub-resources #89
 * editorial pass: fix spelling, grammar, subject-verb agreement, missing articles, cross-reference wording, and copy-paste object names
+* Add External Data Types section and JSContact (Issue #83)
+
 
 {toc="exclude"}
 {numbered="false"}
@@ -2949,7 +2951,8 @@ A> TODO: write security considerations, if any
 {numbered="false"}
 ## draft-kowalik-rpp-data-objects -03 - -04
 
-* Add External Data Types section and JSContact (Issue #83)
+* correct `"postalInfo"` to be DictionaryComposition not DictionaryAggregation
+* Added missing IANA tables for Contact, Postal Address and Postal Info. Added missing Operations. Added missing operation identifiers. Fixes #17, #18, #19, #20, #21.
 
 {toc="exclude"}
 {numbered="false"}

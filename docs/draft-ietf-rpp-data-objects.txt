@@ -231,7 +231,7 @@ Internet-Draft              RPP Data Objects                   July 2026
    16. References  . . . . . . . . . . . . . . . . . . . . . . . . . 106
      16.1.  Normative References . . . . . . . . . . . . . . . . . . 106
      16.2.  Informative References . . . . . . . . . . . . . . . . . 108
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . . 108
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . . 109
 
 1.  Introduction
 
@@ -5840,6 +5840,7 @@ Internet-Draft              RPP Data Objects                   July 2026
    -  editorial pass: fix spelling, grammar, subject-verb agreement,
       missing articles, cross-reference wording, and copy-paste object
       names
+   -  Add External Data Types section and JSContact (Issue #83)
 
 draft-kowalik-rpp-data-objects-04 - draft-ietf-rpp-data-objects-00
 
@@ -5847,7 +5848,11 @@ draft-kowalik-rpp-data-objects-04 - draft-ietf-rpp-data-objects-00
 
 draft-kowalik-rpp-data-objects -03 - -04
 
-   -  Add External Data Types section and JSContact (Issue #83)
+   -  correct "postalInfo" to be DictionaryComposition not
+      DictionaryAggregation
+   -  Added missing IANA tables for Contact, Postal Address and Postal
+      Info.  Added missing Operations.  Added missing operation
+      identifiers.  Fixes #17, #18, #19, #20, #21.
 
 draft-kowalik-rpp-data-objects -02 - -03
 
@@ -5867,12 +5872,7 @@ draft-kowalik-rpp-data-objects -02 - -03
    -  add domain-specific transfer operations with implicit renewal and
       subordinate host transfer
    -  add host/domain relationship terminology from RFC 5732
-   -  restructure DNS data model aligned with draft-simmen-rpp-dns-data-
-      01: redefine DNS Resource Record Object, add DNS Operational
-      Controls Object, add DNS Data Object; update Domain, Host, and
-      Nameserver objects to use it
-   -  add DNSSEC support based on [RFC5910]: DS and DNSKEY record types
-      with structured RDATA fields
+
 
 
 
@@ -5882,6 +5882,12 @@ Kowalik & Wullink        Expires 3 January 2027               [Page 105]
 Internet-Draft              RPP Data Objects                   July 2026
 
 
+   -  restructure DNS data model aligned with draft-simmen-rpp-dns-data-
+      01: redefine DNS Resource Record Object, add DNS Operational
+      Controls Object, add DNS Data Object; update Domain, Host, and
+      Nameserver objects to use it
+   -  add DNSSEC support based on [RFC5910]: DS and DNSKEY record types
+      with structured RDATA fields
    -  add NS, A, and AAAA RDATA structures and record type constraints
       to EPP compatibility profile for DNS Resource Record Object
    -  expand extensibility section with standardised/private extension
@@ -5923,13 +5929,7 @@ draft-kowalik-rpp-data-objects -01 - -02
               public telecommunication numbering plan", ITU-T
               Recommendation E.164, February 2005.
 
-   [RFC1035]  Mockapetris, P., "Domain names - implementation and
-              specification", STD 13, RFC 1035, DOI 10.17487/RFC1035,
-              November 1987, <https://www.rfc-editor.org/info/rfc1035>.
 
-   [RFC1738]  Berners-Lee, T., Masinter, L., and M. McCahill, "Uniform
-              Resource Locators (URL)", RFC 1738, DOI 10.17487/RFC1738,
-              December 1994, <https://www.rfc-editor.org/info/rfc1738>.
 
 
 
@@ -5937,6 +5937,14 @@ Kowalik & Wullink        Expires 3 January 2027               [Page 106]
 
 Internet-Draft              RPP Data Objects                   July 2026
 
+
+   [RFC1035]  Mockapetris, P., "Domain names - implementation and
+              specification", STD 13, RFC 1035, DOI 10.17487/RFC1035,
+              November 1987, <https://www.rfc-editor.org/info/rfc1035>.
+
+   [RFC1738]  Berners-Lee, T., Masinter, L., and M. McCahill, "Uniform
+              Resource Locators (URL)", RFC 1738, DOI 10.17487/RFC1738,
+              December 1994, <https://www.rfc-editor.org/info/rfc1738>.
 
    [RFC2026]  Bradner, S., "The Internet Standards Process -- Revision
               3", BCP 9, RFC 2026, DOI 10.17487/RFC2026, October 1996,
@@ -5978,14 +5986,6 @@ Internet-Draft              RPP Data Objects                   July 2026
               Contact Mapping", STD 69, RFC 5733, DOI 10.17487/RFC5733,
               August 2009, <https://www.rfc-editor.org/info/rfc5733>.
 
-   [RFC5952]  Kawamura, S. and M. Kawashima, "A Recommendation for IPv6
-              Address Text Representation", RFC 5952,
-              DOI 10.17487/RFC5952, August 2010,
-              <https://www.rfc-editor.org/info/rfc5952>.
-
-
-
-
 
 
 
@@ -5993,6 +5993,11 @@ Kowalik & Wullink        Expires 3 January 2027               [Page 107]
 
 Internet-Draft              RPP Data Objects                   July 2026
 
+
+   [RFC5952]  Kawamura, S. and M. Kawashima, "A Recommendation for IPv6
+              Address Text Representation", RFC 5952,
+              DOI 10.17487/RFC5952, August 2010,
+              <https://www.rfc-editor.org/info/rfc5952>.
 
    [RFC8126]  Cotton, M., Leiba, B., and T. Narten, "Guidelines for
               Writing an IANA Considerations Section in RFCs", BCP 26,
@@ -6038,11 +6043,6 @@ Internet-Draft              RPP Data Objects                   July 2026
               DOI 10.17487/RFC5910, May 2010,
               <https://www.rfc-editor.org/info/rfc5910>.
 
-Authors' Addresses
-
-   Pawel Kowalik
-   DENIC
-
 
 
 Kowalik & Wullink        Expires 3 January 2027               [Page 108]
@@ -6050,6 +6050,10 @@ Kowalik & Wullink        Expires 3 January 2027               [Page 108]
 Internet-Draft              RPP Data Objects                   July 2026
 
 
+Authors' Addresses
+
+   Pawel Kowalik
+   DENIC
    Email: pawel.kowalik@denic.de
    URI:   https://denic.de/
 
@@ -6058,10 +6062,6 @@ Internet-Draft              RPP Data Objects                   July 2026
    SIDN Labs
    Email: maarten.wullink@sidn.nl
    URI:   https://sidn.nl/
-
-
-
-
 
 
 
