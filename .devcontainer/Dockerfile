@@ -7,4 +7,4 @@ RUN apt-get -y update && apt-get -y install golang-go nano git && apt-get -y cle
     cd mmark && go get && go build && mv mmark /usr/bin/
 
 # Specify the working directory when a container is started
-WORKDIR /workspace/draft-kowalik-rpp-data-objects
+WORKDIR /workspace/draft-ietf-rpp-data-objects
