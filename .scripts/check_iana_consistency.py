@@ -47,7 +47,7 @@ from pathlib import Path
 # Configuration
 # ---------------------------------------------------------------------------
 
-DRAFT_FILE = Path("./draft-kowalik-rpp-data-objects.md")
+DRAFT_FILE = Path("./draft-ietf-rpp-data-objects.md")
 
 NORMATIVE_TOPLEVEL_SECTIONS = [
     "# Component Objects",

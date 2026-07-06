@@ -3,7 +3,7 @@
 ## Purpose
 
 Programmatically verifies consistency between the normative object definitions
-and the IANA registry tables in `src/draft-kowalik-rpp-data-objects.md`.
+and the IANA registry tables in `src/draft-ietf-rpp-data-objects.md`.
 
 ## Usage
 
