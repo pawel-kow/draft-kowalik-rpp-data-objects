@@ -253,7 +253,10 @@ def _collect_element_attrs(lines: list[str], start: int, end: int,
     """
     Collect attribute bullets at exactly *indent* spaces of indentation.
     Returns {attr_key_lower: (value, 1-based-line)}.
-    Stops when a shallower-indented non-blank line is encountered.
+    Blank lines and "A>" editorial asides are skipped wherever they appear,
+    including between attribute bullets - a valid editorial pattern in this
+    document. Stops at any other shallower-indented, non-blank, non-aside
+    line.
     """
     attr_re = re.compile(r"^" + " " * indent + r"\* ([\w /]+):\s*(.*)$")
     attrs: dict[str, tuple[str, int]] = {}
@@ -264,7 +267,7 @@ def _collect_element_attrs(lines: list[str], start: int, end: int,
             key = m.group(1).strip().lower()
             val = m.group(2).strip()
             attrs[key] = (val, j + 1)
-        elif raw.strip() == "":
+        elif raw.strip() == "" or _ASIDE_RE.match(raw):
             continue
         elif not raw.startswith(" " * indent):
             # stepped back to shallower indent - stop
@@ -2547,6 +2550,33 @@ def _test_subsection_parsing_preserves_order_and_folds_bullets():
     ], sub.notes
 
 
+def _test_param_attrs_tolerate_blank_lines_and_asides_between_bullets():
+    """
+    Blank lines and "A>" asides are a valid pattern between a transient
+    operation parameter's own attribute bullets too, not just element
+    attributes - must not break or misattribute parameter parsing.
+    """
+    lines = [
+        "* Hosts Filter",
+        "  * Identifier: hostsFilter",
+        "",
+        "A> TODO: reconsider default value",
+        "",
+        "  * Cardinality: 0-1",
+        "  A> TBD: data type still under review",
+        "  * Data Type: String",
+        "  * Description: Controls which host information is returned.",
+    ]
+    params = _parse_normative_params_from_bullets(lines, 0, len(lines))
+    assert len(params) == 1, params
+    p = params[0]
+    assert p.identifier == "hostsFilter"
+    assert p.cardinality == "0-1", p.cardinality
+    assert p.data_type == "String", p.data_type
+    assert p.description == "Controls which host information is returned."
+    assert not any("TODO" in n or "TBD" in n for n in p.notes), p.notes
+
+
 def _test_operation_description_authorisation_input_output():
     """
     Regression test based on the Transfer Process Object's Read/Delete/
@@ -2796,6 +2826,39 @@ def _test_walk_normative_objects_skips_aside_before_header():
     assert ids == {"disclose", "restoreReport"}, ids
 
 
+def _test_object_header_tolerates_blank_lines_and_asides_between_attrs():
+    """
+    Blank lines and "A>" asides between an object's OWN header attribute
+    bullets (Name/Identifier/Description), not just before the block, must
+    not break header parsing or terminate it early.
+    """
+    lines = [
+        "# Component Objects",
+        "",
+        "## Widget Object",
+        "",
+        "* Name: Widget Object",
+        "",
+        "A> TODO: reconsider naming",
+        "",
+        "* Identifier: widget",
+        "A> TBD: description still under review",
+        "* Description: A widget.",
+        "* Data Elements:",
+        "  * Size",
+        "    * Identifier: size",
+        "    * Cardinality: 1",
+        "    * Mutability: read-write",
+        "    * Data Type: Integer",
+    ]
+    objects = _walk_normative_objects(lines, 0, len(lines), obj_type="Component")
+    assert len(objects) == 1, objects
+    obj = objects[0]
+    assert obj.identifier == "widget"
+    assert obj.name == "Widget Object"
+    assert obj.description == "A widget."
+
+
 def _test_walk_normative_objects_flat_data_object():
     """
     Regression test: a top-down walk of a Data Object section correctly
@@ -2991,6 +3054,7 @@ _SELF_TESTS = [
     _test_element_constraints_none_becomes_empty_list,
     _test_element_constraints_nested_bullet_list_reads_indent_from_source,
     _test_header_end_stops_at_data_elements_bullet,
+    _test_param_attrs_tolerate_blank_lines_and_asides_between_bullets,
     _test_operation_description_authorisation_input_output,
     _test_operation_description_multi_paragraph_and_trailing_notes,
     _test_subsection_parsing_preserves_order_and_folds_bullets,
@@ -3000,6 +3064,7 @@ _SELF_TESTS = [
     _test_subsection_object_description_heading_excluded,
     _test_subsection_processes_heading_excluded,
     _test_walk_normative_objects_skips_aside_before_header,
+    _test_object_header_tolerates_blank_lines_and_asides_between_attrs,
     _test_walk_normative_objects_flat_data_object,
     _test_walk_normative_objects_process_embedded_in_data_object,
     _test_orphan_prose_skips_asides_and_joins_paragraphs,
