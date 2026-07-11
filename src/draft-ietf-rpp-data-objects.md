@@ -1590,7 +1590,9 @@ The Domain Name Data Object supports the restore operations defined in (#restore
 
 No domain-specific transient data elements extend the common restore operations beyond those defined in (#restore-ops).
 
-## Domain Create Process Object {#domain-create-process}
+## Processes
+
+### Domain Create Process Object {#domain-create-process}
 
 * Name: Domain Create Process Object
 * Identifier: domainCreateProcess
@@ -1612,9 +1614,9 @@ No domain-specific transient data elements extend the common restore operations 
     * Description: The initial registration period for the domain name. This value is used by the server to calculate the initial `expiryDate` of the object.
     * Constraints: (None)
 
-### Operations
+#### Operations
 
-#### Create {#domain-create-process-create}
+##### Create {#domain-create-process-create}
 
 * Identifier: create
 
@@ -1626,7 +1628,7 @@ The Create operation is invoked implicitly as a side effect of the Domain Name D
 * Authorisation:
   * Inherited from the Domain Name Data Object create operation that initiates this process.
 
-#### Read {#domain-create-process-read}
+##### Read {#domain-create-process-read}
 
 * Identifier: read
 
