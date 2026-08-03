@@ -992,6 +992,126 @@ A> TBC: IANA registry for role types and statuses? must be compat with EPP
     * Description: The create processes initiated on the owning Data Object.
     * Constraints: (None)
 
+## Public Key Object
+
+* Name: Public Key Object
+* Identifier: publicKey
+* Description: Represents a public key associated with an Organisation Object. The public key is used to verify the authenticity of messages signed by the corresponding private key.
+* Data Elements:
+  * Key Type
+    * Identifier: type
+    * Cardinality: 1
+    * Mutability: create-only
+    * Data Type: String
+    * Description: The type of the public key ("RSA" or "EC") from the "JSON Web Key Types" registry maintained by IANA [@!IANA.JOSE]
+    * Constraints: The value MUST be one of "RSA" or "EC". The type cannot be updated due to ongoing transactions and the need to maintain a stable reference to the key. If a new key type is needed, a new Public Key Object MUST be created with a different id and type.
+  * Algorithm
+    * Identifier: alg
+    * Cardinality: 1
+    * Mutability: create-only
+    * Data Type: String
+    * Description: The algorithm used with the public key, from the "JSON Web Signature and Encryption Algorithms" registry maintained by IANA [@!IANA.JOSE]
+    * Constraints: The value MUST be one of the values registered in the IANA registry for the allowed public key types. The algorithm cannot be updated due to ongoing transactions and the need to maintain a stable reference to the key.
+  * RSAModulus
+    * Identifier: n
+    * Cardinality: 0-1
+    * Mutability: create-only
+    * Data Type: String
+    * Description: The RSA modulus value, base64-encoded
+    * Constraints: This element MUST be present if the key type is "RSA". The modulus cannot be updated due to ongoing transactions and the need to maintain a stable reference to the key.
+  * RSAExponent
+    * Identifier: e
+    * Cardinality: 0-1
+    * Mutability: create-only
+    * Data Type: String
+    * Description: The RSA exponent value, base64-encoded
+    * Constraints: This element MUST be present if the key type is "RSA". The exponent cannot be updated due to ongoing transactions and the need to maintain a stable reference to the key.
+  * ECXCoordinate
+    * Identifier: x
+    * Cardinality: 0-1
+    * Mutability: create-only
+    * Data Type: String
+    * Description: The EC X coordinate value, base64-encoded
+    * Constraints: This element MUST be present if the key type is "EC". The X coordinate cannot be updated due to ongoing transactions and the need to maintain a stable reference to the key.
+  * ECYCoordinate
+    * Identifier: y
+    * Cardinality: 0-1
+    * Mutability: create-only
+    * Data Type: String
+    * Description: The EC Y coordinate value, base64-encoded
+    * Constraints: This element MUST be present if the key type is "EC". The Y coordinate cannot be updated due to ongoing transactions and the need to maintain a stable reference to the key.
+  * ECurve
+    * Identifier: crv
+    * Cardinality: 0-1
+    * Mutability: create-only
+    * Data Type: String
+    * Description: The EC curve name, from the "JSON Web Key Elliptic Curve" registry maintained by IANA [@!IANA.JOSE]
+    * Constraints: This element MUST be present if the key type is "EC". The curve cannot be updated due to ongoing transactions and the need to maintain a stable reference to the key.
+
+## Signature Object
+
+* Name: Signature Object
+* Identifier: signature
+* Description: Represents a digital signature, the signature is used to verify the authenticity of messages signed by the corresponding private key.
+* Data Elements:
+  * Key ID
+    * Identifier: keyId
+    * Cardinality: 1
+    * Mutability: create-only
+    * Data Type: String
+    * Description: The identifier of the public key corresponding to the private key used to create the signature.
+    * Constraints: The value MUST match the identifier of a Public Key Object known to the verifying party.
+  * Signed At
+    * Identifier: signedAt
+    * Cardinality: 1
+    * Mutability: create-only
+    * Data Type: Date-Time
+    * Description: The date and time at which the signature was applied.
+    * Constraints: (none)
+  * Signature
+    * Identifier: signature
+    * Cardinality: 1
+    * Mutability: create-only
+    * Data Type: String
+    * Description: The base64-encoded digital signature value.
+    * Constraints: (none)
+
+## Approval Object
+
+* Name: Approval Object
+* Identifier: approval
+* Description: Represents an approval for a requested operation, the approval is used to verify the consent of the approving party.
+* Data Elements:
+  * Approved
+    * Identifier: approved
+    * Cardinality: 1
+    * Mutability: create-only
+    * Data Type: Boolean
+    * Description: Indicates whether the requested operation was approved.
+    * Constraints: (none)
+  * Approved By
+    * Identifier: approvedBy
+    * Cardinality: 1
+    * Mutability: create-only
+    * Data Type: String
+    * Description: An identifier of the individual or role that made the approval decision.
+    * Constraints: (none)
+  * Reason
+    * Identifier: reason
+    * Cardinality: 0-1
+    * Mutability: create-only
+    * Data Type: String
+    * Description: An explanation for the approval decision, in particular the reason for a rejection.
+    * Constraints: (none)
+  * Timestamp
+    * Identifier: timestamp
+    * Cardinality: 1
+    * Mutability: create-only
+    * Data Type: Date-Time
+    * Description: The date and time at which the approval decision was made.
+    * Constraints: (none)
+
+
 # Process Objects {#process-objects}
 
 This section defines the Process Objects used in this document.
@@ -2005,6 +2125,40 @@ A> TODO: how handle the "custom" contact type?
   * Description: The Process Objects currently or recently initiated on the organisation object.
   * Constraints: (None)
 
+* Public Keys
+  * Identifier: publicKeys
+  * Cardinality: 0+
+  * Mutability: read-write
+  * Data Type: DictionaryComposition[Public Key Object]
+    * Label Description: Public key identifier
+    * Label Constraints:
+  * Direct Access: true
+  * Description: One or more public keys associated with the organisation.
+  * Constraints:
+    * Each key value MUST be a non-empty string.
+    * Allowed key values MAY be constrained by server policy.
+
+* Approval Redirect URI
+  * Identifier: approvalRedirectUri
+  * Cardinality: 0-1
+  * Mutability: read-write
+  * Data Type: URI
+  * Description: The URI to which the client should be redirected for multi-party approval.
+  * Constraints:
+    * The value MUST be a valid URI.
+    * This data element MUST only be used when the organisation represents a registrar or reseller supporting multi-party approval.
+
+* Approval Return URI
+  * Identifier: approvalReturnUri
+  * Cardinality: 0-1
+  * Mutability: read-write
+  * Data Type: URI
+  * Description: The URI to which the client should be redirected after multi-party approval at the registrar.
+  * Constraints:
+    * The value MUST be a valid URI.
+    * This data element MUST only be used when the organisation represents a 3rd party supporting multi-party approval.
+
+A> TODO: define the approvalRedirectUri and approvalReturnUri here, or in the multi-party approval spec?
 A> TODO: define an IANA registry for user roles?
 
 ## Operations
@@ -2162,6 +2316,115 @@ The Delete operation removes a specific User Object.
   * Client can only delete users in the context of the organisation linked to the client, and only if the client has the necessary permissions to delete users in that organisation.
 
 The server MUST reject this operation if the User is associated with an Organisation Object.
+
+# Authorisation Data Object
+
+## Object Description
+
+* Name: Authorisation Data Object
+* Identifier: authorisation
+* Unique Identifier: id
+* Description: An Authorisation Data Object represents the authorisation information for a multi-party approval request.
+
+## Data Elements
+
+The following data elements are defined for the Authorisation Data Object.
+
+* Transaction Type
+  * Identifier: transactionType
+  * Cardinality: 1
+  * Mutability: create-only
+  * Data Type: string
+  * Description: The type of transaction for the authorisation request
+  * Constraints: MUST be one of the predefined transaction types defined in the IANA registry for RPP multi-party approval transaction types.
+* Transaction Id
+  * Identifier: id
+  * Cardinality: 1
+  * Mutability: create-only
+  * Data Type: string
+  * Description: The identifier for the authorisation request
+  * Constraints: (none)
+* Timestamp
+  * Identifier: timestamp
+  * Cardinality: 1
+  * Mutability: create-only
+  * Data Type: Timestamp
+  * Description: The time the authorisation request was created
+  * Constraints: (none)
+* Expiry Time
+  * Identifier: expiration
+  * Cardinality: 1
+  * Mutability: create-only
+  * Data Type: Timestamp
+  * Description: The time the authorisation request expires
+  * Constraints: MUST be later than the timestamp of the authorisation request.
+* Object Identifier
+  * Identifier: objectId
+  * Cardinality: 1
+  * Mutability: create-only
+  * Data Type: identifier
+  * Description: The identifier of the object the authorisation request pertains to
+  * Constraints: (none)
+* Requestor Id
+  * Identifier: requestorId
+  * Cardinality: 1
+  * Mutability: create-only
+  * Data Type: identifier
+  * Description: The unique organisation identifier of the requestor
+  * Constraints: (none)
+* Requestor Name
+  * Identifier: requestorName
+  * Cardinality: 1
+  * Mutability: create-only
+  * Data Type: string
+  * Description: The name of the requestor
+  * Constraints: (none)
+* Approval URL
+  * Identifier: approvalUrl
+  * Cardinality: 0-1
+  * Mutability: read-write
+  * Data Type: URI
+  * Description: The URI to which the client should be redirected for multi-party approval.
+  * Constraints:
+    * The value MUST be a valid URI.
+    * This data element MUST only be used when the organisation represents a registrar or reseller supporting multi-party approval.
+* Return URL
+  * Identifier: returnUrl
+  * Cardinality: 0-1
+  * Mutability: read-write
+  * Data Type: URI
+  * Description: The URI to which the client should be redirected after multi-party approval at the registrar.
+  * Constraints:
+    * The value MUST be a valid URI.
+    * This data element MUST only be used when the organisation represents a 3rd party supporting multi-party approval.
+* Usage
+  * Identifier: usage
+  * Cardinality: 1
+  * Mutability: create-only
+  * Data Type: string
+  * Description: The usage type for the authorisation request
+  * Constraints: MUST be one of "single-use" or "multi-use".
+* Data
+  * Identifier: data
+  * Cardinality: 1
+  * Mutability: read-write
+  * Data Type: object
+  * Description: The data associated with the authorisation request, which may include additional information required for processing the request.
+  * Constraints: MUST be a valid RPP Data Object.
+* Signatures
+  * Identifier: signatures
+  * Cardinality: 0+
+  * Mutability: read-write
+  * Data Type: Signature Object
+  * Description: The digital signatures of the authorisation request, used to verify the authenticity and integrity of the request.
+  * Constraints: (none)
+* Approval
+  * Identifier: approval
+  * Cardinality: 0-1
+  * Mutability: read-write
+  * Data Type: Approval Object
+  * Description: The approval information for the authorisation request
+  * Constraints: (none)
 
 # IANA Considerations
 
@@ -3018,4 +3281,14 @@ A> TODO: write security considerations, if any
     <date year="2005" month="02"/>
   </front>
   <seriesInfo name="ITU-T Recommendation" value="E.164"/>
+</reference>
+
+<reference anchor="IANA.JOSE" target="https://www.iana.org/assignments/jose/jose.xhtml">
+  <front>
+    <title>JSON Object Signing and Encryption (JOSE)</title>
+    <author>
+      <organization>IANA</organization>
+    </author>
+    <date/>
+  </front>
 </reference>
