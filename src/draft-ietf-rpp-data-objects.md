@@ -905,10 +905,9 @@ A> TBC: IANA registry for role types and statuses? must be compat with EPP
 
 # Process Objects {#process-objects}
 
-This section defines the Process Objects used in this document.
+Each generic Process Object carries a set of data elements, each Data Object defines its own implementation of the Process Object, specific to the Data Object, but based on the generic Process Object. The generic data elements are defined below and MUST be included in all Process Objects. When the client, possibly indirectly, executes the "create" operation on a Data Object, or when the client directly executes the "create" operation of a Process Object, which is not an Uniform Interface operation, the server MUST create a new instance of the Process Object.
 
-Each Process Object carries a set of generic data elements, in addition to any specific to the process type.
-The generic data elements are defined below and MUST be included in all Process Objects.
+## Data Elements
 
 * Process ID
   * Identifier: processId
