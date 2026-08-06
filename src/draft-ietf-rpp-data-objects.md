@@ -1299,11 +1299,16 @@ The renew operation extends the validity period of an existing object by creatin
 
 ## Create Process Object {#create-process}
 
+### Object Description
+
 * Name: Create Process Object
 * Identifier: createProcess
 * Unique Identifier: processId
 * Description: Represents the process initiated when a resource creation operation is performed. It carries creation-specific inputs that are consumed during the creation operation and are not stored as persistent attributes of the created resource object, but MAY be stored as a separate process object.
-* Data Elements: The Create Process Object defines no additional data elements. Individual object definitions extend it with object-specific creation inputs (such as the Domain Create Process Object (#domain-create-process), which adds the registration period).
+
+### Data Elements
+
+The Create Process Object defines no additional data elements. Individual object definitions extend it with object-specific creation inputs (such as the Domain Create Process Object (#domain-create-process), which adds the registration period).
 
 ### Operations
 
@@ -1350,11 +1355,16 @@ The Delete operation removes the process resource, if the server exposes it.
 
 ## Read Process Object {#read-process}
 
+### Object Description
+
 * Name: Read Process Object
 * Identifier: readProcess
 * Unique Identifier: processId
 * Description: Represents the process initiated when a resource read operation is performed. It carries creation-specific inputs that are consumed during the read operation and MAY be stored as a separate process object.
-* Data Elements: The Read Process Object defines no additional data elements. Individual object definitions may extend it with object-specific creation inputs.
+
+### Data Elements
+
+The Read Process Object defines no additional data elements. Individual object definitions may extend it with object-specific creation inputs.
 
 ### Operations
 
@@ -1393,18 +1403,24 @@ The Delete operation removes the process resource, if the server exposes it.
 
 ## Update Process Object {#update-process}
 
+### Object Description
+
 * Name: Update Process Object
 * Identifier: updateProcess
 * Unique Identifier: processId
 * Description: Represents the process initiated when a resource update operation is performed. It carries update-specific inputs that are consumed during the update operation and MAY be stored as a separate process object.
-* Data Elements:
-  * Authorisation Information
-    * Identifier: authInfo
-    * Cardinality: 0-1
-    * Mutability: read-write
-    * Data Type: Authorisation Information Object
-    * Description: Authorisation information associated with the data object that is to be updated.
-    * Constraints: (None)
+
+### Data Elements
+
+The Update Process Object defines the following additional data elements:
+
+* Authorisation Information
+  * Identifier: authInfo
+  * Cardinality: 0-1
+  * Mutability: read-write
+  * Data Type: Authorisation Information Object
+  * Description: Authorisation information associated with the data object that is to be updated.
+  * Constraints: (None)
 
 Individual object definitions may extend the Update Process Object with object-specific inputs.
 
@@ -1453,11 +1469,16 @@ The Delete operation removes the process resource, if the server exposes it.
 
 ## Delete Process Object {#delete-process}
 
+### Object Description
+
 * Name: Delete Process Object
 * Identifier: deleteProcess
 * Unique Identifier: processId
 * Description: Represents the process initiated when a resource delete operation is performed. It carries creation-specific inputs that are consumed during the delete operation and MAY be stored as a separate process object.
-* Data Elements: The Delete Process Object defines no additional data elements. Individual object definitions may extend it with object-specific creation inputs.
+
+### Data Elements
+
+The Delete Process Object defines no additional data elements. Individual object definitions may extend it with object-specific creation inputs.
 
 ### Operations
 
@@ -1618,6 +1639,8 @@ A> TBC: IANA registry for contact role label?
 
 ## Processes
 
+This section defines the domain-specific process objects that are (implicitly) initiated by the operations on the Domain Name Data Object. Each process object may include process-related data that is persisted as part of the domain object's state.
+
 ### Create Process {#domain-create-process}
 
 * Name: Domain Create Process Object
@@ -1673,6 +1696,11 @@ is "all".
 
 ### Read Process {#domain-read-process}
 
+* Name: Domain Read Process Object
+* Identifier: domainReadProcess
+* Unique Identifier: processId
+* Description: The domain-specific Read Process Object (#read-process). It is implicitly initiated by the Domain Name Data Object read operation and carries no object-specific data elements.
+
 #### Operations
 
 ##### Create {#domain-read-process-create}
@@ -1680,6 +1708,11 @@ is "all".
 TODO
 
 ### Update Process {#domain-update-process}
+
+* Name: Domain Update Process Object
+* Identifier: domainUpdateProcess
+* Unique Identifier: processId
+* Description: The domain-specific Update Process Object (#update-process). It is implicitly initiated by the Domain Name Data Object update operation and carries no additional persisted data elements beyond those defined in (#update-process).
 
 #### Operations
 
@@ -1705,6 +1738,11 @@ The following additional transient data elements are defined for this operation:
 
 ### Delete Process {#domain-delete-process}
 
+* Name: Domain Delete Process Object
+* Identifier: domainDeleteProcess
+* Unique Identifier: processId
+* Description: The domain-specific Delete Process Object (#delete-process). It is implicitly initiated by the Domain Name Data Object delete operation and carries no object-specific data elements.
+
 #### Operations
 
 ##### Create {#domain-delete-process-create}
@@ -1722,7 +1760,10 @@ The error response SHOULD indicate the related subordinate host objects.
 
 ### Renew Process {#domain-renew-process}
 
-The renewal of a domain name changes the expiry date of the domain object.
+* Name: Domain Renew Process Object
+* Identifier: domainRenewProcess
+* Unique Identifier: processId
+* Description: The domain-specific Renew Process Object (#renew-process). It is implicitly initiated by the Domain Name Data Object renew operation and carries no object-specific data elements. The renewal of a domain name changes the expiry date of the domain object.
 
 #### Operations
 
@@ -1737,7 +1778,12 @@ The create operation for the Renew process allows a client to extend the validit
 
 ### Transfer Process {#domain-transfer-process}
 
-The Domain Name Data Object supports the common transfer operations defined in (#transfer-process). The transfer of a domain name changes the sponsoring client of the domain object.
+* Name: Domain Transfer Process Object
+* Identifier: domainTransferProcess
+* Unique Identifier: processId
+* Description: The domain-specific Transfer Process Object (#transfer-process). It is implicitly initiated by the Domain Name Data Object transfer operation. The transfer of a domain name changes the sponsoring client of the domain object.
+
+The Domain Name Data Object supports the common transfer operations defined in (#transfer-process).
 
 Transfer of a domain object MUST implicitly transfer all host objects that are subordinate to the domain object. For example, if domain object "example.com" is transferred and host object "ns1.example.com" exists, the host object MUST be transferred as part of the "example.com" transfer process.
 
@@ -1769,6 +1815,11 @@ In addition, the following transient data element is defined for this operation:
   * Constraints: (None)
 
 ### Restore Process {#domain-restore-process}
+
+* Name: Domain Restore Process Object
+* Identifier: domainRestoreProcess
+* Unique Identifier: processId
+* Description: The domain-specific Restore Process Object (#restore-process). It is implicitly initiated by the Domain Name Data Object restore operation and carries no object-specific data elements.
 
 The Domain Name Data Object supports the restore operations defined in (#restore-process). These operations are OPTIONAL and are only available when the RGP feature is supported.
 
@@ -1849,9 +1900,20 @@ The following data elements are defined for the Contact Data Object.
 
 A> TBC: IANA registry for statuses?
 
-## Operations
+## Processes
 
-### Create Operation
+This section defines the contact-specific process objects that are (implicitly) initiated by the operations on the Contact Data Object. Each process object may include process-related data that is persisted as part of the contact object's state.
+
+### Create Process {#contact-create-process}
+
+* Name: Contact Create Process Object
+* Identifier: contactCreateProcess
+* Unique Identifier: processId
+* Description: The Contact Data Object uses the generic Create Process Object (#create-process) without object-specific data elements.
+
+#### Operations
+
+##### Create {#contact-create-process-create}
 
 * Identifier: create
 
@@ -1867,9 +1929,18 @@ In EPP Compatibility Profile, the following data elements MUST be provided:
 * E-mail (`email`)
 * Authorisation Information (`authInfo`)
 
-### Read Operation
+### Read Process {#contact-read-process}
 
-* Identifier: read
+* Name: Contact Read Process Object
+* Identifier: contactReadProcess
+* Unique Identifier: processId
+* Description: The Contact Data Object uses the generic Read Process Object (#read-process) without object-specific data elements.
+
+#### Operations
+
+##### Create {#contact-read-process-create}
+
+* Identifier: create
 
 The Read operation allows a client to retrieve the data elements of a Contact resource. The server's response MAY vary depending on client authorisation and server policy.
 
@@ -1886,9 +1957,18 @@ Authorisation Information (`authInfo`) MUST NOT be provided in the response if t
 
 When constructing the response, the server MUST respect the disclosure policies defined by the Disclose Object (`disclose`), whether set by the server operator's default data-collection policy or by the sponsoring client for the contact. Data elements marked for non-disclosure MUST NOT be included in responses to unauthorised clients.
 
-### Update Operation
+### Update Process {#contact-update-process}
 
-* Identifier: update
+* Name: Contact Update Process Object
+* Identifier: contactUpdateProcess
+* Unique Identifier: processId
+* Description: The Contact Data Object uses the generic Update Process Object (#update-process) without object-specific data elements.
+
+#### Operations
+
+##### Create {#contact-update-process-create}
+
+* Identifier: create
 
 The Update operation allows a client to modify the attributes of an existing Contact resource.
 
@@ -1902,9 +1982,18 @@ The following aspects of the contact object MAY be modified:
 
 A client MUST NOT add, delete or alter values for statuses managed by the server (prefixed with "server"). A server MAY add, delete or alter status values set by a client, subject to server policy.
 
-### Delete Operation
+### Delete Process {#contact-delete-process}
 
-* Identifier: delete
+* Name: Contact Delete Process Object
+* Identifier: contactDeleteProcess
+* Unique Identifier: processId
+* Description: The Contact Data Object uses the generic Delete Process Object (#delete-process) without object-specific data elements.
+
+#### Operations
+
+##### Create {#contact-delete-process-create}
+
+* Identifier: create
 
 The Delete operation allows a client to remove an existing Contact resource. The operation targets a specific data object identified by its Handle ID.
 
@@ -1915,9 +2004,14 @@ The server SHOULD reject a delete request if the contact object is associated wi
 
 The error response SHOULD indicate the existing object associations.
 
-### Transfer Operations
+### Transfer Process {#contact-transfer-process}
 
-The Contact Data Object supports the common transfer operations defined in (#transfer-operations). The transfer of a contact changes the sponsoring client of the contact object.
+* Name: Contact Transfer Process Object
+* Identifier: contactTransferProcess
+* Unique Identifier: processId
+* Description: The Contact Data Object uses the generic Transfer Process Object (#transfer-process) without object-specific data elements. The transfer of a contact changes the sponsoring client of the contact object.
+
+The Contact Data Object supports the common transfer operations defined in (#transfer-process).
 
 No object-specific transient data elements are defined for contact transfer operations beyond the common transfer data elements.
 
@@ -1977,9 +2071,20 @@ The following data elements are defined for the Host Data Object.
   * Description: The Process Objects currently or recently initiated on the host object.
   * Constraints: (None)
 
-## Operations
+## Processes
 
-### Create Operation
+This section defines the domain-specific process objects that are (implicitly) initiated by the operations on the Domain Name Data Object. Each process object may include process-related data that is persisted as part of the domain object's state.
+
+### Create Process {#host-create-process}
+
+* Name: Host Create Process Object
+* Identifier: hostCreateProcess
+* Unique Identifier: processId
+* Description: The Host Data Object uses the generic Create Process Object (#create-process) without object-specific data elements.
+
+#### Operations
+
+##### Create {#host-create-process-create}
 
 * Identifier: create
 
@@ -1992,18 +2097,36 @@ If the host name exists in a namespace for which the server is authoritative, th
 
 In EPP Compatibility Profile, IP addresses are REQUIRED only as needed to produce DNS glue records. If the host name exists in a namespace for which the server is authoritative and is subordinate to an existing domain, IP addresses SHOULD be provided. If the host name is external to the server's namespace, IP addresses are not required by the DNS and MAY be omitted.
 
-### Read Operation
+### Read Process {#host-read-process}
 
-* Identifier: read
+* Name: Host Read Process Object
+* Identifier: hostReadProcess
+* Unique Identifier: processId
+* Description: The Host Data Object uses the generic Read Process Object (#read-process) without object-specific data elements.
+
+#### Operations
+
+##### Create {#host-read-process-create}
+
+* Identifier: create
 
 The Read operation allows a client to retrieve the data elements of a Host Data Object.
 
 * Authorisation:
   * Any client is authorised to retrieve the full object. In EPP Compatibility Profile, host objects do not carry authorisation information and there is no distinction based on client identity as described in [@!RFC5732, section 3.1.2].
 
-### Update Operation
+### Update Process {#host-update-process}
 
-* Identifier: update
+* Name: Host Update Process Object
+* Identifier: hostUpdateProcess
+* Unique Identifier: processId
+* Description: The Host Data Object uses the generic Update Process Object (#update-process) without object-specific data elements.
+
+#### Operations
+
+##### Create {#host-update-process-create}
+
+* Identifier: create
 
 The Update operation allows a client to modify the attributes of an existing Host Data Object. The operation targets a specific data object identified by its host name.
 
@@ -2014,9 +2137,18 @@ Host name changes MAY require the addition or removal of IP addresses to be acce
 
 Host name changes can have an impact on associated objects that refer to the host object. A Host Name change SHOULD NOT require additional updates of associated objects to preserve existing associations, with one exception: changing an external host object that has associations with objects that are sponsored by a different client. Attempts to update such hosts directly MUST fail. The change can be provisioned by creating a new external host with a new name and any needed new attributes, and subsequently updating the other objects sponsored by the client.
 
-### Delete Operation
+### Delete Process {#host-delete-process}
 
-* Identifier: delete
+* Name: Host Delete Process Object
+* Identifier: hostDeleteProcess
+* Unique Identifier: processId
+* Description: The Host Data Object uses the generic Delete Process Object (#delete-process) without object-specific data elements.
+
+#### Operations
+
+##### Create {#host-delete-process-create}
+
+* Identifier: create
 
 The Delete operation allows a client to remove an existing Host Data Object. The operation targets a specific data object identified by its host name.
 
@@ -2029,9 +2161,14 @@ A> TODO: consider RFC 9874 / BCP 244 for host deletions practices
 
 The error response SHOULD indicate the related associated objects.
 
-### Restore Operations
+### Restore Process {#host-restore-process}
 
-The Host Data Object supports the restore operations defined in (#restore-process). These operations are OPTIONAL and are only available when the RGP feature for Host Data Object is supported by the server.
+* Name: Host Restore Process Object
+* Identifier: hostRestoreProcess
+* Unique Identifier: processId
+* Description: The Host Data Object uses the generic Restore Process Object (#restore-process) without object-specific data elements. These operations are OPTIONAL and are only available when the RGP feature for Host Data Object is supported by the server.
+
+The Host Data Object supports the restore operations defined in (#restore-process).
 
 No host-specific transient data elements extend the common restore operations beyond those defined in (#restore-process).
 
@@ -2143,9 +2280,20 @@ A> TODO: how handle the "custom" contact type?
 
 A> TODO: define an IANA registry for user roles?
 
-## Operations
+## Processes
 
-### Create Operation
+This section defines the organisation-specific process objects that are (implicitly) initiated by the operations on the Organisation Data Object. Each process object may include process-related data that is persisted as part of the organisation object's state.
+
+### Create Process {#organisation-create-process}
+
+* Name: Organisation Create Process Object
+* Identifier: organisationCreateProcess
+* Unique Identifier: processId
+* Description: The Organisation Data Object uses the generic Create Process Object (#create-process) without object-specific data elements.
+
+#### Operations
+
+##### Create {#organisation-create-process-create}
 
 * Identifier: create
 
@@ -2156,18 +2304,36 @@ The Create operation allows a client to provision a new Organisation Data Object
 
 An organisation object MUST include at least one role on creation. The server MAY defer completing the action and return a `pendingCreate` status if human or third-party review is required.
 
-### Read Operation
+### Read Process {#organisation-read-process}
 
-* Identifier: read
+* Name: Organisation Read Process Object
+* Identifier: organisationReadProcess
+* Unique Identifier: processId
+* Description: The Organisation Data Object uses the generic Read Process Object (#read-process) without object-specific data elements.
+
+#### Operations
+
+##### Create {#organisation-read-process-create}
+
+* Identifier: create
 
 The Read operation allows a client to retrieve the data elements of an Organisation Data Object.
 
 * Authorisation:
   * Any client is authorised to retrieve organisation object information. The server MAY restrict the information returned based on client identity and server policy.
 
-### Update Operation
+### Update Process {#organisation-update-process}
 
-* Identifier: update
+* Name: Organisation Update Process Object
+* Identifier: organisationUpdateProcess
+* Unique Identifier: processId
+* Description: The Organisation Data Object uses the generic Update Process Object (#update-process) without object-specific data elements.
+
+#### Operations
+
+##### Create {#organisation-update-process-create}
+
+* Identifier: create
 
 The Update operation allows a client to modify the attributes of an existing Organisation Data Object.
 
@@ -2184,9 +2350,18 @@ The following aspects of the organisation object MAY be modified:
 
 A client MUST NOT add, delete, or alter values for statuses managed by the server (prefixed with "server"). A server MAY add, delete, or alter status values set by a client, subject to server policy.
 
-### Delete Operation
+### Delete Process {#organisation-delete-process}
 
-* Identifier: delete
+* Name: Organisation Delete Process Object
+* Identifier: organisationDeleteProcess
+* Unique Identifier: processId
+* Description: The Organisation Data Object uses the generic Delete Process Object (#delete-process) without object-specific data elements.
+
+#### Operations
+
+##### Create {#organisation-delete-process-create}
+
+* Identifier: create
 
 The Delete operation allows a client to remove an existing Organisation Data Object. The operation targets a specific data object identified by its Organisation ID.
 
@@ -2259,9 +2434,20 @@ The following data elements are defined for the User Data Object.
 
 A> TODO: what other data elements should be included for the User Data Object?
 
-## Operations
+## Processes
 
-### Create Operation
+This section defines the user-specific process objects that are (implicitly) initiated by the operations on the User Data Object. Each process object may include process-related data that is persisted as part of the user object's state.
+
+### Create Process {#user-create-process}
+
+* Name: User Create Process Object
+* Identifier: userCreateProcess
+* Unique Identifier: processId
+* Description: The User Data Object uses the generic Create Process Object (#create-process) without object-specific data elements.
+
+#### Operations
+
+##### Create {#user-create-process-create}
 
 * Identifier: create
 
@@ -2270,27 +2456,54 @@ The Create operation creates a new user, which is associated with an existing Or
 * Authorisation:
   * Client can only create users in the context of the organisation linked to the client, and only if the client has the necessary permissions to create users in that organisation.
 
-### Read Operation
+### Read Process {#user-read-process}
 
-* Identifier: read
+* Name: User Read Process Object
+* Identifier: userReadProcess
+* Unique Identifier: processId
+* Description: The User Data Object uses the generic Read Process Object (#read-process) without object-specific data elements.
+
+#### Operations
+
+##### Create {#user-read-process-create}
+
+* Identifier: create
 
 The Read operation retrieves the data of a specific User Object.
 
 * Authorisation:
   * Client can only read users in the context of the organisation linked to the client, and only if the client has the necessary permissions to read users in that organisation.
 
-### Update Operation
+### Update Process {#user-update-process}
 
-* Identifier: update
+* Name: User Update Process Object
+* Identifier: userUpdateProcess
+* Unique Identifier: processId
+* Description: The User Data Object uses the generic Update Process Object (#update-process) without object-specific data elements.
+
+#### Operations
+
+##### Create {#user-update-process-create}
+
+* Identifier: create
 
 The Update operation modifies the read-write data elements.
 
 * Authorisation:
   * Client can only update users in the context of the organisation linked to the client, and only if the client has the necessary permissions to update users in that organisation.
 
-### Delete Operation
+### Delete Process {#user-delete-process}
 
-* Identifier: delete
+* Name: User Delete Process Object
+* Identifier: userDeleteProcess
+* Unique Identifier: processId
+* Description: The User Data Object uses the generic Delete Process Object (#delete-process) without object-specific data elements.
+
+#### Operations
+
+##### Create {#user-delete-process-create}
+
+* Identifier: create
 
 The Delete operation removes a specific User Object.
 
