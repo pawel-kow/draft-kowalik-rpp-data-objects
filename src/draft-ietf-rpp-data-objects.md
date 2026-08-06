@@ -996,7 +996,8 @@ A> TBC: IANA registry for role types and statuses? must be compat with EPP
 
 This section defines the Process Objects used in this document.
 
-Each Process Object carries an OPTIONAL Process ID data element, defined as follows:
+Each Process Object carries a set of generic data elements, in addition to any specific to the process type.
+The generic data elements are defined below and MUST be included in all Process Objects.
 
 * Process ID
   * Identifier: processId
@@ -1005,6 +1006,27 @@ Each Process Object carries an OPTIONAL Process ID data element, defined as foll
   * Data Type: String
   * Description: A server-assigned identifier of the process instance, unique within the scope of the Owner Data Object.
   * Constraints: The value is set by the server and cannot be specified by the client.
+* Client Transaction ID
+  * Identifier: clientTransactionId
+  * Cardinality: 0-1
+  * Mutability: read-only
+  * Data Type: String
+  * Description: A client-assigned identifier of the process instance, unique within the scope of the client.
+  * Constraints: The value is set by the client and cannot be specified by the server.
+* Created
+  * Identifier: created
+  * Cardinality: 1
+  * Mutability: read-only
+  * Data Type: String
+  * Description: The timestamp at which the server created the process instance.
+  * Constraints: The value is set by the server and cannot be specified by the client.
+* Completed
+  * Identifier: completed
+  * Cardinality: 0-1
+  * Mutability: read-only
+  * Data Type: String
+  * Description: The timestamp at which the server completed the process instance.
+  * Constraints: The value is set by the server and cannot be specified by the client.  
 
 ## Transfer Process Object
 
@@ -1013,13 +1035,6 @@ Each Process Object carries an OPTIONAL Process ID data element, defined as foll
 * Unique Identifier: processId
 * Description: Represents a transfer request for a provisioned object. Creating this object initiates a transfer. The object supports approve and reject as additional operations, and delete as the cancel operation. Reading the object returns the current transfer status.
 * Data Elements:
-  * Process ID
-    * Identifier: processId
-    * Cardinality: 0-1
-    * Mutability: read-only
-    * Data Type: String
-    * Description: A server-assigned identifier of the process instance, unique within the scope of the Owner Data Object.
-    * Constraints: The value is set by the server and cannot be specified by the client.
   * Transfer Direction
     * Identifier: transferDir
     * Cardinality: 0-1
@@ -1159,13 +1174,6 @@ The following transient data elements are defined for this operation:
 * Unique Identifier: processId
 * Description: Represents the current state of a restore request for an object that has entered the Redemption Grace Period (RGP).
 * Data Elements:
-  * Process ID
-    * Identifier: processId
-    * Cardinality: 0-1
-    * Mutability: read-only
-    * Data Type: String
-    * Description: A server-assigned identifier of the process instance, unique within the scope of the Owner Data Object.
-    * Constraints: The value is set by the server and cannot be specified by the client.
   * Restore Status
     * Identifier: restoreStatus
     * Cardinality: 1
@@ -1265,13 +1273,6 @@ The following transient data elements are defined for this operation:
 * Unique Identifier: processId
 * Description: Represents a renew request for a provisioned object. Creating this object initiates a renewal process that extends the registration period of the object. Reading this object returns the new expiry date if the renewal has been completed.
 * Data Elements:
-  * Process ID
-    * Identifier: processId
-    * Cardinality: 0-1
-    * Mutability: read-only
-    * Data Type: String
-    * Description: A server-assigned identifier of the process instance, unique within the scope of the Owner Data Object.
-    * Constraints: The value is set by the server and cannot be specified by the client.
   * Expiry Date
     * Identifier: expiryDate
     * Cardinality: 0-1
@@ -1306,17 +1307,8 @@ The renew operation extends the validity period of an existing object by creatin
 * Name: Create Process Object
 * Identifier: createProcess
 * Unique Identifier: processId
-* Description: Represents the process initiated when a resource creation operation is performed. It carries creation-specific inputs that are consumed during the creation operation and are not stored as persistent attributes of the created resource object.
-* Data Elements:
-  * Process ID
-    * Identifier: processId
-    * Cardinality: 0-1
-    * Mutability: read-only
-    * Data Type: String
-    * Description: A server-assigned identifier of the process instance, unique within the scope of the Owner Data Object.
-    * Constraints: The value is set by the server and cannot be specified by the client.
-
-Beyond the Process ID, the generic Create Process Object defines no additional data elements. Individual object definitions extend it with object-specific creation inputs (such as the Domain Create Process Object (#domain-create-process), which adds the registration period).
+* Description: Represents the process initiated when a resource creation operation is performed. It carries creation-specific inputs that are consumed during the creation operation and are not stored as persistent attributes of the created resource object, but MAY be stored as a separate process object.
+* Data Elements: The Create Process Object defines no additional data elements. Individual object definitions extend it with object-specific creation inputs (such as the Domain Create Process Object (#domain-create-process), which adds the registration period).
 
 ### Operations
 
@@ -1342,7 +1334,169 @@ The Read operation retrieves the result or status of the creation, if the server
 * Output: Create Process Object
 
 * Authorisation:
-  * Only the sponsoring client is authorised to perform this operation.
+  * Only the client that initiated the creation is authorised to perform this operation.
+
+#### Update {#create-process-update}
+
+The Update operation is not defined for the Create Process Object. The server MUST reject any attempt to update this process resource.
+
+#### Delete {#create-process-delete}
+
+* Identifier: delete
+
+The Delete operation removes the process resource, if the server exposes it.
+ Any active process MUST be aborted and its state is lost. The server MAY reject this operation if the process is still active or due to other policy constraints.
+
+* Input: Object Identifier
+* Output: None
+
+* Authorisation:
+  * Only clients linked to the organization that initiated the creation of the process are authorised to perform this operation.
+
+## Read Process Object {#read-process}
+
+* Name: Read Process Object
+* Identifier: readProcess
+* Unique Identifier: processId
+* Description: Represents the process initiated when a resource read operation is performed. It carries creation-specific inputs that are consumed during the read operation and MAY be stored as a separate process object.
+* Data Elements: The Read Process Object defines no additional data elements. Individual object definitions may extend it with object-specific creation inputs.
+
+### Operations
+
+#### Create {#read-process-create}
+
+* Identifier: create
+
+The Create operation is invoked implicitly as a side effect of the resource object read operation and is never invoked directly.
+
+* Input: Read Process Object (create-only and read-write elements)
+* Output: Read Process Object
+
+* Authorisation:
+  * Inherited from the resource object create operation that initiates this process.
+
+#### Read {#read-process-read}
+
+The Read operation is not defined for the Read Process Object. The server MUST reject any attempt to read this process resource.
+  
+#### Update {#read-process-update}
+
+The Update operation is not defined for the Read Process Object. The server MUST reject any attempt to update this process resource.
+
+#### Delete {#read-process-delete}
+
+* Identifier: delete
+
+The Delete operation removes the process resource, if the server exposes it.
+ Any active process MUST be aborted and its state is lost. The server MAY reject this operation if the process is still active or due to other policy constraints.
+
+* Input: Object Identifier
+* Output: None
+
+* Authorisation:
+  * Only clients linked to the organization that initiated the creation of the process are authorised to perform this operation.
+
+## Update Process Object {#update-process}
+
+* Name: Update Process Object
+* Identifier: updateProcess
+* Unique Identifier: processId
+* Description: Represents the process initiated when a resource update operation is performed. It carries update-specific inputs that are consumed during the update operation and MAY be stored as a separate process object.
+* Data Elements:
+  * Authorisation Information
+    * Identifier: authInfo
+    * Cardinality: 0-1
+    * Mutability: read-write
+    * Data Type: Authorisation Information Object
+    * Description: Authorisation information associated with the data object that is to be updated.
+    * Constraints: (None)
+
+Individual object definitions may extend the Update Process Object with object-specific inputs.
+
+### Operations
+
+#### Create {#update-process-create}
+
+* Identifier: create
+
+The Create operation is invoked implicitly as a side effect of the resource object update operation and is never invoked directly.
+
+* Input: Update Process Object (create-only and read-write elements)
+* Output: Update Process Object
+
+* Authorisation:
+  * Inherited from the resource object update operation that initiates this process.
+
+#### Read {#update-process-read}
+
+* Identifier: read
+
+The Read operation retrieves the result or status of the update, if the server exposes the process resource.
+
+* Input: Object Identifier
+* Output: Update Process Object
+
+* Authorisation:
+  * Inherited from the resource object update operation that initiates this process.
+  
+#### Update {#update-process-update}
+
+The Update operation is not defined for the Update Process Object. The server MUST reject any attempt to update this process resource.
+
+#### Delete {#update-process-delete}
+
+* Identifier: delete
+
+The Delete operation removes the process resource, if the server exposes it.
+ Any active process MUST be aborted and its state is lost. The server MAY reject this operation if the process is still active or due to other policy constraints.
+
+* Input: Object Identifier
+* Output: None
+
+* Authorisation:
+  * Inherited from the resource object update operation that initiates this process.
+
+## Delete Process Object {#delete-process}
+
+* Name: Delete Process Object
+* Identifier: deleteProcess
+* Unique Identifier: processId
+* Description: Represents the process initiated when a resource delete operation is performed. It carries creation-specific inputs that are consumed during the delete operation and MAY be stored as a separate process object.
+* Data Elements: The Delete Process Object defines no additional data elements. Individual object definitions may extend it with object-specific creation inputs.
+
+### Operations
+
+#### Create {#delete-process-create}
+
+* Identifier: create
+
+The Create operation is invoked implicitly as a side effect of the resource object delete operation and is never invoked directly.
+
+* Input: Delete Process Object (create-only and read-write elements)
+* Output: Delete Process Object
+
+* Authorisation:
+  * Inherited from the resource object create operation that initiates this process.
+
+#### Read {#delete-process-read}
+
+* Identifier: read
+
+The Read operation retrieves the result or status of the delete, if the server exposes the process resource.
+
+* Input: Object Identifier
+* Output: Delete Process Object
+
+* Authorisation:
+  * Inherited from the resource object delete operation that initiates this process.
+  
+#### Update {#delete-process-update}
+
+The Update operation is not defined for the Delete Process Object. The server MUST reject any attempt to update this process resource.
+
+#### Delete {#delete-process-delete}
+
+The Delete operation is not defined for the Delete Process Object. The server MUST reject any attempt to delete this process resource.
 
 # Domain Name Data Object
 
