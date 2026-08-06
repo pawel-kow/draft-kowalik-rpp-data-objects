@@ -1638,7 +1638,7 @@ A> TBC: IANA registry for contact role label?
 
 ## Processes
 
-This section defines the domain-specific process objects that are (implicitly) initiated by the operations on the Domain Name Data Object. Each process object may include process-related data that is persisted as part of the domain object's state.
+This section defines the domain-specific process objects that are (implicitly) initiated by the operations on the Domain Name Data Object.
 
 ### Create Process {#domain-create-process}
 
@@ -1901,7 +1901,7 @@ A> TBC: IANA registry for statuses?
 
 ## Processes
 
-This section defines the contact-specific process objects that are (implicitly) initiated by the operations on the Contact Data Object. Each process object may include process-related data that is persisted as part of the contact object's state.
+This section defines the contact-specific process objects that are (implicitly) initiated by the operations on the Contact Data Object.
 
 ### Create Process {#contact-create-process}
 
@@ -1928,7 +1928,7 @@ In EPP Compatibility Profile, the following data elements MUST be provided:
 * E-mail (`email`)
 * Authorisation Information (`authInfo`)
 
-### Read Process {#contact-read-process}
+### Read Process {#contact-create-process-read}
 
 * Name: Contact Read Process Object
 * Identifier: contactReadProcess
@@ -1937,9 +1937,9 @@ In EPP Compatibility Profile, the following data elements MUST be provided:
 
 #### Operations
 
-##### Create {#contact-read-process-create}
+##### Read {#contact-create-process-read}
 
-* Identifier: create
+* Identifier: read
 
 The Read operation allows a client to retrieve the data elements of a Contact resource. The server's response MAY vary depending on client authorisation and server policy.
 
@@ -1969,7 +1969,7 @@ When constructing the response, the server MUST respect the disclosure policies 
 
 * Identifier: create
 
-The Update operation allows a client to modify the attributes of an existing Contact resource.
+The Create operation allows a client to create a new Contact resource.
 
 * Authorisation:
   * Only sponsoring client is authorised to perform this operation
@@ -1990,11 +1990,11 @@ A client MUST NOT add, delete or alter values for statuses managed by the server
 
 #### Operations
 
-##### Create {#contact-delete-process-create}
+##### Delete {#contact-delete-process-create}
 
 * Identifier: create
 
-The Delete operation allows a client to remove an existing Contact resource. The operation targets a specific data object identified by its Handle ID.
+The create Delete operation allows a client to remove an existing Contact resource. The operation targets a specific data object identified by its Handle ID.
 
 * Authorisation:
   * Only sponsoring client is authorised to perform this operation
@@ -2072,7 +2072,7 @@ The following data elements are defined for the Host Data Object.
 
 ## Processes
 
-This section defines the domain-specific process objects that are (implicitly) initiated by the operations on the Domain Name Data Object. Each process object may include process-related data that is persisted as part of the domain object's state.
+This section defines the domain-specific process objects that are (implicitly) initiated by the operations on the Host Data Object.
 
 ### Create Process {#host-create-process}
 
@@ -2281,7 +2281,7 @@ A> TODO: define an IANA registry for user roles?
 
 ## Processes
 
-This section defines the organisation-specific process objects that are (implicitly) initiated by the operations on the Organisation Data Object. Each process object may include process-related data that is persisted as part of the organisation object's state.
+This section defines the organisation-specific process objects that are (implicitly) initiated by the operations on the Organisation Data Object.
 
 ### Create Process {#organisation-create-process}
 
@@ -2435,7 +2435,7 @@ A> TODO: what other data elements should be included for the User Data Object?
 
 ## Processes
 
-This section defines the user-specific process objects that are (implicitly) initiated by the operations on the User Data Object. Each process object may include process-related data that is persisted as part of the user object's state.
+This section defines the user-specific process objects that are (implicitly) initiated by the operations on the User Data Object.
 
 ### Create Process {#user-create-process}
 
