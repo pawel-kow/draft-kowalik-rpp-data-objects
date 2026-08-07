@@ -204,7 +204,7 @@ Wherever "Object Authorisation" is mentioned, it means that an operation MAY acc
 
 ### Uniform Interface
 
-For every process a description of the supported operations are defined together with their respective input and output data. Unless an operation for a specific object tells otherwise, the following set of operations is supported for all data objects.
+For the typical set of Create, Read, Update and Delete operations the following set of input and output data model is specified on top of additional transient input data, unless an operation for the specific object tells otherwise.
 
 #### Create
 
@@ -905,9 +905,11 @@ A> TBC: IANA registry for role types and statuses? must be compat with EPP
 
 # Process Objects {#process-objects}
 
-Each generic Process Object carries a set of data elements, each Data Object defines its own implementation of the Process Object, specific to the Data Object, but based on the generic Process Object. The generic data elements are defined below and MUST be included in all Process Objects. When the client, possibly indirectly, executes the "create" operation on a Data Object, or when the client directly executes the "create" operation of a Process Object, which is not an Uniform Interface operation, the server MUST create a new instance of the Process Object.
+This section defines the generic Process Objects, each generic Process Object carries a set of data elements, operations and constraints that are common to all Process Objects. Each Data Object defines its own specialised versions of supported Process Objects, specific to the Data Object, but based on the generic Process Object. When a client executes the "create" operation on a Data Object, or when the client directly executes the "create" operation of a Process Object, the server MUST create a new instance of the Process Object.
 
 ## Data Elements
+
+The following list of generic data elements MUST be included in all Process Objects.
 
 * Process ID
   * Identifier: processId
@@ -1513,6 +1515,16 @@ The Update operation is not defined for the Delete Process Object. The server MU
 
 The Delete operation is not defined for the Delete Process Object. The server MUST reject any attempt to delete this process resource.
 
+# Data Objects
+
+Data Objects represent the core resources managed by the registry. Each Data Object is defined by a unique identifier, a set of data elements, and a set of supported operations and processes.
+
+Each operation in the uniform interface has a corresponding Process Object. When the "create" operation of the uniform interface is executed on a Data Object, the server MUST explicitly create a new Data Object instance and MUST implicitly create a new Process Object instance that tracks the state and progress of the operation. Processes that are not linked to the uniform interface MUST be created explicitly by the client; the server MUST NOT create them automatically.
+
+Each Data Object definition specifies the processes supported for that object type, together with any additional data elements, authorisations or constraints specific to that object type.
+
+A> TODO: Create a base data object definition that defines the common data elements and processes for all data objects?
+
 # Domain Name Data Object
 
 ## Object Description
@@ -1521,6 +1533,7 @@ The Delete operation is not defined for the Delete Process Object. The server MU
 * Identifier: domainName
 * Unique Identifier: name
 * Description: A Domain Name data object represents a domain name and contains the data required for its provisioning and management in the registry.
+* Supported Operations: Create, Read, Update, Delete
 
 ## Data Elements
 
@@ -1638,14 +1651,20 @@ A> TBC: IANA registry for contact role label?
 
 ## Processes
 
-This section defines the domain-specific process objects that are (implicitly) initiated by the operations on the Domain Name Data Object.
-
 ### Create Process {#domain-create-process}
 
 * Name: Domain Create Process Object
 * Identifier: domainCreateProcess
 * Unique Identifier: processId
+* Creation Type: implicit
 * Description: The domain-specific Create Process Object (#create-process). It is implicitly initiated by the Domain Name Data Object create operation and carries the domain creation-specific inputs, namely the requested initial registration period, that are consumed during creation and not persisted as part of the domain object's state.
+
+#### Operations
+
+##### Create {#domain-create-process-create}
+
+* Identifier: create
+* Description: The Create operation creates a new Domain Create Process Object instance (#domain-create-process)
 * Data Elements:
   * Period
     * Identifier: period
@@ -1654,24 +1673,24 @@ This section defines the domain-specific process objects that are (implicitly) i
     * Data Type: Period Object
     * Description: The initial registration period for the domain name. This value is used by the server to calculate the initial `expiryDate` of the object.
     * Constraints: (None)
-
-#### Operations
-
-##### Create {#domain-create-process-create}
-
-* Identifier: create
-
 * Authorisation:
   * Generally each client is authorised to create new domain objects becoming a sponsoring client. This can be however constrained by the server policy in many ways, i.e. by applying rate limiting, billing related constraints or compliance locks.
-
-The Create operation implicitly initiates the Domain Create Process Object (#domain-create-process), which carries the creation-specific inputs that are consumed during creation and not persisted as part of the domain object's state.
 
 ##### Read {#domain-create-process-read}
 
 * Identifier: read
-
-The Read operation allows a client to retrieve the data elements of a Domain Name resource. The server's response MAY vary depending on client authorisation and server policy.
-
+* Description: The Read operation allows a client to retrieve the data elements of a Domain Name resource. The server's response MAY vary depending on client authorisation and 
+server policy.
+* Data Elements:
+  * Hosts Filter
+    * Identifier: hostsFilter
+    * Cardinality: 0-1
+    * Data Type: String
+    * Description: Controls which host information is returned with
+  the object.
+    * Constraints: The value MUST be one of "all", "del"
+  (delegated), "sub" (subordinate), or "none". The default value
+  is "all".
 * Authorisation:
   * Sponsoring client:
     * Full object
@@ -1681,36 +1700,24 @@ The Read operation allows a client to retrieve the data elements of a Domain Nam
     * With Object Authorisation:
       * Full object, however some properties only authorised to the sponsoring client MAY be redacted according to server policy
 
-The following additional transient data elements are defined for this operation:
-
-* Hosts Filter
-  * Identifier: hostsFilter
-  * Cardinality: 0-1
-  * Data Type: String
-  * Description: Controls which host information is returned with
-the object.
-  * Constraints: The value MUST be one of "all", "del"
-(delegated), "sub" (subordinate), or "none". The default value
-is "all".
-
 ### Read Process {#domain-read-process}
 
 * Name: Domain Read Process Object
 * Identifier: domainReadProcess
 * Unique Identifier: processId
+* Creation Type: implicit
 * Description: The domain-specific Read Process Object (#read-process). It is implicitly initiated by the Domain Name Data Object read operation and carries no object-specific data elements.
 
 #### Operations
 
-##### Create {#domain-read-process-create}
-
-TODO
+A> TODO: add operations for read process
 
 ### Update Process {#domain-update-process}
 
 * Name: Domain Update Process Object
 * Identifier: domainUpdateProcess
 * Unique Identifier: processId
+* Creation Type: implicit
 * Description: The domain-specific Update Process Object (#update-process). It is implicitly initiated by the Domain Name Data Object update operation and carries no additional persisted data elements beyond those defined in (#update-process).
 
 #### Operations
@@ -1718,28 +1725,25 @@ TODO
 ##### Create {#domain-update-process-create}
 
 * Identifier: create
-
-The Update operation allows a client to modify the read-write data elements of an existing Domain Name resource.
-
+* Description: The create Update operation allows a client to modify the read-write data elements of an existing Domain Name resource.
+* Data Elements:
+  * Urgent
+    * Identifier: urgent
+    * Cardinality: 0-1
+    * Data Type: Boolean
+    * Description: Requests that the server operator process and implement the update with high priority. "High priority" is relative to standard server operator policies determined using an out-of-band mechanism. In EPP Compatibility Profile this corresponds to the "urgent" attribute of the `<secDNS:update>` element defined in [@RFC5910]. The default value is `false`.
+    * Constraints:
+      * A server that does not support this parameter MUST return an error if it is set to `true`.
+      * A server that supports this parameter but cannot fulfil a specific urgent request MUST return an error.
 * Authorisation:
   * Only sponsoring client is authorised to perform this operation
-
-The following additional transient data elements are defined for this operation:
-
-* Urgent
-  * Identifier: urgent
-  * Cardinality: 0-1
-  * Data Type: Boolean
-  * Description: Requests that the server operator process and implement the update with high priority. "High priority" is relative to standard server operator policies determined using an out-of-band mechanism. In EPP Compatibility Profile this corresponds to the "urgent" attribute of the `<secDNS:update>` element defined in [@RFC5910]. The default value is `false`.
-  * Constraints:
-    * A server that does not support this parameter MUST return an error if it is set to `true`.
-    * A server that supports this parameter but cannot fulfil a specific urgent request MUST return an error.
 
 ### Delete Process {#domain-delete-process}
 
 * Name: Domain Delete Process Object
 * Identifier: domainDeleteProcess
 * Unique Identifier: processId
+* Creation Type: implicit
 * Description: The domain-specific Delete Process Object (#delete-process). It is implicitly initiated by the Domain Name Data Object delete operation and carries no object-specific data elements.
 
 #### Operations
@@ -1747,14 +1751,11 @@ The following additional transient data elements are defined for this operation:
 ##### Create {#domain-delete-process-create}
 
 * Identifier: create
-
-The Delete operation allows a client to remove an existing Domain Name resource. The operation targets a specific data object identified by its name.
-
+* Description: The Delete operation allows a client to remove an existing Domain Name resource. The operation targets a specific data object identified by its name.
 * Authorisation:
   * Only sponsoring client is authorised to perform this operation
 
 The server SHOULD reject a delete request if subordinate host objects are associated with the domain name.
-
 The error response SHOULD indicate the related subordinate host objects.
 
 ### Renew Process {#domain-renew-process}
@@ -1762,6 +1763,7 @@ The error response SHOULD indicate the related subordinate host objects.
 * Name: Domain Renew Process Object
 * Identifier: domainRenewProcess
 * Unique Identifier: processId
+* Creation Type: explicit
 * Description: The domain-specific Renew Process Object (#renew-process). It is implicitly initiated by the Domain Name Data Object renew operation and carries no object-specific data elements. The renewal of a domain name changes the expiry date of the domain object.
 
 #### Operations
@@ -1769,9 +1771,8 @@ The error response SHOULD indicate the related subordinate host objects.
 ##### Create {#domain-renew-process-create}
 
 * Identifier: create
-
-The create operation for the Renew process allows a client to extend the validity period of an existing Domain Name resource. The operation targets a specific data object identified by its name.
-
+* Description: The create operation for the Renew process allows a client to extend the validity period of an existing Domain Name resource. The operation targets a specific data object identified by its name.
+* Data Elements: (None)
 * Authorisation:
   * Only sponsoring client is authorised to perform this operation
 
@@ -1780,49 +1781,42 @@ The create operation for the Renew process allows a client to extend the validit
 * Name: Domain Transfer Process Object
 * Identifier: domainTransferProcess
 * Unique Identifier: processId
-* Description: The domain-specific Transfer Process Object (#transfer-process). It is implicitly initiated by the Domain Name Data Object transfer operation. The transfer of a domain name changes the sponsoring client of the domain object.
-
-The Domain Name Data Object supports the common transfer operations defined in (#transfer-process).
-
-Transfer of a domain object MUST implicitly transfer all host objects that are subordinate to the domain object. For example, if domain object "example.com" is transferred and host object "ns1.example.com" exists, the host object MUST be transferred as part of the "example.com" transfer process.
-
-In addition to the common Transfer Process Object elements, the following object-specific data elements are included:
-
-* Expiry Date
-  * Identifier: expiryDate
-  * Cardinality: 0-1
-  * Mutability: read-only
-  * Data Type: Timestamp
-  * Description: The end of the domain object's registration period if the transfer caused or causes a change in the validity period.
-
-Subordinate host objects MUST be transferred implicitly when the domain object is transferred.
+* Creation Type: explicit
+* Description: The domain-specific Transfer Process Object (#transfer-process). The transfer of a domain name changes the sponsoring client of the domain object. The transfer of a domain object MUST implicitly transfer all host objects that are subordinate to the domain object. For example, if domain object "test.example" is transferred and host object "ns1.test.example" exists, the host object MUST be transferred as part of the "test.example" transfer process.
+* Data Elements:
+  * Expiry Date
+    * Identifier: expiryDate
+    * Cardinality: 0-1
+    * Mutability: read-only
+    * Data Type: Timestamp
+    * Description: The end of the domain object's registration period if the transfer caused or causes a change in the validity period.
 
 #### Operations
 
 ##### Create {#domain-transfer-process-create}
 
 * Identifier: create
-
-In addition, the following transient data element is defined for this operation:
-
-* Transfer Period
-  * Identifier: transferPeriod
-  * Cardinality: 0-1
-  * Mutability: create-only
-  * Data Type: Period Object
-  * Description: The number of units to be added to the registration period of the domain object upon successful completion of the transfer. The number of units available MAY be subject to limits imposed by the server.
-  * Constraints: (None)
+* Description: The create operation for the Transfer process allows a client to request the transfer of an existing Domain Name resource. The operation targets a specific data object identified by its name.
+* Data Elements:
+  * Transfer Period
+    * Identifier: transferPeriod
+    * Cardinality: 0-1
+    * Mutability: create-only
+    * Data Type: Period Object
+    * Description: The number of units to be added to the registration period of the domain object upon successful completion of the transfer. The number of units available MAY be subject to limits imposed by the server.
+    * Constraints: (None)
 
 ### Restore Process {#domain-restore-process}
 
 * Name: Domain Restore Process Object
 * Identifier: domainRestoreProcess
 * Unique Identifier: processId
-* Description: The domain-specific Restore Process Object (#restore-process). It is implicitly initiated by the Domain Name Data Object restore operation and carries no object-specific data elements.
+* Creation Type: explicit
+* Description: The Domain Name Data Object supports the restore operations defined in (#restore-process). These operations are OPTIONAL and are only available when the RGP feature is supported.
 
-The Domain Name Data Object supports the restore operations defined in (#restore-process). These operations are OPTIONAL and are only available when the RGP feature is supported.
+#### Operations
 
-No domain-specific transient data elements extend the common restore operations beyond those defined in (#restore-process).
+A> TODO: add operations for restore process
 
 # Contact Data Object
 
@@ -2371,7 +2365,7 @@ An organisation object MUST NOT be deleted if it is associated with other known 
 
 The error response SHOULD indicate the related associated objects.
 
-# User Object
+# User Data Object
 
 ## Object Description
 
