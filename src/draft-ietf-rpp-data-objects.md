@@ -194,15 +194,15 @@ Data object definitions MUST NOT define properties whose names begin with the `@
 
 ## Operations
 
-For each data object a set of possible operations is defined together with their respective input and output data.
+For each data object a set of possible processes and operations is defined together with their respective input and output data.
 
 ### Authorisation
 
-For each operation authorisation requirements and operation behaviour is specified.
+For each operation, the authorisation requirements and the operation's behaviour are specified.
 
 Wherever "Object Authorisation" is mentioned, it means that an operation MAY accept or require additional authorisation data related to the object beyond default client-level authorisation, or that an operation MAY result in different processing or response if such authorisation is provided.
 
-### Uniform interface
+### Uniform Interface
 
 For the typical set of Create, Read, Update and Delete operations the following set of input and output data model is specified on top of additional transient input data, unless an operation for the specific object tells otherwise.
 
@@ -233,95 +233,6 @@ If the querying client is not the sponsoring client and the client does not prov
 
 * Input: Object identifier
 * Output: Object (read-write and read-only properties) or nothing
-
-### Operations beyond uniform interface
-
-For all other operations both input and output have to be fully specified.
-
-### Transfer Operations {#transfer-operations}
-
-Transfer operations manage the change of sponsorship of a provisioned object from one client (the sponsoring client) to another (the gaining client). They are specified once in this section as the transfer model is common across all transferable resource objects. Individual object definitions reference this section and specify any object-specific extensions to the common pattern.
-
-RPP supports two types of transfer:
-
-* Pull Transfer: Initiated by the gaining client. The gaining client MUST provide valid Object Authorisation to initiate the request.
-* Push Transfer: Initiated by the sponsoring client, who designates a gaining client in the request.
-
-The transfer process MAY be immediate or follow a multi-step workflow depending on server policy. If the server implements immediate transfers, the Approve and Reject operations need not be supported; the server completes the transfer upon receipt of the Create operation.
-
-The server MAY implement local policies to prevent transfers from stalling and implement a form of automated transfer escalation, approval or cancellation when such a stalled process is recognised.
-
-All transfer operations act on or return the Transfer Process Object and are executed in the context of the Owner Data Object the operation is created upon.
-
-A> TODO: The server MUST notify the current sponsoring client of a pending transfer request. The notification mechanism is not defined in this document.
-
-A> TODO: Transfer-specific error conditions (object not eligible for transfer, object pending transfer, object not pending transfer) are not defined in this document.
-
-### Restore Operations {#restore-ops}
-
-Restore operations manage the recovery of an object that has entered the Redemption Grace Period (RGP). They are OPTIONAL and are only available when the RGP feature is supported by the server and MAY be supported only for a subset of Data Object types.
-
-The RGP process MAY involve two distinct steps:
-
-* Restore Request: (REQUIRED) Initiates the recovery of an object in the `redemptionPeriod` state, signalling to the registry the intent to restore. This corresponds to the Create operation on the Restore Process Object. On success, the object transitions to `pendingRestore`.
-* Restore Report: (OPTIONAL) Submits a report documenting the circumstances of the deletion and restoration, as required by registry policy. This corresponds to the Report operation on the Restore Process Object. On success, the object is returned to its pre-deletion status and all RGP status labels are removed.
-
-Whether a restore report is required after a restore request is a matter of server policy. If the server does not require a restore report, the object returns to its pre-deletion status immediately upon a successful Create operation, bypassing the `pendingRestore` state.
-
-The Create operation MAY include the restore report inline to complete both steps atomically in a single operation.
-
-All restore operations act on or return the Restore Process Object and are executed in the context of the Owner Data Object the operation is created upon.
-
-#### Redemption Grace Period State Diagram
-
-The following state diagram describes the object lifecycle when the Redemption Grace Period (RGP) feature is supported. It adapts the diagram from [@!RFC3915, section 2] to the RPP data model, using RPP status labels and operations instead of EPP command names.
-
-In the diagram below, RPP status labels are shown in the `status` field of the object. Standard EPP-origin status labels (e.g., `ok`, `pendingDelete`) are used alongside the RGP-specific labels defined in this document. The `<create>` and `<report>` labels refer to the Create and Report operations on the Restore Process Object, replacing the EPP extended `<update>` command with `op=request` and `op=report` attributes.
-
-```ascii
-              |
-              v                     (2)
-+----------------------------+   <delete>   +-------------------------------+
-| status: ok              (1)|------------->| status: pendingDelete      (3)|
-|                            |              |         redemptionPeriod      |
-+----------------------------+              +-------------------------------+
-   ^   ^             restore, no report      | ^  |                |
-   |   |             and report required  (4)| |  |        No (9)  |
-   |   |                  <create>           | |  |       restore  |
-   |   |                  +------------------+ |  |       restore  |
-   |   |                  v                    |  |                v
-   |   |  +------------------+                 |  | +-----------------------+
-   |   |  | status:       (6)|                 |  | | status:           (10)|
-   |   |  |   pendingDelete  |-----------------+  | |   pendingDelete       |
-   |   |  |   pendingRestore |   report not (7)   | |   rgpPendingDelete    |
-   |   |  +------------------+   received         | +-----------------------+
-   |   |                (8) |                     |                |
-   |   |    report received |                     |     purge (11) |
-   |   |       <report>     |      restore (5)    |                v
-   |   +--------------------+      with report    | +-----------------------+
-   |                               or not req.    | |      Purged       (12)|
-   |                                  <create>    | +-----------------------+
-   +----------------------------------------------+
-```
-
-State descriptions:
-
-1. The object is in normal operation (`ok` or other status allowing a delete operation).
-2. A delete operation is received and processed.
-3. RGP begins. The object enters `pendingDelete` + `redemptionPeriod` state. The object remains here until a restore operation is requested or the redemption period elapses.
-4. A restore Create operation is submitted. The registry accepts the request. Go to step 8 if the redemption period elapses before a restore is received (4a).
-5. If the server does not require a restore report, the object returns to its pre-deletion status (1) immediately upon a successful Create operation. If the server requires a report but the client includes it inline in the Create operation, the server processes both atomically and the object transitions directly from `redemptionPeriod` to its pre-deletion status (1), bypassing the `pendingRestore` state.
-6. The object enters `pendingDelete` + `pendingRestore` state. The registry awaits a restore report from the sponsoring client.
-7. If no restore report is received within the registry-defined time, the object returns to `redemptionPeriod` state (step 3).
-8. If a restore report is received and accepted, the object returns to its pre-deletion status and all RGP status labels are removed.
-9. The redemption period elapses without a restore request being received.
-10. The object enters `pendingDelete` + `rgpPendingDelete` state and awaits final purge processing.
-11. The pending delete period elapses and the object is purged.
-12. The object is purged and available for re-registration.
-
-### Renew Operations {#renew-ops}
-
-Renew operations manage the validity period of a provisioned object. They are specified once in this section as the renewal model is common across all renewable resource objects. Individual object definitions reference this section and specify any object-specific extensions to the common pattern.
 
 ## EPP Compatibility Profile
 
@@ -994,9 +905,11 @@ A> TBC: IANA registry for role types and statuses? must be compat with EPP
 
 # Process Objects {#process-objects}
 
-This section defines the Process Objects used in this document.
+This section defines the generic Process Objects, each generic Process Object carries a set of data elements, operations and constraints that are common to all Process Objects. Each Data Object defines its own specialised versions of supported Process Objects, specific to the Data Object, but based on the generic Process Object. When a client executes the "create" operation on a Data Object, or when the client directly executes the "create" operation of a Process Object, the server MUST create a new instance of the Process Object.
 
-Each Process Object carries an OPTIONAL Process ID data element, defined as follows:
+## Data Elements
+
+The following list of generic data elements MUST be included in all Process Objects.
 
 * Process ID
   * Identifier: processId
@@ -1005,70 +918,100 @@ Each Process Object carries an OPTIONAL Process ID data element, defined as foll
   * Data Type: String
   * Description: A server-assigned identifier of the process instance, unique within the scope of the Owner Data Object.
   * Constraints: The value is set by the server and cannot be specified by the client.
+* Client Transaction ID
+  * Identifier: clientTransactionId
+  * Cardinality: 0-1
+  * Mutability: read-only
+  * Data Type: String
+  * Description: A client-assigned identifier of the process instance, unique within the scope of the client.
+  * Constraints: The value is set by the client and cannot be specified by the server.
+* Created
+  * Identifier: created
+  * Cardinality: 1
+  * Mutability: read-only
+  * Data Type: String
+  * Description: The timestamp at which the server created the process instance.
+  * Constraints: The value is set by the server and cannot be specified by the client.
+* Completed
+  * Identifier: completed
+  * Cardinality: 0-1
+  * Mutability: read-only
+  * Data Type: String
+  * Description: The timestamp at which the server completed the process instance.
+  * Constraints: The value is set by the server and cannot be specified by the client.  
 
-## Transfer Process Object
+## Transfer Process Object {#transfer-process}
+
+### Object Description
 
 * Name: Transfer Process Object
 * Identifier: transferProcess
 * Unique Identifier: processId
-* Description: Represents a transfer request for a provisioned object. Creating this object initiates a transfer. The object supports approve and reject as additional operations, and delete as the cancel operation. Reading the object returns the current transfer status.
-* Data Elements:
-  * Process ID
-    * Identifier: processId
-    * Cardinality: 0-1
-    * Mutability: read-only
-    * Data Type: String
-    * Description: A server-assigned identifier of the process instance, unique within the scope of the Owner Data Object.
-    * Constraints: The value is set by the server and cannot be specified by the client.
-  * Transfer Direction
-    * Identifier: transferDir
-    * Cardinality: 0-1
-    * Mutability: create-only
-    * Data Type: String
-    * Description: Indicates whether the transfer is a "pull" or "push" transfer. Per policy, servers usually support only one model. If omitted, server policy determines the default.
-    * Constraints: The value MUST be one of: "pull" (initiated by the gaining client) or "push" (initiated by the sponsoring client).
-  * Gaining Client ID
-    * Identifier: gainingClientId
-    * Cardinality: 0-1
-    * Mutability: create-only
-    * Data Type: Client Identifier
-    * Description: The identifier of the designated gaining client. This element is REQUIRED for push transfers and MUST NOT be provided for pull transfers.
-    * Constraints: (None)
-  * Transfer Status
-    * Identifier: trStatus
-    * Cardinality: 1
-    * Mutability: read-only
-    * Data Type: String
-    * Description: The state of the transfer request.
-    * Constraints: The value MUST be one of: "pending", "clientApproved", "clientCancelled", "clientRejected", "serverApproved", "serverCancelled".
-  * Requesting Client ID
-    * Identifier: reqClientId
-    * Cardinality: 1
-    * Mutability: read-only
-    * Data Type: Client Identifier
-    * Description: The identifier of the client that initiated the transfer request.
-    * Constraints: (None)
-  * Request Date
-    * Identifier: requestDate
-    * Cardinality: 1
-    * Mutability: read-only
-    * Data Type: Timestamp
-    * Description: The date and time that the transfer was requested.
-    * Constraints: (None)
-  * Acting Client ID
-    * Identifier: actClientId
-    * Cardinality: 1
-    * Mutability: read-only
-    * Data Type: Client Identifier
-    * Description: For a pending pull transfer, the identifier of the sponsoring client that SHOULD act upon the request. For a pending push transfer, the identifier of the designated gaining client that SHOULD act upon the request. For all other statuses, the identifier of the client that took the indicated action.
-    * Constraints: (None)
-  * Action Date
-    * Identifier: actionDate
-    * Cardinality: 1
-    * Mutability: read-only
-    * Data Type: Timestamp
-    * Description: For a pending request, the date and time by which a response is required before an automated response action SHOULD be taken by the server. For all other statuses, the date and time when the request was completed.
-    * Constraints: (None)
+* Description: Represents a transfer process for a provisioned object. Creating this object initiates a transfer. The object supports approve and reject as additional operations, and delete as the cancel operation. Reading the object returns the current transfer status. Transfer operations manage the change of sponsorship of a provisioned object from one client (the sponsoring client) to another (the gaining client). They are specified once in this section as the transfer model is common across all transferable resource objects. Individual object definitions reference this section and specify any object-specific extensions to the common pattern.
+RPP supports two types of transfer:
+
+  * Pull Transfer: Initiated by the gaining client. The gaining client MUST provide valid Object Authorisation to initiate the request.
+  * Push Transfer: Initiated by the sponsoring client, who designates a gaining client in the request.
+
+    The transfer process MAY be immediate or follow a multi-step workflow depending on server policy. If the server implements immediate transfers, the Approve and Reject operations need not be supported; the server completes the transfer upon receipt of the Create operation.
+
+    The server MAY implement local policies to prevent transfers from stalling and implement a form of automated transfer escalation, approval or cancellation when such a stalled process is recognised.
+    All transfer operations act on or return the Transfer Process Object and are executed in the context of the Owner Data Object the operation is created upon.
+
+A> TODO: The server MUST notify the current sponsoring client of a pending transfer request. The notification mechanism is not defined in this document.
+A> TODO: Transfer-specific error conditions (object not eligible for transfer, object pending transfer, object not pending transfer) are not defined in this document.
+
+### Data Elements
+
+* Transfer Direction
+  * Identifier: transferDir
+  * Cardinality: 0-1
+  * Mutability: create-only
+  * Data Type: String
+  * Description: Indicates whether the transfer is a "pull" or "push" transfer. Per policy, servers usually support only one model. If omitted, server policy determines the default.
+  * Constraints: The value MUST be one of: "pull" (initiated by the gaining client) or "push" (initiated by the sponsoring client).
+* Gaining Client ID
+  * Identifier: gainingClientId
+  * Cardinality: 0-1
+  * Mutability: create-only
+  * Data Type: Client Identifier
+  * Description: The identifier of the designated gaining client. This element is REQUIRED for push transfers and MUST NOT be provided for pull transfers.
+  * Constraints: (None)
+* Transfer Status
+  * Identifier: trStatus
+  * Cardinality: 1
+  * Mutability: read-only
+  * Data Type: String
+  * Description: The state of the transfer request.
+  * Constraints: The value MUST be one of: "pending", "clientApproved", "clientCancelled", "clientRejected", "serverApproved", "serverCancelled".
+* Requesting Client ID
+  * Identifier: reqClientId
+  * Cardinality: 1
+  * Mutability: read-only
+  * Data Type: Client Identifier
+  * Description: The identifier of the client that initiated the transfer request.
+  * Constraints: (None)
+* Request Date
+  * Identifier: requestDate
+  * Cardinality: 1
+  * Mutability: read-only
+  * Data Type: Timestamp
+  * Description: The date and time that the transfer was requested.
+  * Constraints: (None)
+* Acting Client ID
+  * Identifier: actClientId
+  * Cardinality: 1
+  * Mutability: read-only
+  * Data Type: Client Identifier
+  * Description: For a pending pull transfer, the identifier of the sponsoring client that SHOULD act upon the request. For a pending push transfer, the identifier of the designated gaining client that SHOULD act upon the request. For all other statuses, the identifier of the client that took the indicated action.
+  * Constraints: (None)
+* Action Date
+  * Identifier: actionDate
+  * Cardinality: 1
+  * Mutability: read-only
+  * Data Type: Timestamp
+  * Description: For a pending request, the date and time by which a response is required before an automated response action SHOULD be taken by the server. For all other statuses, the date and time when the request was completed.
+  * Constraints: (None)
 
 ### Operations
 
@@ -1152,48 +1095,105 @@ The following transient data elements are defined for this operation:
 
 * Output: Transfer Process Object
 
-## Restore Process Object
+## Restore Process Object {#restore-process}
+
+### Object Description
 
 * Name: Restore Process Object
 * Identifier: restoreProcess
 * Unique Identifier: processId
 * Description: Represents the current state of a restore request for an object that has entered the Redemption Grace Period (RGP).
-* Data Elements:
-  * Process ID
-    * Identifier: processId
-    * Cardinality: 0-1
-    * Mutability: read-only
-    * Data Type: String
-    * Description: A server-assigned identifier of the process instance, unique within the scope of the Owner Data Object.
-    * Constraints: The value is set by the server and cannot be specified by the client.
-  * Restore Status
-    * Identifier: restoreStatus
-    * Cardinality: 1
-    * Mutability: read-only
-    * Data Type: String
-    * Description: The current state of the restore process.
-    * Constraints: The value MUST be one of: `"pendingRestore"`, `"restored"`, `"rgpPendingDelete"`
-  * Request Date
-    * Identifier: requestDate
-    * Cardinality: 0-1
-    * Mutability: read-only
-    * Data Type: Timestamp
-    * Description: The date and time when the restore request was submitted.
-    * Constraints: MUST NOT be present if no restore request has been submitted yet.
-  * Report Date
-    * Identifier: reportDate
-    * Cardinality: 0-1
-    * Mutability: read-only
-    * Data Type: Timestamp
-    * Description: The date and time when the most recent restore report was accepted by the server.
-    * Constraints: MUST NOT be present if no restore report has been accepted yet.
-  * Report Due Date
-    * Identifier: reportDueDate
-    * Cardinality: 0-1
-    * Mutability: read-only
-    * Data Type: Timestamp
-    * Description: The date and time by which a restore report must be submitted before the object reverts to `redemptionPeriod` state. Only present when the object is in `pendingRestore` state.
-    * Constraints: MUST NOT be present when `restoreStatus` is not `"pendingRestore"`.
+
+Restore operations manage the recovery of an object that has entered the Redemption Grace Period (RGP). They are OPTIONAL and are only available when the RGP feature is supported by the server and MAY be supported only for a subset of Data Object types.
+
+The RGP process MAY involve two distinct steps:
+
+* Restore Request: (REQUIRED) Initiates the recovery of an object in the `redemptionPeriod` state, signalling to the registry the intent to restore. This corresponds to the Create operation on the Restore Process Object. On success, the object transitions to `pendingRestore`.
+* Restore Report: (OPTIONAL) Submits a report documenting the circumstances of the deletion and restoration, as required by registry policy. This corresponds to the Report operation on the Restore Process Object. On success, the object is returned to its pre-deletion status and all RGP status labels are removed.
+
+Whether a restore report is required after a restore request is a matter of server policy. If the server does not require a restore report, the object returns to its pre-deletion status immediately upon a successful Create operation, bypassing the `pendingRestore` state.
+
+The Create operation MAY include the restore report inline to complete both steps atomically in a single operation.
+
+All restore operations act on or return the Restore Process Object and are executed in the context of the Owner Data Object the operation is created upon.
+
+#### Redemption Grace Period State Diagram
+
+The following state diagram describes the object lifecycle when the Redemption Grace Period (RGP) feature is supported. It adapts the diagram from [@!RFC3915, section 2] to the RPP data model, using RPP status labels and operations instead of EPP command names.
+
+In the diagram below, RPP status labels are shown in the `status` field of the object. Standard EPP-origin status labels (e.g., `ok`, `pendingDelete`) are used alongside the RGP-specific labels defined in this document. The `<create>` and `<report>` labels refer to the Create and Report operations on the Restore Process Object, replacing the EPP extended `<update>` command with `op=request` and `op=report` attributes.
+
+```ascii
+              |
+              v                     (2)
++----------------------------+   <delete>   +-------------------------------+
+| status: ok              (1)|------------->| status: pendingDelete      (3)|
+|                            |              |         redemptionPeriod      |
++----------------------------+              +-------------------------------+
+   ^   ^             restore, no report      | ^  |                |
+   |   |             and report required  (4)| |  |        No (9)  |
+   |   |                  <create>           | |  |       restore  |
+   |   |                  +------------------+ |  |       restore  |
+   |   |                  v                    |  |                v
+   |   |  +------------------+                 |  | +-----------------------+
+   |   |  | status:       (6)|                 |  | | status:           (10)|
+   |   |  |   pendingDelete  |-----------------+  | |   pendingDelete       |
+   |   |  |   pendingRestore |   report not (7)   | |   rgpPendingDelete    |
+   |   |  +------------------+   received         | +-----------------------+
+   |   |                (8) |                     |                |
+   |   |    report received |                     |     purge (11) |
+   |   |       <report>     |      restore (5)    |                v
+   |   +--------------------+      with report    | +-----------------------+
+   |                               or not req.    | |      Purged       (12)|
+   |                                  <create>    | +-----------------------+
+   +----------------------------------------------+
+```
+
+State descriptions:
+
+1. The object is in normal operation (`ok` or other status allowing a delete operation).
+2. A delete operation is received and processed.
+3. RGP begins. The object enters `pendingDelete` + `redemptionPeriod` state. The object remains here until a restore operation is requested or the redemption period elapses.
+4. A restore Create operation is submitted. The registry accepts the request. Go to step 8 if the redemption period elapses before a restore is received (4a).
+5. If the server does not require a restore report, the object returns to its pre-deletion status (1) immediately upon a successful Create operation. If the server requires a report but the client includes it inline in the Create operation, the server processes both atomically and the object transitions directly from `redemptionPeriod` to its pre-deletion status (1), bypassing the `pendingRestore` state.
+6. The object enters `pendingDelete` + `pendingRestore` state. The registry awaits a restore report from the sponsoring client.
+7. If no restore report is received within the registry-defined time, the object returns to `redemptionPeriod` state (step 3).
+8. If a restore report is received and accepted, the object returns to its pre-deletion status and all RGP status labels are removed.
+9. The redemption period elapses without a restore request being received.
+10. The object enters `pendingDelete` + `rgpPendingDelete` state and awaits final purge processing.
+11. The pending delete period elapses and the object is purged.
+12. The object is purged and available for re-registration.
+
+### Data Elements
+
+* Restore Status
+  * Identifier: restoreStatus
+  * Cardinality: 1
+  * Mutability: read-only
+  * Data Type: String
+  * Description: The current state of the restore process.
+  * Constraints: The value MUST be one of: `"pendingRestore"`, `"restored"`, `"rgpPendingDelete"`
+* Request Date
+  * Identifier: requestDate
+  * Cardinality: 0-1
+  * Mutability: read-only
+  * Data Type: Timestamp
+  * Description: The date and time when the restore request was submitted.
+  * Constraints: MUST NOT be present if no restore request has been submitted yet.
+* Report Date
+  * Identifier: reportDate
+  * Cardinality: 0-1
+  * Mutability: read-only
+  * Data Type: Timestamp
+  * Description: The date and time when the most recent restore report was accepted by the server.
+  * Constraints: MUST NOT be present if no restore report has been accepted yet.
+* Report Due Date
+  * Identifier: reportDueDate
+  * Cardinality: 0-1
+  * Mutability: read-only
+  * Data Type: Timestamp
+  * Description: The date and time by which a restore report must be submitted before the object reverts to `redemptionPeriod` state. Only present when the object is in `pendingRestore` state.
+  * Constraints: MUST NOT be present when `restoreStatus` is not `"pendingRestore"`.
 
 ### Operations
 
@@ -1258,32 +1258,29 @@ The following transient data elements are defined for this operation:
   * Constraints:
     * In EPP Compatibility Profile, corresponds to `op="report"` as defined in [@!RFC3915].
 
-## Renew Process Object
+## Renew Process Object {#renew-process}
+
+### Object Description
 
 * Name: Renew Process Object
 * Identifier: renewProcess
 * Unique Identifier: processId
-* Description: Represents a renew request for a provisioned object. Creating this object initiates a renewal process that extends the registration period of the object. Reading this object returns the new expiry date if the renewal has been completed.
-* Data Elements:
-  * Process ID
-    * Identifier: processId
-    * Cardinality: 0-1
-    * Mutability: read-only
-    * Data Type: String
-    * Description: A server-assigned identifier of the process instance, unique within the scope of the Owner Data Object.
-    * Constraints: The value is set by the server and cannot be specified by the client.
-  * Expiry Date
-    * Identifier: expiryDate
-    * Cardinality: 0-1
-    * Mutability: create-only
-    * Data Type: Timestamp
-    * Description: The current expiry date of the object. The server MUST validate this against the object's current `expiryDate` to prevent unintended duplicate renewals.
-  * Renewal Period
-    * Identifier: renewalPeriod
-    * Cardinality: 0-1
-    * Mutability: create-only
-    * Data Type: Period Object
-    * Description: The duration to be added to the object's registration period. This value is used by the server to calculate the new `expiryDate`. The default value MAY be defined by server policy. The number of units available MAY be subject to limits imposed by the server.
+* Description: Represents a renew request for a provisioned object. Creating this object initiates a renewal process that extends the registration period of the object. Reading this object returns the new expiry date if the renewal has been completed. Renew operations are specified once in this section as the renewal model is common across all renewable resource objects. Individual object definitions reference this section and specify any object-specific extensions to the common pattern.
+
+### Data Elements
+
+* Expiry Date
+  * Identifier: expiryDate
+  * Cardinality: 0-1
+  * Mutability: create-only
+  * Data Type: Timestamp
+  * Description: The current expiry date of the object. The server MUST validate this against the object's current `expiryDate` to prevent unintended duplicate renewals.
+* Renewal Period
+  * Identifier: renewalPeriod
+  * Cardinality: 0-1
+  * Mutability: create-only
+  * Data Type: Period Object
+  * Description: The duration to be added to the object's registration period. This value is used by the server to calculate the new `expiryDate`. The default value MAY be defined by server policy. The number of units available MAY be subject to limits imposed by the server.
 
 ### Operations
 
@@ -1303,20 +1300,16 @@ The renew operation extends the validity period of an existing object by creatin
 
 ## Create Process Object {#create-process}
 
+### Object Description
+
 * Name: Create Process Object
 * Identifier: createProcess
 * Unique Identifier: processId
-* Description: Represents the process initiated when a resource creation operation is performed. It carries creation-specific inputs that are consumed during the creation operation and are not stored as persistent attributes of the created resource object.
-* Data Elements:
-  * Process ID
-    * Identifier: processId
-    * Cardinality: 0-1
-    * Mutability: read-only
-    * Data Type: String
-    * Description: A server-assigned identifier of the process instance, unique within the scope of the Owner Data Object.
-    * Constraints: The value is set by the server and cannot be specified by the client.
+* Description: Represents the process initiated when a resource creation operation is performed. It carries creation-specific inputs that are consumed during the creation operation and are not stored as persistent attributes of the created resource object, but MAY be stored as a separate process object.
 
-Beyond the Process ID, the generic Create Process Object defines no additional data elements. Individual object definitions extend it with object-specific creation inputs (such as the Domain Create Process Object (#domain-create-process), which adds the registration period).
+### Data Elements
+
+The Create Process Object defines no additional data elements. Individual object definitions extend it with object-specific creation inputs (such as the Domain Create Process Object (#domain-create-process), which adds the registration period).
 
 ### Operations
 
@@ -1342,7 +1335,195 @@ The Read operation retrieves the result or status of the creation, if the server
 * Output: Create Process Object
 
 * Authorisation:
-  * Only the sponsoring client is authorised to perform this operation.
+  * Only the client that initiated the creation is authorised to perform this operation.
+
+#### Update {#create-process-update}
+
+The Update operation is not defined for the Create Process Object. The server MUST reject any attempt to update this process resource.
+
+#### Delete {#create-process-delete}
+
+* Identifier: delete
+
+The Delete operation removes the process resource, if the server exposes it.
+ Any active process MUST be aborted and its state is lost. The server MAY reject this operation if the process is still active or due to other policy constraints.
+
+* Input: Object Identifier
+* Output: None
+
+* Authorisation:
+  * Only clients linked to the organization that initiated the creation of the process are authorised to perform this operation.
+
+## Read Process Object {#read-process}
+
+### Object Description
+
+* Name: Read Process Object
+* Identifier: readProcess
+* Unique Identifier: processId
+* Description: Represents the process initiated when a resource read operation is performed. It carries creation-specific inputs that are consumed during the read operation and MAY be stored as a separate process object.
+
+### Data Elements
+
+The Read Process Object defines no additional data elements. Individual object definitions may extend it with object-specific creation inputs.
+
+### Operations
+
+#### Create {#read-process-create}
+
+* Identifier: create
+
+The Create operation is invoked implicitly as a side effect of the resource object read operation and is never invoked directly.
+
+* Input: Read Process Object (create-only and read-write elements)
+* Output: Read Process Object
+
+* Authorisation:
+  * Inherited from the resource object create operation that initiates this process.
+
+#### Read {#read-process-read}
+
+The Read operation is not defined for the Read Process Object. The server MUST reject any attempt to read this process resource.
+  
+#### Update {#read-process-update}
+
+The Update operation is not defined for the Read Process Object. The server MUST reject any attempt to update this process resource.
+
+#### Delete {#read-process-delete}
+
+* Identifier: delete
+
+The Delete operation removes the process resource, if the server exposes it.
+ Any active process MUST be aborted and its state is lost. The server MAY reject this operation if the process is still active or due to other policy constraints.
+
+* Input: Object Identifier
+* Output: None
+
+* Authorisation:
+  * Only clients linked to the organization that initiated the creation of the process are authorised to perform this operation.
+
+## Update Process Object {#update-process}
+
+### Object Description
+
+* Name: Update Process Object
+* Identifier: updateProcess
+* Unique Identifier: processId
+* Description: Represents the process initiated when a resource update operation is performed. It carries update-specific inputs that are consumed during the update operation and MAY be stored as a separate process object.
+
+### Data Elements
+
+The Update Process Object defines the following additional data elements:
+
+* Authorisation Information
+  * Identifier: authInfo
+  * Cardinality: 0-1
+  * Mutability: read-write
+  * Data Type: Authorisation Information Object
+  * Description: Authorisation information associated with the data object that is to be updated.
+  * Constraints: (None)
+
+Individual object definitions may extend the Update Process Object with object-specific inputs.
+
+### Operations
+
+#### Create {#update-process-create}
+
+* Identifier: create
+
+The Create operation is invoked implicitly as a side effect of the resource object update operation and is never invoked directly.
+
+* Input: Update Process Object (create-only and read-write elements)
+* Output: Update Process Object
+
+* Authorisation:
+  * Inherited from the resource object update operation that initiates this process.
+
+#### Read {#update-process-read}
+
+* Identifier: read
+
+The Read operation retrieves the result or status of the update, if the server exposes the process resource.
+
+* Input: Object Identifier
+* Output: Update Process Object
+
+* Authorisation:
+  * Inherited from the resource object update operation that initiates this process.
+  
+#### Update {#update-process-update}
+
+The Update operation is not defined for the Update Process Object. The server MUST reject any attempt to update this process resource.
+
+#### Delete {#update-process-delete}
+
+* Identifier: delete
+
+The Delete operation removes the process resource, if the server exposes it.
+ Any active process MUST be aborted and its state is lost. The server MAY reject this operation if the process is still active or due to other policy constraints.
+
+* Input: Object Identifier
+* Output: None
+
+* Authorisation:
+  * Inherited from the resource object update operation that initiates this process.
+
+## Delete Process Object {#delete-process}
+
+### Object Description
+
+* Name: Delete Process Object
+* Identifier: deleteProcess
+* Unique Identifier: processId
+* Description: Represents the process initiated when a resource delete operation is performed. It carries creation-specific inputs that are consumed during the delete operation and MAY be stored as a separate process object.
+
+### Data Elements
+
+The Delete Process Object defines no additional data elements. Individual object definitions may extend it with object-specific creation inputs.
+
+### Operations
+
+#### Create {#delete-process-create}
+
+* Identifier: create
+
+The Create operation is invoked implicitly as a side effect of the resource object delete operation and is never invoked directly.
+
+* Input: Delete Process Object (create-only and read-write elements)
+* Output: Delete Process Object
+
+* Authorisation:
+  * Inherited from the resource object create operation that initiates this process.
+
+#### Read {#delete-process-read}
+
+* Identifier: read
+
+The Read operation retrieves the result or status of the delete, if the server exposes the process resource.
+
+* Input: Object Identifier
+* Output: Delete Process Object
+
+* Authorisation:
+  * Inherited from the resource object delete operation that initiates this process.
+  
+#### Update {#delete-process-update}
+
+The Update operation is not defined for the Delete Process Object. The server MUST reject any attempt to update this process resource.
+
+#### Delete {#delete-process-delete}
+
+The Delete operation is not defined for the Delete Process Object. The server MUST reject any attempt to delete this process resource.
+
+# Data Objects
+
+Data Objects represent the core resources managed by the registry. Each Data Object is defined by a unique identifier, a set of data elements, and a set of supported operations and processes.
+
+Each operation in the uniform interface has a corresponding Process Object. When the "create" operation of the uniform interface is executed on a Data Object, the server MUST explicitly create a new Data Object instance and MUST implicitly create a new Process Object instance that tracks the state and progress of the operation. Processes that are not linked to the uniform interface MUST be created explicitly by the client; the server MUST NOT create them automatically.
+
+Each Data Object definition specifies the processes supported for that object type, together with any additional data elements, authorisations or constraints specific to that object type.
+
+A> TODO: Create a base data object definition that defines the common data elements and processes for all data objects?
 
 # Domain Name Data Object
 
@@ -1352,6 +1533,7 @@ The Read operation retrieves the result or status of the creation, if the server
 * Identifier: domainName
 * Unique Identifier: name
 * Description: A Domain Name data object represents a domain name and contains the data required for its provisioning and management in the registry.
+* Supported Operations: Create, Read, Update, Delete
 
 ## Data Elements
 
@@ -1467,25 +1649,48 @@ A> TBC: IANA registry for contact role label?
   * Description: The Process Objects currently or recently initiated on the domain object.
   * Constraints: (None)
 
-## Operations
+## Processes
 
-### Create Operation
+### Create Process {#domain-create-process}
+
+* Name: Domain Create Process Object
+* Identifier: domainCreateProcess
+* Unique Identifier: processId
+* Creation Type: implicit
+* Description: The domain-specific Create Process Object (#create-process). It is implicitly initiated by the Domain Name Data Object create operation and carries the domain creation-specific inputs, namely the requested initial registration period, that are consumed during creation and not persisted as part of the domain object's state.
+
+#### Operations
+
+##### Create {#domain-create-process-create}
 
 * Identifier: create
-
-The Create operation allows a client to provision a new Domain Name resource. The operation accepts as input all create-only and read-write data elements defined for the Domain Name Data Object.
-
+* Description: The Create operation creates a new Domain Create Process Object instance (#domain-create-process)
+* Data Elements:
+  * Period
+    * Identifier: period
+    * Cardinality: 0-1
+    * Mutability: create-only
+    * Data Type: Period Object
+    * Description: The initial registration period for the domain name. This value is used by the server to calculate the initial `expiryDate` of the object.
+    * Constraints: (None)
 * Authorisation:
   * Generally each client is authorised to create new domain objects becoming a sponsoring client. This can be however constrained by the server policy in many ways, i.e. by applying rate limiting, billing related constraints or compliance locks.
 
-The Create operation implicitly initiates the Domain Create Process Object (#domain-create-process), which carries the creation-specific inputs that are consumed during creation and not persisted as part of the domain object's state.
-
-### Read Operation
+##### Read {#domain-create-process-read}
 
 * Identifier: read
-
-The Read operation allows a client to retrieve the data elements of a Domain Name resource. The server's response MAY vary depending on client authorisation and server policy.
-
+* Description: The Read operation allows a client to retrieve the data elements of a Domain Name resource. The server's response MAY vary depending on client authorisation and 
+server policy.
+* Data Elements:
+  * Hosts Filter
+    * Identifier: hostsFilter
+    * Cardinality: 0-1
+    * Data Type: String
+    * Description: Controls which host information is returned with
+  the object.
+    * Constraints: The value MUST be one of "all", "del"
+  (delegated), "sub" (subordinate), or "none". The default value
+  is "all".
 * Authorisation:
   * Sponsoring client:
     * Full object
@@ -1495,148 +1700,123 @@ The Read operation allows a client to retrieve the data elements of a Domain Nam
     * With Object Authorisation:
       * Full object, however some properties only authorised to the sponsoring client MAY be redacted according to server policy
 
-The following transient data elements are defined for this operation:
+### Read Process {#domain-read-process}
 
-* Hosts Filter
-  * Identifier: hostsFilter
-  * Cardinality: 0-1
-  * Data Type: String
-  * Description: Controls which host information is returned with
-the object.
-  * Constraints: The value MUST be one of "all", "del"
-(delegated), "sub" (subordinate), or "none". The default value
-is "all".
+* Name: Domain Read Process Object
+* Identifier: domainReadProcess
+* Unique Identifier: processId
+* Creation Type: implicit
+* Description: The domain-specific Read Process Object (#read-process). It is implicitly initiated by the Domain Name Data Object read operation and carries no object-specific data elements.
 
-### Update Operation
+#### Operations
 
-* Identifier: update
+A> TODO: add operations for read process
 
-The Update operation allows a client to modify the read-write data elements of an existing Domain Name resource.
+### Update Process {#domain-update-process}
 
+* Name: Domain Update Process Object
+* Identifier: domainUpdateProcess
+* Unique Identifier: processId
+* Creation Type: implicit
+* Description: The domain-specific Update Process Object (#update-process). It is implicitly initiated by the Domain Name Data Object update operation and carries no additional persisted data elements beyond those defined in (#update-process).
+
+#### Operations
+
+##### Create {#domain-update-process-create}
+
+* Identifier: create
+* Description: The create Update operation allows a client to modify the read-write data elements of an existing Domain Name resource.
+* Data Elements:
+  * Urgent
+    * Identifier: urgent
+    * Cardinality: 0-1
+    * Data Type: Boolean
+    * Description: Requests that the server operator process and implement the update with high priority. "High priority" is relative to standard server operator policies determined using an out-of-band mechanism. In EPP Compatibility Profile this corresponds to the "urgent" attribute of the `<secDNS:update>` element defined in [@RFC5910]. The default value is `false`.
+    * Constraints:
+      * A server that does not support this parameter MUST return an error if it is set to `true`.
+      * A server that supports this parameter but cannot fulfil a specific urgent request MUST return an error.
 * Authorisation:
   * Only sponsoring client is authorised to perform this operation
 
-The following transient data elements are defined for this operation:
+### Delete Process {#domain-delete-process}
 
-* Urgent
-  * Identifier: urgent
-  * Cardinality: 0-1
-  * Data Type: Boolean
-  * Description: Requests that the server operator process and implement the update with high priority. "High priority" is relative to standard server operator policies determined using an out-of-band mechanism. In EPP Compatibility Profile this corresponds to the "urgent" attribute of the `<secDNS:update>` element defined in [@RFC5910]. The default value is `false`.
-  * Constraints:
-    * A server that does not support this parameter MUST return an error if it is set to `true`.
-    * A server that supports this parameter but cannot fulfil a specific urgent request MUST return an error.
+* Name: Domain Delete Process Object
+* Identifier: domainDeleteProcess
+* Unique Identifier: processId
+* Creation Type: implicit
+* Description: The domain-specific Delete Process Object (#delete-process). It is implicitly initiated by the Domain Name Data Object delete operation and carries no object-specific data elements.
 
-### Delete Operation
+#### Operations
 
-* Identifier: delete
+##### Create {#domain-delete-process-create}
 
-The Delete operation allows a client to remove an existing Domain Name resource. The operation targets a specific data object identified by its name.
-
+* Identifier: create
+* Description: The Delete operation allows a client to remove an existing Domain Name resource. The operation targets a specific data object identified by its name.
 * Authorisation:
   * Only sponsoring client is authorised to perform this operation
 
 The server SHOULD reject a delete request if subordinate host objects are associated with the domain name.
-
 The error response SHOULD indicate the related subordinate host objects.
 
-### Renew Operations
+### Renew Process {#domain-renew-process}
 
-The Domain Name Data Object supports the renew operations defined in (#renew-ops). The renewal of a domain name changes the expiry date of the domain object.
+* Name: Domain Renew Process Object
+* Identifier: domainRenewProcess
+* Unique Identifier: processId
+* Creation Type: explicit
+* Description: The domain-specific Renew Process Object (#renew-process). It is implicitly initiated by the Domain Name Data Object renew operation and carries no object-specific data elements. The renewal of a domain name changes the expiry date of the domain object.
 
-#### Renew Create Operation
+#### Operations
 
-* Identifier: renewCreate
+##### Create {#domain-renew-process-create}
 
-The Renew operation allows a client to extend the validity period of an existing Domain Name resource. The operation targets a specific data object identified by its name.
-
+* Identifier: create
+* Description: The create operation for the Renew process allows a client to extend the validity period of an existing Domain Name resource. The operation targets a specific data object identified by its name.
+* Data Elements: (None)
 * Authorisation:
   * Only sponsoring client is authorised to perform this operation
 
-### Transfer Operations
+### Transfer Process {#domain-transfer-process}
 
-The Domain Name Data Object supports the common transfer operations defined in (#transfer-operations). The transfer of a domain name changes the sponsoring client of the domain object.
-
-Transfer of a domain object MUST implicitly transfer all host objects that are subordinate to the domain object. For example, if domain object "example.com" is transferred and host object "ns1.example.com" exists, the host object MUST be transferred as part of the "example.com" transfer process.
-
-In addition to the common Transfer Process Object elements, the following object-specific data elements are included:
-
-* Expiry Date
-  * Identifier: expiryDate
-  * Cardinality: 0-1
-  * Mutability: read-only
-  * Data Type: Timestamp
-  * Description: The end of the domain object's registration period if the transfer caused or causes a change in the validity period.
-
-Subordinate host objects MUST be transferred implicitly when the domain object is transferred.
-
-#### Transfer Create Operation
-
-* Identifier: transferCreate
-
-In addition, the following transient data element is defined for this operation:
-
-* Transfer Period
-  * Identifier: transferPeriod
-  * Cardinality: 0-1
-  * Mutability: create-only
-  * Data Type: Period Object
-  * Description: The number of units to be added to the registration period of the domain object upon successful completion of the transfer. The number of units available MAY be subject to limits imposed by the server.
-  * Constraints: (None)
-
-### Restore Operations
-
-The Domain Name Data Object supports the restore operations defined in (#restore-ops). These operations are OPTIONAL and are only available when the RGP feature is supported.
-
-No domain-specific transient data elements extend the common restore operations beyond those defined in (#restore-ops).
-
-## Domain Create Process Object {#domain-create-process}
-
-* Name: Domain Create Process Object
-* Identifier: domainCreateProcess
+* Name: Domain Transfer Process Object
+* Identifier: domainTransferProcess
 * Unique Identifier: processId
-* Description: The domain-specific Create Process Object (#create-process). It is implicitly initiated by the Domain Name Data Object create operation and carries the domain creation-specific inputs, namely the requested initial registration period, that are consumed during creation and not persisted as part of the domain object's state.
+* Creation Type: explicit
+* Description: The domain-specific Transfer Process Object (#transfer-process). The transfer of a domain name changes the sponsoring client of the domain object. The transfer of a domain object MUST implicitly transfer all host objects that are subordinate to the domain object. For example, if domain object "test.example" is transferred and host object "ns1.test.example" exists, the host object MUST be transferred as part of the "test.example" transfer process.
 * Data Elements:
-  * Process ID
-    * Identifier: processId
+  * Expiry Date
+    * Identifier: expiryDate
     * Cardinality: 0-1
     * Mutability: read-only
-    * Data Type: String
-    * Description: A server-assigned identifier of the process instance, unique within the scope of the Owner Data Object.
-    * Constraints: The value is set by the server and cannot be specified by the client.
-  * Period
-    * Identifier: period
+    * Data Type: Timestamp
+    * Description: The end of the domain object's registration period if the transfer caused or causes a change in the validity period.
+
+#### Operations
+
+##### Create {#domain-transfer-process-create}
+
+* Identifier: create
+* Description: The create operation for the Transfer process allows a client to request the transfer of an existing Domain Name resource. The operation targets a specific data object identified by its name.
+* Data Elements:
+  * Transfer Period
+    * Identifier: transferPeriod
     * Cardinality: 0-1
     * Mutability: create-only
     * Data Type: Period Object
-    * Description: The initial registration period for the domain name. This value is used by the server to calculate the initial `expiryDate` of the object.
+    * Description: The number of units to be added to the registration period of the domain object upon successful completion of the transfer. The number of units available MAY be subject to limits imposed by the server.
     * Constraints: (None)
 
-### Operations
+### Restore Process {#domain-restore-process}
 
-#### Create {#domain-create-process-create}
+* Name: Domain Restore Process Object
+* Identifier: domainRestoreProcess
+* Unique Identifier: processId
+* Creation Type: explicit
+* Description: The Domain Name Data Object supports the restore operations defined in (#restore-process). These operations are OPTIONAL and are only available when the RGP feature is supported.
 
-* Identifier: create
+#### Operations
 
-The Create operation is invoked implicitly as a side effect of the Domain Name Data Object create operation and is never invoked directly. It carries the registration period consumed during domain creation.
-
-* Input: Domain Create Process Object (create-only and read-write elements)
-* Output: Domain Create Process Object
-
-* Authorisation:
-  * Inherited from the Domain Name Data Object create operation that initiates this process.
-
-#### Read {#domain-create-process-read}
-
-* Identifier: read
-
-The Read operation retrieves the result or status of the domain creation, if the server exposes the process resource.
-
-* Input: Object Identifier
-* Output: Domain Create Process Object
-
-* Authorisation:
-  * Only the sponsoring client is authorised to perform this operation.
+A> TODO: add operations for restore process
 
 # Contact Data Object
 
@@ -1713,9 +1893,20 @@ The following data elements are defined for the Contact Data Object.
 
 A> TBC: IANA registry for statuses?
 
-## Operations
+## Processes
 
-### Create Operation
+This section defines the contact-specific process objects that are (implicitly) initiated by the operations on the Contact Data Object.
+
+### Create Process {#contact-create-process}
+
+* Name: Contact Create Process Object
+* Identifier: contactCreateProcess
+* Unique Identifier: processId
+* Description: The Contact Data Object uses the generic Create Process Object (#create-process) without object-specific data elements.
+
+#### Operations
+
+##### Create {#contact-create-process-create}
 
 * Identifier: create
 
@@ -1731,7 +1922,16 @@ In EPP Compatibility Profile, the following data elements MUST be provided:
 * E-mail (`email`)
 * Authorisation Information (`authInfo`)
 
-### Read Operation
+### Read Process {#contact-create-process-read}
+
+* Name: Contact Read Process Object
+* Identifier: contactReadProcess
+* Unique Identifier: processId
+* Description: The Contact Data Object uses the generic Read Process Object (#read-process) without object-specific data elements.
+
+#### Operations
+
+##### Read {#contact-create-process-read}
 
 * Identifier: read
 
@@ -1750,11 +1950,20 @@ Authorisation Information (`authInfo`) MUST NOT be provided in the response if t
 
 When constructing the response, the server MUST respect the disclosure policies defined by the Disclose Object (`disclose`), whether set by the server operator's default data-collection policy or by the sponsoring client for the contact. Data elements marked for non-disclosure MUST NOT be included in responses to unauthorised clients.
 
-### Update Operation
+### Update Process {#contact-update-process}
 
-* Identifier: update
+* Name: Contact Update Process Object
+* Identifier: contactUpdateProcess
+* Unique Identifier: processId
+* Description: The Contact Data Object uses the generic Update Process Object (#update-process) without object-specific data elements.
 
-The Update operation allows a client to modify the attributes of an existing Contact resource.
+#### Operations
+
+##### Create {#contact-update-process-create}
+
+* Identifier: create
+
+The Create operation allows a client to create a new Contact resource.
 
 * Authorisation:
   * Only sponsoring client is authorised to perform this operation
@@ -1766,11 +1975,20 @@ The following aspects of the contact object MAY be modified:
 
 A client MUST NOT add, delete or alter values for statuses managed by the server (prefixed with "server"). A server MAY add, delete or alter status values set by a client, subject to server policy.
 
-### Delete Operation
+### Delete Process {#contact-delete-process}
 
-* Identifier: delete
+* Name: Contact Delete Process Object
+* Identifier: contactDeleteProcess
+* Unique Identifier: processId
+* Description: The Contact Data Object uses the generic Delete Process Object (#delete-process) without object-specific data elements.
 
-The Delete operation allows a client to remove an existing Contact resource. The operation targets a specific data object identified by its Handle ID.
+#### Operations
+
+##### Delete {#contact-delete-process-create}
+
+* Identifier: create
+
+The create Delete operation allows a client to remove an existing Contact resource. The operation targets a specific data object identified by its Handle ID.
 
 * Authorisation:
   * Only sponsoring client is authorised to perform this operation
@@ -1779,9 +1997,14 @@ The server SHOULD reject a delete request if the contact object is associated wi
 
 The error response SHOULD indicate the existing object associations.
 
-### Transfer Operations
+### Transfer Process {#contact-transfer-process}
 
-The Contact Data Object supports the common transfer operations defined in (#transfer-operations). The transfer of a contact changes the sponsoring client of the contact object.
+* Name: Contact Transfer Process Object
+* Identifier: contactTransferProcess
+* Unique Identifier: processId
+* Description: The Contact Data Object uses the generic Transfer Process Object (#transfer-process) without object-specific data elements. The transfer of a contact changes the sponsoring client of the contact object.
+
+The Contact Data Object supports the common transfer operations defined in (#transfer-process).
 
 No object-specific transient data elements are defined for contact transfer operations beyond the common transfer data elements.
 
@@ -1841,9 +2064,20 @@ The following data elements are defined for the Host Data Object.
   * Description: The Process Objects currently or recently initiated on the host object.
   * Constraints: (None)
 
-## Operations
+## Processes
 
-### Create Operation
+This section defines the domain-specific process objects that are (implicitly) initiated by the operations on the Host Data Object.
+
+### Create Process {#host-create-process}
+
+* Name: Host Create Process Object
+* Identifier: hostCreateProcess
+* Unique Identifier: processId
+* Description: The Host Data Object uses the generic Create Process Object (#create-process) without object-specific data elements.
+
+#### Operations
+
+##### Create {#host-create-process-create}
 
 * Identifier: create
 
@@ -1856,18 +2090,36 @@ If the host name exists in a namespace for which the server is authoritative, th
 
 In EPP Compatibility Profile, IP addresses are REQUIRED only as needed to produce DNS glue records. If the host name exists in a namespace for which the server is authoritative and is subordinate to an existing domain, IP addresses SHOULD be provided. If the host name is external to the server's namespace, IP addresses are not required by the DNS and MAY be omitted.
 
-### Read Operation
+### Read Process {#host-read-process}
 
-* Identifier: read
+* Name: Host Read Process Object
+* Identifier: hostReadProcess
+* Unique Identifier: processId
+* Description: The Host Data Object uses the generic Read Process Object (#read-process) without object-specific data elements.
+
+#### Operations
+
+##### Create {#host-read-process-create}
+
+* Identifier: create
 
 The Read operation allows a client to retrieve the data elements of a Host Data Object.
 
 * Authorisation:
   * Any client is authorised to retrieve the full object. In EPP Compatibility Profile, host objects do not carry authorisation information and there is no distinction based on client identity as described in [@!RFC5732, section 3.1.2].
 
-### Update Operation
+### Update Process {#host-update-process}
 
-* Identifier: update
+* Name: Host Update Process Object
+* Identifier: hostUpdateProcess
+* Unique Identifier: processId
+* Description: The Host Data Object uses the generic Update Process Object (#update-process) without object-specific data elements.
+
+#### Operations
+
+##### Create {#host-update-process-create}
+
+* Identifier: create
 
 The Update operation allows a client to modify the attributes of an existing Host Data Object. The operation targets a specific data object identified by its host name.
 
@@ -1878,9 +2130,18 @@ Host name changes MAY require the addition or removal of IP addresses to be acce
 
 Host name changes can have an impact on associated objects that refer to the host object. A Host Name change SHOULD NOT require additional updates of associated objects to preserve existing associations, with one exception: changing an external host object that has associations with objects that are sponsored by a different client. Attempts to update such hosts directly MUST fail. The change can be provisioned by creating a new external host with a new name and any needed new attributes, and subsequently updating the other objects sponsored by the client.
 
-### Delete Operation
+### Delete Process {#host-delete-process}
 
-* Identifier: delete
+* Name: Host Delete Process Object
+* Identifier: hostDeleteProcess
+* Unique Identifier: processId
+* Description: The Host Data Object uses the generic Delete Process Object (#delete-process) without object-specific data elements.
+
+#### Operations
+
+##### Create {#host-delete-process-create}
+
+* Identifier: create
 
 The Delete operation allows a client to remove an existing Host Data Object. The operation targets a specific data object identified by its host name.
 
@@ -1893,11 +2154,16 @@ A> TODO: consider RFC 9874 / BCP 244 for host deletions practices
 
 The error response SHOULD indicate the related associated objects.
 
-### Restore Operations
+### Restore Process {#host-restore-process}
 
-The Host Data Object supports the restore operations defined in (#restore-ops). These operations are OPTIONAL and are only available when the RGP feature for Host Data Object is supported by the server.
+* Name: Host Restore Process Object
+* Identifier: hostRestoreProcess
+* Unique Identifier: processId
+* Description: The Host Data Object uses the generic Restore Process Object (#restore-process) without object-specific data elements. These operations are OPTIONAL and are only available when the RGP feature for Host Data Object is supported by the server.
 
-No host-specific transient data elements extend the common restore operations beyond those defined in (#restore-ops).
+The Host Data Object supports the restore operations defined in (#restore-process).
+
+No host-specific transient data elements extend the common restore operations beyond those defined in (#restore-process).
 
 # Organisation Data Object
 
@@ -2007,9 +2273,20 @@ A> TODO: how handle the "custom" contact type?
 
 A> TODO: define an IANA registry for user roles?
 
-## Operations
+## Processes
 
-### Create Operation
+This section defines the organisation-specific process objects that are (implicitly) initiated by the operations on the Organisation Data Object.
+
+### Create Process {#organisation-create-process}
+
+* Name: Organisation Create Process Object
+* Identifier: organisationCreateProcess
+* Unique Identifier: processId
+* Description: The Organisation Data Object uses the generic Create Process Object (#create-process) without object-specific data elements.
+
+#### Operations
+
+##### Create {#organisation-create-process-create}
 
 * Identifier: create
 
@@ -2020,18 +2297,36 @@ The Create operation allows a client to provision a new Organisation Data Object
 
 An organisation object MUST include at least one role on creation. The server MAY defer completing the action and return a `pendingCreate` status if human or third-party review is required.
 
-### Read Operation
+### Read Process {#organisation-read-process}
 
-* Identifier: read
+* Name: Organisation Read Process Object
+* Identifier: organisationReadProcess
+* Unique Identifier: processId
+* Description: The Organisation Data Object uses the generic Read Process Object (#read-process) without object-specific data elements.
+
+#### Operations
+
+##### Create {#organisation-read-process-create}
+
+* Identifier: create
 
 The Read operation allows a client to retrieve the data elements of an Organisation Data Object.
 
 * Authorisation:
   * Any client is authorised to retrieve organisation object information. The server MAY restrict the information returned based on client identity and server policy.
 
-### Update Operation
+### Update Process {#organisation-update-process}
 
-* Identifier: update
+* Name: Organisation Update Process Object
+* Identifier: organisationUpdateProcess
+* Unique Identifier: processId
+* Description: The Organisation Data Object uses the generic Update Process Object (#update-process) without object-specific data elements.
+
+#### Operations
+
+##### Create {#organisation-update-process-create}
+
+* Identifier: create
 
 The Update operation allows a client to modify the attributes of an existing Organisation Data Object.
 
@@ -2048,9 +2343,18 @@ The following aspects of the organisation object MAY be modified:
 
 A client MUST NOT add, delete, or alter values for statuses managed by the server (prefixed with "server"). A server MAY add, delete, or alter status values set by a client, subject to server policy.
 
-### Delete Operation
+### Delete Process {#organisation-delete-process}
 
-* Identifier: delete
+* Name: Organisation Delete Process Object
+* Identifier: organisationDeleteProcess
+* Unique Identifier: processId
+* Description: The Organisation Data Object uses the generic Delete Process Object (#delete-process) without object-specific data elements.
+
+#### Operations
+
+##### Create {#organisation-delete-process-create}
+
+* Identifier: create
 
 The Delete operation allows a client to remove an existing Organisation Data Object. The operation targets a specific data object identified by its Organisation ID.
 
@@ -2061,7 +2365,7 @@ An organisation object MUST NOT be deleted if it is associated with other known 
 
 The error response SHOULD indicate the related associated objects.
 
-# User Object
+# User Data Object
 
 ## Object Description
 
@@ -2123,9 +2427,20 @@ The following data elements are defined for the User Data Object.
 
 A> TODO: what other data elements should be included for the User Data Object?
 
-## Operations
+## Processes
 
-### Create Operation
+This section defines the user-specific process objects that are (implicitly) initiated by the operations on the User Data Object.
+
+### Create Process {#user-create-process}
+
+* Name: User Create Process Object
+* Identifier: userCreateProcess
+* Unique Identifier: processId
+* Description: The User Data Object uses the generic Create Process Object (#create-process) without object-specific data elements.
+
+#### Operations
+
+##### Create {#user-create-process-create}
 
 * Identifier: create
 
@@ -2134,27 +2449,54 @@ The Create operation creates a new user, which is associated with an existing Or
 * Authorisation:
   * Client can only create users in the context of the organisation linked to the client, and only if the client has the necessary permissions to create users in that organisation.
 
-### Read Operation
+### Read Process {#user-read-process}
 
-* Identifier: read
+* Name: User Read Process Object
+* Identifier: userReadProcess
+* Unique Identifier: processId
+* Description: The User Data Object uses the generic Read Process Object (#read-process) without object-specific data elements.
+
+#### Operations
+
+##### Create {#user-read-process-create}
+
+* Identifier: create
 
 The Read operation retrieves the data of a specific User Object.
 
 * Authorisation:
   * Client can only read users in the context of the organisation linked to the client, and only if the client has the necessary permissions to read users in that organisation.
 
-### Update Operation
+### Update Process {#user-update-process}
 
-* Identifier: update
+* Name: User Update Process Object
+* Identifier: userUpdateProcess
+* Unique Identifier: processId
+* Description: The User Data Object uses the generic Update Process Object (#update-process) without object-specific data elements.
+
+#### Operations
+
+##### Create {#user-update-process-create}
+
+* Identifier: create
 
 The Update operation modifies the read-write data elements.
 
 * Authorisation:
   * Client can only update users in the context of the organisation linked to the client, and only if the client has the necessary permissions to update users in that organisation.
 
-### Delete Operation
+### Delete Process {#user-delete-process}
 
-* Identifier: delete
+* Name: User Delete Process Object
+* Identifier: userDeleteProcess
+* Unique Identifier: processId
+* Description: The User Data Object uses the generic Delete Process Object (#delete-process) without object-specific data elements.
+
+#### Operations
+
+##### Create {#user-delete-process-create}
+
+* Identifier: create
 
 The Delete operation removes a specific User Object.
 
