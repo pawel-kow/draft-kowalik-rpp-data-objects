@@ -125,12 +125,44 @@ normative parsing.
 
 ## Normative document layouts
 
-### Component and Process objects (nested layout)
+Object discovery is a single top-down recursive walk
+(`_walk_normative_objects()` / `_parse_object_body()`), not two separate
+code paths keyed off document content. Two structural rules from the draft
+itself drive it:
 
-Introduced by an H2 heading (`## Foo Object`) inside a normative H1 section.
-Object header bullets appear at indent 0:
+1. **Heading level scales with nesting, the internal layout does not.**
+   Every object type uses the same sub-structure (Data Elements, Operations,
+   and any other subsection are sibling headings/markers one level deeper
+   than the object's own heading) — only *how deep* the object itself starts
+   varies:
+   - **Data Objects** (`Object Type: Resource`) start at **H1**
+     (`# Domain Name Data Object` *is* the object). Its own header bullets
+     live under a child `## Object Description` heading (H2); `## Data
+     Elements` and `## Operations` are sibling H2 headings.
+   - **Component and Process Objects** start at **H2**
+     (`## Period Object`) inside an envelope H1 (`# Component Objects` /
+     `# Process Objects`). Header bullets sit directly under the H2 (no
+     `Object Description` wrapper); `* Data Elements:` is a *bullet*, not a
+     heading, introducing an indented element list; `### Operations` (H3)
+     holds the object's operations, one level deeper than its own H2.
+   - **A Process Object embedded in a Data Object** (via that Data Object's
+     own `## Processes` sub-section, e.g. `### Domain Create Process
+     Object` under `## Processes` inside `# Domain Name Data Object`) starts
+     at **H3** — one level deeper than the usual Component/Process H2
+     convention, because the whole thing is nested inside the owning Data
+     Object's H1. Its `obj_type` is `Process`, not `Resource`, even though
+     it lives inside a Resource-section H1 — `obj_type` is inherited context
+     that changes exactly at the `## Processes` heading, nowhere else.
+2. **Component Objects never define Operations** (see `OBJ_TYPES_WITHOUT_OPERATIONS`).
+   If an `Operations`-named heading is nonetheless found under one, it is
+   captured as a generic subsection (see `SubsectionDef` below) instead of
+   parsed as real operations, with a warning appended to `PROSE_WARNINGS`.
+
+### Component and Process objects
 
 ```
+## Period Object
+
 * Name: Foo Object
 * Identifier: foo
 * Description: …
@@ -141,16 +173,7 @@ Object header bullets appear at indent 0:
     * Mutability: read-write
     * Data Type: String
     * Description: …
-```
 
-Body extent: from the `* Name:` bullet up to the next H2 or H1 heading
-(whichever comes first). This prevents sibling objects within the same H1
-section from bleeding into each other.
-
-Operations for Process objects live under a `### Operations` heading with
-individual operations as H4 headings:
-
-```
 ### Operations
 
 #### Create (Transfer Request) {#anchor}
@@ -166,12 +189,22 @@ The following transient data elements are defined for this operation:
   * Description: …
 ```
 
-### Data Objects (flat layout)
+Body extent: from the object's own H2 heading up to the next heading at or
+shallower than its own level (a sibling object's H2, or the enclosing H1's
+end) — computed generically via `_find_sibling_headings()`, not a hardcoded
+"next H2" scan.
 
-Introduced by an H1 heading (`# Domain Name Data Object`).
-Elements live in a `## Data Elements` sub-section:
+### Data Objects
 
 ```
+# Domain Name Data Object
+
+## Object Description
+
+* Name: Domain Name Data Object
+* Identifier: domainName
+* Description: …
+
 ## Data Elements
 
 * Element Name           ← 0-indent
@@ -180,31 +213,40 @@ Elements live in a `## Data Elements` sub-section:
   * Mutability: read-write
   * Data Type: String
   * Description: …
-```
 
-Operations live under `## Operations`. There are two kinds of H3 sub-section:
-
-**Direct operations** — singular H3 headings (`### Create Operation`):
-
-```
 ## Operations
 
 ### Create Operation
+…
 
-* Identifier: create
+## Processes
 
-In addition, the following transient data element is defined for this operation:
+### Domain Create Process Object {#domain-create-process}
 
-* Param Name
-  * Identifier: paramId
-  * Cardinality: 0-1
-  * Data Type: String
-  * Description: …
+* Name: Domain Create Process Object
+* Identifier: domainCreateProcess
+* Data Elements:
+  * Process ID
+    * Identifier: processId
+    …
+
+#### Operations
+
+##### Create {#domain-create-process-create}
+…
 ```
 
-**Overloaded-process group sections** — plural H3 headings whose name ends with
-`Operations` (e.g. `### Transfer Operations`, `### Restore Operations`). These
-are group containers whose individual operations are H4 headings:
+Operations under `## Operations` come in two shapes, both handled by
+`_parse_operations_group()` generically at whatever heading level the
+object's own `Operations` sibling sits:
+
+**Direct operations** — a heading whose text does not itself end in the
+word "Operations" (e.g. `### Create Operation`) is one operation directly.
+
+**Group containers** — a heading whose text ends in "Operations" (e.g.
+`### Transfer Operations`, `### Restore Operations`) is a container; its
+individual operations are headings one level deeper still (e.g.
+`#### Transfer Create Operation`).
 
 ```
 ### Transfer Operations
@@ -222,13 +264,24 @@ In addition, the following transient data element is defined for this operation:
   * Description: …
 ```
 
-H4 operations inside group sections are parsed identically to direct H3
+Group-container child operations are parsed identically to direct
 operations — they must have a `* Identifier:` bullet and may have transient
 parameters. Operations missing the identifier bullet are recorded as
 `[OP MISSING IDENTIFIER]`.
 
-`### Restore Operations` sections that contain no H4 headings (pure
-cross-reference prose) produce no operations and no errors.
+A group-container heading with no child headings underneath (pure
+cross-reference prose, e.g. some `### Restore Operations` sections) produces
+no operations and no errors.
+
+### Generic subsections
+
+Any sibling heading of an object that is not `Object Description`,
+`Data Elements`, `Operations`, or `Processes` — e.g. `### RDATA Structures
+in EPP Profile {#rdata-structures}` inside the `dnsRecord` Component Object
+— is captured as a `SubsectionDef` (`heading`, `anchor`, `notes`) via
+`_parse_object_subsections()` / `_parse_subsection_body()`, so its content
+(prose paragraphs and 0-indent bullet lists, in document order) is preserved
+for `--yaml-out` instead of silently dropped.
 
 ### Operation identifier requirement
 
@@ -244,6 +297,36 @@ Parameters are parsed from bullet lists that appear after a line containing
 the phrase "transient data element" (case-insensitive). Each parameter bullet
 must have at minimum an `* Identifier:` sub-bullet; `* Cardinality:` and
 `* Data Type:` are also captured when present.
+
+### Constraints (and other list-valued attributes)
+
+`* Constraints:` on an element or parameter is always parsed into a
+**list of strings** (`_collect_constraints_list()` /
+`_parse_nested_bullet_list()`), not a single string:
+
+- A single-line inline value (`* Constraints: MUST be positive.`) becomes a
+  one-item list.
+- `(None)` (or nothing at all) becomes an empty list `[]`.
+- A blank inline value immediately followed by a nested bullet list (e.g.
+  the Status Object's `label` element) becomes one list entry per
+  top-level bullet; further nesting under a bullet (a numbered sub-list, a
+  further bullet list) is newline-folded into that same entry, keeping the
+  original markers (`1.`, `2.`, `` * `addPeriod`: ``, …). The nested list's
+  indentation is read from the source line itself, never assumed as a fixed
+  offset.
+
+`* Authorisation:` on an operation (see below) uses the identical mechanism.
+
+### Blank lines and `A>` asides between attribute bullets
+
+Blank lines and `A>` editorial asides (e.g. an inline `TODO`/`TBD`/`TBC`
+note) are a valid editorial pattern **anywhere** in the structure, including
+between an element's, parameter's, or object header's own attribute bullets
+— not just before or after a whole block. `_collect_element_attrs()` and
+`_parse_object_header()` both skip blank lines and asides wherever they
+appear while collecting `* Key: value` bullets, so an aside inserted between
+e.g. `* Cardinality:` and `* Mutability:` does not truncate attribute
+collection or get misattributed as orphan prose.
 
 ### Operation body fields (Description / Authorisation / Input / Output)
 
@@ -335,7 +418,10 @@ Data Type strings are normalised before comparison:
 
 ## Object type mapping
 
-| Normative H1 section | Object Type in IANA |
+Each normative H1 section (`SECTION_TO_OBJ_TYPE`) has a default `obj_type`,
+inherited by every object found directly inside it:
+
+| Normative H1 section | Default Object Type |
 | -------------------- | ------------------- |
 | `# Component Objects` | `Component` |
 | `# Process Objects` | `Process` |
@@ -344,6 +430,13 @@ Data Type strings are normalised before comparison:
 | `# Host Data Object` | `Resource` |
 | `# Organisation Data Object` | `Resource` |
 | `# User Object` | `Resource` |
+
+**Exception:** an object embedded under a Data Object's own `## Processes`
+sub-section (e.g. `domainCreateProcess` under `# Domain Name Data Object`)
+has `obj_type = "Process"`, overriding the enclosing section's `Resource`
+default — inherited context changes exactly at the `## Processes` heading
+(see `_walk_normative_objects()`), nowhere else. This is why `obj_type` must
+never be derived solely from "which H1 section contains this object."
 
 ---
 
@@ -438,10 +531,11 @@ the list items at the source.
 | Extraction site | Target field | Line range |
 | --- | --- | --- |
 | `parse_section_notes()` | top-level `section_notes[<h1 heading text>]` | from just after the H1 heading to the first object inside it |
-| `parse_normative_objects()` | `ObjectDef.preamble` | from the end of the object's header attribute bullets to its first element/operation |
+| `_parse_object_body()` | `ObjectDef.preamble` | from the end of the object's header attribute bullets to its first element/operation |
 | `_parse_normative_elements_nested()` / `_parse_normative_elements_flat()` | `ElementDef.notes` | from just after the element header bullet to the next element (or block end) |
-| `_parse_normative_operations_nested()` | `OperationDef.notes` | the operation body, excluding the parsed parameter bullet sub-range |
+| `_parse_normative_operations_nested()` (via `_parse_operation_body_fields()`) | `OperationDef.notes` | whatever remains of the operation body after description/authorisation/input/output, excluding the parsed parameter bullet sub-range |
 | `_parse_normative_params_from_bullets()` | `ParamDef.notes` | from just after the parameter header bullet to the next parameter (or block end) |
+| `_parse_subsection_body()` | `SubsectionDef.notes` | a generic subsection's body — prose paragraphs and 0-indent bullet lists, in document order (not `extract_orphan_prose`, which treats bullets as headers to skip; see **Generic subsections** above) |
 
 ### Warnings
 
@@ -466,7 +560,9 @@ model by `--check`, not re-exported) to `PATH` as YAML.
 
 Top-level keys: `section_notes`, `components`, `processes`, `resources`.
 `components`/`processes`/`resources` each hold a list of objects, keyed by
-`ObjectDef.obj_type` via `OBJ_TYPE_TO_YAML_KEY`. Each object dict:
+`ObjectDef.obj_type` via `OBJ_TYPE_TO_YAML_KEY` (note: `obj_type` reflects
+the object's *actual* type, not necessarily its enclosing H1 section — see
+**Object type mapping** above). Each object dict:
 
 ```yaml
 identifier: domainName
@@ -481,26 +577,34 @@ elements:
     mutability: create-only
     data_type: String
     description: "..."
-    constraints: "..."
+    constraints: []        # list of strings — see Constraints above
     notes: []              # orphan prose inside this element's own block
 operations:
   - identifier: create
     name: Create Operation
-    description: "..."
-    notes: []              # orphan prose in the operation body
+    description: "..."     # prose after "* Identifier:" — see Operation body fields above
+    authorisation: []      # list of strings — see Operation body fields above
+    input: ""
+    output: ""
+    notes: []              # orphan prose beyond description/authorisation/input/output
     params:
       - identifier: ...
         name: ...
         cardinality: "..."
         data_type: "..."
         description: "..."
-        constraints: "..."
+        constraints: []
         notes: []
+subsections:                # non-Data-Elements/Operations/Processes headings
+  - heading: "RDATA Structures in EPP Profile"
+    anchor: "{#rdata-structures}"
+    notes: []                # prose paragraphs and bullets, in document order
 ```
 
 Nothing in the structured fields is duplicated into `notes`/`preamble`/
-`section_notes` and vice versa — those three fields hold only the leftover
-prose `extract_orphan_prose()` could not attribute to a recognised bullet.
+`section_notes`/`subsections` and vice versa — those fields hold only the
+leftover content the parser could not attribute to a recognised bullet or
+heading.
 
 ### Header comment
 
@@ -530,11 +634,21 @@ python3 ../.scripts/check_iana_consistency.py --self-test
 ```
 
 `--self-test` ignores every other flag. Coverage includes: Constraints
-parsing for nested and flat element layouts, orphan-prose extraction
-(paragraph joining, aside skipping, empty-when-fully-structured), Organisation/
-User section recognition, an end-to-end check that the real draft's
-`organisation`/`user` objects parse, YAML model structure, and a YAML
-round-trip (render → `yaml.safe_load` → verify).
+list-parsing for nested and flat element/parameter layouts (including
+`(None)` → `[]` and reading the nested list's indentation from the source);
+blank-line/`A>`-aside tolerance between attribute bullets (elements,
+parameters, and object headers); operation description/authorisation/
+input/output field parsing, including the multi-paragraph-description-vs-
+trailing-notes split; generic-subsection discovery and its exclusion rules
+(`Data Elements`/`Operations`/`Processes`/`Object Description`, plus the
+Component-never-has-Operations warning path); the top-down object walk
+(`_walk_normative_objects`), including a Process Object embedded in a Data
+Object's `## Processes` section and an aside before an object's header;
+orphan-prose extraction (paragraph joining, aside skipping,
+empty-when-fully-structured); Organisation/User section recognition; an
+end-to-end check that the real draft's `organisation`/`user` objects parse;
+YAML model structure; and a YAML round-trip (render → `yaml.safe_load` →
+verify).
 
 When changing parsing behaviour or the YAML schema, add or update a `_test_*`
 function in the same change — do not verify by hand-running the script and
